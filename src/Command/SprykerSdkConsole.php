@@ -5,23 +5,26 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\SprykerSdk\Console;
+namespace App\Command;
 
 use RuntimeException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SdkConsole extends AbstractSdkConsole
+class SprykerSdkConsole extends Command
 {
     /**
      * @var string
      */
-    protected const COMMAND_NAME = 'sdk';
+    public const COMMAND_NAME = 'spryker-sdk';
+
     /**
      * @var string
      */
-    protected const COMMAND_DESCRIPTION = 'Runs a SDK process.';
+    public const COMMAND_DESCRIPTION = 'Runs a SDK process.';
+
     /**
      * @var string
      */
@@ -48,8 +51,9 @@ class SdkConsole extends AbstractSdkConsole
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $taskName = $this->getTaskName($input);
+        echo $taskName;
 
-        return static::CODE_SUCCESS;
+        return static::SUCCESS;
     }
 
     /**
