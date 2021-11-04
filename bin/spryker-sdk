@@ -4,5 +4,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $application = new Symfony\Component\Console\Application;
-$application->add(new \App\Command\SprykerSdkConsole());
+$application->add(new \App\Command\RunTaskConsole());
+$application->add(new \App\Command\DumpConsole());
+
 $application->run();

@@ -5,25 +5,23 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace App\Command;
+namespace Sdk\Command;
 
-use RuntimeException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SprykerSdkConsole extends Command
+class RunTaskConsole extends AbstractSdkConsole
 {
     /**
      * @var string
      */
-    public const COMMAND_NAME = 'spryker-sdk';
+    public const COMMAND_NAME = 'run';
 
     /**
      * @var string
      */
-    public const COMMAND_DESCRIPTION = 'Runs a SDK process.';
+    public const COMMAND_DESCRIPTION = 'Runs task(s) process.';
 
     /**
      * @var string
@@ -38,7 +36,7 @@ class SprykerSdkConsole extends Command
         $this->setName(static::COMMAND_NAME)
             ->setDescription(static::COMMAND_DESCRIPTION)
             ->setHelp($this->getHelpText())
-            ->addArgument(static::ARGUMENT_TASK, InputArgument::REQUIRED, 'Task of the SDK which should be run.');
+            ->addArgument(static::ARGUMENT_TASK, InputArgument::OPTIONAL, 'Task of the SDK which should be run.');
         // Add options for arguments
     }
 
@@ -50,27 +48,13 @@ class SprykerSdkConsole extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $taskName = $this->getTaskName($input);
+        $taskName = current((array)$input->getArgument(static::ARGUMENT_TASK));
+
+        $output->write('<info>Running task: </info>' . $taskName, true);
+
         echo $taskName;
 
         return static::SUCCESS;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @throws \RuntimeException
-     *
-     * @return string
-     */
-    protected function getTaskName(InputInterface $input): string
-    {
-        $name = current((array)$input->getArgument(static::ARGUMENT_TASK));
-        if ($name === false) {
-            throw new RuntimeException('Cannot retrieve Task name');
-        }
-
-        return $name;
     }
 
     /**
@@ -78,6 +62,6 @@ class SprykerSdkConsole extends Command
      */
     protected function getHelpText(): string
     {
-        return 'Use `console sdk <info>{TASK ID}</info>` to to run specific task.';
+        return 'At least one of these values `<info>{TASK ID}</info>` or `<info>--tags</info>` option must be present.';
     }
 }

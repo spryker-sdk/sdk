@@ -1,0 +1,28 @@
+name: Code Sniffer
+id: codesniffer
+description: Fix codestyle validations
+stage: build
+tags: [codesniffer, architecture]
+command: 'php %project_dir%/vendor/bin/phpcs -f --standard=%ruleset_path% %module_dir%'
+type: task_aggregator
+tasks: string[] #only if type = task_aggregator, will executed the provided list of tasks
+arguments:
+  - name: project_dir
+    description: project directory
+    valueResolver: ProdjectDirResolver
+    optional: false
+    type: string
+
+  - name: module_dir
+    description: module directory
+    valueResolver: ~
+    optional: true
+    type: string
+
+  - name: ruleset_path
+    description: path to ruleset file
+    valueResolver: ~
+    optional: true
+    type: string
+lifecycle_callbacks:
+  UPDATE: ~ #will be provided later
