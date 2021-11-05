@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+define('APPLICATION_ROOT_DIR', dirname(__DIR__, 1));
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $application = new Symfony\Component\Console\Application;
-$application->add(new \App\Command\RunTaskConsole());
-$application->add(new \App\Command\DumpConsole());
+$application->add(new \Sdk\Command\RunTaskConsole());
+$application->add(new \Sdk\Command\DumpConsole());
 
 $application->run();

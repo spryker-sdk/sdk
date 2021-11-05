@@ -4,11 +4,16 @@ namespace Sdk;
 class Facade
 {
     /**
+     * @var \Sdk\Factory
+     */
+    protected $factory;
+
+    /**
      * @return array
      */
     public function getTaskDefinitions(): array
     {
-        return $this->getFactory()->createSprykDefinitionDumper()->dump();
+        return $this->getFactory()->createDefinitionDumper()->dump();
     }
 
     /**
@@ -21,6 +26,19 @@ class Facade
         return $this->getFactory()
             ->createConfigurationFactory()
             ->createConfigurationLoader()
-            ->loadSpryk($taskName);
+            ->loadTask($taskName);
+    }
+
+
+    /**
+     * @return \Sdk\Factory
+     */
+    protected function getFactory()
+    {
+        if (!$this->factory) {
+            $this->factory = new Factory();
+        }
+
+        return $this->factory;
     }
 }

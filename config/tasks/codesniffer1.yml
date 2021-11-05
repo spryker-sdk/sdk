@@ -1,20 +1,24 @@
-id: codesniffer
+id: codesniffer1
 short_description: Fix code style violations
 help: Fix codestyle violations, lorem ipsum, etc.
 stage: build
 command: php %project_dir%/vendor/bin/phpcs -f --standard=%ruleset_path% %module_dir%
-type: local_cli
-tasks: []
+type: task_set
+tasks:
+  - id: codesniffer
+    tags: [sniffer]
+    stop_on_error: false
 placeholders:
   - name: project_dir
     valueResolver: ProdjectDirResolver
     optional: false
 
   - name: module_dir
+    valueResolver: ~
     optional: true
 
   - name: ruleset_path
+    valueResolver: ~
     optional: true
-
 lifecycle_callbacks:
   UPDATE: ~ #will be provided later

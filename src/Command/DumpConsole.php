@@ -58,9 +58,29 @@ class DumpConsole extends AbstractSdkConsole
         }
         $taskDefinitions = $this->getFacade()->getTaskDefinitions();
 
+        $this->renderTaskDefinitions($output, $taskDefinitions);
+
         return static::SUCCESS;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array $taskDefinitions
+     *
+     * @return void
+     */
+    protected function renderTaskDefinitions(OutputInterface $output, array $taskDefinitions): void
+    {
+        $headers = ['ID', 'DESCRIPTION'];
+        $rows = [];
+
+        foreach ($taskDefinitions as $taskDefinition) {
+            $rows[] = [$taskDefinition['id'], $taskDefinition['short_description']];
+        }
+
+        $output->writeln('List of Tasks definitions:');
+        $this->printTable($output, $headers, $rows);
+    }
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param array $headers
@@ -71,7 +91,6 @@ class DumpConsole extends AbstractSdkConsole
     protected function printTable(OutputInterface $output, array $headers, array $rows): void
     {
         (new Table($output))
-            ->setStyle('compact')
             ->setHeaders($headers)
             ->setRows($rows)
             ->render();
