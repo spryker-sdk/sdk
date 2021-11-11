@@ -1,7 +1,9 @@
 <?php
+
 namespace Sdk;
 
 use Sdk\Style\StyleInterface;
+use Sdk\Transfer\TaskLogTransfer;
 
 class Facade
 {
@@ -49,11 +51,20 @@ class Facade
         return $this->getFactory()->createTypeStrategy($taskName)->extract();
     }
 
+    /**
+     * @param TaskLogTransfer $taskLogTransfer
+     *
+     * @return void
+     */
+    public function log(TaskLogTransfer $taskLogTransfer): void
+    {
+        $this->getFactory()->createLogger()->log($taskLogTransfer);
+    }
 
     /**
      * @return \Sdk\Factory
      */
-    protected function getFactory()
+    protected function getFactory(): Factory
     {
         if (!$this->factory) {
             $this->factory = new Factory();

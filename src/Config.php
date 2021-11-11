@@ -54,4 +54,12 @@ class Config
     {
         return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR;
     }
+
+    /**
+     * @return string
+     */
+    public function getLoggerFilePath(): string
+    {
+        return $this->getRootDirectory() . 'config/.ssdk.log';
+    }
 }

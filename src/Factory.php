@@ -1,6 +1,10 @@
 <?php
+
 namespace Sdk;
 
+use Sdk\Logger\Logger;
+use Sdk\Logger\LoggerFactory;
+use Sdk\Setting\Reader\ReportUsageStatisticsReader;
 use Sdk\Setting\Reader\SettingReaderInterface;
 use Sdk\Setting\Reader\TaskSettingReader;
 use Sdk\Setting\Reader\ValueResolverSettingReader;
@@ -153,5 +157,37 @@ class Factory
         }
 
         return $this->config;
+    }
+
+    /**
+     * @return \Sdk\Setting\Reader\SettingReaderInterface
+     */
+    public function createReportUsageStatisticsReader(): SettingReaderInterface
+    {
+        return new ReportUsageStatisticsReader(
+            $this->getConfig()->getRootDirectory(),
+            $this->createSettings()
+        );
+    }
+
+    /**
+     * @return \Sdk\Logger\Logger
+     */
+    public function createLogger(): Logger
+    {
+        return $this
+            ->createLoggerFactory()
+            ->createLogger(
+                $this->getConfig()->getLoggerFilePath(),
+                $this->createReportUsageStatisticsReader()->read(),
+            );
+    }
+
+    /**
+     * @return \Sdk\Logger\LoggerFactory
+     */
+    public function createLoggerFactory(): LoggerFactory
+    {
+        return new LoggerFactory();
     }
 }
