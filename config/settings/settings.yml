@@ -1,0 +1,28 @@
+- name: project_dir
+  description: The base directory of the project
+  type: path
+  defaultValues: './'
+  strategy: overwrite
+- name: project_namespace
+  description: The namespace for the Spryker project code
+  type: string
+  defaultValues: 'Pyz'
+  strategy: overwrite
+- name: report_usage_statistics
+  description: Allow collection of anonymous usage statistics to improve the SDK
+  type: bool
+  defaultValues: false
+  strategy: overwrite
+- name: value_resolver_dirs
+  description: Directories to search in for ValueResolvers
+  type: collection of paths
+  defaultValues: './src/Task/ValueResolver/Value'
+  strategy: merge
+  multiline: true
+  mode: 1
+- name: task_dirs
+  description: Directories to search in for Tasks
+  type: path
+  defaultValues: './config/tasks'
+  strategy: merge
+  multiline: true

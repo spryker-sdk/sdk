@@ -53,6 +53,7 @@ class DumpConsole extends AbstractSdkConsole
 
         if ($taskName) {
             $taskDefinition = $this->getFacade()->getTaskDefinition($taskName);
+            $this->renderTaskDefinition($output, $taskDefinition);
 
             return static::SUCCESS;
         }
@@ -61,6 +62,37 @@ class DumpConsole extends AbstractSdkConsole
         $this->renderTaskDefinitions($output, $taskDefinitions);
 
         return static::SUCCESS;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array $taskDefinition
+     *
+     * @return void
+     */
+    protected function renderTaskDefinition(OutputInterface $output, array $taskDefinition): void
+    {
+        $taskCommand = $this->getConsoleTaskCommand($taskDefinition);
+        $this->printTitleBlock($output, sprintf('usage: %s', $taskCommand));
+        $this->printTitleBlock($output, sprintf('stage: %s', $taskDefinition['stage']));
+        $output->write('', true);
+        $this->printTitleBlock($output, $taskDefinition['short_description'], 'comment');
+        $output->write('', true);
+
+        foreach ($taskDefinition['placeholders'] as $placeholder)
+        {
+            $optional = (empty($placeholder['optional'])) ? '' : '[optional]';
+            $output->write(sprintf(
+                '--%s=<%s> %s',
+                $placeholder['valueResolver'],
+                $placeholder['type'],
+                $optional
+            ), 'comment');
+
+            if (!empty($placeholder['description'])) {
+                $output->write($placeholder['description'], 'comment');
+            }
+        }
     }
 
     /**
@@ -78,9 +110,39 @@ class DumpConsole extends AbstractSdkConsole
             $rows[] = [$taskDefinition['id'], $taskDefinition['short_description']];
         }
 
-        $output->writeln('List of Tasks definitions:');
+        $this->printTitleBlock($output,'List of Tasks definitions:');
         $this->printTable($output, $headers, $rows);
     }
+
+    /**
+     * @param array $taskDefinition
+     *
+     * @return string
+     */
+    protected function getConsoleTaskCommand(array $taskDefinition): string
+    {
+        $taskCommandParameters = [];
+        $taskCommandParameters[] = 'spryker-sdk ' . RunTaskConsole::ARGUMENT_TASK;
+        $taskCommandParameters[] = $taskDefinition['id'];
+
+        if (!empty($taskDefinition['placeholders'])) {
+            foreach ($taskDefinition['placeholders'] as $placeholder)
+            {
+                $optional = (empty($placeholder['optional'])) ? false : true;
+
+                $taskCommandParameters[] = sprintf(
+                    '%s--%s=<%s>%s',
+                    $optional ? '[' : '',
+                    $placeholder['valueResolver'],
+                    $placeholder['type'],
+                    $optional ? ']' : '',
+                );
+            }
+        }
+
+        return implode(" ", $taskCommandParameters);
+    }
+
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param array $headers

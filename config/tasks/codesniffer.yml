@@ -2,19 +2,16 @@ id: codesniffer
 short_description: Fix code style violations
 help: Fix codestyle violations, lorem ipsum, etc.
 stage: build
-command: php %project_dir%/vendor/bin/phpcs -f --standard=%ruleset_path% %module_dir%
+command: php %project_dir%/vendor/bin/phpcs -f --standard=%project_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %module_dir%
 type: local_cli
 tasks: []
 placeholders:
   - name: project_dir
-    valueResolver: ProdjectDirResolver
+    valueResolver: PRODJECT_DIR
     optional: false
 
   - name: module_dir
+    valueResolver: MODULE_DIR
     optional: true
-
-  - name: ruleset_path
-    optional: true
-
 lifecycle_callbacks:
   UPDATE: ~ #will be provided later

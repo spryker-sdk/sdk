@@ -8,6 +8,7 @@
 namespace Sdk\Command;
 
 use Sdk\Facade;
+use Sdk\Factory;
 use Symfony\Component\Console\Command\Command;
 
 class AbstractSdkConsole extends Command
@@ -16,6 +17,11 @@ class AbstractSdkConsole extends Command
      * @var \Sdk\Facade
      */
     protected $facade;
+
+    /**
+     * @var \Sdk\Factory
+     */
+    protected $factory;
 
     /**
      * @return \Sdk\Facade
@@ -27,5 +33,17 @@ class AbstractSdkConsole extends Command
         }
 
         return $this->facade;
+    }
+
+    /**
+     * @return \Sdk\Facade
+     */
+    public function getFactory(): Factory
+    {
+        if (!$this->factory) {
+            $this->factory = new Factory();
+        }
+
+        return $this->factory;
     }
 }

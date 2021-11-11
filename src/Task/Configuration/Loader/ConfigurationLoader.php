@@ -54,7 +54,7 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
     /**
      * @param array $configuration
      *
-     * @throws \Sdk\Exception\TaskDefinitionNotValid
+     * @throws \Sdk\Task\Exception\TaskDefinitionNotValid
      *
      * @return void
      */

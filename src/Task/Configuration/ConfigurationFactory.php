@@ -2,6 +2,7 @@
 namespace Sdk\Task\Configuration;
 
 use Sdk\Config;
+use Sdk\Factory;
 use Sdk\Task\Configuration\Finder\ConfigurationFinder;
 use Sdk\Task\Configuration\Finder\ConfigurationFinderInterface;
 use Sdk\Task\Configuration\Loader\ConfigurationLoader;
@@ -16,6 +17,11 @@ class ConfigurationFactory
     protected $config;
 
     /**
+     * @var \Sdk\Factory
+     */
+    protected $factory;
+
+    /**
      * @param \Sdk\Config $config
      */
     public function __construct(Config $config)
@@ -24,12 +30,12 @@ class ConfigurationFactory
     }
 
     /**
-     * @return \Sdk\Task\Configuration\Loader\ConfigurationLoader
+     * @return \Sdk\Task\Configuration\Loader\ConfigurationLoaderInterface
      */
     public function createConfigurationLoader()
     {
         return new ConfigurationLoader(
-            $this->createConfigurationFinder($this->getConfig()->getTasksDirectories()),
+            $this->createConfigurationFinder(),
             $this->createConfigurationValidator()
         );
     }
@@ -47,7 +53,7 @@ class ConfigurationFactory
      */
     public function createConfigurationFinder(): ConfigurationFinderInterface
     {
-        return new ConfigurationFinder($this->getConfig()->getTasksDirectories());
+        return new ConfigurationFinder($this->getFactory()->createTaskSettingReader()->read());
     }
 
     /**
@@ -60,5 +66,17 @@ class ConfigurationFactory
         }
 
         return $this->config;
+    }
+
+    /**
+     * @return \Sdk\Factory
+     */
+    public function getFactory(): Factory
+    {
+        if ($this->factory === null) {
+            $this->factory = new Factory();
+        }
+
+        return $this->factory;
     }
 }

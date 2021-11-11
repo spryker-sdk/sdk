@@ -13,6 +13,22 @@ class Config
     }
 
     /**
+     * @return string[]
+     */
+    public function getSettingDefinitionDirectories(): array
+    {
+        return $this->buildDirectoryList('config/settings');
+    }
+
+    /**
+     * @return string
+     */
+    public function getSettingFilePath(): string
+    {
+        return $this->getRootDirectory() . 'config/ssdk.yml';
+    }
+
+    /**
      * @param string|null $subDirectory
      *
      * @return string[]
@@ -22,7 +38,7 @@ class Config
         $subDirectory = (is_string($subDirectory)) ? $subDirectory . DIRECTORY_SEPARATOR : DIRECTORY_SEPARATOR;
 
         $directories = [];
-        $taskDirectory = realpath($this->getRootDirectory() . 'config/' . $subDirectory);
+        $taskDirectory = realpath($this->getRootDirectory() . $subDirectory);
 
         if ($taskDirectory !== false) {
             $directories[] = $taskDirectory . DIRECTORY_SEPARATOR;
