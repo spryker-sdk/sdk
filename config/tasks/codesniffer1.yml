@@ -1,0 +1,15 @@
+id: codesniffer1
+short_description: Fix code style violations
+help: Fix codestyle violations, lorem ipsum, etc.
+stage: build
+command: ~
+type: task_set
+tasks:
+  - id: codesniffer
+    tags: [sniffer]
+    stop_on_error: false
+  - id: codesniffer
+    tags: [ sniffer1 ]
+    stop_on_error: false
+lifecycle_callbacks:
+  UPDATE: ~ #will be provided later

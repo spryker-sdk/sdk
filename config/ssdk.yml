@@ -1,1 +1,7 @@
-settings:
+project_dir: ./
+project_namespace: Pyz
+report_usage_statistics: false
+value_resolver_dirs:
+    - ./src/Task/ValueResolver/Value
+task_dirs:
+    - ./config/tasks

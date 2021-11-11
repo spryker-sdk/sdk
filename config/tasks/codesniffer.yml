@@ -1,28 +1,17 @@
-name: Code Sniffer
 id: codesniffer
-description: Fix codestyle validations
+short_description: Fix code style violations
+help: Fix codestyle violations, lorem ipsum, etc.
 stage: build
-tags: [codesniffer, architecture]
-command: 'php %project_dir%/vendor/bin/phpcs -f --standard=%ruleset_path% %module_dir%'
-type: task_aggregator
-tasks: string[] #only if type = task_aggregator, will executed the provided list of tasks
-arguments:
+command: php %project_dir%/vendor/bin/phpcs -f --standard=%project_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %module_dir%
+type: local_cli
+tasks: []
+placeholders:
   - name: project_dir
-    description: project directory
-    valueResolver: ProdjectDirResolver
+    valueResolver: PRODJECT_DIR
     optional: false
-    type: string
 
   - name: module_dir
-    description: module directory
-    valueResolver: ~
+    valueResolver: MODULE_DIR
     optional: true
-    type: string
-
-  - name: ruleset_path
-    description: path to ruleset file
-    valueResolver: ~
-    optional: true
-    type: string
 lifecycle_callbacks:
   UPDATE: ~ #will be provided later
