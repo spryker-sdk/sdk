@@ -8,11 +8,12 @@ interface SettingInterface
 {
     /**
      * @param string $name
+     * @param bool $require
      *
      * @throws \Sdk\Exception\SettingNotFoundException
      * @return mixed
      */
-    public function getSetting(string $name);
+    public function getSetting(string $name, bool $require = true);
 
     /**
      * @return array

@@ -7,24 +7,11 @@
 
 namespace Sdk\Task\TypeStrategy;
 
-use Sdk\Task\Configuration\Loader\ConfigurationLoaderInterface;
-use Sdk\Task\ValueResolver\ValueResolverInterface;
+use Sdk\Task\Exception\TaskDefinitionFailed;
+use Symfony\Component\Process\Process;
 
 class LocalCliTypeStrategy extends AbstractTypeStrategy
 {
-    /**
-     * @var \Sdk\Task\ValueResolver\ValueResolverInterface
-     */
-    protected ValueResolverInterface $valueResolver;
-
-    /**
-     * @param \Sdk\Task\ValueResolver\ValueResolverInterface $valueResolver
-     */
-    public function __construct(ValueResolverInterface $valueResolver)
-    {
-        $this->valueResolver = $valueResolver;
-    }
-
     /**
      * @return string
      */
@@ -38,16 +25,31 @@ class LocalCliTypeStrategy extends AbstractTypeStrategy
      */
     public function extract(): array
     {
-        $this->definition = $this->valueResolver->expand($this->definition);
-
         return $this->definition;
     }
 
     /**
-     * @return void
+     * @param array $definition
+     *
+     * @return string
      */
-    public function execute(): void
+    public function execute(array $definition): string
     {
-        // task strategy execution
+        $placeholders = $definition['placeholders'];
+        $values = [];
+        foreach ($placeholders as $placeholder) {
+            $values['%' . $placeholder['name'] . '%'] = $placeholder['value'];
+        }
+        $command = str_replace(array_keys($values), array_values($values), $definition['command']);
+
+
+        $process = new Process(explode(' ', $command));
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new TaskDefinitionFailed($process->getErrorOutput() ?: $process->getOutput());
+        }
+
+        return $process->getOutput();
     }
 }

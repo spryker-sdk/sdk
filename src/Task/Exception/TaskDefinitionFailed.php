@@ -5,14 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Style;
+namespace Sdk\Task\Exception;
 
-interface StyleInterface
+use Sdk\Exception\SdkException;
+
+class TaskDefinitionFailed extends SdkException
 {
-    /**
-     * @param string $message
-     *
-     * @return void
-     */
-    public function writeLine(string $message): void;
 }

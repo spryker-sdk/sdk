@@ -2,7 +2,9 @@
 
 namespace Sdk\Task\ValueResolver;
 
+use Sdk\Setting\SettingInterface;
 use Sdk\Task\Exception\ValueResolverNotResolved;
+use \Sdk\Task\ValueResolver\Value\ValueResolverInterface as ValueValueResolverInterface;
 
 class ValueResolver implements ValueResolverInterface
 {
@@ -12,44 +14,60 @@ class ValueResolver implements ValueResolverInterface
     protected array $valueResolvers = [];
 
     /**
-     * @var array
+     * @var \Sdk\Setting\SettingInterface
      */
-    protected array $parameters = [];
+    protected $setting;
 
     /**
-     * @param \Sdk\Task\ValueResolver\Value\ValueResolverInterface[] $valueResolvers
+     * @param \Sdk\Task\ValueResolver\Value\ValueResolverInterface[] $options
      */
-    public function __construct(array $valueResolvers, array $parameters)
+    public function __construct(array $valueResolvers, SettingInterface $setting)
     {
         foreach ($valueResolvers as $valueResolver) {
             $this->valueResolvers[$valueResolver->getId()] = $valueResolver;
         }
 
-        $this->parameters = $parameters;
+        $this->setting = $setting;
     }
 
     /**
-     * @param array $definition
+     * @param array $placeholders
+     * @param bool $resolveValue
      *
      * @throws \Sdk\Task\Exception\ValueResolverNotResolved
      *
      * @return array
      */
-    public function expand(array $definition): array
+    public function expand(array $placeholders, bool $resolveValue = false): array
     {
-        foreach ($definition['placeholders'] as &$placeholder) {
-            if (isset($this->valueResolvers[$placeholder['valueResolver']])) {
-                $valueResolver = $this->valueResolvers[$placeholder['valueResolver']];
-                $placeholder['type'] = $valueResolver->getType();
-                $placeholder['description'] = $valueResolver->getDescription();
-                $placeholder['value'] = $valueResolver->getValue($this->parameters);
-
-                continue;
+        foreach ($placeholders as $key => $placeholder) {
+            if (!isset($this->valueResolvers[$placeholder['valueResolver']])) {
+                throw new ValueResolverNotResolved(sprintf('Value resolver for placeholder `%s` is not supported', $placeholder['id']));
             }
-
-            throw new ValueResolverNotResolved(sprintf('Value resolver for placeholder `%s` is not supported', $placeholder['id']));
+            $valueResolver = $this->valueResolvers[$placeholder['valueResolver']];
+            $placeholders[$key]['type'] = $valueResolver->getType();
+            $placeholders[$key]['description'] = $valueResolver->getDescription();
+            if ($resolveValue) {
+                $placeholders[$key]['value'] = $this->getValue($valueResolver);
+            }
         }
 
-        return $definition;
+        return $placeholders;
+    }
+
+    /**
+     * @param \Sdk\Task\ValueResolver\Value\ValueResolverInterface $valueResolver
+     *
+     * @return mixed
+     */
+    protected function getValue(ValueValueResolverInterface $valueResolver)
+    {
+        $settingPaths = $valueResolver->getSettingPaths();
+        $settings = [];
+        foreach ($settingPaths as $settingPath) {
+            $settings[$settingPath] = $this->setting->getSetting($settingPath, false);
+        }
+
+        return $valueResolver->getValue($settings);
     }
 }

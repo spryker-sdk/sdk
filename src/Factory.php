@@ -13,7 +13,10 @@ use Sdk\Task\Dumper\DefinitionDumper;
 use Sdk\Task\Dumper\DefinitionDumperInterface;
 use Sdk\Task\Dumper\Finder\DefinitionFinder;
 use Sdk\Task\Dumper\Finder\DefinitionFinderInterface;
+use Sdk\Task\Executor\TaskExecutor;
+use Sdk\Task\Executor\TaskExecutorInterface;
 use Sdk\Task\StrategyResolver;
+use Sdk\Task\StrategyResolverInterface;
 use Sdk\Task\TypeStrategy\LocalCliTypeStrategy;
 use Sdk\Task\TypeStrategy\TaskSetTypeStrategy;
 use Sdk\Task\TypeStrategy\TypeStrategyInterface;
@@ -32,16 +35,27 @@ class Factory
     /**
      * @param string $taskName
      *
+     * @return \Sdk\Task\Executor\TaskExecutorInterface
+     */
+    public function createExecutor(string $taskName): TaskExecutorInterface
+    {
+        return new TaskExecutor(
+            $this->createTypeStrategy($taskName),
+            $this->createSettings(),
+            $this->createValueResolver()
+        );
+    }
+
+    /**
+     * @param string $taskName
+     *
      * @throws \Sdk\Task\Exception\TaskTypeNotResolved
      *
      * @return \Sdk\Task\TypeStrategy\TypeStrategyInterface
      */
     public function createTypeStrategy(string $taskName): TypeStrategyInterface
     {
-        return (new StrategyResolver([
-            $this->createLocalCliTypeStrategy(),
-            $this->createTaskSetTypeStrategy()
-        ]))
+        return $this->createStrategyResolver()
             ->resolve(
                 $this->createConfigurationFactory()
             ->createConfigurationLoader()
@@ -50,13 +64,24 @@ class Factory
     }
 
     /**
+     * @return \Sdk\Task\StrategyResolverInterface
+     */
+    public function createStrategyResolver(): StrategyResolverInterface
+    {
+        return new StrategyResolver([
+            $this->createLocalCliTypeStrategy(),
+            $this->createTaskSetTypeStrategy()
+        ]);
+    }
+
+    /**
      * @return \Sdk\Task\ValueResolver\ValueResolverInterface
      */
-    protected function createValueResolver(array $parameters = []): ValueResolverInterface
+    protected function createValueResolver(): ValueResolverInterface
     {
         return new ValueResolver(
             $this->createValueResolverSettingReader()->read(),
-            $parameters
+            $this->createSettings()
         );
     }
 
@@ -92,7 +117,7 @@ class Factory
      */
     public function createTaskSetTypeStrategy(): TaskSetTypeStrategy
     {
-        return new TaskSetTypeStrategy($this->createConfigurationFactory()->createConfigurationLoader(), $this->createValueResolver());
+        return new TaskSetTypeStrategy($this->createConfigurationFactory()->createConfigurationLoader());
     }
 
     /**
@@ -100,7 +125,7 @@ class Factory
      */
     public function createLocalCliTypeStrategy(): LocalCliTypeStrategy
     {
-        return new LocalCliTypeStrategy($this->createValueResolver());
+        return new LocalCliTypeStrategy();
     }
 
     /**
@@ -110,7 +135,9 @@ class Factory
     {
         return new DefinitionDumper(
             $this->createDefinitionFinder(),
-            $this->createConfigurationFactory()->createConfigurationLoader()
+            $this->createConfigurationFactory()->createConfigurationLoader(),
+            $this->createValueResolver(),
+            $this->createStrategyResolver()
         );
     }
 

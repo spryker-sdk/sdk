@@ -64,7 +64,7 @@ class ValueResolverSettingReader implements SettingReaderInterface
     {
         $paths = $this->setting->getSetting(static::VALUE_RESOLVER_DIRS);
         foreach ($paths as &$path) {
-            if (strpos($path, '/') === false)
+            if (!strpos($path, '/'))
             {
                 continue;
             }

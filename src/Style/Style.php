@@ -36,4 +36,14 @@ class Style implements StyleInterface
         $this->input = $input;
         $this->output = $output;
     }
+
+    /**
+     * @param string $message
+     *
+     * @return void
+     */
+    public function writeLine(string $message): void
+    {
+        $this->output->write($message,  true);
+    }
 }
