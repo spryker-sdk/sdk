@@ -35,22 +35,23 @@ class Setting implements SettingInterface
 
     /**
      * @param string $name
+     * @param bool $require
      *
      * @throws \Sdk\Exception\SettingNotFoundException
      * @return mixed
      */
-    public function getSetting(string $name)
+    public function getSetting(string $name, bool $require = true)
     {
         if (!file_exists($this->settingsFilePath)) {
             throw new SettingNotFoundException('SDK needs to be initialized by calling spryker-sdk init');
         }
         $settings = $this->getExistingSettings();
 
-        if (!isset($settings[$name])) {
+        if ($require && !isset($settings[$name])) {
             throw new SettingNotFoundException(sprintf('Setting name `%s` is missing.SDK needs to be initialized by calling spryker-sdk init', $name));
         }
 
-        return $settings[$name];
+        return $settings[$name] ?? null;
     }
 
     /**

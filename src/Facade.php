@@ -13,6 +13,17 @@ class Facade
     protected $factory;
 
     /**
+     * @param string $taskName
+     * @param array $options
+     *
+     * @return void
+     */
+    public function executeTask(string $taskName, array $options, StyleInterface $style): void
+    {
+        $this->getFactory()->createExecutor($taskName)->execute($options, $style);
+    }
+
+    /**
      * @param array $settings
      * @param \Sdk\Style\StyleInterface $style
      *
@@ -40,6 +51,14 @@ class Facade
     }
 
     /**
+     * @return string[]
+     */
+    public function dumpUniqueTaskPlaceholderNames(): array
+    {
+        return $this->getFactory()->createDefinitionDumper()->dumpUniqueTaskPlaceholderNames();
+    }
+
+    /**
      * @param string $taskName
      *
      * @throws \Sdk\Task\Exception\TaskTypeNotResolved
@@ -48,7 +67,7 @@ class Facade
      */
     public function getTaskDefinition(string $taskName): array
     {
-        return $this->getFactory()->createTypeStrategy($taskName)->extract();
+        return $this->getFactory()->createDefinitionDumper()->dumpTaskDefinition($taskName);
     }
 
     /**

@@ -8,7 +8,7 @@
 namespace Sdk\Task\TypeStrategy;
 
 use Sdk\Task\Configuration\Loader\ConfigurationLoaderInterface;
-use Sdk\Task\ValueResolver\ValueResolverInterface;
+use Sdk\Task\Exception\TaskDefinitionFailed;
 
 class TaskSetTypeStrategy  extends AbstractTypeStrategy
 {
@@ -18,18 +18,11 @@ class TaskSetTypeStrategy  extends AbstractTypeStrategy
     protected ConfigurationLoaderInterface $configurationLoader;
 
     /**
-     * @var \Sdk\Task\ValueResolver\ValueResolverInterface
-     */
-    protected ValueResolverInterface $valueResolver;
-
-    /**
      * @param \Sdk\Task\Configuration\Loader\ConfigurationLoaderInterface $configurationLoader
-     * @param \Sdk\Task\ValueResolver\ValueResolverInterface $valueResolver
      */
-    public function __construct(ConfigurationLoaderInterface $configurationLoader, ValueResolverInterface $valueResolver)
+    public function __construct(ConfigurationLoaderInterface $configurationLoader)
     {
         $this->configurationLoader = $configurationLoader;
-        $this->valueResolver = $valueResolver;
     }
 
     /**
@@ -47,7 +40,7 @@ class TaskSetTypeStrategy  extends AbstractTypeStrategy
     {
         $this->definition['placeholders'] = [];
         if ($this->definition['tasks']) {
-            foreach ($this->definition['tasks'] as $task) {
+            foreach ($this->definition['tasks'] as $key => $task) {
                 $definition = $this->configurationLoader->loadTask($task['id']);
                 if ($definition['placeholders'] && is_array($definition['placeholders'])) {
                     $this->definition['placeholders'] += $definition['placeholders'];
@@ -55,16 +48,36 @@ class TaskSetTypeStrategy  extends AbstractTypeStrategy
             }
         }
 
-        $this->definition = $this->valueResolver->expand($this->definition);
-
         return $this->definition;
     }
 
     /**
-     * @return void
+     * @param array $definition
+     *
+     * @return string
      */
-    public function execute(): void
+    public function execute(array $definition): string
     {
-        // task strategy execution
+        $placeholders = $definition['placeholders'];
+        $values = [];
+        foreach ($placeholders as $placeholder) {
+            $values['%' . $placeholder['name'] . '%'] = $placeholder['value'];
+        }
+
+        foreach ($definition['tasks'] as $task) {
+
+            $command = str_replace(array_keys($values), array_values($values), $task['command']);
+
+            $output=null;
+            $result=null;
+
+
+
+            if (!$result) {
+                throw new TaskDefinitionFailed($output);
+            }
+
+            return is_array($output) ? $output : [];
+        }
     }
 }

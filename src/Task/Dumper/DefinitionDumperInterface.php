@@ -10,9 +10,12 @@ namespace Sdk\Task\Dumper;
 interface DefinitionDumperInterface
 {
     /**
-     * @param int|null $level
-     *
      * @return array
      */
-    public function dump(?int $level = null): array;
+    public function dump(): array;
+
+    /**
+     * @return array
+     */
+    public function dumpUniqueTaskPlaceholderNames(): array;
 }

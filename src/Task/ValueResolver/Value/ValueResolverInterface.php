@@ -20,11 +20,11 @@ interface ValueResolverInterface
     public function getDescription(): string;
 
     /**
-     * @param array $parameters
+     * @param array $settings
      *
      * @return mixed
      */
-    public function getValue(array $parameters);
+    public function getValue(array $settings);
 
     /**
      * @return array<string>

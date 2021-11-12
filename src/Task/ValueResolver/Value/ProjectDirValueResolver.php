@@ -26,11 +26,11 @@ class ProjectDirValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @param array $parameters
+     * @param array $settings
      *
      * @return mixed
      */
-    public function getValue(array $parameters)
+    public function getValue(array $settings)
     {
         $t = '';
         return $t;

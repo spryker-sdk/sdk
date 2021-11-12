@@ -20,7 +20,9 @@ interface TypeStrategyInterface
     public function extract(): array;
 
     /**
-     * @return void
+     * @param array $definition
+     *
+     * @return string
      */
-    public function execute(): void;
+    public function execute(array $definition): string;
 }

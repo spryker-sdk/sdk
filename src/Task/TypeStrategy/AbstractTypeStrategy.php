@@ -37,7 +37,9 @@ abstract class AbstractTypeStrategy implements TypeStrategyInterface
     abstract public function extract(): array;
 
     /**
-     * @return void
+     * @param array $definition
+     *
+     * @return string
      */
-    abstract public function execute(): void;
+    abstract public function execute(array $definition): string;
 }
