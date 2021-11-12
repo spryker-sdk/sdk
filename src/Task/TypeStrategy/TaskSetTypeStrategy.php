@@ -9,7 +9,7 @@ namespace Sdk\Task\TypeStrategy;
 
 use Sdk\Style\StyleInterface;
 use Sdk\Task\Configuration\Loader\ConfigurationLoaderInterface;
-use Sdk\Task\Exception\TaskDefinitionFailed;
+use Sdk\Task\Exception\TaskExecutionFailed;
 
 class TaskSetTypeStrategy  extends AbstractTypeStrategy
 {
@@ -76,7 +76,7 @@ class TaskSetTypeStrategy  extends AbstractTypeStrategy
 
 
             if (!$result) {
-                throw new TaskDefinitionFailed($output);
+                throw new TaskExecutionFailed($output);
             }
 
             return is_array($output) ? $output : [];

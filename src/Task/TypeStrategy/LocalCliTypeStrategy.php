@@ -8,7 +8,7 @@
 namespace Sdk\Task\TypeStrategy;
 
 use Sdk\Style\StyleInterface;
-use Sdk\Task\Exception\TaskDefinitionFailed;
+use Sdk\Task\Exception\TaskExecutionFailed;
 use Symfony\Component\Process\Process;
 
 class LocalCliTypeStrategy extends AbstractTypeStrategy
@@ -49,9 +49,12 @@ class LocalCliTypeStrategy extends AbstractTypeStrategy
         $process->setIdleTimeout(null);
 
         $process->run();
+        foreach ($process->getIterator() as $r) {
+            \var_dump($r);
+        }
 
         if (!$process->isSuccessful()) {
-            throw new TaskDefinitionFailed($process->getErrorOutput() ?: $process->getOutput());
+            throw new TaskExecutionFailed($process->getErrorOutput() ?: $process->getOutput());
         }
 
         return $process->getOutput();
