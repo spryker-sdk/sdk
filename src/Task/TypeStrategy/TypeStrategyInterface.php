@@ -7,6 +7,8 @@
 
 namespace Sdk\Task\TypeStrategy;
 
+use Sdk\Style\StyleInterface;
+
 interface TypeStrategyInterface
 {
     /**
@@ -21,8 +23,9 @@ interface TypeStrategyInterface
 
     /**
      * @param array $definition
+     * @param \Sdk\Style\StyleInterface $style
      *
      * @return string
      */
-    public function execute(array $definition): string;
+    public function execute(array $definition, StyleInterface $style): string;
 }

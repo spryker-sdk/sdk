@@ -42,7 +42,7 @@ class ValueResolver implements ValueResolverInterface
     {
         foreach ($placeholders as $key => $placeholder) {
             if (!isset($this->valueResolvers[$placeholder['valueResolver']])) {
-                throw new ValueResolverNotResolved(sprintf('Value resolver for placeholder `%s` is not supported', $placeholder['id']));
+                throw new ValueResolverNotResolved(sprintf('Value resolver for placeholder `%s` is missing', $placeholder['name']));
             }
             $valueResolver = $this->valueResolvers[$placeholder['valueResolver']];
             $placeholders[$key]['type'] = $valueResolver->getType();

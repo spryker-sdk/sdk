@@ -55,9 +55,10 @@ class TaskExecutor implements TaskExecutorInterface
         if ($definition['placeholders']) {
             $definition['placeholders'] = $this->resolveValue($definition['placeholders'], $style);
         }
-        $output = $this->typeStrategy->execute($definition);
+        $output = $this->typeStrategy->execute($definition, $style);
 
         $style->writeLine($output);
+        $style->writeLine(sprintf('Task is done'));
     }
 
     /**

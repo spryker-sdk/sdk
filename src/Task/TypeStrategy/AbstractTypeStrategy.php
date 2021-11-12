@@ -7,6 +7,8 @@
 
 namespace Sdk\Task\TypeStrategy;
 
+use Sdk\Style\StyleInterface;
+
 abstract class AbstractTypeStrategy implements TypeStrategyInterface
 {
     /**
@@ -38,8 +40,9 @@ abstract class AbstractTypeStrategy implements TypeStrategyInterface
 
     /**
      * @param array $definition
+     * @param \Sdk\Style\StyleInterface $style
      *
      * @return string
      */
-    abstract public function execute(array $definition): string;
+    abstract public function execute(array $definition, StyleInterface $style): string;
 }
