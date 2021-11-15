@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Port\EventLoggerInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 
 class TaskExecutor
@@ -33,18 +35,8 @@ class TaskExecutor
      */
     public function execute(string $taskId): int
     {
-        $task = $this->taskRepository->findById($taskId);
-
-        //@todo error handling task not found
-        if (!$task) {
-            throw new \RuntimeException('Task not found');
-        }
-
-        $resolvedValues = [];
-
-        foreach ($task->placeholders as $placeholder) {
-            $resolvedValues[$placeholder->name] = $this->placeholderResolver->resolve($placeholder);
-        }
+        $task = $this->getTask($taskId);
+        $resolvedValues = $this->getResolvedValues($task);
 
         $result = 0;
 
@@ -61,5 +53,37 @@ class TaskExecutor
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $taskId
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
+     */
+    protected function getTask(string $taskId): Task
+    {
+        $task = $this->taskRepository->findById($taskId);
+
+        if (!$task) {
+            throw new TaskMissingException('Task not found with id ' . $taskId);
+        }
+
+        return $task;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Task $task
+     *
+     * @return array<string, mixed>
+     */
+    protected function getResolvedValues(Task $task): array
+    {
+        $resolvedValues = [];
+
+        foreach ($task->placeholders as $placeholder) {
+            $resolvedValues[$placeholder->name] = $this->placeholderResolver->resolve($placeholder);
+        }
+
+        return $resolvedValues;
     }
 }

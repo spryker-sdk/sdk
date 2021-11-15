@@ -40,7 +40,6 @@ class TaskListCommand extends Command
     public function run(InputInterface $input, OutputInterface $output): int
     {
         $tasks = $this->taskRepository->findAll();
-        //@todo order tasks by stage
 
         foreach ($tasks as $task) {
             $output->writeln($task->id . ' -- ' . $task->shortDescription);

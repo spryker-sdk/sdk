@@ -9,11 +9,14 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class SettingRepository implements SettingRepositoryInterface
 {
     public function __construct(
-        protected string $sdkBasePath
+        protected string $sdkBasePath,
+        protected array $settingDefinitions,
+        protected Yaml $yamlParser
     ) {
     }
 

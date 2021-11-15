@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Port\ConfigurableValueResolver;
 use SprykerSdk\Sdk\Core\Appplication\Port\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
@@ -49,7 +50,7 @@ class PlaceholderResolver
 
         }
 
-        throw new \RuntimeException('Could not resolve value for ' . $placeholder->name);
+        throw new UnresolvablePlaceholderException('Could not resolve value for ' . $placeholder->name);
     }
 
     /**
@@ -66,6 +67,6 @@ class PlaceholderResolver
             return new $placeholder->valueResolver();
         }
 
-        throw new \RuntimeException('Placeholder not resolvable ' . $placeholder->valueResolver);
+        throw new UnresolvablePlaceholderException('Placeholder not resolvable ' . $placeholder->valueResolver);
     }
 }
