@@ -4,9 +4,13 @@ namespace Sdk\Setting\Reader;
 
 use Sdk\Exception\PathNotFoundException;
 use Sdk\Setting\SettingInterface;
+use Sdk\Task\ValueResolver\Value\CodeBucketValueResolver;
+use Sdk\Task\ValueResolver\Value\EnvironmentValueResolver;
 use Sdk\Task\ValueResolver\Value\ModuleDirValueResolver;
+use Sdk\Task\ValueResolver\Value\ModuleNameValueResolver;
 use Sdk\Task\ValueResolver\Value\ProjectDirValueResolver;
-use Sdk\Task\ValueResolver\Value\RulesetPathValueResolver;
+use Sdk\Task\ValueResolver\Value\StoreValueResolver;
+use Sdk\Task\ValueResolver\Value\VendorDirValueResolver;
 use Symfony\Component\Finder\Finder;
 
 class ValueResolverSettingReader implements SettingReaderInterface
@@ -54,6 +58,10 @@ class ValueResolverSettingReader implements SettingReaderInterface
         return [
             new ModuleDirValueResolver(),
             new ProjectDirValueResolver(),
+            new VendorDirValueResolver(),
+            new CodeBucketValueResolver(),
+            new StoreValueResolver(),
+            new EnvironmentValueResolver(),
         ];
     }
 

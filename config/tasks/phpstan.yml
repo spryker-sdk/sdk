@@ -1,0 +1,16 @@
+id: phpstan
+short_description: Phpstan analyze
+help: Phpstan analyze, lorem ipsum, etc.
+stage: build
+command: php %vendor_dir%/bin/phpstan analyze %project_dir%
+type: local_cli
+tasks: []
+placeholders:
+  - name: vendor_dir
+    valueResolver: VENDOR_DIR
+    optional: false
+  - name: project_dir
+    valueResolver: PROJECT_DIR
+    optional: false
+lifecycle_callbacks:
+  UPDATE: ~ #will be provided later

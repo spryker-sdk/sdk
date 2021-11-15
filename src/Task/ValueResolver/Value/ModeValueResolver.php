@@ -7,14 +7,14 @@
 
 namespace Sdk\Task\ValueResolver\Value;
 
-class VendorDirValueResolver implements ValueResolverInterface
+class ModeValueResolver implements ValueResolverInterface
 {
     /**
      * @return string
      */
     public function getId(): string
     {
-        return 'VENDOR_DIR';
+        return 'MODE';
     }
 
     /**
@@ -22,7 +22,7 @@ class VendorDirValueResolver implements ValueResolverInterface
      */
     public function getDescription(): string
     {
-        return 'Base path to the vendor directory';
+        return 'Base store name';
     }
 
     /**
@@ -32,7 +32,7 @@ class VendorDirValueResolver implements ValueResolverInterface
      */
     public function getValue(array $settings)
     {
-        return $settings['project_dir'] . '/vendor';
+        return 'DE';
     }
 
     /**
@@ -40,9 +40,7 @@ class VendorDirValueResolver implements ValueResolverInterface
      */
     public function getSettingPaths(): array
     {
-        return [
-            'project_dir',
-        ];
+        return [];
     }
 
     /**
@@ -52,6 +50,6 @@ class VendorDirValueResolver implements ValueResolverInterface
      */
     public function getType(): string
     {
-        return 'path';
+        return 'string';
     }
 }

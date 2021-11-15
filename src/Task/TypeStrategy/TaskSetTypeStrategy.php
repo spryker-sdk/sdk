@@ -7,8 +7,9 @@
 
 namespace Sdk\Task\TypeStrategy;
 
+use Sdk\Style\StyleInterface;
 use Sdk\Task\Configuration\Loader\ConfigurationLoaderInterface;
-use Sdk\Task\Exception\TaskDefinitionFailed;
+use Sdk\Task\Exception\TaskExecutionFailed;
 
 class TaskSetTypeStrategy  extends AbstractTypeStrategy
 {
@@ -53,10 +54,11 @@ class TaskSetTypeStrategy  extends AbstractTypeStrategy
 
     /**
      * @param array $definition
+     * @param \Sdk\Style\StyleInterface $style
      *
      * @return string
      */
-    public function execute(array $definition): string
+    public function execute(array $definition, StyleInterface $style): string
     {
         $placeholders = $definition['placeholders'];
         $values = [];
@@ -74,7 +76,7 @@ class TaskSetTypeStrategy  extends AbstractTypeStrategy
 
 
             if (!$result) {
-                throw new TaskDefinitionFailed($output);
+                throw new TaskExecutionFailed($output);
             }
 
             return is_array($output) ? $output : [];

@@ -7,7 +7,8 @@
 
 namespace Sdk\Task\TypeStrategy;
 
-use Sdk\Task\Exception\TaskDefinitionFailed;
+use Sdk\Style\StyleInterface;
+use Sdk\Task\Exception\TaskExecutionFailed;
 use Symfony\Component\Process\Process;
 
 class LocalCliTypeStrategy extends AbstractTypeStrategy
@@ -30,10 +31,11 @@ class LocalCliTypeStrategy extends AbstractTypeStrategy
 
     /**
      * @param array $definition
+     * @param \Sdk\Style\StyleInterface $style
      *
      * @return string
      */
-    public function execute(array $definition): string
+    public function execute(array $definition, StyleInterface $style): string
     {
         $placeholders = $definition['placeholders'];
         $values = [];
@@ -42,12 +44,17 @@ class LocalCliTypeStrategy extends AbstractTypeStrategy
         }
         $command = str_replace(array_keys($values), array_values($values), $definition['command']);
 
-
         $process = new Process(explode(' ', $command));
+        $process->setTimeout(null);
+        $process->setIdleTimeout(null);
+
         $process->run();
+        foreach ($process->getIterator() as $r) {
+            \var_dump($r);
+        }
 
         if (!$process->isSuccessful()) {
-            throw new TaskDefinitionFailed($process->getErrorOutput() ?: $process->getOutput());
+            throw new TaskExecutionFailed($process->getErrorOutput() ?: $process->getOutput());
         }
 
         return $process->getOutput();

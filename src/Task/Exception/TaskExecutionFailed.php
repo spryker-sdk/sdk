@@ -9,6 +9,6 @@ namespace Sdk\Task\Exception;
 
 use Sdk\Exception\SdkException;
 
-class TaskDefinitionFailed extends SdkException
+class TaskExecutionFailed extends SdkException
 {
 }
