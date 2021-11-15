@@ -4,9 +4,9 @@ namespace Sdk\Logger;
 
 use Psr\Log\LoggerInterface;
 use Sdk\Logger\Formatter\JsonFormatter;
-use Sdk\Transfer\TaskLogTransfer;
+use Sdk\Dto\TaskLogDto;
 
-class Logger
+class Logger implements \Sdk\Logger\LoggerInterface
 {
     /**
      * @var \Psr\Log\LoggerInterface
@@ -28,14 +28,14 @@ class Logger
     }
 
     /**
-     * @param \Sdk\Transfer\TaskLogTransfer $taskLogTransfer
+     * @param \Sdk\Dto\TaskLogDto $taskLogTransfer
      *
      * @return void
      */
-    public function log(TaskLogTransfer $taskLogTransfer): void
+    public function log(TaskLogDto $taskLogTransfer): void
     {
         if ($this->reportUsageStatistics) {
-            $this->logger->debug('', [JsonFormatter::CONTEXT_TASK_LOG => $taskLogTransfer]);
+            $this->logger->debug((string) $taskLogTransfer->getMessage(), [JsonFormatter::CONTEXT_TASK_LOG => $taskLogTransfer]);
         }
     }
 }

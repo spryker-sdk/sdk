@@ -7,7 +7,6 @@
 
 namespace Sdk\Command;
 
-use Sdk\Transfer\TaskLogTransfer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -70,16 +69,6 @@ class RunTaskConsole extends AbstractSdkConsole
         $output->write('<info>Running task: </info>' . $taskName, true);
 
         $this->getFacade()->executeTask($taskName, $placeholders, $this->getFactory()->createStyle($input, $output));
-        $this->getFacade()->log(new TaskLogTransfer(
-            $taskName,
-            'task',
-            'executed',
-            true,
-            'user',
-            $taskName
-        ));
-
-        echo $taskName;
 
         return static::SUCCESS;
     }

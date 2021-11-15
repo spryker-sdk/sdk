@@ -4,12 +4,12 @@ namespace Sdk\Setting\Reader;
 
 use Sdk\Setting\SettingInterface;
 
-class ReportUsageStatisticsReader implements SettingReaderInterface
+class ProjectDirReader implements SettingReaderInterface
 {
     /**
      * Setting key from `config/settings/settings.yml`
      */
-    protected const REPORT_USAGE_STATISTICS = 'report_usage_statistics';
+    protected const REPORT_DIR = 'project_dir';
 
     /**
      * @var \Sdk\Setting\SettingInterface
@@ -24,10 +24,8 @@ class ReportUsageStatisticsReader implements SettingReaderInterface
         $this->setting = $setting;
     }
 
-    public function read(): bool
+    public function read(): string
     {
-        $setting = $this->setting->getSetting(static::REPORT_USAGE_STATISTICS);
-
-        return $setting === null ? false : $setting;
+        return $this->setting->getSetting(static::REPORT_DIR);
     }
 }

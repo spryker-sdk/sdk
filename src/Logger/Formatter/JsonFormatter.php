@@ -4,7 +4,7 @@ namespace Sdk\Logger\Formatter;
 
 use DateTimeInterface;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
-use Sdk\Transfer\TaskLogTransfer;
+use Sdk\Dto\TaskLogDto;
 
 class JsonFormatter extends MonologJsonFormatter
 {
@@ -35,7 +35,7 @@ class JsonFormatter extends MonologJsonFormatter
             unset($record['datetime']);
         }
 
-        if (isset($record['context'][static::CONTEXT_TASK_LOG]) && $record['context'][static::CONTEXT_TASK_LOG] instanceof TaskLogTransfer) {
+        if (isset($record['context'][static::CONTEXT_TASK_LOG]) && $record['context'][static::CONTEXT_TASK_LOG] instanceof TaskLogDto) {
             $record += $this->transformTaskLogTransferToArray($record['context'][static::CONTEXT_TASK_LOG]);
         }
 
@@ -56,18 +56,17 @@ class JsonFormatter extends MonologJsonFormatter
             $record['level'],
             $record['level_name'],
             $record['channel'],
-            $record['message'],
         );
 
         return $record;
     }
 
     /**
-     * @param TaskLogTransfer $taskLogTransfer
+     * @param TaskLogDto $taskLogTransfer
      *
      * @return array
      */
-    protected function transformTaskLogTransferToArray(TaskLogTransfer $taskLogTransfer): array
+    protected function transformTaskLogTransferToArray(TaskLogDto $taskLogTransfer): array
     {
         return [
             'id' => $taskLogTransfer->getId(),
@@ -75,7 +74,7 @@ class JsonFormatter extends MonologJsonFormatter
             'event' => $taskLogTransfer->getEvent(),
             'successful' => $taskLogTransfer->getIsSuccessful(),
             'triggered_by' => $taskLogTransfer->getTriggeredBy(),
-            'context' => $taskLogTransfer->getContext(),
+            'sdkContext' => $taskLogTransfer->getSdkContext(),
         ];
     }
 }

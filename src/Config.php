@@ -58,8 +58,8 @@ class Config
     /**
      * @return string
      */
-    public function getLoggerFilePath(): string
+    public function getLoggerFilePath(string $projectDir): string
     {
-        return $this->getRootDirectory() . 'config/.ssdk.log';
+        return $projectDir. '/.ssdk.log';
     }
 }

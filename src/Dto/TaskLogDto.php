@@ -1,8 +1,8 @@
 <?php
 
-namespace Sdk\Transfer;
+namespace Sdk\Dto;
 
-class TaskLogTransfer
+class TaskLogDto
 {
     /**
      * @var string
@@ -30,22 +30,41 @@ class TaskLogTransfer
     protected string $triggeredBy;
 
     /**
+     * @var string
+     */
+    protected string $sdkContext;
+
+    /**
+     * @var string|null
+     */
+    protected ?string $message = null;
+
+    /**
      * TaskLogTransfer constructor.
      * @param string $id
      * @param string $type
      * @param string $event
      * @param bool $isSuccessful
      * @param string $triggeredBy
-     * @param string $context
+     * @param string $sdkContext
+     * @param string|null $message
      */
-    public function __construct(string $id, string $type, string $event, bool $isSuccessful, string $triggeredBy, string $context)
-    {
+    public function __construct(
+        string $id,
+        string $type,
+        string $event,
+        bool $isSuccessful,
+        string $triggeredBy,
+        string $sdkContext,
+        string $message = null
+    ) {
         $this->id = $id;
         $this->type = $type;
         $this->event = $event;
         $this->isSuccessful = $isSuccessful;
         $this->triggeredBy = $triggeredBy;
-        $this->context = $context;
+        $this->sdkContext = $sdkContext;
+        $this->message = $message;
     }
 
     /**
@@ -67,11 +86,6 @@ class TaskLogTransfer
 
         return $this;
     }
-
-    /**
-     * @var string
-     */
-    protected string $context;
 
     /**
      * @return string
@@ -156,19 +170,39 @@ class TaskLogTransfer
     /**
      * @return string
      */
-    public function getContext(): string
+    public function getSdkContext(): string
     {
-        return $this->context;
+        return $this->sdkContext;
     }
 
     /**
-     * @param string $context
+     * @param string $sdkContext
      *
      * @return static
      */
-    public function setContext(string $context): self
+    public function setSdkContext(string $sdkContext): self
     {
-        $this->context = $context;
+        $this->sdkContext = $sdkContext;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string|null $message
+     *
+     * @return static
+     */
+    public function setMessage(?string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

@@ -2,14 +2,14 @@
 
 namespace Sdk\Logger;
 
-use Sdk\Transfer\TaskLogTransfer;
+use Sdk\Dto\TaskLogDto;
 
 interface LoggerInterface
 {
     /**
-     * @param \Sdk\Transfer\TaskLogTransfer $taskLogTransfer
+     * @param \Sdk\Dto\TaskLogDto $taskLogTransfer
      *
      * @return void
      */
-    public function log(TaskLogTransfer $taskLogTransfer): void;
+    public function log(TaskLogDto $taskLogTransfer): void;
 }
