@@ -81,7 +81,7 @@ class TaskExecutor implements TaskExecutorInterface
                 $placeholder = $this->valueResolver->expand([$placeholder], true)[0];
                 $value = $placeholder['value'];
             }
-            if (!$value && $placeholder['optional']) {
+            if (!$value && !$placeholder['optional']) {
                 $value = $this->askValue($placeholder, $style);
             }
             $placeholders[$key]['value'] = $value;

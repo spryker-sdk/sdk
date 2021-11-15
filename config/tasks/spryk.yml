@@ -2,7 +2,7 @@ id: spryk
 short_description: Generaete new module
 help: Generaete new module
 stage: build
-command: php %project_dir%/vendor/bin/console spryk:run AddModule --mode=%mode% --
+command: php %project_dir%/vendor/bin/spryk-run AddModule --mode=%mode% --organization=%organization% --module=%module%
 type: local_cli
 tasks: []
 placeholders:

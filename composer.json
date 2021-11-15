@@ -12,5 +12,6 @@
         "psr-4": {
             "Sdk\\": "src"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

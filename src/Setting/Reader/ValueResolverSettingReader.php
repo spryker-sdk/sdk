@@ -7,8 +7,11 @@ use Sdk\Exception\SettingNotFoundException;
 use Sdk\Setting\SettingInterface;
 use Sdk\Task\ValueResolver\Value\CodeBucketValueResolver;
 use Sdk\Task\ValueResolver\Value\EnvironmentValueResolver;
+use Sdk\Task\ValueResolver\Value\ModeValueResolver;
 use Sdk\Task\ValueResolver\Value\ModuleDirValueResolver;
 use Sdk\Task\ValueResolver\Value\ModuleNameValueResolver;
+use Sdk\Task\ValueResolver\Value\ModuleValueResolver;
+use Sdk\Task\ValueResolver\Value\OrganizationValueResolver;
 use Sdk\Task\ValueResolver\Value\ProjectDirValueResolver;
 use Sdk\Task\ValueResolver\Value\SdkDirValueResolver;
 use Sdk\Task\ValueResolver\Value\StoreValueResolver;
@@ -65,6 +68,9 @@ class ValueResolverSettingReader implements SettingReaderInterface
             new CodeBucketValueResolver(),
             new StoreValueResolver(),
             new EnvironmentValueResolver(),
+            new ModeValueResolver(),
+            new ModuleValueResolver(),
+            new OrganizationValueResolver()
         ];
     }
 
