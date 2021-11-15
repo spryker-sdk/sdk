@@ -1,0 +1,12 @@
+services:
+  file_finder:
+    class: Symfony\Component\Finder\Finder
+  setting_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
+    arguments:
+      - '%kernel.project_dir%'
+  task_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
+    arguments:
+      - '@setting_repository'
+      - '@file_finder'

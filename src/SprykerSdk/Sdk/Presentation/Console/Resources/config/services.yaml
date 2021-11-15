@@ -1,0 +1,7 @@
+services:
+  task_list_command:
+    autowire: false
+    class: SprykerSdk\Sdk\Presentation\Console\TaskListCommand
+    arguments:
+      - '@task_repository'
+    tags: ['console.command']

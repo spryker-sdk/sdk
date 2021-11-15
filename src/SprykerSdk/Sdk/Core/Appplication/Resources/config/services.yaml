@@ -1,0 +1,15 @@
+services:
+  value_receiver:
+    abstract: true
+  abstract_value_resolver:
+    abstract: true
+    synthetic: true
+    arguments:
+      - '@value_receiver'
+  abstract_command_runners:
+    synthetic: true
+    tags: ['command.runner']
+  task_executor:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+    arguments:
+      -
