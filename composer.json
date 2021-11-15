@@ -4,6 +4,9 @@
         "symfony/finder": "^5.3",
         "symfony/yaml": "^5.3",
         "symfony/process": "^5.3",
+        "spryker/code-sniffer": "^0.17.1",
+        "spryker/architecture-sniffer": "^0.5.2",
+        "phpstan/phpstan": "^1.1",
         "monolog/monolog": "^2.3"
     },
     "autoload": {

@@ -38,8 +38,9 @@ class TaskSettingReader implements SettingReaderInterface
     public function read(): array
     {
         $paths = $this->setting->getSetting(static::TASK_DIRS);
+
         foreach ($paths as &$path) {
-            if (strpos($path, '/') === false)
+            if (strpos($path, '/') === 0)
             {
                 continue;
             }

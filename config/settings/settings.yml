@@ -1,3 +1,8 @@
+- name: sdk_dir
+  description: The base directory of the SDK
+  type: path
+  defaultValues: './'
+  strategy: overwrite
 - name: project_dir
   description: The base directory of the project
   type: path
@@ -15,7 +20,7 @@
   strategy: overwrite
 - name: value_resolver_dirs
   description: Directories to search in for ValueResolvers
-  type: collection of paths
+  type: path
   defaultValues: './src/Task/ValueResolver/Value'
   strategy: merge
   multiline: true

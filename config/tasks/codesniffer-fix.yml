@@ -2,10 +2,13 @@ id: codesniffer-fix
 short_description: Fix code style violations
 help: Fix codestyle violations, lorem ipsum, etc.
 stage: build
-command: php %project_dir%/vendor/bin/phpcbf --standard=%project_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %module_dir%
+command: php %sdk_dir%/vendor/bin/phpcbf --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %module_dir%
 type: local_cli
 tasks: []
 placeholders:
+  - name: sdk_dir
+    valueResolver: SDK_DIR
+    optional: false
   - name: project_dir
     valueResolver: PRODJECT_DIR
     optional: false
