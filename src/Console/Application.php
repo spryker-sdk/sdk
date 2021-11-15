@@ -17,17 +17,14 @@ class Application extends SymfonyApplication
      */
     protected $facade;
 
-    public function __construct(string $name = 'UNKNOWN', string $version = 'UNKNOWN')
-    {
-        parent::__construct($name, $version);
-        $this->setCatchExceptions(false);
-    }
-
     /**
      * {@inheritDoc}
      */
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
+        $this->setAutoExit(false);
+        $this->setCatchExceptions(false);
+
         if ($input === null) {
             $input = new ArgvInput();
         }
@@ -37,18 +34,24 @@ class Application extends SymfonyApplication
         }
 
         try {
+            $exitCode = parent::run($input, $output);
+
             $this->getFacade()->log(
                 $this->getFacade()->mapExecutionToTaskLog($input)
             );
-
-            $exitCode = parent::run($input, $output);
-
-            return $exitCode;
         } catch (Throwable $throwable) {
             $this->getFacade()->log(
                $this->getFacade()->mapExceptionToTaskLog($throwable, $input)
             );
+
+            $exitCode = $throwable->getCode();
         }
+
+        if ($exitCode > 255) {
+            $exitCode = 255;
+        }
+
+        return $exitCode;
     }
 
     /**
