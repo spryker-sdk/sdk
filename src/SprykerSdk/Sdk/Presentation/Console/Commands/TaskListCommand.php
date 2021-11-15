@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\Console;
+namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
@@ -37,10 +37,8 @@ class TaskListCommand extends Command
      *
      * @return int
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Hello world');
-
         $tasks = $this->taskRepository->findAll();
         //@todo order tasks by stage
 

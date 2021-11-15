@@ -9,15 +9,30 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Port\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LocalCliRunner implements CommandRunnerInterface
 {
+    protected OutputInterface $output;
+
     public function __construct(
         protected ProcessHelper $processHelper,
-        protected OutputInterface $output
     ) {}
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     */
+    public function setOutput(OutputInterface $output)
+    {
+        $this->output = $output;
+    }
+
+    public function setHelperSet(HelperSet $helperSet)
+    {
+        $this->processHelper->setHelperSet($helperSet);
+    }
 
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Command $command
@@ -29,10 +44,16 @@ class LocalCliRunner implements CommandRunnerInterface
         return $command->type === 'local_cli';
     }
 
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Command $command
+     * @param array $resolvedValues
+     *
+     * @return int
+     */
     public function execute(Command $command, array $resolvedValues): int
     {
         $placeholders = array_map(function (mixed $placeholder): string {
-            return '/' . preg_quote('/', (string)$placeholder) . '/';
+            return '/' . preg_quote((string)$placeholder, '/') . '/';
         }, array_keys($resolvedValues));
 
         $values = array_map(function (mixed $value): string {
@@ -41,14 +62,14 @@ class LocalCliRunner implements CommandRunnerInterface
                 default => (string) $value,
             };
 
-            return '/' . preg_quote('/', $castedValue) . '/';
+            return preg_quote($castedValue);
         }, array_values($resolvedValues));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->command);
 
         $process = $this->processHelper->run(
             $this->output,
-            $assembledCommand
+            [$assembledCommand]
         );
 
         return $process->run();

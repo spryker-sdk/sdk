@@ -7,16 +7,21 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use SplFileInfo;
+use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
 {
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
-        protected Finder $fileFinder
+        protected Finder $fileFinder,
+        protected Yaml $yamlParser
     ) {
     }
 
@@ -35,15 +40,8 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
         //read task from path, parse and create Task
         //later use DB for querying
-        foreach ($this->fileFinder->in($taskDirSetting->value)->name('*.yml')->files() as $taskFile) {
-            //@todo parse task file
-            $task = new Task(
-                'fake_id',
-                'fake_description',
-                [],
-                [],
-            );
-
+        foreach ($this->fileFinder->in($taskDirSetting->value)->name('*.yaml')->files() as $taskFile) {
+            $task = $this->buildTask($taskFile);
             $tasks[$task->id] = $task;
         }
 
@@ -66,4 +64,65 @@ class TaskYamlRepository implements TaskRepositoryInterface
         return null;
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function buildPlaceholders(array $data): array
+    {
+        $placeholders = [];
+
+        foreach ($data['placeholders'] as $placeholderData) {
+            $placeholderName = $placeholderData['name'];
+            $placeholders[$placeholderName] = new Placeholder(
+                $placeholderName,
+                $placeholderData['value_resolver'],
+                $placeholderData['configuration'] ?? [],
+                $placeholderData['optional'] ?? false,
+            );
+            //@todo check value resolver exists
+        }
+
+        return $placeholders;
+    }
+
+    /**
+     * @param array $data
+     * @return array<string>
+     */
+    protected function buildCommands(array $data): array
+    {
+        $commands = [];
+
+        if ($data['type'] === 'local_cli') {
+            $commands[] = new Command(
+                $data['command'],
+                $data['type'],
+                true,
+            );
+        }
+
+        return $commands;
+    }
+
+    /**
+     * @param \SplFileInfo $taskFile
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
+     */
+    protected function buildTask(SplFileInfo $taskFile): Task
+    {
+        $data = $this->yamlParser->parse($taskFile->getContents());
+
+        $placeholders = $this->buildPlaceholders($data);
+        $commands = $this->buildCommands($data);
+
+        return new Task(
+            $data['id'],
+            $data['short_description'],
+            $commands,
+            $placeholders,
+            $data['help'] ?? null,
+        );
+    }
 }

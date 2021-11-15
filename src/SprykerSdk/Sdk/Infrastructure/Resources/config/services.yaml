@@ -1,12 +1,25 @@
 services:
   file_finder:
     class: Symfony\Component\Finder\Finder
+  event_logger:
+    class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
   setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
       - '%kernel.project_dir%'
+  yaml_parser:
+    class: Symfony\Component\Yaml\Yaml
   task_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
     arguments:
       - '@setting_repository'
       - '@file_finder'
+      - '@yaml_parser'
+  process_helper:
+    class: Symfony\Component\Console\Helper\ProcessHelper
+
+  local_cli_command_runner:
+    class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
+    tags: ['command.runner']
+    arguments:
+      - '@process_helper'

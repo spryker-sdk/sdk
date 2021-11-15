@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Core\Appplication\Port\ConfigurableValueResolver;
+use SprykerSdk\Sdk\Core\Appplication\Port\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 
@@ -18,7 +20,7 @@ class PlaceholderResolver
      */
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
-        protected array $valueResolver
+        protected iterable $valueResolver
     ) {
     }
 
@@ -30,17 +32,40 @@ class PlaceholderResolver
     public function resolve(Placeholder $placeholder): mixed
     {
         foreach ($this->valueResolver as $valueResolver) {
-            if ($valueResolver->getId() === $placeholder->valueResolver || $valueResolver::class === $placeholder->valueResolver) {
-                $settingValues = [];
 
-                foreach ($valueResolver->getSettingPaths() as $settingPath) {
-                    $settingValues[$settingPath] = $this->settingRepository->findByPath($settingPath);
-                }
+            $valueResolverInstance = $this->getValueResolver($valueResolver, $placeholder);
 
-                return $valueResolver->getValue($settingValues);
+            $settingValues = [];
+
+            foreach ($valueResolverInstance->getSettingPaths() as $settingPath) {
+                $settingValues[$settingPath] = $this->settingRepository->findByPath($settingPath);
             }
+
+            if ($valueResolverInstance instanceof ConfigurableValueResolver) {
+                $valueResolverInstance->configure($placeholder->configuration);
+            }
+
+            return $valueResolverInstance->getValue($settingValues);
+
         }
 
-        //@todo throw exception -> Placeholder not resolvable
+        throw new \RuntimeException('Could not resolve value for ' . $placeholder->name);
+    }
+
+    /**
+     * @param mixed $valueResolver
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Placeholder $placeholder
+     */
+    protected function getValueResolver(mixed $valueResolver, Placeholder $placeholder): ValueResolverInterface
+    {
+        if ($valueResolver->getId() === $placeholder->valueResolver) {
+            return $valueResolver;
+        }
+
+        if (class_exists($placeholder->valueResolver)) {
+            return new $placeholder->valueResolver();
+        }
+
+        throw new \RuntimeException('Placeholder not resolvable ' . $placeholder->valueResolver);
     }
 }

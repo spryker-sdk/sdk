@@ -19,7 +19,7 @@ class TaskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Port\EventLoggerInterface $eventLogger
      */
     public function __construct(
-        protected array $commandRunners,
+        protected iterable $commandRunners,
         protected PlaceholderResolver $placeholderResolver,
         protected TaskRepositoryInterface $taskRepository,
         protected EventLoggerInterface $eventLogger
@@ -36,6 +36,9 @@ class TaskExecutor
         $task = $this->taskRepository->findById($taskId);
 
         //@todo error handling task not found
+        if (!$task) {
+            throw new \RuntimeException('Task not found');
+        }
 
         $resolvedValues = [];
 

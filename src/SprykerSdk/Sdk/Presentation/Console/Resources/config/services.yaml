@@ -1,7 +1,14 @@
 services:
   task_list_command:
     autowire: false
-    class: SprykerSdk\Sdk\Presentation\Console\TaskListCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\TaskListCommand
     arguments:
       - '@task_repository'
+    tags: ['console.command']
+  task_run_command:
+    autowire: false
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\TaskExecuteCommand
+    arguments:
+      - '@task_executor'
+      - '@local_cli_command_runner'
     tags: ['console.command']

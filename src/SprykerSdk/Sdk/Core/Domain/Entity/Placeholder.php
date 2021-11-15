@@ -17,6 +17,7 @@ class Placeholder
     public function __construct(
         public string $name,
         public string $valueResolver,
+        public array $configuration = [],
         public bool $isOptional = false
     )
     {

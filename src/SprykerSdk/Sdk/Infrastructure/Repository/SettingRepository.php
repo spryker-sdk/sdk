@@ -22,7 +22,7 @@ class SettingRepository implements SettingRepositoryInterface
         //@todo implement properly
         return (new Setting(
             'task_dirs',
-            $this->sdkBasePath . '/Tasks',
+            [$this->sdkBasePath . '/Tasks'],
             'merge',
             null,
             true

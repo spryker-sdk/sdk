@@ -1,15 +1,31 @@
 services:
   value_receiver:
     abstract: true
+    synthetic: true
   abstract_value_resolver:
     abstract: true
     synthetic: true
     arguments:
       - '@value_receiver'
-  abstract_command_runners:
+  task_repository:
     synthetic: true
-    tags: ['command.runner']
+  event_logger:
+    synthetic: true
+  setting_repository:
+    abstract: true
+    synthetic: true
+  placeholder_resolver:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+    arguments:
+      - '@setting_repository'
+      - !tagged_iterator sdk.value_resolver
   task_executor:
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
     arguments:
-      -
+      - !tagged_iterator command.runner
+      - '@placeholder_resolver'
+      - '@task_repository'
+      - '@event_logger'
+  static_value_resolver:
+    class: SprykerSdk\Sdk\Core\Appplication\ValueResolver\StaticValueResolver
+    tags: ['sdk.value_resolver']
