@@ -2,10 +2,13 @@ id: phpstan
 short_description: Phpstan analyze
 help: Phpstan analyze, lorem ipsum, etc.
 stage: build
-command: php %vendor_dir%/bin/phpstan analyze %project_dir%
+command: php %sdk_dir%/vendor/bin/phpstan analyze %project_dir%
 type: local_cli
 tasks: []
 placeholders:
+  - name: sdk_dir
+    valueResolver: SDK_DIR
+    optional: false
   - name: vendor_dir
     valueResolver: VENDOR_DIR
     optional: false

@@ -3,12 +3,14 @@
 namespace Sdk\Setting\Reader;
 
 use Sdk\Exception\PathNotFoundException;
+use Sdk\Exception\SettingNotFoundException;
 use Sdk\Setting\SettingInterface;
 use Sdk\Task\ValueResolver\Value\CodeBucketValueResolver;
 use Sdk\Task\ValueResolver\Value\EnvironmentValueResolver;
 use Sdk\Task\ValueResolver\Value\ModuleDirValueResolver;
 use Sdk\Task\ValueResolver\Value\ModuleNameValueResolver;
 use Sdk\Task\ValueResolver\Value\ProjectDirValueResolver;
+use Sdk\Task\ValueResolver\Value\SdkDirValueResolver;
 use Sdk\Task\ValueResolver\Value\StoreValueResolver;
 use Sdk\Task\ValueResolver\Value\VendorDirValueResolver;
 use Symfony\Component\Finder\Finder;
@@ -58,6 +60,7 @@ class ValueResolverSettingReader implements SettingReaderInterface
         return [
             new ModuleDirValueResolver(),
             new ProjectDirValueResolver(),
+            new SdkDirValueResolver(),
             new VendorDirValueResolver(),
             new CodeBucketValueResolver(),
             new StoreValueResolver(),
@@ -70,7 +73,12 @@ class ValueResolverSettingReader implements SettingReaderInterface
      */
     public function getValueResolverDirs(): array
     {
-        $paths = $this->setting->getSetting(static::VALUE_RESOLVER_DIRS);
+        try {
+            $paths = $this->setting->getSetting(static::VALUE_RESOLVER_DIRS);
+        } catch (SettingNotFoundException $e) {
+            return [];
+        }
+
         foreach ($paths as &$path) {
             if (!strpos($path, '/'))
             {

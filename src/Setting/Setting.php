@@ -2,6 +2,7 @@
 
 namespace Sdk\Setting;
 
+use Sdk\Exception\PathNotFoundException;
 use Sdk\Exception\SettingNotFoundException;
 use Sdk\Style\StyleInterface;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -43,12 +44,12 @@ class Setting implements SettingInterface
     public function getSetting(string $name, bool $require = true)
     {
         if (!file_exists($this->settingsFilePath)) {
-            throw new SettingNotFoundException('SDK needs to be initialized by calling spryker-sdk init');
+            throw new SettingNotFoundException('SDK needs to be initialized by calling `spryker-sdk init`');
         }
         $settings = $this->getExistingSettings();
 
         if ($require && !isset($settings[$name])) {
-            throw new SettingNotFoundException(sprintf('Setting name `%s` is missing.SDK needs to be initialized by calling spryker-sdk init', $name));
+            throw new SettingNotFoundException(sprintf('Setting name `%s` is missing. SDK needs to be initialized by calling `spryker-sdk init`', $name));
         }
 
         return $settings[$name] ?? null;
@@ -102,6 +103,9 @@ class Setting implements SettingInterface
                 );
 
                 $value = $style->askQuestion($question);
+                if ($requiredSetting['type'] === 'path') {
+                    $value = $this->getResolveRelativePath($value);
+                }
             }
             if (!$value && $value !== false) {
                 continue;
@@ -205,5 +209,28 @@ class Setting implements SettingInterface
         $yamlSettings = Yaml::dump($setting);
 
         file_put_contents($this->settingsFilePath, $yamlSettings);
+    }
+
+    /**
+     * @param $path
+     *
+     * @throws \Sdk\Exception\PathNotFoundException
+     * @return string
+     */
+    protected function getResolveRelativePath($path): string
+    {
+        if (strpos($path, DIRECTORY_SEPARATOR) === 0)
+        {
+            return $path;
+        }
+        $path = preg_replace('~^\P{L}+~u', '', $path);
+
+        $path = APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
+
+        if (!file_exists( $path ) || !is_dir( $path )) {
+            throw new PathNotFoundException(sprintf('Path `%s` is not found', $path));
+        }
+
+        return rtrim($path, DIRECTORY_SEPARATOR);
     }
 }

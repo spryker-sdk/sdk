@@ -49,9 +49,6 @@ class LocalCliTypeStrategy extends AbstractTypeStrategy
         $process->setIdleTimeout(null);
 
         $process->run();
-        foreach ($process->getIterator() as $r) {
-            \var_dump($r);
-        }
 
         if (!$process->isSuccessful()) {
             throw new TaskExecutionFailed($process->getErrorOutput() ?: $process->getOutput());

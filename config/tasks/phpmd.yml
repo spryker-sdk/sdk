@@ -2,12 +2,15 @@ id: phpmd
 short_description: PHP Mess Detector
 help: PHP Mess Detector, lorem ipsum, etc.
 stage: build
-command: php %vendor_dir%/bin/phpmd src/ text %vendor_dir%/spryker/architecture-sniffer/src/ruleset.xml --minimumpriority 2
+command: php %sdk_dir%/vendor/bin/phpmd %project_dir%/src/ text %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml --minimumpriority 2
 type: local_cli
 tasks: []
 placeholders:
-  - name: vendor_dir
-    valueResolver: VENDOR_DIR
+  - name: sdk_dir
+    valueResolver: SDK_DIR
+    optional: false
+  - name: project_dir
+    valueResolver: PROJECT_DIR
     optional: false
 lifecycle_callbacks:
   UPDATE: ~ #will be provided later

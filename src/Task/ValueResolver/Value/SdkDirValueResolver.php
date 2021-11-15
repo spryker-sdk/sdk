@@ -7,14 +7,14 @@
 
 namespace Sdk\Task\ValueResolver\Value;
 
-class ProjectDirValueResolver implements ValueResolverInterface
+class SdkDirValueResolver implements ValueResolverInterface
 {
     /**
      * @return string
      */
     public function getId(): string
     {
-        return 'PRODJECT_DIR';
+        return 'SDK_DIR';
     }
 
     /**
@@ -32,7 +32,7 @@ class ProjectDirValueResolver implements ValueResolverInterface
      */
     public function getValue(array $settings)
     {
-        return null;
+        return APPLICATION_ROOT_DIR;
     }
 
     /**
@@ -40,9 +40,7 @@ class ProjectDirValueResolver implements ValueResolverInterface
      */
     public function getSettingPaths(): array
     {
-        return [
-            'project_dir',
-        ];
+        return [];
     }
 
     /**

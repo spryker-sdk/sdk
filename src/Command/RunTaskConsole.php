@@ -7,6 +7,7 @@
 
 namespace Sdk\Command;
 
+use Sdk\Exception\SettingNotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -44,7 +45,11 @@ class RunTaskConsole extends AbstractSdkConsole
             ->setHelp($this->getHelpText())
             ->addArgument(static::ARGUMENT_TASK, InputArgument::REQUIRED, 'Task of the SDK which should be run.');
 
-        $this->placeholders = $this->getFacade()->dumpUniqueTaskPlaceholderNames();
+        try {
+            $this->placeholders = $this->getFacade()->dumpUniqueTaskPlaceholderNames();
+        } catch (SettingNotFoundException $e) {
+            return;
+        }
 
         foreach ($this->placeholders as $placeholder) {
             $this->addOption(
