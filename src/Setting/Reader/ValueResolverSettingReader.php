@@ -67,10 +67,8 @@ class ValueResolverSettingReader implements SettingReaderInterface
 
             $fullClassName = $namespace.'\\'.$className;
 
-            var_export(class_exists($fullClassName));
-
             if (class_exists($fullClassName) &&
-                in_array(ValueResolverInterface::class, class_implements($fullClassName))
+                in_array(ValueResolverInterface::class, class_implements($fullClassName), true)
             ) {
                 $valueResolvers[] = new $fullClassName();
             }
