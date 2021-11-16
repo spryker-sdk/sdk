@@ -8,10 +8,10 @@ use Sdk\Setting\SettingInterface;
 use Sdk\Task\ValueResolver\Value\CodeBucketValueResolver;
 use Sdk\Task\ValueResolver\Value\EnvironmentValueResolver;
 use Sdk\Task\ValueResolver\Value\ModuleDirValueResolver;
-use Sdk\Task\ValueResolver\Value\ModuleNameValueResolver;
 use Sdk\Task\ValueResolver\Value\ProjectDirValueResolver;
 use Sdk\Task\ValueResolver\Value\SdkDirValueResolver;
 use Sdk\Task\ValueResolver\Value\StoreValueResolver;
+use Sdk\Task\ValueResolver\Value\ValueResolverInterface;
 use Sdk\Task\ValueResolver\Value\VendorDirValueResolver;
 use Symfony\Component\Finder\Finder;
 
@@ -47,17 +47,37 @@ class ValueResolverSettingReader implements SettingReaderInterface
      */
     public function read(): array
     {
-        $loader = require $this->rootDirPath . 'vendor/autoload.php';
-
         $pathDirs = $this->getValueResolverDirs();
         $finder = Finder::create();
 
-        $valueResolverFiles = $finder->in($pathDirs)->files();
+        $valueResolverFiles = $finder
+            ->in($pathDirs)
+            ->files()
+            ->name('*.php');
+
+        $valueResolvers = [];
+
         foreach ($valueResolverFiles as $valueResolverFile) {
-             $name = $valueResolverFile->getBasename('.' . $valueResolverFile->getExtension());
+            $pathName = $valueResolverFile->getPathname();
+
+            include_once $pathName;
+
+            $namespace = $this->retrieveNamespaceFromFile($pathName);
+            $className = $valueResolverFile->getBasename('.' . $valueResolverFile->getExtension());
+
+            $fullClassName = $namespace.'\\'.$className;
+
+            var_export(class_exists($fullClassName));
+
+            if (class_exists($fullClassName) &&
+                in_array(ValueResolverInterface::class, class_implements($fullClassName))
+            ) {
+                $valueResolvers[] = new $fullClassName();
+            }
         }
         //@TODO Needs to autoload them from config
-        return [
+
+        $base = [
             new ModuleDirValueResolver(),
             new ProjectDirValueResolver(),
             new SdkDirValueResolver(),
@@ -66,6 +86,8 @@ class ValueResolverSettingReader implements SettingReaderInterface
             new StoreValueResolver(),
             new EnvironmentValueResolver(),
         ];
+
+        return array_merge($base, $valueResolvers);
     }
 
     /**
@@ -93,5 +115,21 @@ class ValueResolverSettingReader implements SettingReaderInterface
         }
 
         return $paths;
+    }
+
+    /**
+     * @param string $pathName
+     *
+     * @return string|null
+     */
+    protected function retrieveNamespaceFromFile(string $pathName): ?string
+    {
+        $fileContent = file_get_contents($pathName);
+
+        if (preg_match('#(namespace)(\\s+)([A-Za-z0-9\\\\]+?)(\\s*);#sm', $fileContent, $matches)) {
+            return $matches[3];
+        }
+
+        return null;
     }
 }
