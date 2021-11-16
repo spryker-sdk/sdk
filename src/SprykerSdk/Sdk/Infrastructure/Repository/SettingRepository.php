@@ -15,13 +15,26 @@ class SettingRepository implements SettingRepositoryInterface
 {
     public function __construct(
         protected string $sdkBasePath,
-        protected array $settingDefinitions,
-        protected Yaml $yamlParser
+//        protected string $projectConfigurationFile,
+//        protected array $basicSettings,
+//        protected iterable $settingDefinition,
+//        protected Yaml $yamlParser
     ) {
     }
 
     public function findByPath(string $settingPath): ?Setting
     {
+//        $projectSettings = [];
+//
+//        if (is_readable($this->projectConfigurationFile)) {
+//            $projectSettings = $this->yamlParser->parse($this->projectConfigurationFile);
+//        }
+//
+//        foreach ($this->settingDefinition as $settingDefinition) {
+//            //translate $projectSettings value into $settingDefinition
+//            //-> create new settings definitions for unknown values in $projectSettings
+//        }
+
         //@todo implement properly
         return (new Setting(
             'task_dirs',

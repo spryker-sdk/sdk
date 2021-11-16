@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SplFileInfo;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
@@ -33,13 +34,12 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $taskDirSetting = $this->settingRepository->findByPath('task_dirs');
 
         if (!$taskDirSetting || !is_array($taskDirSetting->value)){
-            //@todo handle error
+            throw new MissingSettingException('task_dirs are not configured properly');
         }
 
         $tasks = [];
 
-        //read task from path, parse and create Task
-        //later use DB for querying
+        //read task from path, parse and create Task, later use DB for querying
         foreach ($this->fileFinder->in($taskDirSetting->value)->name('*.yaml')->files() as $taskFile) {
             $task = $this->buildTask($taskFile);
             $tasks[$task->id] = $task;
@@ -80,7 +80,6 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 $placeholderData['configuration'] ?? [],
                 $placeholderData['optional'] ?? false,
             );
-            //@todo check value resolver exists
         }
 
         return $placeholders;

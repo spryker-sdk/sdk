@@ -1,0 +1,16 @@
+settings:
+  - name: project_dir
+    default_value: ./
+    strategy: replace
+    init: true
+    type: path
+    settings: ~
+  - name: authentication
+    defaultValue: []
+    strategy: merge
+    init: false
+    type: array
+# subsettings
+#    settings:
+      - name: aws
+        ...
