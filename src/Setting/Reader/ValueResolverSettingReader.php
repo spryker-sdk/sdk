@@ -25,12 +25,12 @@ class ValueResolverSettingReader implements SettingReaderInterface
     /**
      * @var string
      */
-    protected $rootDirPath;
+    protected string $rootDirPath;
 
     /**
      * @var \Sdk\Setting\SettingInterface
      */
-    protected $setting = [];
+    protected SettingInterface $setting;
 
     /**
      * @param string $rootDirPath
