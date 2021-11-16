@@ -2,17 +2,11 @@
 
 namespace Sdk\Setting\Reader;
 
+use Composer\Autoload\ClassLoader;
 use Sdk\Exception\PathNotFoundException;
 use Sdk\Exception\SettingNotFoundException;
 use Sdk\Setting\SettingInterface;
-use Sdk\Task\ValueResolver\Value\CodeBucketValueResolver;
-use Sdk\Task\ValueResolver\Value\EnvironmentValueResolver;
-use Sdk\Task\ValueResolver\Value\ModuleDirValueResolver;
-use Sdk\Task\ValueResolver\Value\ProjectDirValueResolver;
-use Sdk\Task\ValueResolver\Value\SdkDirValueResolver;
-use Sdk\Task\ValueResolver\Value\StoreValueResolver;
 use Sdk\Task\ValueResolver\Value\ValueResolverInterface;
-use Sdk\Task\ValueResolver\Value\VendorDirValueResolver;
 use Symfony\Component\Finder\Finder;
 
 class ValueResolverSettingReader implements SettingReaderInterface
@@ -33,6 +27,11 @@ class ValueResolverSettingReader implements SettingReaderInterface
     protected SettingInterface $setting;
 
     /**
+     * @var \Composer\Autoload\ClassLoader
+     */
+    protected ClassLoader $classLoader;
+
+    /**
      * @param string $rootDirPath
      * @param \Sdk\Setting\SettingInterface $setting
      */
@@ -40,6 +39,8 @@ class ValueResolverSettingReader implements SettingReaderInterface
     {
         $this->rootDirPath = $rootDirPath;
         $this->setting = $setting;
+
+        $this->classLoader = require $this->rootDirPath . 'vendor/autoload.php';
     }
 
     /**
@@ -64,11 +65,13 @@ class ValueResolverSettingReader implements SettingReaderInterface
                 continue;
             }
 
-            include_once $pathName;
-
             $className = $valueResolverFile->getBasename('.' . $valueResolverFile->getExtension());
 
-            $fullClassName = $namespace.'\\'.$className;
+            $namespace .= '\\';
+            $fullClassName = $namespace.$className;
+
+            $this->classLoader->addPsr4($namespace, $valueResolverFile->getPath());
+            $this->classLoader->loadClass($fullClassName);
 
             if (class_exists($fullClassName) &&
                 in_array(ValueResolverInterface::class, class_implements($fullClassName), true)
@@ -76,19 +79,8 @@ class ValueResolverSettingReader implements SettingReaderInterface
                 $valueResolvers[] = new $fullClassName();
             }
         }
-        //@TODO Needs to autoload them from config
 
-        $base = [
-            new ModuleDirValueResolver(),
-            new ProjectDirValueResolver(),
-            new SdkDirValueResolver(),
-            new VendorDirValueResolver(),
-            new CodeBucketValueResolver(),
-            new StoreValueResolver(),
-            new EnvironmentValueResolver(),
-        ];
-
-        return array_merge($base, $valueResolvers);
+        return $valueResolvers;
     }
 
     /**
@@ -114,6 +106,7 @@ class ValueResolverSettingReader implements SettingReaderInterface
                 throw new PathNotFoundException(sprintf('Path `%s` is not found', $path));
             }
         }
+        unset($path);
 
         return $paths;
     }
