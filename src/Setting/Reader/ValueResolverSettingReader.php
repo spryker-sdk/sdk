@@ -70,12 +70,12 @@ class ValueResolverSettingReader implements SettingReaderInterface
             $namespace .= '\\';
             $fullClassName = $namespace.$className;
 
-            $this->classLoader->addPsr4($namespace, $valueResolverFile->getPath());
-            $this->classLoader->loadClass($fullClassName);
+            if (!$this->isClassOrInterfaceDeclared($fullClassName)) {
+                $this->classLoader->addPsr4($namespace, $valueResolverFile->getPath());
+                $this->classLoader->loadClass($fullClassName);
+            }
 
-            if (class_exists($fullClassName) &&
-                in_array(ValueResolverInterface::class, class_implements($fullClassName), true)
-            ) {
+            if (class_exists($fullClassName) && in_array(ValueResolverInterface::class, class_implements($fullClassName), true)) {
                 $valueResolvers[] = new $fullClassName();
             }
         }
@@ -109,6 +109,18 @@ class ValueResolverSettingReader implements SettingReaderInterface
         unset($path);
 
         return $paths;
+    }
+
+    /**
+     * @param string $signature
+     *
+     * @return bool
+     */
+    protected function isClassOrInterfaceDeclared(string $signature): bool
+    {
+        $signatures = array_merge(get_declared_interfaces(), get_declared_classes());
+
+        return in_array($signature, $signatures, true);
     }
 
     /**
