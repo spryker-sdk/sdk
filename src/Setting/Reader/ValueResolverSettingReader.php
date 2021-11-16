@@ -59,10 +59,13 @@ class ValueResolverSettingReader implements SettingReaderInterface
 
         foreach ($valueResolverFiles as $valueResolverFile) {
             $pathName = $valueResolverFile->getPathname();
+            $namespace = $this->retrieveNamespaceFromFile($pathName);
+            if ($namespace === null) {
+                continue;
+            }
 
             include_once $pathName;
 
-            $namespace = $this->retrieveNamespaceFromFile($pathName);
             $className = $valueResolverFile->getBasename('.' . $valueResolverFile->getExtension());
 
             $fullClassName = $namespace.'\\'.$className;
