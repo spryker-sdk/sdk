@@ -2,17 +2,11 @@
 
 namespace Sdk\Setting\Reader;
 
+use Composer\Autoload\ClassLoader;
 use Sdk\Exception\PathNotFoundException;
 use Sdk\Exception\SettingNotFoundException;
 use Sdk\Setting\SettingInterface;
-use Sdk\Task\ValueResolver\Value\CodeBucketValueResolver;
-use Sdk\Task\ValueResolver\Value\EnvironmentValueResolver;
-use Sdk\Task\ValueResolver\Value\ModuleDirValueResolver;
-use Sdk\Task\ValueResolver\Value\ModuleNameValueResolver;
-use Sdk\Task\ValueResolver\Value\ProjectDirValueResolver;
-use Sdk\Task\ValueResolver\Value\SdkDirValueResolver;
-use Sdk\Task\ValueResolver\Value\StoreValueResolver;
-use Sdk\Task\ValueResolver\Value\VendorDirValueResolver;
+use Sdk\Task\ValueResolver\Value\ValueResolverInterface;
 use Symfony\Component\Finder\Finder;
 
 class ValueResolverSettingReader implements SettingReaderInterface
@@ -25,12 +19,17 @@ class ValueResolverSettingReader implements SettingReaderInterface
     /**
      * @var string
      */
-    protected $rootDirPath;
+    protected string $rootDirPath;
 
     /**
      * @var \Sdk\Setting\SettingInterface
      */
-    protected $setting = [];
+    protected SettingInterface $setting;
+
+    /**
+     * @var \Composer\Autoload\ClassLoader
+     */
+    protected ClassLoader $classLoader;
 
     /**
      * @param string $rootDirPath
@@ -40,6 +39,8 @@ class ValueResolverSettingReader implements SettingReaderInterface
     {
         $this->rootDirPath = $rootDirPath;
         $this->setting = $setting;
+
+        $this->classLoader = require $this->rootDirPath . 'vendor/autoload.php';
     }
 
     /**
@@ -47,25 +48,39 @@ class ValueResolverSettingReader implements SettingReaderInterface
      */
     public function read(): array
     {
-        $loader = require $this->rootDirPath . 'vendor/autoload.php';
-
         $pathDirs = $this->getValueResolverDirs();
         $finder = Finder::create();
 
-        $valueResolverFiles = $finder->in($pathDirs)->files();
+        $valueResolverFiles = $finder
+            ->in($pathDirs)
+            ->files()
+            ->name('*.php');
+
+        $valueResolvers = [];
+
         foreach ($valueResolverFiles as $valueResolverFile) {
-             $name = $valueResolverFile->getBasename('.' . $valueResolverFile->getExtension());
+            $pathName = $valueResolverFile->getPathname();
+            $namespace = $this->retrieveNamespaceFromFile($pathName);
+            if ($namespace === null) {
+                continue;
+            }
+
+            $className = $valueResolverFile->getBasename('.' . $valueResolverFile->getExtension());
+
+            $namespace .= '\\';
+            $fullClassName = $namespace.$className;
+
+            if (!$this->isClassOrInterfaceDeclared($fullClassName)) {
+                $this->classLoader->addPsr4($namespace, $valueResolverFile->getPath());
+                $this->classLoader->loadClass($fullClassName);
+            }
+
+            if (class_exists($fullClassName) && in_array(ValueResolverInterface::class, class_implements($fullClassName), true)) {
+                $valueResolvers[] = new $fullClassName();
+            }
         }
-        //@TODO Needs to autoload them from config
-        return [
-            new ModuleDirValueResolver(),
-            new ProjectDirValueResolver(),
-            new SdkDirValueResolver(),
-            new VendorDirValueResolver(),
-            new CodeBucketValueResolver(),
-            new StoreValueResolver(),
-            new EnvironmentValueResolver(),
-        ];
+
+        return $valueResolvers;
     }
 
     /**
@@ -91,7 +106,36 @@ class ValueResolverSettingReader implements SettingReaderInterface
                 throw new PathNotFoundException(sprintf('Path `%s` is not found', $path));
             }
         }
+        unset($path);
 
         return $paths;
+    }
+
+    /**
+     * @param string $signature
+     *
+     * @return bool
+     */
+    protected function isClassOrInterfaceDeclared(string $signature): bool
+    {
+        $signatures = array_merge(get_declared_interfaces(), get_declared_classes());
+
+        return in_array($signature, $signatures, true);
+    }
+
+    /**
+     * @param string $pathName
+     *
+     * @return string|null
+     */
+    protected function retrieveNamespaceFromFile(string $pathName): ?string
+    {
+        $fileContent = file_get_contents($pathName);
+
+        if (preg_match('#(namespace)(\\s+)([A-Za-z0-9\\\\]+?)(\\s*);#sm', $fileContent, $matches)) {
+            return $matches[3];
+        }
+
+        return null;
     }
 }
