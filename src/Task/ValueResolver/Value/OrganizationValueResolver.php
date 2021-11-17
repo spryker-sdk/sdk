@@ -7,14 +7,14 @@
 
 namespace Sdk\Task\ValueResolver\Value;
 
-class ModeValueResolver implements ValueResolverInterface
+class OrganizationValueResolver implements ValueResolverInterface
 {
     /**
      * @return string
      */
     public function getId(): string
     {
-        return 'MODE';
+        return 'ORGANIZATION';
     }
 
     /**
@@ -22,7 +22,7 @@ class ModeValueResolver implements ValueResolverInterface
      */
     public function getDescription(): string
     {
-        return 'Mode';
+        return 'Organization';
     }
 
     /**

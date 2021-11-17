@@ -32,7 +32,7 @@ class ModuleDirValueResolver implements ValueResolverInterface
      */
     public function getValue(array $settings)
     {
-        return '';
+        return null;
     }
 
     /**

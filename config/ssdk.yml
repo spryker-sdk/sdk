@@ -1,0 +1,8 @@
+sdk_dir: /home/veselov/PhpstormProjects/spryker-sdk
+project_dir: /home/veselov/PhpstormProjects/suite-nonsplit
+project_namespace: Pyz
+report_usage_statistics: false
+value_resolver_dirs:
+    - /home/veselov/PhpstormProjects/spryker-sdk/src/Task/ValueResolver/Value
+task_dirs:
+    - /home/veselov/PhpstormProjects/spryker-sdk/config/tasks

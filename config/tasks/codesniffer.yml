@@ -15,6 +15,6 @@ placeholders:
 
   - name: module_dir
     valueResolver: MODULE_DIR
-    optional: true
+    optional: false
 lifecycle_callbacks:
   UPDATE: ~ #will be provided later
