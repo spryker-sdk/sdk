@@ -1,8 +1,8 @@
 id: phpmd
 short_description: PHP Mess Detector
 help: PHP Mess Detector, lorem ipsum, etc.
-stage: build
-command: php %sdk_dir%/vendor/bin/phpmd %project_dir%/src/ text %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml --minimumpriority 2
+stage: debug
+command: php %sdk_dir%/vendor/bin/phpmd %project_dir%/src xml %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml %strict% --minimumpriority %priority%
 type: local_cli
 tasks: []
 placeholders:
@@ -12,5 +12,23 @@ placeholders:
   - name: project_dir
     valueResolver: PROJECT_DIR
     optional: false
+  - name: '%strict%'
+    valueResolver: FLAG
+    optional: true
+    configuration:
+      id: 'strict'
+      description: 'Report silent violations'
+      defaultValue: false
+      settingPaths: []
+  - name: '%priority%'
+    valueResolver: SCALE
+    optional: false
+    configuration:
+      id: 'priority'
+      description: 'Minimal priority of rules to fail the validation'
+      minValue: 1
+      maxValue: 10
+      defaultValue: 2
+      settingPaths: []
 lifecycle_callbacks:
   UPDATE: ~ #will be provided later
