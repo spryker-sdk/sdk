@@ -1,6 +1,13 @@
 <?php
+
 namespace Sdk;
 
+use Sdk\Logger\LoggerFactory;
+use Sdk\Logger\LoggerInterface;
+use Sdk\Logger\Mapper\TaskLogMapper;
+use Sdk\Logger\Mapper\TaskLogMapperInterface;
+use Sdk\Setting\Reader\ProjectDirReader;
+use Sdk\Setting\Reader\ReportUsageStatisticsReader;
 use Sdk\Setting\Reader\SettingReaderInterface;
 use Sdk\Setting\Reader\TaskSettingReader;
 use Sdk\Setting\Reader\ValueResolverSettingReader;
@@ -180,5 +187,54 @@ class Factory
         }
 
         return $this->config;
+    }
+
+    /**
+     * @return \Sdk\Setting\Reader\SettingReaderInterface
+     */
+    public function createReportUsageStatisticsReader(): SettingReaderInterface
+    {
+        return new ReportUsageStatisticsReader(
+            $this->createSettings()
+        );
+    }
+
+    /**
+     * @return \Sdk\Logger\LoggerInterface
+     */
+    public function createLogger(): LoggerInterface
+    {
+        return $this
+            ->createLoggerFactory()
+            ->createLogger(
+                $this->getConfig()->getLoggerFilePath($this->createProjectDirReader()->read()),
+                $this->createReportUsageStatisticsReader()->read(),
+            );
+    }
+
+    /**
+     * @return \Sdk\Logger\Mapper\TaskLogMapperInterface
+     */
+    public function createTaskLogMapper(): TaskLogMapperInterface
+    {
+        return new TaskLogMapper();
+    }
+
+    /**
+     * @return \Sdk\Setting\Reader\SettingReaderInterface
+     */
+    public function createProjectDirReader(): SettingReaderInterface
+    {
+        return new ProjectDirReader(
+            $this->createSettings()
+        );
+    }
+
+    /**
+     * @return \Sdk\Logger\LoggerFactory
+     */
+    public function createLoggerFactory(): LoggerFactory
+    {
+        return new LoggerFactory();
     }
 }
