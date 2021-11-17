@@ -33,14 +33,14 @@ class TaskYamlRepository implements TaskRepositoryInterface
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('task_dirs');
 
-        if (!$taskDirSetting || !is_array($taskDirSetting->value)){
+        if (!$taskDirSetting || !is_array($taskDirSetting->values)){
             throw new MissingSettingException('task_dirs are not configured properly');
         }
 
         $tasks = [];
 
         //read task from path, parse and create Task, later use DB for querying
-        foreach ($this->fileFinder->in($taskDirSetting->value)->name('*.yaml')->files() as $taskFile) {
+        foreach ($this->fileFinder->in($taskDirSetting->values)->name('*.yaml')->files() as $taskFile) {
             $task = $this->buildTask($taskFile);
             $tasks[$task->id] = $task;
         }
@@ -87,7 +87,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
     /**
      * @param array $data
-     * @return array<string>
+     * @return array<Command>
      */
     protected function buildCommands(array $data): array
     {
