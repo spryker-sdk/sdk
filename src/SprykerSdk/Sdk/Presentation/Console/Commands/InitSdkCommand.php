@@ -64,14 +64,14 @@ class InitSdkCommand extends Command
      */
     protected function createSettingEntity(array $setting): DomainSetting
     {
-        $settingEntity = $this->settingRepository->findOneDefinitionByPath($setting['path']);
+        $settingEntity = $this->settingRepository->findOneByPath($setting['path']);
 
         $settingData = [
             'path' => $setting['path'],
             'type' => $setting['type'] ?? 'string',
             'is_project' => $setting['is_project'] ?? true,
             'initialization_description' => $setting['initialization_description'] ?? null,
-            'strategy' => in_array($setting['strategy'] ?? 'overwrite', ['overwrite', 'merge']) ?? 'overwrite',
+            'strategy' => $setting['strategy'] ?? 'overwrite',
             'init' => $setting['init'] ?? false,
             'values' => $setting['values']
         ];

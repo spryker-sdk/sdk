@@ -31,6 +31,12 @@ services:
     tags: ['console.command']
     arguments:
       - '@question_helper'
+      - '@project_setting_manager'
       - '@setting_repository'
-      - '@yaml_parser'
       - '%project_settings_file%'
+  setting_set_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\SettingSetCommand
+    tags: ['console.command']
+    arguments:
+      - '@project_setting_repository'
+      - '@project_setting_manager'

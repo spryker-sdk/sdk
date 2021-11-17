@@ -31,3 +31,11 @@ services:
       - '@placeholder_resolver'
       - '@task_repository'
       - '@event_logger'
+  project_setting_repository:
+    abstract: true
+    synthetic: true
+  project_setting_manager:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager
+    arguments:
+      - '@project_setting_repository'
+      - '@setting_repository'

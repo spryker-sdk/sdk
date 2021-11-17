@@ -19,13 +19,6 @@ interface SettingRepositoryInterface
     public function findOneByPath(string $settingPath): ?Setting;
 
     /**
-     * @param string $settingPath
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null
-     */
-    public function findOneDefinitionByPath(string $settingPath): ?Setting;
-
-    /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting

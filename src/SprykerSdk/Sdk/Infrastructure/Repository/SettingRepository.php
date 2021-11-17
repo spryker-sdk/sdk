@@ -12,54 +12,18 @@ use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
-use Symfony\Component\Yaml\Yaml;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 
 class SettingRepository extends EntityRepository implements SettingRepositoryInterface
 {
     /**
-     * @param \Doctrine\ORM\EntityManagerInterface $em
-     * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param string $projectSettingFileName
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
     public function __construct(
-        EntityManagerInterface $em,
-        protected Yaml $yamlParser,
-        protected string $projectSettingFileName
+        EntityManagerInterface $entityManager,
     ) {
-        $class = $em->getClassMetadata(InfrastructureSetting::class);
-
-        parent::__construct($em, $class);
-    }
-
-    /**
-     * @return @return array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting>
-     */
-    public function findProjectSettings(): array
-    {
-        return parent::findBy([
-            'isProject' => true
-        ]);
-    }
-
-
-    /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
-     * @return array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting>
-     */
-    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
-    {
-        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Setting[] $entities */
-        $entities = parent::findBy($criteria, $orderBy, $limit, $offset);
-
-        if (empty($entities)) {
-            return $entities;
-        }
-
-        return $this->fillProjectValues($entities);
+        $class = $entityManager->getClassMetadata(InfrastructureSetting::class);
+        parent::__construct($entityManager, $class);
     }
 
     /**
@@ -69,26 +33,21 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function findOneByPath(string $settingPath): ?Setting
     {
-        $entity = $this->findOneBy([
+        return $this->findOneBy([
             'path' => $settingPath
         ]);
-
-        if (!$entity) {
-            return $entity;
-        }
-
-        return $this->fillProjectValues([$entity])[0];
     }
 
     /**
-     * @param string $settingPath
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
      */
-    public function findOneDefinitionByPath(string $settingPath): ?Setting
+    public function findProjectSettings(): array
     {
-        return parent::findOneBy(['path' => $settingPath]);
+        return $this->findBy([
+            'isProject' => true,
+        ]);
     }
+
 
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting
@@ -101,7 +60,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     public function save(Setting $setting): Setting
     {
         if (!$setting instanceof InfrastructureSetting) {
-            //@todo throw persisting exception
+            throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
         }
 
         $this->getEntityManager()->persist($setting);
@@ -109,33 +68,4 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
 
         return $setting;
     }
-
-    /**
-     * @param array<InfrastructureSetting> $entities
-     *
-     * @return array<InfrastructureSetting>
-     */
-    protected function fillProjectValues(array $entities): array
-    {
-        $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
-
-        if (!is_readable($projectSettingPath)) {
-            //@todo throw exception '.ssdk file not found, please go to the project directory or call spryker-sdk init'
-        }
-
-        $projectValues = $this->yamlParser->parseFile($projectSettingPath);
-
-        foreach ($entities as $entity) {
-            if (!$entity->isProject) {
-                continue;
-            }
-
-            if (array_key_exists($entity->path, $projectValues)) {
-                $entity->values = $projectValues[$entity->path];
-            }
-        }
-
-        return $entities;
-    }
-
 }

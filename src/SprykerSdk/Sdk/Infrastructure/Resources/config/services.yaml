@@ -7,6 +7,10 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
       - '@doctrine.orm.entity_manager'
+  project_setting_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
+    arguments:
+      - '@setting_repository'
       - '@yaml_parser'
       - '%project_settings_file%'
   yaml_parser:

@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use Symfony\Component\Console\Command\Command;
@@ -15,7 +16,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Yaml\Yaml;
 
 class InitProjectCommand extends Command
 {
@@ -28,9 +28,9 @@ class InitProjectCommand extends Command
      */
     public function __construct(
         protected QuestionHelper $questionHelper,
+        protected ProjectSettingManager $projectSettingManager,
         protected SettingRepositoryInterface $settingRepository,
-        protected Yaml $yamlParser,
-        protected string $projectSettingFileName,
+        protected string $projectSettingFileName
     ) {
         parent::__construct(static::NAME);
     }
@@ -49,7 +49,7 @@ class InitProjectCommand extends Command
             if (!$this->questionHelper->ask(
                 $input,
                 $output,
-                new ConfirmationQuestion('.ssdk file already exists, should it be overwritten?', false)
+                new ConfirmationQuestion('.ssdk file already exists, should it be overwritten? [n]', false)
             )) {
                 return static::SUCCESS;
             }
@@ -57,7 +57,7 @@ class InitProjectCommand extends Command
 
         $settingEntities = $this->settingRepository->findProjectSettings();
         $settingEntities = $this->initializeSettingValues($settingEntities, $input, $output);
-        $this->writeProjectSettings($settingEntities, $input, $output);
+        $this->writeProjectSettings($settingEntities);
 
         return static::SUCCESS;
     }
@@ -100,21 +100,15 @@ class InitProjectCommand extends Command
     /**
      * @param array $settingEntities
      */
-    protected function writeProjectSettings(array $settingEntities, InputInterface $input, OutputInterface $output): void
+    protected function writeProjectSettings(array $projectSettings): void
     {
-        $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
-
-        $projectSettings = array_filter($settingEntities, function (Setting $settingEntity) {
-            return $settingEntity->isProject;
-        });
-
         $projectValues = [];
 
         foreach ($projectSettings as $projectSetting) {
             $projectValues[$projectSetting->path] = $projectSetting->values;
         }
 
-        file_put_contents($projectSettingPath, $this->yamlParser->dump($projectValues));
+        $this->projectSettingManager->setSettings($projectValues);
     }
 
     /**
