@@ -9,7 +9,7 @@ services:
     tags: ['console.command']
   task_run_command:
     autowire: false
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\TaskExecuteCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunCommand
     arguments:
       - '@task_executor'
       - '@local_cli_command_runner'
@@ -40,3 +40,9 @@ services:
     arguments:
       - '@project_setting_repository'
       - '@project_setting_manager'
+  task_help_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\TaskHelpCommand
+    tags: ['console.command']
+    arguments:
+      - '@task_repository'
+      - '@placeholder_resolver'

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TaskExecuteCommand extends Command
+class TaskRunCommand extends Command
 {
     /**
      * @var string
@@ -28,6 +28,7 @@ class TaskExecuteCommand extends Command
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner $localCliRunner
      */
     public function __construct(
         protected TaskExecutor $taskExecutor,

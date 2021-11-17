@@ -41,10 +41,6 @@ class PlaceholderResolver
                 $settingValues[$settingPath] = $this->settingRepository->findOneByPath($settingPath);
             }
 
-            if ($valueResolverInstance instanceof ConfigurableValueResolverInterface) {
-                $valueResolverInstance->configure($placeholder->configuration);
-            }
-
             return $valueResolverInstance->getValue($settingValues);
     }
 
@@ -53,10 +49,16 @@ class PlaceholderResolver
      *
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface
      */
-    protected function getValueResolver(Placeholder $placeholder): ValueResolverInterface
+    public function getValueResolver(Placeholder $placeholder): ValueResolverInterface
     {
         if ($this->valueResolverRegistry->has($placeholder->valueResolver)) {
-            return clone $this->valueResolverRegistry->get($placeholder->valueResolver);
+            $valueResolver = clone $this->valueResolverRegistry->get($placeholder->valueResolver);
+
+            if ($valueResolver instanceof ConfigurableValueResolverInterface) {
+                $valueResolver->configure($placeholder->configuration);
+            }
+
+            return $valueResolver;
         }
 
         throw new UnresolvablePlaceholderException('Placeholder not resolvable ' . $placeholder->valueResolver);
