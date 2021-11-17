@@ -19,9 +19,13 @@ services:
       - '@yaml_parser'
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
-
   local_cli_command_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
     tags: ['command.runner']
     arguments:
       - '@process_helper'
+  value_resolver_registry:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
+    arguments:
+      - '@setting_repository'
+      - '%kernel.project_dir%'

@@ -16,11 +16,14 @@ services:
   setting_repository:
     abstract: true
     synthetic: true
+  value_resolver_registry:
+    abstract: true
+    synthetic: true
   placeholder_resolver:
     class: SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
     arguments:
       - '@setting_repository'
-      - !tagged_iterator sdk.value_resolver
+      - '@value_resolver_registry'
   task_executor:
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
     arguments:

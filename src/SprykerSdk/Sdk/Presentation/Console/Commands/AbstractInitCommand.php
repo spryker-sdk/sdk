@@ -49,7 +49,6 @@ abstract class AbstractInitCommand extends Command
                 $previousSettingValues = $settingEntity->values;
                 $settingEntity->values = $values;
 
-                //@todo move to InitCommand & only pass core values
                 if ($settingEntity->isProject === false && $values !== $previousSettingValues) {
                     $this->settingRepository->save($settingEntity);
                 }

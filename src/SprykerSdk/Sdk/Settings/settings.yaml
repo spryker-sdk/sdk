@@ -22,8 +22,7 @@ settings:
     type: array
     is_project: false
     values:
-      - src/Spryker/Sdk/ValueResolvers
-  #init: true && is_project: true -> <initialization_description> [default: <value>]: <STDIN>
+      - src/SprykerSdk/Sdk/ValueResolvers
   - path: project_dir
     initialization_description: Where is the project directory?
     strategy: overwrite

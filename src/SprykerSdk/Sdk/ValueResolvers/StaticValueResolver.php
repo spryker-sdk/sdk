@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\ValueResolvers;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
 
-class StaticValueResolverInterface implements ConfigurableValueResolverInterface
+class StaticValueResolver implements ConfigurableValueResolverInterface
 {
     protected mixed $value;
     protected string $alias;
