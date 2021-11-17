@@ -7,5 +7,5 @@ interface SettingReaderInterface
     /**
      * @return mixed
      */
-    public function read(): array;
+    public function read();
 }

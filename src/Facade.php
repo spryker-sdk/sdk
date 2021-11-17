@@ -1,7 +1,11 @@
 <?php
+
 namespace Sdk;
 
 use Sdk\Style\StyleInterface;
+use Sdk\Dto\TaskLogDto;
+use Symfony\Component\Console\Input\InputInterface;
+use Throwable;
 
 class Facade
 {
@@ -68,11 +72,41 @@ class Facade
         return $this->getFactory()->createDefinitionDumper()->dumpTaskDefinition($taskName);
     }
 
+    /**
+     * @param TaskLogDto $taskLogTransfer
+     *
+     * @return void
+     */
+    public function log(TaskLogDto $taskLogDto): void
+    {
+        $this->getFactory()->createLogger()->log($taskLogDto);
+    }
+
+    /**
+     * @param Throwable $throwable
+     * @param InputInterface $input
+     *
+     * @return TaskLogDto
+     */
+    public function mapExceptionToTaskLog(Throwable $throwable, InputInterface $input): TaskLogDto
+    {
+        return $this->getFactory()->createTaskLogMapper()->mapExceptionToTaskLog($throwable, $input);
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return TaskLogDto
+     */
+    public function mapExecutionToTaskLog(InputInterface $input): TaskLogDto
+    {
+        return $this->getFactory()->createTaskLogMapper()->mapExecutionToTaskLog($input);
+    }
 
     /**
      * @return \Sdk\Factory
      */
-    protected function getFactory()
+    protected function getFactory(): Factory
     {
         if (!$this->factory) {
             $this->factory = new Factory();
