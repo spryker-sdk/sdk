@@ -12,6 +12,7 @@ use SplFileInfo;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use Symfony\Component\Finder\Finder;
 
 class ValueResolverRegistry implements ValueResolverRegistryInterface
@@ -84,7 +85,6 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         $this->valueResolversClasses = [];
 
         foreach ($valueResolverFiles->files() as $valueResolverFile) {
-            //@todo autoloading
             $pathName = $valueResolverFile->getPathname();
             $namespace = $this->retrieveNamespaceFromFile($pathName);
             if ($namespace === null) {
@@ -96,7 +96,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
             $valueResolver = new $fullClassName();
 
             if (!$valueResolver instanceof ValueResolverInterface) {
-                //@todo throw exception
+                throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', $valueResolver::class, ValueResolverInterface::class));
             }
 
             $this->valueResolvers[$valueResolver->getId()] = $valueResolver;
