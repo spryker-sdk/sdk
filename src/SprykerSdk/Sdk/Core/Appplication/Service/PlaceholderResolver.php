@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
-use SprykerSdk\Sdk\Core\Appplication\Port\ConfigurableValueResolver;
-use SprykerSdk\Sdk\Core\Appplication\Port\ValueResolverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 
@@ -17,7 +17,7 @@ class PlaceholderResolver
 {
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
-     * @param array<\SprykerSdk\Sdk\Core\Appplication\Port\ValueResolverInterface> $valueResolver
+     * @param array<\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface> $valueResolver
      */
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
@@ -42,7 +42,7 @@ class PlaceholderResolver
                 $settingValues[$settingPath] = $this->settingRepository->findOneByPath($settingPath);
             }
 
-            if ($valueResolverInstance instanceof ConfigurableValueResolver) {
+            if ($valueResolverInstance instanceof ConfigurableValueResolverInterface) {
                 $valueResolverInstance->configure($placeholder->configuration);
             }
 

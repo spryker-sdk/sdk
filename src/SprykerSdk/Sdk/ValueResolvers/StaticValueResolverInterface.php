@@ -5,12 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\ValueResolver;
+namespace SprykerSdk\Sdk\ValueResolvers;
 
-use SprykerSdk\Sdk\Core\Appplication\Port\ConfigurableValueResolver;
-use SprykerSdk\Sdk\Core\Appplication\Port\ValueResolverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
 
-class StaticValueResolver implements ConfigurableValueResolver
+class StaticValueResolverInterface implements ConfigurableValueResolverInterface
 {
     protected mixed $value;
     protected string $alias;

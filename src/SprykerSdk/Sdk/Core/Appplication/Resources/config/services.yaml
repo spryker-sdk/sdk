@@ -28,6 +28,3 @@ services:
       - '@placeholder_resolver'
       - '@task_repository'
       - '@event_logger'
-  static_value_resolver:
-    class: SprykerSdk\Sdk\Core\Appplication\ValueResolver\StaticValueResolver
-    tags: ['sdk.value_resolver']

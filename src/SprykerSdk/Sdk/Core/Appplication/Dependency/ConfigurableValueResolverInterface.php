@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\Port;
+namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-interface ConfigurableValueResolver extends ValueResolverInterface
+interface ConfigurableValueResolverInterface extends ValueResolverInterface
 {
     /**
      * @param array $values

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Port\CommandRunnerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;

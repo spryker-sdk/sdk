@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Port\EventLoggerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
 
 class EventLogger implements EventLoggerInterface
 {
