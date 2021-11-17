@@ -16,7 +16,14 @@ interface SettingRepositoryInterface
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null
      */
-    public function findByPath(string $settingPath): ?Setting;
+    public function findOneByPath(string $settingPath): ?Setting;
+
+    /**
+     * @param string $settingPath
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null
+     */
+    public function findOneDefinitionByPath(string $settingPath): ?Setting;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting
@@ -24,4 +31,9 @@ interface SettingRepositoryInterface
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting
      */
     public function save(Setting $setting): Setting;
+
+    /**
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     */
+    public function findProjectSettings(): array;
 }

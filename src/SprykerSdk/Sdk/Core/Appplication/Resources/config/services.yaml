@@ -1,3 +1,5 @@
+parameters:
+  project_settings_file: .ssdk
 services:
   value_receiver:
     abstract: true

@@ -1,0 +1,32 @@
+SprykerSdk\Sdk\Infrastructure\Entity\Setting:
+  type: entity
+  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
+  table: sdk_setting
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    path:
+      type: string
+      unique: true
+      nullable: false
+    values:
+      column: '`values`'
+      type: json
+      nullable: true
+    strategy:
+      type: string
+      nullable: false
+    isProject:
+      type: boolean
+      nullable: false
+      default: true
+    hasInitialization:
+      type: boolean
+      nullable: false
+      default: false
+    initializationDescription:
+      type: string
+      nullable: true

@@ -10,18 +10,20 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 class Setting
 {
     /**
-     * @param string $id
-     * @param mixed $value
+     * @param string $path
+     * @param mixed $values
      * @param string $strategy
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null $parentSetting
+     * @param bool $isProject
      * @param bool $hasInitialization
+     * @param string|null $initializationDescription
      */
     public function __construct(
-        public string $id,
-        public mixed  $value,
-        public string $strategy,
-        public ?Setting $parentSetting = null,
-        public bool   $hasInitialization = false,
+        public string   $path,
+        public mixed    $values,
+        public string   $strategy,
+        public bool $isProject = true,
+        public bool     $hasInitialization = false,
+        public ?string $initializationDescription = null
     ) {
     }
 }

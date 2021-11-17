@@ -31,7 +31,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      */
     public function findAll(): array
     {
-        $taskDirSetting = $this->settingRepository->findByPath('task_dirs');
+        $taskDirSetting = $this->settingRepository->findOneByPath('task_dirs');
 
         if (!$taskDirSetting || !is_array($taskDirSetting->value)){
             throw new MissingSettingException('task_dirs are not configured properly');

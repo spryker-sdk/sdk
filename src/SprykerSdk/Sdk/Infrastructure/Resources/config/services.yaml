@@ -6,7 +6,9 @@ services:
   setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
-      - '%kernel.project_dir%'
+      - '@doctrine.orm.entity_manager'
+      - '@yaml_parser'
+      - '%project_settings_file%'
   yaml_parser:
     class: Symfony\Component\Yaml\Yaml
   task_repository:
