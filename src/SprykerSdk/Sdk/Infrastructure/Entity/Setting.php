@@ -25,10 +25,11 @@ class Setting extends DomainSetting
         string $path,
         mixed $values,
         string $strategy,
+        string $type = 'string',
         bool $isProject = true,
         bool $hasInitialization = false,
         ?string $initializationDescription = null
     ) {
-        parent::__construct($path, $values, $strategy, $isProject, $hasInitialization, $initializationDescription);
+        parent::__construct($path, $values, $strategy, $type, $isProject, $hasInitialization, $initializationDescription);
     }
 }

@@ -19,6 +19,10 @@ SprykerSdk\Sdk\Infrastructure\Entity\Setting:
     strategy:
       type: string
       nullable: false
+    type:
+      type: string
+      nullable: false
+      default: string
     isProject:
       type: boolean
       nullable: false

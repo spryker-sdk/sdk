@@ -8,18 +8,20 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
-use Doctrine\DBAL\Connection;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Yaml\Yaml;
 
-class InitSdkCommand extends AbstractInitCommand
+class InitSdkCommand extends Command
 {
     /**
      * @var string
@@ -29,14 +31,14 @@ class InitSdkCommand extends AbstractInitCommand
     /**
      */
     public function __construct(
-        QuestionHelper $questionHelper,
-        SettingRepositoryInterface $settingRepository,
+        protected QuestionHelper $questionHelper,
+        protected SettingRepositoryInterface $settingRepository,
         protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
         protected MigrateCommand $doctrineMigrationCommand,
         protected Yaml $yamlParser,
         protected string $settingsPath,
     ) {
-        parent::__construct(static::NAME, $questionHelper, $settingRepository);
+        parent::__construct(static::NAME);
     }
 
     /**
@@ -47,7 +49,7 @@ class InitSdkCommand extends AbstractInitCommand
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $this->createDatabase($input, $output);
+        $this->createDatabase();
 
         $settingEntities = $this->readSettingDefinitions();
         $this->initializeSettingValues($settingEntities, $input, $output);
@@ -66,6 +68,7 @@ class InitSdkCommand extends AbstractInitCommand
 
         $settingData = [
             'path' => $setting['path'],
+            'type' => $setting['type'] ?? 'string',
             'is_project' => $setting['is_project'] ?? true,
             'initialization_description' => $setting['initialization_description'] ?? null,
             'strategy' => in_array($setting['strategy'] ?? 'overwrite', ['overwrite', 'merge']) ?? 'overwrite',
@@ -79,12 +82,14 @@ class InitSdkCommand extends AbstractInitCommand
             $settingEntity->strategy = $settingData['strategy'];
             $settingEntity->hasInitialization = $settingData['init'];
             $settingEntity->values = $settingData['values'];
+            $settingEntity->type = $settingData['type'];
         } else {
             $settingEntity = new Setting(
                 null,
                 $settingData['path'],
                 $settingData['values'],
                 $settingData['strategy'],
+                $settingData['type'],
                 $settingData['is_project'],
                 $settingData['init'],
                 $settingData['initialization_description'],
@@ -121,29 +126,39 @@ class InitSdkCommand extends AbstractInitCommand
         $coreEntities = array_filter($settingEntities, function (Setting $setting) {
             return $setting->isProject === false;
         });
-        $coreEntities = parent::initializeSettingValues($coreEntities, $input, $output);
 
-        return array_map(function (Setting $setting): Setting {
-            /** @var Setting $setting */
-            $setting = $this->settingRepository->save($setting);
+        foreach ($coreEntities as $settingEntity) {
+            if ($settingEntity->hasInitialization === false) {
+                continue;
+            }
 
-            return $setting;
-        }, $coreEntities);
+            if ($settingEntity->values === null) {
+                $values = $this->questionHelper->ask(
+                    $input,
+                    $output,
+                    new Question($settingEntity->initializationDescription ?? 'Initial value for ' . $settingEntity->path)
+                );
+                $values = is_scalar($values) ?? json_decode($values);
+                $previousSettingValues = $settingEntity->values;
+                $settingEntity->values = $values;
+
+                if ($settingEntity->isProject === false && $values !== $previousSettingValues) {
+                    $this->settingRepository->save($settingEntity);
+                }
+            }
+        }
+
+        return $coreEntities;
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @throws \Exception
-     *
-     * @return void
      */
-    protected function createDatabase(InputInterface $input, OutputInterface $output): void
+    protected function createDatabase(): void
     {
-        $this->createDatabaseDoctrineCommand->run(new ArrayInput([]), $output);
+        $this->createDatabaseDoctrineCommand->run(new ArrayInput([]), new NullOutput());
         $migrationInput = new ArrayInput([]);
         $migrationInput->setInteractive(false);
-        $this->doctrineMigrationCommand->run($migrationInput, $output);
+        $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }
 }

@@ -21,6 +21,7 @@ class Setting
         public string   $path,
         public mixed    $values,
         public string   $strategy,
+        public string   $type = 'string',
         public bool $isProject = true,
         public bool     $hasInitialization = false,
         public ?string $initializationDescription = null
