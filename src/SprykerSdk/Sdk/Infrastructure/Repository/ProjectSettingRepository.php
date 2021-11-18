@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
@@ -91,9 +90,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 
 
     /**
-     * @param array<InfrastructureSetting> $entities
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting> $entities
      *
-     * @return array<InfrastructureSetting>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
      */
     protected function fillProjectValues(array $entities): array
     {
