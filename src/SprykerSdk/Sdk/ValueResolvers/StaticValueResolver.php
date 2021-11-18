@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\ValueResolvers;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\AbstractValueResolver;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 
 class StaticValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
 {
@@ -76,6 +77,10 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
      */
     protected function getValueFromSettings(array $settingValues): mixed
     {
+        if ($this->value === null) {
+            throw new MissingValueException();
+        }
+
         return $this->value;
     }
 
