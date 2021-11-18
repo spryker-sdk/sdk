@@ -10,6 +10,14 @@ namespace Sdk\Task\ValueResolver\Value;
 class CodeBucketValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return 'code_bucket';
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

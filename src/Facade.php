@@ -55,9 +55,9 @@ class Facade
     /**
      * @return string[]
      */
-    public function dumpUniqueTaskPlaceholderNames(): array
+    public function dumpUniqueTaskPlaceholder(): array
     {
-        return $this->getFactory()->createDefinitionDumper()->dumpUniqueTaskPlaceholderNames();
+        return $this->getFactory()->createDefinitionDumper()->dumpUniqueTaskPlaceholder();
     }
 
     /**

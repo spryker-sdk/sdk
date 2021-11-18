@@ -10,11 +10,19 @@ namespace Sdk\Task\ValueResolver\Value;
 class ProjectDirValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return 'project_dir';
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
     {
-        return 'PRODJECT_DIR';
+        return 'PROJECT_DIR';
     }
 
     /**

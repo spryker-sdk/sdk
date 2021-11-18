@@ -10,6 +10,14 @@ namespace Sdk\Task\ValueResolver\Value;
 class OrganizationValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return 'organization';
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

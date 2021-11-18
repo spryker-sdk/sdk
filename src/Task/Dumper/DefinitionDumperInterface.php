@@ -17,5 +17,5 @@ interface DefinitionDumperInterface
     /**
      * @return array
      */
-    public function dumpUniqueTaskPlaceholderNames(): array;
+    public function dumpUniqueTaskPlaceholder(): array;
 }

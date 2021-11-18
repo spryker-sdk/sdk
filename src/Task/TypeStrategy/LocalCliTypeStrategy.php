@@ -40,7 +40,10 @@ class LocalCliTypeStrategy extends AbstractTypeStrategy
         $placeholders = $definition['placeholders'];
         $values = [];
         foreach ($placeholders as $placeholder) {
-            $values['%' . $placeholder['name'] . '%'] = $placeholder['value'];
+            $values[$placeholder['name']] = $placeholder['value'];
+            if ($placeholder['type'] === 'bool' && $placeholder['value']) {
+                $values[$placeholder['name']] = sprintf('--%s', $placeholder['parameterName']);
+            }
         }
         $command = str_replace(array_keys($values), array_values($values), $definition['command']);
 
@@ -50,10 +53,10 @@ class LocalCliTypeStrategy extends AbstractTypeStrategy
 
         $process->run();
 
-        if (!$process->isSuccessful()) {
-            throw new TaskExecutionFailed($process->getErrorOutput() ?: $process->getOutput());
+        if ($process->isSuccessful()) {
+            return $process->getOutput();
         }
 
-        return $process->getOutput();
+        throw new TaskExecutionFailed(!empty($process->getErrorOutput()) ? $process->getErrorOutput() : $process->getOutput());
     }
 }

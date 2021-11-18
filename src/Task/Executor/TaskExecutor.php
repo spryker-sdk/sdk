@@ -53,8 +53,9 @@ class TaskExecutor implements TaskExecutorInterface
         $definition = $this->typeStrategy->extract();
 
         if ($definition['placeholders']) {
-            $definition['placeholders'] = $this->resolveValue($definition['placeholders'], $style);
+            $definition['placeholders'] = $this->resolveValue($definition['placeholders'], $options, $style);
         }
+
         $output = $this->typeStrategy->execute($definition, $style);
 
         $style->writeLine($output);
@@ -63,26 +64,31 @@ class TaskExecutor implements TaskExecutorInterface
 
     /**
      * @param array $placeholders
+     * @param array $options
      * @param \Sdk\Style\StyleInterface $style
      *
+     * @throws \Sdk\Exception\SettingNotFoundException
+     * @throws \Sdk\Task\Exception\ValueResolverNotResolved
      * @return array
      */
-    protected function resolveValue(array $placeholders, StyleInterface $style): array
+    protected function resolveValue(array $placeholders, array $options,  StyleInterface $style): array
     {
         foreach ($placeholders as $key => $placeholder) {
             $value = null;
-            if (!empty($options[$placeholder['name']])) {
-                $value = $options[$placeholder['name']];
+            $placeholder = $placeholders[$key] = $this->valueResolver->expand([$placeholder])[0];
+            if (!empty($options[$placeholder['parameterName']])) {
+                $placeholders[$key]['value'] = $options[$placeholder['parameterName']];
+
+                continue;
             }
             if ($value === null) {
-                $value = $this->setting->getSetting($placeholder['name'], false);
+                $value = $this->setting->getSetting($placeholder['parameterName'], false);
             }
             if ($value === null) {
-                $placeholder = $this->valueResolver->expand([$placeholder], true)[0];
-                $value = $placeholder['value'];
+                $value = $this->valueResolver->expand([$placeholder], true)[0]['value'];
             }
-            if (!$value && !$placeholder['optional']) {
-                $value = $this->askValue($placeholder, $style);
+            if (!$placeholder['optional']) {
+                $value = $this->askValue($placeholder, $value, $style);
             }
             $placeholders[$key]['value'] = $value;
         }
@@ -93,17 +99,17 @@ class TaskExecutor implements TaskExecutorInterface
 
     /**
      * @param array $placeholder
+     * @param null|string $value
      * @param \Sdk\Style\StyleInterface $style
      *
      * @return int|string|null
      */
-    protected function askValue(array $placeholder, StyleInterface $style)
+    protected function askValue(array $placeholder, ?string $value, StyleInterface $style)
     {
-        $multiline = $placeholder['type'] == 'array' ? true : false;
         $question = $this->createPlaceholderQuestion(
             $placeholder['type'],
-            sprintf('Enter %s for <fg=yellow>%s</> setting (%s)', $placeholder['type'], $placeholder['name'], $placeholder['description']),
-            $multiline
+            $value,
+            sprintf('Enter %s for <fg=yellow>%s</> setting (%s)', $placeholder['type'], $placeholder['parameterName'], $placeholder['description'])
         );
 
         return $style->askQuestion($question);
@@ -111,34 +117,38 @@ class TaskExecutor implements TaskExecutorInterface
 
     /**
      * @param string $type
+     * @param null|string $value
      * @param string $message
-     * @param bool $multiline
      *
-     * @return mixed
+     * @return \Symfony\Component\Console\Question\Question
      */
-    protected function createPlaceholderQuestion(string $type, string $message, bool $multiline = false): Question
+    protected function createPlaceholderQuestion(string $type, ?string $value, string $message): Question
     {
+        $multiline = $type === 'array' ? true : false;
+
         switch ($type) {
             case 'bool':
-                $question = new ConfirmationQuestion($message);
+                $question = new ConfirmationQuestion($message, $value);
 
                 break;
             default:
-                $question = new Question($message);
+                $question = new Question($message, $value);
                 $question->setNormalizer(function ($value) {
                     return $value ?: '';
                 });
+
+                if ($multiline) {
+                    $question->setMultiline(true);
+                }
         }
-        $question->setValidator(function ($value) {
-            if (!$value) {
-                throw new InvalidArgumentException('Value is invalid');
-            }
+        if (!$value) {
+            $question->setValidator(function ($value) {
+                if (!$value) {
+                    throw new InvalidArgumentException('Value is invalid');
+                }
 
-            return $value;
-        });
-
-        if ($multiline) {
-            $question->setMultiline(true);
+                return $value;
+            });
         }
 
         return $question;

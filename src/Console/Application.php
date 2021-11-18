@@ -23,7 +23,7 @@ class Application extends SymfonyApplication
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         $this->setAutoExit(false);
-        $this->setCatchExceptions(false);
+        $this->setCatchExceptions(true);
 
         if ($input === null) {
             $input = new ArgvInput();

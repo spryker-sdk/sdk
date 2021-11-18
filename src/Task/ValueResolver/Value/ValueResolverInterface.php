@@ -10,6 +10,11 @@ namespace Sdk\Task\ValueResolver\Value;
 interface ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string;
+
+    /**
      * @return string
      */
     public function getId(): string;

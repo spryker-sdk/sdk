@@ -6,13 +6,10 @@ command: php %sdk_dir%/vendor/bin/phpstan analyze %project_dir%
 type: local_cli
 tasks: []
 placeholders:
-  - name: sdk_dir
+  - name: '%sdk_dir%'
     valueResolver: SDK_DIR
-    optional: false
-  - name: vendor_dir
-    valueResolver: VENDOR_DIR
-    optional: false
-  - name: project_dir
+    optional: true
+  - name: '%project_dir%'
     valueResolver: PROJECT_DIR
     optional: false
 lifecycle_callbacks:

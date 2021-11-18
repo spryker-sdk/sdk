@@ -10,6 +10,14 @@ namespace Sdk\Task\ValueResolver\Value;
 class StoreValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return 'store';
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

@@ -79,7 +79,7 @@ class DefinitionDumper implements DefinitionDumperInterface
     /**
      * @return array
      */
-    public function dumpUniqueTaskPlaceholderNames(): array
+    public function dumpUniqueTaskPlaceholder(): array
     {
         $taskPlaceholders = [];
         $files = $this->definitionFinder->find();
@@ -87,14 +87,15 @@ class DefinitionDumper implements DefinitionDumperInterface
             $taskName = str_replace('.' . $fileInfo->getExtension(), '', $fileInfo->getFilename());
             $taskDefinition = $this->configurationLoader->loadTask($taskName);
             if (!empty($taskDefinition['placeholders'])) {
+                $taskDefinition['placeholders'] = $this->valueResolver->expand($taskDefinition['placeholders']);
                 foreach ($taskDefinition['placeholders'] as $placeholder) {
-                    $taskPlaceholders[$placeholder['name']] = $placeholder['name'];
+                    $taskPlaceholders[$placeholder['parameterName']] = $placeholder;
                 }
             }
         }
 
 
-        return array_keys($taskPlaceholders);
+        return $taskPlaceholders;
     }
 
     /**

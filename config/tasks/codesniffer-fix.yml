@@ -6,15 +6,15 @@ command: php %sdk_dir%/vendor/bin/phpcbf --standard=%sdk_dir%/vendor/spryker/cod
 type: local_cli
 tasks: []
 placeholders:
-  - name: sdk_dir
+  - name: '%sdk_dir%'
     valueResolver: SDK_DIR
     optional: false
-  - name: project_dir
-    valueResolver: PRODJECT_DIR
+  - name: '%project_dir%'
+    valueResolver: PROJECT_DIR
+    optional: true
+  - name: '%module_dir%'
+    valueResolver: MODULE_DIR
     optional: false
 
-  - name: module_dir
-    valueResolver: MODULE_DIR
-    optional: true
 lifecycle_callbacks:
   UPDATE: ~ #will be provided later

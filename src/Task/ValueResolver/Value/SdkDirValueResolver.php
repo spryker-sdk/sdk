@@ -10,6 +10,14 @@ namespace Sdk\Task\ValueResolver\Value;
 class SdkDirValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return null;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

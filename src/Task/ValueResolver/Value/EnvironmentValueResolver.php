@@ -10,6 +10,14 @@ namespace Sdk\Task\ValueResolver\Value;
 class EnvironmentValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return 'environment';
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

@@ -82,12 +82,23 @@ class DumpConsole extends AbstractSdkConsole
         foreach ($taskDefinition['placeholders'] as $placeholder)
         {
             $optional = (empty($placeholder['optional'])) ? '' : '[optional]';
-            $output->write(sprintf(
-                '--%s=<%s> %s',
-                $placeholder['valueResolver'],
-                $placeholder['type'],
-                $optional
-            ), 'comment');
+            switch ($placeholder['type']) {
+                case 'bool':
+                    $output->write(sprintf(
+                        '--%s %s',
+                        $placeholder['parameterName'],
+                        $optional
+                    ), 'comment');
+
+                    break;
+                default:
+                $output->write(sprintf(
+                    '--%s=<%s> %s',
+                    $placeholder['parameterName'],
+                    $placeholder['type'],
+                    $optional
+                ), 'comment');
+            }
 
             if (!empty($placeholder['description'])) {
                 $output->write($placeholder['description'], 'comment');

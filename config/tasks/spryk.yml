@@ -6,16 +6,16 @@ command: php %project_dir%/vendor/bin/spryk-run AddModule --mode=%mode% --organi
 type: local_cli
 tasks: []
 placeholders:
-  - name: project_dir
-    valueResolver: PRODJECT_DIR
+  - name: '%project_dir%'
+    valueResolver: PROJECT_DIR
     optional: false
-  - name: mode
+  - name: '%mode%'
     valueResolver: MODE
     optional: false
-  - name: organization
+  - name: '%organization%'
     valueResolver: ORGANIZATION
     optional: true #depends on the mode
-  - name: module
+  - name: '%module%'
     valueResolver: MODULE
     optional: false
 lifecycle_callbacks:

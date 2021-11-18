@@ -10,6 +10,14 @@ namespace Sdk\Task\ValueResolver\Value;
 class VendorDirValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return 'vendor_dir';
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

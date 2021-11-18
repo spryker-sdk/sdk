@@ -10,6 +10,14 @@ namespace Sdk\Task\ValueResolver\Value;
 class ModeValueResolver implements ValueResolverInterface
 {
     /**
+     * @return string|null
+     */
+    public function getParameterName(): ?string
+    {
+        return 'mode';
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

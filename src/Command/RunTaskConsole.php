@@ -46,16 +46,15 @@ class RunTaskConsole extends AbstractSdkConsole
             ->addArgument(static::ARGUMENT_TASK, InputArgument::REQUIRED, 'Task of the SDK which should be run.');
 
         try {
-            $this->placeholders = $this->getFacade()->dumpUniqueTaskPlaceholderNames();
+            $this->placeholders = $this->getFacade()->dumpUniqueTaskPlaceholder();
         } catch (SettingNotFoundException $e) {
             return;
         }
-
-        foreach ($this->placeholders as $placeholder) {
+        foreach ($this->placeholders as $parameterName => $placeholder) {
             $this->addOption(
-                $placeholder,
+                $parameterName,
                 null,
-                InputOption::VALUE_REQUIRED,
+                ($placeholder['type'] === 'bool') ? InputOption::VALUE_NONE : InputOption::VALUE_REQUIRED,
             );
         }
     }
@@ -69,7 +68,7 @@ class RunTaskConsole extends AbstractSdkConsole
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $taskName = current((array)$input->getArgument(static::ARGUMENT_TASK));
-        $placeholders = array_intersect_key($input->getOptions(), array_flip($this->placeholders));
+        $placeholders = array_intersect_key($input->getOptions(), array_flip(array_keys($this->placeholders)));
 
         $output->write('<info>Running task: </info>' . $taskName, true);
 
