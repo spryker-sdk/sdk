@@ -78,4 +78,12 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     {
         return $this->value;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultValue(): mixed
+    {
+        return $this->value;
+    }
 }

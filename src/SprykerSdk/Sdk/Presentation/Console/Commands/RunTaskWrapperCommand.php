@@ -29,6 +29,7 @@ class RunTaskWrapperCommand extends Command
         protected CliValueReceiver $cliValueReceiver,
         protected TaskExecutor $taskExecutor,
         protected array $taskOptions,
+        protected string $description,
         string $name
     ) {
         parent::__construct($name);
@@ -40,6 +41,7 @@ class RunTaskWrapperCommand extends Command
     protected function configure()
     {
         parent::configure();
+        $this->setDescription($this->description);
 
         foreach ($this->taskOptions as $taskOption) {
             $this->addOption(
@@ -47,7 +49,7 @@ class RunTaskWrapperCommand extends Command
                 null,
                 $taskOption->isValueOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                 $taskOption->getDescription(),
-                null
+                $taskOption->getDefault()
             );
         }
     }

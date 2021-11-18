@@ -39,4 +39,9 @@ interface ValueResolverInterface
      * @return mixed
      */
     public function getValue(array $settingValues): mixed;
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultValue(): mixed;
 }

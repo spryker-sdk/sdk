@@ -72,10 +72,12 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
                     $valueResolver->getAlias() ?? $valueResolver->getId(),
                     null,
                     $placeholder->isOptional ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
-                    $valueResolver->getDescription()
+                    $valueResolver->getDescription(),
+                    $valueResolver->getDefaultValue(),
                 );
             }, $task->placeholders),
-            $task->id
+            $task->shortDescription,
+            $task->id,
         );
     }
 
