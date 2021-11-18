@@ -48,10 +48,6 @@ class Application extends SymfonyApplication
             $exitCode = $exception->getCode();
 
             $this->renderThrowable($exception, $output);
-        } catch (Throwable $exception) {
-            $exitCode = $exception->getCode();
-
-            $this->renderThrowable($exception, $output);
         }
 
         if ($exitCode > 255) {
