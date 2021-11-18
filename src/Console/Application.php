@@ -2,6 +2,7 @@
 
 namespace Sdk\Console;
 
+use Sdk\Exception\SdkException;
 use Sdk\Facade;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -39,12 +40,14 @@ class Application extends SymfonyApplication
             $this->getFacade()->log(
                 $this->getFacade()->mapExecutionToTaskLog($input)
             );
-        } catch (Throwable $throwable) {
+        } catch (SdkException $exception) {
             $this->getFacade()->log(
-               $this->getFacade()->mapExceptionToTaskLog($throwable, $input)
+                $this->getFacade()->mapExceptionToTaskLog($exception, $input)
             );
 
-            $exitCode = $throwable->getCode();
+            $exitCode = $exception->getCode();
+
+            $this->renderThrowable($exception, $output);
         }
 
         if ($exitCode > 255) {
