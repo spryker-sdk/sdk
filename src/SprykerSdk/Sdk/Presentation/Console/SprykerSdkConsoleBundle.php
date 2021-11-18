@@ -7,11 +7,28 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console;
 
+use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\DynamicConsoleCommandsCompilerPass;
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\SprykerSdkConsoleExtension;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SprykerSdkConsoleBundle extends Bundle
 {
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        $container->addCompilerPass(
+            new DynamicConsoleCommandsCompilerPass(),
+            PassConfig::TYPE_BEFORE_REMOVING,
+            -3
+        );
+    }
+
+
     public function createContainerExtension()
     {
         return new SprykerSdkConsoleExtension();

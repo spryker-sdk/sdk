@@ -12,11 +12,10 @@ placeholders:
     configuration:
       name: 'world'
       description: 'what is the world?'
-      value: 'World'
+      defaultValue: 'World'
   - name: '%somebody%'
     value_resolver: STATIC
     optional: false
     configuration:
       name: 'somebody'
       description: 'Who is somebody'
-      value: 'Somebody'

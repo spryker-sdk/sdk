@@ -22,7 +22,7 @@ class PlaceholderResolver
      */
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
-        protected ValueResolverRegistryInterface $valueResolverRegistry
+        protected ValueResolverRegistryInterface $valueResolverRegistry,
     ) {
     }
 

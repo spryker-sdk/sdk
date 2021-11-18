@@ -21,6 +21,7 @@ services:
   yaml_parser:
     class: Symfony\Component\Yaml\Yaml
   task_repository:
+    public: true
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
     arguments:
       - '@setting_repository'
@@ -29,12 +30,21 @@ services:
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
   local_cli_command_runner:
+    public: true
     class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
     tags: ['command.runner']
     arguments:
       - '@process_helper'
+  cli_value_receiver:
+    public: true
+    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+    arguments:
+      - '@question_helper'
+  value_receiver:
+    alias: 'cli_value_receiver'
   value_resolver_registry:
     class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
     arguments:
       - '@setting_repository'
+      - '@value_receiver'
       - '%kernel.project_dir%'

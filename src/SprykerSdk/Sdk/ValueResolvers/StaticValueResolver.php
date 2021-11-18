@@ -7,9 +7,10 @@
 
 namespace SprykerSdk\Sdk\ValueResolvers;
 
+use SprykerSdk\Sdk\Core\Appplication\Dependency\AbstractValueResolver;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
 
-class StaticValueResolver implements ConfigurableValueResolverInterface
+class StaticValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
 {
     protected mixed $value;
     protected string $alias;
@@ -51,17 +52,30 @@ class StaticValueResolver implements ConfigurableValueResolverInterface
         return $this->alias;
     }
 
-    public function getValue(array $settingValues): mixed
-    {
-        return $this->value;
-    }
-
     public function configure(array $values): void
     {
-        $this->value = $values['value'];
+        $this->value = $values['defaultValue'] ?? null;
         $this->alias = $values['name'];
         $this->description = $values['description'];
         $this->help = $values['help'] ?? null;
         $this->type = $values['type'] ?? 'string';
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRequiredSettingPaths(): array
+    {
+        return [];
+    }
+
+    /**
+     * @param array<string, mixed> $settingValues
+     *
+     * @return mixed
+     */
+    protected function getValueFromSettings(array $settingValues): mixed
+    {
+        return $this->value;
     }
 }
