@@ -1,8 +1,13 @@
 services:
   file_finder:
     class: Symfony\Component\Finder\Finder
+  event_logger_factory:
+    class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
+    arguments:
+      - '@project_setting_repository'
   event_logger:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
+    factory: ['@event_logger_factory', 'createEventLogger']
   setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:

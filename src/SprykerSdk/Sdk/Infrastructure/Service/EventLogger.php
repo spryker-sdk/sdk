@@ -7,9 +7,23 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
+use SprykerSdk\Sdk\Core\Events\Event;
+use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 
 class EventLogger implements EventLoggerInterface
 {
+    public function __construct(
+        protected LoggerInterface $logger,
+    ) {}
 
+    /**
+     * @param \SprykerSdk\Sdk\Core\Events\Event $event
+     * @return void
+     */
+    public function logEvent(Event $event): void
+    {
+        $this->logger->info('', [JsonFormatter::CONTEXT_EVENT => $event]);
+    }
 }

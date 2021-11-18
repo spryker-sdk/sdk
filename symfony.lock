@@ -88,6 +88,9 @@
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
+    "monolog/monolog": {
+        "version": "2.3.5"
+    },
     "psr/cache": {
         "version": "2.0.0"
     },

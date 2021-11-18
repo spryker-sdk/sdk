@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Events\TaskEvent;
 
 class TaskExecutor
 {
@@ -44,6 +45,7 @@ class TaskExecutor
             foreach ($this->commandRunners as $commandRunner) {
                 if ($commandRunner->canHandle($command)) {
                     $result = $commandRunner->execute($command, $resolvedValues);
+                    $this->eventLogger->logEvent(new TaskEvent($task, $command, (bool)$result));
 
                     if ($result !== 0 && $command->hasStopOnError) {
                         return $result;
