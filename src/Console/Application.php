@@ -41,10 +41,12 @@ class Application extends SymfonyApplication
             );
         } catch (Throwable $throwable) {
             $this->getFacade()->log(
-               $this->getFacade()->mapExceptionToTaskLog($throwable, $input)
+                $this->getFacade()->mapExceptionToTaskLog($throwable, $input)
             );
 
             $exitCode = $throwable->getCode();
+
+            $this->renderThrowable($throwable, $output);
         }
 
         if ($exitCode > 255) {
