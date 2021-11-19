@@ -9,4 +9,5 @@
 /vendor/
 /.idea
 .ssdk
+.ssdk.log
 ###< symfony/framework-bundle ###
