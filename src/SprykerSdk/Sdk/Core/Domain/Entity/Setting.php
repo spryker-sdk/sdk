@@ -80,7 +80,7 @@ class Setting implements SettingInterface
     /**
      * @return bool
      */
-    public function isHasInitialization(): bool
+    public function hasInitialization(): bool
     {
         return $this->hasInitialization;
     }

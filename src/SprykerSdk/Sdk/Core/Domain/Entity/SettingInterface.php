@@ -45,7 +45,7 @@ interface SettingInterface
     /**
      * @return bool
      */
-    public function isHasInitialization(): bool;
+    public function hasInitialization(): bool;
 
     /**
      * @return string|null

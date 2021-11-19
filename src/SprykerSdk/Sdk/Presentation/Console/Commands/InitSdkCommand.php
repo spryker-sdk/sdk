@@ -128,26 +128,27 @@ class InitSdkCommand extends Command
      */
     protected function initializeSettingValues(array $settingEntities, InputInterface $input, OutputInterface $output): array
     {
+        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
         $coreEntities = array_filter($settingEntities, function (Setting $setting) {
             return $setting->isProject();
         });
 
         foreach ($coreEntities as $settingEntity) {
-            if ($settingEntity->hasInitialization === false) {
+            if ($settingEntity->hasInitialization() === false) {
                 continue;
             }
 
-            if ($settingEntity->values === null) {
+            if ($settingEntity->getValues() === null) {
                 $values = $this->questionHelper->ask(
                     $input,
                     $output,
-                    new Question($settingEntity->initializationDescription ?? 'Initial value for ' . $settingEntity->path)
+                    new Question($settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath())
                 );
                 $values = is_scalar($values) ?? json_decode($values);
-                $previousSettingValues = $settingEntity->values;
-                $settingEntity->values = $values;
+                $previousSettingValues = $settingEntity->getValues();
+                $settingEntity->setValues($values);
 
-                if ($settingEntity->isProject === false && $values !== $previousSettingValues) {
+                if ($settingEntity->isProject() === false && $values !== $previousSettingValues) {
                     $this->settingRepository->save($settingEntity);
                 }
             }
