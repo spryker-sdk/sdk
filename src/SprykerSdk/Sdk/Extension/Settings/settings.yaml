@@ -6,7 +6,7 @@ settings:
     type: array
     is_project: false
     values:
-      - src/SprykerSdk/Sdk/Tasks
+      - src/SprykerSdk/Sdk/Extension/Tasks
   - path: setting_dirs
     initialization_description: Where can settings be loaded from?
     strategy: merge
@@ -14,7 +14,7 @@ settings:
     type: array
     is_project: false
     values:
-      - src/SprykerSdk/Sdk/Settings
+      - src/SprykerSdk/Sdk/Extension/Settings
   - path: value_resolver_dirs
     initialization_description: Where can value resolvers be loaded from?
     strategy: merge
@@ -22,7 +22,7 @@ settings:
     type: array
     is_project: false
     values:
-      - src/SprykerSdk/Sdk/ValueResolvers
+      - src/SprykerSdk/Sdk/Extension/ValueResolvers
   - path: project_dir
     initialization_description: Where is the project directory?
     strategy: overwrite

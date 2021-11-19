@@ -11,7 +11,7 @@ services:
       - '@doctrine.database_create_command'
       - '@doctrine_migrations.migrate_command'
       - '@yaml_parser'
-      - '%kernel.project_dir%/src/SprykerSdk/Sdk/Settings/settings.yaml'
+      - '%kernel.project_dir%/src/SprykerSdk/Sdk/Extension/Settings/settings.yaml'
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand

@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
-use SprykerSdk\Sdk\Core\Events\Event;
+use SprykerSdk\Sdk\Core\Domain\Events\Event;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 
 class EventLogger implements EventLoggerInterface
@@ -19,7 +19,7 @@ class EventLogger implements EventLoggerInterface
     ) {}
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Events\Event $event
+     * @param \SprykerSdk\Sdk\Core\Domain\Events\Event $event
      * @return void
      */
     public function logEvent(Event $event): void

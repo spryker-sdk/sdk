@@ -1,7 +1,7 @@
 doctrine_migrations:
   # List of namespace/path pairs to search for migrations, at least one required
   migrations_paths:
-    'SprykerSdk\Sdk\Migrations': '%kernel.project_dir%/src/SprykerSdk/Sdk/Migrations'
+    'App\Migrations': '%kernel.project_dir%/src/App/Migrations'
 
   # Entity manager to use for migrations. This overrides the "connection" setting.
   em: default

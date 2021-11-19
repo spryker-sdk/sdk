@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Events\TaskEvent;
+use SprykerSdk\Sdk\Core\Domain\Events\TaskEvent;
 
 class TaskExecutor
 {

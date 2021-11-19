@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Core\Events\Event;
+use SprykerSdk\Sdk\Core\Domain\Events\Event;
 
 interface EventLoggerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Events\Event $event
+     * @param \SprykerSdk\Sdk\Core\Domain\Events\Event $event
      * @return void
      */
     public function logEvent(Event $event): void;

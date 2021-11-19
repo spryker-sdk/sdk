@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Logger;
 
 use DateTimeInterface;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
-use SprykerSdk\Sdk\Core\Events\TaskEvent;
+use SprykerSdk\Sdk\Core\Domain\Events\TaskEvent;
 
 class JsonFormatter extends MonologJsonFormatter
 {

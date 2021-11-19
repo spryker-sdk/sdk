@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\ValueResolvers;
+namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\AbstractValueResolver;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
