@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Logger;
 
 use DateTimeInterface;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
-use SprykerSdk\Sdk\Core\Domain\Events\TaskEvent;
+use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 
 class JsonFormatter extends MonologJsonFormatter
 {
@@ -40,7 +40,7 @@ class JsonFormatter extends MonologJsonFormatter
             unset($record['datetime']);
         }
 
-        if (isset($record['context'][static::CONTEXT_EVENT]) && $record['context'][static::CONTEXT_EVENT] instanceof TaskEvent) {
+        if (isset($record['context'][static::CONTEXT_EVENT]) && $record['context'][static::CONTEXT_EVENT] instanceof TaskExecutedEvent) {
             $record += $this->transformTaskLogTransferToArray($record['context'][static::CONTEXT_EVENT]);
         }
 
@@ -67,11 +67,11 @@ class JsonFormatter extends MonologJsonFormatter
     }
 
     /**
-     * @param TaskEvent $taskLogTransfer
+     * @param TaskExecutedEvent $taskLogTransfer
      *
      * @return array
      */
-    protected function transformTaskLogTransferToArray(TaskEvent $taskLogTransfer): array
+    protected function transformTaskLogTransferToArray(TaskExecutedEvent $taskLogTransfer): array
     {
         return [
             'id' => $taskLogTransfer->id,

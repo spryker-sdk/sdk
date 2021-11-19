@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-class Command
+class Command implements CommandInterface
 {
     /**
      * @param string $command
@@ -15,9 +15,33 @@ class Command
      * @param bool $hasStopOnError
      */
     public function __construct(
-        public string $command,
-        public string $type,
-        public bool $hasStopOnError = true
+        protected string $command,
+        protected string $type,
+        protected bool $hasStopOnError = true
     ) {
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasStopOnError(): bool
+    {
+        return $this->hasStopOnError;
     }
 }

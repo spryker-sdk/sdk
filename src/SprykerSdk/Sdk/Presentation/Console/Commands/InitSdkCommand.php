@@ -10,8 +10,9 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
+use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -32,7 +33,7 @@ class InitSdkCommand extends Command
      */
     public function __construct(
         protected QuestionHelper $questionHelper,
-        protected SettingRepositoryInterface $settingRepository,
+        protected SettingRepository $settingRepository,
         protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
         protected MigrateCommand $doctrineMigrationCommand,
         protected Yaml $yamlParser,
@@ -60,9 +61,9 @@ class InitSdkCommand extends Command
     /**
      * @param array $setting
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting
+     * @return SettingInterface
      */
-    protected function createSettingEntity(array $setting): DomainSetting
+    protected function createSettingEntity(array $setting): SettingInterface
     {
         $settingEntity = $this->settingRepository->findOneByPath($setting['path']);
 
@@ -77,12 +78,12 @@ class InitSdkCommand extends Command
         ];
 
         if ($settingEntity) {
-            $settingEntity->isProject = $settingData['is_project'];
-            $settingEntity->initializationDescription = $settingData['initialization_description'];
-            $settingEntity->strategy = $settingData['strategy'];
-            $settingEntity->hasInitialization = $settingData['init'];
-            $settingEntity->values = $settingData['values'];
-            $settingEntity->type = $settingData['type'];
+            $settingEntity->setIsProject($settingData['is_project']);
+            $settingEntity->setInitializationDescription($settingData['initialization_description']);
+            $settingEntity->setStrategy($settingData['strategy']);
+            $settingEntity->setHasInitialization($settingData['init']);
+            $settingEntity->setValues($settingData['values']);
+            $settingEntity->setType($settingData['type']);
         } else {
             $settingEntity = new Setting(
                 null,
@@ -124,7 +125,7 @@ class InitSdkCommand extends Command
     protected function initializeSettingValues(array $settingEntities, InputInterface $input, OutputInterface $output): array
     {
         $coreEntities = array_filter($settingEntities, function (Setting $setting) {
-            return $setting->isProject === false;
+            return $setting->isProject();
         });
 
         foreach ($coreEntities as $settingEntity) {

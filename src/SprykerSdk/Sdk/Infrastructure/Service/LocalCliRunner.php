@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,22 +36,22 @@ class LocalCliRunner implements CommandRunnerInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Command $command
+     * @param CommandInterface $command
      *
      * @return bool
      */
-    public function canHandle(Command $command): bool
+    public function canHandle(CommandInterface $command): bool
     {
-        return $command->type === 'local_cli';
+        return $command->getType() === 'local_cli';
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Command $command
+     * @param CommandInterface $command
      * @param array $resolvedValues
      *
      * @return int
      */
-    public function execute(Command $command, array $resolvedValues): int
+    public function execute(CommandInterface $command, array $resolvedValues): int
     {
         $placeholders = array_map(function (mixed $placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';
@@ -65,7 +66,7 @@ class LocalCliRunner implements CommandRunnerInterface
             return preg_quote($castedValue);
         }, array_values($resolvedValues));
 
-        $assembledCommand = preg_replace($placeholders, $values, $command->command);
+        $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
 
         $process = $this->processHelper->run(
             $this->output,

@@ -8,22 +8,23 @@
 namespace SprykerSdk\Sdk\Core\Domain\Repository;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 
 interface SettingRepositoryInterface
 {
     /**
      * @param string $settingPath
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null
+     * @return SettingInterface|null
      */
-    public function findOneByPath(string $settingPath): ?Setting;
+    public function findOneByPath(string $settingPath): ?SettingInterface;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting
+     * @param SettingInterface $setting
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting
+     * @return SettingInterface
      */
-    public function save(Setting $setting): Setting;
+    public function save(SettingInterface $setting): SettingInterface;
 
     /**
      * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>

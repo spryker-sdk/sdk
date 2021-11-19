@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 
 class PlaceholderResolver
@@ -27,11 +28,11 @@ class PlaceholderResolver
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Placeholder $placeholder
+     * @param PlaceholderInterface $placeholder
      *
      * @return mixed
      */
-    public function resolve(Placeholder $placeholder): mixed
+    public function resolve(PlaceholderInterface $placeholder): mixed
     {
             $valueResolverInstance = $this->getValueResolver($placeholder);
 
@@ -45,22 +46,22 @@ class PlaceholderResolver
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Placeholder $placeholder
+     * @param PlaceholderInterface $placeholder
      *
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface
      */
-    public function getValueResolver(Placeholder $placeholder): ValueResolverInterface
+    public function getValueResolver(PlaceholderInterface $placeholder): ValueResolverInterface
     {
-        if ($this->valueResolverRegistry->has($placeholder->valueResolver)) {
-            $valueResolver = clone $this->valueResolverRegistry->get($placeholder->valueResolver);
+        if ($this->valueResolverRegistry->has($placeholder->getValueResolver())) {
+            $valueResolver = clone $this->valueResolverRegistry->get($placeholder->getValueResolver());
 
             if ($valueResolver instanceof ConfigurableValueResolverInterface) {
-                $valueResolver->configure($placeholder->configuration);
+                $valueResolver->configure($placeholder->getConfiguration());
             }
 
             return $valueResolver;
         }
 
-        throw new UnresolvablePlaceholderException('Placeholder not resolvable ' . $placeholder->valueResolver);
+        throw new UnresolvablePlaceholderException('Placeholder not resolvable ' . $placeholder->getValueResolver());
     }
 }

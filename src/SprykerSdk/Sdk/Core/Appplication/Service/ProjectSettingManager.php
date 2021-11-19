@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 
 class ProjectSettingManager
@@ -30,8 +31,8 @@ class ProjectSettingManager
         $modifiedSettings = [];
 
         foreach ($projectSettingDefinitions as $projectSettingDefinition) {
-            if (isset($pathValues[$projectSettingDefinition->path])) {
-                $modifiedSettings[] = $this->buildPathValue($projectSettingDefinition, $pathValues[$projectSettingDefinition->path]);
+            if (isset($pathValues[$projectSettingDefinition->getPath()])) {
+                $modifiedSettings[] = $this->buildPathValue($projectSettingDefinition, $pathValues[$projectSettingDefinition->getPath()]);
             }
         }
 
@@ -44,9 +45,9 @@ class ProjectSettingManager
      * @param string $path
      * @param mixed $value
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting
+     * @return SettingInterface
      */
-    public function setSetting(string $path, mixed $value): Setting
+    public function setSetting(string $path, mixed $value): SettingInterface
     {
         $settingDefinition = $this->projectSettingRepository->findOneByPath($path);
 
@@ -60,24 +61,24 @@ class ProjectSettingManager
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting $settingDefinition
+     * @param SettingInterface $settingDefinition
      * @param mixed $value
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting
+     * @return SettingInterface
      */
-    protected function buildPathValue(Setting $settingDefinition, mixed $value): Setting
+    protected function buildPathValue(SettingInterface $settingDefinition, mixed $value): SettingInterface
     {
-        $typedValue = match ($settingDefinition->type) {
+        $typedValue = match ($settingDefinition->getType()) {
             'array' => (array)$value,
             'bool' => (bool)$value,
             default => (string)$value,
         };
 
-        if ($settingDefinition->strategy === 'merge') {
-            $typedValue = array_merge($settingDefinition->values, $typedValue);
+        if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
+            $typedValue = array_merge($settingDefinition->getValues(), $typedValue);
         }
 
-        $settingDefinition->values = $typedValue;
+        $settingDefinition->setValues($typedValue);
 
         return $settingDefinition;
     }

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Domain\Repository;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 
 interface TaskRepositoryInterface
 {
@@ -19,7 +20,7 @@ interface TaskRepositoryInterface
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task|null
+     * @return TaskInterface|null
      */
-    public function findById(string $taskId): ?Task;
+    public function findById(string $taskId): ?TaskInterface;
 }

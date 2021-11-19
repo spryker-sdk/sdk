@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
@@ -29,9 +30,9 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null
+     * @return SettingInterface|null
      */
-    public function findOneByPath(string $settingPath): ?Setting
+    public function findOneByPath(string $settingPath): ?SettingInterface
     {
         return $this->findOneBy([
             'path' => $settingPath
@@ -50,14 +51,14 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
 
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting
+     * @param SettingInterface $setting
      *
-     * @throws \Doctrine\ORM\ORMException
+     * @return SettingInterface
      * @throws \Doctrine\ORM\OptimisticLockException
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting
+     * @throws \Doctrine\ORM\ORMException
      */
-    public function save(Setting $setting): Setting
+    public function save(SettingInterface $setting): SettingInterface
     {
         if (!$setting instanceof InfrastructureSetting) {
             throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);

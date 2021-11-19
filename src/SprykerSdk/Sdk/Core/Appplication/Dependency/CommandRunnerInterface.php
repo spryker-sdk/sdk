@@ -8,21 +8,22 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
 
 interface CommandRunnerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Command $command
+     * @param CommandInterface $command
      *
      * @return bool
      */
-    public function canHandle(Command $command): bool;
+    public function canHandle(CommandInterface $command): bool;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Command $command
+     * @param CommandInterface $command
      * @param array<string, mixed> $resolvedValues
      *
      * @return int
      */
-    public function execute(Command $command, array $resolvedValues): int;
+    public function execute(CommandInterface $command, array $resolvedValues): int;
 }

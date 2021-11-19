@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-class Task
+class Task implements TaskInterface
 {
     /**
      * @param string $id
@@ -17,11 +17,51 @@ class Task
      * @param string|null $help
      */
     public function __construct(
-        public string $id,
-        public string $shortDescription,
-        public array $commands,
-        public array $placeholders = [],
-        public ?string $help = null
+        protected string $id,
+        protected string $shortDescription,
+        protected array $commands,
+        protected array $placeholders = [],
+        protected ?string $help = null
     ) {
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortDescription(): string
+    {
+        return $this->shortDescription;
+    }
+
+    /**
+     * @return CommandInterface[]
+     */
+    public function getCommands(): array
+    {
+        return $this->commands;
+    }
+
+    /**
+     * @return PlaceholderInterface[]
+     */
+    public function getPlaceholders(): array
+    {
+        return $this->placeholders;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getHelp(): ?string
+    {
+        return $this->help;
     }
 }

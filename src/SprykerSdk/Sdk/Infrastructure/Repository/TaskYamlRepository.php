@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use Symfony\Component\Finder\Finder;
@@ -33,16 +34,16 @@ class TaskYamlRepository implements TaskRepositoryInterface
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('task_dirs');
 
-        if (!$taskDirSetting || !is_array($taskDirSetting->values)){
+        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())){
             throw new MissingSettingException('task_dirs are not configured properly');
         }
 
         $tasks = [];
 
         //read task from path, parse and create Task, later use DB for querying
-        foreach ($this->fileFinder->in($taskDirSetting->values)->name('*.yaml')->files() as $taskFile) {
+        foreach ($this->fileFinder->in($taskDirSetting->getValues())->name('*.yaml')->files() as $taskFile) {
             $task = $this->buildTask($taskFile);
-            $tasks[$task->id] = $task;
+            $tasks[$task->getId()] = $task;
         }
 
         return $tasks;
@@ -51,9 +52,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task|null
+     * @return TaskInterface|null
      */
-    public function findById(string $taskId): ?Task
+    public function findById(string $taskId): ?TaskInterface
     {
         $tasks = $this->findAll();
 
@@ -107,9 +108,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param \SplFileInfo $taskFile
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
+     * @return TaskInterface
      */
-    protected function buildTask(SplFileInfo $taskFile): Task
+    protected function buildTask(SplFileInfo $taskFile): TaskInterface
     {
         $data = $this->yamlParser->parse($taskFile->getContents());
 

@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -27,11 +28,11 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting
+     * @param SettingInterface $setting
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Setting
+     * @return SettingInterface
      */
-    public function save(Setting $setting): Setting
+    public function save(SettingInterface $setting): SettingInterface
     {
         return $this->saveMultiple([$setting])[0];
     }
@@ -46,7 +47,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
 
         foreach ($settings as $setting) {
-            $projectValues[$setting->path] = $setting->values;
+            $projectValues[$setting->getPath()] = $setting->getValues();
         }
 
         file_put_contents($projectSettingPath, $this->yamlParser->dump($projectValues));
@@ -55,7 +56,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
 
-    public function findOneByPath(string $settingPath): ?Setting
+    public function findOneByPath(string $settingPath): ?SettingInterface
     {
         $coreSetting = $this->coreSettingRepository->findOneByPath($settingPath);
 
@@ -99,12 +100,12 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         $projectValues = $this->getProjectValues();
 
         foreach ($entities as $entity) {
-            if (!$entity->isProject) {
+            if (!$entity->isProject()) {
                 continue;
             }
 
-            if (array_key_exists($entity->path, $projectValues)) {
-                $entity->values = $projectValues[$entity->path];
+            if (array_key_exists($entity->getPath(), $projectValues)) {
+                $entity->setValues($projectValues[$entity->getPath()]);
             }
         }
 

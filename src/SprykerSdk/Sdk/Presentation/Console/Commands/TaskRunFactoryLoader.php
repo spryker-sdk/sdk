@@ -11,7 +11,9 @@ use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
@@ -65,19 +67,19 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             $this->getLocalCliRunner(),
             $this->getCliValueReceiver(),
             $this->getTaskExecutor(),
-            array_map(function (Placeholder $placeholder): InputOption {
+            array_map(function (PlaceholderInterface $placeholder): InputOption {
                 $valueResolver = $this->getPlaceholderResolver()->getValueResolver($placeholder);
 
                 return new InputOption(
                     $valueResolver->getAlias() ?? $valueResolver->getId(),
                     null,
-                    $placeholder->isOptional ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
+                    $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                     $valueResolver->getDescription(),
                     $valueResolver->getDefaultValue(),
                 );
-            }, $task->placeholders),
-            $task->shortDescription,
-            $task->id,
+            }, $task->getPlaceholders()),
+            $task->getShortDescription(),
+            $task->getId(),
         );
     }
 
@@ -86,8 +88,8 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     public function getNames(): array
     {
-        return array_merge(parent::getNames(), array_map(function (Task $task) {
-            return $task->id;
+        return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
+            return $task->getId();
         }, $this->getTaskRepository()->findAll()));
     }
 
