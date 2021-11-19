@@ -25,8 +25,8 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      */
     public function getValue(array $settingValues, bool $optional=false): mixed
     {
-        if ($this->valueReceiver->hasOption($this->getValueName())) {
-            return $this->valueReceiver->getOption($this->getValueName());
+        if ($this->valueReceiver->has($this->getValueName())) {
+            return $this->valueReceiver->get($this->getValueName());
         }
 
         $requiredSettings = array_intersect(array_keys($settingValues), $this->getRequiredSettingPaths());
@@ -49,8 +49,14 @@ abstract class AbstractValueResolver implements ValueResolverInterface
             }
         }
         if (!$defaultValue || !$optional) {
-            return $this->valueReceiver->askValue($this->getDescription(), $defaultValue, $this->getType());
+            $defaultValue = $this->valueReceiver->askValue($this->getDescription(), $defaultValue, $this->getType());
         }
+
+        // @TODO lifehack for flags based on alias
+        $defaultValue = match($this->getType()) {
+             'bool' => !$defaultValue ? '' : sprintf('--%s', $this->getAlias()),
+            default => (string) $defaultValue,
+        };
 
         return $defaultValue;
     }

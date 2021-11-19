@@ -59,7 +59,6 @@ class LocalCliRunner implements CommandRunnerInterface
 
         $values = array_map(function (mixed $value): string {
             $castedValue = match(gettype($value)) {
-                //@todo format bool, int, float
                 default => (string) $value,
             };
 
@@ -68,7 +67,7 @@ class LocalCliRunner implements CommandRunnerInterface
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
 
-        $process = new Process(explode(' ', $assembledCommand));
+        $process = Process::fromShellCommandline($assembledCommand);
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
 

@@ -39,7 +39,6 @@ class PlaceholderResolver
             $settingValues[$valueResolverInstance->getAlias()] = $this->settingRepository->findOneByPath($valueResolverInstance->getAlias());
 
             foreach ($valueResolverInstance->getSettingPaths() as $settingPath) {
-                // @TODO I guess we need to take this from .ssdk
                 $settingValues[$settingPath] = $this->settingRepository->findOneByPath($settingPath);
             }
 

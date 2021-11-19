@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -55,20 +54,18 @@ class InitProjectCommand extends Command
         }
 
         $settingEntities = $this->settingRepository->findProjectSettings();
-        $settingEntities = $this->initializeSettingValues($settingEntities, $input, $output);
+        $settingEntities = $this->initializeSettingValues($settingEntities);
         $this->writeProjectSettings($settingEntities);
 
         return static::SUCCESS;
     }
 
     /**
-     * @param Setting[] $settingEntities
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingEntities
      *
      * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
      */
-    protected function initializeSettingValues(array $settingEntities, InputInterface $input, OutputInterface $output): array
+    protected function initializeSettingValues(array $settingEntities): array
     {
         foreach ($settingEntities as $settingEntity) {
             if ($settingEntity->hasInitialization() === false) {

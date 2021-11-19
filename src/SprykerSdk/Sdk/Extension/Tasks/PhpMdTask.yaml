@@ -1,7 +1,7 @@
 ---
-id: 'phpmd'
-short_description: 'PHP Mess Detector'
-help: 'PHP Mess Detector'
+id: 'validation:architecture'
+short_description: 'Check the architectural correctness of your code'
+help: ~
 stage: debug
 command: '%sdk_dir%/vendor/bin/phpmd %project_dir%/src text %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml %strict% --minimumpriority %priority%'
 type: local_cli

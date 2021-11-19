@@ -14,14 +14,14 @@ interface ValueReceiverInterface
      *
      * @return bool
      */
-    public function hasOption(string $key): bool;
+    public function has(string $key): bool;
 
     /**
      * @param string $key
      *
      * @return mixed
      */
-    public function getOption(string $key): mixed;
+    public function get(string $key): mixed;
 
     /**
      * @param string $description

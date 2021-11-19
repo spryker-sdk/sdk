@@ -54,7 +54,7 @@ class CliValueReceiver implements ValueReceiverInterface
      *
      * @return bool
      */
-    public function hasOption(string $key): bool
+    public function has(string $key): bool
     {
         return $this->input->hasOption($key) && $this->input->getOption($key) !== null;
     }
@@ -64,7 +64,7 @@ class CliValueReceiver implements ValueReceiverInterface
      *
      * @return mixed
      */
-    public function getOption(string $key): mixed
+    public function get(string $key): mixed
     {
         return $this->input->getOption($key);
     }
