@@ -20,10 +20,17 @@ use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
 {
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \Symfony\Component\Finder\Finder $fileFinder
+     * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param iterable<\SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface> $existingTasks
+     */
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
         protected Finder $fileFinder,
-        protected Yaml $yamlParser
+        protected Yaml $yamlParser,
+        protected iterable $existingTasks = [],
     ) {
     }
 
@@ -44,6 +51,10 @@ class TaskYamlRepository implements TaskRepositoryInterface
         foreach ($this->fileFinder->in($taskDirSetting->getValues())->name('*.yaml')->files() as $taskFile) {
             $task = $this->buildTask($taskFile);
             $tasks[$task->getId()] = $task;
+        }
+
+        foreach ($this->existingTasks as $existingTask) {
+            $tasks[$existingTask->getId()] = $existingTask;
         }
 
         return $tasks;
