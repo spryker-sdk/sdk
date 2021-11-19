@@ -18,7 +18,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @param array<string, mixed> $settingValues
+     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      * @param bool|false $optional
      *
      * @return mixed
@@ -38,6 +38,9 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         }
         $defaultValue = $this->getDefaultValue();
 
+        if (!$defaultValue) {
+            $defaultValue = $settingValues[$this->getAlias()] ? $settingValues[$this->getAlias()]->getValues() : null;
+        }
         if (!$defaultValue) {
             try {
                 $defaultValue = $this->getValueFromSettings($settingValues);

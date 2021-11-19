@@ -21,7 +21,7 @@ placeholders:
       name: 'project_dir'
       description: 'Absolute path to project directory'
       type: string
-      settingPaths: ['project_dir']
+      settingPaths: []
   - name: '%strict%'
     value_resolver: STATIC
     optional: false

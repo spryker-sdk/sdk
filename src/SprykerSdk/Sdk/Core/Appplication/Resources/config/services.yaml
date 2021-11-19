@@ -24,7 +24,7 @@ services:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
     arguments:
-      - '@setting_repository'
+      - '@project_setting_repository'
       - '@value_resolver_registry'
   task_executor:
     public: true
