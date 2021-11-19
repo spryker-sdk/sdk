@@ -1,0 +1,4 @@
+services:
+  hello_php_task:
+    class: SprykerSdk\Sdk\Extension\Tasks\HelloPhpTask
+    tags: ['sdk.task']
