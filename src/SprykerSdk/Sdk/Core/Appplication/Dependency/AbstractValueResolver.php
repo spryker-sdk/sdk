@@ -44,7 +44,9 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         if (!$defaultValue) {
             try {
                 $defaultValue = $this->getValueFromSettings($settingValues);
-            } catch (MissingValueException) {}
+            } catch (MissingValueException) {
+                $defaultValue = null;
+            }
         }
         if (!$defaultValue || !$optional) {
             return $this->valueReceiver->askValue($this->getDescription(), $defaultValue, $this->getType());
