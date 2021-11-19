@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -16,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
     /**
-     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
      */

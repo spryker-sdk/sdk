@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
-use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
@@ -46,6 +45,8 @@ class InitSdkCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
+     * @throws \Exception
+     *
      * @return int
      */
     public function run(InputInterface $input, OutputInterface $output): int
@@ -60,6 +61,9 @@ class InitSdkCommand extends Command
 
     /**
      * @param array $setting
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      *
      * @return SettingInterface
      */

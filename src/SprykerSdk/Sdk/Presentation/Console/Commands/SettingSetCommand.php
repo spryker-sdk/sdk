@@ -51,11 +51,11 @@ class SettingSetCommand extends Command
         foreach ($this->settingRepository->findProjectSettings() as $projectSetting) {
             $help .= sprintf(
                 '    %s <%s> [%s] -- %s %s',
-                $projectSetting->path,
-                $projectSetting->type,
-                $projectSetting->strategy,
+                $projectSetting->getPath(),
+                $projectSetting->getType(),
+                $projectSetting->getStrategy(),
                 PHP_EOL . str_repeat(' ', 8),
-                $projectSetting->initializationDescription
+                $projectSetting->getInitializationDescription()
             ) . PHP_EOL;
         }
 

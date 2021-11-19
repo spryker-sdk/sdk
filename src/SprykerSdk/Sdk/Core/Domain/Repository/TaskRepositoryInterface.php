@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Repository;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 
 interface TaskRepositoryInterface

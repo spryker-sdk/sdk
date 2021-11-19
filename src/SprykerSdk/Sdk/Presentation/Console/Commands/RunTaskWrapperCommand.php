@@ -22,6 +22,7 @@ class RunTaskWrapperCommand extends Command
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
+     * @param string $description
      * @param string $name
      */
     public function __construct(
@@ -61,7 +62,7 @@ class RunTaskWrapperCommand extends Command
      *
      * @return int
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         $this->localCliRunner->setOutput($output);
         $this->localCliRunner->setHelperSet($this->getApplication()->getHelperSet());

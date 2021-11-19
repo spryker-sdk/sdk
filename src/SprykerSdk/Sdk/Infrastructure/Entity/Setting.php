@@ -12,11 +12,12 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 class Setting extends DomainSetting
 {
     /**
-     * @param int $id
+     * @param int|null $id
      * @param string $path
      * @param mixed $values
      * @param string $strategy
-     *
+     * @param string $type
+     * @param bool $isProject
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
      */

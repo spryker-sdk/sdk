@@ -12,6 +12,7 @@ class Placeholder implements PlaceholderInterface
     /**
      * @param string $name
      * @param string $valueResolver
+     * @param array $configuration
      * @param bool $isOptional
      */
     public function __construct(

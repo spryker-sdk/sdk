@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Repository;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 
 interface SettingRepositoryInterface

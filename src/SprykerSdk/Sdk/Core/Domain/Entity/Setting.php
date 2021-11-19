@@ -13,6 +13,7 @@ class Setting implements SettingInterface
      * @param string $path
      * @param mixed $values
      * @param string $strategy
+     * @param string $type
      * @param bool $isProject
      * @param bool $hasInitialization
      * @param string|null $initializationDescription

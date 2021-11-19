@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core;
 
-use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

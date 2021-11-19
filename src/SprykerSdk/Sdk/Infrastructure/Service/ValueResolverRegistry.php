@@ -73,9 +73,9 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         }
 
         $paths = $this->settingRepository->findOneByPath('value_resolver_dirs');
-        $pathCandidates = array_merge($paths->values, array_map(function (string $path) {
+        $pathCandidates = array_merge($paths->getValues(), array_map(function (string $path) {
             return preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
-        }, $paths->values));
+        }, $paths->getValues()));
 
         $pathCandidates = array_filter($pathCandidates, function (string $path) {
             return is_dir($path);

@@ -41,7 +41,7 @@ class EventLoggerFactory
         $reportUsageStatistics = false;
 
         if ($reportUsageStatisticsSetting) {
-            $reportUsageStatistics = (bool)$reportUsageStatisticsSetting->values;
+            $reportUsageStatistics = (bool)$reportUsageStatisticsSetting->getValues();
         }
 
         $handler = new NullHandler();
@@ -49,7 +49,7 @@ class EventLoggerFactory
         $projectDirSetting = $this->projectSettingRepository->findOneByPath('project_dir');
 
         if ($reportUsageStatistics && $projectDirSetting) {
-            $handler = new StreamHandler((string)$projectDirSetting->values . '/.ssdk.log');
+            $handler = new StreamHandler($projectDirSetting->getValues() . '/.ssdk.log');
             $handler->setFormatter(new JsonFormatter());
         }
 

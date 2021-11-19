@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use Symfony\Component\Console\Command\Command;
@@ -86,7 +87,7 @@ class InitProjectCommand extends Command
                 default => (string)$values,
             };
 
-            if ($settingEntity->strategy === 'merge') {
+            if ($settingEntity->strategy === SettingInterface::STRATEGY_MERGE) {
                 $values = array_merge($settingEntity->values, $values);
             }
 
@@ -98,7 +99,7 @@ class InitProjectCommand extends Command
 
 
     /**
-     * @param array $settingEntities
+     * @param array $projectSettings
      */
     protected function writeProjectSettings(array $projectSettings): void
     {
@@ -118,22 +119,22 @@ class InitProjectCommand extends Command
      */
     protected function buildQuestion(Setting $settingEntity): Question
     {
-        $questionDescription = $settingEntity->initializationDescription;
+        $questionDescription = $settingEntity->getInitializationDescription();
 
         if (empty($questionDescription)) {
-           $questionDescription = 'Initial value for ' . $settingEntity->path;
+           $questionDescription = 'Initial value for ' . $settingEntity->getPath();
         }
 
-        $defaultValue = match ($settingEntity->type) {
-            'bool' => $settingEntity->values ? 'y' : 'n',
-            'array' => json_encode($settingEntity->values),
-            default => (string)$settingEntity->values,
+        $defaultValue = match ($settingEntity->getType()) {
+            'bool' => $settingEntity->getValues() ? 'y' : 'n',
+            'array' => json_encode($settingEntity->getValues()),
+            default => (string)$settingEntity->getValues(),
         };
 
         $questionDescription .= '[' . $defaultValue . ']';
 
 
-        if ($settingEntity->type === 'bool') {
+        if ($settingEntity->getType() === 'bool') {
             return new ConfirmationQuestion($questionDescription, (bool)$defaultValue);
         }
 

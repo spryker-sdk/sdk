@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;

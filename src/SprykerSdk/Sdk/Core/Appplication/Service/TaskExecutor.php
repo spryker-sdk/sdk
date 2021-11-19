@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;

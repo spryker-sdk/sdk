@@ -7,11 +7,6 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\DependencyInjection;
 
-use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
-use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
 use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,8 +14,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class DynamicConsoleCommandsCompilerPass implements CompilerPassInterface
 {
-
-
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      *

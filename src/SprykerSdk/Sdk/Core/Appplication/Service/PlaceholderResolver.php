@@ -11,7 +11,6 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 

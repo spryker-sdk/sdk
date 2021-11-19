@@ -10,13 +10,12 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -24,7 +23,8 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
 {
     /**
      * @param \Psr\Container\ContainerInterface $container
-     * @param \Symfony\Component\Console\CommandLoader\ContainerCommandLoader $baseContainerCommandLoader
+     * @param array $commandMap
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $symfonyContainer
      */
     public function __construct(
         ContainerInterface $container,
@@ -53,9 +53,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     /**
      * @param string $name
      *
-     * @return \SprykerSdk\Sdk\Presentation\Console\Commands\RunTaskWrapperCommand
+     * @return \Symfony\Component\Console\Command\Command
      */
-    public function get(string $name)
+    public function get(string $name): Command
     {
         if (parent::has($name)) {
             return parent::get($name);

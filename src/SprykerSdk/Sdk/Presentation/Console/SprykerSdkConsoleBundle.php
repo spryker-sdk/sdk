@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\DynamicConsoleComman
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\SprykerSdkConsoleExtension;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SprykerSdkConsoleBundle extends Bundle
@@ -28,8 +29,10 @@ class SprykerSdkConsoleBundle extends Bundle
         );
     }
 
-
-    public function createContainerExtension()
+    /**
+     * @return \Symfony\Component\DependencyInjection\Extension\Extension
+     */
+    public function createContainerExtension(): Extension
     {
         return new SprykerSdkConsoleExtension();
     }
