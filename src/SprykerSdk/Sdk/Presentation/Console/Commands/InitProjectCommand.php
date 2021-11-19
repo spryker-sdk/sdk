@@ -73,7 +73,7 @@ class InitProjectCommand extends Command
     protected function initializeSettingValues(array $settingEntities, InputInterface $input, OutputInterface $output): array
     {
         foreach ($settingEntities as $settingEntity) {
-            if ($settingEntity->hasInitialization === false) {
+            if ($settingEntity->hasInitialization() === false) {
                 continue;
             }
 
@@ -81,17 +81,17 @@ class InitProjectCommand extends Command
 
             $values = $this->questionHelper->ask($input, $output, $question);
 
-            $values = match ($settingEntity->type) {
+            $values = match ($settingEntity->getType()) {
                 'bool' => (bool)$values,
                 'array' => (array)$values,
                 default => (string)$values,
             };
 
-            if ($settingEntity->strategy === SettingInterface::STRATEGY_MERGE) {
-                $values = array_merge($settingEntity->values, $values);
+            if ($settingEntity->getStrategy() === SettingInterface::STRATEGY_MERGE) {
+                $values = array_merge($settingEntity->getValues(), $values);
             }
 
-            $settingEntity->values = $values;
+            $settingEntity->setValues($values);
         }
 
         return $settingEntities;
@@ -99,14 +99,14 @@ class InitProjectCommand extends Command
 
 
     /**
-     * @param array $projectSettings
+     * @param array<Setting> $projectSettings
      */
     protected function writeProjectSettings(array $projectSettings): void
     {
         $projectValues = [];
 
         foreach ($projectSettings as $projectSetting) {
-            $projectValues[$projectSetting->path] = $projectSetting->values;
+            $projectValues[$projectSetting->getPath()] = $projectSetting->getValues();
         }
 
         $this->projectSettingManager->setSettings($projectValues);
