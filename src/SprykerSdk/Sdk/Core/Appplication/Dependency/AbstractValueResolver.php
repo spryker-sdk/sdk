@@ -18,14 +18,15 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @param array $settingValues
+     * @param array<string, mixed> $settingValues
+     * @param bool|false $optional
      *
      * @return mixed
      */
-    public function getValue(array $settingValues): mixed
+    public function getValue(array $settingValues, bool $optional=false): mixed
     {
-        if ($this->valueReceiver->has($this->getValueName())) {
-            return $this->valueReceiver->get($this->getValueName(), $this->getDescription());
+        if ($this->valueReceiver->hasOption($this->getValueName())) {
+            return $this->valueReceiver->getOption($this->getValueName());
         }
 
         $requiredSettings = array_intersect(array_keys($settingValues), $this->getRequiredSettingPaths());
@@ -35,12 +36,18 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                 'Required settings are missing: ' . implode(', ', array_diff($this->getRequiredSettingPaths(), $settingValues))
             );
         }
+        $defaultValue = $this->getDefaultValue();
 
-        try {
-            return $this->getValueFromSettings($settingValues);
-        } catch (MissingValueException) {
-            return $this->valueReceiver->get($this->getValueName(), $this->getDescription());
+        if (!$defaultValue) {
+            try {
+                $defaultValue = $this->getValueFromSettings($settingValues);
+            } catch (MissingValueException) {}
         }
+        if (!$defaultValue || !$optional) {
+            return $this->valueReceiver->askValue($this->getDescription(), $defaultValue, $this->getType());
+        }
+
+        return $defaultValue;
     }
 
     /**

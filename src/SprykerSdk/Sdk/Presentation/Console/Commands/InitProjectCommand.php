@@ -11,12 +11,10 @@ use SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 
 class InitProjectCommand extends Command
 {
@@ -28,7 +26,7 @@ class InitProjectCommand extends Command
     /**
      */
     public function __construct(
-        protected QuestionHelper $questionHelper,
+        protected CliValueReceiver $cliValueReceiver,
         protected ProjectSettingManager $projectSettingManager,
         protected SettingRepositoryInterface $settingRepository,
         protected string $projectSettingFileName
@@ -44,14 +42,14 @@ class InitProjectCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
+        $this->cliValueReceiver->setInput($input);
+        $this->cliValueReceiver->setOutput($output);
+
         $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
 
         if (file_exists($projectSettingPath)) {
-            if (!$this->questionHelper->ask(
-                $input,
-                $output,
-                new ConfirmationQuestion('.ssdk file already exists, should it be overwritten? [n]', false)
-            )) {
+
+            if (!$this->cliValueReceiver->askValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool')) {
                 return static::SUCCESS;
             }
         }
@@ -64,7 +62,7 @@ class InitProjectCommand extends Command
     }
 
     /**
-     * @param array $settingEntities
+     * @param Setting[] $settingEntities
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -77,9 +75,13 @@ class InitProjectCommand extends Command
                 continue;
             }
 
-            $question = $this->buildQuestion($settingEntity);
+            $questionDescription = $settingEntity->getInitializationDescription();
 
-            $values = $this->questionHelper->ask($input, $output, $question);
+            if (empty($questionDescription)) {
+                $questionDescription = 'Initial value for ' . $settingEntity->getPath();
+            }
+
+            $values = $this->cliValueReceiver->askValue($questionDescription, $settingEntity->getValues(), $settingEntity->getType());
 
             $values = match ($settingEntity->getType()) {
                 'bool' => (bool)$values,
@@ -97,7 +99,6 @@ class InitProjectCommand extends Command
         return $settingEntities;
     }
 
-
     /**
      * @param array<Setting> $projectSettings
      */
@@ -110,34 +111,5 @@ class InitProjectCommand extends Command
         }
 
         $this->projectSettingManager->setSettings($projectValues);
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Setting $settingEntity
-     *
-     * @return \Symfony\Component\Console\Question\Question
-     */
-    protected function buildQuestion(Setting $settingEntity): Question
-    {
-        $questionDescription = $settingEntity->getInitializationDescription();
-
-        if (empty($questionDescription)) {
-           $questionDescription = 'Initial value for ' . $settingEntity->getPath();
-        }
-
-        $defaultValue = match ($settingEntity->getType()) {
-            'bool' => $settingEntity->getValues() ? 'y' : 'n',
-            'array' => json_encode($settingEntity->getValues()),
-            default => (string)$settingEntity->getValues(),
-        };
-
-        $questionDescription .= '[' . $defaultValue . ']';
-
-
-        if ($settingEntity->getType() === 'bool') {
-            return new ConfirmationQuestion($questionDescription, (bool)$defaultValue);
-        }
-
-        return new Question($questionDescription, $defaultValue);
     }
 }

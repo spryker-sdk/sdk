@@ -7,22 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-interface ValueReceiverInterface
+interface QuestionHelperInterface
 {
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasOption(string $key): bool;
-
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function getOption(string $key): mixed;
-
     /**
      * @param string $description
      * @param mixed $defaultValue

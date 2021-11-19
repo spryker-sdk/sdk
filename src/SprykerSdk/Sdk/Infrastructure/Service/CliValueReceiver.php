@@ -8,9 +8,11 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
+use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class CliValueReceiver implements ValueReceiverInterface
@@ -25,10 +27,10 @@ class CliValueReceiver implements ValueReceiverInterface
     protected OutputInterface $output;
 
     /**
-     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
      */
     public function __construct(
-        protected QuestionHelper $questionHelper
+        protected SymfonyQuestionHelper $questionHelper
     ) {}
 
     /**
@@ -52,21 +54,60 @@ class CliValueReceiver implements ValueReceiverInterface
      *
      * @return bool
      */
-    public function has(string $key): bool
+    public function hasOption(string $key): bool
     {
         return $this->input->hasOption($key) && $this->input->getOption($key) !== null;
     }
 
-    public function get(string $key, string $description): mixed
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function getOption(string $key): mixed
     {
-        if ($this->has($key)) {
-            return $this->input->getOption($key);
+        return $this->input->getOption($key);
+    }
+
+    /**
+     * @param string $description
+     * @param mixed $defaultValue
+     * @param string $type
+     *
+     * @return mixed
+     */
+    public function askValue(string $description, mixed $defaultValue, string $type): mixed
+    {
+        switch ($type) {
+            case 'bool':
+                $question = new ConfirmationQuestion($description, $defaultValue);
+
+                break;
+            default:
+                $question = new Question($description, $defaultValue);
+                $question->setNormalizer(function ($value) {
+                    return $value ?: '';
+                });
+
+                if ($type === 'array') {
+                    $question->setMultiline(true);
+                }
+        }
+
+        if (!$defaultValue) {
+            $question->setValidator(function ($value) {
+                if (!$value && $value !== false) {
+                    throw new MissingValueException('Value is invalid');
+                }
+
+                return $value;
+            });
         }
 
         return $this->questionHelper->ask(
             $this->input,
             $this->output,
-            new Question($description, null)
+            $question
         );
     }
 }

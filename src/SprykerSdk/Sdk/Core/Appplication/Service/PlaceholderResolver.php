@@ -38,10 +38,11 @@ class PlaceholderResolver
             $settingValues = [];
 
             foreach ($valueResolverInstance->getSettingPaths() as $settingPath) {
+                // @TODO I guess we need to take this from .ssdk
                 $settingValues[$settingPath] = $this->settingRepository->findOneByPath($settingPath);
             }
 
-            return $valueResolverInstance->getValue($settingValues);
+            return $valueResolverInstance->getValue($settingValues, $placeholder->isOptional());
     }
 
     /**

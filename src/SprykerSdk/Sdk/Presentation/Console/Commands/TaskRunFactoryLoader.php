@@ -75,7 +75,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
                     null,
                     $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                     $valueResolver->getDescription(),
-                    $valueResolver->getDefaultValue(),
                 );
             }, $task->getPlaceholders()),
             $task->getShortDescription(),

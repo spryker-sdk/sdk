@@ -29,7 +29,7 @@ settings:
     init: true
     type: path
     is_project: true
-    values: './'
+    values: ~
   - path: report_usage_statistics
     initialization_description: Do you agree to send anonymous usage reports to help improving the SDK?
     strategy: overwrite

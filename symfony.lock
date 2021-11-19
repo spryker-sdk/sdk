@@ -2,6 +2,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
+    "composer/xdebug-handler": {
+        "version": "2.0.2"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -85,11 +88,47 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "jetbrains/phpstorm-stubs": {
+        "version": "v2019.3"
+    },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
+    "laminas/laminas-config": {
+        "version": "3.7.0"
+    },
+    "laminas/laminas-filter": {
+        "version": "2.12.0"
+    },
+    "laminas/laminas-stdlib": {
+        "version": "3.6.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.4.0"
+    },
     "monolog/monolog": {
         "version": "2.3.5"
+    },
+    "nikic/php-parser": {
+        "version": "v4.13.1"
+    },
+    "ondrejmirtes/better-reflection": {
+        "version": "4.12.2"
+    },
+    "pdepend/pdepend": {
+        "version": "2.10.2"
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "2.2.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "5.3.0"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.5.1"
+    },
+    "phpmd/phpmd": {
+        "version": "2.10.2"
     },
     "psr/cache": {
         "version": "2.0.0"
@@ -102,6 +141,12 @@
     },
     "psr/log": {
         "version": "2.0.0"
+    },
+    "roave/signature": {
+        "version": "1.5.0"
+    },
+    "spryker/architecture-sniffer": {
+        "version": "0.5.2"
     },
     "symfony/cache": {
         "version": "v5.3.10"
@@ -245,5 +290,8 @@
     },
     "symfony/yaml": {
         "version": "v5.3.6"
+    },
+    "webmozart/assert": {
+        "version": "1.10.0"
     }
 }

@@ -12,13 +12,12 @@ use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Yaml\Yaml;
 
 class InitSdkCommand extends Command
@@ -31,7 +30,7 @@ class InitSdkCommand extends Command
     /**
      */
     public function __construct(
-        protected QuestionHelper $questionHelper,
+        protected CliValueReceiver $cliValueReceiver,
         protected SettingRepository $settingRepository,
         protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
         protected MigrateCommand $doctrineMigrationCommand,
@@ -51,6 +50,8 @@ class InitSdkCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
+        $this->cliValueReceiver->setInput($input);
+        $this->cliValueReceiver->setOutput($output);
         $this->createDatabase();
 
         $settingEntities = $this->readSettingDefinitions();
@@ -139,10 +140,10 @@ class InitSdkCommand extends Command
             }
 
             if ($settingEntity->getValues() === null) {
-                $values = $this->questionHelper->ask(
-                    $input,
-                    $output,
-                    new Question($settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath())
+                $values = $this->cliValueReceiver->askValue(
+                    $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
+                    $settingEntity->getValues(),
+                    $settingEntity->getType()
                 );
                 $values = is_scalar($values) ?? json_decode($values);
                 $previousSettingValues = $settingEntity->getValues();
