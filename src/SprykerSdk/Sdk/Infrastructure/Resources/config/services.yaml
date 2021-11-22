@@ -27,6 +27,7 @@ services:
       - '@setting_repository'
       - '@file_finder'
       - '@yaml_parser'
+      - !tagged_iterator sdk.task
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
   local_cli_command_runner:
@@ -35,6 +36,9 @@ services:
     tags: ['command.runner']
     arguments:
       - '@process_helper'
+  php__command_runner:
+    class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
+    tags: ['command.runner']
   cli_value_receiver:
     public: true
     class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
