@@ -50,8 +50,6 @@ class InitSdkCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $this->cliValueReceiver->setInput($input);
-        $this->cliValueReceiver->setOutput($output);
         $this->createDatabase();
 
         $settingEntities = $this->readSettingDefinitions();

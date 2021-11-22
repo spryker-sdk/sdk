@@ -41,6 +41,6 @@ settings:
     initialization_description: Where is the sdk directory?
     strategy: overwrite
     init: true
-    is_project: true
-    type: bool
-    values: false
+    is_project: false
+    type: string
+    values: './'
