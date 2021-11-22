@@ -24,7 +24,7 @@ placeholders:
       type: string
       settingPaths: ['project_dir']
   - name: '%strict%'
-    value_resolver: STATIC
+    value_resolver: FLAG
     optional: false
     configuration:
       name: 'strict'
