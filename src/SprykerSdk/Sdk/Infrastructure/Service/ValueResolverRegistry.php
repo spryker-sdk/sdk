@@ -28,16 +28,31 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected ?array $valueResolversClasses = null;
 
+    /**
+     * @var \Composer\Autoload\ClassLoader
+     */
     protected ClassLoader $classLoader;
 
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface $valueReceiver
+     * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface> $valueResolverServices
+     * @param string $sdkBasePath
+     */
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
         protected ValueReceiverInterface $valueReceiver,
+        protected iterable $valueResolverServices,
         protected string $sdkBasePath
     ) {
         $this->classLoader = require $this->sdkBasePath . '/vendor/autoload.php';
     }
 
+    /**
+     * @param string $id
+     *
+     * @return bool
+     */
     public function has(string $id): bool
     {
         $this->loadValueResolvers();
@@ -51,6 +66,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     /**
      * @param string $id
+     *
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface|null
      */
     public function get(string $id): ?ValueResolverInterface
@@ -66,43 +82,20 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         return null;
     }
 
+    /**
+     * @return void
+     */
     protected function loadValueResolvers()
     {
         if ($this->valueResolvers !== null) {
             return;
         }
 
-        $paths = $this->settingRepository->findOneByPath('value_resolver_dirs');
-        $pathCandidates = array_merge($paths->getValues(), array_map(function (string $path) {
-            return preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
-        }, $paths->getValues()));
-
-        $pathCandidates = array_filter($pathCandidates, function (string $path) {
-            return is_dir($path);
-        });
-        $valueResolverFiles = Finder::create()->in($pathCandidates)->name('*ValueResolver.php');
-
         $this->valueResolvers = [];
         $this->valueResolversClasses = [];
 
-        foreach ($valueResolverFiles->files() as $valueResolverFile) {
-            $pathName = $valueResolverFile->getPathname();
-            $namespace = $this->retrieveNamespaceFromFile($pathName);
-            if ($namespace === null) {
-                continue;
-            }
-
-            $fullClassName = $this->autoloadValueResolver($valueResolverFile, $namespace);
-
-            $valueResolver = new $fullClassName($this->valueReceiver);
-
-            if (!$valueResolver instanceof ValueResolverInterface) {
-                throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', $valueResolver::class, ValueResolverInterface::class));
-            }
-
-            $this->valueResolvers[$valueResolver->getId()] = $valueResolver;
-            $this->valueResolversClasses[get_class($valueResolver)] = $valueResolver;
-        }
+        $this->loadValueResolverServices();
+        $this->loadValueResolversFromFiles();
     }
 
     /**
@@ -170,5 +163,59 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected function hasClass(string $id): bool
     {
         return array_key_exists($id, $this->valueResolversClasses);
+    }
+
+    /**
+     * @return \Symfony\Component\Finder\Finder
+     */
+    protected function getValueResolverFiles(): Finder
+    {
+        $paths = $this->settingRepository->findOneByPath('value_resolver_dirs');
+        $pathCandidates = array_merge($paths->getValues(), array_map(function (string $path) {
+            return preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
+        }, $paths->getValues()));
+
+        $pathCandidates = array_filter($pathCandidates, function (string $path) {
+            return is_dir($path);
+        });
+        return Finder::create()->in($pathCandidates)->name('*ValueResolver.php');
+    }
+
+    /**
+     * @return void
+     */
+    protected function loadValueResolverServices(): void
+    {
+        foreach ($this->valueResolverServices as $valueResolverService) {
+            $this->valueResolvers[$valueResolverService->getId()] = $valueResolverService;
+            $this->valueResolversClasses[get_class($valueResolverService)] = $valueResolverService;
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function loadValueResolversFromFiles(): void
+    {
+        $valueResolverFiles = $this->getValueResolverFiles();
+
+        foreach ($valueResolverFiles->files() as $valueResolverFile) {
+            $pathName = $valueResolverFile->getPathname();
+            $namespace = $this->retrieveNamespaceFromFile($pathName);
+            if ($namespace === null) {
+                continue;
+            }
+
+            $fullClassName = $this->autoloadValueResolver($valueResolverFile, $namespace);
+
+            $valueResolver = new $fullClassName($this->valueReceiver);
+
+            if (!$valueResolver instanceof ValueResolverInterface) {
+                throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', $valueResolver::class, ValueResolverInterface::class));
+            }
+
+            $this->valueResolvers[$valueResolver->getId()] = $valueResolver;
+            $this->valueResolversClasses[get_class($valueResolver)] = $valueResolver;
+        }
     }
 }

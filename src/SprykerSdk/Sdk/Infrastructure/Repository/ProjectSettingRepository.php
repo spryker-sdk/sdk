@@ -37,8 +37,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting> $settings
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface> $settings
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array
     {
@@ -90,9 +90,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting> $entities
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface> $entities
      *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
      */
     protected function fillProjectValues(array $entities): array
     {
@@ -123,5 +123,25 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         return $this->yamlParser->parseFile($projectSettingPath);
+    }
+
+    /**
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
+     */
+    public function findCoreSettings(): array
+    {
+        return $this->coreSettingRepository->findCoreSettings();
+    }
+
+    /**
+     * @param array<string> $paths
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface[]
+     */
+    public function findByPaths(array $paths): array
+    {
+        return $this->fillProjectValues(
+            $this->coreSettingRepository->findByPaths($paths)
+        );
     }
 }

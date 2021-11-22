@@ -29,4 +29,23 @@ interface SettingRepositoryInterface
      * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
      */
     public function findProjectSettings(): array;
+
+    /**
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     */
+    public function findCoreSettings(): array;
+
+    /**
+     * @param array<string> $paths
+     *
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     */
+    public function findByPaths(array $paths): array;
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting> $settings
+     *
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     */
+    public function saveMultiple(array $settings): array;
 }

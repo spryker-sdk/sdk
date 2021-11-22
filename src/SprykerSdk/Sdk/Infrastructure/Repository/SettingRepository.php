@@ -48,6 +48,27 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         ]);
     }
 
+    /**
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     */
+    public function findCoreSettings(): array
+    {
+        return $this->findBy([
+            'isProject' => false,
+        ]);
+    }
+
+    /**
+     * @param array $paths
+     *
+     * @return array
+     */
+    public function findByPaths(array $paths): array
+    {
+        return $this->findBy([
+            'path' => $paths
+        ]);
+    }
 
     /**
      * @param SettingInterface $setting
@@ -67,5 +88,22 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         $this->getEntityManager()->flush($setting);
 
         return $setting;
+    }
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface> $settings
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
+     */
+    public function saveMultiple(array $settings): array
+    {
+        foreach ($settings as $setting) {
+            $this->save($setting);
+        }
+
+        return $settings;
     }
 }
