@@ -47,7 +47,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         }
 
         if (!$optional) {
-            $defaultValue = $this->valueReceiver->askValue($this->getDescription(), $defaultValue, $this->getType());
+            $defaultValue = $this->valueReceiver->receiveValue($this->getDescription(), $defaultValue, $this->getType());
         }
 
         // @TODO lifehack for flags based on alias

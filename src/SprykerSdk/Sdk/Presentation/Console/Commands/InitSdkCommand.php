@@ -138,7 +138,7 @@ class InitSdkCommand extends Command
             }
 
             if ($settingEntity->getValues() === null) {
-                $values = $this->cliValueReceiver->askValue(
+                $values = $this->cliValueReceiver->receiveValue(
                     $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
                     $settingEntity->getValues(),
                     $settingEntity->getType()

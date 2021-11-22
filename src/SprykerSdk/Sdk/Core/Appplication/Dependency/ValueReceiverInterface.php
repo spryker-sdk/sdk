@@ -30,5 +30,5 @@ interface ValueReceiverInterface
      *
      * @return mixed
      */
-    public function askValue(string $description, mixed $defaultValue, string $type): mixed;
+    public function receiveValue(string $description, mixed $defaultValue, string $type): mixed;
 }
