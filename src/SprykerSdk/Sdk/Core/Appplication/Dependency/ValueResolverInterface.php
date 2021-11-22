@@ -40,7 +40,7 @@ interface ValueResolverInterface
      *
      * @return mixed
      */
-    public function getValue(array $settingValues, bool $optional=false): mixed;
+    public function getValue(array $settingValues, bool $optional = false): mixed;
 
     /**
      * @return mixed
