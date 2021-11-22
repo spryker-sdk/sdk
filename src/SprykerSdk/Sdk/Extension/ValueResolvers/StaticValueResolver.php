@@ -74,17 +74,17 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
-     * @param array<string, mixed> $settingValues
+     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      *
      * @return mixed
      */
     protected function getValueFromSettings(array $settingValues): mixed
     {
-        if ($this->value === null) {
+        if (!isset($settingValues[$this->getAlias()])) {
             throw new MissingValueException();
         }
 
-        return $this->value;
+        return $settingValues[$this->getAlias()]->getValues();
     }
 
     /**

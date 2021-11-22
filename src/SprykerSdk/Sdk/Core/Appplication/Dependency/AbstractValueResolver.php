@@ -38,17 +38,15 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         }
         $defaultValue = $this->getDefaultValue();
 
-        if (!$defaultValue) {
-            $defaultValue = $settingValues[$this->getAlias()] ? $settingValues[$this->getAlias()]->getValues() : null;
-        }
-        if (!$defaultValue) {
+        if ($defaultValue === null) {
             try {
                 $defaultValue = $this->getValueFromSettings($settingValues);
             } catch (MissingValueException) {
                 $defaultValue = null;
             }
         }
-        if (!$defaultValue || !$optional) {
+
+        if (!$optional) {
             $defaultValue = $this->valueReceiver->askValue($this->getDescription(), $defaultValue, $this->getType());
         }
 

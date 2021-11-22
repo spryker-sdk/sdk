@@ -14,6 +14,7 @@ placeholders:
       description: 'Absolute path to sdk directory'
       defaultValue: './'
       type: string
+      settingPaths: ['sdk_dir']
   - name: '%project_dir%'
     value_resolver: STATIC
     optional: true
@@ -21,7 +22,7 @@ placeholders:
       name: 'project_dir'
       description: 'Absolute path to project directory'
       type: string
-      settingPaths: []
+      settingPaths: ['project_dir']
   - name: '%strict%'
     value_resolver: STATIC
     optional: false

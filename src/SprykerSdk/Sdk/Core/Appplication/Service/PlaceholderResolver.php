@@ -36,7 +36,6 @@ class PlaceholderResolver
             $valueResolverInstance = $this->getValueResolver($placeholder);
 
             $settingValues = [];
-            $settingValues[$valueResolverInstance->getAlias()] = $this->settingRepository->findOneByPath($valueResolverInstance->getAlias());
 
             foreach ($valueResolverInstance->getSettingPaths() as $settingPath) {
                 $settingValues[$settingPath] = $this->settingRepository->findOneByPath($settingPath);

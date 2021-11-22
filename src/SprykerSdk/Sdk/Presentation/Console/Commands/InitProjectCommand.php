@@ -97,7 +97,7 @@ class InitProjectCommand extends Command
     }
 
     /**
-     * @param array<Setting> $projectSettings
+     * @param array<int, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $projectSettings
      */
     protected function writeProjectSettings(array $projectSettings): void
     {

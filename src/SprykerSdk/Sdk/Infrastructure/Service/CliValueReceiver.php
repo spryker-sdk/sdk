@@ -80,7 +80,8 @@ class CliValueReceiver implements ValueReceiverInterface
     {
         switch ($type) {
             case 'bool':
-                $question = new ConfirmationQuestion($description, $defaultValue);
+
+                $question = new ConfirmationQuestion($description, (bool)$defaultValue);
 
                 break;
             default:
