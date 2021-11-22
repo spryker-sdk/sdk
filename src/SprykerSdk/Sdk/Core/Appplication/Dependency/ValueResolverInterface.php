@@ -36,9 +36,11 @@ interface ValueResolverInterface
 
     /**
      * @param array<string, mixed> $settingValues
+     * @param bool|false $optional
+     *
      * @return mixed
      */
-    public function getValue(array $settingValues): mixed;
+    public function getValue(array $settingValues, bool $optional = false): mixed;
 
     /**
      * @return mixed
