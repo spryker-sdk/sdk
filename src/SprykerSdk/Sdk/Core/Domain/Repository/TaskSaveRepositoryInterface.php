@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
@@ -9,17 +8,12 @@ namespace SprykerSdk\Sdk\Core\Domain\Repository;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 
-interface TaskRepositoryInterface
+interface TaskSaveRepositoryInterface
 {
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Task>
-     */
-    public function findAll();
-
-    /**
-     * @param string $taskId
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface> $task
      *
-     * @return TaskInterface|null
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
-    public function findById(string $taskId): ?TaskInterface;
+    public function save(TaskInterface $task);
 }

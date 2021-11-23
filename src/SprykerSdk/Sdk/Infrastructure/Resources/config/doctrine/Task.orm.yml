@@ -1,0 +1,27 @@
+SprykerSdk\Sdk\Infrastructure\Entity\Task:
+  type: entity
+  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+  table: sdk_task
+  id:
+    id:
+      type: string
+      generator:
+        strategy: NONE
+  fields:
+    shortDescription:
+      type: string
+      unique: false
+      nullable: false
+    help:
+      type: string
+      unique: false
+      nullable: true
+  oneToMany:
+    commands:
+      targetEntity: Command
+      mappedBy: task
+      cascade: ["persist", "remove"]
+    placeholders:
+      targetEntity: Placeholder
+      mappedBy: task
+      cascade: ["persist", "remove"]

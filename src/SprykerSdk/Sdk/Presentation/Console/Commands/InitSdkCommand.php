@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskInitializerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
@@ -37,6 +38,7 @@ class InitSdkCommand extends Command
         protected MigrateCommand $doctrineMigrationCommand,
         protected Yaml $yamlParser,
         protected string $settingsPath,
+        protected TaskInitializerInterface $taskInitializer
     ) {
         parent::__construct(static::NAME);
     }
@@ -55,6 +57,7 @@ class InitSdkCommand extends Command
 
         $settingEntities = $this->readSettingDefinitions();
         $this->initializeSettingValues($settingEntities, $input, $output);
+        $this->taskInitializer->initialize();
 
         return static::SUCCESS;
     }
@@ -163,7 +166,7 @@ class InitSdkCommand extends Command
     protected function createDatabase(): void
     {
         $this->createDatabaseDoctrineCommand->run(new ArrayInput([]), new NullOutput());
-        $migrationInput = new ArrayInput([]);
+        $migrationInput = new ArrayInput(['allow-no-migration']);
         $migrationInput->setInteractive(false);
         $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }

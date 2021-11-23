@@ -1,0 +1,28 @@
+SprykerSdk\Sdk\Infrastructure\Entity\Command:
+  type: entity
+  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\CommandRepository
+  table: sdk_command
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    command:
+      type: string
+      nullable: false
+      unique: false
+    type:
+      type: string
+      nullable: false
+      unique: false
+    hasStopOnError:
+      name: has_stop_on_error
+      type: boolean
+      default: true
+      unique: false
+      nullable: false
+  manyToOne:
+    task:
+      targetEntity: Task
+      cascade: ["persist"]
