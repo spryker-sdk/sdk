@@ -20,6 +20,11 @@ interface CommandInterface
     public function getType(): string;
 
     /**
+     * @return string[]
+     */
+    public function getTags(): array;
+
+    /**
      * @return bool
      */
     public function hasStopOnError(): bool;

@@ -13,11 +13,13 @@ class Command implements CommandInterface
      * @param string $command
      * @param string $type
      * @param bool $hasStopOnError
+     * @param array<string> $tags
      */
     public function __construct(
         protected string $command,
         protected string $type,
-        protected bool $hasStopOnError = true
+        protected bool $hasStopOnError = true,
+        protected array $tags = []
     ) {
     }
 
@@ -35,6 +37,14 @@ class Command implements CommandInterface
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
     }
 
     /**

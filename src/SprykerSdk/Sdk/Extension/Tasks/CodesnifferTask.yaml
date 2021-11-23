@@ -1,0 +1,33 @@
+---
+id: 'validation:codesniffer'
+short_description: 'Run validation for code style'
+help: ~
+stage: build
+command: 'php %sdk_dir%/vendor/bin/phpcs --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %path%'
+type: local_cli
+placeholders:
+  - name: '%sdk_dir%'
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      name: 'sdk_dir'
+      description: 'Absolute path to sdk directory'
+      defaultValue: './'
+      type: string
+      settingPaths: ['sdk_dir']
+  - name: '%project_dir%'
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      name: 'project_dir'
+      description: 'Absolute path to project directory'
+      type: string
+      settingPaths: ['project_dir']
+  - name: '%path%'
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      name: 'path'
+      description: 'Absolute path to module directory'
+      type: string
+      settingPaths: []
