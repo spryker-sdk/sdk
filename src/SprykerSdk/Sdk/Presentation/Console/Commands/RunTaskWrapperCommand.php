@@ -8,8 +8,6 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
-use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -62,5 +60,4 @@ class RunTaskWrapperCommand extends Command
     {
         return $this->taskExecutor->execute($this->getName());
     }
-
 }

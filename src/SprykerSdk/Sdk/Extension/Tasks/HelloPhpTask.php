@@ -7,7 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
+use JetBrains\PhpStorm\Pure;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
 class HelloPhpTask implements TaskInterface
 {
@@ -42,13 +43,12 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
-    public function getCommands(): array
+    #[Pure] public function getCommands(): array
     {
         return [
             new HelloPhpCommand(),
         ];
     }
-
 }

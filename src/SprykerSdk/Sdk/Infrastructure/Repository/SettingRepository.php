@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 
@@ -91,12 +91,12 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface> $settings
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     *
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     *@throws \Doctrine\ORM\OptimisticLockException
      *
      * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array
     {

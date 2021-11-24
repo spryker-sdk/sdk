@@ -8,12 +8,13 @@
 namespace SprykerSdk\Sdk\Infrastructure\Logger;
 
 use DateTimeInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
-use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
+use SprykerSdk\Sdk\Contracts\Events\EventInterface;
 
 class JsonFormatter extends MonologJsonFormatter
 {
-    public const CONTEXT_EVENT = 'taskLog';
+    public const CONTEXT_EVENT = 'event';
 
     /**
      * @param int $batchMode
@@ -40,8 +41,8 @@ class JsonFormatter extends MonologJsonFormatter
             unset($record['datetime']);
         }
 
-        if (isset($record['context'][static::CONTEXT_EVENT]) && $record['context'][static::CONTEXT_EVENT] instanceof TaskExecutedEvent) {
-            $record += $this->transformTaskLogTransferToArray($record['context'][static::CONTEXT_EVENT]);
+        if (isset($record['context'][static::CONTEXT_EVENT]) && $record['context'][static::CONTEXT_EVENT] instanceof EventInterface) {
+            $record += $this->transformEventToArray($record['context'][static::CONTEXT_EVENT]);
         }
 
         $record = $this->unsetRedundantFields($record);
@@ -67,19 +68,19 @@ class JsonFormatter extends MonologJsonFormatter
     }
 
     /**
-     * @param TaskExecutedEvent $taskLogTransfer
+     * @param \SprykerSdk\Sdk\Contracts\Events\EventInterface $event
      *
      * @return array
      */
-    protected function transformTaskLogTransferToArray(TaskExecutedEvent $taskLogTransfer): array
+    #[ArrayShape(['id' => "string", 'type' => "string", 'event' => "string", 'successful' => "bool", 'triggered_by' => "string", 'sdkContext' => "string"])] protected function transformEventToArray(EventInterface $event): array
     {
         return [
-            'id' => $taskLogTransfer->id,
-            'type' => $taskLogTransfer->type,
-            'event' => $taskLogTransfer->event,
-            'successful' => $taskLogTransfer->isSuccessful,
-            'triggered_by' => $taskLogTransfer->triggeredBy,
-            'sdkContext' => $taskLogTransfer->context,
+            'id' => $event->getId(),
+            'type' => $event->getType(),
+            'event' => $event->getEvent(),
+            'successful' => $event->isSuccessful(),
+            'triggered_by' => $event->getTriggeredBy(),
+            'sdkContext' => $event->getContext(),
         ];
     }
 }

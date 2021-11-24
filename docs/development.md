@@ -52,7 +52,7 @@ Please refer to https://symfony.com/doc/current/bundles.html for information on 
 ```php
 namespace <YourNamespace>\Tasks;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use <YourNamespace>\Tasks\Commands\YourCommand;
 
 class YourTask implements TaskInterface
@@ -63,7 +63,7 @@ class YourTask implements TaskInterface
     public function getShortDescription(): string {}
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array {}
 
@@ -76,7 +76,7 @@ class YourTask implements TaskInterface
     public function getId(): string {}
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -96,7 +96,7 @@ a __Command__ serves as function that is executed along with the resolved __Plac
 ```php
 namespace <YourNamespace>\Tasks\Commands;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\ExecutableCommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 
 class YourCommand implements ExecutableCommandInterface
 {
@@ -150,13 +150,13 @@ The used __ValueResolver__ can be referenced by his id or by his full qualified 
 ```php
 namespace <YourNamespace>\Tasks;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\__Placeholder__;use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\__Placeholder__;use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use <YourNamespace>\ValueResolvers\YourValueResolver;
 
 class YourTask implements TaskInterface
 {
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -193,7 +193,7 @@ The purpose is to unify __ValueResolvers__ and always use the same name for a va
 ```php
 namespace <YourNamespace>\ValueResolvers;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
+use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 
 class YourValueResolver implements ValueResolverInterface
 {
@@ -291,7 +291,7 @@ To implement new __Task__ types a new command runner is required and needs to be
 ```php
 namespace <YourNamespace>\CommandRunners;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface;
+use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 
 class YourTypeCommandRunner implements CommandRunnerInterface
 {

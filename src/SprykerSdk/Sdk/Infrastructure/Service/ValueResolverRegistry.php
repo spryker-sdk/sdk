@@ -8,23 +8,24 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Composer\Autoload\ClassLoader;
+use JetBrains\PhpStorm\Pure;
 use SplFileInfo;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
+use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use Symfony\Component\Finder\Finder;
 
 class ValueResolverRegistry implements ValueResolverRegistryInterface
 {
     /**
-     * @var array<string, \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface>
+     * @var array<string, \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
      */
     protected ?array $valueResolvers = null;
 
     /**
-     * @var array<string, \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface>
+     * @var array<string, \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
      */
     protected ?array $valueResolversClasses = null;
 
@@ -34,9 +35,9 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected ClassLoader $classLoader;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface $valueReceiver
-     * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface> $valueResolverServices
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param iterable<\SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param string $sdkBasePath
      */
     public function __construct(
@@ -67,9 +68,9 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     /**
      * @param string $id
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface|null
      */
-    public function get(string $id): ?ValueResolverInterface
+    #[Pure] public function get(string $id): ?ValueResolverInterface
     {
         if ($this->hasId($id)) {
             return $this->valueResolvers[$id];
