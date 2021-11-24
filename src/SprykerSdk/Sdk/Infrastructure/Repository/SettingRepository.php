@@ -18,19 +18,14 @@ use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 class SettingRepository extends EntityRepository implements SettingRepositoryInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
-     */
-    protected PathResolver $pathResolver;
-    /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver $pathResolver
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        PathResolver $pathResolver
+        protected PathResolver $pathResolver
     ) {
         $class = $entityManager->getClassMetadata(InfrastructureSetting::class);
-        $this->pathResolver = $pathResolver;
 
         parent::__construct($entityManager, $class);
     }
