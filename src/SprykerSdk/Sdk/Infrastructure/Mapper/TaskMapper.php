@@ -23,9 +23,11 @@ class TaskMapper implements TaskMapperInterface
         $entity = new Task(
             $task->getId(),
             $task->getShortDescription(),
+            $task->getHelp(),
+            $task->getVersion(),
+            $task->getSuccessor(),
+            $task->isDeprecated()
         );
-
-        $entity->setHelp($task->getHelp());
 
         $entity = $this->mapPlaceholders($task->getPlaceholders(), $entity);
         $entity = $this->mapCommands($task->getCommands(), $entity);

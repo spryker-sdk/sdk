@@ -10,6 +10,11 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use SplFileInfo;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\File;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
@@ -117,6 +122,65 @@ class TaskYamlRepository implements TaskRepositoryInterface
     }
 
     /**
+     * @param array $data
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface[]
+     */
+    protected function buildLifecycleCommands(array $data): array
+    {
+        $commands = [];
+
+        foreach ($data['commands'] as $command) {
+            $commands[] = new Command(
+                $command['command'],
+                $command['type'],
+                true
+            );
+        }
+
+        return $commands;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface[]
+     */
+    protected function buildFiles(array $data): array
+    {
+        $files = [];
+
+        foreach ($data['files'] as $file) {
+            $files[] = new File(
+                $file['path'],
+                $file['content']
+            );
+        }
+
+        return $files;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface|null
+     */
+    protected function buildLifecycle(array $data): ?LifecycleInterface
+    {
+        if (!isset($data['lifecycle']['INITIALIZED'])) {
+            return null;
+        }
+
+        $initializedEvent = new InitializedEvent(
+            $this->buildLifecycleCommands($data['lifecycle']['INITIALIZED']),
+            $this->buildPlaceholders($data['lifecycle']['INITIALIZED']),
+            $this->buildFiles($data['lifecycle']['INITIALIZED'])
+        );
+
+        return new Lifecycle($initializedEvent);
+    }
+
+    /**
      * @param \SplFileInfo $taskFile
      *
      * @return TaskInterface
@@ -127,6 +191,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
         $placeholders = $this->buildPlaceholders($data);
         $commands = $this->buildCommands($data);
+        $lifecycle = $this->buildLifecycle($data);
 
         return new Task(
             $data['id'],
@@ -134,6 +199,10 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $commands,
             $placeholders,
             $data['help'] ?? null,
+            $data['version'] ?? null,
+            $data['successor'] ?? null,
+            $data['deprecated'] ?? false,
+            $lifecycle
         );
     }
 }

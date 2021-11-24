@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
+
 interface TaskInterface
 {
     /**
@@ -33,4 +35,24 @@ interface TaskInterface
      * @return string|null
      */
     public function getHelp(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getVersion(): ?string;
+
+    /**
+     * @return bool
+     */
+    public function isDeprecated(): bool;
+
+    /**
+     * @return string|null
+     */
+    public function getSuccessor(): ?string;
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface|null
+     */
+    public function getLifecycle(): ?LifecycleInterface;
 }

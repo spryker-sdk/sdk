@@ -15,4 +15,12 @@ abstract class LifecycleEvent extends Event
     public function __construct(protected TaskInterface $task)
     {
     }
+
+    /**
+     * @return TaskInterface
+     */
+    public function getTask(): TaskInterface
+    {
+        return $this->task;
+    }
 }

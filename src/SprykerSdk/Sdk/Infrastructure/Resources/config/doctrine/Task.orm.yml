@@ -16,6 +16,19 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
       type: string
       unique: false
       nullable: true
+    version:
+      type: string
+      unique: false
+      nullable: false
+    successor:
+      type: string
+      unique: false
+      nullable: true
+    deprecated:
+      type: boolean
+      unique: false
+      nullable: false
+      default: false
   oneToMany:
     commands:
       targetEntity: Command

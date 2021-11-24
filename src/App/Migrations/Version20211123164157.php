@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211122130027 extends AbstractMigration
+final class Version20211123164157 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,7 +25,7 @@ final class Version20211122130027 extends AbstractMigration
         $this->addSql('CREATE TABLE sdk_placeholder (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, task_id VARCHAR(255) DEFAULT NULL, name VARCHAR(255) NOT NULL, value_resolver VARCHAR(255) NOT NULL, configuration CLOB NOT NULL --(DC2Type:json)
         , is_optional BOOLEAN NOT NULL)');
         $this->addSql('CREATE INDEX IDX_6C373D6E8DB60186 ON sdk_placeholder (task_id)');
-        $this->addSql('CREATE TABLE sdk_task (id VARCHAR(255) NOT NULL, short_description VARCHAR(255) NOT NULL, help VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE sdk_task (id VARCHAR(255) NOT NULL, short_description VARCHAR(255) NOT NULL, help VARCHAR(255) DEFAULT NULL, version VARCHAR(255) NOT NULL, successor VARCHAR(255) DEFAULT NULL, deprecated BOOLEAN NOT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema): void

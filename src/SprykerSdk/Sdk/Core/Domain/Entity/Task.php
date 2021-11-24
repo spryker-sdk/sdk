@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
+
 class Task implements TaskInterface
 {
     /**
@@ -15,13 +17,21 @@ class Task implements TaskInterface
      * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Command> $commands
      * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Placeholder> $placeholders
      * @param string|null $help
+     * @param string|null $version
+     * @param string|null $successor
+     * @param bool $deprecated
+     * @param
      */
     public function __construct(
         protected string $id,
         protected string $shortDescription,
         protected array $commands,
         protected array $placeholders = [],
-        protected ?string $help = null
+        protected ?string $help = null,
+        protected ?string $version = null,
+        protected ?string $successor = null,
+        protected bool $deprecated = false,
+        protected ?LifecycleInterface $lifecycle = null
     ) {
     }
 
@@ -63,5 +73,34 @@ class Task implements TaskInterface
     public function getHelp(): ?string
     {
         return $this->help;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSuccessor(): ?string
+    {
+        return $this->successor;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeprecated(): bool
+    {
+        return $this->deprecated;
+    }
+
+    public function getLifecycle(): ?LifecycleInterface
+    {
+        return $this->lifecycle;
     }
 }

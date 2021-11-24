@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 
 class HelloPhpTask implements TaskInterface
@@ -51,4 +52,23 @@ class HelloPhpTask implements TaskInterface
         ];
     }
 
+    public function getVersion(): ?string
+    {
+        return '1.0.0';
+    }
+
+    public function isDeprecated(): bool
+    {
+        return false;
+    }
+
+    public function getSuccessor(): ?string
+    {
+        return '/bin/echo "hello %world% %somebody%"';
+    }
+
+    public function getLifecycle(): ?LifecycleInterface
+    {
+        return null;
+    }
 }

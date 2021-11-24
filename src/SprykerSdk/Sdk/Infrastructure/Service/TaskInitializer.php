@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskInitializerInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Lifecycle\Event\InitializedEvent;
@@ -39,21 +38,9 @@ class TaskInitializer implements TaskInitializerInterface
         foreach ($tasks as $task) {
             $entities[] = $this->taskSaveRepository->save($task);
 
-            $this->eventDispatcher->dispatch(
-                $this->createInitializedEvent($task)
-            );
+            $this->eventDispatcher->dispatch(new InitializedEvent($task), InitializedEvent::NAME);
         }
 
         return $entities;
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface $task
-     *
-     * @return \SprykerSdk\Sdk\Core\Lifecycle\Event\InitializedEvent
-     */
-    protected function createInitializedEvent(TaskInterface $task): InitializedEvent
-    {
-        return new InitializedEvent($task);
     }
 }

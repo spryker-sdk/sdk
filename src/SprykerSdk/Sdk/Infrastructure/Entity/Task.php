@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 
@@ -19,18 +19,34 @@ class Task implements TaskInterface
 
     protected Collection $commands;
 
-    protected ?string $help = null;
+    protected ?LifecycleInterface $lifecycle = null;
 
     /**
      * @param string $id
      * @param string $shortDescription
+     * @param string|null $help
+     * @param string|null $version
+     * @param string|null $successor
+     * @param bool $deprecated
      */
     public function __construct(
         protected string $id,
         protected string $shortDescription,
+        protected ?string $help = null,
+        protected ?string $version = null,
+        protected ?string $successor = null,
+        protected bool $deprecated = false,
     ) {
         $this->commands = new ArrayCollection();
         $this->placeholders = new ArrayCollection();
+    }
+
+    /**
+     * @return LifecycleInterface|null
+     */
+    public function getLifecycle(): ?LifecycleInterface
+    {
+        return $this->lifecycle;
     }
 
     /**
@@ -104,6 +120,30 @@ class Task implements TaskInterface
     {
         $this->shortDescription = $shortDescription;
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSuccessor(): ?string
+    {
+        return $this->successor;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeprecated(): bool
+    {
+        return $this->deprecated;
     }
 
     /**

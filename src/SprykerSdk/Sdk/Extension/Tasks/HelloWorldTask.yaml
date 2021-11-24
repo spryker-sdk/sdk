@@ -3,6 +3,9 @@ id: 'hello:world'
 short_description: 'Sends greetings'
 help: 'Will greet the one using it'
 stage: build
+version: 1.0.0
+deprecated: false #if false it can be ommited
+successor: '/bin/echo "hello %world% %somebody%"'
 command: '/bin/echo "hello %world% %somebody%"'
 type: local_cli
 placeholders:
@@ -19,3 +22,22 @@ placeholders:
     configuration:
       name: 'somebody'
       description: 'Who is somebody'
+lifecycle:
+  INITIALIZED:
+    commands:
+      - command: php -r "file_put_contents('%project_dir%/.initialized.test', 'hello file_put_contents');"
+        type: local_cli
+    files:
+      - path: '%project_dir%/.cs_config'
+        content: "severity: 3"
+    placeholders:
+      - name: '%project_dir%'
+        value_resolver: STATIC
+        optional: true
+        configuration:
+          name: 'project_dir'
+          description: 'Project dir, but actually SDK dir'
+          defaultValue: '/Users/kizzill/Documents/Spryker/spryker-sdk/spryker-sdk/'
+  UPDATED: ~ # if event does not defines anything it can be ommited
+  REMOVED: #same format as INITIALIZED
+

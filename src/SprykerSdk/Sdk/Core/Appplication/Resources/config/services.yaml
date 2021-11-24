@@ -42,3 +42,22 @@ services:
     arguments:
       - '@project_setting_repository'
       - '@setting_repository'
+
+  service.file_creator:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\FileCreator
+
+  lifecycle.initialized_subsriber:
+    class: SprykerSdk\Sdk\Core\Lifecycle\Subscriber\InitializedEventSubscriber
+    tags: ['kernel.event_subscriber']
+    arguments:
+      - '@service.file_creator'
+      - '@placeholder_resolver'
+      - !tagged_iterator command.runner
+
+  lifecycle.removed_subsriber:
+    class: SprykerSdk\Sdk\Core\Lifecycle\Subscriber\UpdatedEventSubscriber
+    tags: ['kernel.event_subscriber']
+
+  lifecycle.updated_subsriber:
+    class: SprykerSdk\Sdk\Core\Lifecycle\Subscriber\RemovedEventSubscriber
+    tags: ['kernel.event_subscriber']
