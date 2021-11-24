@@ -31,7 +31,6 @@ services:
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
   local_cli_command_runner:
-    public: true
     class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
     tags: ['command.runner']
     arguments:
@@ -40,10 +39,21 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
     tags: ['command.runner']
   cli_value_receiver:
-    public: true
     class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
     arguments:
       - '@question_helper'
+  cli_value_receiver_setup_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
+    tags:
+      - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+    arguments:
+      - '@cli_value_receiver'
+  cli_runner_setup_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
+    tags:
+      - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+    arguments:
+      - '@local_cli_command_runner'
   value_receiver:
     alias: 'cli_value_receiver'
   value_resolver_registry:

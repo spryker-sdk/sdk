@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 class LocalCliRunner implements CommandRunnerInterface
 {
@@ -58,18 +59,21 @@ class LocalCliRunner implements CommandRunnerInterface
 
         $values = array_map(function (mixed $value): string {
             $castedValue = match(gettype($value)) {
-                //@todo format bool, int, float
                 default => (string) $value,
             };
 
-            return preg_quote($castedValue);
+            return $castedValue;
         }, array_values($resolvedValues));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
 
+        $process = Process::fromShellCommandline($assembledCommand);
+        $process->setTimeout(null);
+        $process->setIdleTimeout(null);
+
         $process = $this->processHelper->run(
             $this->output,
-            [$assembledCommand]
+            [$process]
         );
 
         return $process->run();

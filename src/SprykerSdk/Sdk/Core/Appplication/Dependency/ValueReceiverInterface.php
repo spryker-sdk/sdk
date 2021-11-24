@@ -9,15 +9,26 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
 interface ValueReceiverInterface
 {
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
     public function has(string $key): bool;
 
     /**
      * @param string $key
-     * @param string $description
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException
      *
      * @return mixed
      */
-    public function get(string $key, string $description): mixed;
+    public function get(string $key): mixed;
+
+    /**
+     * @param string $description
+     * @param mixed $defaultValue
+     * @param string $type
+     *
+     * @return mixed
+     */
+    public function receiveValue(string $description, mixed $defaultValue, string $type): mixed;
 }

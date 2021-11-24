@@ -18,16 +18,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RunTaskWrapperCommand extends Command
 {
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner $localCliRunner
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name
      */
     public function __construct(
-        protected LocalCliRunner $localCliRunner,
-        protected CliValueReceiver $cliValueReceiver,
         protected TaskExecutor $taskExecutor,
         protected array $taskOptions,
         protected string $description,
@@ -64,11 +60,6 @@ class RunTaskWrapperCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $this->localCliRunner->setOutput($output);
-        $this->localCliRunner->setHelperSet($this->getApplication()->getHelperSet());
-        $this->cliValueReceiver->setOutput($output);
-        $this->cliValueReceiver->setInput($input);
-
         return $this->taskExecutor->execute($this->getName());
     }
 

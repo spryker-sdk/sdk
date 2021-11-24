@@ -16,6 +16,8 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     protected mixed $value;
     protected string $alias;
     protected mixed $description;
+    protected array $settingPaths;
+
     /**
      * @var mixed|null
      */
@@ -40,7 +42,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
 
     public function getSettingPaths(): array
     {
-        return [];
+        return $this->settingPaths;
     }
 
     public function getType(): string
@@ -60,6 +62,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
         $this->description = $values['description'];
         $this->help = $values['help'] ?? null;
         $this->type = $values['type'] ?? 'string';
+        $this->settingPaths = $values['settingPaths'] ?? [];
     }
 
     /**
@@ -71,17 +74,17 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
-     * @param array<string, mixed> $settingValues
+     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      *
      * @return mixed
      */
     protected function getValueFromSettings(array $settingValues): mixed
     {
-        if ($this->value === null) {
+        if (!isset($settingValues[$this->getAlias()])) {
             throw new MissingValueException();
         }
 
-        return $this->value;
+        return $settingValues[$this->getAlias()]->getValues();
     }
 
     /**

@@ -29,7 +29,7 @@ settings:
     init: true
     type: path
     is_project: true
-    values: './'
+    values: ~
   - path: report_usage_statistics
     initialization_description: Do you agree to send anonymous usage reports to help improving the SDK?
     strategy: overwrite
@@ -37,3 +37,10 @@ settings:
     is_project: true
     type: bool
     values: false
+  - path: sdk_dir
+    initialization_description: Where is the sdk directory?
+    strategy: overwrite
+    init: true
+    is_project: false
+    type: string
+    values: './'

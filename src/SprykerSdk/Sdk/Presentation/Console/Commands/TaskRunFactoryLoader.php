@@ -64,8 +64,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $task = $this->getTaskRepository()->findById($name);
 
         return new RunTaskWrapperCommand(
-            $this->getLocalCliRunner(),
-            $this->getCliValueReceiver(),
             $this->getTaskExecutor(),
             array_map(function (PlaceholderInterface $placeholder): InputOption {
                 $valueResolver = $this->getPlaceholderResolver()->getValueResolver($placeholder);
@@ -75,7 +73,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
                     null,
                     $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                     $valueResolver->getDescription(),
-                    $valueResolver->getDefaultValue(),
                 );
             }, $task->getPlaceholders()),
             $task->getShortDescription(),
@@ -99,22 +96,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected function getTaskRepository(): TaskRepositoryInterface
     {
         return $this->symfonyContainer->get('task_repository');
-    }
-
-    /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
-     */
-    protected function getLocalCliRunner(): LocalCliRunner
-    {
-        return $this->symfonyContainer->get('local_cli_command_runner');
-    }
-
-    /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
-     */
-    protected function getCliValueReceiver(): CliValueReceiver
-    {
-        return $this->symfonyContainer->get('cli_value_receiver');
     }
 
     /**

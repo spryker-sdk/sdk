@@ -7,21 +7,21 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 
 class PlaceholderResolver
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface $valueResolverRegistry
      */
     public function __construct(
-        protected SettingRepositoryInterface $settingRepository,
+        protected ProjectSettingRepositoryInterface $settingRepository,
         protected ValueResolverRegistryInterface $valueResolverRegistry,
     ) {
     }
@@ -41,7 +41,7 @@ class PlaceholderResolver
                 $settingValues[$settingPath] = $this->settingRepository->findOneByPath($settingPath);
             }
 
-            return $valueResolverInstance->getValue($settingValues);
+            return $valueResolverInstance->getValue($settingValues, $placeholder->isOptional());
     }
 
     /**
