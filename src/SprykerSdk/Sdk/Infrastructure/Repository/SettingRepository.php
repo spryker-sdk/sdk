@@ -37,9 +37,14 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
-        return $this->findOneBy([
+        $setting =  $this->findOneBy([
             'path' => $settingPath
         ]);
+        if (!$setting) {
+            return null;
+        }
+
+        return $this->resolvePathSetting($setting);
     }
 
     /**
@@ -47,9 +52,10 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function findProjectSettings(): array
     {
-        return $this->findBy([
+        $settings = $this->findBy([
             'isProject' => true,
         ]);
+        return array_map(array(static::class, 'resolvePathSetting'), $settings);
     }
 
 
@@ -64,6 +70,19 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     public function save(SettingInterface $setting): SettingInterface
     {
 
+        $this->getEntityManager()->persist($setting);
+        $this->getEntityManager()->flush($setting);
+
+        return $setting;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $setting
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface|\SprykerSdk\Sdk\Infrastructure\Entity\Setting
+     */
+    protected function resolvePathSetting(SettingInterface $setting)
+    {
         if (!$setting instanceof InfrastructureSetting) {
             throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
         }
@@ -71,18 +90,15 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             $values = $setting->getValues();
             if (is_array($values)) {
                 foreach ($values as $key => $value) {
-                    $values[$key] = $this->pathResolver->getResolveSdkRelativePath($value);
+                    $values[$key] = $this->pathResolver->getResolveRelativePath($value);
                 }
             }
             if (is_string($values)) {
-                $values = $this->pathResolver->getResolveSdkRelativePath($values);
+                $values = $this->pathResolver->getResolveRelativePath($values);
             }
 
             $setting->setValues($values);
         }
-
-        $this->getEntityManager()->persist($setting);
-        $this->getEntityManager()->flush($setting);
 
         return $setting;
     }

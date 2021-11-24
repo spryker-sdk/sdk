@@ -17,13 +17,13 @@ class PathResolver
      *
      * @return string
      */
-    public function getResolveSdkRelativePath($path): string
+    public function getResolveRelativePath($path): string
     {
         if (strpos($path, DIRECTORY_SEPARATOR) === 0)
         {
             return $path;
         }
-        $path = preg_replace('~^\P{L}+~u', '', $path);
+        $path = preg_replace('/^\P{L}+/u', '', './'.$path);
 
         $path = $this->sdkBasePath . DIRECTORY_SEPARATOR . $path;
 
