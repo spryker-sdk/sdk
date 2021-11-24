@@ -94,6 +94,16 @@ class CliValueReceiver implements ValueReceiverInterface
                     $question->setMultiline(true);
                 }
         }
+        if ($type === 'path') {
+            $question->setAutocompleterCallback(function (string $userInput): array {
+                $inputPath = preg_replace('%(/|^)[^/]*$%', '$1', $userInput);
+                $foundFilesAndDirs = @scandir($inputPath ?: '.') ?: [];
+
+                return array_map(function ($dirOrFile) use ($inputPath) {
+                    return $inputPath . $dirOrFile;
+                }, $foundFilesAndDirs);
+            });
+        }
 
         if (!$defaultValue) {
             $question->setValidator(function ($value) {
