@@ -1,8 +1,10 @@
 parameters:
-  project_settings_file: .ssdk
+  project_settings_file: '%kernel.project_dir%/.ssdk'
 services:
   path_resolver:
     class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+    arguments:
+      - '%kernel.project_dir%'
   value_receiver:
     abstract: true
     synthetic: true
@@ -11,7 +13,6 @@ services:
     synthetic: true
     arguments:
       - '@value_receiver'
-      - '@path_resolver'
   task_repository:
     synthetic: true
   event_logger:

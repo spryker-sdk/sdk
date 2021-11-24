@@ -3,7 +3,7 @@ id: 'validation:architecture'
 short_description: 'Check the architectural correctness of your code'
 help: ~
 stage: debug
-command: '%sdk_dir%/vendor/bin/phpmd %project_dir%/src text %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml %strict% --minimumpriority %priority%'
+command: '%sdk_dir%/vendor/bin/phpmd ./src text %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml %strict% --minimumpriority %priority%'
 type: local_cli
 placeholders:
   - name: '%sdk_dir%'
@@ -12,17 +12,8 @@ placeholders:
     configuration:
       name: 'sdk_dir'
       description: 'Absolute path to sdk directory'
-      defaultValue: './'
       type: path
       settingPaths: ['sdk_dir']
-  - name: '%project_dir%'
-    value_resolver: STATIC
-    optional: true
-    configuration:
-      name: 'project_dir'
-      description: 'Absolute path to project directory'
-      type: path
-      settingPaths: ['project_dir']
   - name: '%strict%'
     value_resolver: FLAG
     optional: false

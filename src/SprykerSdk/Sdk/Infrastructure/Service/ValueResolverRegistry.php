@@ -12,7 +12,6 @@ use SplFileInfo;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use Symfony\Component\Finder\Finder;
@@ -34,7 +33,6 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
         protected ValueReceiverInterface $valueReceiver,
-        protected PathResolver $pathResolver,
         protected string $sdkBasePath
     ) {
         $this->classLoader = require $this->sdkBasePath . '/vendor/autoload.php';
@@ -96,7 +94,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
             $fullClassName = $this->autoloadValueResolver($valueResolverFile, $namespace);
 
-            $valueResolver = new $fullClassName($this->valueReceiver, $this->pathResolver);
+            $valueResolver = new $fullClassName($this->valueReceiver);
 
             if (!$valueResolver instanceof ValueResolverInterface) {
                 throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', $valueResolver::class, ValueResolverInterface::class));

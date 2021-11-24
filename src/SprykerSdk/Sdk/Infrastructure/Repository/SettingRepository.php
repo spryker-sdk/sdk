@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
@@ -17,12 +18,20 @@ use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 class SettingRepository extends EntityRepository implements SettingRepositoryInterface
 {
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+     */
+    protected PathResolver $pathResolver;
+    /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver $pathResolver
      */
     public function __construct(
         EntityManagerInterface $entityManager,
+        PathResolver $pathResolver
     ) {
         $class = $entityManager->getClassMetadata(InfrastructureSetting::class);
+        $this->pathResolver = $pathResolver;
+
         parent::__construct($entityManager, $class);
     }
 
@@ -59,8 +68,22 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function save(SettingInterface $setting): SettingInterface
     {
+
         if (!$setting instanceof InfrastructureSetting) {
             throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
+        }
+        if ($setting->getType() === 'path' && !$setting->isProject()) {
+            $values = $setting->getValues();
+            if (is_array($values)) {
+                foreach ($values as $key => $value) {
+                    $values[$key] = $this->pathResolver->getResolveSdkRelativePath($value);
+                }
+            }
+            if (is_string($values)) {
+                $values = $this->pathResolver->getResolveSdkRelativePath($values);
+            }
+
+            $setting->setValues($values);
         }
 
         $this->getEntityManager()->persist($setting);

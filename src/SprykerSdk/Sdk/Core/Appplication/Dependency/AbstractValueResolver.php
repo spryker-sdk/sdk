@@ -9,13 +9,11 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
-use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 
 abstract class AbstractValueResolver implements ValueResolverInterface
 {
     public function __construct(
-        protected ValueReceiverInterface $valueReceiver,
-        protected PathResolver $pathResolver
+        protected ValueReceiverInterface $valueReceiver
     ) {
     }
 
@@ -50,30 +48,9 @@ abstract class AbstractValueResolver implements ValueResolverInterface
 
         if (!$optional) {
             $defaultValue = $this->valueReceiver->receiveValue($this->getDescription(), $defaultValue, $this->getType());
-            if ($this->getType() == 'path') {
-                $defaultValue = $this->pathResolver->getResolveRelativePath($defaultValue);
-            }
         }
 
         return $defaultValue;
-    }
-
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
-    protected function getResolveRelativePath($path): string
-    {
-        if (strpos($path, DIRECTORY_SEPARATOR) === 0)
-        {
-            return $path;
-        }
-        $path = preg_replace('~^\P{L}+~u', '', $path);
-
-        $path = APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
-
-        return rtrim($path, DIRECTORY_SEPARATOR);
     }
 
     /**
