@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 
@@ -48,6 +48,27 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         ]);
     }
 
+    /**
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     */
+    public function findCoreSettings(): array
+    {
+        return $this->findBy([
+            'isProject' => false,
+        ]);
+    }
+
+    /**
+     * @param array $paths
+     *
+     * @return array
+     */
+    public function findByPaths(array $paths): array
+    {
+        return $this->findBy([
+            'path' => $paths
+        ]);
+    }
 
     /**
      * @param SettingInterface $setting
@@ -67,5 +88,22 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         $this->getEntityManager()->flush($setting);
 
         return $setting;
+    }
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     *
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     *@throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function saveMultiple(array $settings): array
+    {
+        foreach ($settings as $setting) {
+            $this->save($setting);
+        }
+
+        return $settings;
     }
 }

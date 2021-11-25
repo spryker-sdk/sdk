@@ -10,10 +10,10 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 
-class ProjectSettingManager
+class SettingManager
 {
     public function __construct(
         protected ProjectSettingRepositoryInterface $projectSettingRepository,
@@ -27,18 +27,28 @@ class ProjectSettingManager
      */
     public function setSettings(array $pathValues): array
     {
-        $projectSettingDefinitions = $this->settingRepository->findProjectSettings();
-        $modifiedSettings = [];
+        $settingDefinitions = $this->projectSettingRepository->findByPaths($pathValues);
+        $modifiedSettings = [
+            'core' => [],
+            'project' => []
+        ];
 
-        foreach ($projectSettingDefinitions as $projectSettingDefinition) {
-            if (isset($pathValues[$projectSettingDefinition->getPath()])) {
-                $modifiedSettings[] = $this->buildPathValue($projectSettingDefinition, $pathValues[$projectSettingDefinition->getPath()]);
+        foreach ($settingDefinitions as $settingDefinition) {
+            if (isset($pathValues[$settingDefinition->getPath()])) {
+                $settingType = $settingDefinition->isProject() ? 'project' : 'core';
+                $modifiedSettings[$settingType] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
             }
         }
 
-        $this->projectSettingRepository->saveMultiple($modifiedSettings);
+        if (count($modifiedSettings['project']) > 0) {
+            $this->projectSettingRepository->saveMultiple($modifiedSettings['project']);
+        }
 
-        return $modifiedSettings;
+        if (count($modifiedSettings['core']) > 0) {
+            $this->settingRepository->saveMultiple($modifiedSettings['core']);
+        }
+
+        return array_merge($modifiedSettings['project'], $modifiedSettings['core']);
     }
 
     /**
@@ -57,7 +67,11 @@ class ProjectSettingManager
 
         $this->buildPathValue($settingDefinition, $value);
 
-        return $this->projectSettingRepository->save($settingDefinition);
+        if ($settingDefinition->isProject()) {
+            return $this->projectSettingRepository->save($settingDefinition);
+        }
+
+        return $this->settingRepository->save($settingDefinition);
     }
 
     /**

@@ -8,14 +8,14 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $coreSettingRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
      */
@@ -37,8 +37,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting> $settings
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array
     {
@@ -90,9 +90,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting> $entities
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $entities
      *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     protected function fillProjectValues(array $entities): array
     {
@@ -123,5 +123,25 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         return $this->yamlParser->parseFile($projectSettingPath);
+    }
+
+    /**
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     */
+    public function findCoreSettings(): array
+    {
+        return $this->coreSettingRepository->findCoreSettings();
+    }
+
+    /**
+     * @param array<string> $paths
+     *
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface[]
+     */
+    public function findByPaths(array $paths): array
+    {
+        return $this->fillProjectValues(
+            $this->coreSettingRepository->findByPaths($paths)
+        );
     }
 }

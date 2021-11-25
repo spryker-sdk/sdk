@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,7 @@ class InitProjectCommand extends Command
      */
     public function __construct(
         protected CliValueReceiver $cliValueReceiver,
-        protected ProjectSettingManager $projectSettingManager,
+        protected SettingManager $projectSettingManager,
         protected SettingRepositoryInterface $settingRepository,
         protected string $projectSettingFileName
     ) {

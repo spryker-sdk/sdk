@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension;
 
+use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Extension\DependencyInjection\SprykerSdkExtensionExtension;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -16,7 +17,7 @@ class SprykerSdkExtensionBundle extends Bundle
     /**
      * @return \Symfony\Component\DependencyInjection\Extension\Extension
      */
-    public function createContainerExtension(): Extension
+    #[Pure] public function createContainerExtension(): Extension
     {
         return new SprykerSdkExtensionExtension();
     }
