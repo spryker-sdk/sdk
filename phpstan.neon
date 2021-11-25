@@ -3,3 +3,7 @@ parameters:
 
     bootstrapFiles:
         - phpstan-bootstrap.php
+    ignoreErrors:
+        -
+            message: '#PHPDoc tag @param has invalid value \(\\Monolog\\Formatter\\JsonFormatter::BATCH_MODE_#'
+            path: src/SprykerSdk/Sdk/Infrastructure/Logger/JsonFormatter.php

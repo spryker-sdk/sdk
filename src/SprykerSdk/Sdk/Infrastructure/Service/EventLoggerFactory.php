@@ -11,10 +11,12 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
+use Throwable;
 
 class EventLoggerFactory
 {
@@ -38,26 +40,29 @@ class EventLoggerFactory
     }
 
     /**
-     * @return \Monolog\Handler\HandlerInterface
+     * @return \Psr\Log\LoggerInterface
      */
-    protected function createHandler(): HandlerInterface
+    protected function createLogger(): LoggerInterface
     {
-        $reportUsageStatisticsSetting = $this->projectSettingRepository->findOneByPath('report_usage_statistics');
         $reportUsageStatistics = false;
 
-        if ($reportUsageStatisticsSetting) {
-            $reportUsageStatistics = (bool)$reportUsageStatisticsSetting->getValues();
+        try {
+            $reportUsageStatisticsSetting = $this->projectSettingRepository->findOneByPath('report_usage_statistics');
+
+            if ($reportUsageStatisticsSetting) {
+                $reportUsageStatistics = (bool)$reportUsageStatisticsSetting->getValues();
+            }
+            $projectDirSetting = $this->projectSettingRepository->findOneByPath('project_dir');
+
+            if ($reportUsageStatistics && $projectDirSetting) {
+                return $this->createFileLogger($projectDirSetting);
+            }
+
+            return $this->createNullLogger();
+        } catch (Throwable $exception) {
+            //When the SDK is not initialized settings can't be loaded from the DB in this case a file logger can't be configured
+            return $this->createNullLogger();
         }
-
-        $handler = new NullHandler();
-
-        $projectDirSetting = $this->projectSettingRepository->findOneByPath('project_dir');
-
-        if ($reportUsageStatistics && $projectDirSetting) {
-            $handler = $this->createFileLogger($projectDirSetting);
-        }
-
-        return $handler;
     }
 
     /**
@@ -71,9 +76,33 @@ class EventLoggerFactory
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $projectDirSetting
      *
-     * @return \Monolog\Handler\StreamHandler
+     * @return \Psr\Log\LoggerInterface
      */
-    protected function createFileLogger(SettingInterface $projectDirSetting): StreamHandler
+    protected function createFileLogger(SettingInterface $projectDirSetting): LoggerInterface
+    {
+        $logger = new Logger('event_logger');
+        $logger->pushHandler($this->createFileHandler($projectDirSetting));
+
+        return $logger;
+    }
+
+    /**
+     * @return \Monolog\Logger
+     */
+    protected function createNullLogger(): Logger
+    {
+        $logger = new Logger('event_logger');
+        $logger->pushHandler($this->createNullHandler());
+
+        return $logger;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $projectDirSetting
+     *
+     * @return \Monolog\Handler\HandlerInterface
+     */
+    protected function createFileHandler(SettingInterface $projectDirSetting): HandlerInterface
     {
         $handler = new StreamHandler($projectDirSetting->getValues() . '/.ssdk.log');
         $handler->setFormatter($this->createJsonFormatter());
@@ -82,13 +111,10 @@ class EventLoggerFactory
     }
 
     /**
-     * @return \Monolog\Logger
+     * @return \Monolog\Handler\HandlerInterface
      */
-    protected function createLogger(): Logger
+    protected function createNullHandler(): HandlerInterface
     {
-        $logger = new Logger('event_logger');
-        $logger->pushHandler($this->createHandler());
-
-        return $logger;
+        return new NullHandler();
     }
 }

@@ -19,6 +19,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
+use Throwable;
 
 class TaskRunFactoryLoader extends ContainerCommandLoader
 {
@@ -136,9 +137,15 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     public function getNames(): array
     {
-        return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
-            return $task->getId();
-        }, $this->getTaskRepository()->findAll()));
+        try {
+            return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
+                return $task->getId();
+            }, $this->getTaskRepository()->findAll()));
+        } catch (Throwable $exception) {
+            //When the SDK is not initialized tasks can't be loaded from the DB but the symfony console still
+            //need to be executable to make the init:sdk command available
+            return parent::getNames();
+        }
     }
 
     /**
