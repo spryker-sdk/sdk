@@ -7,6 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
+
 class Lifecycle implements LifecycleInterface
 {
     public function __construct(
@@ -15,7 +18,7 @@ class Lifecycle implements LifecycleInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface
      */
     public function getInitialized(): LifecycleEventInterface
     {

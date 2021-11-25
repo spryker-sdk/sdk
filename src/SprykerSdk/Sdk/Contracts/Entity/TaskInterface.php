@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 
 interface TaskInterface
 {
@@ -52,7 +52,7 @@ interface TaskInterface
     public function getSuccessor(): ?string;
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null
      */
     public function getLifecycle(): ?LifecycleInterface;
 }

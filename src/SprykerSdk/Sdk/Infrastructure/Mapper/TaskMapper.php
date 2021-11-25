@@ -2,7 +2,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 
 class TaskMapper implements TaskMapperInterface
@@ -14,7 +14,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface $task
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
@@ -36,7 +36,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface[] $commands
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[] $commands
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
@@ -53,7 +53,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface[] $placeholders
+     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[] $placeholders
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task>

@@ -7,15 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-
-use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command;
-use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 
 class CommandMapper implements CommandMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface $command
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Command>

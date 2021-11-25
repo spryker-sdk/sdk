@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
+use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
 
 interface FileCreatorInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface $file
+     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
      *
      * @return void
      */

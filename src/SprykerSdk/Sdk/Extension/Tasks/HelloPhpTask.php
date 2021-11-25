@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks;
 
 use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 
 class HelloPhpTask implements TaskInterface
 {

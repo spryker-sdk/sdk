@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
+
 class InitializedEvent implements LifecycleEventInterface
 {
     public function __construct(
@@ -17,7 +19,7 @@ class InitializedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
      */
     public function getCommands(): array
     {
@@ -25,7 +27,7 @@ class InitializedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[]
      */
     public function getPlaceholders(): array
     {
@@ -33,7 +35,7 @@ class InitializedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
      */
     public function getFiles(): array
     {

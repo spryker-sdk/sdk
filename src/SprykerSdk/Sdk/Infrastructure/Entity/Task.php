@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
 class Task implements TaskInterface
 {
@@ -147,7 +147,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
      */
     public function getCommands(): array
     {

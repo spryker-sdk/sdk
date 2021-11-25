@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use SprykerSdk\Sdk\Core\Domain\Repository\CommandRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\CommandRepositoryInterface;
 
 class CommandRepository extends ServiceEntityRepository implements CommandRepositoryInterface
 {

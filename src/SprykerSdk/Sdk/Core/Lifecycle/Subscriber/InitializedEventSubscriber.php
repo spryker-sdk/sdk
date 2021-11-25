@@ -46,7 +46,7 @@ class InitializedEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface[] $placeholders
+     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[] $placeholders
      *
      * @return array<string, mixed>
      */
@@ -61,7 +61,7 @@ class InitializedEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface[] $commands
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[] $commands
      * @param array<string, mixed> $resolvedValues
      *
      * @return void
@@ -82,7 +82,7 @@ class InitializedEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface[] $files
+     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface[] $files
      * @param array<string, mixed> $resolvedValues
      *
      * @return void

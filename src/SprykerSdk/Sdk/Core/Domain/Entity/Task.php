@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 
 class Task implements TaskInterface
 {
@@ -23,7 +23,7 @@ class Task implements TaskInterface
      * @param string|null $version
      * @param string|null $successor
      * @param bool $deprecated
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface|null $lifecycle
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null $lifecycle
      */
     public function __construct(
         protected string $id,

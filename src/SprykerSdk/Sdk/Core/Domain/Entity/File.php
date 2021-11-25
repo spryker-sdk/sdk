@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
+
 class File implements FileInterface
 {
     public function __construct(

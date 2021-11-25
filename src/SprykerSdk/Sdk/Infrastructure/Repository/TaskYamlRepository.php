@@ -8,17 +8,17 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use JetBrains\PhpStorm\Pure;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -101,7 +101,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        if ($data['type'] === 'task_set') {
+        if (isset($data['type']) === 'task_set') {
             foreach ($data['tasks'] as $task) {
                 if ($tags && !array_intersect($tags, $task['tags'])) {
                     continue;
@@ -183,7 +183,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface[]
      */
     protected function buildFiles(array $data): array
     {
@@ -202,18 +202,18 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null
      */
-    protected function buildLifecycle(array $data): ?LifecycleInterface
+    protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): ?LifecycleInterface
     {
-        if (!isset($data['lifecycle']['INITIALIZED'])) {
+        if (!isset($taskData['lifecycle']['INITIALIZED'])) {
             return null;
         }
 
         $initializedEvent = new InitializedEvent(
-            $this->buildLifecycleCommands($data['lifecycle']['INITIALIZED']),
-            $this->buildPlaceholders($data['lifecycle']['INITIALIZED']),
-            $this->buildFiles($data['lifecycle']['INITIALIZED'])
+            $this->buildLifecycleCommands($taskData['lifecycle']['INITIALIZED']),
+            $this->buildPlaceholders($taskData['lifecycle']['INITIALIZED'], $taskListData, $tags),
+            $this->buildFiles($taskData['lifecycle']['INITIALIZED'])
         );
 
         return new Lifecycle($initializedEvent);
@@ -230,7 +230,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     {
         $placeholders = $this->buildPlaceholders($taskData, $taskListData, $tags);
         $commands = $this->buildCommands($taskData, $taskListData, $tags);
-        $lifecycle = $this->buildLifecycle($taskData);
+        $lifecycle = $this->buildLifecycle($taskData, $taskListData, $tags);
 
         return new Task(
             $taskData['id'],

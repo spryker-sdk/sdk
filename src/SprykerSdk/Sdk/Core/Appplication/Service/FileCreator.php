@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\FileCreatorInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
+use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
 
 class FileCreator implements FileCreatorInterface
 {

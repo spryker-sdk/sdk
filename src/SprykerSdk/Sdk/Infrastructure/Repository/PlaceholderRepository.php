@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use SprykerSdk\Sdk\Core\Domain\Repository\PlaceholderRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\PlaceholderRepositoryInterface;
 
 class PlaceholderRepository extends ServiceEntityRepository implements PlaceholderRepositoryInterface
 {

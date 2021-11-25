@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Lifecycle\Event;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class LifecycleEvent extends Event

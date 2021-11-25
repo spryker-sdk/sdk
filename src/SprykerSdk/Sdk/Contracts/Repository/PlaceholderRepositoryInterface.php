@@ -5,8 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Repository;
+namespace SprykerSdk\Sdk\Contracts\Repository;
 
-interface CommandRepositoryInterface
+interface PlaceholderRepositoryInterface
 {
 }

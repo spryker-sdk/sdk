@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskSaveRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
 
@@ -25,12 +25,11 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
         protected TaskMapperInterface $taskMapper,
         protected ManagerRegistry $registry
     ) {
-
-    parent::__construct($registry, Task::class);
+        parent::__construct($registry, Task::class);
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface> $task
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
@@ -47,7 +46,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null
      */
     public function findById(string $taskId): ?TaskInterface
     {

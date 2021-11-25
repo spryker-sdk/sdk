@@ -5,22 +5,22 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
+namespace SprykerSdk\Sdk\Contracts\Entity\Lifecycle;
 
 interface LifecycleEventInterface
 {
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
      */
     public function getCommands(): array;
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[]
      */
     public function getPlaceholders(): array;
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
      */
     public function getFiles(): array;
 }
