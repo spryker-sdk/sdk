@@ -8,8 +8,6 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
-use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,10 +39,14 @@ class RunTaskWrapperCommand extends Command
         $this->setDescription($this->description);
 
         foreach ($this->taskOptions as $taskOption) {
+            $mode = $taskOption->isValueOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED;
+            if ($taskOption->isArray()) {
+                $mode = $mode | InputOption::VALUE_IS_ARRAY;
+            }
             $this->addOption(
                 $taskOption->getName(),
                 null,
-                $taskOption->isValueOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
+                $mode,
                 $taskOption->getDescription(),
                 $taskOption->getDefault()
             );
@@ -60,7 +62,8 @@ class RunTaskWrapperCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        return $this->taskExecutor->execute($this->getName());
+        return $input->hasOption('tags') ?
+            $this->taskExecutor->execute($this->getName(), $input->getOption('tags')) :
+            $this->taskExecutor->execute($this->getName());
     }
-
 }

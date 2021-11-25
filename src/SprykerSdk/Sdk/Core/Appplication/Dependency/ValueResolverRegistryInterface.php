@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
+use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
+
 interface ValueResolverRegistryInterface
 {
     /**
@@ -18,7 +20,7 @@ interface ValueResolverRegistryInterface
 
     /**
      * @param string $id
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface|null
      */
     public function get(string $id): ?ValueResolverInterface;
 }

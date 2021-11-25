@@ -1,6 +1,10 @@
 parameters:
-  project_settings_file: .ssdk
+  project_settings_file: '%kernel.project_dir%/.ssdk'
 services:
+  path_resolver:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+    arguments:
+      - '%kernel.project_dir%'
   value_receiver:
     abstract: true
     synthetic: true
@@ -38,7 +42,7 @@ services:
     abstract: true
     synthetic: true
   project_setting_manager:
-    class: SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager
+    class: SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
     arguments:
       - '@project_setting_repository'
       - '@setting_repository'

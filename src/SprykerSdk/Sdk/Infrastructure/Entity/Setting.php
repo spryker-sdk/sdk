@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
+use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 
 class Setting extends DomainSetting
@@ -21,7 +22,7 @@ class Setting extends DomainSetting
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
      */
-    public function __construct(
+    #[Pure] public function __construct(
         protected ?int $id,
         string $path,
         mixed $values,

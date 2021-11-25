@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\ExecutableCommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 
 class HelloPhpCommand implements ExecutableCommandInterface
 {
@@ -45,5 +45,13 @@ class HelloPhpCommand implements ExecutableCommandInterface
         echo "Hello PHP";
 
         return 0;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTags(): array
+    {
+        return [];
     }
 }

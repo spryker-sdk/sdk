@@ -12,6 +12,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@path_resolver'
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
@@ -61,6 +62,7 @@ services:
     arguments:
       - '@setting_repository'
       - '@value_receiver'
+      - !tagged_iterator sdk.value_resolver
       - '%kernel.project_dir%'
 
   mapper.command_mapper:

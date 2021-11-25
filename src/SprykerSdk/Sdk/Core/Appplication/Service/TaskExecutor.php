@@ -8,18 +8,18 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 
 class TaskExecutor
 {
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface> $commandRunners
+     * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
      */
     public function __construct(
         protected iterable $commandRunners,
@@ -31,12 +31,13 @@ class TaskExecutor
 
     /**
      * @param string $taskId
+     * @param array $tags
      *
      * @return int
      */
-    public function execute(string $taskId): int
+    public function execute(string $taskId, array $tags = []): int
     {
-        $task = $this->getTask($taskId);
+        $task = $this->getTask($taskId, $tags);
         $resolvedValues = $this->getResolvedValues($task);
 
         $result = 0;
@@ -59,12 +60,13 @@ class TaskExecutor
 
     /**
      * @param string $taskId
+     * @param array $tags
      *
-     * @return TaskInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface
      */
-    protected function getTask(string $taskId): TaskInterface
+    protected function getTask(string $taskId, array $tags = []): TaskInterface
     {
-        $task = $this->taskRepository->findById($taskId);
+        $task = $this->taskRepository->findById($taskId, $tags);
 
         if (!$task) {
             throw new TaskMissingException('Task not found with id ' . $taskId);

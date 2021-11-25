@@ -7,29 +7,28 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SplFileInfo;
+use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
-use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param iterable<\SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface> $existingTasks
+     * @param iterable<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
@@ -40,9 +39,11 @@ class TaskYamlRepository implements TaskRepositoryInterface
     }
 
     /**
+     * @param array $tags
+     *
      * @return array
      */
-    public function findAll(): array
+    public function findAll(array $tags = []): array
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('task_dirs');
 
@@ -51,10 +52,15 @@ class TaskYamlRepository implements TaskRepositoryInterface
         }
 
         $tasks = [];
-
+        $taskListData = [];
         //read task from path, parse and create Task, later use DB for querying
         foreach ($this->fileFinder->in($taskDirSetting->getValues())->name('*.yaml')->files() as $taskFile) {
-            $task = $this->buildTask($taskFile);
+            $taskData = $this->yamlParser->parse($taskFile->getContents());
+            $taskListData[$taskData['id']] = $taskData;
+        }
+
+        foreach ($taskListData as $taskData) {
+            $task = $this->buildTask($taskData, $taskListData, $tags);
             $tasks[$task->getId()] = $task;
         }
 
@@ -67,12 +73,13 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
     /**
      * @param string $taskId
+     * @param array $tags
      *
-     * @return TaskInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null
      */
-    public function findById(string $taskId): ?TaskInterface
+    public function findById(string $taskId, array $tags = []): ?TaskInterface
     {
-        $tasks = $this->findAll();
+        $tasks = $this->findAll($tags);
 
         if (array_key_exists($taskId, $tasks)) {
             return $tasks[$taskId];
@@ -83,13 +90,28 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
     /**
      * @param array $data
-     * @return array
+     * @param array $taskListData
+     * @param array $tags
+     *
+     * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Placeholder>
      */
-    protected function buildPlaceholders(array $data): array
+    #[Pure] protected function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
     {
         $placeholders = [];
+        $taskPlaceholders = [];
+        $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        foreach ($data['placeholders'] as $placeholderData) {
+        if ($data['type'] === 'task_set') {
+            foreach ($data['tasks'] as $task) {
+                if ($tags && !array_intersect($tags, $task['tags'])) {
+                    continue;
+                }
+                $taskPlaceholders[] = $taskListData[$task['id']]['placeholders'];
+            }
+        }
+        $taskPlaceholders = array_merge(...$taskPlaceholders);
+
+        foreach ($taskPlaceholders as $placeholderData) {
             $placeholderName = $placeholderData['name'];
             $placeholders[$placeholderName] = new Placeholder(
                 $placeholderName,
@@ -104,9 +126,12 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
     /**
      * @param array $data
-     * @return array<Command>
+     * @param array $taskListData
+     * @param array<string> $taskListData
+     *
+     * @return array<int, \SprykerSdk\Sdk\Core\Domain\Entity\Command>
      */
-    protected function buildCommands(array $data): array
+    #[Pure] protected function buildCommands(array $data, array $taskListData, array $tags = []): array
     {
         $commands = [];
 
@@ -118,13 +143,27 @@ class TaskYamlRepository implements TaskRepositoryInterface
             );
         }
 
+        if ($data['type'] === 'task_set') {
+            foreach ($data['tasks'] as $task) {
+                if ($tags && !array_intersect($tags, $task['tags'])) {
+                    continue;
+                }
+                $commands[] = new Command(
+                    $taskListData[$task['id']]['command'],
+                    $taskListData[$task['id']]['type'],
+                    $task['stop_on_error'],
+                    $task['tags']
+                );
+            }
+        }
+
         return $commands;
     }
 
     /**
      * @param array $data
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
      */
     protected function buildLifecycleCommands(array $data): array
     {
@@ -181,27 +220,27 @@ class TaskYamlRepository implements TaskRepositoryInterface
     }
 
     /**
-     * @param \SplFileInfo $taskFile
+     * @param array $taskData
+     * @param array $taskListData
+     * @param array $tags
      *
-     * @return TaskInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
-    protected function buildTask(SplFileInfo $taskFile): TaskInterface
+    protected function buildTask(array $taskData, array $taskListData, array $tags = []): TaskInterface
     {
-        $data = $this->yamlParser->parse($taskFile->getContents());
-
-        $placeholders = $this->buildPlaceholders($data);
-        $commands = $this->buildCommands($data);
-        $lifecycle = $this->buildLifecycle($data);
+        $placeholders = $this->buildPlaceholders($taskData, $taskListData, $tags);
+        $commands = $this->buildCommands($taskData, $taskListData, $tags);
+        $lifecycle = $this->buildLifecycle($taskData);
 
         return new Task(
-            $data['id'],
-            $data['short_description'],
+            $taskData['id'],
+            $taskData['short_description'],
             $commands,
             $placeholders,
-            $data['help'] ?? null,
-            $data['version'] ?? null,
-            $data['successor'] ?? null,
-            $data['deprecated'] ?? false,
+            $taskData['help'] ?? null,
+            $taskData['version'] ?? null,
+            $taskData['successor'] ?? null,
+            $taskData['deprecated'] ?? false,
             $lifecycle
         );
     }

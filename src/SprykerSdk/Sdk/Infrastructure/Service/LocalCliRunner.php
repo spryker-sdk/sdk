@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -58,11 +58,9 @@ class LocalCliRunner implements CommandRunnerInterface
         }, array_keys($resolvedValues));
 
         $values = array_map(function (mixed $value): string {
-            $castedValue = match(gettype($value)) {
+            return match(gettype($value)) {
                 default => (string) $value,
             };
-
-            return $castedValue;
         }, array_values($resolvedValues));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());

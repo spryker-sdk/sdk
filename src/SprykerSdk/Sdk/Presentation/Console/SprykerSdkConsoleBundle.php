@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console;
 
+use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\DynamicConsoleCommandsCompilerPass;
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\SprykerSdkConsoleExtension;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -32,7 +33,7 @@ class SprykerSdkConsoleBundle extends Bundle
     /**
      * @return \Symfony\Component\DependencyInjection\Extension\Extension
      */
-    public function createContainerExtension(): Extension
+    #[Pure] public function createContainerExtension(): Extension
     {
         return new SprykerSdkConsoleExtension();
     }

@@ -33,7 +33,7 @@ class FlagValueResolver extends StaticValueResolver
      *
      * @return mixed
      */
-    public function getValue(array $settingValues, bool $optional=false): mixed
+    public function getValue(array $settingValues, bool $optional = false): string
     {
         $defaultValue = parent::getValue($settingValues, $optional);
 
