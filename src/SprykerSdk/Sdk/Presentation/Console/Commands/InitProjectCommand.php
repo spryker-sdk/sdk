@@ -57,7 +57,7 @@ class InitProjectCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
+        $projectSettingPath = $this->projectSettingFileName;
 
         if (file_exists($projectSettingPath)) {
             if (!$this->cliValueReceiver->receiveValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool')) {

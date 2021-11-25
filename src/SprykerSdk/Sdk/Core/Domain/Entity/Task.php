@@ -22,12 +22,12 @@ class Task implements TaskInterface
     protected string $shortDescription;
 
     /**
-     * @var array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     protected array $commands = [];
 
     /**
-     * @var array<\SprykerSdk\Sdk\Core\Domain\Entity\Placeholder>
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     protected array $placeholders = [];
 
@@ -39,8 +39,8 @@ class Task implements TaskInterface
     /**
      * @param string $id
      * @param string $shortDescription
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Command> $commands
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Placeholder> $placeholders
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param string|null $help
      */
     public function __construct(

@@ -46,4 +46,12 @@ class HelloPhpCommand implements ExecutableCommandInterface
 
         return 0;
     }
+
+    /**
+     * @return array<string>
+     */
+    public function getTags(): array
+    {
+        return [];
+    }
 }

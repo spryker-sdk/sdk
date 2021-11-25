@@ -53,7 +53,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     public function saveMultiple(array $settings): array
     {
         $projectValues = $this->getProjectValues();
-        $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
+        $projectSettingPath = $this->projectSettingFileName;
 
         foreach ($settings as $setting) {
             $projectValues[$setting->getPath()] = $setting->getValues();
@@ -129,7 +129,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     protected function getProjectValues(): array
     {
-        $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
+        $projectSettingPath = $this->projectSettingFileName;
 
         if (!is_readable($projectSettingPath)) {
             return [];

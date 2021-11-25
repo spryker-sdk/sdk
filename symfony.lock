@@ -5,6 +5,9 @@
     "composer/xdebug-handler": {
         "version": "2.0.2"
     },
+    "dealerdirect/phpcodesniffer-composer-installer": {
+        "version": "v0.7.1"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -130,6 +133,9 @@
     "phpmd/phpmd": {
         "version": "2.10.2"
     },
+    "phpstan/phpdoc-parser": {
+        "version": "1.2.0"
+    },
     "phpstan/phpstan": {
         "version": "1.2.0"
     },
@@ -148,8 +154,26 @@
     "roave/signature": {
         "version": "1.5.0"
     },
+    "slevomat/coding-standard": {
+        "version": "7.0.16"
+    },
     "spryker/architecture-sniffer": {
         "version": "0.5.2"
+    },
+    "spryker/code-sniffer": {
+        "version": "0.17.1"
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.6",
+            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
+        },
+        "files": [
+            "phpcs.xml.dist"
+        ]
     },
     "symfony/cache": {
         "version": "v5.3.10"
@@ -297,8 +321,8 @@
             "ref": "3eb8df139ec05414489d55b97603c5f6ca0c44cb"
         },
         "files": [
-            "config/packages/test/validator.yaml",
-            "config/packages/validator.yaml"
+            "config/packages/validator.yaml",
+            "config/packages/test/validator.yaml"
         ]
     },
     "symfony/var-dumper": {

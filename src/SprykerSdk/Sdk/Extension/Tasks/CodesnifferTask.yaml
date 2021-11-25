@@ -1,0 +1,19 @@
+---
+id: 'validation:php:codestyle'
+short_description: 'Check your code by running a static code analysis'
+help: ~
+stage: build
+command: 'php %sdk_dir%/vendor/bin/phpcs --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml ./%path%'
+type: local_cli
+placeholders:
+  - name: '%sdk_dir%'
+    value_resolver: STATIC
+    optional: true
+  - name: '%path%'
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      name: 'path'
+      description: 'Relative path to module directory in project'
+      type: path
+      settingPaths: [ ]
