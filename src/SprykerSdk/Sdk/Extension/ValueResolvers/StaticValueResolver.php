@@ -17,17 +17,17 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
 
     protected string $alias;
 
-    protected mixed $description;
+    protected ?string $description;
 
     protected array $settingPaths;
 
     /**
-     * @var mixed|null
+     * @var string|null
      */
     protected ?string $help;
 
     /**
-     * @var mixed|string
+     * @var string
      */
     protected string $type;
 
@@ -44,7 +44,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
      */
     public function getDescription(): string
     {
-        return $this->description;
+        return (string)$this->description;
     }
 
     /**

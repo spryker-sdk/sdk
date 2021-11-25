@@ -19,7 +19,7 @@ class JsonFormatter extends MonologJsonFormatter
     public const CONTEXT_EVENT = 'event';
 
     /**
-     * @param int $batchMode
+     * @param \Monolog\Formatter\JsonFormatter::BATCH_MODE_*|int $batchMode
      * @param bool $appendNewline
      * @param bool $ignoreEmptyContextAndExtra
      */

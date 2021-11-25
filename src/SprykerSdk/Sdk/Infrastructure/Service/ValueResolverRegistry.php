@@ -13,20 +13,24 @@ use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidValueResolverException;
 use Symfony\Component\Finder\Finder;
 
 class ValueResolverRegistry implements ValueResolverRegistryInterface
 {
-    /**
-     * @var array<string, \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
-     */
-    protected ?array $valueResolvers = null;
+    protected bool $isInitialized = false;
 
     /**
      * @var array<string, \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
      */
-    protected ?array $valueResolversClasses = null;
+    protected array $valueResolvers = [];
+
+    /**
+     * @var array<string, \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
+     */
+    protected array $valueResolversClasses = [];
 
     /**
      * @var \Composer\Autoload\ClassLoader
@@ -108,12 +112,11 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected function loadValueResolvers()
     {
-        if ($this->valueResolvers !== null) {
+        if ($this->isInitialized) {
             return;
         }
 
-        $this->valueResolvers = [];
-        $this->valueResolversClasses = [];
+        $this->isInitialized = true;
 
         $this->loadValueResolverServices();
         $this->loadValueResolversFromFiles();
@@ -134,11 +137,17 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     /**
      * @param string $pathName
      *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidValueResolverException
+     *
      * @return string|null
      */
     protected function retrieveNamespaceFromFile(string $pathName): ?string
     {
         $fileContent = file_get_contents($pathName);
+
+        if (!$fileContent) {
+            throw new InvalidValueResolverException('Could not read value resolver from ' . $pathName);
+        }
 
         if (preg_match('#(namespace)(\\s+)([A-Za-z0-9\\\\]+?)(\\s*);#sm', $fileContent, $matches)) {
             return $matches[3];
@@ -189,11 +198,18 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     }
 
     /**
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
      * @return \Symfony\Component\Finder\Finder
      */
     protected function getValueResolverFiles(): Finder
     {
         $paths = $this->settingRepository->findOneByPath('value_resolver_dirs');
+
+        if (!$paths) {
+            throw new MissingSettingException('Setting value_resolver_dirs is missing');
+        }
+
         $pathCandidates = array_merge($paths->getValues(), array_map(function (string $path) {
             return preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
         }, $paths->getValues()));

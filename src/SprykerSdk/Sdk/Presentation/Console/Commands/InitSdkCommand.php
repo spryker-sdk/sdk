@@ -85,6 +85,7 @@ class InitSdkCommand extends Command
      */
     protected function createSettingEntity(array $setting): SettingInterface
     {
+        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Setting|null $settingEntity */
         $settingEntity = $this->settingRepository->findOneByPath($setting['path']);
 
         $settingData = [
@@ -143,7 +144,7 @@ class InitSdkCommand extends Command
     protected function initializeSettingValues(array $settingEntities): array
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
-        $coreEntities = array_filter($settingEntities, function (Setting $setting) {
+        $coreEntities = array_filter($settingEntities, function (SettingInterface $setting): bool {
             return $setting->isProject();
         });
 
@@ -158,7 +159,7 @@ class InitSdkCommand extends Command
                     $settingEntity->getValues(),
                     $settingEntity->getType(),
                 );
-                $values = is_scalar($values) ?? json_decode($values);
+                $values = is_scalar($values) ?: json_encode($values);
                 $previousSettingValues = $settingEntity->getValues();
                 $settingEntity->setValues($values);
 

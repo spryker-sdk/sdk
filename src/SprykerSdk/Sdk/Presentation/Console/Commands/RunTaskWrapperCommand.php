@@ -21,6 +21,8 @@ class RunTaskWrapperCommand extends Command
 
     protected string $description;
 
+    protected string $name;
+
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
@@ -36,6 +38,7 @@ class RunTaskWrapperCommand extends Command
         $this->description = $description;
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
+        $this->name = $name;
         parent::__construct($name);
     }
 
@@ -66,6 +69,6 @@ class RunTaskWrapperCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        return $this->taskExecutor->execute($this->getName());
+        return $this->taskExecutor->execute($this->name);
     }
 }

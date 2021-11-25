@@ -66,7 +66,10 @@ class PlaceholderResolver
     public function getValueResolver(PlaceholderInterface $placeholder): ValueResolverInterface
     {
         if ($this->valueResolverRegistry->has($placeholder->getValueResolver())) {
-            $valueResolver = clone $this->valueResolverRegistry->get($placeholder->getValueResolver());
+            /** @var \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface $valueResolverPrototype */
+            $valueResolverPrototype = $this->valueResolverRegistry->get($placeholder->getValueResolver());
+
+            $valueResolver = clone $valueResolverPrototype;
 
             if ($valueResolver instanceof ConfigurableValueResolverInterface) {
                 $valueResolver->configure($placeholder->getConfiguration());

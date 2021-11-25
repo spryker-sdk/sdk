@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 
 use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Helper\HelperSet;
 
 class CliRunnerSetupListener
 {
@@ -29,7 +30,34 @@ class CliRunnerSetupListener
      */
     public function beforeConsoleCommand(ConsoleCommandEvent $event)
     {
+        if (!$event->getCommand()) {
+            return;
+        }
+
         $this->cliRunner->setOutput($event->getOutput());
-        $this->cliRunner->setHelperSet($event->getCommand()->getHelperSet() ?? $event->getCommand()->getApplication()->getHelperSet());
+
+        $helperSet = $event->getCommand()->getHelperSet() ?? $this->getApplicationHelperSet($event);
+
+        if ($helperSet) {
+            $this->cliRunner->setHelperSet($helperSet);
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Event\ConsoleCommandEvent $event
+     *
+     * @return \Symfony\Component\Console\Helper\HelperSet|null
+     */
+    protected function getApplicationHelperSet(ConsoleCommandEvent $event): ?HelperSet
+    {
+        if (
+            $event->getCommand() !== null
+            && $event->getCommand()->getApplication() !== null
+            && $event->getCommand()->getApplication()->getHelperSet() !== null
+        ) {
+            return $event->getCommand()->getApplication()->getHelperSet();
+        }
+
+        return null;
     }
 }

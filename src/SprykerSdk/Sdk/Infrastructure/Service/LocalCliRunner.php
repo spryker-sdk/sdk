@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -62,6 +63,8 @@ class LocalCliRunner implements CommandRunnerInterface
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      * @param array $resolvedValues
      *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
+     *
      * @return int
      */
     public function execute(CommandInterface $command, array $resolvedValues): int
@@ -77,6 +80,14 @@ class LocalCliRunner implements CommandRunnerInterface
         }, array_values($resolvedValues));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
+
+        if (!is_string($assembledCommand)) {
+            throw new CommandRunnerException(sprintf(
+                'Could not assemble command %s with keys %s',
+                $command->getCommand(),
+                implode(', ', array_keys($values)),
+            ));
+        }
 
         $process = Process::fromShellCommandline($assembledCommand);
         $process->setTimeout(null);

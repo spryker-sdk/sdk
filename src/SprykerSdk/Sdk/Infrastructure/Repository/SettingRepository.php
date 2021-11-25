@@ -14,6 +14,9 @@ use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 
+/**
+ * @extends \Doctrine\ORM\EntityRepository<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+ */
 class SettingRepository extends EntityRepository implements SettingRepositoryInterface
 {
     /**

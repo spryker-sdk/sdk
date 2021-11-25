@@ -99,7 +99,7 @@ class InitProjectCommand extends Command
             };
 
             if ($settingEntity->getStrategy() === SettingInterface::STRATEGY_MERGE) {
-                $values = array_merge($settingEntity->getValues(), $values);
+                $values = array_merge((array)$settingEntity->getValues(), (array)$values);
             }
 
             $settingEntity->setValues($values);

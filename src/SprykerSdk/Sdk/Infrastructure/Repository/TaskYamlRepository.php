@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SplFileInfo;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
@@ -16,6 +15,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
@@ -133,7 +133,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     }
 
     /**
-     * @param \SplFileInfo $taskFile
+     * @param \Symfony\Component\Finder\SplFileInfo $taskFile
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */

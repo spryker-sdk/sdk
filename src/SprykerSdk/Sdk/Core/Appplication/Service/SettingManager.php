@@ -44,27 +44,28 @@ class SettingManager
     public function setSettings(array $pathValues): array
     {
         $settingDefinitions = $this->projectSettingRepository->findByPaths($pathValues);
-        $modifiedSettings = [
-            'core' => [],
-            'project' => [],
-        ];
+        $modifiedProjectSettings = [];
+        $modifiedCoreSettings = [];
 
         foreach ($settingDefinitions as $settingDefinition) {
             if (isset($pathValues[$settingDefinition->getPath()])) {
-                $settingType = $settingDefinition->isProject() ? 'project' : 'core';
-                $modifiedSettings[$settingType] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                if ($settingDefinition->isProject()) {
+                    $modifiedProjectSettings[] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                } else {
+                    $modifiedCoreSettings[] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                }
             }
         }
 
-        if (count($modifiedSettings['project']) > 0) {
-            $this->projectSettingRepository->saveMultiple($modifiedSettings['project']);
+        if (count($modifiedProjectSettings) > 0) {
+            $this->projectSettingRepository->saveMultiple($modifiedProjectSettings);
         }
 
-        if (count($modifiedSettings['core']) > 0) {
-            $this->settingRepository->saveMultiple($modifiedSettings['core']);
+        if (count($modifiedCoreSettings) > 0) {
+            $this->settingRepository->saveMultiple($modifiedCoreSettings);
         }
 
-        return array_merge($modifiedSettings['project'], $modifiedSettings['core']);
+        return array_merge($modifiedProjectSettings, $modifiedCoreSettings);
     }
 
     /**
@@ -107,7 +108,7 @@ class SettingManager
         };
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
-            $typedValue = array_merge($settingDefinition->getValues(), $typedValue);
+            $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);
         }
 
         $settingDefinition->setValues($typedValue);

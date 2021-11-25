@@ -11,6 +11,7 @@ use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use Symfony\Component\Console\Command\Command;
@@ -26,17 +27,38 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected SymfonyContainerInterface $symfonyContainer;
 
     /**
+     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     */
+    protected TaskRepositoryInterface $taskRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     */
+    protected TaskExecutor $taskExecutor;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     */
+    protected PlaceholderResolver $placeholderResolver;
+
+    /**
      * @param \Psr\Container\ContainerInterface $container
-     * @param array $commandMap
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $symfonyContainer
+     * @param array<string, string> $commandMap
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      */
     public function __construct(
         ContainerInterface $container,
         array $commandMap,
-        ContainerInterface $symfonyContainer
+        TaskRepositoryInterface $taskRepository,
+        TaskExecutor $taskExecutor,
+        PlaceholderResolver $placeholderResolver
     ) {
         parent::__construct($container, $commandMap);
-        $this->symfonyContainer = $symfonyContainer;
+        $this->taskRepository = $taskRepository;
+        $this->taskExecutor = $taskExecutor;
+        $this->placeholderResolver = $placeholderResolver;
     }
 
     /**
@@ -58,6 +80,8 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     /**
      * @param string $name
      *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
+     *
      * @return \Symfony\Component\Console\Command\Command
      */
     public function get(string $name): Command
@@ -67,6 +91,10 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         }
 
         $task = $this->getTaskRepository()->findById($name);
+
+        if (!$task) {
+            throw new TaskMissingException('Could not find task ' . $name);
+        }
 
         return new RunTaskWrapperCommand(
             $this->getTaskExecutor(),
@@ -100,7 +128,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function getTaskRepository(): TaskRepositoryInterface
     {
-        return $this->symfonyContainer->get('task_repository');
+        return $this->taskRepository;
     }
 
     /**
@@ -108,7 +136,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function getTaskExecutor(): TaskExecutor
     {
-        return $this->symfonyContainer->get('task_executor');
+        return $this->taskExecutor;
     }
 
     /**
@@ -116,6 +144,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function getPlaceholderResolver(): PlaceholderResolver
     {
-        return $this->symfonyContainer->get('placeholder_resolver');
+        return $this->placeholderResolver;
     }
 }
