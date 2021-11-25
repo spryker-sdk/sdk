@@ -28,3 +28,9 @@ services:
     arguments:
       - '@project_setting_repository'
       - '@project_setting_manager'
+
+  update_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateCommand
+    tags: ['console.command']
+    arguments:
+      - '@process_helper'

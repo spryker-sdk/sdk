@@ -1,4 +1,6 @@
 {
+    "name": "spryker-sdk/spryker-sdk",
+    "version": "0.1.0",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -7,6 +9,7 @@
         "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer-runtime-api": "^2.1",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/migrations": "^3.3",
