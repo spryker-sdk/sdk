@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -11,6 +11,8 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 
 class Setting extends DomainSetting
 {
+    protected ?int $id;
+
     /**
      * @param int|null $id
      * @param string $path
@@ -22,7 +24,7 @@ class Setting extends DomainSetting
      * @param string|null $initializationDescription
      */
     public function __construct(
-        protected ?int $id,
+        ?int $id,
         string $path,
         mixed $values,
         string $strategy,
@@ -31,6 +33,7 @@ class Setting extends DomainSetting
         bool $hasInitialization = false,
         ?string $initializationDescription = null
     ) {
+        $this->id = $id;
         parent::__construct($path, $values, $strategy, $type, $isProject, $hasInitialization, $initializationDescription);
     }
 
@@ -44,6 +47,8 @@ class Setting extends DomainSetting
 
     /**
      * @param bool $hasInitialization
+     *
+     * @return void
      */
     public function setHasInitialization(bool $hasInitialization): void
     {
@@ -52,6 +57,8 @@ class Setting extends DomainSetting
 
     /**
      * @param string $path
+     *
+     * @return void
      */
     public function setPath(string $path): void
     {
@@ -60,6 +67,8 @@ class Setting extends DomainSetting
 
     /**
      * @param string $strategy
+     *
+     * @return void
      */
     public function setStrategy(string $strategy): void
     {
@@ -68,6 +77,8 @@ class Setting extends DomainSetting
 
     /**
      * @param string $type
+     *
+     * @return void
      */
     public function setType(string $type): void
     {
@@ -76,6 +87,8 @@ class Setting extends DomainSetting
 
     /**
      * @param bool $isProject
+     *
+     * @return void
      */
     public function setIsProject(bool $isProject): void
     {
@@ -84,6 +97,8 @@ class Setting extends DomainSetting
 
     /**
      * @param string|null $initializationDescription
+     *
+     * @return void
      */
     public function setInitializationDescription(?string $initializationDescription): void
     {

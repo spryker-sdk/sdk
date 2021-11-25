@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -14,19 +14,19 @@ interface SettingRepositoryInterface
     /**
      * @param string $settingPath
      *
-     * @return SettingInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface;
 
     /**
-     * @param SettingInterface $setting
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $setting
      *
-     * @return SettingInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
      */
     public function save(SettingInterface $setting): SettingInterface;
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
      */
     public function findProjectSettings(): array;
 }

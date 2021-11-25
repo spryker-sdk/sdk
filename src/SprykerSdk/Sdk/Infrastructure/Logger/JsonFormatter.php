@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -13,6 +13,9 @@ use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 
 class JsonFormatter extends MonologJsonFormatter
 {
+    /**
+     * @var string
+     */
     public const CONTEXT_EVENT = 'taskLog';
 
     /**
@@ -67,19 +70,19 @@ class JsonFormatter extends MonologJsonFormatter
     }
 
     /**
-     * @param TaskExecutedEvent $taskLogTransfer
+     * @param \SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent $taskLogTransfer
      *
      * @return array
      */
     protected function transformTaskLogTransferToArray(TaskExecutedEvent $taskLogTransfer): array
     {
         return [
-            'id' => $taskLogTransfer->id,
-            'type' => $taskLogTransfer->type,
-            'event' => $taskLogTransfer->event,
-            'successful' => $taskLogTransfer->isSuccessful,
-            'triggered_by' => $taskLogTransfer->triggeredBy,
-            'sdkContext' => $taskLogTransfer->context,
+            'id' => $taskLogTransfer->getId(),
+            'type' => $taskLogTransfer->getType(),
+            'event' => $taskLogTransfer->getEvent(),
+            'successful' => $taskLogTransfer->isSuccessful(),
+            'triggered_by' => $taskLogTransfer->getTriggeredBy(),
+            'sdkContext' => $taskLogTransfer->getContext(),
         ];
     }
 }

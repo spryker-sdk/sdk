@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -22,14 +22,30 @@ class InitProjectCommand extends Command
      */
     protected const NAME = 'init:project';
 
+    protected CliValueReceiver $cliValueReceiver;
+
+    protected ProjectSettingManager $projectSettingManager;
+
+    protected SettingRepositoryInterface $settingRepository;
+
+    protected string $projectSettingFileName;
+
     /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager $projectSettingManager
+     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param string $projectSettingFileName
      */
     public function __construct(
-        protected CliValueReceiver $cliValueReceiver,
-        protected ProjectSettingManager $projectSettingManager,
-        protected SettingRepositoryInterface $settingRepository,
-        protected string $projectSettingFileName
+        CliValueReceiver $cliValueReceiver,
+        ProjectSettingManager $projectSettingManager,
+        SettingRepositoryInterface $settingRepository,
+        string $projectSettingFileName
     ) {
+        $this->projectSettingFileName = $projectSettingFileName;
+        $this->settingRepository = $settingRepository;
+        $this->projectSettingManager = $projectSettingManager;
+        $this->cliValueReceiver = $cliValueReceiver;
         parent::__construct(static::NAME);
     }
 
@@ -44,7 +60,6 @@ class InitProjectCommand extends Command
         $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
 
         if (file_exists($projectSettingPath)) {
-
             if (!$this->cliValueReceiver->receiveValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool')) {
                 return static::SUCCESS;
             }
@@ -58,9 +73,9 @@ class InitProjectCommand extends Command
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingEntities
+     * @param array<string, \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface> $settingEntities
      *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settingEntities): array
     {
@@ -95,6 +110,8 @@ class InitProjectCommand extends Command
 
     /**
      * @param array<int, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $projectSettings
+     *
+     * @return void
      */
     protected function writeProjectSettings(array $projectSettings): void
     {

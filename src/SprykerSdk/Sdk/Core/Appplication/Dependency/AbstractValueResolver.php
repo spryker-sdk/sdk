@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -12,18 +12,28 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 
 abstract class AbstractValueResolver implements ValueResolverInterface
 {
-    public function __construct(
-        protected ValueReceiverInterface $valueReceiver
-    ) {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface
+     */
+    protected ValueReceiverInterface $valueReceiver;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface $valueReceiver
+     */
+    public function __construct(ValueReceiverInterface $valueReceiver)
+    {
+        $this->valueReceiver = $valueReceiver;
     }
 
     /**
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      * @param bool|false $optional
      *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
      * @return mixed
      */
-    public function getValue(array $settingValues, bool $optional=false): mixed
+    public function getValue(array $settingValues, bool $optional = false): mixed
     {
         if ($this->valueReceiver->has($this->getValueName())) {
             return $this->valueReceiver->get($this->getValueName());
@@ -33,7 +43,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
 
         if (count($requiredSettings) !== count($this->getRequiredSettingPaths())) {
             throw new MissingSettingException(
-                'Required settings are missing: ' . implode(', ', array_diff($this->getRequiredSettingPaths(), $settingValues))
+                'Required settings are missing: ' . implode(', ', array_diff($this->getRequiredSettingPaths(), $settingValues)),
             );
         }
         $defaultValue = $this->getDefaultValue();
@@ -65,7 +75,10 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         return $this->getId();
     }
 
-    protected abstract function getRequiredSettingPaths(): array;
+    /**
+     * @return array<string>
+     */
+    abstract protected function getRequiredSettingPaths(): array;
 
     /**
      * @param array<string, mixed> $settingValues
@@ -74,5 +87,5 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      *
      * @return mixed
      */
-    protected abstract function getValueFromSettings(array $settingValues): mixed;
+    abstract protected function getValueFromSettings(array $settingValues): mixed;
 }

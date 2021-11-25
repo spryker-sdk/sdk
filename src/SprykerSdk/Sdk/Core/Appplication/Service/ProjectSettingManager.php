@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -9,21 +9,37 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 
 class ProjectSettingManager
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     */
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface
+     */
+    protected SettingRepositoryInterface $settingRepository;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     */
     public function __construct(
-        protected ProjectSettingRepositoryInterface $projectSettingRepository,
-        protected SettingRepositoryInterface $settingRepository
-    ) {}
+        ProjectSettingRepositoryInterface $projectSettingRepository,
+        SettingRepositoryInterface $settingRepository
+    ) {
+        $this->settingRepository = $settingRepository;
+        $this->projectSettingRepository = $projectSettingRepository;
+    }
 
     /**
      * @param array<string, mixed> $pathValues
      *
-     * @return array<Setting>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
      */
     public function setSettings(array $pathValues): array
     {
@@ -45,7 +61,9 @@ class ProjectSettingManager
      * @param string $path
      * @param mixed $value
      *
-     * @return SettingInterface
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
      */
     public function setSetting(string $path, mixed $value): SettingInterface
     {
@@ -61,10 +79,10 @@ class ProjectSettingManager
     }
 
     /**
-     * @param SettingInterface $settingDefinition
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $settingDefinition
      * @param mixed $value
      *
-     * @return SettingInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
      */
     protected function buildPathValue(SettingInterface $settingDefinition, mixed $value): SettingInterface
     {

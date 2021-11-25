@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -10,6 +10,31 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 class Task implements TaskInterface
 {
     /**
+     * @var string
+     */
+    protected string $id;
+
+    /**
+     * @var string
+     */
+    protected string $shortDescription;
+
+    /**
+     * @var array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
+     */
+    protected array $commands = [];
+
+    /**
+     * @var array<\SprykerSdk\Sdk\Core\Domain\Entity\Placeholder>
+     */
+    protected array $placeholders = [];
+
+    /**
+     * @var string|null
+     */
+    protected ?string $help = null;
+
+    /**
      * @param string $id
      * @param string $shortDescription
      * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Command> $commands
@@ -17,12 +42,17 @@ class Task implements TaskInterface
      * @param string|null $help
      */
     public function __construct(
-        protected string $id,
-        protected string $shortDescription,
-        protected array $commands,
-        protected array $placeholders = [],
-        protected ?string $help = null
+        string $id,
+        string $shortDescription,
+        array $commands,
+        array $placeholders = [],
+        ?string $help = null
     ) {
+        $this->help = $help;
+        $this->placeholders = $placeholders;
+        $this->commands = $commands;
+        $this->shortDescription = $shortDescription;
+        $this->id = $id;
     }
 
     /**
@@ -42,7 +72,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return CommandInterface[]
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -50,7 +80,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return PlaceholderInterface[]
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -13,14 +13,18 @@ use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
-use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 
 class TaskRunFactoryLoader extends ContainerCommandLoader
 {
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected SymfonyContainerInterface $symfonyContainer;
+
     /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array $commandMap
@@ -29,9 +33,10 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     public function __construct(
         ContainerInterface $container,
         array $commandMap,
-        protected \Symfony\Component\DependencyInjection\ContainerInterface $symfonyContainer,
+        SymfonyContainerInterface $symfonyContainer
     ) {
         parent::__construct($container, $commandMap);
+        $this->symfonyContainer = $symfonyContainer;
     }
 
     /**

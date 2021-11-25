@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -9,6 +9,41 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
 class Setting implements SettingInterface
 {
+    /**
+     * @var string
+     */
+    protected string $path;
+
+    /**
+     * @var mixed
+     */
+    protected mixed $values;
+
+    /**
+     * @var string
+     */
+    protected string $strategy = self::STRATEGY_REPLACE;
+
+    /**
+     * @var string
+     */
+    protected string $type = 'string';
+
+    /**
+     * @var bool
+     */
+    protected bool $isProject = true;
+
+    /**
+     * @var bool
+     */
+    protected bool $hasInitialization = false;
+
+    /**
+     * @var string|null
+     */
+    protected ?string $initializationDescription = null;
+
     /**
      * @param string $path
      * @param mixed $values
@@ -19,14 +54,21 @@ class Setting implements SettingInterface
      * @param string|null $initializationDescription
      */
     public function __construct(
-        protected string   $path,
-        protected mixed    $values,
-        protected string   $strategy,
-        protected string   $type = 'string',
-        protected bool $isProject = true,
-        protected bool     $hasInitialization = false,
-        protected ?string $initializationDescription = null
+        string $path,
+        mixed $values,
+        string $strategy,
+        string $type = 'string',
+        bool $isProject = true,
+        bool $hasInitialization = false,
+        ?string $initializationDescription = null
     ) {
+        $this->initializationDescription = $initializationDescription;
+        $this->hasInitialization = $hasInitialization;
+        $this->isProject = $isProject;
+        $this->type = $type;
+        $this->strategy = $strategy;
+        $this->values = $values;
+        $this->path = $path;
     }
 
     /**
@@ -47,6 +89,8 @@ class Setting implements SettingInterface
 
     /**
      * @param mixed $values
+     *
+     * @return void
      */
     public function setValues(mixed $values): void
     {

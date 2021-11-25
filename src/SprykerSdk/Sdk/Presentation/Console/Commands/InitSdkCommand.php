@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -27,24 +27,46 @@ class InitSdkCommand extends Command
      */
     protected const NAME = 'init:sdk';
 
+    protected CliValueReceiver $cliValueReceiver;
+
+    protected SettingRepository $settingRepository;
+
+    protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand;
+
+    protected MigrateCommand $doctrineMigrationCommand;
+
+    protected Yaml $yamlParser;
+
+    protected string $settingsPath;
+
     /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository $settingRepository
+     * @param \Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand
+     * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
+     * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param string $settingsPath
      */
     public function __construct(
-        protected CliValueReceiver $cliValueReceiver,
-        protected SettingRepository $settingRepository,
-        protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
-        protected MigrateCommand $doctrineMigrationCommand,
-        protected Yaml $yamlParser,
-        protected string $settingsPath,
+        CliValueReceiver $cliValueReceiver,
+        SettingRepository $settingRepository,
+        CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
+        MigrateCommand $doctrineMigrationCommand,
+        Yaml $yamlParser,
+        string $settingsPath
     ) {
+        $this->settingsPath = $settingsPath;
+        $this->yamlParser = $yamlParser;
+        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
+        $this->createDatabaseDoctrineCommand = $createDatabaseDoctrineCommand;
+        $this->settingRepository = $settingRepository;
+        $this->cliValueReceiver = $cliValueReceiver;
         parent::__construct(static::NAME);
     }
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @throws \Exception
      *
      * @return int
      */
@@ -61,10 +83,7 @@ class InitSdkCommand extends Command
     /**
      * @param array $setting
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @return SettingInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
      */
     protected function createSettingEntity(array $setting): SettingInterface
     {
@@ -77,7 +96,7 @@ class InitSdkCommand extends Command
             'initialization_description' => $setting['initialization_description'] ?? null,
             'strategy' => $setting['strategy'] ?? 'overwrite',
             'init' => $setting['init'] ?? false,
-            'values' => $setting['values']
+            'values' => $setting['values'],
         ];
 
         if ($settingEntity) {
@@ -141,7 +160,7 @@ class InitSdkCommand extends Command
                 $values = $this->cliValueReceiver->receiveValue(
                     $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
                     $settingEntity->getValues(),
-                    $settingEntity->getType()
+                    $settingEntity->getType(),
                 );
                 $values = is_scalar($values) ?? json_decode($values);
                 $previousSettingValues = $settingEntity->getValues();
@@ -157,7 +176,7 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @throws \Exception
+     * @return void
      */
     protected function createDatabase(): void
     {

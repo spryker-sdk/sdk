@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -19,9 +19,8 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(
-        EntityManagerInterface $entityManager,
-    ) {
+    public function __construct(EntityManagerInterface $entityManager)
+    {
         $class = $entityManager->getClassMetadata(InfrastructureSetting::class);
         parent::__construct($entityManager, $class);
     }
@@ -29,12 +28,12 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
-     * @return SettingInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
         return $this->findOneBy([
-            'path' => $settingPath
+            'path' => $settingPath,
         ]);
     }
 
@@ -48,14 +47,12 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         ]);
     }
 
-
     /**
-     * @param SettingInterface $setting
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $setting
      *
-     * @return SettingInterface
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
      *
-     * @throws \Doctrine\ORM\ORMException
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
      */
     public function save(SettingInterface $setting): SettingInterface
     {

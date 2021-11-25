@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -14,12 +14,19 @@ use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 
 class EventLogger implements EventLoggerInterface
 {
-    public function __construct(
-        protected LoggerInterface $logger,
-    ) {}
+    protected LoggerInterface $logger;
+
+    /**
+     * @param \Psr\Log\LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Events\Event $event
+     *
      * @return void
      */
     public function logEvent(Event $event): void

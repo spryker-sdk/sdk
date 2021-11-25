@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -20,6 +20,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
 {
+    protected SettingRepositoryInterface $settingRepository;
+
+    protected Finder $fileFinder;
+
+    protected Yaml $yamlParser;
+
+    protected iterable $existingTasks = [];
+
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
@@ -27,21 +35,27 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param iterable<\SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
-        protected SettingRepositoryInterface $settingRepository,
-        protected Finder $fileFinder,
-        protected Yaml $yamlParser,
-        protected iterable $existingTasks = [],
+        SettingRepositoryInterface $settingRepository,
+        Finder $fileFinder,
+        Yaml $yamlParser,
+        iterable $existingTasks = []
     ) {
+        $this->existingTasks = $existingTasks;
+        $this->yamlParser = $yamlParser;
+        $this->fileFinder = $fileFinder;
+        $this->settingRepository = $settingRepository;
     }
 
     /**
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
      * @return array
      */
     public function findAll(): array
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('task_dirs');
 
-        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())){
+        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
             throw new MissingSettingException('task_dirs are not configured properly');
         }
 
@@ -63,7 +77,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param string $taskId
      *
-     * @return TaskInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface|null
      */
     public function findById(string $taskId): ?TaskInterface
     {
@@ -78,6 +92,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
     /**
      * @param array $data
+     *
      * @return array
      */
     protected function buildPlaceholders(array $data): array
@@ -99,7 +114,8 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
     /**
      * @param array $data
-     * @return array<Command>
+     *
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
      */
     protected function buildCommands(array $data): array
     {
@@ -119,7 +135,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param \SplFileInfo $taskFile
      *
-     * @return TaskInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface
      */
     protected function buildTask(SplFileInfo $taskFile): TaskInterface
     {

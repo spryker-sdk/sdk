@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -18,25 +18,38 @@ class LocalCliRunner implements CommandRunnerInterface
 {
     protected OutputInterface $output;
 
-    public function __construct(
-        protected ProcessHelper $processHelper,
-    ) {}
+    protected ProcessHelper $processHelper;
+
+    /**
+     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
+     */
+    public function __construct(ProcessHelper $processHelper)
+    {
+        $this->processHelper = $processHelper;
+    }
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
      */
     public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Helper\HelperSet $helperSet
+     *
+     * @return void
+     */
     public function setHelperSet(HelperSet $helperSet)
     {
         $this->processHelper->setHelperSet($helperSet);
     }
 
     /**
-     * @param CommandInterface $command
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface $command
      *
      * @return bool
      */
@@ -46,7 +59,7 @@ class LocalCliRunner implements CommandRunnerInterface
     }
 
     /**
-     * @param CommandInterface $command
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface $command
      * @param array $resolvedValues
      *
      * @return int
@@ -58,8 +71,8 @@ class LocalCliRunner implements CommandRunnerInterface
         }, array_keys($resolvedValues));
 
         $values = array_map(function (mixed $value): string {
-            $castedValue = match(gettype($value)) {
-                default => (string) $value,
+            $castedValue = match (gettype($value)) {
+                default => (string)$value,
             };
 
             return $castedValue;
@@ -73,7 +86,7 @@ class LocalCliRunner implements CommandRunnerInterface
 
         $process = $this->processHelper->run(
             $this->output,
-            [$process]
+            [$process],
         );
 
         return $process->run();

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -13,23 +13,28 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 
 class EventLoggerFactory
 {
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     */
     public function __construct(
-        protected ProjectSettingRepositoryInterface $projectSettingRepository
-    ) {}
+        ProjectSettingRepositoryInterface $projectSettingRepository
+    ) {
+        $this->projectSettingRepository = $projectSettingRepository;
+    }
 
     /**
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface
      */
     public function createEventLogger(): EventLoggerInterface
     {
-        $logger = new Logger('event_logger');
-        $logger->pushHandler($this->createHandler());
-
-        return new EventLogger($logger);
+        return new EventLogger($this->createLogger());
     }
 
     /**
@@ -49,10 +54,41 @@ class EventLoggerFactory
         $projectDirSetting = $this->projectSettingRepository->findOneByPath('project_dir');
 
         if ($reportUsageStatistics && $projectDirSetting) {
-            $handler = new StreamHandler($projectDirSetting->getValues() . '/.ssdk.log');
-            $handler->setFormatter(new JsonFormatter());
+            $handler = $this->createFileLogger($projectDirSetting);
         }
 
         return $handler;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter
+     */
+    protected function createJsonFormatter(): JsonFormatter
+    {
+        return new JsonFormatter();
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $projectDirSetting
+     *
+     * @return \Monolog\Handler\StreamHandler
+     */
+    protected function createFileLogger(SettingInterface $projectDirSetting): StreamHandler
+    {
+        $handler = new StreamHandler($projectDirSetting->getValues() . '/.ssdk.log');
+        $handler->setFormatter($this->createJsonFormatter());
+
+        return $handler;
+    }
+
+    /**
+     * @return \Monolog\Logger
+     */
+    protected function createLogger(): Logger
+    {
+        $logger = new Logger('event_logger');
+        $logger->pushHandler($this->createHandler());
+
+        return $logger;
     }
 }

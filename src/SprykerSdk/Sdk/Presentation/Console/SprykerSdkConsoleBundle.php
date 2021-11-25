@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -18,6 +18,8 @@ class SprykerSdkConsoleBundle extends Bundle
 {
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     *
+     * @return void
      */
     public function build(ContainerBuilder $container)
     {
@@ -25,7 +27,7 @@ class SprykerSdkConsoleBundle extends Bundle
         $container->addCompilerPass(
             new DynamicConsoleCommandsCompilerPass(),
             PassConfig::TYPE_BEFORE_REMOVING,
-            -3
+            -3,
         );
     }
 

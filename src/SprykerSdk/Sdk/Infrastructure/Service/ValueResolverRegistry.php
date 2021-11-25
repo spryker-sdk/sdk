@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -30,14 +30,33 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     protected ClassLoader $classLoader;
 
+    protected SettingRepositoryInterface $settingRepository;
+
+    protected ValueReceiverInterface $valueReceiver;
+
+    protected string $sdkBasePath;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueReceiverInterface $valueReceiver
+     * @param string $sdkBasePath
+     */
     public function __construct(
-        protected SettingRepositoryInterface $settingRepository,
-        protected ValueReceiverInterface $valueReceiver,
-        protected string $sdkBasePath
+        SettingRepositoryInterface $settingRepository,
+        ValueReceiverInterface $valueReceiver,
+        string $sdkBasePath
     ) {
+        $this->sdkBasePath = $sdkBasePath;
+        $this->valueReceiver = $valueReceiver;
+        $this->settingRepository = $settingRepository;
         $this->classLoader = require $this->sdkBasePath . '/vendor/autoload.php';
     }
 
+    /**
+     * @param string $id
+     *
+     * @return bool
+     */
     public function has(string $id): bool
     {
         $this->loadValueResolvers();
@@ -51,6 +70,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     /**
      * @param string $id
+     *
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverInterface|null
      */
     public function get(string $id): ?ValueResolverInterface
@@ -66,6 +86,11 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         return null;
     }
 
+    /**
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
+     *
+     * @return void
+     */
     protected function loadValueResolvers()
     {
         if ($this->valueResolvers !== null) {
@@ -156,6 +181,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     /**
      * @param string $id
+     *
      * @return bool
      */
     protected function hasId(string $id): bool
@@ -165,6 +191,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     /**
      * @param string $id
+     *
      * @return bool
      */
     protected function hasClass(string $id): bool

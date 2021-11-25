@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -26,6 +26,7 @@ class PhpCommandRunner implements CommandRunnerInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\ExecutableCommandInterface $command
      * @param array $resolvedValues
+     *
      * @return int
      */
     public function execute(CommandInterface $command, array $resolvedValues): int
