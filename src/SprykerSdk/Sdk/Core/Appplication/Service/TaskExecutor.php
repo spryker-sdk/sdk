@@ -31,12 +31,13 @@ class TaskExecutor
 
     /**
      * @param string $taskId
+     * @param array $tags
      *
      * @return int
      */
-    public function execute(string $taskId): int
+    public function execute(string $taskId, array $tags = []): int
     {
-        $task = $this->getTask($taskId);
+        $task = $this->getTask($taskId, $tags);
         $resolvedValues = $this->getResolvedValues($task);
 
         $result = 0;
@@ -59,12 +60,13 @@ class TaskExecutor
 
     /**
      * @param string $taskId
+     * @param array $tags
      *
-     * @return TaskInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface
      */
-    protected function getTask(string $taskId): TaskInterface
+    protected function getTask(string $taskId, array $tags = []): TaskInterface
     {
-        $task = $this->taskRepository->findById($taskId);
+        $task = $this->taskRepository->findById($taskId, $tags);
 
         if (!$task) {
             throw new TaskMissingException('Task not found with id ' . $taskId);

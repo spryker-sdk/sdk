@@ -209,6 +209,9 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
             $fullClassName = $this->autoloadValueResolver($valueResolverFile, $namespace);
 
+            if (array_key_exists($fullClassName, $this->valueResolversClasses)) {
+                continue;
+            }
             $valueResolver = new $fullClassName($this->valueReceiver);
 
             if (!$valueResolver instanceof ValueResolverInterface) {

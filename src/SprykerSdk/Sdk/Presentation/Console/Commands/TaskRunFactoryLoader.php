@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
@@ -62,18 +63,35 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
 
         $task = $this->getTaskRepository()->findById($name);
 
+        $options = array_map(function (PlaceholderInterface $placeholder): InputOption {
+            $valueResolver = $this->getPlaceholderResolver()->getValueResolver($placeholder);
+
+            return new InputOption(
+                $valueResolver->getAlias() ?? $valueResolver->getId(),
+                null,
+                $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
+                $valueResolver->getDescription(),
+            );
+        }, $task->getPlaceholders());
+
+        $tags = array_map(function (CommandInterface $command): array {
+            return $command->getTags();
+        }, $task->getCommands());
+        $tags = array_unique(array_merge(...$tags));
+
+        if (count($tags) > 0) {
+            $options[] = new InputOption(
+                'tags',
+                't',
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                'Only execute subtasks that matches at least one of the given tags',
+                $tags
+            );
+        }
+
         return new RunTaskWrapperCommand(
             $this->getTaskExecutor(),
-            array_map(function (PlaceholderInterface $placeholder): InputOption {
-                $valueResolver = $this->getPlaceholderResolver()->getValueResolver($placeholder);
-
-                return new InputOption(
-                    $valueResolver->getAlias() ?? $valueResolver->getId(),
-                    null,
-                    $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
-                    $valueResolver->getDescription(),
-                );
-            }, $task->getPlaceholders()),
+            $options,
             $task->getShortDescription(),
             $task->getId(),
         );

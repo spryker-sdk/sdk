@@ -41,7 +41,7 @@ class InitProjectCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $projectSettingPath = getcwd() . '/' . $this->projectSettingFileName;
+        $projectSettingPath = $this->projectSettingFileName;
 
         if (file_exists($projectSettingPath)) {
 

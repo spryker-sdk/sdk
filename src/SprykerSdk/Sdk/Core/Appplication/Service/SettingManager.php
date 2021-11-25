@@ -27,7 +27,7 @@ class SettingManager
      */
     public function setSettings(array $pathValues): array
     {
-        $settingDefinitions = $this->projectSettingRepository->findByPaths($pathValues);
+        $settingDefinitions = $this->projectSettingRepository->findByPaths(array_keys($pathValues));
         $modifiedSettings = [
             'core' => [],
             'project' => []
@@ -36,7 +36,7 @@ class SettingManager
         foreach ($settingDefinitions as $settingDefinition) {
             if (isset($pathValues[$settingDefinition->getPath()])) {
                 $settingType = $settingDefinition->isProject() ? 'project' : 'core';
-                $modifiedSettings[$settingType] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                $modifiedSettings[$settingType][] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
             }
         }
 

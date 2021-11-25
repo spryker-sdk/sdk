@@ -7,7 +7,10 @@ so you can focus developing exciting features for your business case.
 
 ## Installation
 
-composer require `spryker-sdk/spryker-sdk`
+- composer require `spryker-sdk/spryker-sdk`
+- nano ~/.bashrc
+- add alias spryker-sdk='php {path to sdk}/bin/console'
+- source ~/.bashrc
 
 ## Update
 composer update `spryker-sdk/spryker-sdk`
@@ -15,10 +18,10 @@ composer update `spryker-sdk/spryker-sdk`
 ## Getting started
 
 To get an overview on the available capabilities of the Spryker SDK please run
-`bin/console list`
+`spryker-sdk list`
 
-Any task can be executed by running `bin/console <task-id>`.
-Using `bin/console <task-id> -h` will give a description on what options can be passed into the task.
+Any task can be executed by running `spryker-sdk <task-id>` from project root folder.
+Using `bin/consolespryker-sdk <task-id> -h` will give a description on what options can be passed into the task.
 
 ## Extending the SDK capabilities
 
