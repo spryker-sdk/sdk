@@ -50,7 +50,11 @@ class PlaceholderResolver
             $settingValues = [];
 
         foreach ($valueResolverInstance->getSettingPaths() as $settingPath) {
-            $settingValues[$settingPath] = $this->settingRepository->findOneByPath($settingPath);
+            $setting = $this->settingRepository->findOneByPath($settingPath);
+
+            if ($setting) {
+                $settingValues[$settingPath] = $setting->getValues();
+            }
         }
 
             return $valueResolverInstance->getValue($settingValues, $placeholder->isOptional());

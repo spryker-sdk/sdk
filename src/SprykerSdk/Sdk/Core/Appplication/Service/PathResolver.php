@@ -29,6 +29,7 @@ class PathResolver
         if (strpos($path, DIRECTORY_SEPARATOR) === 0) {
             return $path;
         }
+
         $path = preg_replace('/^\P{L}+/u', '', $path);
 
         $path = $this->sdkBasePath . DIRECTORY_SEPARATOR . $path;
