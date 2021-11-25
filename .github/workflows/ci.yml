@@ -11,7 +11,7 @@ on:
 
 jobs:
   validation:
-    name: "CS, ArchSniffer, PHPStan, Security"
+    name: "CS, PHPStan, Security"
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -58,19 +58,19 @@ jobs:
 
       - name: Run PHPStan
         run: composer stan
-
-      - name: Codecept tests
-        if: ${{ matrix.php-version == '8.1' }}
-        run: composer test
-
-      - name: Codecept tests with coverage
-        if: ${{ matrix.php-version == '8.0' }}
-        run: composer test-cover
-
-      - name: Upload coverage results to Coveralls
-        if: ${{ matrix.php-version == '8.0' }}
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer global require php-coveralls/php-coveralls
-          php-coveralls --coverage_clover=tests/_output/coverage.xml --json_path=tests/_output/coveralls-upload.json -vvv
+#
+#      - name: Codecept tests
+#        if: ${{ matrix.php-version == '8.1' }}
+#        run: composer test
+#
+#      - name: Codecept tests with coverage
+#        if: ${{ matrix.php-version == '8.0' }}
+#        run: composer test-cover
+#
+#      - name: Upload coverage results to Coveralls
+#        if: ${{ matrix.php-version == '8.0' }}
+#        env:
+#          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          composer global require php-coveralls/php-coveralls
+#          php-coveralls --coverage_clover=tests/_output/coverage.xml --json_path=tests/_output/coveralls-upload.json -vvv
