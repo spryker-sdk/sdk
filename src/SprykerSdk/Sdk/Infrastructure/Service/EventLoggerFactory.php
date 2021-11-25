@@ -11,9 +11,9 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 
 class EventLoggerFactory
@@ -30,7 +30,7 @@ class EventLoggerFactory
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface
+     * @return \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
      */
     public function createEventLogger(): EventLoggerInterface
     {
@@ -69,7 +69,7 @@ class EventLoggerFactory
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $projectDirSetting
+     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $projectDirSetting
      *
      * @return \Monolog\Handler\StreamHandler
      */

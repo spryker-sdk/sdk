@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +24,7 @@ class InitProjectCommand extends Command
 
     protected CliValueReceiver $cliValueReceiver;
 
-    protected ProjectSettingManager $projectSettingManager;
+    protected SettingManager $projectSettingManager;
 
     protected SettingRepositoryInterface $settingRepository;
 
@@ -32,13 +32,13 @@ class InitProjectCommand extends Command
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager $projectSettingManager
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $projectSettingManager
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
      * @param string $projectSettingFileName
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
-        ProjectSettingManager $projectSettingManager,
+        SettingManager $projectSettingManager,
         SettingRepositoryInterface $settingRepository,
         string $projectSettingFileName
     ) {
@@ -73,9 +73,9 @@ class InitProjectCommand extends Command
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface> $settingEntities
+     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settingEntities
      *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settingEntities): array
     {
@@ -109,7 +109,7 @@ class InitProjectCommand extends Command
     }
 
     /**
-     * @param array<int, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $projectSettings
+     * @param array<int, \SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $projectSettings
      *
      * @return void
      */

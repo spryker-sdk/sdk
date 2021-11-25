@@ -9,14 +9,14 @@ namespace SprykerSdk\Sdk\Infrastructure\Logger;
 
 use DateTimeInterface;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
-use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
+use SprykerSdk\Sdk\Contracts\Events\EventInterface;
 
 class JsonFormatter extends MonologJsonFormatter
 {
     /**
      * @var string
      */
-    public const CONTEXT_EVENT = 'taskLog';
+    public const CONTEXT_EVENT = 'event';
 
     /**
      * @param int $batchMode
@@ -43,8 +43,8 @@ class JsonFormatter extends MonologJsonFormatter
             unset($record['datetime']);
         }
 
-        if (isset($record['context'][static::CONTEXT_EVENT]) && $record['context'][static::CONTEXT_EVENT] instanceof TaskExecutedEvent) {
-            $record += $this->transformTaskLogTransferToArray($record['context'][static::CONTEXT_EVENT]);
+        if (isset($record['context'][static::CONTEXT_EVENT]) && $record['context'][static::CONTEXT_EVENT] instanceof EventInterface) {
+            $record += $this->transformEventToArray($record['context'][static::CONTEXT_EVENT]);
         }
 
         $record = $this->unsetRedundantFields($record);
@@ -70,19 +70,19 @@ class JsonFormatter extends MonologJsonFormatter
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent $taskLogTransfer
+     * @param \SprykerSdk\Sdk\Contracts\Events\EventInterface $event
      *
      * @return array
      */
-    protected function transformTaskLogTransferToArray(TaskExecutedEvent $taskLogTransfer): array
+    protected function transformEventToArray(EventInterface $event): array
     {
         return [
-            'id' => $taskLogTransfer->getId(),
-            'type' => $taskLogTransfer->getType(),
-            'event' => $taskLogTransfer->getEvent(),
-            'successful' => $taskLogTransfer->isSuccessful(),
-            'triggered_by' => $taskLogTransfer->getTriggeredBy(),
-            'sdkContext' => $taskLogTransfer->getContext(),
+            'id' => $event->getId(),
+            'type' => $event->getType(),
+            'event' => $event->getEvent(),
+            'successful' => $event->isSuccessful(),
+            'triggered_by' => $event->getTriggeredBy(),
+            'sdkContext' => $event->getContext(),
         ];
     }
 }

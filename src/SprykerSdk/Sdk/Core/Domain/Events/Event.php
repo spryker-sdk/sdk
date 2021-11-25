@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Events;
 
-class Event
+use SprykerSdk\Sdk\Contracts\Events\EventInterface;
+
+class Event implements EventInterface
 {
     protected string $id;
 

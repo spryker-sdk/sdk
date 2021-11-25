@@ -8,11 +8,11 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Psr\Container\ContainerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
@@ -33,7 +33,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     public function __construct(
         ContainerInterface $container,
         array $commandMap,
-        SymfonyContainerInterface $symfonyContainer
+        ContainerInterface $symfonyContainer
     ) {
         parent::__construct($container, $commandMap);
         $this->symfonyContainer = $symfonyContainer;
@@ -96,7 +96,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface
+     * @return \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
      */
     protected function getTaskRepository(): TaskRepositoryInterface
     {

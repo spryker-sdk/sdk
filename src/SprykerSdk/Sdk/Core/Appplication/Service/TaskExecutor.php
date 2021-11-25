@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 
 class TaskExecutor
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface>
+     * @var iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface>
      */
     protected iterable $commandRunners;
 
@@ -26,20 +26,20 @@ class TaskExecutor
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface
+     * @var \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
      */
     protected EventLoggerInterface $eventLogger;
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface> $commandRunners
+     * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
      */
     public function __construct(
         iterable $commandRunners,
@@ -86,7 +86,7 @@ class TaskExecutor
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
     protected function getTask(string $taskId): TaskInterface
     {
@@ -100,7 +100,7 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface $task
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
      * @return array<string, mixed>
      */

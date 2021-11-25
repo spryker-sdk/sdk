@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 
-class ProjectSettingManager
+class SettingManager
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
@@ -20,13 +20,13 @@ class ProjectSettingManager
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
@@ -39,22 +39,32 @@ class ProjectSettingManager
     /**
      * @param array<string, mixed> $pathValues
      *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     public function setSettings(array $pathValues): array
     {
-        $projectSettingDefinitions = $this->settingRepository->findProjectSettings();
-        $modifiedSettings = [];
+        $settingDefinitions = $this->projectSettingRepository->findByPaths($pathValues);
+        $modifiedSettings = [
+            'core' => [],
+            'project' => [],
+        ];
 
-        foreach ($projectSettingDefinitions as $projectSettingDefinition) {
-            if (isset($pathValues[$projectSettingDefinition->getPath()])) {
-                $modifiedSettings[] = $this->buildPathValue($projectSettingDefinition, $pathValues[$projectSettingDefinition->getPath()]);
+        foreach ($settingDefinitions as $settingDefinition) {
+            if (isset($pathValues[$settingDefinition->getPath()])) {
+                $settingType = $settingDefinition->isProject() ? 'project' : 'core';
+                $modifiedSettings[$settingType] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
             }
         }
 
-        $this->projectSettingRepository->saveMultiple($modifiedSettings);
+        if (count($modifiedSettings['project']) > 0) {
+            $this->projectSettingRepository->saveMultiple($modifiedSettings['project']);
+        }
 
-        return $modifiedSettings;
+        if (count($modifiedSettings['core']) > 0) {
+            $this->settingRepository->saveMultiple($modifiedSettings['core']);
+        }
+
+        return array_merge($modifiedSettings['project'], $modifiedSettings['core']);
     }
 
     /**
@@ -63,7 +73,7 @@ class ProjectSettingManager
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     public function setSetting(string $path, mixed $value): SettingInterface
     {
@@ -75,14 +85,18 @@ class ProjectSettingManager
 
         $this->buildPathValue($settingDefinition, $value);
 
-        return $this->projectSettingRepository->save($settingDefinition);
+        if ($settingDefinition->isProject()) {
+            return $this->projectSettingRepository->save($settingDefinition);
+        }
+
+        return $this->settingRepository->save($settingDefinition);
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $settingDefinition
+     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $settingDefinition
      * @param mixed $value
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     protected function buildPathValue(SettingInterface $settingDefinition, mixed $value): SettingInterface
     {

@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
@@ -73,9 +73,7 @@ class InitSdkCommand extends Command
     public function run(InputInterface $input, OutputInterface $output): int
     {
         $this->createDatabase();
-
-        $settingEntities = $this->readSettingDefinitions();
-        $this->initializeSettingValues($settingEntities, $input, $output);
+        $this->initializeSettingValues($this->readSettingDefinitions());
 
         return static::SUCCESS;
     }
@@ -83,7 +81,7 @@ class InitSdkCommand extends Command
     /**
      * @param array $setting
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     protected function createSettingEntity(array $setting): SettingInterface
     {
@@ -123,7 +121,7 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @return array
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     protected function readSettingDefinitions(): array
     {
@@ -138,13 +136,11 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @param array $settingEntities
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settingEntities
      *
-     * @return array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
-    protected function initializeSettingValues(array $settingEntities, InputInterface $input, OutputInterface $output): array
+    protected function initializeSettingValues(array $settingEntities): array
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
         $coreEntities = array_filter($settingEntities, function (Setting $setting) {

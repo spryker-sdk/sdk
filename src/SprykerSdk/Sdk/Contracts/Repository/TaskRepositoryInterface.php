@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Repository;
+namespace SprykerSdk\Sdk\Contracts\Repository;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
 interface TaskRepositoryInterface
 {
@@ -19,7 +19,7 @@ interface TaskRepositoryInterface
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null
      */
     public function findById(string $taskId): ?TaskInterface;
 }

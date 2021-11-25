@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity;
+namespace SprykerSdk\Sdk\Contracts\Entity;
 
 interface TaskInterface
 {
@@ -20,12 +20,12 @@ interface TaskInterface
     public function getShortDescription(): string;
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     public function getCommands(): array;
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array;
 

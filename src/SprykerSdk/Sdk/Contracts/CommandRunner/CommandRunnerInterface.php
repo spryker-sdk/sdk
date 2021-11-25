@@ -5,21 +5,21 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
+namespace SprykerSdk\Sdk\Contracts\CommandRunner;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 
 interface CommandRunnerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface $command
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      *
      * @return bool
      */
     public function canHandle(CommandInterface $command): bool;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface $command
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      * @param array<string, mixed> $resolvedValues
      *
      * @return int

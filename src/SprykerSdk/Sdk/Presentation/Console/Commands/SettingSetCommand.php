@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager;
+use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,15 +34,15 @@ class SettingSetCommand extends Command
 
     protected ProjectSettingRepositoryInterface $settingRepository;
 
-    protected ProjectSettingManager $settingManager;
+    protected SettingManager $settingManager;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager $settingManager
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $settingManager
      */
     public function __construct(
         ProjectSettingRepositoryInterface $settingRepository,
-        ProjectSettingManager $settingManager
+        SettingManager $settingManager
     ) {
         $this->settingManager = $settingManager;
         $this->settingRepository = $settingRepository;
@@ -54,7 +54,7 @@ class SettingSetCommand extends Command
      */
     public function getHelp(): string
     {
-        $help = 'Setting paths: ' . PHP_EOL;
+        $help = 'Project setting paths: ' . PHP_EOL;
 
         foreach ($this->settingRepository->findProjectSettings() as $projectSetting) {
             $help .= sprintf(
@@ -64,6 +64,19 @@ class SettingSetCommand extends Command
                 $projectSetting->getStrategy(),
                 PHP_EOL . str_repeat(' ', 8),
                 $projectSetting->getInitializationDescription(),
+            ) . PHP_EOL;
+        }
+
+        $help .= PHP_EOL . 'Core setting paths: ' . PHP_EOL;
+
+        foreach ($this->settingRepository->findCoreSettings() as $coreSetting) {
+            $help .= sprintf(
+                '    %s <%s> [%s] -- %s %s',
+                $coreSetting->getPath(),
+                $coreSetting->getType(),
+                $coreSetting->getStrategy(),
+                PHP_EOL . str_repeat(' ', 8),
+                $coreSetting->getInitializationDescription(),
             ) . PHP_EOL;
         }
 

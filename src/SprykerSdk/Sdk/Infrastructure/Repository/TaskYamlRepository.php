@@ -8,13 +8,13 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SplFileInfo;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -29,10 +29,10 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected iterable $existingTasks = [];
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param iterable<\SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface> $existingTasks
+     * @param iterable<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
@@ -77,7 +77,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null
      */
     public function findById(string $taskId): ?TaskInterface
     {
@@ -135,7 +135,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param \SplFileInfo $taskFile
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
     protected function buildTask(SplFileInfo $taskFile): TaskInterface
     {

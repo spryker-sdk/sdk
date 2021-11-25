@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 
@@ -28,7 +28,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
@@ -38,7 +38,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     public function findProjectSettings(): array
     {
@@ -48,11 +48,33 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $setting
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     */
+    public function findCoreSettings(): array
+    {
+        return $this->findBy([
+            'isProject' => false,
+        ]);
+    }
+
+    /**
+     * @param array $paths
+     *
+     * @return array
+     */
+    public function findByPaths(array $paths): array
+    {
+        return $this->findBy([
+            'path' => $paths,
+        ]);
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     public function save(SettingInterface $setting): SettingInterface
     {
@@ -64,5 +86,19 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         $this->getEntityManager()->flush($setting);
 
         return $setting;
+    }
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     *
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     */
+    public function saveMultiple(array $settings): array
+    {
+        foreach ($settings as $setting) {
+            $this->save($setting);
+        }
+
+        return $settings;
     }
 }

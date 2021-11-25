@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+
 class Task implements TaskInterface
 {
     /**
@@ -72,7 +74,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\CommandInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -80,7 +82,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {

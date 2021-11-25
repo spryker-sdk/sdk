@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
+namespace SprykerSdk\Sdk\Contracts\ValueResolver;
 
 interface ConfigurableValueResolverInterface extends ValueResolverInterface
 {
