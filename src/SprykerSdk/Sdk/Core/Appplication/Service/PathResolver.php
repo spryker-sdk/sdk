@@ -23,7 +23,7 @@ class PathResolver
         {
             return $path;
         }
-        $path = preg_replace('/^\P{L}+/u', '', './'.$path);
+        $path = preg_replace('/^\P{L}+/u', '', $path);
 
         $path = $this->sdkBasePath . DIRECTORY_SEPARATOR . $path;
 
