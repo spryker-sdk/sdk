@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 

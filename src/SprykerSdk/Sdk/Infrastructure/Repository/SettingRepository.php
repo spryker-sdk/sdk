@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
-use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 
@@ -33,7 +33,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
-     * @return SettingInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
@@ -58,6 +58,27 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         return array_map(array(static::class, 'resolvePathSetting'), $settings);
     }
 
+    /**
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     */
+    public function findCoreSettings(): array
+    {
+        return $this->findBy([
+            'isProject' => false,
+        ]);
+    }
+
+    /**
+     * @param array $paths
+     *
+     * @return array
+     */
+    public function findByPaths(array $paths): array
+    {
+        return $this->findBy([
+            'path' => $paths
+        ]);
+    }
 
     /**
      * @param SettingInterface $setting
@@ -77,9 +98,9 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $setting
+     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface|\SprykerSdk\Sdk\Infrastructure\Entity\Setting
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|\SprykerSdk\Sdk\Infrastructure\Entity\Setting
      */
     protected function resolvePathSetting(SettingInterface $setting)
     {
@@ -101,5 +122,22 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         }
 
         return $setting;
+    }
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     *
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     *@throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function saveMultiple(array $settings): array
+    {
+        foreach ($settings as $setting) {
+            $this->save($setting);
+        }
+
+        return $settings;
     }
 }

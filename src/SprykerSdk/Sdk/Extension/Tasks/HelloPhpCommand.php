@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\ExecutableCommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 
 class HelloPhpCommand implements ExecutableCommandInterface
 {

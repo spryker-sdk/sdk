@@ -8,18 +8,18 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 
 class TaskExecutor
 {
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Appplication\Dependency\CommandRunnerInterface> $commandRunners
+     * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
      */
     public function __construct(
         protected iterable $commandRunners,

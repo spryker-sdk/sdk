@@ -7,6 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+
 class Task implements TaskInterface
 {
     /**

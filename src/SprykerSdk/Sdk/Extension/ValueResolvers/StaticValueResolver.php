@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\AbstractValueResolver;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ConfigurableValueResolverInterface;
+use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Contracts\ValueResolver\ConfigurableValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 
 class StaticValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface

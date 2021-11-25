@@ -42,7 +42,7 @@ services:
     abstract: true
     synthetic: true
   project_setting_manager:
-    class: SprykerSdk\Sdk\Core\Appplication\Service\ProjectSettingManager
+    class: SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
     arguments:
       - '@project_setting_repository'
       - '@setting_repository'

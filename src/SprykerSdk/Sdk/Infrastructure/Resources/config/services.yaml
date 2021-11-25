@@ -62,4 +62,5 @@ services:
     arguments:
       - '@setting_repository'
       - '@value_receiver'
+      - !tagged_iterator sdk.value_resolver
       - '%kernel.project_dir%'

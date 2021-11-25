@@ -5,27 +5,27 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity;
+namespace SprykerSdk\Sdk\Contracts\Entity;
 
-interface PlaceholderInterface
+interface CommandInterface
 {
     /**
      * @return string
      */
-    public function getName(): string;
+    public function getCommand(): string;
 
     /**
      * @return string
      */
-    public function getValueResolver(): string;
+    public function getType(): string;
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getConfiguration(): array;
+    public function getTags(): array;
 
     /**
      * @return bool
      */
-    public function isOptional(): bool;
+    public function hasStopOnError(): bool;
 }

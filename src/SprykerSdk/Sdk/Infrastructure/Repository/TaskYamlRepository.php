@@ -7,24 +7,24 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SplFileInfo;
+use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param iterable<\SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface> $existingTasks
+     * @param iterable<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         protected SettingRepositoryInterface $settingRepository,
@@ -91,7 +91,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      *
      * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Placeholder>
      */
-    protected function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
+    #[Pure] protected function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
     {
         $placeholders = [];
         $taskPlaceholders = [];
@@ -127,7 +127,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      *
      * @return array<int, \SprykerSdk\Sdk\Core\Domain\Entity\Command>
      */
-    protected function buildCommands(array $data, array $taskListData, array $tags = []): array
+    #[Pure] protected function buildCommands(array $data, array $taskListData, array $tags = []): array
     {
         $commands = [];
 
@@ -161,7 +161,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
     protected function buildTask(array $taskData, array $taskListData, array $tags = []): TaskInterface
     {
