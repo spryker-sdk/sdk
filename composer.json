@@ -1,4 +1,6 @@
 {
+    "name": "spryker-sdk/spryker-sdk",
+    "description": "The Spryker SDK aims to provide a single entry point to accelerate your productivity working with Spryker.",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -27,9 +29,7 @@
         "codeception/codeception": "*",
         "codeception/module-asserts": "*",
         "mikey179/vfsstream": "^1.6",
-        "phpstan/phpstan": "^1.2",
         "sllh/composer-versions-check": "^2.0",
-        "spryker/code-sniffer": "*",
         "symfony/filesystem": "^5.3",
         "symfony/var-dumper": "*"
     },
