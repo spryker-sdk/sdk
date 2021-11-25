@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -42,6 +42,11 @@ class PlaceholderResolverTest extends Unit
 
     /**
      * @dataProvider providePlaceholders
+     *
+     * @param mixed $expectedValue
+     * @param array $expectedSettings
+     * @param bool $optionalPlaceholder
+     *
      * @return void
      */
     public function testResolvePlaceholderWithoutSettings(
@@ -113,10 +118,13 @@ class PlaceholderResolverTest extends Unit
         $placeholderResolver->getValueResolver($placeholderMock);
     }
 
+    /**
+     * @return void
+     */
     public function testConfigurableValueResolver(): void
     {
         $expectedConfiguration = [
-            'key' => 'value'
+            'key' => 'value',
         ];
         $settingRepositoryMock = $this->createSettingRepositoryMock([]);
         $valueResolverMock = $this->createMock(ConfigurableValueResolverInterface::class);
@@ -173,6 +181,7 @@ class PlaceholderResolverTest extends Unit
 
     /**
      * @param array $expectedSettings
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
     protected function createSettingRepositoryMock(array $expectedSettings): mixed
@@ -184,14 +193,16 @@ class PlaceholderResolverTest extends Unit
                 return new Setting(
                     $settingPath,
                     $expectedSettings[$settingPath] ?? null,
-                    SettingInterface::STRATEGY_REPLACE
+                    SettingInterface::STRATEGY_REPLACE,
                 );
             });
+
         return $settingRepositoryMock;
     }
 
     /**
      * @param bool $optionalPlaceholder
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface
      */
     protected function createPlaceholderMock(bool $optionalPlaceholder): mixed
@@ -203,13 +214,15 @@ class PlaceholderResolverTest extends Unit
         $placeholderMock->expects($this->once())
             ->method('isOptional')
             ->willReturn($optionalPlaceholder);
+
         return $placeholderMock;
     }
 
     /**
      * @param array $expectedSettings
      * @param mixed $expectedValue
-     * @return mixed|\PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface
+     *
+     * @return mixed
      */
     protected function createValueResolverMock(array $expectedSettings, mixed $expectedValue): mixed
     {
@@ -220,12 +233,14 @@ class PlaceholderResolverTest extends Unit
         $valueResolverMock->expects($this->once())
             ->method('getValue')
             ->willReturn($expectedValue);
+
         return $valueResolverMock;
     }
 
     /**
      * @param mixed $valueResolverMock
-     * @return mixed|\PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface
+     *
+     * @return mixed
      */
     protected function createRegistryMock(mixed $valueResolverMock): mixed
     {
