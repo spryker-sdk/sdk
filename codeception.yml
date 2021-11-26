@@ -1,4 +1,4 @@
-namespace: SprykerSdk\Tests
+namespace: SprykerSdk\Sdk\Tests
 suites:
     unit:
         path: .
@@ -19,4 +19,4 @@ paths:
 coverage:
     enabled: true
     include:
-        - src/SprykerSdk/*
+        - src/Sdk/*
