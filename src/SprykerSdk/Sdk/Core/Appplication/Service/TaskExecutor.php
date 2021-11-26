@@ -1,20 +1,40 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 
 class TaskExecutor
 {
+    /**
+     * @var iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface>
+     */
+    protected iterable $commandRunners;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     */
+    protected PlaceholderResolver $placeholderResolver;
+
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     */
+    protected TaskRepositoryInterface $taskRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
+     */
+    protected EventLoggerInterface $eventLogger;
+
     /**
      * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
@@ -22,11 +42,15 @@ class TaskExecutor
      * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
      */
     public function __construct(
-        protected iterable $commandRunners,
-        protected PlaceholderResolver $placeholderResolver,
-        protected TaskRepositoryInterface $taskRepository,
-        protected EventLoggerInterface $eventLogger
+        iterable $commandRunners,
+        PlaceholderResolver $placeholderResolver,
+        TaskRepositoryInterface $taskRepository,
+        EventLoggerInterface $eventLogger
     ) {
+        $this->eventLogger = $eventLogger;
+        $this->taskRepository = $taskRepository;
+        $this->placeholderResolver = $placeholderResolver;
+        $this->commandRunners = $commandRunners;
     }
 
     /**
@@ -62,7 +86,9 @@ class TaskExecutor
      * @param string $taskId
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
+     *
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
     protected function getTask(string $taskId, array $tags = []): TaskInterface
     {
@@ -76,7 +102,7 @@ class TaskExecutor
     }
 
     /**
-     * @param TaskInterface $task
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
      * @return array<string, mixed>
      */

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -12,12 +12,20 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 class CliReceiverSetupListener
 {
-    public function __construct(
-        protected CliValueReceiver $cliValueReceiver,
-    ) {}
+    protected CliValueReceiver $cliValueReceiver;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     */
+    public function __construct(CliValueReceiver $cliValueReceiver)
+    {
+        $this->cliValueReceiver = $cliValueReceiver;
+    }
 
     /**
      * @param \Symfony\Component\Console\Event\ConsoleCommandEvent $event
+     *
+     * @return void
      */
     public function beforeConsoleCommand(ConsoleCommandEvent $event)
     {

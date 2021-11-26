@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -12,17 +12,41 @@ use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 class Command implements CommandInterface
 {
     /**
+     * @var string
+     */
+    protected string $command;
+
+    /**
+     * @var string
+     */
+    protected string $type;
+
+    /**
+     * @var bool
+     */
+    protected bool $hasStopOnError = true;
+
+    /**
+     * @var array<string>
+     */
+    protected array $tags;
+
+    /**
      * @param string $command
      * @param string $type
      * @param bool $hasStopOnError
      * @param array<string> $tags
      */
     public function __construct(
-        protected string $command,
-        protected string $type,
-        protected bool $hasStopOnError = true,
-        protected array $tags = []
+        string $command,
+        string $type,
+        bool $hasStopOnError = true,
+        array $tags = []
     ) {
+        $this->hasStopOnError = $hasStopOnError;
+        $this->type = $type;
+        $this->command = $command;
+        $this->tags = $tags;
     }
 
     /**
@@ -42,7 +66,7 @@ class Command implements CommandInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getTags(): array
     {

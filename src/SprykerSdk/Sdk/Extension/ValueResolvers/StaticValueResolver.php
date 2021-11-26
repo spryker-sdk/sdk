@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -14,16 +14,20 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 class StaticValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
 {
     protected mixed $value;
+
     protected string $alias;
-    protected mixed $description;
+
+    protected ?string $description;
+
     protected array $settingPaths;
 
     /**
-     * @var mixed|null
+     * @var string|null
      */
     protected ?string $help;
+
     /**
-     * @var mixed|string
+     * @var string
      */
     protected string $type;
 
@@ -35,26 +39,43 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
         return 'STATIC';
     }
 
+    /**
+     * @return string
+     */
     public function getDescription(): string
     {
-        return $this->description;
+        return (string)$this->description;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getSettingPaths(): array
     {
         return $this->settingPaths;
     }
 
+    /**
+     * @return string
+     */
     public function getType(): string
     {
         return $this->type;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAlias(): ?string
     {
         return $this->alias;
     }
 
+    /**
+     * @param array<string, mixed> $values
+     *
+     * @return void
+     */
     public function configure(array $values): void
     {
         $this->value = $values['defaultValue'] ?? null;
@@ -66,7 +87,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     protected function getRequiredSettingPaths(): array
     {
@@ -75,6 +96,8 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
 
     /**
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException
      *
      * @return mixed
      */

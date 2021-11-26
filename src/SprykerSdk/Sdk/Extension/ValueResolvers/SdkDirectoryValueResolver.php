@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
@@ -7,7 +12,12 @@ use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
 
 class SdkDirectoryValueResolver extends AbstractValueResolver
 {
-    const SETTING_SDK_DIR = 'sdk_dir';
+    /**
+     * @var string
+     */
+    public const SETTING_SDK_DIR = 'sdk_dir';
+
+    protected string $sdkBasePath;
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface $valueReceiver
@@ -15,11 +25,15 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     public function __construct(
         ValueReceiverInterface $valueReceiver,
-        protected string $sdkBasePath
+        string $sdkBasePath
     ) {
+        $this->sdkBasePath = $sdkBasePath;
         parent::__construct($valueReceiver);
     }
 
+    /**
+     * @return array<string>
+     */
     protected function getRequiredSettingPaths(): array
     {
         return [];
@@ -32,11 +46,11 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     protected function getValueFromSettings(array $settingValues): string
     {
-        if (!isset($settingValues[self::SETTING_SDK_DIR])) {
+        if (!isset($settingValues[static::SETTING_SDK_DIR])) {
             return $this->sdkBasePath;
         }
 
-        $settingSdkBasePath = $settingValues[self::SETTING_SDK_DIR];
+        $settingSdkBasePath = $settingValues[static::SETTING_SDK_DIR];
 
         if (realpath($settingSdkBasePath) !== false) {
             return realpath($settingSdkBasePath);
@@ -62,12 +76,12 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getSettingPaths(): array
     {
         return [
-            self::SETTING_SDK_DIR,
+            static::SETTING_SDK_DIR,
         ];
     }
 
