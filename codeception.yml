@@ -19,4 +19,4 @@ paths:
 coverage:
     enabled: true
     include:
-        - src/Sdk/*
+        - src/*

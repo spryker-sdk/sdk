@@ -6,7 +6,7 @@ settings:
     type: path
     is_project: false
     values:
-      - src/Sdk/Extension/Tasks
+      - src/Extension/Tasks
   - path: setting_dirs
     initialization_description: Where can settings be loaded from?
     strategy: merge
@@ -14,7 +14,7 @@ settings:
     type: path
     is_project: false
     values:
-      - src/Sdk/Extension/Settings
+      - src/Extension/Settings
   - path: value_resolver_dirs
     initialization_description: Where can value resolvers be loaded from?
     strategy: merge
@@ -22,12 +22,19 @@ settings:
     type: path
     is_project: false
     values:
-      - src/Sdk/Extension/ValueResolvers
+      - src/Extension/ValueResolvers
   - path: sdk_dir
     initialization_description: Where is the sdk directory?
     strategy: overwrite
     init: true
     is_project: false
+    type: path
+    values: './'
+  - path: project_dir
+    initialization_description: Where is the project directory?
+    strategy: overwrite
+    init: true
+    is_project: true
     type: path
     values: './'
   - path: report_usage_statistics
