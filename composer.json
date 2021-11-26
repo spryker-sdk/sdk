@@ -14,7 +14,7 @@
         "doctrine/migrations": "^3.3",
         "doctrine/orm": "^2.10",
         "monolog/monolog": "^2.3",
-        "ondrejmirtes/better-reflection": " 4.3.81",
+        "ondrejmirtes/better-reflection": "^4.3.81",
         "phpstan/phpstan": "^1.2",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.1",
