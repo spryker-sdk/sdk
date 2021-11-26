@@ -52,11 +52,11 @@ jobs:
       - name: Composer install
         run: composer install
 
-      - name: Run CodeStyle checks
-        run: composer cs-check
-
       - name: Run PHPStan
         run: composer stan
+
+      - name: Run CodeStyle checks
+        run: composer cs-check
 
       - name: Codecept tests with coverage
         if: ${{ matrix.php-version == '8.0' }}
