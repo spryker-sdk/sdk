@@ -27,8 +27,9 @@ interface ValueReceiverInterface
      * @param string $description
      * @param mixed $defaultValue
      * @param string $type
+     * @param array $choiceValues
      *
      * @return mixed
      */
-    public function receiveValue(string $description, mixed $defaultValue, string $type): mixed;
+    public function receiveValue(string $description, mixed $defaultValue, string $type, array $choiceValues = []): mixed;
 }
