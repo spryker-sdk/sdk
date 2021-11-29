@@ -25,4 +25,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Command:
   manyToOne:
     task:
       targetEntity: Task
-      cascade: ["persist"]
+      cascade: ["persist", "remove"]
+    removedEvent:
+      targetEntity: RemovedEvent
+      cascade: ["persist", "remove"]

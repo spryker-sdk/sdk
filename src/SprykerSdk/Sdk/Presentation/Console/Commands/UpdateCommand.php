@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Composer\InstalledVersions;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,13 +27,21 @@ class UpdateCommand extends Command
      */
     protected static $defaultDescription = 'Update Spryker SDK to latest version.';
 
+    protected ProcessHelper $processHelper;
+
+    protected LifecycleManagerInterface $lifecycleManager;
+
     /**
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
      */
     public function __construct(
-        protected ProcessHelper $processHelper
+        ProcessHelper $processHelper,
+        LifecycleManagerInterface $lifecycleManager
     ) {
         parent::__construct(static::$defaultName);
+        $this->processHelper = $processHelper;
+        $this->lifecycleManager = $lifecycleManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -51,7 +60,11 @@ class UpdateCommand extends Command
 
         if ($exitCode !== 0) {
             $output->writeln($process->getErrorOutput());
+
+            return $exitCode;
         }
+
+        $this->lifecycleManager->update();
 
         return $exitCode;
     }

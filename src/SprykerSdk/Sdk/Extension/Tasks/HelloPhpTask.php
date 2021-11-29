@@ -10,6 +10,10 @@ namespace SprykerSdk\Sdk\Extension\Tasks;
 use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent;
 
 class HelloPhpTask implements TaskInterface
 {
@@ -53,7 +57,7 @@ class HelloPhpTask implements TaskInterface
         ];
     }
 
-    public function getVersion(): ?string
+    public function getVersion(): string
     {
         return '1.0.0';
     }
@@ -68,8 +72,12 @@ class HelloPhpTask implements TaskInterface
         return '/bin/echo "hello %world% %somebody%"';
     }
 
-    public function getLifecycle(): ?LifecycleInterface
+    public function getLifecycle(): LifecycleInterface
     {
-        return null;
+        return new Lifecycle(
+            new InitializedEvent(),
+            new UpdatedEvent(),
+            new RemovedEvent()
+        );
     }
 }

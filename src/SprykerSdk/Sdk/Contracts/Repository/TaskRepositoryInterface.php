@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 interface TaskRepositoryInterface
 {
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Task>
+     * @return array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
     public function findAll();
 

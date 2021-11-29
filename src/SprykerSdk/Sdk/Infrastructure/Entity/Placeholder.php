@@ -15,6 +15,27 @@ class Placeholder extends CorePlaceholder
 
     protected Task $task;
 
+    protected RemovedEvent $removedEvent;
+
+    /**
+     * @return RemovedEvent
+     */
+    public function getRemovedEvent(): RemovedEvent
+    {
+        return $this->removedEvent;
+    }
+
+    /**
+     * @param RemovedEvent $removedEvent
+     * @return Placeholder
+     */
+    public function setRemovedEvent(RemovedEvent $removedEvent): Placeholder
+    {
+        $this->removedEvent = $removedEvent;
+
+        return $this;
+    }
+
     /**
      * @return int
      */

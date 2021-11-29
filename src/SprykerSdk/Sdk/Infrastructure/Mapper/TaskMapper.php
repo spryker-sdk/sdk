@@ -2,15 +2,32 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 
 class TaskMapper implements TaskMapperInterface
 {
+    protected CommandMapperInterface $commandMapper;
+
+    protected PlaceholderMapperInterface $placeholderMapper;
+
+    protected LifecycleMapperInterface $lifecycleMapper;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapperInterface $commandMapper
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapperInterface $placeholderMapper
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapperInterface $lifecycleMapper
+     */
     public function __construct(
-        protected CommandMapperInterface $commandMapper,
-        protected PlaceholderMapperInterface $placeholderMapper
+        CommandMapperInterface $commandMapper,
+        PlaceholderMapperInterface $placeholderMapper,
+        LifecycleMapperInterface $lifecycleMapper
     ) {
+        $this->commandMapper = $commandMapper;
+        $this->placeholderMapper = $placeholderMapper;
+        $this->lifecycleMapper = $lifecycleMapper;
     }
 
     /**
@@ -23,8 +40,8 @@ class TaskMapper implements TaskMapperInterface
         $entity = new Task(
             $task->getId(),
             $task->getShortDescription(),
-            $task->getHelp(),
             $task->getVersion(),
+            $task->getHelp(),
             $task->getSuccessor(),
             $task->isDeprecated()
         );
@@ -32,7 +49,39 @@ class TaskMapper implements TaskMapperInterface
         $entity = $this->mapPlaceholders($task->getPlaceholders(), $entity);
         $entity = $this->mapCommands($task->getCommands(), $entity);
 
+        $entity->setLifecycle(
+            $this->lifecycleMapper->mapLifecycle($task->getLifecycle())
+        );
+
         return $entity;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $taskToUpdate
+     *
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
+     */
+    public function updateInfrastructureEntity(TaskInterface $task, Task $taskToUpdate): Task
+    {
+        $taskToUpdate
+            ->setSuccessor($task->getSuccessor())
+            ->setDeprecated($task->isDeprecated())
+            ->setVersion($task->getVersion())
+            ->setHelp($task->getHelp())
+            ->setShortDescription($task->getShortDescription());
+
+        $taskToUpdate->setCommands(new ArrayCollection());
+        $taskToUpdate->setPlaceholders(new ArrayCollection());
+
+        $taskToUpdate = $this->mapPlaceholders($task->getPlaceholders(), $taskToUpdate);
+        $taskToUpdate = $this->mapCommands($task->getCommands(), $taskToUpdate);
+
+        $taskToUpdate->setLifecycle(
+            $this->lifecycleMapper->mapLifecycle($task->getLifecycle())
+        );
+
+        return $taskToUpdate;
     }
 
     /**

@@ -47,21 +47,29 @@ services:
       - '@project_setting_repository'
       - '@setting_repository'
 
-  service.file_creator:
-    class: SprykerSdk\Sdk\Core\Appplication\Service\FileCreator
+  service.file_manager:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\FileManager
 
-  lifecycle.initialized_subsriber:
+  lifecycle.initialized_subscriber:
     class: SprykerSdk\Sdk\Core\Lifecycle\Subscriber\InitializedEventSubscriber
     tags: ['kernel.event_subscriber']
     arguments:
-      - '@service.file_creator'
+      - '@service.file_manager'
       - '@placeholder_resolver'
       - !tagged_iterator command.runner
 
-  lifecycle.removed_subsriber:
+  lifecycle.removed_subscriber:
     class: SprykerSdk\Sdk\Core\Lifecycle\Subscriber\UpdatedEventSubscriber
     tags: ['kernel.event_subscriber']
+    arguments:
+      - '@service.file_manager'
+      - '@placeholder_resolver'
+      - !tagged_iterator command.runner
 
-  lifecycle.updated_subsriber:
+  lifecycle.updated_subscriber:
     class: SprykerSdk\Sdk\Core\Lifecycle\Subscriber\RemovedEventSubscriber
     tags: ['kernel.event_subscriber']
+    arguments:
+      - '@service.file_manager'
+      - '@placeholder_resolver'
+      - !tagged_iterator command.runner

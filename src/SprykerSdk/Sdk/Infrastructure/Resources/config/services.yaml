@@ -76,6 +76,22 @@ services:
     arguments:
       - '@mapper.command_mapper'
       - '@mapper.placeholder_mapper'
+      - '@mapper.lifecycle_mapper'
+
+  mapper.lifecycle_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
+    arguments:
+      - '@mapper.lifecycle_event_mapper'
+
+  mapper.lifecycle_event_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleEventMapper
+    arguments:
+      - '@mapper.placeholder_mapper'
+      - '@mapper.command_mapper'
+      - '@mapper.file_mapper'
+
+  mapper.file_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
 
   task_persistence_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
@@ -86,6 +102,36 @@ services:
   service.task_initializer:
     class: SprykerSdk\Sdk\Infrastructure\Service\TaskInitializer
     arguments:
-      - '@task_repository'
       - '@task_persistence_repository'
       - '@event_dispatcher'
+
+  service.lifecycle_manager:
+    class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
+    arguments:
+      - '@task_repository'
+      - '@task_persistence_repository'
+      - !tagged_iterator sdk.update_action
+
+  task_created_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
+    tags: ['sdk.update_action']
+    arguments:
+      - '@service.task_initializer'
+
+  task_deprecated_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction
+    tags: ['sdk.update_action']
+
+  task_removed_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskRemovedAction
+    tags: ['sdk.update_action']
+    arguments:
+      - '@event_dispatcher'
+      - '@task_persistence_repository'
+
+  task_updated_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskUpdatedAction
+    tags: ['sdk.update_action']
+    arguments:
+      - '@event_dispatcher'
+      - '@task_persistence_repository'

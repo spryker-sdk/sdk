@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskInitializerInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
@@ -37,7 +38,8 @@ class InitSdkCommand extends Command
         protected MigrateCommand $doctrineMigrationCommand,
         protected Yaml $yamlParser,
         protected string $settingsPath,
-        protected TaskInitializerInterface $taskInitializer
+        protected TaskInitializerInterface $taskInitializer,
+        protected TaskRepositoryInterface $taskRepository
     ) {
         parent::__construct(static::NAME);
     }
@@ -54,7 +56,7 @@ class InitSdkCommand extends Command
     {
         $this->createDatabase();
         $this->initializeSettingValues($this->readSettingDefinitions());
-        $this->taskInitializer->initialize();
+        $this->taskInitializer->initialize($this->taskRepository->findAll());
 
         return static::SUCCESS;
     }

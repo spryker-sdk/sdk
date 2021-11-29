@@ -20,7 +20,7 @@ class Task implements TaskInterface
      * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Command> $commands
      * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Placeholder> $placeholders
      * @param string|null $help
-     * @param string|null $version
+     * @param string $version
      * @param string|null $successor
      * @param bool $deprecated
      * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null $lifecycle
@@ -29,9 +29,9 @@ class Task implements TaskInterface
         protected string $id,
         protected string $shortDescription,
         protected array $commands,
+        protected string $version,
         protected array $placeholders = [],
         protected ?string $help = null,
-        protected ?string $version = null,
         protected ?string $successor = null,
         protected bool $deprecated = false,
         protected ?LifecycleInterface $lifecycle = null
@@ -79,9 +79,9 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getVersion(): ?string
+    public function getVersion(): string
     {
         return $this->version;
     }
@@ -102,7 +102,10 @@ class Task implements TaskInterface
         return $this->deprecated;
     }
 
-    public function getLifecycle(): ?LifecycleInterface
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null
+     */
+    public function getLifecycle(): LifecycleInterface
     {
         return $this->lifecycle;
     }
