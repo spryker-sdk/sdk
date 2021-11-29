@@ -21,10 +21,11 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     /**
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      * @param bool|false $optional
+     * @param array<string, mixed> $resolvedValues
      *
      * @return mixed
      */
-    public function getValue(array $settingValues, bool $optional=false): mixed
+    public function getValue(array $settingValues, bool $optional=false, array $resolvedValues = []): mixed
     {
         if ($this->valueReceiver->has($this->getValueName())) {
             return $this->valueReceiver->get($this->getValueName());
@@ -37,6 +38,8 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                 'Required settings are missing: ' . implode(', ', array_diff($this->getRequiredSettingPaths(), $settingValues))
             );
         }
+        $choiceValues = $this->getChoiceValues($resolvedValues);
+
         $defaultValue = $this->getDefaultValue();
 
         if ($defaultValue === null) {
@@ -48,10 +51,20 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         }
 
         if (!$optional) {
-            $defaultValue = $this->valueReceiver->receiveValue($this->getDescription(), $defaultValue, $this->getType());
+            $defaultValue = $this->valueReceiver->receiveValue($this->getDescription(), $defaultValue, $this->getType(), $choiceValues);
         }
 
         return $defaultValue;
+    }
+
+    /**
+     * @param array $resolvedValues
+     *
+     * @return array
+     */
+    public function getChoiceValues(array $resolvedValues = []): array
+    {
+        return [];
     }
 
     /**

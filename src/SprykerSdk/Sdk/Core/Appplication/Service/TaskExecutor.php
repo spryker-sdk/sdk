@@ -85,7 +85,7 @@ class TaskExecutor
         $resolvedValues = [];
 
         foreach ($task->getPlaceholders() as $placeholder) {
-            $resolvedValues[$placeholder->getName()] = $this->placeholderResolver->resolve($placeholder);
+            $resolvedValues[$placeholder->getName()] = $this->placeholderResolver->resolve($placeholder, $resolvedValues);
         }
 
         return $resolvedValues;

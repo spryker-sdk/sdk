@@ -30,10 +30,11 @@ class FlagValueResolver extends StaticValueResolver
     /**
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      * @param bool|false $optional
+     * @param array<string, mixed> $resolvedValues
      *
      * @return mixed
      */
-    public function getValue(array $settingValues, bool $optional = false): string
+    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): string
     {
         $defaultValue = parent::getValue($settingValues, $optional);
 

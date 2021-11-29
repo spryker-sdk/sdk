@@ -1,0 +1,43 @@
+---
+id: 'spryk:add-module'
+short_description: 'Check your code by running a static code analysis'
+help: ~
+stage: build
+command: 'php %sdk_dir%/vendor/bin/spryk-run AddModule --mode=%mode% --organization=%organization% --module=%module%'
+type: local_cli
+placeholders:
+  - name: '%sdk_dir%'
+    value_resolver: SDK_DIR
+    optional: true
+  - name: '%mode%'
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      name: 'mode'
+      description: 'Project level'
+      type: string
+      defaultValue: project
+      choiceValues:
+        - project
+        - core
+  - name: '%organization%'
+    value_resolver: SPRYK_CONFIGURATION
+    optional: false
+    configuration:
+      name: 'organization'
+      description: 'Organization for project [Pyz], for core others'
+      type: string
+      defaultValue: Pyz
+      choiceValues:
+        - Pyz
+        - SprykerShop
+        - SprykerEco
+        - Spryker
+        - SprykerSdk
+  - name: '%module%'
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      name: 'module'
+      description: 'Module name in camelcase format'
+      type: string

@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
@@ -73,11 +74,16 @@ class CliValueReceiver implements ValueReceiverInterface
      * @param string $description
      * @param mixed $defaultValue
      * @param string $type
+     * @param array $choiceValues
      *
      * @return mixed
      */
-    public function receiveValue(string $description, mixed $defaultValue, string $type): mixed
+    public function receiveValue(string $description, mixed $defaultValue, string $type, array $choiceValues = []): mixed
     {
+        if (count($choiceValues) === 1 && in_array($defaultValue, $choiceValues)) {
+            return $defaultValue;
+        }
+
         switch ($type) {
             case 'bool':
 
@@ -85,19 +91,25 @@ class CliValueReceiver implements ValueReceiverInterface
 
                 break;
             default:
+                if ($choiceValues) {
+                    $question = new ChoiceQuestion(
+                        $description,
+                        $choiceValues,
+                        $defaultValue
+                    );
+
+                    break;
+                }
+
                 $question = new Question($description, $defaultValue);
                 $question->setNormalizer(function ($value) {
                     return $value ?: '';
                 });
-
-                if ($type === 'array') {
-                    $question->setMultiline(true);
-                }
         }
-        if (!$defaultValue) {
+        if ($defaultValue === null) {
             $question->setValidator(function ($value) {
-                if (!$value && $value !== false) {
-                    throw new MissingValueException('Value is invalid');
+                if ($value === '') {
+                    throw new MissingValueException('Value is required');
                 }
 
                 return $value;
