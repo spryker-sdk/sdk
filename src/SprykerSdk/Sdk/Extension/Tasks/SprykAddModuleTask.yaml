@@ -25,7 +25,7 @@ placeholders:
     optional: false
     configuration:
       name: 'organization'
-      description: 'Organization for project [Pyz], for core others'
+      description: 'Organization name(Namespace)'
       type: string
       defaultValue: Pyz
       choiceValues:
