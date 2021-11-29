@@ -7,14 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
-
-interface FileCreatorInterface
+interface LifecycleManagerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
-     *
      * @return void
      */
-    public function create(FileInterface $file): void;
+    public function update(): void;
 }

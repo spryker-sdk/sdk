@@ -15,6 +15,27 @@ class Command extends CoreCommand
 
     protected ?Task $task = null;
 
+    protected RemovedEvent $removedEvent;
+
+    /**
+     * @return RemovedEvent
+     */
+    public function getRemovedEvent(): RemovedEvent
+    {
+        return $this->removedEvent;
+    }
+
+    /**
+     * @param RemovedEvent $removedEvent
+     * @return Command
+     */
+    public function setRemovedEvent(RemovedEvent $removedEvent): Command
+    {
+        $this->removedEvent = $removedEvent;
+
+        return $this;
+    }
+
     /**
      * @return int
      */

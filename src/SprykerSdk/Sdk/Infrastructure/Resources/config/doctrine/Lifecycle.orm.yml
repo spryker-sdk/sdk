@@ -1,0 +1,17 @@
+SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle:
+  type: entity
+  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\LifecycleRepository
+  table: sdk_lifecycle
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  oneToOne:
+    removedEvent:
+      targetEntity: RemovedEvent
+      cascade: ["persist", "remove"]
+      joinColumn:
+        name: removed_event_id
+        referencedColumnName: id
+        onDelete: CASCADE

@@ -1,0 +1,22 @@
+SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
+  type: entity
+  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\RemovedEventRepository
+  table: sdk_removed_event
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  oneToMany:
+    commands:
+      targetEntity: Command
+      mappedBy: removedEvent
+      cascade: ["persist", "remove"]
+    placeholders:
+      targetEntity: Placeholder
+      mappedBy: removedEvent
+      cascade: ["persist", "remove"]
+    files:
+      targetEntity: File
+      mappedBy: removedEvent
+      cascade: ["persist", "remove"]

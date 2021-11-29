@@ -38,3 +38,11 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
       targetEntity: Placeholder
       mappedBy: task
       cascade: ["persist", "remove"]
+  oneToOne:
+    lifecycle:
+      targetEntity: Lifecycle
+      cascade: ["persist", "remove"]
+      joinColumn:
+        name: lifecycle_id
+        referencedColumnName: id
+        onDelete: CASCADE

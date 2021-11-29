@@ -7,13 +7,35 @@
 
 namespace SprykerSdk\Sdk\Core\Lifecycle\Subscriber;
 
+use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Lifecycle\Event\RemovedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class RemovedEventSubscriber implements EventSubscriberInterface
+class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @param RemovedEvent $event
+     *
+     * @return void
+     */
     public function onRemovedEvent(RemovedEvent $event): void
     {
+        $removed = $event->getTask()->getLifecycle()->getRemovedEvent();
+
+        $resolvedPlaceholders = $this->resolvePlaceholders($removed->getPlaceholders());
+
+        $this->manageFiles($removed->getFiles(), $resolvedPlaceholders);
+        $this->executeCommands($removed->getCommands(), $resolvedPlaceholders);
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
+     *
+     * @return void
+     */
+    protected function doManageFile(FileInterface $file): void
+    {
+        $this->fileManager->remove($file);
     }
 
     public static function getSubscribedEvents(): array
@@ -22,4 +44,6 @@ class RemovedEventSubscriber implements EventSubscriberInterface
             RemovedEvent::NAME => 'onRemovedEvent',
         ];
     }
+
+
 }

@@ -13,6 +13,8 @@ services:
       - '@yaml_parser'
       - '%kernel.project_dir%/src/SprykerSdk/Sdk/Extension/Settings/settings.yaml'
       - '@service.task_initializer'
+      - '@task_repository'
+
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand
@@ -28,3 +30,10 @@ services:
     arguments:
       - '@project_setting_repository'
       - '@project_setting_manager'
+
+  update_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateCommand
+    tags: ['console.command']
+    arguments:
+      - '@process_helper'
+      - '@service.lifecycle_manager'

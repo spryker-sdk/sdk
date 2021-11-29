@@ -7,6 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use JetBrains\PhpStorm\Pure;
+use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
@@ -15,6 +19,8 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use Symfony\Component\Finder\Finder;
@@ -181,6 +187,10 @@ class TaskYamlRepository implements TaskRepositoryInterface
     {
         $commands = [];
 
+        if (!isset($data['commands'])) {
+            return $commands;
+        }
+
         foreach ($data['commands'] as $command) {
             $commands[] = new Command(
                 $command['command'],
@@ -195,11 +205,15 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface[]
+     * @return \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
      */
     protected function buildFiles(array $data): array
     {
         $files = [];
+
+        if (!isset($data['files'])) {
+            return $files;
+        }
 
         foreach ($data['files'] as $file) {
             $files[] = new File(
@@ -212,23 +226,88 @@ class TaskYamlRepository implements TaskRepositoryInterface
     }
 
     /**
-     * @param array $data
+     * @param array $taskData
+     * @param array $taskListData
+     * @param array $tags
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null
      */
     protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): ?LifecycleInterface
     {
-        if (!isset($taskData['lifecycle']['INITIALIZED'])) {
-            return null;
+        return new Lifecycle(
+            $this->buildInitializedEvent($taskData, $taskListData, $tags),
+            $this->buildUpdatedEvent($taskData, $taskListData, $tags),
+            $this->buildRemovedEvent($taskData, $taskListData, $tags)
+        );
+    }
+
+    /**
+     * @param array $taskData
+     * @param array $taskListData
+     * @param array $tags
+     *
+     * @return InitializedEvent
+     */
+    protected function buildInitializedEvent(array $taskData, array $taskListData, array $tags = []): InitializedEvent
+    {
+        $event = new InitializedEvent();
+
+        if (isset($taskData['lifecycle']['INITIALIZED'])) {
+            $eventData = $taskData['lifecycle']['INITIALIZED'];
+
+            $event
+                ->setCommands($this->buildLifecycleCommands($eventData))
+                ->setPlaceholders($this->buildPlaceholders($eventData, $taskListData, $tags))
+                ->setFiles($this->buildFiles($eventData));
         }
 
-        $initializedEvent = new InitializedEvent(
-            $this->buildLifecycleCommands($taskData['lifecycle']['INITIALIZED']),
-            $this->buildPlaceholders($taskData['lifecycle']['INITIALIZED'], $taskListData, $tags),
-            $this->buildFiles($taskData['lifecycle']['INITIALIZED'])
-        );
+        return $event;
+    }
 
-        return new Lifecycle($initializedEvent);
+    /**
+     * @param array $taskData
+     * @param array $taskListData
+     * @param array $tags
+     *
+     * @return RemovedEvent
+     */
+    protected function buildRemovedEvent(array $taskData, array $taskListData, array $tags = []): RemovedEvent
+    {
+        $event = new RemovedEvent();
+
+        if (isset($taskData['lifecycle']['REMOVED'])) {
+            $eventData = $taskData['lifecycle']['REMOVED'];
+
+            $event
+                ->setCommands($this->buildLifecycleCommands($eventData))
+                ->setPlaceholders($this->buildPlaceholders($eventData, $taskListData, $tags))
+                ->setFiles($this->buildFiles($eventData));
+        }
+
+        return $event;
+    }
+
+    /**
+     * @param array $taskData
+     * @param array $taskListData
+     * @param array $tags
+     *
+     * @return UpdatedEvent
+     */
+    protected function buildUpdatedEvent(array $taskData, array $taskListData, array $tags = []): UpdatedEvent
+    {
+        $event = new UpdatedEvent();
+
+        if (isset($taskData['lifecycle']['UPDATED'])) {
+            $eventData = $taskData['lifecycle']['UPDATED'];
+
+            $event
+                ->setCommands($this->buildLifecycleCommands($eventData))
+                ->setPlaceholders($this->buildPlaceholders($eventData, $taskListData, $tags))
+                ->setFiles($this->buildFiles($eventData));
+        }
+
+        return $event;
     }
 
     /**
@@ -248,12 +327,12 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['id'],
             $taskData['short_description'],
             $commands,
+            $lifecycle,
+            $taskData['version'],
             $placeholders,
             $taskData['help'] ?? null,
-            $taskData['version'] ?? null,
             $taskData['successor'] ?? null,
             $taskData['deprecated'] ?? false,
-            $lifecycle
         );
     }
 }

@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
@@ -19,21 +18,21 @@ class Task implements TaskInterface
 
     protected Collection $commands;
 
-    protected ?LifecycleInterface $lifecycle = null;
+    protected Lifecycle $lifecycle;
 
     /**
      * @param string $id
      * @param string $shortDescription
      * @param string|null $help
-     * @param string|null $version
+     * @param string $version
      * @param string|null $successor
      * @param bool $deprecated
      */
     public function __construct(
         protected string $id,
         protected string $shortDescription,
+        protected string $version,
         protected ?string $help = null,
-        protected ?string $version = null,
         protected ?string $successor = null,
         protected bool $deprecated = false,
     ) {
@@ -42,9 +41,9 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return LifecycleInterface|null
+     * @return Lifecycle
      */
-    public function getLifecycle(): ?LifecycleInterface
+    public function getLifecycle(): Lifecycle
     {
         return $this->lifecycle;
     }
@@ -123,9 +122,9 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getVersion(): ?string
+    public function getVersion(): string
     {
         return $this->version;
     }
@@ -228,6 +227,46 @@ class Task implements TaskInterface
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @param string $version
+     * @return Task
+     */
+    public function setVersion(string $version): Task
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    /**
+     * @param string|null $successor
+     * @return Task
+     */
+    public function setSuccessor(?string $successor): Task
+    {
+        $this->successor = $successor;
+        return $this;
+    }
+
+    /**
+     * @param bool $deprecated
+     * @return Task
+     */
+    public function setDeprecated(bool $deprecated): Task
+    {
+        $this->deprecated = $deprecated;
+        return $this;
+    }
+
+    /**
+     * @param Lifecycle|null $lifecycle
+     * @return Task
+     */
+    public function setLifecycle(?Lifecycle $lifecycle): Task
+    {
+        $this->lifecycle = $lifecycle;
         return $this;
     }
 }

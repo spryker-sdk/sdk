@@ -11,12 +11,20 @@ use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
 
 class InitializedEvent implements LifecycleEventInterface
 {
-    public function __construct(
-        protected array $commands,
-        protected array $placeholders,
-        protected array $files,
-    ) {
-    }
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
+     */
+    protected array $commands = [];
+
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[]
+     */
+    protected array $placeholders = [];
+
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
+     */
+    protected array $files = [];
 
     /**
      * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
@@ -40,5 +48,35 @@ class InitializedEvent implements LifecycleEventInterface
     public function getFiles(): array
     {
         return $this->files;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[] $commands
+     * @return InitializedEvent
+     */
+    public function setCommands(array $commands): InitializedEvent
+    {
+        $this->commands = $commands;
+        return $this;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[] $placeholders
+     * @return InitializedEvent
+     */
+    public function setPlaceholders(array $placeholders): InitializedEvent
+    {
+        $this->placeholders = $placeholders;
+        return $this;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface[] $files
+     * @return InitializedEvent
+     */
+    public function setFiles(array $files): InitializedEvent
+    {
+        $this->files = $files;
+        return $this;
     }
 }

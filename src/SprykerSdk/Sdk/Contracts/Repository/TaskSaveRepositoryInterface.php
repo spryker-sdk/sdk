@@ -11,9 +11,17 @@ use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 interface TaskSaveRepositoryInterface
 {
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $task
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
-    public function save(TaskInterface $task);
+    public function create(TaskInterface $task);
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $taskToUpdate
+     *
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     */
+    public function update(TaskInterface $task, TaskInterface $taskToUpdate): TaskInterface;
 }

@@ -37,38 +37,35 @@ class Task implements TaskInterface
      */
     protected ?string $help = null;
 
-    protected ?string $version = null;
+    protected string $version;
 
     protected ?string $successor = null;
 
     protected bool $deprecated = false;
 
-    /**
-     * @var LifecycleInterface|null
-     */
-    protected ?LifecycleInterface $lifecycle = null;
+    protected LifecycleInterface $lifecycle;
 
     /**
      * @param string $id
      * @param string $shortDescription
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param LifecycleInterface $lifecycle
+     * @param string $version
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param string|null $help
-     * @param string|null $version
      * @param string|null $successor
      * @param bool $deprecated
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null $lifecycle
      */
     public function __construct(
         string $id,
         string $shortDescription,
         array $commands,
+        LifecycleInterface $lifecycle,
+        string $version,
         array $placeholders = [],
         ?string $help = null,
-        ?string $version = null,
         ?string $successor = null,
         bool $deprecated = false,
-        ?LifecycleInterface $lifecycle = null
     ) {
         $this->help = $help;
         $this->placeholders = $placeholders;
@@ -122,9 +119,9 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getVersion(): ?string
+    public function getVersion(): string
     {
         return $this->version;
     }
@@ -145,7 +142,10 @@ class Task implements TaskInterface
         return $this->deprecated;
     }
 
-    public function getLifecycle(): ?LifecycleInterface
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null
+     */
+    public function getLifecycle(): LifecycleInterface
     {
         return $this->lifecycle;
     }

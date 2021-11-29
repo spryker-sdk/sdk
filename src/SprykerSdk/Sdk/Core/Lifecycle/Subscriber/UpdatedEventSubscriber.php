@@ -7,13 +7,30 @@
 
 namespace SprykerSdk\Sdk\Core\Lifecycle\Subscriber;
 
+use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Lifecycle\Event\UpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class UpdatedEventSubscriber implements EventSubscriberInterface
+class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
     public function onUpdatedEvent(UpdatedEvent $event): void
     {
+        $updated = $event->getTask()->getLifecycle()->getUpdatedEvent();
+
+        $resolvedPlaceholders = $this->resolvePlaceholders($updated->getPlaceholders());
+
+        $this->manageFiles($updated->getFiles(), $resolvedPlaceholders);
+        $this->executeCommands($updated->getCommands(), $resolvedPlaceholders);
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
+     *
+     * @return void
+     */
+    protected function doManageFile(FileInterface $file): void
+    {
+        $this->fileManager->create($file);
     }
 
     public static function getSubscribedEvents(): array

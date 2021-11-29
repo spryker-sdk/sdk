@@ -10,7 +10,9 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 interface TaskInitializerInterface
 {
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskInterface[]
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface[] $tasks
+     *
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface[]
      */
-    public function initialize(): array;
+    public function initialize(array $tasks): array;
 }
