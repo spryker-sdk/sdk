@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -32,12 +32,20 @@ class SettingSetCommand extends Command
      */
     protected const ARG_SETTING_VALUE = 'value';
 
+    protected ProjectSettingRepositoryInterface $settingRepository;
+
+    protected SettingManager $settingManager;
+
     /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $settingManager
      */
     public function __construct(
-        protected ProjectSettingRepositoryInterface $settingRepository,
-        protected SettingManager $settingManager
+        ProjectSettingRepositoryInterface $settingRepository,
+        SettingManager $settingManager
     ) {
+        $this->settingManager = $settingManager;
+        $this->settingRepository = $settingRepository;
         parent::__construct(static::NAME);
     }
 
@@ -55,7 +63,7 @@ class SettingSetCommand extends Command
                 $projectSetting->getType(),
                 $projectSetting->getStrategy(),
                 PHP_EOL . str_repeat(' ', 8),
-                $projectSetting->getInitializationDescription()
+                $projectSetting->getInitializationDescription(),
             ) . PHP_EOL;
         }
 
@@ -63,26 +71,27 @@ class SettingSetCommand extends Command
 
         foreach ($this->settingRepository->findCoreSettings() as $coreSetting) {
             $help .= sprintf(
-                    '    %s <%s> [%s] -- %s %s',
-                    $coreSetting->getPath(),
-                    $coreSetting->getType(),
-                    $coreSetting->getStrategy(),
-                    PHP_EOL . str_repeat(' ', 8),
-                    $coreSetting->getInitializationDescription()
-                ) . PHP_EOL;
+                '    %s <%s> [%s] -- %s %s',
+                $coreSetting->getPath(),
+                $coreSetting->getType(),
+                $coreSetting->getStrategy(),
+                PHP_EOL . str_repeat(' ', 8),
+                $coreSetting->getInitializationDescription(),
+            ) . PHP_EOL;
         }
 
         return $help;
     }
 
-
+    /**
+     * @return void
+     */
     protected function configure()
     {
         parent::configure();
         $this->addArgument(static::ARG_SETTING_PATH, InputArgument::REQUIRED);
         $this->addArgument(static::ARG_SETTING_VALUE, InputArgument::REQUIRED);
     }
-
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input

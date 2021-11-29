@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -9,7 +9,14 @@ namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 class SprykConfigurationValueResolver extends StaticValueResolver
 {
+    /**
+     * @var string
+     */
     protected const PLACEHOLDER_MODE_NAME = '%mode%';
+
+    /**
+     * @var string
+     */
     protected const PLACEHOLDER_MODE_VALUE = 'project';
 
     /**
@@ -38,7 +45,7 @@ class SprykConfigurationValueResolver extends StaticValueResolver
 
         $choiceValues = $this->choiceValues;
 
-        unset($choiceValues[array_search($this->getDefaultValue(),$choiceValues)]);
+        unset($choiceValues[array_search($this->getDefaultValue(), $choiceValues)]);
         $this->value = reset($choiceValues);
 
         return $choiceValues;

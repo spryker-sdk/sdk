@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -9,7 +9,14 @@ namespace SprykerSdk\Sdk\Contracts\Entity;
 
 interface SettingInterface
 {
+    /**
+     * @var string
+     */
     public const STRATEGY_MERGE = 'merge';
+
+    /**
+     * @var string
+     */
     public const STRATEGY_REPLACE = 'replace';
 
     /**
@@ -24,6 +31,8 @@ interface SettingInterface
 
     /**
      * @param mixed $values
+     *
+     * @return void
      */
     public function setValues(mixed $values): void;
 

@@ -1,37 +1,66 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
+use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
+use Throwable;
 
 class TaskRunFactoryLoader extends ContainerCommandLoader
 {
     /**
-     * @param \Psr\Container\ContainerInterface $container
-     * @param array $commandMap
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $symfonyContainer
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
-    #[Pure] public function __construct(
+    protected SymfonyContainerInterface $symfonyContainer;
+
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     */
+    protected TaskRepositoryInterface $taskRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     */
+    protected TaskExecutor $taskExecutor;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     */
+    protected PlaceholderResolver $placeholderResolver;
+
+    /**
+     * @param \Psr\Container\ContainerInterface $container
+     * @param array<string, string> $commandMap
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     */
+    public function __construct(
         ContainerInterface $container,
         array $commandMap,
-        protected \Symfony\Component\DependencyInjection\ContainerInterface $symfonyContainer,
+        TaskRepositoryInterface $taskRepository,
+        TaskExecutor $taskExecutor,
+        PlaceholderResolver $placeholderResolver
     ) {
         parent::__construct($container, $commandMap);
+        $this->taskRepository = $taskRepository;
+        $this->taskExecutor = $taskExecutor;
+        $this->placeholderResolver = $placeholderResolver;
     }
 
     /**
@@ -53,6 +82,8 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     /**
      * @param string $name
      *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
+     *
      * @return \Symfony\Component\Console\Command\Command
      */
     public function get(string $name): Command
@@ -62,6 +93,10 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         }
 
         $task = $this->getTaskRepository()->findById($name);
+
+        if (!$task) {
+            throw new TaskMissingException('Could not find task ' . $name);
+        }
 
         $options = array_map(function (PlaceholderInterface $placeholder): InputOption {
             $valueResolver = $this->getPlaceholderResolver()->getValueResolver($placeholder);
@@ -85,7 +120,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
                 't',
                 InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
                 'Only execute subtasks that matches at least one of the given tags',
-                $tags
+                $tags,
             );
         }
 
@@ -102,9 +137,15 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     public function getNames(): array
     {
-        return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
-            return $task->getId();
-        }, $this->getTaskRepository()->findAll()));
+        try {
+            return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
+                return $task->getId();
+            }, $this->getTaskRepository()->findAll()));
+        } catch (Throwable $exception) {
+            //When the SDK is not initialized tasks can't be loaded from the DB but the symfony console still
+            //need to be executable to make the init:sdk command available
+            return parent::getNames();
+        }
     }
 
     /**
@@ -112,7 +153,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function getTaskRepository(): TaskRepositoryInterface
     {
-        return $this->symfonyContainer->get('task_repository');
+        return $this->taskRepository;
     }
 
     /**
@@ -120,7 +161,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function getTaskExecutor(): TaskExecutor
     {
-        return $this->symfonyContainer->get('task_executor');
+        return $this->taskExecutor;
     }
 
     /**
@@ -128,6 +169,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function getPlaceholderResolver(): PlaceholderResolver
     {
-        return $this->symfonyContainer->get('placeholder_resolver');
+        return $this->placeholderResolver;
     }
 }

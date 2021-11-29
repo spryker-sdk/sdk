@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -41,7 +41,7 @@ interface ValueResolverInterface
      *
      * @return mixed
      */
-    public function getValue(array $settingValues, bool $optional = false): mixed;
+    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed;
 
     /**
      * @return mixed

@@ -1,23 +1,25 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Infrastructure\Logger;
 
 use DateTimeInterface;
-use JetBrains\PhpStorm\ArrayShape;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
 use SprykerSdk\Sdk\Contracts\Events\EventInterface;
 
 class JsonFormatter extends MonologJsonFormatter
 {
+    /**
+     * @var string
+     */
     public const CONTEXT_EVENT = 'event';
 
     /**
-     * @param int $batchMode
+     * @param \Monolog\Formatter\JsonFormatter::BATCH_MODE_\*|int $batchMode
      * @param bool $appendNewline
      * @param bool $ignoreEmptyContextAndExtra
      */
@@ -72,7 +74,7 @@ class JsonFormatter extends MonologJsonFormatter
      *
      * @return array
      */
-    #[ArrayShape(['id' => "string", 'type' => "string", 'event' => "string", 'successful' => "bool", 'triggered_by' => "string", 'sdkContext' => "string"])] protected function transformEventToArray(EventInterface $event): array
+    protected function transformEventToArray(EventInterface $event): array
     {
         return [
             'id' => $event->getId(),

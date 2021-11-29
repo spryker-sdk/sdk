@@ -1,8 +1,11 @@
 <?php
 
-namespace SprykerSdk\Sdk\Extension\ValueResolvers;
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
+namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 class FlagValueResolver extends StaticValueResolver
 {
@@ -19,12 +22,16 @@ class FlagValueResolver extends StaticValueResolver
         return 'FLAG';
     }
 
+    /**
+     * @param array $values
+     *
+     * @return void
+     */
     public function configure(array $values): void
     {
         parent::configure($values);
 
         $this->flag = $values['flag'] ?? $this->alias;
-
     }
 
     /**
@@ -32,7 +39,7 @@ class FlagValueResolver extends StaticValueResolver
      * @param bool|false $optional
      * @param array<string, mixed> $resolvedValues
      *
-     * @return mixed
+     * @return string
      */
     public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): string
     {

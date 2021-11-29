@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -18,17 +18,17 @@ class TaskExecutedEvent extends Event
      * @param bool $isSuccessful
      */
     public function __construct(
-        TaskInterface    $task,
+        TaskInterface $task,
         CommandInterface $command,
-        bool             $isSuccessful
-    ){
+        bool $isSuccessful
+    ) {
         parent::__construct(
             $task->getId(),
             $command->getType(),
             'executed',
             $isSuccessful,
             'user',
-            $task->getId()
+            $task->getId(),
         );
     }
 }

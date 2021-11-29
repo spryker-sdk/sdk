@@ -1,5 +1,5 @@
 ---
-id: 'validation:architecture'
+id: 'validation:php:architecture'
 short_description: 'Check the architectural correctness of your code'
 help: ~
 stage: debug

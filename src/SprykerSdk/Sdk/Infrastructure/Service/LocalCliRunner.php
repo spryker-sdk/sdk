@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,25 +19,38 @@ class LocalCliRunner implements CommandRunnerInterface
 {
     protected OutputInterface $output;
 
-    public function __construct(
-        protected ProcessHelper $processHelper,
-    ) {}
+    protected ProcessHelper $processHelper;
+
+    /**
+     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
+     */
+    public function __construct(ProcessHelper $processHelper)
+    {
+        $this->processHelper = $processHelper;
+    }
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
      */
     public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Helper\HelperSet $helperSet
+     *
+     * @return void
+     */
     public function setHelperSet(HelperSet $helperSet)
     {
         $this->processHelper->setHelperSet($helperSet);
     }
 
     /**
-     * @param CommandInterface $command
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      *
      * @return bool
      */
@@ -46,8 +60,10 @@ class LocalCliRunner implements CommandRunnerInterface
     }
 
     /**
-     * @param CommandInterface $command
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      * @param array $resolvedValues
+     *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
      * @return int
      */
@@ -58,12 +74,20 @@ class LocalCliRunner implements CommandRunnerInterface
         }, array_keys($resolvedValues));
 
         $values = array_map(function (mixed $value): string {
-            return match(gettype($value)) {
-                default => (string) $value,
+            return match (gettype($value)) {
+                default => (string)$value,
             };
         }, array_values($resolvedValues));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
+
+        if (!is_string($assembledCommand)) {
+            throw new CommandRunnerException(sprintf(
+                'Could not assemble command %s with keys %s',
+                $command->getCommand(),
+                implode(', ', array_keys($values)),
+            ));
+        }
 
         $process = Process::fromShellCommandline($assembledCommand);
         $process->setTimeout(null);
@@ -71,7 +95,7 @@ class LocalCliRunner implements CommandRunnerInterface
 
         $process = $this->processHelper->run(
             $this->output,
-            [$process]
+            [$process],
         );
 
         return $process->run();

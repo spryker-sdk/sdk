@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Presentation\Console;
 
-use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\DynamicConsoleCommandsCompilerPass;
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\SprykerSdkConsoleExtension;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -19,6 +18,8 @@ class SprykerSdkConsoleBundle extends Bundle
 {
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     *
+     * @return void
      */
     public function build(ContainerBuilder $container)
     {
@@ -26,14 +27,14 @@ class SprykerSdkConsoleBundle extends Bundle
         $container->addCompilerPass(
             new DynamicConsoleCommandsCompilerPass(),
             PassConfig::TYPE_BEFORE_REMOVING,
-            -3
+            -3,
         );
     }
 
     /**
      * @return \Symfony\Component\DependencyInjection\Extension\Extension
      */
-    #[Pure] public function createContainerExtension(): Extension
+    public function createContainerExtension(): Extension
     {
         return new SprykerSdkConsoleExtension();
     }
