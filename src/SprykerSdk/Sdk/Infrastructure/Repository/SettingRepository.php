@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -15,19 +15,28 @@ use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 
+/**
+ * @extends \Doctrine\ORM\EntityRepository<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+ */
 class SettingRepository extends EntityRepository implements SettingRepositoryInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+     */
+    protected PathResolver $pathResolver;
+
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver $pathResolver
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        protected PathResolver $pathResolver
+        PathResolver $pathResolver
     ) {
         $class = $entityManager->getClassMetadata(InfrastructureSetting::class);
 
         parent::__construct($entityManager, $class);
+        $this->pathResolver = $pathResolver;
     }
 
     /**
@@ -37,9 +46,10 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
-        $setting =  $this->findOneBy([
-            'path' => $settingPath
+        $setting = $this->findOneBy([
+            'path' => $settingPath,
         ]);
+
         if (!$setting) {
             return null;
         }
@@ -48,18 +58,19 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     public function findProjectSettings(): array
     {
         $settings = $this->findBy([
             'isProject' => true,
         ]);
-        return array_map(array(static::class, 'resolvePathSetting'), $settings);
+
+        return array_map([$this, 'resolvePathSetting'], $settings);
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     public function findCoreSettings(): array
     {
@@ -76,21 +87,17 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     public function findByPaths(array $paths): array
     {
         return $this->findBy([
-            'path' => $paths
+            'path' => $paths,
         ]);
     }
 
     /**
-     * @param SettingInterface $setting
+     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
      *
-     * @return SettingInterface
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @throws \Doctrine\ORM\ORMException
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     public function save(SettingInterface $setting): SettingInterface
     {
-
         $this->getEntityManager()->persist($setting);
         $this->getEntityManager()->flush($setting);
 
@@ -99,6 +106,8 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
+     *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|\SprykerSdk\Sdk\Infrastructure\Entity\Setting
      */
@@ -128,9 +137,6 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
      *
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
-     *@throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @throws \Doctrine\ORM\ORMException
      */
     public function saveMultiple(array $settings): array
     {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -15,6 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunTaskWrapperCommand extends Command
 {
+    protected TaskExecutor $taskExecutor;
+
+    protected array $taskOptions;
+
+    protected string $description;
+
+    protected string $name;
+
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
@@ -22,11 +30,15 @@ class RunTaskWrapperCommand extends Command
      * @param string $name
      */
     public function __construct(
-        protected TaskExecutor $taskExecutor,
-        protected array $taskOptions,
-        protected string $description,
+        TaskExecutor $taskExecutor,
+        array $taskOptions,
+        string $description,
         string $name
     ) {
+        $this->description = $description;
+        $this->taskOptions = $taskOptions;
+        $this->taskExecutor = $taskExecutor;
+        $this->name = $name;
         parent::__construct($name);
     }
 
@@ -48,11 +60,10 @@ class RunTaskWrapperCommand extends Command
                 null,
                 $mode,
                 $taskOption->getDescription(),
-                $taskOption->getDefault()
+                $taskOption->getDefault(),
             );
         }
     }
-
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
@@ -63,7 +74,7 @@ class RunTaskWrapperCommand extends Command
     public function run(InputInterface $input, OutputInterface $output): int
     {
         return $input->hasOption('tags') ?
-            $this->taskExecutor->execute($this->getName(), $input->getOption('tags')) :
-            $this->taskExecutor->execute($this->getName());
+            $this->taskExecutor->execute($this->name, $input->getOption('tags')) :
+            $this->taskExecutor->execute($this->name, []);
     }
 }

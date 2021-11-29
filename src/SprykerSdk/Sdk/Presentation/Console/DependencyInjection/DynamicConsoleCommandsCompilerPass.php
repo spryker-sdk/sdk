@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -24,7 +24,9 @@ class DynamicConsoleCommandsCompilerPass implements CompilerPassInterface
         if ($container->hasDefinition('console.command_loader')) {
             $container->getDefinition('console.command_loader')
                 ->setClass(TaskRunFactoryLoader::class)
-                ->addArgument(new Reference('service_container'));
+                ->addArgument(new Reference('task_repository'))
+                ->addArgument(new Reference('task_executor'))
+                ->addArgument(new Reference('placeholder_resolver'));
         }
     }
 }

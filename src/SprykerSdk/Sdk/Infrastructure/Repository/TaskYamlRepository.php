@@ -1,14 +1,12 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use JetBrains\PhpStorm\Pure;
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
@@ -24,6 +22,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
 {
+    protected SettingRepositoryInterface $settingRepository;
+
+    protected Finder $fileFinder;
+
+    protected Yaml $yamlParser;
+
+    protected iterable $existingTasks = [];
+
     /**
      * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
@@ -31,15 +37,21 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param iterable<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
-        protected SettingRepositoryInterface $settingRepository,
-        protected Finder $fileFinder,
-        protected Yaml $yamlParser,
-        protected iterable $existingTasks = [],
+        SettingRepositoryInterface $settingRepository,
+        Finder $fileFinder,
+        Yaml $yamlParser,
+        iterable $existingTasks = []
     ) {
+        $this->existingTasks = $existingTasks;
+        $this->yamlParser = $yamlParser;
+        $this->fileFinder = $fileFinder;
+        $this->settingRepository = $settingRepository;
     }
 
     /**
      * @param array $tags
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
      * @return array
      */
@@ -47,7 +59,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('task_dirs');
 
-        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())){
+        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
             throw new MissingSettingException('task_dirs are not configured properly');
         }
 
@@ -93,9 +105,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Placeholder>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
-    #[Pure] protected function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
+    protected function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
     {
         $placeholders = [];
         $taskPlaceholders = [];
@@ -127,11 +139,11 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      * @param array $taskListData
-     * @param array<string> $taskListData
+     * @param array<string> $tags
      *
-     * @return array<int, \SprykerSdk\Sdk\Core\Domain\Entity\Command>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
      */
-    #[Pure] protected function buildCommands(array $data, array $taskListData, array $tags = []): array
+    protected function buildCommands(array $data, array $taskListData, array $tags = []): array
     {
         $commands = [];
 
@@ -152,7 +164,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                     $taskListData[$task['id']]['command'],
                     $taskListData[$task['id']]['type'],
                     $task['stop_on_error'],
-                    $task['tags']
+                    $task['tags'],
                 );
             }
         }

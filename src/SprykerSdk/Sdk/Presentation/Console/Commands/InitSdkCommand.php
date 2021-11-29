@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -28,25 +28,48 @@ class InitSdkCommand extends Command
      */
     protected const NAME = 'init:sdk';
 
+    protected CliValueReceiver $cliValueReceiver;
+
+    protected SettingRepository $settingRepository;
+
+    protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand;
+
+    protected MigrateCommand $doctrineMigrationCommand;
+
+    protected Yaml $yamlParser;
+
+    protected string $settingsPath;
+
+    protected TaskInitializerInterface $taskInitializer;
+
     /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository $settingRepository
+     * @param \Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand
+     * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
+     * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param string $settingsPath
      */
     public function __construct(
-        protected CliValueReceiver $cliValueReceiver,
-        protected SettingRepository $settingRepository,
-        protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
-        protected MigrateCommand $doctrineMigrationCommand,
-        protected Yaml $yamlParser,
-        protected string $settingsPath,
-        protected TaskInitializerInterface $taskInitializer
+        CliValueReceiver $cliValueReceiver,
+        SettingRepository $settingRepository,
+        CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
+        MigrateCommand $doctrineMigrationCommand,
+        Yaml $yamlParser,
+        string $settingsPath
     ) {
+        $this->settingsPath = $settingsPath;
+        $this->yamlParser = $yamlParser;
+        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
+        $this->createDatabaseDoctrineCommand = $createDatabaseDoctrineCommand;
+        $this->settingRepository = $settingRepository;
+        $this->cliValueReceiver = $cliValueReceiver;
         parent::__construct(static::NAME);
     }
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @throws \Exception
      *
      * @return int
      */
@@ -62,13 +85,11 @@ class InitSdkCommand extends Command
     /**
      * @param array $setting
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @return SettingInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     protected function createSettingEntity(array $setting): SettingInterface
     {
+        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Setting|null $settingEntity */
         $settingEntity = $this->settingRepository->findOneByPath($setting['path']);
 
         $settingData = [
@@ -78,7 +99,7 @@ class InitSdkCommand extends Command
             'initialization_description' => $setting['initialization_description'] ?? null,
             'strategy' => $setting['strategy'] ?? 'overwrite',
             'init' => $setting['init'] ?? false,
-            'values' => $setting['values']
+            'values' => $setting['values'],
         ];
 
         if ($settingEntity) {
@@ -105,10 +126,7 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @return array
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     protected function readSettingDefinitions(): array
     {
@@ -123,17 +141,14 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @param array $settingEntities
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settingEntities
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     *
-     * @return array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settingEntities): array
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
-        $coreEntities = array_filter($settingEntities, function (Setting $setting) {
+        $coreEntities = array_filter($settingEntities, function (SettingInterface $setting): bool {
             return $setting->isProject();
         });
 
@@ -146,9 +161,9 @@ class InitSdkCommand extends Command
                 $values = $this->cliValueReceiver->receiveValue(
                     $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
                     $settingEntity->getValues(),
-                    $settingEntity->getType()
+                    $settingEntity->getType(),
                 );
-                $values = is_scalar($values) ?? json_decode($values);
+                $values = is_scalar($values) ?: json_encode($values);
                 $previousSettingValues = $settingEntity->getValues();
                 $settingEntity->setValues($values);
 
@@ -162,7 +177,7 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @throws \Exception
+     * @return void
      */
     protected function createDatabase(): void
     {

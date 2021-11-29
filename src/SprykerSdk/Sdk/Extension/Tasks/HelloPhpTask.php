@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use JetBrains\PhpStorm\Pure;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 
@@ -37,7 +36,9 @@ class HelloPhpTask implements TaskInterface
         return null;
     }
 
-
+    /**
+     * @return string
+     */
     public function getId(): string
     {
         return 'hello:php';
@@ -46,7 +47,7 @@ class HelloPhpTask implements TaskInterface
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
-    #[Pure] public function getCommands(): array
+    public function getCommands(): array
     {
         return [
             new HelloPhpCommand(),

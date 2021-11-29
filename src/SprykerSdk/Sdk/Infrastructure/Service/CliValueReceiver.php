@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -17,24 +17,24 @@ use Symfony\Component\Console\Question\Question;
 
 class CliValueReceiver implements ValueReceiverInterface
 {
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface
-     */
     protected InputInterface $input;
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
-     */
+
     protected OutputInterface $output;
+
+    protected SymfonyQuestionHelper $questionHelper;
 
     /**
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
      */
-    public function __construct(
-        protected SymfonyQuestionHelper $questionHelper
-    ) {}
+    public function __construct(SymfonyQuestionHelper $questionHelper)
+    {
+        $this->questionHelper = $questionHelper;
+    }
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return void
      */
     public function setInput(InputInterface $input)
     {
@@ -43,6 +43,8 @@ class CliValueReceiver implements ValueReceiverInterface
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
      */
     public function setOutput(OutputInterface $output)
     {
@@ -80,7 +82,6 @@ class CliValueReceiver implements ValueReceiverInterface
     {
         switch ($type) {
             case 'bool':
-
                 $question = new ConfirmationQuestion($description, (bool)$defaultValue);
 
                 break;
@@ -107,6 +108,8 @@ class CliValueReceiver implements ValueReceiverInterface
         if ($type === 'path') {
             $question->setAutocompleterCallback(function (string $userInput): array {
                 $inputPath = preg_replace('%(/|^)[^/]*$%', '$1', $userInput);
+                //Autocompletion is an optional convenience feature that should not fail the whole command run
+                //@phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
                 $foundFilesAndDirs = @scandir($inputPath ?: '.') ?: [];
 
                 return array_map(function ($dirOrFile) use ($inputPath) {
@@ -115,7 +118,7 @@ class CliValueReceiver implements ValueReceiverInterface
             });
 
             $question->setValidator(function ($value) {
-                if ($value && !\is_dir($value)) {
+                if ($value && !is_dir($value)) {
                     throw new MissingValueException('Directory doesn\'t exist');
                 }
 
@@ -126,7 +129,7 @@ class CliValueReceiver implements ValueReceiverInterface
         return $this->questionHelper->ask(
             $this->input,
             $this->output,
-            $question
+            $question,
         );
     }
 }

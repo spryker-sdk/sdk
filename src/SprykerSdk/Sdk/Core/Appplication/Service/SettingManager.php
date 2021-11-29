@@ -1,61 +1,80 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 
 class SettingManager
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     */
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface
+     */
+    protected SettingRepositoryInterface $settingRepository;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     */
     public function __construct(
-        protected ProjectSettingRepositoryInterface $projectSettingRepository,
-        protected SettingRepositoryInterface $settingRepository
-    ) {}
+        ProjectSettingRepositoryInterface $projectSettingRepository,
+        SettingRepositoryInterface $settingRepository
+    ) {
+        $this->settingRepository = $settingRepository;
+        $this->projectSettingRepository = $projectSettingRepository;
+    }
 
     /**
      * @param array<string, mixed> $pathValues
      *
-     * @return array<Setting>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
     public function setSettings(array $pathValues): array
     {
-        $settingDefinitions = $this->projectSettingRepository->findByPaths(array_keys($pathValues));
-        $modifiedSettings = [
-            'core' => [],
-            'project' => []
-        ];
+        $settingDefinitions = $this->projectSettingRepository->findByPaths($pathValues);
+        $modifiedProjectSettings = [];
+        $modifiedCoreSettings = [];
 
         foreach ($settingDefinitions as $settingDefinition) {
             if (isset($pathValues[$settingDefinition->getPath()])) {
-                $settingType = $settingDefinition->isProject() ? 'project' : 'core';
-                $modifiedSettings[$settingType][] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                if ($settingDefinition->isProject()) {
+                    $modifiedProjectSettings[] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                } else {
+                    $modifiedCoreSettings[] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                }
             }
         }
 
-        if (count($modifiedSettings['project']) > 0) {
-            $this->projectSettingRepository->saveMultiple($modifiedSettings['project']);
+        if (count($modifiedProjectSettings) > 0) {
+            $this->projectSettingRepository->saveMultiple($modifiedProjectSettings);
         }
 
-        if (count($modifiedSettings['core']) > 0) {
-            $this->settingRepository->saveMultiple($modifiedSettings['core']);
+        if (count($modifiedCoreSettings) > 0) {
+            $this->settingRepository->saveMultiple($modifiedCoreSettings);
         }
 
-        return array_merge($modifiedSettings['project'], $modifiedSettings['core']);
+        return array_merge($modifiedProjectSettings, $modifiedCoreSettings);
     }
 
     /**
      * @param string $path
      * @param mixed $value
      *
-     * @return SettingInterface
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     public function setSetting(string $path, mixed $value): SettingInterface
     {
@@ -75,10 +94,10 @@ class SettingManager
     }
 
     /**
-     * @param SettingInterface $settingDefinition
+     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $settingDefinition
      * @param mixed $value
      *
-     * @return SettingInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
      */
     protected function buildPathValue(SettingInterface $settingDefinition, mixed $value): SettingInterface
     {
@@ -89,7 +108,7 @@ class SettingManager
         };
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
-            $typedValue = array_merge($settingDefinition->getValues(), $typedValue);
+            $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);
         }
 
         $settingDefinition->setValues($typedValue);
