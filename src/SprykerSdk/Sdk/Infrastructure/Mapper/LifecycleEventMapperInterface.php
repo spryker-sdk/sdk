@@ -18,12 +18,4 @@ interface LifecycleEventMapperInterface
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
     public function mapRemovedEvent(LifecycleEventInterface $lifecycleEvent): RemovedEvent;
-
-    /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface $lifecycleEvent
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $removedEvent
-     *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
-     */
-    public function updateRemovedEvent(LifecycleEventInterface $lifecycleEvent, RemovedEvent $removedEvent): RemovedEvent;
 }

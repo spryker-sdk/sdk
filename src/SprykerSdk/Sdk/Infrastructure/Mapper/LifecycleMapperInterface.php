@@ -18,12 +18,4 @@ interface LifecycleMapperInterface
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle
      */
     public function mapLifecycle(LifecycleInterface $lifecycle): Lifecycle;
-
-    /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface $lifecycle
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle $entityLifecycle
-     *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle
-     */
-    public function updateLifecycle(LifecycleInterface $lifecycle, Lifecycle $entityLifecycle): Lifecycle;
 }

@@ -28,14 +28,4 @@ class LifecycleMapper implements LifecycleMapperInterface
 
         return new Lifecycle($removedEvent);
     }
-
-    public function updateLifecycle(LifecycleInterface $lifecycle, Lifecycle $entityLifecycle): Lifecycle
-    {
-        $removedEvent = $this->lifecycleEventMapper->updateRemovedEvent(
-            $lifecycle->getRemovedEvent(),
-            $entityLifecycle->getRemovedEvent()
-        );
-
-        return new Lifecycle($removedEvent);
-    }
 }

@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 
@@ -42,19 +41,6 @@ class LifecycleEventMapper implements LifecycleEventMapperInterface
     public function mapRemovedEvent(LifecycleEventInterface $lifecycleEvent): RemovedEvent
     {
         $removedEvent = new RemovedEvent();
-        $removedEvent = $this->mapCommands($lifecycleEvent->getCommands(), $removedEvent);
-        $removedEvent = $this->mapPlaceholders($lifecycleEvent->getPlaceholders(), $removedEvent);
-        $removedEvent = $this->mapFiles($lifecycleEvent->getFiles(), $removedEvent);
-
-        return $removedEvent;
-    }
-
-    public function updateRemovedEvent(LifecycleEventInterface $lifecycleEvent, RemovedEvent $removedEvent): RemovedEvent
-    {
-        $removedEvent->setFiles(new ArrayCollection());
-        $removedEvent->setPlaceholders(new ArrayCollection());
-        $removedEvent->setCommands(new ArrayCollection());
-
         $removedEvent = $this->mapCommands($lifecycleEvent->getCommands(), $removedEvent);
         $removedEvent = $this->mapPlaceholders($lifecycleEvent->getPlaceholders(), $removedEvent);
         $removedEvent = $this->mapFiles($lifecycleEvent->getFiles(), $removedEvent);
