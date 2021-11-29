@@ -12,8 +12,7 @@ so you can focus developing exciting features for your business case.
 ## Installation
 
 - composer require `spryker-sdk/spryker-sdk`
-- nano ~/.bashrc
-- add alias spryker-sdk='php {path to sdk}/bin/console'
+- echo "add alias spryker-sdk='php {path to sdk}/bin/console'" >> ~/.bashrc
 - source ~/.bashrc
 
 ## Update
