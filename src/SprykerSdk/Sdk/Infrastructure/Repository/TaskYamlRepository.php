@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\AbstractLifecycleEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent;
@@ -247,18 +248,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
      */
     protected function buildInitializedEvent(array $taskData, array $taskListData, array $tags = []): InitializedEvent
     {
-        $event = new InitializedEvent();
-
-        if (isset($taskData['lifecycle']['INITIALIZED'])) {
-            $eventData = $taskData['lifecycle']['INITIALIZED'];
-
-            $event
-                ->setCommands($this->buildLifecycleCommands($eventData))
-                ->setPlaceholders($this->buildPlaceholders($eventData, $taskListData, $tags))
-                ->setFiles($this->buildFiles($eventData));
+        if (!isset($taskData['lifecycle']['INITIALIZED'])) {
+            return new InitializedEvent();
         }
 
-        return $event;
+        $eventData = $taskData['lifecycle']['INITIALIZED'];
+
+        return new InitializedEvent(
+            $this->buildLifecycleCommands($eventData),
+            $this->buildPlaceholders($eventData, $taskListData, $tags),
+            $this->buildFiles($eventData)
+        );
     }
 
     /**
@@ -270,18 +270,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
      */
     protected function buildRemovedEvent(array $taskData, array $taskListData, array $tags = []): RemovedEvent
     {
-        $event = new RemovedEvent();
-
-        if (isset($taskData['lifecycle']['REMOVED'])) {
-            $eventData = $taskData['lifecycle']['REMOVED'];
-
-            $event
-                ->setCommands($this->buildLifecycleCommands($eventData))
-                ->setPlaceholders($this->buildPlaceholders($eventData, $taskListData, $tags))
-                ->setFiles($this->buildFiles($eventData));
+        if (!isset($taskData['lifecycle']['REMOVED'])) {
+            return new RemovedEvent();
         }
 
-        return $event;
+        $eventData = $taskData['lifecycle']['REMOVED'];
+
+        return new RemovedEvent(
+            $this->buildLifecycleCommands($eventData),
+            $this->buildPlaceholders($eventData, $taskListData, $tags),
+            $this->buildFiles($eventData)
+        );
     }
 
     /**
@@ -293,18 +292,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
      */
     protected function buildUpdatedEvent(array $taskData, array $taskListData, array $tags = []): UpdatedEvent
     {
-        $event = new UpdatedEvent();
-
-        if (isset($taskData['lifecycle']['UPDATED'])) {
-            $eventData = $taskData['lifecycle']['UPDATED'];
-
-            $event
-                ->setCommands($this->buildLifecycleCommands($eventData))
-                ->setPlaceholders($this->buildPlaceholders($eventData, $taskListData, $tags))
-                ->setFiles($this->buildFiles($eventData));
+        if (!isset($taskData['lifecycle']['UPDATED'])) {
+            return new UpdatedEvent();
         }
 
-        return $event;
+        $eventData = $taskData['lifecycle']['UPDATED'];
+
+        return new UpdatedEvent(
+            $this->buildLifecycleCommands($eventData),
+            $this->buildPlaceholders($eventData, $taskListData, $tags),
+            $this->buildFiles($eventData)
+        );
     }
 
     /**
