@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Contracts\ValueResolver;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 
@@ -29,12 +30,13 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     /**
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      * @param bool|false $optional
+     * @param array<string, mixed> $resolvedValues
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
      * @return mixed
      */
-    public function getValue(array $settingValues, bool $optional = false): mixed
+    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed
     {
         if ($this->valueReceiver->has($this->getValueName())) {
             return $this->valueReceiver->get($this->getValueName());
@@ -47,6 +49,8 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                 'Required settings are missing: ' . implode(', ', array_diff($this->getRequiredSettingPaths(), $settingValues)),
             );
         }
+        $choiceValues = $this->getChoiceValues($settingValues, $resolvedValues);
+
         $defaultValue = $this->getDefaultValue();
 
         if ($defaultValue === null) {
@@ -58,10 +62,33 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         }
 
         if (!$optional) {
-            $defaultValue = $this->valueReceiver->receiveValue($this->getDescription(), $defaultValue, $this->getType());
+            $defaultValue = $this->valueReceiver->receiveValue(
+                new ReceiverValue(
+                    $this->getDescription(),
+                    $defaultValue,
+                    $this->getType(),
+                    $choiceValues,
+                ),
+            );
+        }
+        echo $this->getId();
+        if ($this->getId() === 'module') {
+            echo $defaultValue;
+            exit;
         }
 
         return $defaultValue;
+    }
+
+    /**
+     * @param array $settingValues
+     * @param array $resolvedValues
+     *
+     * @return array
+     */
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
+    {
+        return [];
     }
 
     /**

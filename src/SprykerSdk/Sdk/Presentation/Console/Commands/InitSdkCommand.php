@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
@@ -155,9 +156,11 @@ class InitSdkCommand extends Command
 
             if ($settingEntity->getValues() === null) {
                 $values = $this->cliValueReceiver->receiveValue(
-                    $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
-                    $settingEntity->getValues(),
-                    $settingEntity->getType(),
+                    new ReceiverValue(
+                        $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
+                        $settingEntity->getValues(),
+                        $settingEntity->getType(),
+                    ),
                 );
                 $values = is_scalar($values) ?: json_encode($values);
                 $previousSettingValues = $settingEntity->getValues();

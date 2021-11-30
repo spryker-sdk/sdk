@@ -37,3 +37,29 @@ settings:
     is_project: true
     type: bool
     values: false
+  - path: coreNamespaces
+    initialization_description: Do you approve core namespaces?
+    strategy: merge
+    init: false
+    is_project: true
+    type: string
+    values:
+        - SprykerShop
+        - SprykerEco
+        - Spryker
+        - SprykerSdk
+  - path: projectNamespaces
+    initialization_description: Do you approve project namespaces?
+    strategy: merge
+    init: false
+    is_project: true
+    type: string
+    values:
+        - Pyz
+  - path: projectNamespace
+    initialization_description: Do you approve project namespace?
+    strategy: merge
+    init: false
+    is_project: true
+    type: string
+    values: Pyz

@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
@@ -60,7 +61,11 @@ class InitProjectCommand extends Command
         $projectSettingPath = $this->projectSettingFileName;
 
         if (file_exists($projectSettingPath)) {
-            if (!$this->cliValueReceiver->receiveValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool')) {
+            if (
+                !$this->cliValueReceiver->receiveValue(
+                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool'),
+                )
+            ) {
                 return static::SUCCESS;
             }
         }
@@ -90,7 +95,13 @@ class InitProjectCommand extends Command
                 $questionDescription = 'Initial value for ' . $settingEntity->getPath();
             }
 
-            $values = $this->cliValueReceiver->receiveValue($questionDescription, $settingEntity->getValues(), $settingEntity->getType());
+            $values = $this->cliValueReceiver->receiveValue(
+                new ReceiverValue(
+                    $questionDescription,
+                    $settingEntity->getValues(),
+                    $settingEntity->getType(),
+                ),
+            );
 
             $values = match ($settingEntity->getType()) {
                 'bool' => (bool)$values,

@@ -75,6 +75,7 @@ class LocalCliRunner implements CommandRunnerInterface
 
         $values = array_map(function (mixed $value): string {
             return match (gettype($value)) {
+                'array' => implode(',', $value),
                 default => (string)$value,
             };
         }, array_values($resolvedValues));

@@ -16,4 +16,4 @@ placeholders:
       name: 'path'
       description: 'Relative path to module directory in project'
       type: path
-      settingPaths: [ ]
+      settingPaths: []

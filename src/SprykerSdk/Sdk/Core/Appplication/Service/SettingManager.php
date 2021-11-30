@@ -43,7 +43,7 @@ class SettingManager
      */
     public function setSettings(array $pathValues): array
     {
-        $settingDefinitions = $this->projectSettingRepository->findByPaths($pathValues);
+        $settingDefinitions = $this->projectSettingRepository->findByPaths(array_keys($pathValues));
         $modifiedProjectSettings = [];
         $modifiedCoreSettings = [];
 
@@ -101,7 +101,7 @@ class SettingManager
      */
     protected function buildPathValue(SettingInterface $settingDefinition, mixed $value): SettingInterface
     {
-        $typedValue = match ($settingDefinition->getType()) {
+        $typedValue = (is_array($value)) ? (array)$value : match ($settingDefinition->getType()) {
             'array' => (array)$value,
             'bool' => (bool)$value,
             default => (string)$value,
@@ -109,6 +109,7 @@ class SettingManager
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
             $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);
+            $typedValue = array_unique($typedValue);
         }
 
         $settingDefinition->setValues($typedValue);

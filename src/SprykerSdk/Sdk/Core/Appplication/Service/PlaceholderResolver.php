@@ -17,6 +17,11 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 class PlaceholderResolver
 {
     /**
+     * @var array
+     */
+    protected $resolvedValues = [];
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $settingRepository;
@@ -45,10 +50,8 @@ class PlaceholderResolver
      */
     public function resolve(PlaceholderInterface $placeholder): mixed
     {
-            $valueResolverInstance = $this->getValueResolver($placeholder);
-
-            $settingValues = [];
-
+        $valueResolverInstance = $this->getValueResolver($placeholder);
+        $settingValues = [];
         foreach ($valueResolverInstance->getSettingPaths() as $settingPath) {
             $setting = $this->settingRepository->findOneByPath($settingPath);
 
@@ -57,7 +60,11 @@ class PlaceholderResolver
             }
         }
 
-            return $valueResolverInstance->getValue($settingValues, $placeholder->isOptional());
+        if (empty($this->resolvedValues[$valueResolverInstance->getAlias()])) {
+            $this->resolvedValues[$valueResolverInstance->getAlias()] = $valueResolverInstance->getValue($settingValues, $placeholder->isOptional(), $this->resolvedValues);
+        }
+
+        return $this->resolvedValues[$valueResolverInstance->getAlias()];
     }
 
     /**
