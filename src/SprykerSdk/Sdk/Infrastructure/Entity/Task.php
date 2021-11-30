@@ -35,7 +35,7 @@ class Task implements TaskInterface
 
     protected ?string $successor = null;
 
-    protected bool $deprecated = false;
+    protected bool $isDeprecated = false;
 
     /**
      * @param string $id
@@ -43,7 +43,7 @@ class Task implements TaskInterface
      * @param string $version
      * @param string|null $help
      * @param string|null $successor
-     * @param bool $deprecated
+     * @param bool $isDeprecated
      */
     public function __construct(
         string $id,
@@ -51,7 +51,7 @@ class Task implements TaskInterface
         string $version,
         ?string $help = null,
         ?string $successor = null,
-        bool $deprecated = false
+        bool $isDeprecated = false
     ) {
         $this->commands = new ArrayCollection();
         $this->placeholders = new ArrayCollection();
@@ -60,7 +60,7 @@ class Task implements TaskInterface
         $this->version = $version;
         $this->help = $help;
         $this->successor = $successor;
-        $this->deprecated = $deprecated;
+        $this->isDeprecated = $isDeprecated;
     }
 
     /**
@@ -172,7 +172,7 @@ class Task implements TaskInterface
      */
     public function isDeprecated(): bool
     {
-        return $this->deprecated;
+        return $this->isDeprecated;
     }
 
     /**
@@ -286,13 +286,13 @@ class Task implements TaskInterface
     }
 
     /**
-     * @param bool $deprecated
+     * @param bool $isDeprecated
      *
      * @return $this
      */
-    public function setDeprecated(bool $deprecated)
+    public function setIsDeprecated(bool $isDeprecated)
     {
-        $this->deprecated = $deprecated;
+        $this->isDeprecated = $isDeprecated;
 
         return $this;
     }
