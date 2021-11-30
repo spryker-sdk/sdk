@@ -9,24 +9,19 @@ namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
 
-class SprykCodeLevelValueResolver extends AbstractValueResolver
+class NamespaceValueResolver extends AbstractValueResolver
 {
     /**
      * @var string
      */
-    protected const CORE = 'core';
-
-    /**
-     * @var string
-     */
-    protected const PROJECT = 'project';
+    public const ALIAS = 'namespace';
 
     /**
      * @return string
      */
     public function getId(): string
     {
-        return 'CORE';
+        return 'NAMESPACE';
     }
 
     /**
@@ -34,7 +29,7 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
      */
     public function getAlias(): string
     {
-        return 'mode';
+        return static::ALIAS;
     }
 
     /**
@@ -42,7 +37,7 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
      */
     public function getDescription(): string
     {
-        return 'Core level';
+        return 'Namespace name';
     }
 
     /**
@@ -54,31 +49,22 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
-     * @param bool|false $optional
-     * @param array<string, mixed> $resolvedValues
-     *
-     * @return mixed
-     */
-    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed
-    {
-        if (!array_key_exists(NamespaceValueResolver::ALIAS, $resolvedValues)) {
-            return $this->getDefaultValue();
-        }
-
-        if (in_array($resolvedValues[NamespaceValueResolver::ALIAS], $settingValues['coreNamespaces'])) {
-            return static::CORE;
-        }
-
-        return $this->getDefaultValue();
-    }
-
-    /**
      * @return mixed
      */
     public function getDefaultValue(): mixed
     {
-        return static::PROJECT;
+        return 'Pyz';
+    }
+
+    /**
+     * @param array $settingValues
+     * @param array $resolvedValues
+     *
+     * @return array
+     */
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
+    {
+        return array_merge($settingValues['projectNamespaces'], $settingValues['coreNamespaces']);
     }
 
     /**
@@ -104,6 +90,6 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
      */
     public function getSettingPaths(): array
     {
-        return ['coreNamespaces'];
+        return ['projectNamespaces', 'coreNamespaces'];
     }
 }

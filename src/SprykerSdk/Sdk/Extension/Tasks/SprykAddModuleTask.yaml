@@ -39,9 +39,5 @@ placeholders:
     value_resolver: CORE
     optional: true
   - name: '%module%'
-    value_resolver: STATIC
+    value_resolver: MODULE
     optional: false
-    configuration:
-      name: 'module'
-      description: 'Module name in camelcase format'
-      type: string
