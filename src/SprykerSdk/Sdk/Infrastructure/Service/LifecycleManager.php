@@ -43,7 +43,7 @@ class LifecycleManager implements LifecycleManagerInterface
     public function update(): void
     {
         $folderTasks = $this->taskYamlRepository->findAll();
-        $databaseTasks = $this->taskEntityRepository->findAllMap();
+        $databaseTasks = $this->taskEntityRepository->findAllIndexedCollection();
 
         foreach ($this->actions as $action) {
             $taskIds = $action->filter($folderTasks, $databaseTasks);

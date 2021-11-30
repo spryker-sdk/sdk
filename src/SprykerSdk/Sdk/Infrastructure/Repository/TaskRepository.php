@@ -78,7 +78,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     /**
      * @return array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
-    public function findAllMap(): array
+    public function findAllIndexedCollection(): array
     {
         /** @var array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks */
         $tasks = $this->findAll();
