@@ -11,5 +11,10 @@ use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
 interface TaskRemoveRepositoryInterface
 {
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
     public function remove(TaskInterface $task): void;
 }

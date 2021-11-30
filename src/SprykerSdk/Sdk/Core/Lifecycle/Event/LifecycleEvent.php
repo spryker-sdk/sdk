@@ -12,8 +12,14 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class LifecycleEvent extends Event
 {
-    public function __construct(protected TaskInterface $task)
+    protected TaskInterface $task;
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     */
+    public function __construct(TaskInterface $task)
     {
+        $this->task = $task;
     }
 
     /**

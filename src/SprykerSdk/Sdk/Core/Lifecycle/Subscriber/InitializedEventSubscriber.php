@@ -40,6 +40,9 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
         $this->fileManager->create($file);
     }
 
+    /**
+     * @return array<string>
+     */
     public static function getSubscribedEvents(): array
     {
         return [

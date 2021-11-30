@@ -25,6 +25,18 @@ class Task implements TaskInterface
 
     protected Lifecycle $lifecycle;
 
+    protected string $id;
+
+    protected string $shortDescription;
+
+    protected string $version;
+
+    protected ?string $help = null;
+
+    protected ?string $successor = null;
+
+    protected bool $deprecated = false;
+
     /**
      * @param string $id
      * @param string $shortDescription
@@ -34,15 +46,21 @@ class Task implements TaskInterface
      * @param bool $deprecated
      */
     public function __construct(
-        protected string $id,
-        protected string $shortDescription,
-        protected string $version,
-        protected ?string $help = null,
-        protected ?string $successor = null,
-        protected bool $deprecated = false
+        string $id,
+        string $shortDescription,
+        string $version,
+        ?string $help = null,
+        ?string $successor = null,
+        bool $deprecated = false
     ) {
         $this->commands = new ArrayCollection();
         $this->placeholders = new ArrayCollection();
+        $this->id = $id;
+        $this->shortDescription = $shortDescription;
+        $this->version = $version;
+        $this->help = $help;
+        $this->successor = $successor;
+        $this->deprecated = $deprecated;
     }
 
     /**

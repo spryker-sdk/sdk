@@ -17,12 +17,17 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20211129094229 extends AbstractMigration
 {
+    /**
+     * @return string
+     */
     public function getDescription(): string
     {
         return '';
     }
 
     /**
+     * @param \Doctrine\DBAL\Schema\Schema $schema
+     *
      * @return void
      */
     public function up(Schema $schema): void
@@ -60,6 +65,8 @@ final class Version20211129094229 extends AbstractMigration
     }
 
     /**
+     * @param \Doctrine\DBAL\Schema\Schema $schema
+     *
      * @return void
      */
     public function down(Schema $schema): void

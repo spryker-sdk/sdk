@@ -58,21 +58,33 @@ class HelloPhpTask implements TaskInterface
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getVersion(): string
     {
         return '1.0.0';
     }
 
+    /**
+     * @return bool
+     */
     public function isDeprecated(): bool
     {
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSuccessor(): ?string
     {
         return '/bin/echo "hello %world% %somebody%"';
     }
 
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     */
     public function getLifecycle(): LifecycleInterface
     {
         return new Lifecycle(

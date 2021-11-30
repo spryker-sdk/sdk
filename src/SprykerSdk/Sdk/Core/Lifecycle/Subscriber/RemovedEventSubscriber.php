@@ -38,6 +38,9 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
         $this->fileManager->remove($file);
     }
 
+    /**
+     * @return array<string>
+     */
     public static function getSubscribedEvents(): array
     {
         return [

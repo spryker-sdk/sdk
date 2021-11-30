@@ -15,6 +15,9 @@ class TaskUpdatedAction implements SdkUpdateActionInterface
 {
     protected TaskManagerInterface $taskManager;
 
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
+     */
     public function __construct(TaskManagerInterface $taskManager)
     {
         $this->taskManager = $taskManager;

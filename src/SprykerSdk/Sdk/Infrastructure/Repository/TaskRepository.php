@@ -21,15 +21,18 @@ use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
  */
 class TaskRepository extends ServiceEntityRepository implements TaskSaveRepositoryInterface, TaskRemoveRepositoryInterface
 {
+    protected TaskMapperInterface $taskMapper;
+
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
      */
     public function __construct(
-        protected TaskMapperInterface $taskMapper,
-        protected ManagerRegistry $registry
+        TaskMapperInterface $taskMapper,
+        ManagerRegistry $registry
     ) {
         parent::__construct($registry, Task::class);
+        $this->taskMapper = $taskMapper;
     }
 
     /**
@@ -90,6 +93,8 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     *
      * @return void
      */
     public function remove(TaskInterface $task): void

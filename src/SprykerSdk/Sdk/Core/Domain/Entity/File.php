@@ -11,10 +11,18 @@ use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
 
 class File implements FileInterface
 {
-    public function __construct(
-        protected string $path,
-        protected string $content
-    ) {
+    protected string $path;
+
+    protected string $content;
+
+    /**
+     * @param string $path
+     * @param string $content
+     */
+    public function __construct(string $path, string $content)
+    {
+        $this->path = $path;
+        $this->content = $content;
     }
 
     /**

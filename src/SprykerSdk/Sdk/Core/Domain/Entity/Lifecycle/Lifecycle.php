@@ -18,9 +18,9 @@ class Lifecycle implements LifecycleInterface
     protected RemovedEvent $removedEvent;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent $removedEvent
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent $initializedEvent
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent $updatedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent $removedEvent
      */
     public function __construct(InitializedEvent $initializedEvent, UpdatedEvent $updatedEvent, RemovedEvent $removedEvent)
     {

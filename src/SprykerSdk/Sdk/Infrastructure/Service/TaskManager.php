@@ -24,6 +24,11 @@ class TaskManager implements TaskManagerInterface
 
     protected TaskSaveRepositoryInterface $taskSaveRepository;
 
+    /**
+     * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRemoveRepositoryInterface $taskRemoveRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface $taskSaveRepository
+     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         TaskRemoveRepositoryInterface $taskRemoveRepository,
@@ -35,6 +40,8 @@ class TaskManager implements TaskManagerInterface
     }
 
     /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
+     *
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
     public function initialize(array $tasks): array

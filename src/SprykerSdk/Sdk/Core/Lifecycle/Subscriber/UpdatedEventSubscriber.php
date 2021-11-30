@@ -40,6 +40,9 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
         $this->fileManager->create($file);
     }
 
+    /**
+     * @return array<string>
+     */
     public static function getSubscribedEvents(): array
     {
         return [
