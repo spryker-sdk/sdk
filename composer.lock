@@ -3072,12 +3072,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "178d80c0eb25e8558921b318ddc7532e9a61f2e7"
+                "reference": "c60f590c6145828e4bd08d40e03d4a54701a69e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/178d80c0eb25e8558921b318ddc7532e9a61f2e7",
-                "reference": "178d80c0eb25e8558921b318ddc7532e9a61f2e7",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/c60f590c6145828e4bd08d40e03d4a54701a69e2",
+                "reference": "c60f590c6145828e4bd08d40e03d4a54701a69e2",
                 "shasum": ""
             },
             "require": {
@@ -3146,7 +3146,7 @@
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
                 "source": "https://github.com/spryker-sdk/spryk/tree/feature/sdk-135-spryk-task"
             },
-            "time": "2021-11-29T11:44:48+00:00"
+            "time": "2021-11-30T14:18:59+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
