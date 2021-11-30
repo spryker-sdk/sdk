@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Lifecycle\Subscriber;
 
 use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
@@ -18,70 +19,33 @@ abstract class LifecycleEventSubscriber
 
     protected PlaceholderResolver $placeholderResolver;
 
-    /**
-     * @var iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
-     */
-    protected iterable $commandRunners;
+    protected CommandExecutorInterface $commandExecutor;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface $fileManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
-     * @param iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
      */
     public function __construct(
         FileManagerInterface $fileManager,
         PlaceholderResolver $placeholderResolver,
-        iterable $commandRunners
+        CommandExecutorInterface $commandExecutor
     ) {
         $this->fileManager = $fileManager;
         $this->placeholderResolver = $placeholderResolver;
-        $this->commandRunners = $commandRunners;
-    }
-
-    /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
-     * @param array<string, mixed> $resolvedValues
-     *
-     * @return void
-     */
-    protected function executeCommands(array $commands, array $resolvedValues): void
-    {
-        foreach ($commands as $command) {
-            foreach ($this->commandRunners as $commandRunner) {
-                if ($commandRunner->canHandle($command)) {
-                    $result = $commandRunner->execute($command, $resolvedValues);
-
-                    if ($result !== 0 && $command->hasStopOnError()) {
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
-     *
-     * @return array<string, mixed>
-     */
-    protected function resolvePlaceholders(array $placeholders): array
-    {
-        $resolvedValues = [];
-        foreach ($placeholders as $placeholder) {
-            $resolvedValues[$placeholder->getName()] = $this->placeholderResolver->resolve($placeholder);
-        }
-
-        return $resolvedValues;
+        $this->commandExecutor = $commandExecutor;
     }
 
     /**
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
-     * @param array<string, mixed> $resolvedValues
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return void
      */
-    protected function manageFiles(array $files, array $resolvedValues): void
+    protected function manageFiles(array $files, array $placeholders): void
     {
+        $resolvedValues = $this->placeholderResolver->resolvePlaceholders($placeholders);
+
         $placeholdersKeys = array_map(function (mixed $placeholder): string {
             return '~' . $placeholder . '~';
         }, array_keys($resolvedValues));

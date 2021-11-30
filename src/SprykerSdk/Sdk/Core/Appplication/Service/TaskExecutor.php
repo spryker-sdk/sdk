@@ -7,23 +7,25 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 
 class TaskExecutor
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface>
+     * @var \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
      */
-    protected iterable $commandRunners;
+    protected EventLoggerInterface $eventLogger;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
      */
-    protected PlaceholderResolver $placeholderResolver;
+    protected CommandExecutorInterface $commandExecutor;
 
     /**
      * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
@@ -31,26 +33,18 @@ class TaskExecutor
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
-     */
-    protected EventLoggerInterface $eventLogger;
-
-    /**
-     * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
      * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
      */
     public function __construct(
-        iterable $commandRunners,
-        PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
+        CommandExecutorInterface $commandExecutor,
         EventLoggerInterface $eventLogger
     ) {
-        $this->eventLogger = $eventLogger;
         $this->taskRepository = $taskRepository;
-        $this->placeholderResolver = $placeholderResolver;
-        $this->commandRunners = $commandRunners;
+        $this->commandExecutor = $commandExecutor;
+        $this->eventLogger = $eventLogger;
     }
 
     /**
@@ -62,24 +56,12 @@ class TaskExecutor
     public function execute(string $taskId, array $tags = []): int
     {
         $task = $this->getTask($taskId, $tags);
-        $resolvedValues = $this->getResolvedValues($task);
 
-        $result = 0;
+        $loggerCallback = function (CommandInterface $command, int $result) use ($task) {
+            $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$result));
+        };
 
-        foreach ($task->getCommands() as $command) {
-            foreach ($this->commandRunners as $commandRunner) {
-                if ($commandRunner->canHandle($command)) {
-                    $result = $commandRunner->execute($command, $resolvedValues);
-                    $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$result));
-
-                    if ($result !== 0 && $command->hasStopOnError()) {
-                        return $result;
-                    }
-                }
-            }
-        }
-
-        return $result;
+        return $this->commandExecutor->execute($task->getCommands(), $task->getPlaceholders(), $loggerCallback);
     }
 
     /**
@@ -99,21 +81,5 @@ class TaskExecutor
         }
 
         return $task;
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
-     *
-     * @return array<string, mixed>
-     */
-    protected function getResolvedValues(TaskInterface $task): array
-    {
-        $resolvedValues = [];
-
-        foreach ($task->getPlaceholders() as $placeholder) {
-            $resolvedValues[$placeholder->getName()] = $this->placeholderResolver->resolve($placeholder);
-        }
-
-        return $resolvedValues;
     }
 }

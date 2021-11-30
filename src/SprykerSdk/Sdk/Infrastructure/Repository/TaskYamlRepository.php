@@ -14,7 +14,6 @@ use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\AbstractLifecycleEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent;
@@ -257,7 +256,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         return new InitializedEvent(
             $this->buildLifecycleCommands($eventData),
             $this->buildPlaceholders($eventData, $taskListData, $tags),
-            $this->buildFiles($eventData)
+            $this->buildFiles($eventData),
         );
     }
 
@@ -279,7 +278,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         return new RemovedEvent(
             $this->buildLifecycleCommands($eventData),
             $this->buildPlaceholders($eventData, $taskListData, $tags),
-            $this->buildFiles($eventData)
+            $this->buildFiles($eventData),
         );
     }
 
@@ -301,7 +300,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         return new UpdatedEvent(
             $this->buildLifecycleCommands($eventData),
             $this->buildPlaceholders($eventData, $taskListData, $tags),
-            $this->buildFiles($eventData)
+            $this->buildFiles($eventData),
         );
     }
 

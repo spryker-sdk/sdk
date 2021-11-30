@@ -45,9 +45,9 @@ class PlaceholderResolver
      */
     public function resolve(PlaceholderInterface $placeholder): mixed
     {
-            $valueResolverInstance = $this->getValueResolver($placeholder);
+        $valueResolverInstance = $this->getValueResolver($placeholder);
 
-            $settingValues = [];
+        $settingValues = [];
 
         foreach ($valueResolverInstance->getSettingPaths() as $settingPath) {
             $setting = $this->settingRepository->findOneByPath($settingPath);
@@ -57,7 +57,22 @@ class PlaceholderResolver
             }
         }
 
-            return $valueResolverInstance->getValue($settingValues, $placeholder->isOptional());
+        return $valueResolverInstance->getValue($settingValues, $placeholder->isOptional());
+    }
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     *
+     * @return array<string, mixed>
+     */
+    public function resolvePlaceholders(array $placeholders): array
+    {
+        $resolvedValues = [];
+        foreach ($placeholders as $placeholder) {
+            $resolvedValues[$placeholder->getName()] = $this->resolve($placeholder);
+        }
+
+        return $resolvedValues;
     }
 
     /**

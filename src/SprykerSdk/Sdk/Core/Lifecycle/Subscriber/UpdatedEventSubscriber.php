@@ -24,10 +24,9 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
         $lifecycle = $event->getTask()->getLifecycle();
         $updated = $lifecycle->getUpdatedEvent();
 
-        $resolvedPlaceholders = $this->resolvePlaceholders($updated->getPlaceholders());
+        $this->manageFiles($updated->getFiles(), $updated->getPlaceholders());
 
-        $this->manageFiles($updated->getFiles(), $resolvedPlaceholders);
-        $this->executeCommands($updated->getCommands(), $resolvedPlaceholders);
+        $this->commandExecutor->execute($updated->getCommands(), $updated->getPlaceholders());
     }
 
     /**
