@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -73,15 +74,17 @@ class CliValueReceiver implements ValueReceiverInterface
     }
 
     /**
-     * @param string $description
-     * @param mixed $defaultValue
-     * @param string $type
-     * @param array $choiceValues
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue $receiverValue
      *
      * @return mixed
      */
-    public function receiveValue(string $description, mixed $defaultValue, string $type, array $choiceValues = []): mixed
+    public function receiveValue(ReceiverValue $receiverValue): mixed
     {
+        $choiceValues = $receiverValue->getChoiceValues();
+        $defaultValue = $receiverValue->getDefaultValue();
+        $type = $receiverValue->getType();
+        $description = $receiverValue->getDescription();
+
         if (count($choiceValues) === 1 && in_array($defaultValue, $choiceValues)) {
             return $defaultValue;
         }

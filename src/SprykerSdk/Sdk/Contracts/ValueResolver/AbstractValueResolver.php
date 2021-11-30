@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Contracts\ValueResolver;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 
@@ -61,7 +62,14 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         }
 
         if (!$optional) {
-            $defaultValue = $this->valueReceiver->receiveValue($this->getDescription(), $defaultValue, $this->getType(), $choiceValues);
+            $defaultValue = $this->valueReceiver->receiveValue(
+                new ReceiverValue(
+                $this->getDescription(),
+                $defaultValue,
+                $this->getType(),
+                $choiceValues
+                )
+            );
         }
 
         return $defaultValue;

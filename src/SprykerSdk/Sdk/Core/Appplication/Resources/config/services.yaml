@@ -1,11 +1,6 @@
 parameters:
   project_settings_file: '%kernel.project_dir%/.ssdk'
 services:
-  progress_bar:
-    class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
-    arguments:
-      - '@local_cli_command_runner.output'
-      -
   path_resolver:
     class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
     arguments:

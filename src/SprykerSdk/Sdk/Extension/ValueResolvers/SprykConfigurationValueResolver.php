@@ -7,24 +7,50 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
-class SprykConfigurationValueResolver extends StaticValueResolver
-{
-    /**
-     * @var string
-     */
-    protected const PLACEHOLDER_MODE_NAME = '%mode%';
+use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
 
-    /**
-     * @var string
-     */
-    protected const PLACEHOLDER_MODE_VALUE = 'project';
+class SprykConfigurationValueResolver extends AbstractValueResolver
+{
+    public const NAMESPACE = 'NAMESPACE';
 
     /**
      * @return string
      */
     public function getId(): string
     {
-        return 'SPRYK_CONFIGURATION';
+        return static::NAMESPACE;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias(): string
+    {
+        return 'namespace';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return 'Namespace name';
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'string';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultValue(): mixed
+    {
+        return 'Pyz';
     }
 
     /**
@@ -34,20 +60,40 @@ class SprykConfigurationValueResolver extends StaticValueResolver
      */
     public function getChoiceValues(array $resolvedValues = []): array
     {
-        if (!isset($resolvedValues[static::PLACEHOLDER_MODE_NAME])) {
-            return $this->choiceValues;
-        }
-        $mode = $resolvedValues[static::PLACEHOLDER_MODE_NAME];
+        return [
+            'Pyz',
+            'SprykerShop',
+            'SprykerEco',
+            'Spryker',
+            'SprykerSdk',
+        ];
+    }
 
-        if ($mode === static::PLACEHOLDER_MODE_VALUE) {
-            return [$this->getDefaultValue()];
-        }
+    /**
+     * @return array<string>
+     */
+    protected function getRequiredSettingPaths(): array
+    {
+        return [];
+    }
 
-        $choiceValues = $this->choiceValues;
+    /**
+     * @param array<string, mixed> $settingValues
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException
+     *
+     * @return mixed
+     */
+    protected function getValueFromSettings(array $settingValues): mixed
+    {
+        return null;
+    }
 
-        unset($choiceValues[array_search($this->getDefaultValue(), $choiceValues)]);
-        $this->value = reset($choiceValues);
-
-        return $choiceValues;
+    /**
+     * @return array<string>
+     */
+    public function getSettingPaths(): array
+    {
+        return [];
     }
 }
