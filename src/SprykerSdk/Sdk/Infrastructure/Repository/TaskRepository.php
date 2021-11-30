@@ -70,10 +70,11 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
 
     /**
      * @param string $taskId
+     * @param array $tags
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null
      */
-    public function findById(string $taskId): ?TaskInterface
+    public function findById(string $taskId, array $tags = []): ?TaskInterface
     {
         /** @var TaskInterface|null $task */
         $task = $this->find($taskId);
