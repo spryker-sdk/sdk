@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -12,22 +12,22 @@ use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
 class UpdatedEvent implements LifecycleEventInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     protected array $commands = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[]
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     protected array $placeholders = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
      */
     protected array $files = [];
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -35,7 +35,7 @@ class UpdatedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -43,7 +43,7 @@ class UpdatedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
      */
     public function getFiles(): array
     {
@@ -52,31 +52,37 @@ class UpdatedEvent implements LifecycleEventInterface
 
     /**
      * @param array $commands
-     * @return UpdatedEvent
+     *
+     * @return $this
      */
-    public function setCommands(array $commands): UpdatedEvent
+    public function setCommands(array $commands)
     {
         $this->commands = $commands;
+
         return $this;
     }
 
     /**
      * @param array $placeholders
-     * @return UpdatedEvent
+     *
+     * @return $this
      */
-    public function setPlaceholders(array $placeholders): UpdatedEvent
+    public function setPlaceholders(array $placeholders)
     {
         $this->placeholders = $placeholders;
+
         return $this;
     }
 
     /**
      * @param array $files
-     * @return UpdatedEvent
+     *
+     * @return $this
      */
-    public function setFiles(array $files): UpdatedEvent
+    public function setFiles(array $files)
     {
         $this->files = $files;
+
         return $this;
     }
 }

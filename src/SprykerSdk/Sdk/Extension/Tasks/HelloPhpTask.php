@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent;
@@ -78,7 +78,7 @@ class HelloPhpTask implements TaskInterface
         return new Lifecycle(
             new InitializedEvent(),
             new UpdatedEvent(),
-            new RemovedEvent()
+            new RemovedEvent(),
         );
     }
 }

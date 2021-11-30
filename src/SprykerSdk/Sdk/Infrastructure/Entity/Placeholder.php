@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -18,7 +18,7 @@ class Placeholder extends CorePlaceholder
     protected RemovedEvent $removedEvent;
 
     /**
-     * @return RemovedEvent
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
     public function getRemovedEvent(): RemovedEvent
     {
@@ -26,10 +26,11 @@ class Placeholder extends CorePlaceholder
     }
 
     /**
-     * @param RemovedEvent $removedEvent
-     * @return Placeholder
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $removedEvent
+     *
+     * @return $this
      */
-    public function setRemovedEvent(RemovedEvent $removedEvent): Placeholder
+    public function setRemovedEvent(RemovedEvent $removedEvent)
     {
         $this->removedEvent = $removedEvent;
 
@@ -45,7 +46,7 @@ class Placeholder extends CorePlaceholder
     }
 
     /**
-     * @param Task $task
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return $this;
      */
@@ -57,7 +58,7 @@ class Placeholder extends CorePlaceholder
     }
 
     /**
-     * @return Task
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
     public function getTask(): Task
     {

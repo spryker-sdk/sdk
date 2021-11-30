@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -17,7 +17,7 @@ abstract class LifecycleEvent extends Event
     }
 
     /**
-     * @return TaskInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
     public function getTask(): TaskInterface
     {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -12,9 +12,9 @@ use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 interface TaskManagerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface[] $tasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
     public function initialize(array $tasks): array;
 

@@ -61,7 +61,7 @@ class InitSdkCommand extends Command
         Yaml $yamlParser,
         string $settingsPath,
         TaskManagerInterface $taskManager,
-        TaskRepositoryInterface $taskRepository,
+        TaskRepositoryInterface $taskRepository
     ) {
         $this->settingsPath = $settingsPath;
         $this->yamlParser = $yamlParser;

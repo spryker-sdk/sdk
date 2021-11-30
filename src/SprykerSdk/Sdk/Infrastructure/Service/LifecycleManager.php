@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -17,13 +17,13 @@ class LifecycleManager implements LifecycleManagerInterface
     protected TaskRepositoryInterface $taskEntityRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface[]
+     * @var array<\SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface>
      */
     protected iterable $actions;
 
     /**
-     * @param TaskRepositoryInterface $taskYamlRepository
-     * @param TaskRepositoryInterface $taskEntityRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskEntityRepository
      * @param iterable<\SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface> $actions
      */
     public function __construct(

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -18,7 +18,7 @@ class Command extends CoreCommand
     protected RemovedEvent $removedEvent;
 
     /**
-     * @return RemovedEvent
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
     public function getRemovedEvent(): RemovedEvent
     {
@@ -26,10 +26,11 @@ class Command extends CoreCommand
     }
 
     /**
-     * @param RemovedEvent $removedEvent
-     * @return Command
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $removedEvent
+     *
+     * @return $this
      */
-    public function setRemovedEvent(RemovedEvent $removedEvent): Command
+    public function setRemovedEvent(RemovedEvent $removedEvent)
     {
         $this->removedEvent = $removedEvent;
 
@@ -45,7 +46,7 @@ class Command extends CoreCommand
     }
 
     /**
-     * @param Task $task
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task
      *
      * @return $this;
      */
@@ -57,7 +58,7 @@ class Command extends CoreCommand
     }
 
     /**
-     * @return Task
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task|null
      */
     public function getTask(): ?Task
     {

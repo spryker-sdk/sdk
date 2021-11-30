@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
@@ -31,9 +30,9 @@ class TaskDeprecatedAction implements SdkUpdateActionInterface
     }
 
     /**
-     * @param string[] $taskIds
-     * @param array<string,\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<string,\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<string> $taskIds
+     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
+     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
      *
      * @return void
      */
@@ -55,10 +54,10 @@ class TaskDeprecatedAction implements SdkUpdateActionInterface
     }
 
     /**
-     * @param array<string,\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<string,\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
+     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
      *
-     * @return string[]
+     * @return array<string>
      */
     public function filter(array $folderTasks, array $databaseTasks): array
     {

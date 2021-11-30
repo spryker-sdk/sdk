@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -12,22 +12,22 @@ use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
 class InitializedEvent implements LifecycleEventInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     protected array $commands = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[]
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     protected array $placeholders = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
      */
     protected array $files = [];
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -35,7 +35,7 @@ class InitializedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -43,7 +43,7 @@ class InitializedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
      */
     public function getFiles(): array
     {
@@ -51,32 +51,38 @@ class InitializedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[] $commands
-     * @return InitializedEvent
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     *
+     * @return $this
      */
-    public function setCommands(array $commands): InitializedEvent
+    public function setCommands(array $commands)
     {
         $this->commands = $commands;
+
         return $this;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[] $placeholders
-     * @return InitializedEvent
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     *
+     * @return $this
      */
-    public function setPlaceholders(array $placeholders): InitializedEvent
+    public function setPlaceholders(array $placeholders)
     {
         $this->placeholders = $placeholders;
+
         return $this;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface[] $files
-     * @return InitializedEvent
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
+     *
+     * @return $this
      */
-    public function setFiles(array $files): InitializedEvent
+    public function setFiles(array $files)
     {
         $this->files = $files;
+
         return $this;
     }
 }

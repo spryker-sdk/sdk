@@ -7,9 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use JetBrains\PhpStorm\Pure;
-use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
@@ -181,7 +178,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     protected function buildLifecycleCommands(array $data): array
     {
@@ -195,7 +192,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $commands[] = new Command(
                 $command['command'],
                 $command['type'],
-                true
+                true,
             );
         }
 
@@ -205,7 +202,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\FileInterface[]
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
      */
     protected function buildFiles(array $data): array
     {
@@ -218,7 +215,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         foreach ($data['files'] as $file) {
             $files[] = new File(
                 $file['path'],
-                $file['content']
+                $file['content'],
             );
         }
 
@@ -237,7 +234,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         return new Lifecycle(
             $this->buildInitializedEvent($taskData, $taskListData, $tags),
             $this->buildUpdatedEvent($taskData, $taskListData, $tags),
-            $this->buildRemovedEvent($taskData, $taskListData, $tags)
+            $this->buildRemovedEvent($taskData, $taskListData, $tags),
         );
     }
 
@@ -246,7 +243,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return InitializedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent
      */
     protected function buildInitializedEvent(array $taskData, array $taskListData, array $tags = []): InitializedEvent
     {
@@ -269,7 +266,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return RemovedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent
      */
     protected function buildRemovedEvent(array $taskData, array $taskListData, array $tags = []): RemovedEvent
     {
@@ -292,7 +289,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return UpdatedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent
      */
     protected function buildUpdatedEvent(array $taskData, array $taskListData, array $tags = []): UpdatedEvent
     {

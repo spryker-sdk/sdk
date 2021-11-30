@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -17,6 +22,9 @@ final class Version20211123164157 extends AbstractMigration
         return '';
     }
 
+    /**
+     * @return void
+     */
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
@@ -28,6 +36,9 @@ final class Version20211123164157 extends AbstractMigration
         $this->addSql('CREATE TABLE sdk_task (id VARCHAR(255) NOT NULL, short_description VARCHAR(255) NOT NULL, help VARCHAR(255) DEFAULT NULL, version VARCHAR(255) NOT NULL, successor VARCHAR(255) DEFAULT NULL, deprecated BOOLEAN NOT NULL, PRIMARY KEY(id))');
     }
 
+    /**
+     * @return void
+     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs

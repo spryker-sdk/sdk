@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -49,6 +49,8 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $taskToUpdate
      *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
+     *
      * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
     public function update(TaskInterface $task, TaskInterface $taskToUpdate): TaskInterface
@@ -76,7 +78,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
      */
     public function findById(string $taskId, array $tags = []): ?TaskInterface
     {
-        /** @var TaskInterface|null $task */
+        /** @var \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null $task */
         $task = $this->find($taskId);
 
         return $task;
@@ -98,6 +100,9 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
         return $tasksMap;
     }
 
+    /**
+     * @return void
+     */
     public function remove(TaskInterface $task): void
     {
         if (!$task instanceof Task) {

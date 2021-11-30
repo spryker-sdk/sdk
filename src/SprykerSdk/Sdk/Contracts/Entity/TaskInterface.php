@@ -55,5 +55,5 @@ interface TaskInterface
     /**
      * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface|\SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
      */
-    public function getLifecycle(): LifecycleInterface | PersistentLifecycleInterface;
+    public function getLifecycle(): LifecycleInterface|PersistentLifecycleInterface;
 }

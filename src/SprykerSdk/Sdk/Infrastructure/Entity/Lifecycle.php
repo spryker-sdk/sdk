@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -16,7 +16,7 @@ class Lifecycle implements PersistentLifecycleInterface
     protected RemovedEvent $removedEvent;
 
     /**
-     * @param RemovedEvent $removedEvent
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $removedEvent
      */
     public function __construct(RemovedEvent $removedEvent)
     {
@@ -24,7 +24,7 @@ class Lifecycle implements PersistentLifecycleInterface
     }
 
     /**
-     * @return RemovedEvent
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
     public function getRemovedEvent(): RemovedEvent
     {
@@ -32,11 +32,11 @@ class Lifecycle implements PersistentLifecycleInterface
     }
 
     /**
-     * @param RemovedEvent $removedEvent
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $removedEvent
      *
      * @return $this
      */
-    public function setRemovedEvent(RemovedEvent $removedEvent): Lifecycle
+    public function setRemovedEvent(RemovedEvent $removedEvent)
     {
         $this->removedEvent = $removedEvent;
 
@@ -56,7 +56,7 @@ class Lifecycle implements PersistentLifecycleInterface
      *
      * @return $this
      */
-    public function setId(int $id): Lifecycle
+    public function setId(int $id)
     {
         $this->id = $id;
 

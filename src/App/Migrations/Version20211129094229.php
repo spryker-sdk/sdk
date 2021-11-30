@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -17,6 +22,9 @@ final class Version20211129094229 extends AbstractMigration
         return '';
     }
 
+    /**
+     * @return void
+     */
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
@@ -51,6 +59,9 @@ final class Version20211129094229 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_934E8256D7D7318C ON sdk_task (lifecycle_id)');
     }
 
+    /**
+     * @return void
+     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs

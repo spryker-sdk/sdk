@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -44,10 +44,11 @@ class RemovedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @param Collection $placeholders
-     * @return RemovedEvent
+     * @param \Doctrine\Common\Collections\Collection $placeholders
+     *
+     * @return $this
      */
-    public function setPlaceholders(Collection $placeholders): RemovedEvent
+    public function setPlaceholders(Collection $placeholders)
     {
         $this->placeholders = $placeholders;
 
@@ -55,10 +56,11 @@ class RemovedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @param Collection $commands
-     * @return RemovedEvent
+     * @param \Doctrine\Common\Collections\Collection $commands
+     *
+     * @return $this
      */
-    public function setCommands(Collection $commands): RemovedEvent
+    public function setCommands(Collection $commands)
     {
         $this->commands = $commands;
 
@@ -66,10 +68,11 @@ class RemovedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @param Collection $files
-     * @return RemovedEvent
+     * @param \Doctrine\Common\Collections\Collection $files
+     *
+     * @return $this
      */
-    public function setFiles(Collection $files): RemovedEvent
+    public function setFiles(Collection $files)
     {
         $this->files = $files;
 
@@ -79,9 +82,9 @@ class RemovedEvent implements LifecycleEventInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Command $command
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
+     * @return $this
      */
-    public function addCommand(Command $command): RemovedEvent
+    public function addCommand(Command $command)
     {
         if (!$this->commands->contains($command)) {
             $this->commands[] = $command;
@@ -94,9 +97,9 @@ class RemovedEvent implements LifecycleEventInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Command $command
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
+     * @return $this
      */
-    public function removeCommand(Command $command): RemovedEvent
+    public function removeCommand(Command $command)
     {
         if ($this->commands->contains($command)) {
             $this->commands->removeElement($command);
@@ -112,9 +115,9 @@ class RemovedEvent implements LifecycleEventInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder $placeholder
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
+     * @return $this
      */
-    public function addPlaceholder(Placeholder $placeholder): RemovedEvent
+    public function addPlaceholder(Placeholder $placeholder)
     {
         if (!$this->placeholders->contains($placeholder)) {
             $this->placeholders[] = $placeholder;
@@ -127,9 +130,9 @@ class RemovedEvent implements LifecycleEventInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder $placeholder
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
+     * @return $this
      */
-    public function removePlaceholder(Placeholder $placeholder): RemovedEvent
+    public function removePlaceholder(Placeholder $placeholder)
     {
         if ($this->placeholders->contains($placeholder)) {
             $this->placeholders->removeElement($placeholder);
@@ -145,9 +148,9 @@ class RemovedEvent implements LifecycleEventInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\File $file
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
+     * @return $this
      */
-    public function addFile(File $file): RemovedEvent
+    public function addFile(File $file)
     {
         if (!$this->files->contains($file)) {
             $this->files[] = $file;
@@ -160,9 +163,9 @@ class RemovedEvent implements LifecycleEventInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\File $file
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
+     * @return $this
      */
-    public function removeFile(File $file): RemovedEvent
+    public function removeFile(File $file)
     {
         if ($this->files->contains($file)) {
             $this->files->removeElement($file);
@@ -185,9 +188,10 @@ class RemovedEvent implements LifecycleEventInterface
 
     /**
      * @param int $id
-     * @return RemovedEvent
+     *
+     * @return $this
      */
-    public function setId(int $id): RemovedEvent
+    public function setId(int $id)
     {
         $this->id = $id;
 

@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 
 class TaskMapper implements TaskMapperInterface
@@ -43,14 +47,14 @@ class TaskMapper implements TaskMapperInterface
             $task->getVersion(),
             $task->getHelp(),
             $task->getSuccessor(),
-            $task->isDeprecated()
+            $task->isDeprecated(),
         );
 
         $entity = $this->mapPlaceholders($task->getPlaceholders(), $entity);
         $entity = $this->mapCommands($task->getCommands(), $entity);
 
         $entity->setLifecycle(
-            $this->lifecycleMapper->mapLifecycle($task->getLifecycle())
+            $this->lifecycleMapper->mapLifecycle($task->getLifecycle()),
         );
 
         return $entity;
@@ -78,14 +82,14 @@ class TaskMapper implements TaskMapperInterface
         $taskToUpdate = $this->mapCommands($task->getCommands(), $taskToUpdate);
 
         $taskToUpdate->setLifecycle(
-            $this->lifecycleMapper->mapLifecycle($task->getLifecycle())
+            $this->lifecycleMapper->mapLifecycle($task->getLifecycle()),
         );
 
         return $taskToUpdate;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[] $commands
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
@@ -102,7 +106,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[] $placeholders
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task>

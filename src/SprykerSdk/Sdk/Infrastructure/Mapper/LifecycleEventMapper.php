@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -49,7 +49,7 @@ class LifecycleEventMapper implements LifecycleEventMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface[] $commands
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
@@ -66,7 +66,7 @@ class LifecycleEventMapper implements LifecycleEventMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface[] $placeholders
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
@@ -83,7 +83,7 @@ class LifecycleEventMapper implements LifecycleEventMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface[] $files
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent

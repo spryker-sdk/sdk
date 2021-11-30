@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -18,9 +18,9 @@ class Lifecycle implements LifecycleInterface
     protected RemovedEvent $removedEvent;
 
     /**
-     * @param RemovedEvent $removedEvent
-     * @param InitializedEvent $initializedEvent
-     * @param UpdatedEvent $updatedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent $removedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent $initializedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent $updatedEvent
      */
     public function __construct(InitializedEvent $initializedEvent, UpdatedEvent $updatedEvent, RemovedEvent $removedEvent)
     {
@@ -30,7 +30,7 @@ class Lifecycle implements LifecycleInterface
     }
 
     /**
-     * @return RemovedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent
      */
     public function getRemovedEvent(): RemovedEvent
     {
@@ -38,11 +38,11 @@ class Lifecycle implements LifecycleInterface
     }
 
     /**
-     * @param RemovedEvent $removedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent $removedEvent
      *
      * @return $this
      */
-    public function setRemovedEvent(RemovedEvent $removedEvent): Lifecycle
+    public function setRemovedEvent(RemovedEvent $removedEvent)
     {
         $this->removedEvent = $removedEvent;
 
@@ -50,7 +50,7 @@ class Lifecycle implements LifecycleInterface
     }
 
     /**
-     * @return InitializedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent
      */
     public function getInitializedEvent(): InitializedEvent
     {
@@ -58,11 +58,11 @@ class Lifecycle implements LifecycleInterface
     }
 
     /**
-     * @param InitializedEvent $initializedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent $initializedEvent
      *
      * @return $this
      */
-    public function setInitializedEvent(InitializedEvent $initializedEvent): Lifecycle
+    public function setInitializedEvent(InitializedEvent $initializedEvent)
     {
         $this->initializedEvent = $initializedEvent;
 
@@ -70,7 +70,7 @@ class Lifecycle implements LifecycleInterface
     }
 
     /**
-     * @return UpdatedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent
      */
     public function getUpdatedEvent(): UpdatedEvent
     {
@@ -78,10 +78,11 @@ class Lifecycle implements LifecycleInterface
     }
 
     /**
-     * @param UpdatedEvent $updatedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent $updatedEvent
+     *
      * @return $this
      */
-    public function setUpdatedEvent(UpdatedEvent $updatedEvent): Lifecycle
+    public function setUpdatedEvent(UpdatedEvent $updatedEvent)
     {
         $this->updatedEvent = $updatedEvent;
 

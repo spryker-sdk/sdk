@@ -1,20 +1,22 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
-class File extends \SprykerSdk\Sdk\Core\Domain\Entity\File
+use SprykerSdk\Sdk\Core\Domain\Entity\File as EntityFile;
+
+class File extends EntityFile
 {
     protected int $id;
 
     protected RemovedEvent $removedEvent;
 
     /**
-     * @return RemovedEvent
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
     public function getRemovedEvent(): RemovedEvent
     {
@@ -22,11 +24,11 @@ class File extends \SprykerSdk\Sdk\Core\Domain\Entity\File
     }
 
     /**
-     * @param RemovedEvent $removedEvent
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $removedEvent
      *
-     * @return File
+     * @return $this
      */
-    public function setRemovedEvent(RemovedEvent $removedEvent): File
+    public function setRemovedEvent(RemovedEvent $removedEvent)
     {
         $this->removedEvent = $removedEvent;
 
@@ -43,31 +45,37 @@ class File extends \SprykerSdk\Sdk\Core\Domain\Entity\File
 
     /**
      * @param int $id
-     * @return File
+     *
+     * @return $this
      */
-    public function setId(int $id): File
+    public function setId(int $id)
     {
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * @param string $path
-     * @return File
+     *
+     * @return $this
      */
-    public function setPath(string $path): File
+    public function setPath(string $path)
     {
         $this->path = $path;
+
         return $this;
     }
 
     /**
      * @param string $content
-     * @return File
+     *
+     * @return $this
      */
-    public function setContent(string $content): File
+    public function setContent(string $content)
     {
         $this->content = $content;
+
         return $this;
     }
 }
