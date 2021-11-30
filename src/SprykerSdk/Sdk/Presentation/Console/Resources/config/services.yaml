@@ -12,7 +12,7 @@ services:
       - '@doctrine_migrations.migrate_command'
       - '@yaml_parser'
       - '%kernel.project_dir%/src/SprykerSdk/Sdk/Extension/Settings/settings.yaml'
-      - '@service.task_initializer'
+      - '@service.task_manager'
       - '@task_repository'
 
   init_project_command:

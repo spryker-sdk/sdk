@@ -8,15 +8,15 @@
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
 use SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskInitializerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 
 class TaskCreatedAction implements SdkUpdateActionInterface
 {
-    protected TaskInitializerInterface $taskInitializer;
+    protected TaskManagerInterface $taskManager;
 
-    public function __construct(TaskInitializerInterface $taskInitializer)
+    public function __construct(TaskManagerInterface $taskManager)
     {
-        $this->taskInitializer = $taskInitializer;
+        $this->taskManager = $taskManager;
     }
 
     /**
@@ -34,7 +34,7 @@ class TaskCreatedAction implements SdkUpdateActionInterface
             $tasks[] = $folderTasks[$taskId];
         }
 
-        $this->taskInitializer->initialize($tasks);
+        $this->taskManager->initialize($tasks);
     }
 
     /**

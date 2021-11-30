@@ -3,9 +3,9 @@ id: 'hello:world'
 short_description: 'Sends greetings'
 help: 'Will greet the one using it'
 stage: build
-version: 1.3.0
+version: 1.0.0
 deprecated: false #if false it can be ommited
-successor: '/bin/echo "hello %world% %somebody%"'
+successor: 'hello:php'
 command: '/bin/echo "hello %world% %somebody%"'
 type: local_cli
 placeholders:

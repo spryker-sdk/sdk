@@ -8,23 +8,16 @@
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
 use Composer\Semver\Comparator;
-use SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface;
-use SprykerSdk\Sdk\Core\Lifecycle\Event\UpdatedEvent;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 
 class TaskUpdatedAction implements SdkUpdateActionInterface
 {
-    protected EventDispatcherInterface $eventDispatcher;
+    protected TaskManagerInterface $taskManager;
 
-    protected TaskSaveRepositoryInterface $taskUpdateRepository;
-
-    public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        TaskSaveRepositoryInterface $taskUpdateRepository
-    ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->taskUpdateRepository = $taskUpdateRepository;
+    public function __construct(TaskManagerInterface $taskManager)
+    {
+        $this->taskManager = $taskManager;
     }
 
     /**
@@ -40,9 +33,7 @@ class TaskUpdatedAction implements SdkUpdateActionInterface
             $folderTask = $folderTasks[$taskId];
             $databaseTask = $databaseTasks[$taskId];
 
-            $this->taskUpdateRepository->update($folderTask, $databaseTask);
-
-            $this->eventDispatcher->dispatch(new UpdatedEvent($folderTask), UpdatedEvent::NAME);
+            $this->taskManager->update($folderTask, $databaseTask);
         }
     }
 

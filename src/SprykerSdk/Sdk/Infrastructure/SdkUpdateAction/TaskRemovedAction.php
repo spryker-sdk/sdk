@@ -7,23 +7,16 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
-use SprykerSdk\Sdk\Contracts\Repository\TaskRemoveRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface;
-use SprykerSdk\Sdk\Core\Lifecycle\Event\RemovedEvent;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 
 class TaskRemovedAction implements SdkUpdateActionInterface
 {
-    protected EventDispatcherInterface $eventDispatcher;
+    protected TaskManagerInterface $taskManager;
 
-    protected TaskRemoveRepositoryInterface $taskRemoveRepository;
-
-    public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        TaskRemoveRepositoryInterface $taskRemoveRepository
-    ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->taskRemoveRepository = $taskRemoveRepository;
+    public function __construct(TaskManagerInterface $taskManager)
+    {
+        $this->taskManager = $taskManager;
     }
 
     /**
@@ -38,9 +31,7 @@ class TaskRemovedAction implements SdkUpdateActionInterface
         foreach ($taskIds as $taskId) {
             $databaseTask = $databaseTasks[$taskId];
 
-            $this->taskRemoveRepository->remove($databaseTask);
-
-            $this->eventDispatcher->dispatch(new RemovedEvent($databaseTask), RemovedEvent::NAME);
+            $this->taskManager->remove($databaseTask);
         }
     }
 
