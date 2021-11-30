@@ -22,16 +22,6 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     protected const PROJECT = 'project';
 
     /**
-     * @var array
-     */
-    protected const CORE_NAMESPACE = [
-        'SprykerShop',
-        'SprykerEco',
-        'Spryker',
-        'SprykerSdk',
-    ];
-
-    /**
      * @return string
      */
     public function getId(): string
@@ -72,11 +62,11 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
      */
     public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed
     {
-        if (!array_key_exists(SprykConfigurationValueResolver::NAMESPACE, $resolvedValues)) {
+        if (!array_key_exists(SprykConfigurationValueResolver::ALIAS, $resolvedValues)) {
             return $this->getDefaultValue();
         }
 
-        if (in_array($resolvedValues[SprykConfigurationValueResolver::NAMESPACE], static::CORE_NAMESPACE)) {
+        if (in_array($resolvedValues[SprykConfigurationValueResolver::ALIAS], $settingValues['coreNamespaces'])) {
             return static::CORE;
         }
 
@@ -114,6 +104,6 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
      */
     public function getSettingPaths(): array
     {
-        return [];
+        return ['coreNamespaces'];
     }
 }

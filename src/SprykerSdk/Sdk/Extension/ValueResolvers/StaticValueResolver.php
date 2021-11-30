@@ -110,7 +110,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
             throw new MissingValueException();
         }
 
-        return $settingValues[$this->getAlias()]->getValues();
+        return $settingValues[$this->getAlias()];
     }
 
     /**
@@ -122,11 +122,12 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
+     * @param array $settingValues
      * @param array $resolvedValues
      *
      * @return array
      */
-    public function getChoiceValues(array $resolvedValues = []): array
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
         return $this->choiceValues;
     }

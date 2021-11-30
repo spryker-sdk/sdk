@@ -49,7 +49,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                 'Required settings are missing: ' . implode(', ', array_diff($this->getRequiredSettingPaths(), $settingValues)),
             );
         }
-        $choiceValues = $this->getChoiceValues($resolvedValues);
+        $choiceValues = $this->getChoiceValues($settingValues, $resolvedValues);
 
         $defaultValue = $this->getDefaultValue();
 
@@ -71,16 +71,22 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                 ),
             );
         }
+        echo $this->getId();
+        if ($this->getId() === 'module') {
+            echo $defaultValue;
+            exit;
+        }
 
         return $defaultValue;
     }
 
     /**
+     * @param array $settingValues
      * @param array $resolvedValues
      *
      * @return array
      */
-    public function getChoiceValues(array $resolvedValues = []): array
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
         return [];
     }

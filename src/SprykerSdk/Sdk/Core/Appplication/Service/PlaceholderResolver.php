@@ -60,11 +60,11 @@ class PlaceholderResolver
             }
         }
 
-        if (empty($this->resolvedValues[$valueResolverInstance->getId()])) {
-            $this->resolvedValues[$valueResolverInstance->getId()] = $valueResolverInstance->getValue($settingValues, $placeholder->isOptional(), $this->resolvedValues);
+        if (empty($this->resolvedValues[$valueResolverInstance->getAlias()])) {
+            $this->resolvedValues[$valueResolverInstance->getAlias()] = $valueResolverInstance->getValue($settingValues, $placeholder->isOptional(), $this->resolvedValues);
         }
 
-        return $this->resolvedValues[$valueResolverInstance->getId()];
+        return $this->resolvedValues[$valueResolverInstance->getAlias()];
     }
 
     /**

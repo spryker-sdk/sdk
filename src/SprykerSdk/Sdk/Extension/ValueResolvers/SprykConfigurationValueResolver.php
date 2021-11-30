@@ -14,14 +14,14 @@ class SprykConfigurationValueResolver extends AbstractValueResolver
     /**
      * @var string
      */
-    public const NAMESPACE = 'NAMESPACE';
+    public const ALIAS = 'namespace';
 
     /**
      * @return string
      */
     public function getId(): string
     {
-        return static::NAMESPACE;
+        return 'NAMESPACE';
     }
 
     /**
@@ -29,7 +29,7 @@ class SprykConfigurationValueResolver extends AbstractValueResolver
      */
     public function getAlias(): string
     {
-        return 'namespace';
+        return static::ALIAS;
     }
 
     /**
@@ -57,19 +57,14 @@ class SprykConfigurationValueResolver extends AbstractValueResolver
     }
 
     /**
+     * @param array $settingValues
      * @param array $resolvedValues
      *
      * @return array
      */
-    public function getChoiceValues(array $resolvedValues = []): array
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
-        return [
-            'Pyz',
-            'SprykerShop',
-            'SprykerEco',
-            'Spryker',
-            'SprykerSdk',
-        ];
+        return array_merge($settingValues['projectNamespaces'], $settingValues['coreNamespaces']);
     }
 
     /**
@@ -95,6 +90,6 @@ class SprykConfigurationValueResolver extends AbstractValueResolver
      */
     public function getSettingPaths(): array
     {
-        return [];
+        return ['projectNamespaces', 'coreNamespaces'];
     }
 }

@@ -49,9 +49,10 @@ interface ValueResolverInterface
     public function getDefaultValue(): mixed;
 
     /**
+     * @param array $settingValues
      * @param array $resolvedValues
      *
      * @return array
      */
-    public function getChoiceValues(array $resolvedValues = []): array;
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array;
 }
