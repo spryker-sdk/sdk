@@ -4,7 +4,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
 
-class CodeLevelValueResolver extends AbstractValueResolver
+class SprykCodeLevelValueResolver extends AbstractValueResolver
 {
     protected const CORE = 'core';
     protected const PROJECT = 'project';
