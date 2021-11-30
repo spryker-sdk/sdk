@@ -66,7 +66,7 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
             return $this->getDefaultValue();
         }
 
-        if (in_array($resolvedValues[NamespaceValueResolver::ALIAS], $settingValues['coreNamespaces'])) {
+        if (in_array($resolvedValues[NamespaceValueResolver::ALIAS], (array)$settingValues['coreNamespaces'], false)) {
             return static::CORE;
         }
 
