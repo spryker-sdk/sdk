@@ -64,11 +64,11 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         if (!$optional) {
             $defaultValue = $this->valueReceiver->receiveValue(
                 new ReceiverValue(
-                $this->getDescription(),
-                $defaultValue,
-                $this->getType(),
-                $choiceValues
-                )
+                    $this->getDescription(),
+                    $defaultValue,
+                    $this->getType(),
+                    $choiceValues,
+                ),
             );
         }
 

@@ -11,6 +11,9 @@ use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
 
 class SprykConfigurationValueResolver extends AbstractValueResolver
 {
+    /**
+     * @var string
+     */
     public const NAMESPACE = 'NAMESPACE';
 
     /**
@@ -79,8 +82,6 @@ class SprykConfigurationValueResolver extends AbstractValueResolver
 
     /**
      * @param array<string, mixed> $settingValues
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException
      *
      * @return mixed
      */

@@ -159,8 +159,8 @@ class InitSdkCommand extends Command
                     new ReceiverValue(
                         $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
                         $settingEntity->getValues(),
-                        $settingEntity->getType()
-                    )
+                        $settingEntity->getType(),
+                    ),
                 );
                 $values = is_scalar($values) ?: json_encode($values);
                 $previousSettingValues = $settingEntity->getValues();

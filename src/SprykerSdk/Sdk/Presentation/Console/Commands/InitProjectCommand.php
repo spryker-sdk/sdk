@@ -61,9 +61,11 @@ class InitProjectCommand extends Command
         $projectSettingPath = $this->projectSettingFileName;
 
         if (file_exists($projectSettingPath)) {
-            if (!$this->cliValueReceiver->receiveValue(
-                new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool')
-            )) {
+            if (
+                !$this->cliValueReceiver->receiveValue(
+                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool'),
+                )
+            ) {
                 return static::SUCCESS;
             }
         }
@@ -97,8 +99,8 @@ class InitProjectCommand extends Command
                 new ReceiverValue(
                     $questionDescription,
                     $settingEntity->getValues(),
-                    $settingEntity->getType()
-                )
+                    $settingEntity->getType(),
+                ),
             );
 
             $values = match ($settingEntity->getType()) {

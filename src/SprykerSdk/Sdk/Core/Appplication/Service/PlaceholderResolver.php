@@ -16,6 +16,9 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 
 class PlaceholderResolver
 {
+    /**
+     * @var array
+     */
     protected $resolvedValues = [];
 
     /**

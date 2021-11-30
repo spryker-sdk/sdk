@@ -1,12 +1,24 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
 
 class SprykCodeLevelValueResolver extends AbstractValueResolver
 {
+    /**
+     * @var string
+     */
     protected const CORE = 'core';
+
+    /**
+     * @var string
+     */
     protected const PROJECT = 'project';
 
     /**
@@ -18,7 +30,6 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
         'Spryker',
         'SprykerSdk',
     ];
-
 
     /**
      * @return string
@@ -57,8 +68,6 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
      * @param bool|false $optional
      * @param array<string, mixed> $resolvedValues
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
-     *
      * @return mixed
      */
     public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed
@@ -92,8 +101,6 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
 
     /**
      * @param array<string, mixed> $settingValues
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException
      *
      * @return mixed
      */
