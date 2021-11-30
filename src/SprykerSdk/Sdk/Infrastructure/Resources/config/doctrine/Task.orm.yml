@@ -24,7 +24,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
       type: string
       unique: false
       nullable: true
-    deprecated:
+    isDeprecated:
       type: boolean
       unique: false
       nullable: false

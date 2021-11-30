@@ -41,7 +41,7 @@ class Task implements TaskInterface
 
     protected ?string $successor = null;
 
-    protected bool $deprecated = false;
+    protected bool $isDeprecated;
 
     protected LifecycleInterface $lifecycle;
 
@@ -54,7 +54,7 @@ class Task implements TaskInterface
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param string|null $help
      * @param string|null $successor
-     * @param bool $deprecated
+     * @param bool $isDeprecated
      */
     public function __construct(
         string $id,
@@ -65,7 +65,7 @@ class Task implements TaskInterface
         array $placeholders = [],
         ?string $help = null,
         ?string $successor = null,
-        bool $deprecated = false
+        bool $isDeprecated = false
     ) {
         $this->help = $help;
         $this->placeholders = $placeholders;
@@ -74,7 +74,7 @@ class Task implements TaskInterface
         $this->id = $id;
         $this->version = $version;
         $this->successor = $successor;
-        $this->deprecated = $deprecated;
+        $this->isDeprecated = $isDeprecated;
         $this->lifecycle = $lifecycle;
     }
 
@@ -139,7 +139,7 @@ class Task implements TaskInterface
      */
     public function isDeprecated(): bool
     {
-        return $this->deprecated;
+        return $this->isDeprecated;
     }
 
     /**

@@ -56,10 +56,10 @@ final class Version20211129094229 extends AbstractMigration
         $this->addSql('DROP TABLE __temp__sdk_placeholder');
         $this->addSql('CREATE INDEX IDX_6C373D6E8DB60186 ON sdk_placeholder (task_id)');
         $this->addSql('CREATE INDEX IDX_6C373D6E5CA6D57F ON sdk_placeholder (removed_event_id)');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_task AS SELECT id, short_description, help, version, successor, deprecated FROM sdk_task');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_task AS SELECT id, short_description, help, version, successor, is_deprecated FROM sdk_task');
         $this->addSql('DROP TABLE sdk_task');
-        $this->addSql('CREATE TABLE sdk_task (id VARCHAR(255) NOT NULL COLLATE BINARY, lifecycle_id INTEGER DEFAULT NULL, short_description VARCHAR(255) NOT NULL COLLATE BINARY, help VARCHAR(255) DEFAULT NULL COLLATE BINARY, version VARCHAR(255) NOT NULL COLLATE BINARY, successor VARCHAR(255) DEFAULT NULL COLLATE BINARY, deprecated BOOLEAN NOT NULL, PRIMARY KEY(id), CONSTRAINT FK_934E8256D7D7318C FOREIGN KEY (lifecycle_id) REFERENCES sdk_lifecycle (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)');
-        $this->addSql('INSERT INTO sdk_task (id, short_description, help, version, successor, deprecated) SELECT id, short_description, help, version, successor, deprecated FROM __temp__sdk_task');
+        $this->addSql('CREATE TABLE sdk_task (id VARCHAR(255) NOT NULL COLLATE BINARY, lifecycle_id INTEGER DEFAULT NULL, short_description VARCHAR(255) NOT NULL COLLATE BINARY, help VARCHAR(255) DEFAULT NULL COLLATE BINARY, version VARCHAR(255) NOT NULL COLLATE BINARY, successor VARCHAR(255) DEFAULT NULL COLLATE BINARY, is_deprecated BOOLEAN NOT NULL, PRIMARY KEY(id), CONSTRAINT FK_934E8256D7D7318C FOREIGN KEY (lifecycle_id) REFERENCES sdk_lifecycle (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('INSERT INTO sdk_task (id, short_description, help, version, successor, is_deprecated) SELECT id, short_description, help, version, successor, is_deprecated FROM __temp__sdk_task');
         $this->addSql('DROP TABLE __temp__sdk_task');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_934E8256D7D7318C ON sdk_task (lifecycle_id)');
     }
@@ -93,10 +93,10 @@ final class Version20211129094229 extends AbstractMigration
         $this->addSql('DROP TABLE __temp__sdk_placeholder');
         $this->addSql('CREATE INDEX IDX_6C373D6E8DB60186 ON sdk_placeholder (task_id)');
         $this->addSql('DROP INDEX UNIQ_934E8256D7D7318C');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_task AS SELECT id, short_description, help, version, successor, deprecated FROM sdk_task');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_task AS SELECT id, short_description, help, version, successor, is_deprecated FROM sdk_task');
         $this->addSql('DROP TABLE sdk_task');
-        $this->addSql('CREATE TABLE sdk_task (id VARCHAR(255) NOT NULL, short_description VARCHAR(255) NOT NULL, help VARCHAR(255) DEFAULT NULL, version VARCHAR(255) NOT NULL, successor VARCHAR(255) DEFAULT NULL, deprecated BOOLEAN NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('INSERT INTO sdk_task (id, short_description, help, version, successor, deprecated) SELECT id, short_description, help, version, successor, deprecated FROM __temp__sdk_task');
+        $this->addSql('CREATE TABLE sdk_task (id VARCHAR(255) NOT NULL, short_description VARCHAR(255) NOT NULL, help VARCHAR(255) DEFAULT NULL, version VARCHAR(255) NOT NULL, successor VARCHAR(255) DEFAULT NULL, is_deprecated BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('INSERT INTO sdk_task (id, short_description, help, version, successor, is_deprecated) SELECT id, short_description, help, version, successor, is_deprecated FROM __temp__sdk_task');
         $this->addSql('DROP TABLE __temp__sdk_task');
     }
 }
