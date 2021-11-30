@@ -24,35 +24,35 @@ class TaskCreatedAction implements SdkUpdateActionInterface
 
     /**
      * @param array<string> $taskIds
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return void
      */
-    public function apply(array $taskIds, array $folderTasks, array $databaseTasks): void
+    public function apply(array $taskIds, array $tasksFromDirectories, array $tasksFromDatabase): void
     {
         $tasks = [];
 
         foreach ($taskIds as $taskId) {
-            $tasks[] = $folderTasks[$taskId];
+            $tasks[] = $tasksFromDirectories[$taskId];
         }
 
         $this->taskManager->initialize($tasks);
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return array<string>
      */
-    public function filter(array $folderTasks, array $databaseTasks): array
+    public function filter(array $tasksFromDirectories, array $tasksFromDatabase): array
     {
         $taskIds = [];
 
-        foreach ($folderTasks as $folderTask) {
-            if (!isset($databaseTasks[$folderTask->getId()])) {
-                $taskIds[] = $folderTask->getId();
+        foreach ($tasksFromDirectories as $tasksFromDirectory) {
+            if (!isset($tasksFromDatabase[$tasksFromDirectory->getId()])) {
+                $taskIds[] = $tasksFromDirectory->getId();
             }
         }
 

@@ -24,33 +24,33 @@ class TaskRemovedAction implements SdkUpdateActionInterface
 
     /**
      * @param array<string> $taskIds
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return void
      */
-    public function apply(array $taskIds, array $folderTasks, array $databaseTasks): void
+    public function apply(array $taskIds, array $tasksFromDirectories, array $tasksFromDatabase): void
     {
         foreach ($taskIds as $taskId) {
-            $databaseTask = $databaseTasks[$taskId];
+            $databaseTask = $tasksFromDatabase[$taskId];
 
             $this->taskManager->remove($databaseTask);
         }
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return array<string>
      */
-    public function filter(array $folderTasks, array $databaseTasks): array
+    public function filter(array $tasksFromDirectories, array $tasksFromDatabase): array
     {
         $taskIds = [];
 
-        foreach ($databaseTasks as $databaseTask) {
-            if (!isset($folderTasks[$databaseTask->getId()])) {
-                $taskIds[] = $databaseTask->getId();
+        foreach ($tasksFromDatabase as $taskFromDatabase) {
+            if (!isset($tasksFromDirectories[$taskFromDatabase->getId()])) {
+                $taskIds[] = $taskFromDatabase->getId();
             }
         }
 

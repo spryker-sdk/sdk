@@ -25,36 +25,36 @@ class TaskUpdatedAction implements SdkUpdateActionInterface
 
     /**
      * @param array<string> $taskIds
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return void
      */
-    public function apply(array $taskIds, array $folderTasks, array $databaseTasks): void
+    public function apply(array $taskIds, array $tasksFromDirectories, array $tasksFromDatabase): void
     {
         foreach ($taskIds as $taskId) {
-            $folderTask = $folderTasks[$taskId];
-            $databaseTask = $databaseTasks[$taskId];
+            $folderTask = $tasksFromDirectories[$taskId];
+            $databaseTask = $tasksFromDatabase[$taskId];
 
             $this->taskManager->update($folderTask, $databaseTask);
         }
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return array<string>
      */
-    public function filter(array $folderTasks, array $databaseTasks): array
+    public function filter(array $tasksFromDirectories, array $tasksFromDatabase): array
     {
         $taskIds = [];
 
-        foreach ($folderTasks as $folderTask) {
-            $databaseTask = $databaseTasks[$folderTask->getId()] ?? null;
+        foreach ($tasksFromDirectories as $tasksFromDirectory) {
+            $taskFromDatabase = $tasksFromDatabase[$tasksFromDirectory->getId()] ?? null;
 
-            if ($databaseTask !== null && Comparator::greaterThan($folderTask->getVersion(), $databaseTask->getVersion())) {
-                $taskIds[] = $folderTask->getId();
+            if ($taskFromDatabase !== null && Comparator::greaterThan($tasksFromDirectory->getVersion(), $taskFromDatabase->getVersion())) {
+                $taskIds[] = $tasksFromDirectory->getId();
             }
         }
 

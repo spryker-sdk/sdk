@@ -31,43 +31,43 @@ class TaskDeprecatedAction implements SdkUpdateActionInterface
 
     /**
      * @param array<string> $taskIds
-     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return void
      */
-    public function apply(array $taskIds, array $folderTasks, array $databaseTasks): void
+    public function apply(array $taskIds, array $tasksFromDirectories, array $tasksFromDatabase): void
     {
         foreach ($taskIds as $taskId) {
-            $folderTask = $folderTasks[$taskId];
+            $tasksFromDirectory = $tasksFromDirectories[$taskId];
 
-            if ($folderTask->getSuccessor()) {
-                $successor = $this->taskRepository->find($folderTask->getSuccessor());
+            if ($tasksFromDirectory->getSuccessor()) {
+                $successor = $this->taskRepository->find($tasksFromDirectory->getSuccessor());
 
                 if (!$successor) {
-                    $this->taskManager->initialize([$folderTasks[$folderTask->getSuccessor()]]);
+                    $this->taskManager->initialize([$tasksFromDirectories[$tasksFromDirectory->getSuccessor()]]);
                 }
             }
 
-            $this->taskManager->remove($databaseTasks[$taskId]);
+            $this->taskManager->remove($tasksFromDatabase[$taskId]);
         }
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $folderTasks
-     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $databaseTasks
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return array<string>
      */
-    public function filter(array $folderTasks, array $databaseTasks): array
+    public function filter(array $tasksFromDirectories, array $tasksFromDatabase): array
     {
         $taskIds = [];
 
-        foreach ($databaseTasks as $databaseTask) {
-            $folderTask = $folderTasks[$databaseTask->getId()] ?? null;
+        foreach ($tasksFromDatabase as $taskFromDatabase) {
+            $tasksFromDirectory = $tasksFromDirectories[$taskFromDatabase->getId()] ?? null;
 
-            if ($folderTask !== null && $folderTask->isDeprecated()) {
-                $taskIds[] = $folderTask->getId();
+            if ($tasksFromDirectory !== null && $tasksFromDirectory->isDeprecated()) {
+                $taskIds[] = $tasksFromDirectory->getId();
             }
         }
 
