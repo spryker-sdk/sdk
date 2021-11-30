@@ -70,7 +70,7 @@ class TaskMapper implements TaskMapperInterface
     {
         $taskToUpdate
             ->setSuccessor($task->getSuccessor())
-            ->setDeprecated($task->isDeprecated())
+            ->setIsDeprecated($task->isDeprecated())
             ->setVersion($task->getVersion())
             ->setHelp($task->getHelp())
             ->setShortDescription($task->getShortDescription());
