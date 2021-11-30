@@ -50,7 +50,7 @@ class LifecycleEventMapper implements LifecycleEventMapperInterface
 
     /**
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $task
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $event
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
@@ -67,7 +67,7 @@ class LifecycleEventMapper implements LifecycleEventMapperInterface
 
     /**
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $task
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $event
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
@@ -84,7 +84,7 @@ class LifecycleEventMapper implements LifecycleEventMapperInterface
 
     /**
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $task
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $event
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */

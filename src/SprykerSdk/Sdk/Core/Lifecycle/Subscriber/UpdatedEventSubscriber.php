@@ -14,11 +14,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
     /**
+     * @param \SprykerSdk\Sdk\Core\Lifecycle\Event\UpdatedEvent $event
+     *
      * @return void
      */
     public function onUpdatedEvent(UpdatedEvent $event): void
     {
-        $updated = $event->getTask()->getLifecycle()->getUpdatedEvent();
+        /** @var \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface $lifecycle */
+        $lifecycle = $event->getTask()->getLifecycle();
+        $updated = $lifecycle->getUpdatedEvent();
 
         $resolvedPlaceholders = $this->resolvePlaceholders($updated->getPlaceholders());
 

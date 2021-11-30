@@ -15,10 +15,19 @@ class RemovedEvent implements LifecycleEventInterface
 {
     protected int $id;
 
+    /**
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     */
     protected Collection $placeholders;
 
+    /**
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     */
     protected Collection $commands;
 
+    /**
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\FileInterface>
+     */
     protected Collection $files;
 
     public function __construct()
@@ -28,23 +37,32 @@ class RemovedEvent implements LifecycleEventInterface
         $this->files = new ArrayCollection();
     }
 
+    /**
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     */
     public function getCommands(): array
     {
         return $this->commands->toArray();
     }
 
+    /**
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     */
     public function getPlaceholders(): array
     {
         return $this->placeholders->toArray();
     }
 
+    /**
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
+     */
     public function getFiles(): array
     {
         return $this->files->toArray();
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $placeholders
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return $this
      */
@@ -56,7 +74,7 @@ class RemovedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $commands
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
      *
      * @return $this
      */
@@ -68,7 +86,7 @@ class RemovedEvent implements LifecycleEventInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $files
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
      *
      * @return $this
      */

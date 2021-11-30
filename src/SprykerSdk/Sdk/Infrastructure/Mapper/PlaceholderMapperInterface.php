@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Placeholder;
 interface PlaceholderMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $command
+     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $placeholder
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder>
      */

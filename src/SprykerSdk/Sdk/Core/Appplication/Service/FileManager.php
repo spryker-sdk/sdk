@@ -25,7 +25,7 @@ class FileManager implements FileManagerInterface
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
      *
-     * @return void
+     * @return bool
      */
     public function remove(FileInterface $file): bool
     {

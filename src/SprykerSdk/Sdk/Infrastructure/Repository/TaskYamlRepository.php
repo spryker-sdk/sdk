@@ -116,7 +116,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        if (isset($data['type']) === 'task_set') {
+        if (isset($data['type']) && $data['type'] === 'task_set') {
             foreach ($data['tasks'] as $task) {
                 if ($tags && !array_intersect($tags, $task['tags'])) {
                     continue;
@@ -227,9 +227,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|null
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
      */
-    protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): ?LifecycleInterface
+    protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): LifecycleInterface
     {
         return new Lifecycle(
             $this->buildInitializedEvent($taskData, $taskListData, $tags),

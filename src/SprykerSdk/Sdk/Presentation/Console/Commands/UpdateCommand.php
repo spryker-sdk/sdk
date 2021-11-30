@@ -56,7 +56,7 @@ class UpdateCommand extends Command
 
         $process = $this->processHelper->run($output, [$process]);
 
-        $exitCode = $process->getExitCode();
+        $exitCode = (int)$process->getExitCode();
 
         if ($exitCode !== 0) {
             $output->writeln($process->getErrorOutput());

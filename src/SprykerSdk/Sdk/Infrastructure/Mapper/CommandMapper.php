@@ -14,7 +14,6 @@ class CommandMapper implements CommandMapperInterface
 {
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Command>
      */

@@ -24,7 +24,7 @@ abstract class LifecycleEventSubscriber
     protected iterable $commandRunners;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface $fileCreator
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface $fileManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
      */
@@ -92,9 +92,11 @@ abstract class LifecycleEventSubscriber
             $path = preg_replace($placeholdersKeys, $placeholdersValues, $file->getPath());
             $content = preg_replace($placeholdersKeys, $placeholdersValues, $file->getContent());
 
-            $resolvedFile = new File($path, $content);
+            if (is_string($path) && is_string($content)) {
+                $resolvedFile = new File($path, $content);
 
-            $this->doManageFile($resolvedFile);
+                $this->doManageFile($resolvedFile);
+            }
         }
     }
 

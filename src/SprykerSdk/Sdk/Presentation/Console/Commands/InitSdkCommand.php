@@ -43,7 +43,7 @@ class InitSdkCommand extends Command
 
     protected TaskManagerInterface $taskManager;
 
-    protected TaskRepositoryInterface $taskRepository;
+    protected TaskRepositoryInterface $taskYamlRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
@@ -52,6 +52,8 @@ class InitSdkCommand extends Command
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskYamlRepository
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
@@ -61,7 +63,7 @@ class InitSdkCommand extends Command
         Yaml $yamlParser,
         string $settingsPath,
         TaskManagerInterface $taskManager,
-        TaskRepositoryInterface $taskRepository
+        TaskRepositoryInterface $taskYamlRepository
     ) {
         $this->settingsPath = $settingsPath;
         $this->yamlParser = $yamlParser;
@@ -69,7 +71,7 @@ class InitSdkCommand extends Command
         $this->createDatabaseDoctrineCommand = $createDatabaseDoctrineCommand;
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
-        $this->taskRepository = $taskRepository;
+        $this->taskYamlRepository = $taskYamlRepository;
         $this->taskManager = $taskManager;
         parent::__construct(static::NAME);
     }
@@ -84,7 +86,7 @@ class InitSdkCommand extends Command
     {
         $this->createDatabase();
         $this->initializeSettingValues($this->readSettingDefinitions());
-        $this->taskManager->initialize($this->taskRepository->findAll());
+        $this->taskManager->initialize($this->taskYamlRepository->findAll());
 
         return static::SUCCESS;
     }

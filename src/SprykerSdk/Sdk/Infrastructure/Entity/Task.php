@@ -13,8 +13,14 @@ use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
 class Task implements TaskInterface
 {
+    /**
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     */
     protected Collection $placeholders;
 
+    /**
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     */
     protected Collection $commands;
 
     protected Lifecycle $lifecycle;
@@ -22,8 +28,8 @@ class Task implements TaskInterface
     /**
      * @param string $id
      * @param string $shortDescription
-     * @param string $help
-     * @param string|null $version
+     * @param string $version
+     * @param string|null $help
      * @param string|null $successor
      * @param bool $deprecated
      */
@@ -48,7 +54,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Infrastructure\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -56,7 +62,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $placeholders
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return $this
      */
@@ -160,7 +166,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $commands
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
      *
      * @return $this
      */
@@ -220,7 +226,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder $command
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder $placeholder
      *
      * @return $this
      */
@@ -274,11 +280,11 @@ class Task implements TaskInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle|null $lifecycle
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle $lifecycle
      *
      * @return $this
      */
-    public function setLifecycle(?Lifecycle $lifecycle)
+    public function setLifecycle(Lifecycle $lifecycle)
     {
         $this->lifecycle = $lifecycle;
 

@@ -10,6 +10,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use SprykerSdk\Sdk\Contracts\Repository\FileRepositoryInterface;
 
+/**
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\File>
+ */
 class FileRepository extends ServiceEntityRepository implements FileRepositoryInterface
 {
 }
