@@ -7,11 +7,13 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
+use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 
 class TaskExecutor
 {
@@ -73,6 +75,10 @@ class TaskExecutor
                     $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$result));
 
                     if ($result !== 0 && $command->hasStopOnError()) {
+                        if ($command instanceof ErrorCommandInterface) {
+                            throw new CommandRunnerException($command->getErrorMessage($result));
+                        }
+
                         return $result;
                     }
                 }

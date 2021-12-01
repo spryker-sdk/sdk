@@ -55,6 +55,12 @@ services:
       - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
     arguments:
       - '@local_cli_command_runner'
+  php_command_runner_runner_setup_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\PhpCommandRunnerSetupListener
+    tags:
+      - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+    arguments:
+      - '@php__command_runner'
   value_receiver:
     alias: 'cli_value_receiver'
   value_resolver_registry:

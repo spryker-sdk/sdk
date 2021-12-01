@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdk\Sdk\Extension\Tasks;
+
+use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class HelloPhpCommand implements ExecutableCommandInterface
+{
+    /**
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'php';
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasStopOnError(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array $resolvedValues
+     *
+     * @return int
+     */
+    public function execute(OutputInterface $output, array $resolvedValues): int
+    {
+        echo 'Hello PHP';
+
+        return 0;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getTags(): array
+    {
+        return [];
+    }
+}

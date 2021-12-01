@@ -1,5 +1,5 @@
 parameters:
-  project_settings_file: '%kernel.project_dir%/.ssdk'
+  project_settings_file: '.ssdk'
 services:
   path_resolver:
     class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
