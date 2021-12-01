@@ -21,6 +21,8 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
 
     protected array $settingPaths;
 
+    protected array $choiceValues;
+
     /**
      * @var string|null
      */
@@ -84,6 +86,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
         $this->help = $values['help'] ?? null;
         $this->type = $values['type'] ?? 'string';
         $this->settingPaths = $values['settingPaths'] ?? [];
+        $this->choiceValues = $values['choiceValues'] ?? [];
     }
 
     /**
@@ -107,7 +110,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
             throw new MissingValueException();
         }
 
-        return $settingValues[$this->getAlias()]->getValues();
+        return $settingValues[$this->getAlias()];
     }
 
     /**
@@ -116,5 +119,16 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     public function getDefaultValue(): mixed
     {
         return $this->value;
+    }
+
+    /**
+     * @param array $settingValues
+     * @param array $resolvedValues
+     *
+     * @return array
+     */
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
+    {
+        return $this->choiceValues;
     }
 }

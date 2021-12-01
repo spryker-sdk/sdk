@@ -8,10 +8,12 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
@@ -72,33 +74,46 @@ class CliValueReceiver implements ValueReceiverInterface
     }
 
     /**
-     * @param string $description
-     * @param mixed $defaultValue
-     * @param string $type
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue $receiverValue
      *
      * @return mixed
      */
-    public function receiveValue(string $description, mixed $defaultValue, string $type): mixed
+    public function receiveValue(ReceiverValue $receiverValue): mixed
     {
+        $choiceValues = $receiverValue->getChoiceValues();
+        $defaultValue = $receiverValue->getDefaultValue();
+        $type = $receiverValue->getType();
+        $description = $receiverValue->getDescription();
+
+        if (count($choiceValues) === 1 && in_array($defaultValue, $choiceValues)) {
+            return $defaultValue;
+        }
+
         switch ($type) {
             case 'bool':
                 $question = new ConfirmationQuestion($description, (bool)$defaultValue);
 
                 break;
             default:
+                if ($choiceValues) {
+                    $question = new ChoiceQuestion(
+                        $description,
+                        $choiceValues,
+                        $defaultValue,
+                    );
+
+                    break;
+                }
+
                 $question = new Question($description, $defaultValue);
                 $question->setNormalizer(function ($value) {
                     return $value ?: '';
                 });
-
-                if ($type === 'array') {
-                    $question->setMultiline(true);
-                }
         }
-        if (!$defaultValue) {
+        if ($defaultValue === null) {
             $question->setValidator(function ($value) {
-                if (!$value && $value !== false) {
-                    throw new MissingValueException('Value is invalid');
+                if ($value === '') {
+                    throw new MissingValueException('Value is required');
                 }
 
                 return $value;

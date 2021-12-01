@@ -19,6 +19,7 @@
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": " 4.3.81",
         "phpstan/phpstan": "^1.2",
+        "spryker-sdk/spryk": "dev-feature/sdk-135-spryk-task as 0.3.2",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.1",
         "symfony/console": "5.3.*",
@@ -58,6 +59,7 @@
             "SprykerSdk\\Tests\\": "tests/SprykerSdk/Tests/"
         }
     },
+    "minimum-stability": "dev",
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
