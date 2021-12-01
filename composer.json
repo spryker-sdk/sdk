@@ -59,7 +59,6 @@
             "SprykerSdk\\Tests\\": "tests/SprykerSdk/Tests/"
         }
     },
-    "minimum-stability": "dev",
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
