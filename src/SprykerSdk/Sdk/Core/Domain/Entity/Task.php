@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
 class Task implements TaskInterface
@@ -43,13 +44,13 @@ class Task implements TaskInterface
 
     protected bool $isDeprecated;
 
-    protected LifecycleInterface $lifecycle;
+    protected LifecycleInterface|PersistentLifecycleInterface $lifecycle;
 
     /**
      * @param string $id
      * @param string $shortDescription
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface $lifecycle
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|\SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      * @param string $version
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param string|null $help
@@ -60,7 +61,7 @@ class Task implements TaskInterface
         string $id,
         string $shortDescription,
         array $commands,
-        LifecycleInterface $lifecycle,
+        LifecycleInterface|PersistentLifecycleInterface $lifecycle,
         string $version,
         array $placeholders = [],
         ?string $help = null,
@@ -143,9 +144,9 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface|\SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface
      */
-    public function getLifecycle(): LifecycleInterface
+    public function getLifecycle(): LifecycleInterface|PersistentLifecycleInterface
     {
         return $this->lifecycle;
     }

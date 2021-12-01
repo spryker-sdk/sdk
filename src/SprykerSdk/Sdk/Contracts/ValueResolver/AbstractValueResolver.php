@@ -71,7 +71,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                 ),
             );
         }
-        echo $this->getId();
+
         if ($this->getId() === 'module') {
             echo $defaultValue;
             exit;

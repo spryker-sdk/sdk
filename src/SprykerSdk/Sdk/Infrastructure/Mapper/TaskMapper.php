@@ -41,9 +41,12 @@ class TaskMapper implements TaskMapperInterface
      */
     public function mapToInfrastructureEntity(TaskInterface $task): Task
     {
+        $lifecycle = $this->lifecycleMapper->mapLifecycle($task->getLifecycle());
+
         $entity = new Task(
             $task->getId(),
             $task->getShortDescription(),
+            $lifecycle,
             $task->getVersion(),
             $task->getHelp(),
             $task->getSuccessor(),
@@ -52,10 +55,6 @@ class TaskMapper implements TaskMapperInterface
 
         $entity = $this->mapPlaceholders($task->getPlaceholders(), $entity);
         $entity = $this->mapCommands($task->getCommands(), $entity);
-
-        $entity->setLifecycle(
-            $this->lifecycleMapper->mapLifecycle($task->getLifecycle()),
-        );
 
         return $entity;
     }

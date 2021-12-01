@@ -30,11 +30,11 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
       nullable: false
       default: false
   oneToMany:
-    commands:
+    commandCollection:
       targetEntity: Command
       mappedBy: task
       cascade: ["persist", "remove"]
-    placeholders:
+    placeholderCollection:
       targetEntity: Placeholder
       mappedBy: task
       cascade: ["persist", "remove"]

@@ -9,37 +9,27 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Task as CoreTask;
 
-class Task implements TaskInterface
+class Task extends CoreTask
 {
     /**
      * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
-    protected Collection $placeholders;
+    protected Collection $placeholderCollection;
 
     /**
      * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
-    protected Collection $commands;
+    protected Collection $commandCollection;
 
-    protected Lifecycle $lifecycle;
-
-    protected string $id;
-
-    protected string $shortDescription;
-
-    protected string $version;
-
-    protected ?string $help = null;
-
-    protected ?string $successor = null;
-
-    protected bool $isDeprecated = false;
+    protected PersistentLifecycleInterface $lifecycle;
 
     /**
      * @param string $id
      * @param string $shortDescription
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      * @param string $version
      * @param string|null $help
      * @param string|null $successor
@@ -48,27 +38,36 @@ class Task implements TaskInterface
     public function __construct(
         string $id,
         string $shortDescription,
+        PersistentLifecycleInterface $lifecycle,
         string $version,
         ?string $help = null,
         ?string $successor = null,
         bool $isDeprecated = false
     ) {
-        $this->commands = new ArrayCollection();
-        $this->placeholders = new ArrayCollection();
-        $this->id = $id;
-        $this->shortDescription = $shortDescription;
-        $this->version = $version;
-        $this->help = $help;
-        $this->successor = $successor;
-        $this->isDeprecated = $isDeprecated;
+        $this->commandCollection = new ArrayCollection();
+        $this->placeholderCollection = new ArrayCollection();
+
+        parent::__construct($id, $shortDescription, [], $lifecycle, $version, [], $help, $successor, $isDeprecated);
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface
      */
-    public function getLifecycle(): Lifecycle
+    public function getLifecycle(): PersistentLifecycleInterface
     {
         return $this->lifecycle;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle $lifecycle
+     *
+     * @return $this
+     */
+    public function setLifecycle(Lifecycle $lifecycle)
+    {
+        $this->lifecycle = $lifecycle;
+
+        return $this;
     }
 
     /**
@@ -76,7 +75,7 @@ class Task implements TaskInterface
      */
     public function getPlaceholders(): array
     {
-        return $this->placeholders->toArray();
+        return $this->placeholderCollection->toArray();
     }
 
     /**
@@ -86,17 +85,9 @@ class Task implements TaskInterface
      */
     public function setPlaceholders(Collection $placeholders)
     {
-        $this->placeholders = $placeholders;
+        $this->placeholderCollection = $placeholders;
 
         return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getHelp(): ?string
-    {
-        return $this->help;
     }
 
     /**
@@ -112,14 +103,6 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    /**
      * @param string $id
      *
      * @return $this
@@ -129,14 +112,6 @@ class Task implements TaskInterface
         $this->id = $id;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getShortDescription(): string
-    {
-        return $this->shortDescription;
     }
 
     /**
@@ -152,35 +127,11 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return string
-     */
-    public function getVersion(): string
-    {
-        return $this->version;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSuccessor(): ?string
-    {
-        return $this->successor;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDeprecated(): bool
-    {
-        return $this->isDeprecated;
-    }
-
-    /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
-        return $this->commands->toArray();
+        return $this->commandCollection->toArray();
     }
 
     /**
@@ -190,7 +141,7 @@ class Task implements TaskInterface
      */
     public function setCommands(Collection $commands)
     {
-        $this->commands = $commands;
+        $this->commandCollection = $commands;
 
         return $this;
     }
@@ -202,8 +153,8 @@ class Task implements TaskInterface
      */
     public function addCommand(Command $command)
     {
-        if (!$this->commands->contains($command)) {
-            $this->commands[] = $command;
+        if (!$this->commandCollection->contains($command)) {
+            $this->commandCollection[] = $command;
             $command->setTask($this);
         }
 
@@ -217,8 +168,8 @@ class Task implements TaskInterface
      */
     public function removeCommand(Command $command)
     {
-        if ($this->commands->contains($command)) {
-            $this->commands->removeElement($command);
+        if ($this->commandCollection->contains($command)) {
+            $this->commandCollection->removeElement($command);
 
             if ($command->getTask() === $this) {
                 $command->setTask($this);
@@ -235,8 +186,8 @@ class Task implements TaskInterface
      */
     public function addPlaceholder(Placeholder $placeholder)
     {
-        if (!$this->placeholders->contains($placeholder)) {
-            $this->placeholders[] = $placeholder;
+        if (!$this->placeholderCollection->contains($placeholder)) {
+            $this->placeholderCollection[] = $placeholder;
             $placeholder->setTask($this);
         }
 
@@ -250,8 +201,8 @@ class Task implements TaskInterface
      */
     public function removePlaceholder(Placeholder $placeholder)
     {
-        if ($this->placeholders->contains($placeholder)) {
-            $this->placeholders->removeElement($placeholder);
+        if ($this->placeholderCollection->contains($placeholder)) {
+            $this->placeholderCollection->removeElement($placeholder);
 
             if ($placeholder->getTask() === $this) {
                 $placeholder->setTask($this);
@@ -293,18 +244,6 @@ class Task implements TaskInterface
     public function setIsDeprecated(bool $isDeprecated)
     {
         $this->isDeprecated = $isDeprecated;
-
-        return $this;
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle $lifecycle
-     *
-     * @return $this
-     */
-    public function setLifecycle(Lifecycle $lifecycle)
-    {
-        $this->lifecycle = $lifecycle;
 
         return $this;
     }
