@@ -106,7 +106,6 @@ class RemovedEvent implements LifecycleEventInterface
     {
         if (!$this->commands->contains($command)) {
             $this->commands[] = $command;
-            $command->setRemovedEvent($this);
         }
 
         return $this;
@@ -121,10 +120,6 @@ class RemovedEvent implements LifecycleEventInterface
     {
         if ($this->commands->contains($command)) {
             $this->commands->removeElement($command);
-
-            if ($command->getRemovedEvent() === $this) {
-                $command->setRemovedEvent($this);
-            }
         }
 
         return $this;
@@ -139,7 +134,6 @@ class RemovedEvent implements LifecycleEventInterface
     {
         if (!$this->placeholders->contains($placeholder)) {
             $this->placeholders[] = $placeholder;
-            $placeholder->setRemovedEvent($this);
         }
 
         return $this;
@@ -154,10 +148,6 @@ class RemovedEvent implements LifecycleEventInterface
     {
         if ($this->placeholders->contains($placeholder)) {
             $this->placeholders->removeElement($placeholder);
-
-            if ($placeholder->getRemovedEvent() === $this) {
-                $placeholder->setRemovedEvent($this);
-            }
         }
 
         return $this;
@@ -172,7 +162,6 @@ class RemovedEvent implements LifecycleEventInterface
     {
         if (!$this->files->contains($file)) {
             $this->files[] = $file;
-            $file->setRemovedEvent($this);
         }
 
         return $this;
@@ -187,10 +176,6 @@ class RemovedEvent implements LifecycleEventInterface
     {
         if ($this->files->contains($file)) {
             $this->files->removeElement($file);
-
-            if ($file->getRemovedEvent() === $this) {
-                $file->setRemovedEvent($this);
-            }
         }
 
         return $this;

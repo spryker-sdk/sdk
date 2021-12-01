@@ -155,7 +155,6 @@ class Task extends CoreTask
     {
         if (!$this->commandCollection->contains($command)) {
             $this->commandCollection[] = $command;
-            $command->setTask($this);
         }
 
         return $this;
@@ -170,10 +169,6 @@ class Task extends CoreTask
     {
         if ($this->commandCollection->contains($command)) {
             $this->commandCollection->removeElement($command);
-
-            if ($command->getTask() === $this) {
-                $command->setTask($this);
-            }
         }
 
         return $this;
@@ -188,7 +183,6 @@ class Task extends CoreTask
     {
         if (!$this->placeholderCollection->contains($placeholder)) {
             $this->placeholderCollection[] = $placeholder;
-            $placeholder->setTask($this);
         }
 
         return $this;
@@ -203,10 +197,6 @@ class Task extends CoreTask
     {
         if ($this->placeholderCollection->contains($placeholder)) {
             $this->placeholderCollection->removeElement($placeholder);
-
-            if ($placeholder->getTask() === $this) {
-                $placeholder->setTask($this);
-            }
         }
 
         return $this;

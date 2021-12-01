@@ -16,7 +16,3 @@ SprykerSdk\Sdk\Infrastructure\Entity\File:
       type: string
       nullable: false
       unique: false
-  manyToOne:
-    removedEvent:
-      targetEntity: RemovedEvent
-      cascade: ["persist", "remove"]

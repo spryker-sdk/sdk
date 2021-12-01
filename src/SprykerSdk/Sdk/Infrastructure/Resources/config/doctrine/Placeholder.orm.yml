@@ -27,10 +27,3 @@ SprykerSdk\Sdk\Infrastructure\Entity\Placeholder:
       default: false
       unique: false
       nullable: false
-  manyToOne:
-    task:
-      targetEntity: Task
-      cascade: ["persist", "remove"]
-    removedEvent:
-      targetEntity: RemovedEvent
-      cascade: ["persist", "remove"]

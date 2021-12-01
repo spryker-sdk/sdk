@@ -13,8 +13,6 @@ class Command extends CoreCommand
 {
     protected int $id;
 
-    protected ?Task $task = null;
-
     protected RemovedEvent $removedEvent;
 
     /**
@@ -43,25 +41,5 @@ class Command extends CoreCommand
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task
-     *
-     * @return $this;
-     */
-    public function setTask(?Task $task): static
-    {
-        $this->task = $task;
-
-        return $this;
-    }
-
-    /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task|null
-     */
-    public function getTask(): ?Task
-    {
-        return $this->task;
     }
 }
