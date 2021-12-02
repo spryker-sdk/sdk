@@ -8,14 +8,16 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
-use SprykerSdk\Sdk\Contracts\ValueResolver\ConfigurableValueResolverInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 
 class PbcTypeValueResolver extends AbstractValueResolver
 {
+    /**
+     * @var array
+     */
     protected const REPOSITORIES = [
         'boilerplate' => 'https://github.com/spryker/project-boilerplate',
     ];
+
     /**
      * @return string
      */
@@ -28,8 +30,6 @@ class PbcTypeValueResolver extends AbstractValueResolver
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      * @param bool|false $optional
      * @param array<string, mixed> $resolvedValues
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
      * @return mixed
      */
@@ -90,8 +90,6 @@ class PbcTypeValueResolver extends AbstractValueResolver
 
     /**
      * @param array<string, mixed> $settingValues
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException
      *
      * @return mixed
      */

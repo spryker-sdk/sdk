@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Extension\Tasks\Commands\HelloPhpCommand;
 
 class HelloPhpTask implements TaskInterface
 {

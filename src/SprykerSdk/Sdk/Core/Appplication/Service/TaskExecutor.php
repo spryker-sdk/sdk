@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
@@ -58,6 +57,8 @@ class TaskExecutor
     /**
      * @param string $taskId
      * @param array $tags
+     *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
      * @return int
      */

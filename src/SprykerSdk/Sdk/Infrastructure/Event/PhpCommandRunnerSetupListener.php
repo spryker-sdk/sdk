@@ -7,10 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
 use SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Helper\HelperSet;
 
 class PhpCommandRunnerSetupListener
 {

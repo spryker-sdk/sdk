@@ -49,7 +49,7 @@ class CommandResponse
      *
      * @return $this
      */
-    public function setIsSuccessful(bool $isSuccessful): self
+    public function setIsSuccessful(bool $isSuccessful)
     {
         $this->isSuccessful = $isSuccessful;
 
@@ -66,6 +66,8 @@ class CommandResponse
 
     /**
      * @param int $code
+     *
+     * @return void
      */
     public function setCode(int $code): void
     {
@@ -85,7 +87,7 @@ class CommandResponse
      *
      * @return $this
      */
-    public function setErrorMessage(string $errorMessage): self
+    public function setErrorMessage(string $errorMessage)
     {
         $this->errorMessage = $errorMessage;
 

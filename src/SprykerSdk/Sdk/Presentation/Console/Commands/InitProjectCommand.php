@@ -60,7 +60,7 @@ class InitProjectCommand extends Command
             'default',
             'd',
             InputOption::VALUE_NONE | InputOption::VALUE_REQUIRED,
-            'Use predefined settings without approve'
+            'Use predefined settings without approve',
         );
     }
 
@@ -94,7 +94,7 @@ class InitProjectCommand extends Command
 
     /**
      * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settingEntities
-     * @pa
+     * @param bool $needsToAsk
      *
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */

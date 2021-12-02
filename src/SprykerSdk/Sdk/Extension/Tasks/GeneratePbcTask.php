@@ -9,8 +9,6 @@ namespace SprykerSdk\Sdk\Extension\Tasks;
 
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand;
 use Symfony\Component\Console\Helper\ProcessHelper;
 
@@ -44,7 +42,7 @@ class GeneratePbcTask implements TaskInterface
                 '%sdk_dir%',
                 'SDK_DIR',
                 [],
-                true
+                true,
             ),
             new Placeholder(
                 '%boilerplate_url%',
@@ -56,8 +54,8 @@ class GeneratePbcTask implements TaskInterface
                 [
                     'name' => 'pbc_name',
                     'description' => 'Input name for new PBC',
-                    'type' => 'string'
-                ]
+                    'type' => 'string',
+                ],
             ),
             new Placeholder(
                 '%project_url%',
@@ -65,8 +63,8 @@ class GeneratePbcTask implements TaskInterface
                 [
                     'name' => 'project_url',
                     'description' => 'Input repository for new PBC',
-                    'type' => 'string'
-                ]
+                    'type' => 'string',
+                ],
             ),
         ];
     }

@@ -114,7 +114,7 @@ class CliValueReceiver implements ValueReceiverInterface
                 });
         }
         if ($defaultValue === null) {
-            $question->setValidator(function ($value){
+            $question->setValidator(function ($value) {
                 if ($value === '' || $value === null) {
                     throw new MissingValueException('Value is required');
                 }
