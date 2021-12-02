@@ -8,13 +8,15 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Psr\Container\ContainerInterface;
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
+use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaggedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaskSetInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
@@ -98,31 +100,11 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             throw new TaskMissingException('Could not find task ' . $name);
         }
 
-        $options = array_map(function (PlaceholderInterface $placeholder): InputOption {
-            $valueResolver = $this->getPlaceholderResolver()->getValueResolver($placeholder);
-
-            return new InputOption(
-                $valueResolver->getAlias() ?? $valueResolver->getId(),
-                null,
-                $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
-                $valueResolver->getDescription(),
-            );
-        }, $task->getPlaceholders());
-
-        $tags = array_map(function (CommandInterface $command): array {
-            return $command->getTags();
-        }, $task->getCommands());
-        $tags = array_unique(array_merge(...$tags));
-
-        if (count($tags) > 0) {
-            $options[] = new InputOption(
-                'tags',
-                't',
-                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-                'Only execute subtasks that matches at least one of the given tags',
-                $tags,
-            );
-        }
+        $options = [];
+        $options = $this->addPlaceholderOptions($task, $options);
+        $options = $this->addTagOptions($task, $options);
+        $options = $this->addStageOptions($task, $options);
+        $options = $this->addContextOptions($options);
 
         return new RunTaskWrapperCommand(
             $this->getTaskExecutor(),
@@ -170,5 +152,119 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected function getPlaceholderResolver(): PlaceholderResolver
     {
         return $this->placeholderResolver;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param array<\Symfony\Component\Console\Input\InputOption> $options
+     *
+     * @return array<\Symfony\Component\Console\Input\InputOption>
+     */
+    protected function addTagOptions(TaskInterface $task, array $options): array
+    {
+        $tags = [];
+
+        if ($task instanceof TaggedTaskInterface) {
+            $tags = array_merge($tags, $task->getTags());
+        }
+
+        if ($task instanceof TaskSetInterface) {
+            foreach ($task->getTasks() as $taskSetTask) {
+                if ($taskSetTask instanceof TaggedTaskInterface) {
+                    $tags = array_merge($tags, $taskSetTask->getTags());
+                }
+            }
+        }
+
+        if (count($tags) > 0) {
+            $options[] = new InputOption(
+                RunTaskWrapperCommand::OPTION_TAGS,
+                substr(RunTaskWrapperCommand::OPTION_TAGS, 0, 1),
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                'Only execute subtasks that matches at least one of the given tags',
+                array_unique($tags),
+            );
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param array<\Symfony\Component\Console\Input\InputOption> $options
+     *
+     * @return array<\Symfony\Component\Console\Input\InputOption>
+     */
+    protected function addStageOptions(TaskInterface $task, array $options): array
+    {
+        $stages = [];
+
+        if ($task instanceof StagedTaskInterface) {
+            $stages = $task->getStage();
+        }
+
+        if ($task instanceof TaskSetInterface) {
+            foreach ($task->getTasks() as $taskSetTask) {
+                if ($taskSetTask instanceof StagedTaskInterface) {
+                    $stages[] = $taskSetTask->getStage();
+                }
+            }
+        }
+
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_STAGES,
+            substr(RunTaskWrapperCommand::OPTION_STAGES, 0, 1),
+            InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+            'Only execute subtasks that matches at least one of the given stages',
+            !empty($stages) ? array_unique($stages) : [Context::DEFAULT_STAGE],
+        );
+
+        return $options;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param array<\Symfony\Component\Console\Input\InputOption> $options
+     *
+     * @return array<\Symfony\Component\Console\Input\InputOption>
+     */
+    protected function addPlaceholderOptions(TaskInterface $task, array $options): array
+    {
+        foreach ($task->getPlaceholders() as $placeholder) {
+            $valueResolver = $this->getPlaceholderResolver()->getValueResolver($placeholder);
+
+            $options[] = new InputOption(
+                $valueResolver->getAlias() ?? $valueResolver->getId(),
+                null,
+                $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
+                $valueResolver->getDescription(),
+            );
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param array<\Symfony\Component\Console\Input\InputOption> $options
+     *
+     * @return array<\Symfony\Component\Console\Input\InputOption>
+     */
+    protected function addContextOptions(array $options): array
+    {
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_CONTEXT,
+            substr(RunTaskWrapperCommand::OPTION_CONTEXT, 0, 1),
+            InputOption::VALUE_OPTIONAL,
+            'Context from a previous stage in json serialized format',
+        );
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_SERIALIZE_CONTEXT,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Only the json serialized context will be streamed on STDOUT (no other output)',
+            false,
+        );
+
+        return $options;
     }
 }

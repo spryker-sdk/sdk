@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 
 class PhpCommandRunner implements CommandRunnerInterface
 {
@@ -25,12 +26,12 @@ class PhpCommandRunner implements CommandRunnerInterface
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface $command
-     * @param array $resolvedValues
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
      *
-     * @return int
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
      */
-    public function execute(CommandInterface $command, array $resolvedValues): int
+    public function execute(CommandInterface $command, Context $context): Context
     {
-        return $command->execute($resolvedValues);
+        return $command->execute($context);
     }
 }

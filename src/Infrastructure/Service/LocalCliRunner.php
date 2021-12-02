@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -61,23 +63,23 @@ class LocalCliRunner implements CommandRunnerInterface
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
-     * @param array $resolvedValues
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
-     * @return int
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
      */
-    public function execute(CommandInterface $command, array $resolvedValues): int
+    public function execute(CommandInterface $command, Context $context): Context
     {
         $placeholders = array_map(function (mixed $placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';
-        }, array_keys($resolvedValues));
+        }, array_keys($context->getResolvedValues()));
 
         $values = array_map(function (mixed $value): string {
             return match (gettype($value)) {
                 default => (string)$value,
             };
-        }, array_values($resolvedValues));
+        }, array_values($context->getResolvedValues()));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
 
@@ -98,6 +100,16 @@ class LocalCliRunner implements CommandRunnerInterface
             [$process],
         );
 
-        return $process->run();
+        $context->setResult($process->getExitCode() ?? Context::SUCCESS_STATUS_CODE);
+
+        foreach (explode(PHP_EOL, $process->getOutput()) as $outputLine) {
+            $context->addMessage(new Message($outputLine));
+        }
+
+        foreach (explode(PHP_EOL, $process->getErrorOutput()) as $errorLine) {
+            $context->addMessage(new Message($errorLine, Message::ERROR));
+        }
+
+        return $context;
     }
 }

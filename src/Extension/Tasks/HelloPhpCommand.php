@@ -7,24 +7,14 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
-
-class HelloPhpCommand implements ExecutableCommandInterface
+class HelloPhpCommand extends GreeterCommand
 {
     /**
-     * @return string
+     * @param string $message
      */
-    public function getCommand(): string
+    public function __construct(string $message = 'Hello PHP')
     {
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'php';
+        parent::__construct($message);
     }
 
     /**
@@ -33,18 +23,6 @@ class HelloPhpCommand implements ExecutableCommandInterface
     public function hasStopOnError(): bool
     {
         return true;
-    }
-
-    /**
-     * @param array $resolvedValues
-     *
-     * @return int
-     */
-    public function execute(array $resolvedValues): int
-    {
-        echo 'Hello PHP';
-
-        return 0;
     }
 
     /**

@@ -7,12 +7,14 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+
 interface ExecutableCommandInterface extends CommandInterface
 {
     /**
-     * @param array<string, mixed> $resolvedValues
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
      *
-     * @return int
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
      */
-    public function execute(array $resolvedValues): int;
+    public function execute(Context $context): Context;
 }

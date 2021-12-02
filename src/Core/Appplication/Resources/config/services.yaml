@@ -34,10 +34,10 @@ services:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
     arguments:
-      - !tagged_iterator command.runner
       - '@placeholder_resolver'
       - '@task_repository'
       - '@event_logger'
+      - !tagged_iterator command.runner
   project_setting_repository:
     abstract: true
     synthetic: true

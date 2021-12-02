@@ -8,3 +8,6 @@ services:
     arguments:
       - '@value_receiver'
       - '%kernel.project_dir%'
+  staged_task_set:
+    class: SprykerSdk\Sdk\Extension\Tasks\HelloStagedSetTask
+    tags: ['sdk.task']
