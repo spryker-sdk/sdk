@@ -101,7 +101,7 @@ class LocalCliRunner implements CommandRunnerInterface
             [$process],
         );
 
-        $commandResponse = new CommandResponse($process->isSuccessful(), $process->getExitCode());
+        $commandResponse = new CommandResponse($process->isSuccessful(), (int)$process->getExitCode());
 
         if (!$process->isSuccessful()) {
             $errorMessage = ($command instanceof ErrorCommandInterface) ? $command->getErrorMessage($commandResponse) : $process->getErrorOutput();

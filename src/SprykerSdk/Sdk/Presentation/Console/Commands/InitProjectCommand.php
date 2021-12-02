@@ -51,12 +51,15 @@ class InitProjectCommand extends Command
         parent::__construct(static::NAME);
     }
 
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this->addOption(
             'default',
             'd',
-            InputOption::VALUE_NONE || InputOption::VALUE_REQUIRED,
+            InputOption::VALUE_NONE | InputOption::VALUE_REQUIRED,
             'Use predefined settings without approve'
         );
     }

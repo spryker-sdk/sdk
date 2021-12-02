@@ -20,16 +20,16 @@ class CommandResponse
     public int $code;
 
     /**
-     * @var string
+     * @var string|null
      */
-    public string $errorMessage;
+    public ?string $errorMessage;
 
     /**
      * @param bool $isSuccessful
      * @param int $code
-     * @param string $errorMessage
+     * @param string|null $errorMessage
      */
-    public function __construct(bool $isSuccessful, int $code = 0, string $errorMessage = '')
+    public function __construct(bool $isSuccessful, int $code = 0, ?string $errorMessage = null)
     {
         $this->isSuccessful = $isSuccessful;
         $this->code = $code;
@@ -73,17 +73,17 @@ class CommandResponse
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getErrorMessage(): string
+    public function getErrorMessage(): ?string
     {
         return $this->errorMessage;
     }
 
     /**
-     * @param string $errorMessages
+     * @param string $errorMessage
      *
-     * @return string
+     * @return $this
      */
     public function setErrorMessage(string $errorMessage): self
     {

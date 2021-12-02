@@ -73,7 +73,7 @@ class TaskExecutor
                     $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, $commandResponse->getIsSuccessful()));
 
                     if (!$commandResponse->getIsSuccessful() && $command->hasStopOnError()) {
-                        throw new CommandRunnerException($commandResponse->getErrorMessage());
+                        throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
                     }
                 }
             }
