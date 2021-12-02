@@ -16,7 +16,7 @@ class GeneratePbcCommand implements CommandInterface
      */
     public function getCommand(): string
     {
-        return 'git clone %boilerplate_url% %pbc_name% && cd %pbc_name% && php %sdk_dir%/bin/console init:project && git init && git remote set-url origin %project_url%';
+        return 'git clone %boilerplate_url% %pbc_name% && cd %pbc_name% && git init . && git remote set-url origin %project_url%';
     }
 
     /**

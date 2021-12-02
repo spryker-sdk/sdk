@@ -93,8 +93,8 @@ class GeneratePbcTask implements TaskInterface
     public function getCommands(): array
     {
         return [
-            new CheckGitCommand(),
-//            new GeneratePbcCommand(),
+//            new CheckGitCommand(),
+            new GeneratePbcCommand(),
 //            new ChangeNamesCommand(),
         ];
     }

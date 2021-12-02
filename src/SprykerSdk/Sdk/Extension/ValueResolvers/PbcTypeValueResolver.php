@@ -45,7 +45,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
      */
     public function getDescription(): string
     {
-        return 'Input based repository for new PBC';
+        return 'PBC template to use for creation';
     }
 
     /**

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ChangeNamesCommand implements ExecutableCommandInterface
@@ -16,19 +17,26 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param array $resolvedValues
      *
-     * @return int
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
      */
-    public function execute(OutputInterface $output, array $resolvedValues): int
+    public function execute(OutputInterface $output, array $resolvedValues): CommandResponse
     {
         $repositoryName = basename($resolvedValues['%boilerplate_url%']);
         $newRepositoryName = basename($resolvedValues['%project_url%']);
         $composerFilePath = $resolvedValues['%pbc_name%'] . DIRECTORY_SEPARATOR . 'composer.json';
 
+        $commandResponse = new CommandResponse(true);
+        if (!file_exists($composerFilePath)) {
+            return $commandResponse
+                ->setIsSuccessful(false)
+                ->setErrorMessage('Can not initialize composer.json in generated PBC');
+        }
+
         $text = file_get_contents($composerFilePath);
+        $text = str_replace($repositoryName, $newRepositoryName, (string)$text);
+        file_put_contents($composerFilePath, $text);
 
-        $text = str_replace($repositoryName, $newRepositoryName, $text);
-
-        file_put_contents($composerFilePath, $text);die;
+        return $commandResponse;
     }
 
     /**
@@ -52,7 +60,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      */
     public function hasStopOnError(): bool
     {
-        return true;
+        return false;
     }
 
     /**

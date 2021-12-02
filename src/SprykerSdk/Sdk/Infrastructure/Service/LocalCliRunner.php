@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -65,9 +67,9 @@ class LocalCliRunner implements CommandRunnerInterface
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
-     * @return int
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
      */
-    public function execute(CommandInterface $command, array $resolvedValues): int
+    public function execute(CommandInterface $command, array $resolvedValues): CommandResponse
     {
         $placeholders = array_map(function (mixed $placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';
@@ -99,6 +101,13 @@ class LocalCliRunner implements CommandRunnerInterface
             [$process],
         );
 
-        return $process->run();
+        $commandResponse = new CommandResponse($process->isSuccessful(), $process->getExitCode());
+
+        if (!$process->isSuccessful()) {
+            $errorMessage = ($command instanceof ErrorCommandInterface) ? $command->getErrorMessage($commandResponse) : $process->getErrorOutput();
+            $commandResponse->setErrorMessage($errorMessage);
+        }
+
+        return $commandResponse;
     }
 }
