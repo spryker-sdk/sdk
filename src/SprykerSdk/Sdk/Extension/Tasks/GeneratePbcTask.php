@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Extension\Tasks;
 
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand;
+use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand;
 use Symfony\Component\Console\Helper\ProcessHelper;
 
@@ -91,9 +93,9 @@ class GeneratePbcTask implements TaskInterface
     public function getCommands(): array
     {
         return [
-//            new CheckGitCommand(),
+            new CheckGitCommand(),
             new GeneratePbcCommand(),
-//            new ChangeNamesCommand(),
+            new ChangeNamesCommand(),
         ];
     }
 }
