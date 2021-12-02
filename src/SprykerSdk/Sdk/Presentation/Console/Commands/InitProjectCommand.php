@@ -77,7 +77,7 @@ class InitProjectCommand extends Command
         if (file_exists($projectSettingPath)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
-                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool'),
+                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'boolean'),
                 )
             ) {
                 return static::SUCCESS;
@@ -123,7 +123,7 @@ class InitProjectCommand extends Command
             }
 
             $values = match ($settingEntity->getType()) {
-                'bool' => (bool)$values,
+                'boolean' => (bool)$values,
                 'array' => (array)$values,
                 default => (string)$values,
             };

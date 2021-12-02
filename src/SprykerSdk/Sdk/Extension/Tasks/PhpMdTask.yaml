@@ -17,7 +17,7 @@ placeholders:
       description: 'Report silent violations'
       defaultValue: false
       settingPaths: []
-      type: bool
+      type: boolean
   - name: '%priority%'
     value_resolver: STATIC
     optional: false

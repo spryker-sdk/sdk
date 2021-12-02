@@ -49,10 +49,12 @@ class SettingManager
 
         foreach ($settingDefinitions as $settingDefinition) {
             if (isset($pathValues[$settingDefinition->getPath()])) {
+                $setting = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+
                 if ($settingDefinition->isProject()) {
-                    $modifiedProjectSettings[] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                    $modifiedProjectSettings[] = $setting;
                 } else {
-                    $modifiedCoreSettings[] = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
+                    $modifiedCoreSettings[] = $setting;
                 }
             }
         }
@@ -103,7 +105,7 @@ class SettingManager
     {
         $typedValue = (is_array($value)) ? (array)$value : match ($settingDefinition->getType()) {
             'array' => (array)$value,
-            'bool' => (bool)$value,
+            'boolean' => (bool)$value,
             default => (string)$value,
         };
 

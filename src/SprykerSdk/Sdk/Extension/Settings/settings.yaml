@@ -35,7 +35,7 @@ settings:
     strategy: overwrite
     init: true
     is_project: true
-    type: bool
+    type: boolean
     values: false
   - path: coreNamespaces
     initialization_description: Do you approve core namespaces?
