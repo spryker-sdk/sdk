@@ -32,7 +32,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createEventLoggerMock(),
-            $this->createMock(ProgressBarInterface::class)
+            $this->createMock(ProgressBarInterface::class),
         );
         $result = $taskExecutor->execute('test');
         $this->assertSame(0, $result);
@@ -48,7 +48,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(true),
             $this->createEventLoggerMock(),
-            $this->createMock(ProgressBarInterface::class)
+            $this->createMock(ProgressBarInterface::class),
         );
         $this->expectException(CommandRunnerException::class);
 
