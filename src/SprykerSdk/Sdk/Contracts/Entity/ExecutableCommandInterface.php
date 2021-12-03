@@ -7,12 +7,16 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity;
 
+use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
+use Symfony\Component\Console\Output\OutputInterface;
+
 interface ExecutableCommandInterface extends CommandInterface
 {
     /**
-     * @param array<string, mixed> $resolvedValues
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array $resolvedValues
      *
-     * @return int
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
      */
-    public function execute(array $resolvedValues): int;
+    public function execute(OutputInterface $output, array $resolvedValues): CommandResponse;
 }

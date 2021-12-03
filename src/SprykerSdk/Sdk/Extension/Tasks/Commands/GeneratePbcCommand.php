@@ -5,18 +5,18 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Extension\Tasks;
+namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 
-class HelloPhpCommand implements ExecutableCommandInterface
+class GeneratePbcCommand implements CommandInterface
 {
     /**
      * @return string
      */
     public function getCommand(): string
     {
-        return '';
+        return 'git clone %boilerplate_url% %pbc_name% && cd %pbc_name% && git init . && git remote set-url origin %project_url%';
     }
 
     /**
@@ -24,7 +24,7 @@ class HelloPhpCommand implements ExecutableCommandInterface
      */
     public function getType(): string
     {
-        return 'php';
+        return 'local_cli';
     }
 
     /**
@@ -33,18 +33,6 @@ class HelloPhpCommand implements ExecutableCommandInterface
     public function hasStopOnError(): bool
     {
         return true;
-    }
-
-    /**
-     * @param array $resolvedValues
-     *
-     * @return int
-     */
-    public function execute(array $resolvedValues): int
-    {
-        echo 'Hello PHP';
-
-        return 0;
     }
 
     /**

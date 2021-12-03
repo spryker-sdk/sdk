@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class InitProjectCommand extends Command
@@ -51,6 +52,19 @@ class InitProjectCommand extends Command
     }
 
     /**
+     * @return void
+     */
+    protected function configure()
+    {
+        $this->addOption(
+            'default',
+            'd',
+            InputOption::VALUE_NONE | InputOption::VALUE_REQUIRED,
+            'Use predefined settings without approve',
+        );
+    }
+
+    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -63,7 +77,7 @@ class InitProjectCommand extends Command
         if (file_exists($projectSettingPath)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
-                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'bool'),
+                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'boolean'),
                 )
             ) {
                 return static::SUCCESS;
@@ -71,7 +85,8 @@ class InitProjectCommand extends Command
         }
 
         $settingEntities = $this->settingRepository->findProjectSettings();
-        $settingEntities = $this->initializeSettingValues($settingEntities);
+        $needsToAsk = $input->getOption('default');
+        $settingEntities = $this->initializeSettingValues($settingEntities, $needsToAsk);
         $this->writeProjectSettings($settingEntities);
 
         return static::SUCCESS;
@@ -79,32 +94,36 @@ class InitProjectCommand extends Command
 
     /**
      * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settingEntities
+     * @param bool $needsToAsk
      *
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
      */
-    protected function initializeSettingValues(array $settingEntities): array
+    protected function initializeSettingValues(array $settingEntities, bool $needsToAsk): array
     {
         foreach ($settingEntities as $settingEntity) {
             if ($settingEntity->hasInitialization() === false) {
                 continue;
             }
+            $values = $settingEntity->getValues();
 
-            $questionDescription = $settingEntity->getInitializationDescription();
+            if (!$needsToAsk) {
+                $questionDescription = $settingEntity->getInitializationDescription();
 
-            if (empty($questionDescription)) {
-                $questionDescription = 'Initial value for ' . $settingEntity->getPath();
+                if (empty($questionDescription)) {
+                    $questionDescription = 'Initial value for ' . $settingEntity->getPath();
+                }
+
+                $values = $this->cliValueReceiver->receiveValue(
+                    new ReceiverValue(
+                        $questionDescription,
+                        $settingEntity->getValues(),
+                        $settingEntity->getType(),
+                    ),
+                );
             }
 
-            $values = $this->cliValueReceiver->receiveValue(
-                new ReceiverValue(
-                    $questionDescription,
-                    $settingEntity->getValues(),
-                    $settingEntity->getType(),
-                ),
-            );
-
             $values = match ($settingEntity->getType()) {
-                'bool' => (bool)$values,
+                'boolean' => (bool)$values,
                 'array' => (array)$values,
                 default => (string)$values,
             };

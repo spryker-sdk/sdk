@@ -84,13 +84,16 @@ class CliValueReceiver implements ValueReceiverInterface
         $defaultValue = $receiverValue->getDefaultValue();
         $type = $receiverValue->getType();
         $description = $receiverValue->getDescription();
+        if (!$defaultValue && $choiceValues) {
+            $defaultValue = reset($choiceValues);
+        }
 
         if (count($choiceValues) === 1 && in_array($defaultValue, $choiceValues)) {
             return $defaultValue;
         }
 
         switch ($type) {
-            case 'bool':
+            case 'boolean':
                 $question = new ConfirmationQuestion($description, (bool)$defaultValue);
 
                 break;
@@ -112,7 +115,7 @@ class CliValueReceiver implements ValueReceiverInterface
         }
         if ($defaultValue === null) {
             $question->setValidator(function ($value) {
-                if ($value === '') {
+                if ($value === '' || $value === null) {
                     throw new MissingValueException('Value is required');
                 }
 

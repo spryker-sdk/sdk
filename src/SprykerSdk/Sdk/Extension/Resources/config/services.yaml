@@ -1,7 +1,12 @@
 services:
   hello_php_task:
     class: SprykerSdk\Sdk\Extension\Tasks\HelloPhpTask
-    tags: ['sdk.task']
+    tags: ['sdk.task'],
+  generate_pbc:
+    class: SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask
+    tags: [ 'sdk.task' ]
+    arguments:
+      - '@process_helper'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
     tags: [ 'sdk.value_resolver' ]

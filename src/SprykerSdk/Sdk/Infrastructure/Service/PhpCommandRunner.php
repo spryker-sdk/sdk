@@ -10,9 +10,23 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class PhpCommandRunner implements CommandRunnerInterface
 {
+    protected OutputInterface $output;
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     */
+    public function setOutput(OutputInterface $output)
+    {
+        $this->output = $output;
+    }
+
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      *
@@ -27,10 +41,10 @@ class PhpCommandRunner implements CommandRunnerInterface
      * @param \SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface $command
      * @param array $resolvedValues
      *
-     * @return int
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
      */
-    public function execute(CommandInterface $command, array $resolvedValues): int
+    public function execute(CommandInterface $command, array $resolvedValues): CommandResponse
     {
-        return $command->execute($resolvedValues);
+        return $command->execute($this->output, $resolvedValues);
     }
 }
