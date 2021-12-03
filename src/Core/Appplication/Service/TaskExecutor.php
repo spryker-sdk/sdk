@@ -68,9 +68,9 @@ class TaskExecutor
      */
     public function execute(string $taskId, ContextInterface $context): ContextInterface
     {
-        $baseTask = $this->getBaseTask($taskId, $context);
-        $context = $this->collectAvailableStages($baseTask, $context);
-        $context = $this->collectTasks($context, $baseTask);
+        $context = $this->addBaseTask($taskId, $context);
+        $context = $this->collectAvailableStages($context);
+        $context = $this->collectTasks($context);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);
 
@@ -84,7 +84,7 @@ class TaskExecutor
      */
     protected function collectRequiredPlaceholders(ContextInterface $context): ContextInterface
     {
-        foreach ($context->getTasks() as $task) {
+        foreach ($context->getSubTasks() as $task) {
             foreach ($task->getPlaceholders() as $placeholder) {
                 $context->addRequiredPlaceholder($placeholder);
             }
@@ -122,11 +122,8 @@ class TaskExecutor
      */
     protected function executeTasks(ContextInterface $context): ContextInterface
     {
-        $tasks = $context->getTasks();
-        $stages = $context->getRequiredStages();
-
-        foreach ($stages as $stage) {
-            $context = $this->executeStage($context, $tasks, $stage);
+        foreach ($context->getRequiredStages() as $stage) {
+            $context = $this->executeStage($context, $stage);
 
             if ($context->getExitCode() !== 0) {
                 return $context;
@@ -173,17 +170,16 @@ class TaskExecutor
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
-     * @param array $tasks
      * @param string|null $stage
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function executeStage(ContextInterface $context, array $tasks, ?string $stage = null): ContextInterface
+    protected function executeStage(ContextInterface $context, ?string $stage = null): ContextInterface
     {
-        $stageTasks = $tasks;
+        $stageTasks = $context->getSubTasks();
 
         if ($stage !== null) {
-            $stageTasks = array_filter($tasks, function (TaskInterface $task) use ($stage): bool {
+            $stageTasks = array_filter($context->getSubTasks(), function (TaskInterface $task) use ($stage): bool {
                 return ($task instanceof StagedTaskInterface && $task->getStage() === $stage);
             });
 
@@ -193,6 +189,9 @@ class TaskExecutor
         }
 
         foreach ($stageTasks as $task) {
+            //execute stage as sub process
+
+
             foreach ($task->getCommands() as $command) {
                 $context = $this->executeCommand($command, $context, $task);
 
@@ -210,30 +209,29 @@ class TaskExecutor
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function collectTasks(ContextInterface $context, TaskInterface $task): ContextInterface
+    protected function collectTasks(ContextInterface $context): ContextInterface
     {
-        $tasks = [$task];
+        $task = $context->getTask();
 
-        if ($task instanceof TaskSetInterface) {
-            $tasks = $task->getSubTasks();
+        if (!$task instanceof TaskSetInterface) {
+            $context->setSubTasks([$task]);
+
+            return $context;
         }
 
-        if (!empty($context->getTasks())) {
-            $tasks = array_filter($tasks, function (TaskInterface $task) use ($context): bool {
-                if (!$task instanceof TaggedTaskInterface) {
-                    return false;
-                }
+        $subTasks = array_filter($task->getSubTasks(), function (TaskInterface $task) use ($context): bool {
+            if (!$task instanceof TaggedTaskInterface) {
+                return false;
+            }
 
-                return count(array_intersect($task->getTags(), $context->getTags())) > 0;
-            });
-        }
+            return count(array_intersect($task->getTags(), $context->getTags())) > 0;
+        });
 
         if (!empty($context->getRequiredStages()) && $context->getRequiredStages() != ContextInterface::DEFAULT_STAGES) {
-            $tasks = array_filter($tasks, function (TaskInterface $task) use ($context): bool {
+            $subTasks = array_filter($subTasks, function (TaskInterface $task) use ($context): bool {
                 if (!$task instanceof StagedTaskInterface) {
                     return false;
                 }
@@ -242,7 +240,7 @@ class TaskExecutor
             });
         }
 
-        $context->setTasks($tasks);
+        $context->setSubTasks($subTasks);
 
         return $context;
     }
@@ -253,9 +251,9 @@ class TaskExecutor
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function getBaseTask(string $taskId, ContextInterface $context): TaskInterface
+    protected function addBaseTask(string $taskId, ContextInterface $context): ContextInterface
     {
         $baseTask = $this->taskRepository->findById($taskId, $context->getTags());
 
@@ -263,30 +261,39 @@ class TaskExecutor
             throw new TaskMissingException(sprintf('No task with id %s found', $taskId));
         }
 
-        return $baseTask;
+        $context->setTask($baseTask);
+
+        return $context;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $baseTask
      * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function collectAvailableStages(TaskInterface $baseTask, ContextInterface $context): ContextInterface
+    protected function collectAvailableStages(ContextInterface $context): ContextInterface
     {
-        if ($baseTask instanceof TaskSetInterface) {
-            $availableStages = array_unique(
-                array_map(function (TaskInterface $subTask): string {
-                    if ($subTask instanceof StagedTaskInterface) {
-                        return $subTask->getStage();
-                    }
+        if (count($context->getSubTasks()) < 1) {
+            $mainTask = $context->getTask();
+            $availableStage = $mainTask instanceof StagedTaskInterface ? $mainTask->getStage() : ContextInterface::DEFAULT_STAGE;
 
-                    return ContextInterface::DEFAULT_STAGE;
-                }, $baseTask->getSubTasks()),
-            );
+            $context->setAvailableStages([$availableStage]);
+            $context->setRequiredStages([$availableStage]);
 
-            $context->setAvailableStages($availableStages);
+            return $context;
         }
+
+        $availableStages = array_unique(
+            array_map(function (TaskInterface $subTask): string {
+                if ($subTask instanceof StagedTaskInterface) {
+                    return $subTask->getStage();
+                }
+
+                return ContextInterface::DEFAULT_STAGE;
+            }, $context->getSubTasks()),
+        );
+
+        $context->setAvailableStages($availableStages);
 
         if ($context->getRequiredStages() === ContextInterface::DEFAULT_STAGES) {
             $context->setRequiredStages($context->getAvailableStages());

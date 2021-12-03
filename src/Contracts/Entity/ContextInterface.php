@@ -7,10 +7,9 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity;
 
-use JsonSerializable;
 use SprykerSdk\Sdk\Contracts\Report\ViolationReportInterface;
 
-interface ContextInterface extends JsonSerializable
+interface ContextInterface
 {
     /**
      * @var string
@@ -25,7 +24,12 @@ interface ContextInterface extends JsonSerializable
     /**
      * @var int
      */
-    public const SUCCESS_STATUS_CODE = 0;
+    public const SUCCESS_EXIT_CODE = 0;
+
+    /**
+     * @var int
+     */
+    public const FAILURE_EXIT_CODE = 1;
 
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
@@ -88,21 +92,14 @@ interface ContextInterface extends JsonSerializable
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
-    public function getTasks(): array;
+    public function getSubTasks(): array;
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
      * @return void
      */
-    public function addTask(TaskInterface $task);
-
-    /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
-     *
-     * @return void
-     */
-    public function setTasks(array $tasks): void;
+    public function addSubTask(TaskInterface $task);
 
     /**
      * @return array<string>
@@ -165,18 +162,6 @@ interface ContextInterface extends JsonSerializable
     public function getTags(): array;
 
     /**
-     * @return array
-     */
-    public function jsonSerialize(): array;
-
-    /**
-     * @param array $data
-     *
-     * @return void
-     */
-    public function fromArray(array $data);
-
-    /**
      * @return bool
      */
     public function isDryRun(): bool;
@@ -187,4 +172,23 @@ interface ContextInterface extends JsonSerializable
      * @return void
      */
     public function setIsDryRun(bool $isDryRun = true): void;
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
+    public function setTask(TaskInterface $task): void;
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     */
+    public function getTask(): TaskInterface;
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $subTasks
+     *
+     * @return void
+     */
+    public function setSubTasks(array $subTasks): void;
 }

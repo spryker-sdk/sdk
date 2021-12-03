@@ -24,6 +24,10 @@ services:
   value_resolver_registry:
     abstract: true
     synthetic: true
+  context_serializer:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
+  context_repository:
+    synthetic: true
   placeholder_resolver:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver

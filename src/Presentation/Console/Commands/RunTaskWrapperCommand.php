@@ -9,10 +9,9 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
 use SprykerSdk\Sdk\Contracts\Entity\MessageInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Presentation\Console\Exception\MissingContextFileException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -59,13 +58,20 @@ class RunTaskWrapperCommand extends Command
     protected string $name;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface
+     */
+    protected ContextRepositoryInterface $contextRepository;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name
      */
     public function __construct(
         TaskExecutor $taskExecutor,
+        ContextRepositoryInterface $contextRepository,
         array $taskOptions,
         string $description,
         string $name
@@ -75,6 +81,7 @@ class RunTaskWrapperCommand extends Command
         $this->taskExecutor = $taskExecutor;
         $this->name = $name;
         parent::__construct($name);
+        $this->contextRepository = $contextRepository;
     }
 
     /**
@@ -160,18 +167,18 @@ class RunTaskWrapperCommand extends Command
     protected function getVerbosity(OutputInterface $output): int
     {
         if ($output->isVerbose()) {
-            return Message::SUCCESS;
+            return MessageInterface::SUCCESS;
         }
 
         if ($output->isVeryVerbose()) {
-            return Message::INFO;
+            return MessageInterface::INFO;
         }
 
         if ($output->isDebug()) {
-            return Message::DEBUG;
+            return MessageInterface::DEBUG;
         }
 
-        return Message::ERROR;
+        return MessageInterface::ERROR;
     }
 
     /**
@@ -213,43 +220,30 @@ class RunTaskWrapperCommand extends Command
             && $input->getOption(static::OPTION_WRITE_CONTEXT_TO)
         ) {
             $contextFilePath = $input->getOption(static::OPTION_WRITE_CONTEXT_TO);
-            file_put_contents($contextFilePath, json_encode($context, JSON_THROW_ON_ERROR));
+            $this->contextRepository->saveContext($contextFilePath, $context);
         }
     }
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @throws \SprykerSdk\Sdk\Presentation\Console\Exception\MissingContextFileException
-     *
      * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
     protected function createContext(InputInterface $input): ContextInterface
     {
-        $context = new Context();
-
         if (
             !$input->hasOption(static::OPTION_READ_CONTEXT_FROM)
             || !$input->getOption(static::OPTION_READ_CONTEXT_FROM)
         ) {
-            return $context;
+            return new Context();
         }
 
         $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
+        $context = $this->contextRepository->findByName($contextFilePath);
 
-        if (!is_readable($contextFilePath)) {
-            throw new MissingContextFileException('Context file could not be found at ' . $contextFilePath);
+        if (!$context) {
+            $context = new Context();
         }
-
-        $contextFileContent = file_get_contents($contextFilePath);
-
-        if (!$contextFileContent) {
-            throw new MissingContextFileException(sprintf('Context file %s could not be read', $contextFilePath,));
-        }
-
-        $contextData = json_decode($contextFileContent, true, 512, JSON_THROW_ON_ERROR);
-
-        $context->fromArray($contextData);
 
         return $context;
     }

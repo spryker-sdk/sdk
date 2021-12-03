@@ -52,7 +52,7 @@ class Context implements ContextInterface
      */
     protected array $violationReports = [];
 
-    protected int $exitCode = self::SUCCESS_STATUS_CODE;
+    protected int $exitCode = self::SUCCESS_EXIT_CODE;
 
     /**
      * @var array<string>
@@ -63,6 +63,8 @@ class Context implements ContextInterface
      * @var bool
      */
     protected bool $isDryRun = false;
+
+    protected TaskInterface $task;
 
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
@@ -156,7 +158,7 @@ class Context implements ContextInterface
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
-    public function getTasks(): array
+    public function getSubTasks(): array
     {
         return $this->tasks;
     }
@@ -166,23 +168,11 @@ class Context implements ContextInterface
      *
      * @return void
      */
-    public function addTask(TaskInterface $task)
+    public function addSubTask(TaskInterface $task)
     {
         $this->tasks[$task->getId()] = $task;
         $stage = $task instanceof StagedTaskInterface ? $task->getStage() : static::DEFAULT_STAGE;
         $this->availableStages[] = $stage;
-    }
-
-    /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
-     *
-     * @return void
-     */
-    public function setTasks(array $tasks): void
-    {
-        array_map(function (TaskInterface $task) {
-            $this->addTask($task);
-        }, $tasks);
     }
 
     /**
@@ -289,28 +279,6 @@ class Context implements ContextInterface
     }
 
     /**
-     * @param array $data
-     *
-     * @return void
-     */
-    public function fromArray(array $data)
-    {
-        if (array_key_exists('tags', $data) && is_array($data['tags'])) {
-            $this->tags = $data['tags'];
-        }
-
-        if (array_key_exists('resolved_values', $data) && is_array($data['resolved_values'])) {
-            $this->resolvedValues = $data['resolved_values'];
-        }
-
-        if (array_key_exists('messages', $data) && is_array($data['messages'])) {
-            $this->messages = array_map(function (array $messageData): Message {
-                return new Message($messageData['message'], $messageData['verbosity'] ?? MessageInterface::INFO);
-            }, $data['messages']);
-        }
-    }
-
-    /**
      * @return bool
      */
     public function isDryRun(): bool
@@ -326,5 +294,35 @@ class Context implements ContextInterface
     public function setIsDryRun(bool $isDryRun = true): void
     {
         $this->isDryRun = $isDryRun;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
+    public function setTask(TaskInterface $task): void
+    {
+        $this->task = $task;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     */
+    public function getTask(): TaskInterface
+    {
+        return $this->task;
+    }
+
+    /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $subTasks
+     *
+     * @return void
+     */
+    public function setSubTasks(array $subTasks): void
+    {
+        array_map(function (TaskInterface $task) {
+            $this->addSubTask($task);
+        }, $subTasks);
     }
 }

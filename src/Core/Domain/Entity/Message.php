@@ -40,15 +40,4 @@ class Message implements MessageInterface
     {
         return $this->verbosity;
     }
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize(): array
-    {
-        return [
-            'message' => $this->message,
-            'verbosity' => $this->verbosity,
-        ];
-    }
 }

@@ -7,9 +7,7 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity;
 
-use JsonSerializable;
-
-interface MessageInterface extends JsonSerializable
+interface MessageInterface
 {
     /**
      * @var int
@@ -40,9 +38,4 @@ interface MessageInterface extends JsonSerializable
      * @return int
      */
     public function getVerbosity(): int;
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize(): array;
 }

@@ -102,7 +102,7 @@ class LocalCliRunner implements CommandRunnerInterface
             [$process],
         );
 
-        $context->setExitCode($process->getExitCode() ?? Context::SUCCESS_STATUS_CODE);
+        $context->setExitCode($process->getExitCode() ?? Context::SUCCESS_EXIT_CODE);
 
         foreach (explode(PHP_EOL, $process->getOutput()) as $outputLine) {
             $context->addMessage(new Message($outputLine, MessageInterface::INFO));
