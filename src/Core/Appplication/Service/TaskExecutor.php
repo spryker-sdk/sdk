@@ -17,7 +17,6 @@ use SprykerSdk\Sdk\Contracts\Entity\TaskSetInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 
@@ -233,7 +232,7 @@ class TaskExecutor
             });
         }
 
-        if (!empty($context->getRequiredStages()) && $context->getRequiredStages() != [Context::DEFAULT_STAGE]) {
+        if (!empty($context->getRequiredStages()) && $context->getRequiredStages() != ContextInterface::DEFAULT_STAGES) {
             $tasks = array_filter($tasks, function (TaskInterface $task) use ($context): bool {
                 if (!$task instanceof StagedTaskInterface) {
                     return false;
@@ -282,14 +281,14 @@ class TaskExecutor
                         return $subTask->getStage();
                     }
 
-                    return Context::DEFAULT_STAGE;
+                    return ContextInterface::DEFAULT_STAGE;
                 }, $baseTask->getSubTasks()),
             );
 
             $context->setAvailableStages($availableStages);
         }
 
-        if ($context->getRequiredStages() === [Context::DEFAULT_STAGE]) {
+        if ($context->getRequiredStages() === ContextInterface::DEFAULT_STAGES) {
             $context->setRequiredStages($context->getAvailableStages());
         }
 

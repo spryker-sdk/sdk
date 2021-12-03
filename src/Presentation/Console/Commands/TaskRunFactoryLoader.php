@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Psr\Container\ContainerInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
 use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaggedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
@@ -16,7 +17,6 @@ use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
@@ -216,7 +216,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             substr(RunTaskWrapperCommand::OPTION_STAGES, 0, 1),
             InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
             'Only execute subtasks that matches at least one of the given stages',
-            !empty($stages) ? array_unique($stages) : [Context::DEFAULT_STAGE],
+            !empty($stages) ? array_unique($stages) : ContextInterface::DEFAULT_STAGES,
         );
 
         return $options;

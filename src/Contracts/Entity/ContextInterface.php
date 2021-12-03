@@ -13,6 +13,21 @@ use SprykerSdk\Sdk\Contracts\Report\ViolationReportInterface;
 interface ContextInterface extends JsonSerializable
 {
     /**
+     * @var string
+     */
+    public const DEFAULT_STAGE = 'default';
+
+    /**
+     * @var array<string>
+     */
+    public const DEFAULT_STAGES = [self::DEFAULT_STAGE];
+
+    /**
+     * @var int
+     */
+    public const SUCCESS_STATUS_CODE = 0;
+
+    /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getRequiredPlaceholders(): array;

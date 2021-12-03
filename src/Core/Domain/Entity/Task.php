@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
 use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaggedTaskInterface;
 
@@ -103,7 +104,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
      */
     public function getStage(): string
     {
-        return Context::DEFAULT_STAGE;
+        return ContextInterface::DEFAULT_STAGE;
     }
 
     /**

@@ -18,16 +18,6 @@ use SprykerSdk\Sdk\Contracts\Report\ViolationReportInterface;
 class Context implements ContextInterface
 {
     /**
-     * @var int
-     */
-    public const SUCCESS_STATUS_CODE = 0;
-
-    /**
-     * @var string
-     */
-    public const DEFAULT_STAGE = 'default';
-
-    /**
      * @var array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     protected array $requiredPlaceholders = [];
@@ -50,12 +40,12 @@ class Context implements ContextInterface
     /**
      * @var array<string>
      */
-    protected array $availableStages = [self::DEFAULT_STAGE];
+    protected array $availableStages = self::DEFAULT_STAGES;
 
     /**
      * @var array<string>
      */
-    protected array $requiredStages = [self::DEFAULT_STAGE];
+    protected array $requiredStages = self::DEFAULT_STAGES;
 
     /**
      * @var array<\SprykerSdk\Sdk\Contracts\Report\ViolationReportInterface>
