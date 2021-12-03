@@ -191,4 +191,16 @@ interface ContextInterface
      * @return void
      */
     public function setSubTasks(array $subTasks): void;
+
+    /**
+     * @return string
+     */
+    public function getName(): string;
+
+    /**
+     * @param string $name
+     *
+     * @return void
+     */
+    public function setName(string $name): void;
 }

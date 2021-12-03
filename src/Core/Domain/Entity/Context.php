@@ -66,6 +66,8 @@ class Context implements ContextInterface
 
     protected TaskInterface $task;
 
+    protected string $name = 'sdk';
+
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
@@ -266,19 +268,6 @@ class Context implements ContextInterface
     }
 
     /**
-     * @return array
-     */
-    public function jsonSerialize(): array
-    {
-        return [
-            'tags' => $this->getTags(),
-            'resolved_values' => $this->getResolvedValues(),
-            'messages' => $this->getMessages(),
-            'violation_reports' => ['list of violation report files'],
-        ];
-    }
-
-    /**
      * @return bool
      */
     public function isDryRun(): bool
@@ -304,6 +293,7 @@ class Context implements ContextInterface
     public function setTask(TaskInterface $task): void
     {
         $this->task = $task;
+        $this->name = $task->getId();
     }
 
     /**
@@ -324,5 +314,23 @@ class Context implements ContextInterface
         array_map(function (TaskInterface $task) {
             $this->addSubTask($task);
         }, $subTasks);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return void
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 }

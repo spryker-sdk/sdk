@@ -220,7 +220,8 @@ class RunTaskWrapperCommand extends Command
             && $input->getOption(static::OPTION_WRITE_CONTEXT_TO)
         ) {
             $contextFilePath = $input->getOption(static::OPTION_WRITE_CONTEXT_TO);
-            $this->contextRepository->saveContext($contextFilePath, $context);
+            $context->setName($contextFilePath);
+            $this->contextRepository->saveContext($context);
         }
     }
 

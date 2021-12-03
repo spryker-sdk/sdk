@@ -28,14 +28,13 @@ class ContextFileRepository implements ContextRepositoryInterface
     }
 
     /**
-     * @param string $name
      * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    public function saveContext(string $name, ContextInterface $context): ContextInterface
+    public function saveContext(ContextInterface $context): ContextInterface
     {
-        $contextFilePath = $this->getContextFilePath($name);
+        $contextFilePath = $this->getContextFilePath($context->getName());
 
         file_put_contents($contextFilePath, $this->contextSerializer->serialize($context));
 
@@ -67,13 +66,13 @@ class ContextFileRepository implements ContextRepositoryInterface
     }
 
     /**
-     * @param string $name
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @return void
      */
-    public function deleteByName(string $name): void
+    public function delete(ContextInterface $context): void
     {
-        $contextFilePath = $this->getContextFilePath($name);
+        $contextFilePath = $this->getContextFilePath($context->getName());
 
         if (is_file($contextFilePath)) {
             unlink($contextFilePath);

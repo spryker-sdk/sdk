@@ -68,15 +68,14 @@ class SplitStageTaskExecutor extends TaskExecutor
         for ($i = 0; $i < $stagesCount; $i++) {
             $currentStage = $stages[$i];
             $stageContext = $this->buildStageContext($nextContext, $currentStage, $tasks);
-
-            $currentContextName = $context->getTask()->getId() . '_' . $currentStage;
+            $stageContext->setName($context->getName() . '_' . $currentStage);
             $nextContextName = $context->getTask()->getId();
 
             if ($i - 1 < $stagesCount) {
                 $nextContextName .= '_' . $stages[$i + 1];
             }
 
-            $nextContext = $this->runStage($currentContextName, $nextContextName, $stageContext);
+            $nextContext = $this->runStage($stageContext, $nextContextName);
             $nextContext->setResolvedValues($context->getResolvedValues());
 
             if ($nextContext->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
@@ -85,7 +84,7 @@ class SplitStageTaskExecutor extends TaskExecutor
         }
 
         $context->setExitCode(ContextInterface::SUCCESS_EXIT_CODE);
-        $this->contextRepository->deleteByName($context->getTask()->getId());
+        $this->contextRepository->delete($context);
 
         return $context;
     }
@@ -123,27 +122,26 @@ class SplitStageTaskExecutor extends TaskExecutor
     }
 
     /**
-     * @param string $currentContextName
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $currentContext
      * @param string $nextContextName
-     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $stageContext
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function runStage(string $currentContextName, string $nextContextName, ContextInterface $stageContext): ContextInterface
+    protected function runStage(ContextInterface $currentContext, string $nextContextName): ContextInterface
     {
-        $this->contextRepository->saveContext($currentContextName, $stageContext);
+        $this->contextRepository->saveContext($currentContext);
         $call = sprintf(
             'bin/console %s --%s=%s --%s=true --%s=%s',
-            $stageContext->getTask()->getId(),
+            $currentContext->getTask()->getId(),
             RunTaskWrapperCommand::OPTION_READ_CONTEXT_FROM,
-            $currentContextName,
+            $currentContext->getName(),
             RunTaskWrapperCommand::OPTION_ENABLE_CONTEXT_WRITING,
             RunTaskWrapperCommand::OPTION_WRITE_CONTEXT_TO,
             $nextContextName,
         );
         $process = Process::fromShellCommandline($call, $this->sdkDirectory);
         $return = $process->run();
-        $this->contextRepository->deleteByName($currentContextName);
+        $this->contextRepository->delete($currentContext);
 
         $nextContext = $this->contextRepository->findByName($nextContextName);
 
@@ -153,9 +151,9 @@ class SplitStageTaskExecutor extends TaskExecutor
             return $nextContext;
         }
 
-        $stageContext->addMessage(new Message('Could not read context for next stage', MessageInterface::ERROR));
-        $stageContext->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
+        $currentContext->addMessage(new Message('Could not read context for next stage', MessageInterface::ERROR));
+        $currentContext->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
 
-        return $stageContext;
+        return $currentContext;
     }
 }
