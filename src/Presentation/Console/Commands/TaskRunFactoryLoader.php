@@ -169,7 +169,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         }
 
         if ($task instanceof TaskSetInterface) {
-            foreach ($task->getTasks() as $taskSetTask) {
+            foreach ($task->getSubTasks() as $taskSetTask) {
                 if ($taskSetTask instanceof TaggedTaskInterface) {
                     $tags = array_merge($tags, $taskSetTask->getTags());
                 }
@@ -204,7 +204,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         }
 
         if ($task instanceof TaskSetInterface) {
-            foreach ($task->getTasks() as $taskSetTask) {
+            foreach ($task->getSubTasks() as $taskSetTask) {
                 if ($taskSetTask instanceof StagedTaskInterface) {
                     $stages[] = $taskSetTask->getStage();
                 }
@@ -239,6 +239,12 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
                 $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                 $valueResolver->getDescription(),
             );
+        }
+
+        if ($task instanceof TaskSetInterface) {
+            foreach ($task->getSubTasks() as $subTask) {
+                $options = $this->addPlaceholderOptions($subTask, $options);
+            }
         }
 
         return $options;

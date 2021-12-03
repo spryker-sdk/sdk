@@ -44,15 +44,7 @@ class HelloStagedSetTask implements TaskSetInterface
      */
     public function getPlaceholders(): array
     {
-        $placeholders = [];
-
-        foreach ($this->getTasks() as $task) {
-            foreach ($task->getPlaceholders() as $placeholder) {
-                $placeholders[$placeholder->getName()] = $placeholder;
-            }
-        }
-
-        return $placeholders;
+        return [];
     }
 
     /**
@@ -68,7 +60,7 @@ class HelloStagedSetTask implements TaskSetInterface
      *
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
-    public function getTasks(array $tags = []): array
+    public function getSubTasks(array $tags = []): array
     {
         $tasks = [
             new class implements TaggedTaskInterface, StagedTaskInterface {

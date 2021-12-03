@@ -218,7 +218,7 @@ class TaskExecutor
         $tasks = [$task];
 
         if ($task instanceof TaskSetInterface) {
-            $tasks = $task->getTasks();
+            $tasks = $task->getSubTasks();
         }
 
         if (!empty($context->getTasks())) {
@@ -281,7 +281,7 @@ class TaskExecutor
                     }
 
                     return Context::DEFAULT_STAGE;
-                }, $baseTask->getTasks()),
+                }, $baseTask->getSubTasks()),
             );
 
             $context->setAvailableStages($availableStages);
