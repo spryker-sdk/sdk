@@ -67,20 +67,21 @@ class TaskExecutor
         $task = $this->getTask($taskId, $tags);
         $resolvedValues = $this->getResolvedValues($task);
 
+        $result = true;
         foreach ($task->getCommands() as $command) {
             foreach ($this->commandRunners as $commandRunner) {
                 if ($commandRunner->canHandle($command)) {
                     $commandResponse = $commandRunner->execute($command, $resolvedValues);
                     $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, $commandResponse->getIsSuccessful()));
-
-                    if (!$commandResponse->getIsSuccessful() && $command->hasStopOnError()) {
+                    $result = $commandResponse->getIsSuccessful();
+                    if (!$result && $command->hasStopOnError()) {
                         throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
                     }
                 }
             }
         }
 
-        return 0;
+        return (int)$result;
     }
 
     /**
