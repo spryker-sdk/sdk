@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Presentation\Console\Exception\MissingContextFileException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,12 +31,17 @@ class RunTaskWrapperCommand extends Command
     /**
      * @var string
      */
-    public const OPTION_SERIALIZE_CONTEXT = 'serialize-context';
+    public const OPTION_WRITE_CONTEXT_TO = 'write-context-to';
 
     /**
      * @var string
      */
-    public const OPTION_CONTEXT = 'context';
+    public const OPTION_READ_CONTEXT_FROM = 'read-context-from';
+
+    /**
+     * @var string
+     */
+    public const OPTION_ENABLE_CONTEXT_WRITING = 'context-writing-enabled';
 
     protected TaskExecutor $taskExecutor;
 
@@ -98,12 +104,8 @@ class RunTaskWrapperCommand extends Command
         $context = $this->buildContext($input);
 
         $context = $this->taskExecutor->execute($this->name, $context);
-
-        if ($input->hasOption(static::OPTION_SERIALIZE_CONTEXT) && $input->getOption(static::OPTION_SERIALIZE_CONTEXT)) {
-            $output->writeln(json_encode($context, JSON_THROW_ON_ERROR));
-        } else {
-            $this->writeFilteredMessages($output, $context);
-        }
+        $this->writeContext($input, $context);
+        $this->writeFilteredMessages($output, $context);
 
         return $context->getResult();
     }
@@ -172,14 +174,7 @@ class RunTaskWrapperCommand extends Command
      */
     protected function buildContext(InputInterface $input): Context
     {
-        $context = new Context();
-
-        if ($input->hasOption(static::OPTION_CONTEXT) && $input->getOption(static::OPTION_CONTEXT)) {
-            $contextData = json_decode($input->getOption(static::OPTION_CONTEXT), true);
-            $context->fromArray($contextData);
-
-            return $context;
-        }
+        $context = $this->createContext($input);
 
         if ($input->hasOption(static::OPTION_TAGS)) {
             $context->setTags($input->getOption(static::OPTION_TAGS));
@@ -188,6 +183,62 @@ class RunTaskWrapperCommand extends Command
         if ($input->hasOption(static::OPTION_STAGES)) {
             $context->setStages($input->getOption(static::OPTION_STAGES));
         }
+
+        return $context;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     *
+     * @return void
+     */
+    protected function writeContext(InputInterface $input, Context $context): void
+    {
+        if (
+            $input->hasOption(static::OPTION_ENABLE_CONTEXT_WRITING)
+            && $input->getOption(static::OPTION_ENABLE_CONTEXT_WRITING)
+            && $input->hasOption(static::OPTION_WRITE_CONTEXT_TO)
+            && $input->getOption(static::OPTION_WRITE_CONTEXT_TO)
+        ) {
+            $contextFilePath = $input->getOption(static::OPTION_WRITE_CONTEXT_TO);
+            file_put_contents($contextFilePath, json_encode($context, JSON_THROW_ON_ERROR));
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @throws \SprykerSdk\Sdk\Presentation\Console\Exception\MissingContextFileException
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     */
+    protected function createContext(InputInterface $input): Context
+    {
+        $context = new Context();
+
+        if (
+            !$input->hasOption(static::OPTION_READ_CONTEXT_FROM)
+            || !$input->getOption(static::OPTION_READ_CONTEXT_FROM)
+        ) {
+            return $context;
+        }
+
+        $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
+
+        if (!is_readable($contextFilePath)) {
+            throw new MissingContextFileException('Context file could not be found at ' . $contextFilePath);
+        }
+
+        $contextFileContent = file_get_contents($contextFilePath);
+
+        if (!$contextFileContent) {
+            throw new MissingContextFileException(sprintf('Context file %s could not be read', $contextFilePath,));
+        }
+
+        $contextData = json_decode($contextFileContent, true, 512, JSON_THROW_ON_ERROR);
+
+        $context->fromArray($contextData);
 
         return $context;
     }

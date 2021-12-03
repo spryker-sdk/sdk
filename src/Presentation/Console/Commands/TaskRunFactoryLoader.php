@@ -251,18 +251,28 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function addContextOptions(array $options): array
     {
+        $defaultContextFilePath = getcwd() . DIRECTORY_SEPARATOR . 'sdk-context.json';
+
         $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_CONTEXT,
-            substr(RunTaskWrapperCommand::OPTION_CONTEXT, 0, 1),
-            InputOption::VALUE_OPTIONAL,
-            'Context from a previous stage in json serialized format',
-        );
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_SERIALIZE_CONTEXT,
+            RunTaskWrapperCommand::OPTION_READ_CONTEXT_FROM,
             null,
             InputOption::VALUE_OPTIONAL,
-            'Only the json serialized context will be streamed on STDOUT (no other output)',
+            'Read the context from given JSON file. Can be overwritten via additional options',
+            null,
+        );
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_ENABLE_CONTEXT_WRITING,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Enable serializing the context into a file',
             false,
+        );
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_WRITE_CONTEXT_TO,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Current context will be written to the given filepath in JSON format',
+            $defaultContextFilePath,
         );
 
         return $options;
