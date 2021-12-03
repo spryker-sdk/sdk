@@ -87,7 +87,7 @@ class TaskExecutor
             }
         }
 
-        $this->progressBar->start($countExecutableCommands);
+        $this->progressBar->start();
         foreach ($task->getCommands() as $command) {
             foreach ($this->commandRunners as $commandRunner) {
                 if ($commandRunner->canHandle($command)) {

@@ -1,5 +1,7 @@
 <?php
-namespace SprykerSdk\Tests;
+namespace SprykerSdk\Sdk\Tests;
+
+use Codeception\Actor;
 
 /**
  * Inherited Methods
@@ -16,7 +18,7 @@ namespace SprykerSdk\Tests;
  *
  * @SuppressWarnings(PHPMD)
 */
-class UnitTester extends \Codeception\Actor
+class UnitTester extends Actor
 {
     use _generated\UnitTesterActions;
 

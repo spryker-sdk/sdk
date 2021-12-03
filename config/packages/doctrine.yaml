@@ -13,6 +13,6 @@ doctrine:
             Sdk:
                 is_bundle: false
                 type: yml
-                dir: '%kernel.project_dir%/src/SprykerSdk/Sdk/Infrastructure/Resources/config/doctrine'
+                dir: '%kernel.project_dir%/src/Infrastructure/Resources/config/doctrine'
                 prefix: 'SprykerSdk\Sdk\Infrastructure\Entity'
                 alias: sdk

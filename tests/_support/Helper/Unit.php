@@ -1,10 +1,12 @@
 <?php
-namespace SprykerSdk\Tests\Helper;
+namespace SprykerSdk\Sdk\Tests\Helper;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
-class Unit extends \Codeception\Module
+use Codeception\Module;
+
+class Unit extends Module
 {
 
 }
