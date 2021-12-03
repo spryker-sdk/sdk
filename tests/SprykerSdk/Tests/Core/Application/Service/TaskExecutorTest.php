@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
+use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
@@ -31,6 +32,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createEventLoggerMock(),
+            $this->createMock(ProgressBarInterface::class)
         );
         $result = $taskExecutor->execute('test');
         $this->assertSame(0, $result);
@@ -46,6 +48,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(true),
             $this->createEventLoggerMock(),
+            $this->createMock(ProgressBarInterface::class)
         );
         $this->expectException(CommandRunnerException::class);
 
@@ -105,7 +108,7 @@ class TaskExecutorTest extends Unit
             ->willReturnCallback(function (): array {
                 return [$this->createPlaceholderMock()];
             });
-        $placeholderResolver->expects($this->once())
+        $placeholderResolver->expects($this->exactly(2))
             ->method('getCommands')
             ->willReturnCallback(function () use ($hasStopOnError): array {
                 return [$this->createCommandMock(), $this->createCommandMock($hasStopOnError)];
@@ -135,7 +138,7 @@ class TaskExecutorTest extends Unit
     public function createCommandMock(bool $hasStopOnError = false): mixed
     {
         $placeholderResolver = $this->createMock(CommandInterface::class);
-        $placeholderResolver->expects($this->once())
+        $placeholderResolver
             ->method('hasStopOnError')
             ->willReturn($hasStopOnError);
 
@@ -150,7 +153,7 @@ class TaskExecutorTest extends Unit
     public function createCommandRunnerMock($isSuccessful = true): mixed
     {
         $placeholderResolver = $this->createMock(CommandRunnerInterface::class);
-        $placeholderResolver->expects($this->exactly(2))
+        $placeholderResolver->expects($this->exactly(4))
             ->method('canHandle')
             ->willReturn(true);
         $placeholderResolver->expects($this->exactly(2))
