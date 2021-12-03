@@ -8,6 +8,8 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Contracts\Entity\MessageInterface;
 use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaggedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
@@ -61,11 +63,11 @@ class TaskExecutor
 
     /**
      * @param string $taskId
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    public function execute(string $taskId, Context $context): Context
+    public function execute(string $taskId, ContextInterface $context): ContextInterface
     {
         $baseTask = $this->getBaseTask($taskId, $context);
         $context = $this->collectAvailableStages($baseTask, $context);
@@ -77,11 +79,11 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function collectRequiredPlaceholders(Context $context): Context
+    protected function collectRequiredPlaceholders(ContextInterface $context): ContextInterface
     {
         foreach ($context->getTasks() as $task) {
             foreach ($task->getPlaceholders() as $placeholder) {
@@ -93,11 +95,11 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function resolveValues(Context $context): Context
+    protected function resolveValues(ContextInterface $context): ContextInterface
     {
         $existingValues = $context->getResolvedValues();
 
@@ -115,11 +117,11 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function executeTasks(Context $context): Context
+    protected function executeTasks(ContextInterface $context): ContextInterface
     {
         $tasks = $context->getTasks();
         $stages = $context->getRequiredStages();
@@ -127,7 +129,7 @@ class TaskExecutor
         foreach ($stages as $stage) {
             $context = $this->executeStage($context, $tasks, $stage);
 
-            if ($context->getResult() !== 0) {
+            if ($context->getExitCode() !== 0) {
                 return $context;
             }
         }
@@ -137,12 +139,12 @@ class TaskExecutor
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function executeCommand(CommandInterface $command, Context $context, TaskInterface $task): Context
+    protected function executeCommand(CommandInterface $command, ContextInterface $context, TaskInterface $task): ContextInterface
     {
         foreach ($this->commandRunners as $commandRunner) {
             if (!$commandRunner->canHandle($command)) {
@@ -156,13 +158,13 @@ class TaskExecutor
                     $command::class,
                     $commandRunner::class,
                     $command->hasStopOnError() ? 'yes' : 'no',
-                ), Message::DEBUG));
+                ), MessageInterface::DEBUG));
 
                 continue;
             }
 
             $context = $commandRunner->execute($command, $context);
-            $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$context->getResult()));
+            $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$context->getExitCode()));
 
             return $context;
         }
@@ -171,13 +173,13 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      * @param array $tasks
      * @param string|null $stage
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function executeStage(Context $context, array $tasks, ?string $stage = null): Context
+    protected function executeStage(ContextInterface $context, array $tasks, ?string $stage = null): ContextInterface
     {
         $stageTasks = $tasks;
 
@@ -187,7 +189,7 @@ class TaskExecutor
             });
 
             if (count($stageTasks) > 0) {
-                $context->addMessage(new Message('Executing stage ' . $stage, Message::DEBUG));
+                $context->addMessage(new Message('Executing stage ' . $stage, MessageInterface::DEBUG));
             }
         }
 
@@ -198,7 +200,7 @@ class TaskExecutor
                 //@todo if command has a report convert, use it to add report to the context
                 //$context->addViolationReport($command->getReportConverter()->convert());
 
-                if ($context->getResult() !== 0 && $command->hasStopOnError()) {
+                if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
                     return $context;
                 }
             }
@@ -208,12 +210,12 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function collectTasks(Context $context, TaskInterface $task): Context
+    protected function collectTasks(ContextInterface $context, TaskInterface $task): ContextInterface
     {
         $tasks = [$task];
 
@@ -248,13 +250,13 @@ class TaskExecutor
 
     /**
      * @param string $taskId
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
      *
      * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
-    protected function getBaseTask(string $taskId, Context $context): TaskInterface
+    protected function getBaseTask(string $taskId, ContextInterface $context): TaskInterface
     {
         $baseTask = $this->taskRepository->findById($taskId, $context->getTags());
 
@@ -267,11 +269,11 @@ class TaskExecutor
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $baseTask
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function collectAvailableStages(TaskInterface $baseTask, Context $context): Context
+    protected function collectAvailableStages(TaskInterface $baseTask, ContextInterface $context): ContextInterface
     {
         if ($baseTask instanceof TaskSetInterface) {
             $availableStages = array_unique(

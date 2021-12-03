@@ -7,9 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
+use SprykerSdk\Sdk\Contracts\Entity\TaggedTaskInterface;
 
-class Task implements TaskInterface
+class Task implements TaggedTaskInterface, StagedTaskInterface
 {
     /**
      * @var string
@@ -95,5 +96,29 @@ class Task implements TaskInterface
     public function getHelp(): ?string
     {
         return $this->help;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return Context::DEFAULT_STAGE;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTags(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasStopOnError(): bool
+    {
+        return false;
     }
 }

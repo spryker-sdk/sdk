@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Contracts\Entity\MessageInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
@@ -112,18 +114,18 @@ class RunTaskWrapperCommand extends Command
         $this->writeContext($input, $context);
         $this->writeFilteredMessages($output, $context);
 
-        return $context->getResult();
+        return $context->getExitCode();
     }
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @return void
      */
     protected function writeFilteredMessages(
         OutputInterface $output,
-        Context $context
+        ContextInterface $context
     ): void {
         $verbosity = $this->getVerbosity($output);
 
@@ -135,17 +137,17 @@ class RunTaskWrapperCommand extends Command
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Message $message
+     * @param \SprykerSdk\Sdk\Contracts\Entity\MessageInterface $message
      *
      * @return string
      */
-    protected function formatMessage(Message $message): string
+    protected function formatMessage(MessageInterface $message): string
     {
         return match ($message->getVerbosity()) {
-            Message::INFO => '<info>Info: ' . $message->getMessage() . '</info>',
-            Message::ERROR => '<error>Error: ' . $message->getMessage() . '</error>',
-            Message::SUCCESS => '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>',
-            Message::DEBUG => '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>',
+            MessageInterface::INFO => '<info>Info: ' . $message->getMessage() . '</info>',
+            MessageInterface::ERROR => '<error>Error: ' . $message->getMessage() . '</error>',
+            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>',
+            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>',
             default => $message->getMessage(),
         };
     }
@@ -175,9 +177,9 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function buildContext(InputInterface $input): Context
+    protected function buildContext(InputInterface $input): ContextInterface
     {
         $context = $this->createContext($input);
 
@@ -198,11 +200,11 @@ class RunTaskWrapperCommand extends Command
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @return void
      */
-    protected function writeContext(InputInterface $input, Context $context): void
+    protected function writeContext(InputInterface $input, ContextInterface $context): void
     {
         if (
             $input->hasOption(static::OPTION_ENABLE_CONTEXT_WRITING)
@@ -220,9 +222,9 @@ class RunTaskWrapperCommand extends Command
      *
      * @throws \SprykerSdk\Sdk\Presentation\Console\Exception\MissingContextFileException
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    protected function createContext(InputInterface $input): Context
+    protected function createContext(InputInterface $input): ContextInterface
     {
         $context = new Context();
 

@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Contracts\Entity\MessageInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
@@ -63,13 +65,13 @@ class LocalCliRunner implements CommandRunnerInterface
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    public function execute(CommandInterface $command, Context $context): Context
+    public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
         $placeholders = array_map(function (mixed $placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';
@@ -100,14 +102,14 @@ class LocalCliRunner implements CommandRunnerInterface
             [$process],
         );
 
-        $context->setResult($process->getExitCode() ?? Context::SUCCESS_STATUS_CODE);
+        $context->setExitCode($process->getExitCode() ?? Context::SUCCESS_STATUS_CODE);
 
         foreach (explode(PHP_EOL, $process->getOutput()) as $outputLine) {
-            $context->addMessage(new Message($outputLine));
+            $context->addMessage(new Message($outputLine, MessageInterface::INFO));
         }
 
         foreach (explode(PHP_EOL, $process->getErrorOutput()) as $errorLine) {
-            $context->addMessage(new Message($errorLine, Message::ERROR));
+            $context->addMessage(new Message($errorLine, MessageInterface::ERROR));
         }
 
         return $context;

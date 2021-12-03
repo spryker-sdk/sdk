@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Contracts\ValueResolver;
 
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 
 abstract class AbstractValueResolver implements ValueResolverInterface
 {
@@ -28,7 +28,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      * @param bool $optional
      *
@@ -36,7 +36,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      *
      * @return mixed
      */
-    public function getValue(Context $context, array $settingValues, bool $optional = false): mixed
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): mixed
     {
         if ($this->valueReceiver->has($this->getValueName())) {
             return $this->valueReceiver->get($this->getValueName());

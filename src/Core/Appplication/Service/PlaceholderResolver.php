@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\ValueResolver\ConfigurableValueResolverInterface;
 use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 
 class PlaceholderResolver
 {
@@ -41,11 +41,11 @@ class PlaceholderResolver
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $placeholder
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
      * @return mixed
      */
-    public function resolve(PlaceholderInterface $placeholder, Context $context): mixed
+    public function resolve(PlaceholderInterface $placeholder, ContextInterface $context): mixed
     {
         $valueResolverInstance = $this->getValueResolver($placeholder);
         $settingValues = [];

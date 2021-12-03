@@ -7,14 +7,12 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-
 interface ExecutableCommandInterface extends CommandInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    public function execute(Context $context): Context;
+    public function execute(ContextInterface $context): ContextInterface;
 }

@@ -7,8 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Contracts\Entity\MessageInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 
@@ -57,11 +58,13 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     * @param \SprykerSdk\Sdk\Contracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
+     *
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ContextInterface
      */
-    public function execute(Context $context): Context
+    public function execute(ContextInterface $context): ContextInterface
     {
         $message = $this->message;
 
@@ -83,9 +86,8 @@ class GreeterCommand implements ExecutableCommandInterface
             ));
         }
 
-
-        $context->setResult(0);
-        $context->addMessage(new Message($message, Message::SUCCESS));
+        $context->setExitCode(0);
+        $context->addMessage(new Message($message, MessageInterface::SUCCESS));
 
         return $context;
     }

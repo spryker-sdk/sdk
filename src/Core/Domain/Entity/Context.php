@@ -7,14 +7,15 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use JsonSerializable;
+use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Contracts\Entity\MessageInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Report\ViolationReportInterface;
 
-//@todo perfect use case for marsk DTO library
-class Context implements JsonSerializable
+//@todo perfect use case for marks DTO library
+class Context implements ContextInterface
 {
     /**
      * @var int
@@ -37,7 +38,7 @@ class Context implements JsonSerializable
     protected array $resolvedValues = [];
 
     /**
-     * @var array<\SprykerSdk\Sdk\Core\Domain\Entity\Message>
+     * @var array<\SprykerSdk\Sdk\Contracts\Entity\MessageInterface>
      */
     protected array $messages = [];
 
@@ -61,7 +62,7 @@ class Context implements JsonSerializable
      */
     protected array $violationReports = [];
 
-    protected int $result = self::SUCCESS_STATUS_CODE;
+    protected int $exitCode = self::SUCCESS_STATUS_CODE;
 
     /**
      * @var array<string>
@@ -135,7 +136,7 @@ class Context implements JsonSerializable
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Message>
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\MessageInterface>
      */
     public function getMessages(): array
     {
@@ -143,17 +144,17 @@ class Context implements JsonSerializable
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Message $message
+     * @param \SprykerSdk\Sdk\Contracts\Entity\MessageInterface $message
      *
      * @return void
      */
-    public function addMessage(Message $message)
+    public function addMessage(MessageInterface $message)
     {
         $this->messages[] = $message;
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Message> $messages
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\MessageInterface> $messages
      *
      * @return void
      */
@@ -223,19 +224,19 @@ class Context implements JsonSerializable
     /**
      * @return int
      */
-    public function getResult(): int
+    public function getExitCode(): int
     {
-        return $this->result;
+        return $this->exitCode;
     }
 
     /**
-     * @param int $result
+     * @param int $exitCode
      *
      * @return void
      */
-    public function setResult(int $result): void
+    public function setExitCode(int $exitCode): void
     {
-        $this->result = $result;
+        $this->exitCode = $exitCode;
     }
 
     /**
@@ -314,7 +315,7 @@ class Context implements JsonSerializable
 
         if (array_key_exists('messages', $data) && is_array($data['messages'])) {
             $this->messages = array_map(function (array $messageData): Message {
-                return new Message($messageData['message'], $messageData['verbosity'] ?? Message::INFO);
+                return new Message($messageData['message'], $messageData['verbosity'] ?? MessageInterface::INFO);
             }, $data['messages']);
         }
     }
