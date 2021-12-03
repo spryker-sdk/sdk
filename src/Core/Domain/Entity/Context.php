@@ -29,27 +29,32 @@ class Context implements JsonSerializable
     /**
      * @var array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
-    private array $requiredPlaceholders;
+    protected array $requiredPlaceholders = [];
 
     /**
      * @var array<string, mixed>
      */
-    private array $resolvedValues;
+    protected array $resolvedValues = [];
 
     /**
      * @var array<\SprykerSdk\Sdk\Core\Domain\Entity\Message>
      */
-    private array $messages;
+    protected array $messages = [];
 
     /**
      * @var array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
      */
-    private array $tasks;
+    protected array $tasks = [];
 
     /**
      * @var array<string>
      */
-    private array $stages;
+    protected array $availableStages = [self::DEFAULT_STAGE];
+
+    /**
+     * @var array<string>
+     */
+    protected array $requiredStages = [self::DEFAULT_STAGE];
 
     /**
      * @var array<\SprykerSdk\Sdk\Contracts\Report\ViolationReportInterface>
@@ -61,34 +66,12 @@ class Context implements JsonSerializable
     /**
      * @var array<string>
      */
-    protected array $tags;
+    protected array $tags = [];
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $requiredPlaceholders
-     * @param array<string, mixed> $resolvedValues
-     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\Message> $messages
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
-     * @param array<string> $tags
-     * @param array<string> $stages
-     * @param array<\SprykerSdk\Sdk\Contracts\Report\ViolationReportInterface> $violationReports
+     * @var bool
      */
-    public function __construct(
-        array $requiredPlaceholders = [],
-        array $resolvedValues = [],
-        array $messages = [],
-        array $tasks = [],
-        array $tags = [],
-        array $stages = [],
-        array $violationReports = []
-    ) {
-        $this->requiredPlaceholders = $requiredPlaceholders;
-        $this->resolvedValues = $resolvedValues;
-        $this->messages = $messages;
-        $this->tasks = $tasks;
-        $this->violationReports = $violationReports;
-        $this->tags = $tags;
-        $this->stages = $stages;
-    }
+    protected bool $isDryRun = false;
 
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
@@ -196,7 +179,7 @@ class Context implements JsonSerializable
     {
         $this->tasks[$task->getId()] = $task;
         $stage = $task instanceof StagedTaskInterface ? $task->getStage() : static::DEFAULT_STAGE;
-        $this->stages[] = $stage;
+        $this->availableStages[] = $stage;
     }
 
     /**
@@ -214,9 +197,9 @@ class Context implements JsonSerializable
     /**
      * @return array<string>
      */
-    public function getStages(): array
+    public function getAvailableStages(): array
     {
-        return array_unique($this->stages);
+        return array_unique($this->availableStages);
     }
 
     /**
@@ -256,13 +239,31 @@ class Context implements JsonSerializable
     }
 
     /**
-     * @param array<string> $stages
+     * @param array<string> $availableStages
      *
      * @return void
      */
-    public function setStages(array $stages): void
+    public function setAvailableStages(array $availableStages): void
     {
-        $this->stages = $stages;
+        $this->availableStages = $availableStages;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getRequiredStages(): array
+    {
+        return $this->requiredStages;
+    }
+
+    /**
+     * @param array<string> $requiredStages
+     *
+     * @return void
+     */
+    public function setRequiredStages(array $requiredStages): void
+    {
+        $this->requiredStages = $requiredStages;
     }
 
     /**
@@ -316,5 +317,23 @@ class Context implements JsonSerializable
                 return new Message($messageData['message'], $messageData['verbosity'] ?? Message::INFO);
             }, $data['messages']);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDryRun(): bool
+    {
+        return $this->isDryRun;
+    }
+
+    /**
+     * @param bool $isDryRun
+     *
+     * @return void
+     */
+    public function setIsDryRun(bool $isDryRun = true): void
+    {
+        $this->isDryRun = $isDryRun;
     }
 }

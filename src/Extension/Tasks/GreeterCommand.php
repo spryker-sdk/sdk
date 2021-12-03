@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks;
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 
 class GreeterCommand implements ExecutableCommandInterface
 {
@@ -28,7 +29,7 @@ class GreeterCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return '';
+        return 'Greet' . $this->message;
     }
 
     /**
@@ -62,8 +63,29 @@ class GreeterCommand implements ExecutableCommandInterface
      */
     public function execute(Context $context): Context
     {
+        $message = $this->message;
+
+        $placeholders = array_map(function (mixed $placeholder): string {
+            return '/' . preg_quote((string)$placeholder, '/') . '/';
+        }, array_keys($context->getResolvedValues()));
+
+        $values = array_map(function (mixed $value): string {
+            return (string)$value;
+        }, array_values($context->getResolvedValues()));
+
+        $message = preg_replace($placeholders, $values, $message);
+
+        if (!is_string($message)) {
+            throw new CommandRunnerException(sprintf(
+                'Could not assemble command %s with keys %s',
+                $this->getCommand(),
+                implode(', ', array_keys($values)),
+            ));
+        }
+
+
         $context->setResult(0);
-        $context->addMessage(new Message($this->message, Message::SUCCESS));
+        $context->addMessage(new Message($message, Message::SUCCESS));
 
         return $context;
     }

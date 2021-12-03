@@ -43,6 +43,11 @@ class RunTaskWrapperCommand extends Command
      */
     public const OPTION_ENABLE_CONTEXT_WRITING = 'context-writing-enabled';
 
+    /**
+     * @var string
+     */
+    public const OPTION_DRY_RUN = 'dry-run';
+
     protected TaskExecutor $taskExecutor;
 
     protected array $taskOptions;
@@ -176,12 +181,16 @@ class RunTaskWrapperCommand extends Command
     {
         $context = $this->createContext($input);
 
+        if ($input->hasOption(static::OPTION_DRY_RUN)) {
+            $context->setIsDryRun((bool)$input->getOption(static::OPTION_DRY_RUN));
+        }
+
         if ($input->hasOption(static::OPTION_TAGS)) {
             $context->setTags($input->getOption(static::OPTION_TAGS));
         }
 
         if ($input->hasOption(static::OPTION_STAGES)) {
-            $context->setStages($input->getOption(static::OPTION_STAGES));
+            $context->setAvailableStages($input->getOption(static::OPTION_STAGES));
         }
 
         return $context;

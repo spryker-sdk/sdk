@@ -10,6 +10,8 @@ namespace SprykerSdk\Sdk\Extension\Tasks;
 use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaggedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskSetInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Extension\ValueResolvers\StaticValueResolver;
 
 class HelloStagedSetTask implements TaskSetInterface
 {
@@ -38,11 +40,19 @@ class HelloStagedSetTask implements TaskSetInterface
     }
 
     /**
-     * @return array
+     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
-        return [];
+        $placeholders = [];
+
+        foreach ($this->getTasks() as $task) {
+            foreach ($task->getPlaceholders() as $placeholder) {
+                $placeholders[$placeholder->getName()] = $placeholder;
+            }
+        }
+
+        return $placeholders;
     }
 
     /**
@@ -107,7 +117,7 @@ class HelloStagedSetTask implements TaskSetInterface
                  */
                 public function getCommands(): array
                 {
-                    return [new GreeterCommand('Hello Stage A')];
+                    return [new GreeterCommand('Hello Stage A (%foo%)')];
                 }
 
                 /**
@@ -115,7 +125,17 @@ class HelloStagedSetTask implements TaskSetInterface
                  */
                 public function getPlaceholders(): array
                 {
-                    return [];
+                    return [
+                        new Placeholder(
+                            '%foo%',
+                            StaticValueResolver::class,
+                            [
+                                'name' => 'foo',
+                                'defaultValue' => 'FOO',
+                                'description' => 'Foo description',
+                            ],
+                        ),
+                    ];
                 }
 
                 /**
@@ -172,7 +192,7 @@ class HelloStagedSetTask implements TaskSetInterface
                  */
                 public function getCommands(): array
                 {
-                    return [new GreeterCommand('Hello Stage B')];
+                    return [new GreeterCommand('Hello Stage B (%bar%)')];
                 }
 
                 /**
@@ -180,7 +200,17 @@ class HelloStagedSetTask implements TaskSetInterface
                  */
                 public function getPlaceholders(): array
                 {
-                    return [];
+                    return [
+                        new Placeholder(
+                            '%bar%',
+                            StaticValueResolver::class,
+                            [
+                                'name' => 'bar',
+                                'defaultValue' => 'BAR',
+                                'description' => 'Bar description',
+                            ],
+                        ),
+                    ];
                 }
 
                 /**

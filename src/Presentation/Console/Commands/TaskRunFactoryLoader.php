@@ -274,6 +274,13 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             'Current context will be written to the given filepath in JSON format',
             $defaultContextFilePath,
         );
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_DRY_RUN,
+            'd',
+            InputOption::VALUE_OPTIONAL,
+            'Will only simulate a run and not execute any of the commands',
+            false,
+        );
 
         return $options;
     }

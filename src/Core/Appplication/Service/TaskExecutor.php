@@ -67,7 +67,9 @@ class TaskExecutor
      */
     public function execute(string $taskId, Context $context): Context
     {
-        $context = $this->collectTasks($context, $taskId);
+        $baseTask = $this->getBaseTask($taskId, $context);
+        $context = $this->collectAvailableStages($baseTask, $context);
+        $context = $this->collectTasks($context, $baseTask);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);
 
@@ -82,8 +84,6 @@ class TaskExecutor
     protected function collectRequiredPlaceholders(Context $context): Context
     {
         foreach ($context->getTasks() as $task) {
-            $context->addTask($task);
-
             foreach ($task->getPlaceholders() as $placeholder) {
                 $context->addRequiredPlaceholder($placeholder);
             }
@@ -122,7 +122,7 @@ class TaskExecutor
     protected function executeTasks(Context $context): Context
     {
         $tasks = $context->getTasks();
-        $stages = $context->getStages();
+        $stages = $context->getRequiredStages();
 
         foreach ($stages as $stage) {
             $context = $this->executeStage($context, $tasks, $stage);
@@ -145,12 +145,26 @@ class TaskExecutor
     protected function executeCommand(CommandInterface $command, Context $context, TaskInterface $task): Context
     {
         foreach ($this->commandRunners as $commandRunner) {
-            if ($commandRunner->canHandle($command)) {
-                $context = $commandRunner->execute($command, $context);
-                $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$context->getResult()));
-
-                return $context;
+            if (!$commandRunner->canHandle($command)) {
+                continue;
             }
+
+            if ($context->isDryRun()) {
+                $context->addMessage(new Message(sprintf(
+                    'Run: %s (class: %s, command runner: %s, will stop on error: %s)',
+                    $command->getCommand(),
+                    $command::class,
+                    $commandRunner::class,
+                    $command->hasStopOnError() ? 'yes' : 'no',
+                ), Message::DEBUG));
+
+                continue;
+            }
+
+            $context = $commandRunner->execute($command, $context);
+            $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$context->getResult()));
+
+            return $context;
         }
 
         return $context;
@@ -169,7 +183,7 @@ class TaskExecutor
 
         if ($stage !== null) {
             $stageTasks = array_filter($tasks, function (TaskInterface $task) use ($stage): bool {
-                return (!$task instanceof StagedTaskInterface || $task->getStage() !== $stage);
+                return ($task instanceof StagedTaskInterface && $task->getStage() === $stage);
             });
 
             if (count($stageTasks) > 0) {
@@ -195,20 +209,12 @@ class TaskExecutor
 
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
-     * @param string $taskId
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
      */
-    protected function collectTasks(Context $context, string $taskId): Context
+    protected function collectTasks(Context $context, TaskInterface $task): Context
     {
-        $task = $this->taskRepository->findById($taskId, $context->getTags());
-
-        if (!$task) {
-            throw new TaskMissingException(sprintf('No task with id %s found', $taskId));
-        }
-
         $tasks = [$task];
 
         if ($task instanceof TaskSetInterface) {
@@ -225,17 +231,65 @@ class TaskExecutor
             });
         }
 
-        if (!empty($context->getStages()) && $context->getStages() != [Context::DEFAULT_STAGE]) {
+        if (!empty($context->getRequiredStages()) && $context->getRequiredStages() != [Context::DEFAULT_STAGE]) {
             $tasks = array_filter($tasks, function (TaskInterface $task) use ($context): bool {
                 if (!$task instanceof StagedTaskInterface) {
                     return false;
                 }
 
-                return in_array($task->getStage(), $context->getStages());
+                return in_array($task->getStage(), $context->getRequiredStages());
             });
         }
 
         $context->setTasks($tasks);
+
+        return $context;
+    }
+
+    /**
+     * @param string $taskId
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
+     *
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     */
+    protected function getBaseTask(string $taskId, Context $context): TaskInterface
+    {
+        $baseTask = $this->taskRepository->findById($taskId, $context->getTags());
+
+        if (!$baseTask) {
+            throw new TaskMissingException(sprintf('No task with id %s found', $taskId));
+        }
+
+        return $baseTask;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $baseTask
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Context $context
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Context
+     */
+    protected function collectAvailableStages(TaskInterface $baseTask, Context $context): Context
+    {
+        if ($baseTask instanceof TaskSetInterface) {
+            $availableStages = array_unique(
+                array_map(function (TaskInterface $subTask): string {
+                    if ($subTask instanceof StagedTaskInterface) {
+                        return $subTask->getStage();
+                    }
+
+                    return Context::DEFAULT_STAGE;
+                }, $baseTask->getTasks()),
+            );
+
+            $context->setAvailableStages($availableStages);
+        }
+
+        if ($context->getRequiredStages() === [Context::DEFAULT_STAGE]) {
+            $context->setRequiredStages($context->getAvailableStages());
+        }
 
         return $context;
     }
