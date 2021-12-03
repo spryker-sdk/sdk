@@ -8,6 +8,10 @@ services:
   event_logger:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
     factory: ['@event_logger_factory', 'createEventLogger']
+  progress_bar:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
+    tags:
+      - { name: kernel.event_listener, event: console.command, method: initProgressBar }
   setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
@@ -36,6 +40,7 @@ services:
     tags: ['command.runner']
     arguments:
       - '@process_helper'
+      - '@progress_bar'
   php__command_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
     tags: ['command.runner']

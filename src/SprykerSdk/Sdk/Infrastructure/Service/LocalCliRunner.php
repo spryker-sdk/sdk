@@ -23,12 +23,16 @@ class LocalCliRunner implements CommandRunnerInterface
 
     protected ProcessHelper $processHelper;
 
+    protected ProgressBar $progressBar;
+
     /**
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ProgressBar $progressBar
      */
-    public function __construct(ProcessHelper $processHelper)
+    public function __construct(ProcessHelper $processHelper, ProgressBar $progressBar)
     {
         $this->processHelper = $processHelper;
+        $this->progressBar = $progressBar;
     }
 
     /**
@@ -95,6 +99,9 @@ class LocalCliRunner implements CommandRunnerInterface
         $process = Process::fromShellCommandline($assembledCommand);
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
+        $process->run(function ($type, $buffer) {
+            $this->progressBar->setMessage($buffer);
+        });
 
         $process = $this->processHelper->run(
             $this->output,

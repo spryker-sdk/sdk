@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
+use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
@@ -37,21 +38,29 @@ class TaskExecutor
     protected EventLoggerInterface $eventLogger;
 
     /**
+     * @var \SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface
+     */
+    protected ProgressBarInterface $progressBar;
+
+    /**
      * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface $progressBar
      */
     public function __construct(
         iterable $commandRunners,
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
-        EventLoggerInterface $eventLogger
+        EventLoggerInterface $eventLogger,
+        ProgressBarInterface $progressBar
     ) {
         $this->eventLogger = $eventLogger;
         $this->taskRepository = $taskRepository;
         $this->placeholderResolver = $placeholderResolver;
         $this->commandRunners = $commandRunners;
+        $this->progressBar = $progressBar;
     }
 
     /**
@@ -68,18 +77,38 @@ class TaskExecutor
         $resolvedValues = $this->getResolvedValues($task);
 
         $result = true;
+
+        $countExecutableCommands = 0;
+        foreach ($task->getCommands() as $command) {
+            foreach ($this->commandRunners as $commandRunner) {
+                if ($commandRunner->canHandle($command)) {
+                    $countExecutableCommands++;
+                }
+            }
+        }
+
+        $this->progressBar->start($countExecutableCommands);
         foreach ($task->getCommands() as $command) {
             foreach ($this->commandRunners as $commandRunner) {
                 if ($commandRunner->canHandle($command)) {
                     $commandResponse = $commandRunner->execute($command, $resolvedValues);
+
                     $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, $commandResponse->getIsSuccessful()));
+
                     $result = $commandResponse->getIsSuccessful();
                     if (!$result && $command->hasStopOnError()) {
+                        $this->progressBar->setMessage((string)$commandResponse->getErrorMessage());
+                        $this->progressBar->finish();
+
                         throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
                     }
+
+                    $this->progressBar->advance();
                 }
             }
         }
+
+        $this->progressBar->finish();
 
         return (int)$result;
     }
