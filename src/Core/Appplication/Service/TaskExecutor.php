@@ -86,6 +86,8 @@ class TaskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse $commandResponse
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
+     *
      * @return void
      */
     public function afterCommandExecuted(CommandInterface $command, CommandResponse $commandResponse, TaskInterface $task): void
