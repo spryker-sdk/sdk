@@ -52,6 +52,20 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $exitCode = $this->selfUpdate($output);
+
+        $this->lifecycleManager->update();
+
+        return $exitCode;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
+    protected function selfUpdate(OutputInterface $output): int
+    {
         $sdkPackage = InstalledVersions::getRootPackage();
         $sdkPackageName = $sdkPackage['name'];
 
@@ -68,8 +82,6 @@ class UpdateCommand extends Command
 
             return $exitCode;
         }
-
-        $this->lifecycleManager->update();
 
         return $exitCode;
     }
