@@ -52,7 +52,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SprykerSdk\\Sdk\\Tests\\": "tests/Sdk/Tests/",
+            "SprykerSdk\\Sdk\\Tests\\": "tests/Sdk/Tests/"
         }
     },
     "minimum-stability": "dev",
