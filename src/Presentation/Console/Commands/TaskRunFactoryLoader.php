@@ -258,6 +258,13 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             'Will only simulate a run and not execute any of the commands',
             false,
         );
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_OVERWRITES,
+            'o',
+            InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+            'Will allow to overwrite values that are already passed inside the context',
+            []
+        );
 
         return $options;
     }

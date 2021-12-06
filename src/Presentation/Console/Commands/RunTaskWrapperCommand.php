@@ -49,6 +49,11 @@ class RunTaskWrapperCommand extends Command
      */
     public const OPTION_DRY_RUN = 'dry-run';
 
+    /**
+     * @var string
+     */
+    public const OPTION_OVERWRITES = 'overwrites';
+
     protected TaskExecutor $taskExecutor;
 
     protected array $taskOptions;
@@ -200,6 +205,10 @@ class RunTaskWrapperCommand extends Command
 
         if ($input->hasOption(static::OPTION_STAGES)) {
             $context->setAvailableStages($input->getOption(static::OPTION_STAGES));
+        }
+
+        if ($input->hasOption(static::OPTION_OVERWRITES) && !empty($input->getOption(static::OPTION_OVERWRITES))) {
+            $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
         }
 
         return $context;

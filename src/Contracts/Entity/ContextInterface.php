@@ -203,4 +203,14 @@ interface ContextInterface
      * @return void
      */
     public function setName(string $name): void;
+
+    /**
+     * @return array<string>
+     */
+    public function getOverwrites(): array;
+
+    /**
+     * @param array<string> $overwrites
+     */
+    public function setOverwrites(array $overwrites): void;
 }

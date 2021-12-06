@@ -69,6 +69,11 @@ class Context implements ContextInterface
     protected string $name = 'sdk';
 
     /**
+     * @var array<string>
+     */
+    protected array $overwrites = [];
+
+    /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
      */
     public function getRequiredPlaceholders(): array
@@ -332,5 +337,21 @@ class Context implements ContextInterface
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getOverwrites(): array
+    {
+        return $this->overwrites;
+    }
+
+    /**
+     * @param array<string> $overwrites
+     */
+    public function setOverwrites(array $overwrites): void
+    {
+        $this->overwrites = $overwrites;
     }
 }

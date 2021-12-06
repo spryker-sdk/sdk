@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ContextInterface;
 use SprykerSdk\Sdk\Contracts\Entity\MessageInterface;
+use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\StagedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaggedTaskInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
@@ -101,10 +102,11 @@ class TaskExecutor
     protected function resolveValues(ContextInterface $context): ContextInterface
     {
         $existingValues = $context->getResolvedValues();
+        $overwrites = $context->getOverwrites();
 
         foreach ($context->getRequiredPlaceholders() as $requiredPlaceholder) {
             //the placeholder might already be resolved when the context was passed from a previous stage
-            if (!array_key_exists($requiredPlaceholder->getName(), $existingValues)) {
+            if (!$this->isValueResolved($requiredPlaceholder, $existingValues, $overwrites)) {
                 $context->addResolvedValues(
                     $requiredPlaceholder->getName(),
                     $this->placeholderResolver->resolve($requiredPlaceholder, $context),
@@ -300,5 +302,29 @@ class TaskExecutor
         }
 
         return $context;
+    }
+
+    /**
+     * @param mixed $requiredPlaceholder
+     * @param array<string, mixed> $existingValues
+     * @param array<string> $overwrites
+     * @return bool
+     */
+    protected function isValueResolved(
+        PlaceholderInterface $requiredPlaceholder,
+        array $existingValues,
+        array $overwrites,
+    ): bool {
+        if (!array_key_exists($requiredPlaceholder->getName(), $existingValues)) {
+            return false;
+        }
+
+        $valueResolver = $this->placeholderResolver->getValueResolver($requiredPlaceholder);
+
+        if (in_array($valueResolver->getAlias(), $overwrites) || in_array($valueResolver->getId(), $overwrites)) {
+            return false;
+        }
+
+        return true;
     }
 }
