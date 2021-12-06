@@ -76,8 +76,8 @@ class ProgressBar implements ProgressBarInterface
      */
     public function initProgressBar(ConsoleCommandEvent $event)
     {
-        $this->symfonyProgressBar = new SymfonyProgressBar($event->getOutput());
-        $this->symfonyProgressBar->setFormat("<info>%message%</info> \n\r %current%/%max% [%bar%] %percent:3s%% \n\r");
+        $this->symfonyProgressBar = new SymfonyProgressBar($event->getOutput(), 1000);
+        $this->symfonyProgressBar->setFormat("%current%/%max% [%bar%] %percent:3s%% \n\r <comment>%message%</comment> \n\r");
         $this->symfonyProgressBar->setMessage('');
     }
 }
