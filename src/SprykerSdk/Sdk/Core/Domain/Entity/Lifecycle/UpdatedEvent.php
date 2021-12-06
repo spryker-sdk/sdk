@@ -7,6 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
-class UpdatedEvent extends AbstractLifecycleEvent
+class UpdatedEvent extends BaseLifecycleEventData
 {
 }

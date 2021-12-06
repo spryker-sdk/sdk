@@ -7,6 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
-class RemovedEvent extends AbstractLifecycleEvent
+class RemovedEvent extends BaseLifecycleEventData
 {
 }

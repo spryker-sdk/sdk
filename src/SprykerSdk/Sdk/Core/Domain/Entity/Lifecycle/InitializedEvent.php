@@ -7,6 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
-class InitializedEvent extends AbstractLifecycleEvent
+class InitializedEvent extends BaseLifecycleEventData
 {
 }
