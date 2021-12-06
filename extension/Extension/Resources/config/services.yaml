@@ -1,0 +1,12 @@
+services:
+  generate_pbc:
+    class: SprykerSdk\Extension\Tasks\GeneratePbcTask
+    tags: [ 'sdk.task' ]
+    arguments:
+      - '@process_helper'
+  sdk_directory_value_resolver:
+    class: SprykerSdk\Extension\ValueResolvers\SdkDirectoryValueResolver
+    tags: [ 'sdk.value_resolver' ]
+    arguments:
+      - '@value_receiver'
+      - '%kernel.project_dir%'

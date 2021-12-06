@@ -68,10 +68,15 @@ services:
       - '@php__command_runner'
   value_receiver:
     alias: 'cli_value_receiver'
+  autoloader_service:
+      class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
+      arguments:
+        - '%kernel.project_dir%'
   value_resolver_registry:
     class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
     arguments:
       - '@setting_repository'
       - '@value_receiver'
       - !tagged_iterator sdk.value_resolver
+      - '@autoloader_service'
       - '%kernel.project_dir%'

@@ -29,6 +29,7 @@
         "symfony/yaml": "5.3.*"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4",
         "codeception/codeception": "*",
         "codeception/module-asserts": "*",
         "mikey179/vfsstream": "^1.6",
@@ -47,7 +48,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "SprykerSdk\\Sdk\\": "src/"
+            "SprykerSdk\\Sdk\\": "src/",
+            "SprykerSdk\\Extension\\": "extension/Extension/"
         }
     },
     "autoload-dev": {
@@ -61,8 +63,8 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
-        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/",
-        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/",
+        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
+        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
         "stan": "phpstan analyze -l 8 src/",
         "test": "codecept build && codecept run",
         "test-cover": "codecept build && codecept run --coverage-xml",
