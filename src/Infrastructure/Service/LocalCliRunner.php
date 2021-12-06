@@ -106,7 +106,7 @@ class LocalCliRunner implements CommandRunnerInterface
             null,
             function ($type, $buffer) {
                 $this->progressBar->setMessage($buffer);
-            }
+            },
         );
 
         $commandResponse = new CommandResponse($process->isSuccessful(), (int)$process->getExitCode());
