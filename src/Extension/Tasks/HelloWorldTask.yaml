@@ -24,48 +24,20 @@ placeholders:
       description: 'Who is somebody'
 lifecycle:
   INITIALIZED:
-    commands:
-      - command: php -r "file_put_contents('%project_dir%/.initialized.test', 'hello file_put_contents');"
-        type: local_cli
-    files:
-      - path: '%project_dir%/.cs_config'
-        content: "severity: 3"
-    placeholders:
-      - name: '%project_dir%'
-        value_resolver: STATIC
-        optional: true
-        configuration:
-          name: 'project_dir'
-          description: 'Project dir, but actually SDK dir'
-          defaultValue: '/Users/kizzill/Documents/Spryker/spryker-sdk/spryker-sdk/'
+      commands:
+        - command: echo "hello world"
+          type: local_cli
+      files: ~
+      placeholders: ~
   UPDATED:
-    commands:
-      - command: php -r "file_put_contents('%project_dir%/.updated.test', 'updated --- hello file_put_contents');"
-        type: local_cli
-    files:
-      - path: '%project_dir%/.new_updated_config'
-        content: "severity: 3"
-    placeholders:
-      - name: '%project_dir%'
-        value_resolver: STATIC
-        optional: true
-        configuration:
-          name: 'project_dir'
-          description: 'Project dir, but actually SDK dir'
-          defaultValue: '/Users/kizzill/Documents/Spryker/spryker-sdk/spryker-sdk/'
+      commands:
+        - command: echo "hello world"
+          type: local_cli
+      files: ~
+      placeholders: ~
   REMOVED:
     commands:
-      - command: php -r "file_put_contents('%project_dir%/.removed.test', 'removed --- bye file_put_contents');"
+      - command: echo "hello world"
         type: local_cli
-    files:
-      - path: '%project_dir%/.cs_config'
-        content: "severity: 3"
-    placeholders:
-      - name: '%project_dir%'
-        value_resolver: STATIC
-        optional: true
-        configuration:
-          name: 'project_dir'
-          description: 'Project dir, but actually SDK dir'
-          defaultValue: '/Users/kizzill/Documents/Spryker/spryker-sdk/spryker-sdk/'
-
+    files: ~
+    placeholders: ~
