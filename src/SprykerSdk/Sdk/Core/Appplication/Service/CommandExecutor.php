@@ -45,16 +45,18 @@ class CommandExecutor implements CommandExecutorInterface
 
         foreach ($commands as $command) {
             foreach ($this->commandRunners as $commandRunner) {
-                if ($commandRunner->canHandle($command)) {
-                    $result = $commandRunner->execute($command, $resolvedValues);
+                if (!$commandRunner->canHandle($command)) {
+                    continue;
+                }
 
-                    if ($loggerCallback) {
-                        $loggerCallback($command, $result);
-                    }
+                $result = $commandRunner->execute($command, $resolvedValues);
 
-                    if ($result !== 0 && $command->hasStopOnError()) {
-                        return $result;
-                    }
+                if ($loggerCallback) {
+                    $loggerCallback($command, $result);
+                }
+
+                if ($result !== 0 && $command->hasStopOnError()) {
+                    return $result;
                 }
             }
         }
