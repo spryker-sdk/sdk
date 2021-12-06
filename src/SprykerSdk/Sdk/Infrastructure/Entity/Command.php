@@ -13,28 +13,6 @@ class Command extends CoreCommand
 {
     protected int $id;
 
-    protected RemovedEvent $removedEvent;
-
-    /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
-     */
-    public function getRemovedEvent(): RemovedEvent
-    {
-        return $this->removedEvent;
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $removedEvent
-     *
-     * @return $this
-     */
-    public function setRemovedEvent(RemovedEvent $removedEvent)
-    {
-        $this->removedEvent = $removedEvent;
-
-        return $this;
-    }
-
     /**
      * @return int
      */
