@@ -14,6 +14,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
     /**
+     * @return array<string, mixed>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            RemovedEvent::NAME => 'onRemovedEvent',
+        ];
+    }
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Lifecycle\Event\RemovedEvent $event
      *
      * @return void
@@ -35,15 +45,5 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
     protected function doManageFile(FileInterface $file): void
     {
         $this->fileManager->remove($file);
-    }
-
-    /**
-     * @return array<string>
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            RemovedEvent::NAME => 'onRemovedEvent',
-        ];
     }
 }

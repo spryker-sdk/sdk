@@ -14,6 +14,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class InitializedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
     /**
+     * @return array<string, mixed>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            InitializedEvent::NAME => 'onInitializedEvent',
+        ];
+    }
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Lifecycle\Event\InitializedEvent $event
      *
      * @return void
@@ -37,15 +47,5 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
     protected function doManageFile(FileInterface $file): void
     {
         $this->fileManager->create($file);
-    }
-
-    /**
-     * @return array<string>
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InitializedEvent::NAME => 'onInitializedEvent',
-        ];
     }
 }

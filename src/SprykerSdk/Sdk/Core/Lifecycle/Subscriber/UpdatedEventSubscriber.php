@@ -14,6 +14,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
     /**
+     * @return array<string, mixed>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            UpdatedEvent::NAME => 'onUpdatedEvent',
+        ];
+    }
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Lifecycle\Event\UpdatedEvent $event
      *
      * @return void
@@ -37,15 +47,5 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
     protected function doManageFile(FileInterface $file): void
     {
         $this->fileManager->create($file);
-    }
-
-    /**
-     * @return array<string>
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            UpdatedEvent::NAME => 'onUpdatedEvent',
-        ];
     }
 }
