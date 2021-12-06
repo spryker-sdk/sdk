@@ -1,0 +1,154 @@
+services:
+    file_finder:
+        class: Symfony\Component\Finder\Finder
+    event_logger_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
+        arguments:
+            - '@project_setting_repository'
+    event_logger:
+        class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
+        factory: [ '@event_logger_factory', 'createEventLogger' ]
+    progress_bar:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
+        tags:
+          - { name: kernel.event_listener, event: console.command, method: initProgressBar }
+    setting_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@path_resolver'
+    project_setting_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
+        arguments:
+            - '@setting_repository'
+            - '@yaml_parser'
+            - '%project_settings_file%'
+    yaml_parser:
+        class: Symfony\Component\Yaml\Yaml
+    task_repository:
+        public: true
+        class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
+        arguments:
+            - '@setting_repository'
+            - '@file_finder'
+            - '@yaml_parser'
+            - !tagged_iterator sdk.task
+    process_helper:
+        class: Symfony\Component\Console\Helper\ProcessHelper
+
+    local_cli_command_runner:
+        class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
+        tags: [ 'command.runner' ]
+        arguments:
+            - '@process_helper'
+            - '@progress_bar'
+    php__command_runner:
+        class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
+        tags: [ 'command.runner' ]
+    cli_value_receiver:
+        class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+        arguments:
+            - '@question_helper'
+    cli_value_receiver_setup_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+        arguments:
+            - '@cli_value_receiver'
+    cli_runner_setup_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+        arguments:
+            - '@local_cli_command_runner'
+
+    php_command_runner_runner_setup_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\PhpCommandRunnerSetupListener
+        tags:
+          - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+        arguments:
+          - '@php__command_runner'
+
+    value_receiver:
+        alias: 'cli_value_receiver'
+
+    value_resolver_registry:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
+        arguments:
+            - '@setting_repository'
+            - '@value_receiver'
+            - !tagged_iterator sdk.value_resolver
+            - '%kernel.project_dir%'
+
+    mapper.command_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper
+
+    mapper.placeholder_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper
+
+    mapper.task_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapper
+        arguments:
+            - '@mapper.command_mapper'
+            - '@mapper.placeholder_mapper'
+            - '@mapper.lifecycle_mapper'
+
+    mapper.lifecycle_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
+        arguments:
+            - '@mapper.lifecycle_event_mapper'
+
+    mapper.lifecycle_event_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleEventMapper
+        arguments:
+            - '@mapper.placeholder_mapper'
+            - '@mapper.command_mapper'
+            - '@mapper.file_mapper'
+
+    mapper.file_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
+
+    task_persistence_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+        arguments:
+            - '@mapper.task_mapper'
+            - '@doctrine'
+
+    service.task_manager:
+        class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
+        arguments:
+            - '@event_dispatcher'
+            - '@task_persistence_repository'
+            - '@task_persistence_repository'
+
+    service.lifecycle_manager:
+        class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
+        arguments:
+            - '@task_repository'
+            - '@task_persistence_repository'
+            - !tagged_iterator sdk.update_action
+
+    task_created_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
+        tags: [ 'sdk.update_action' ]
+        arguments:
+            - '@service.task_manager'
+
+    task_deprecated_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction
+        tags: [ 'sdk.update_action' ]
+        arguments:
+            - '@task_persistence_repository'
+            - '@service.task_manager'
+
+    task_removed_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskRemovedAction
+        tags: [ 'sdk.update_action' ]
+        arguments:
+            - '@service.task_manager'
+
+    task_updated_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskUpdatedAction
+        tags: [ 'sdk.update_action' ]
+        arguments:
+            - '@service.task_manager'
