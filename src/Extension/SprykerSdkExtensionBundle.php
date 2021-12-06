@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Extension;
+namespace SprykerSdk\Sdk\Extension;
 
-use SprykerSdk\Extension\DependencyInjection\SprykerSdkExtensionExtension;
+use SprykerSdk\Sdk\Extension\DependencyInjection\SprykerSdkExtensionExtension;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

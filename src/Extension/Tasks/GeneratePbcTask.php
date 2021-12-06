@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Extension\Tasks;
+namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Extension\Tasks\Commands\ChangeNamesCommand;
-use SprykerSdk\Extension\Tasks\Commands\CheckGitCommand;
-use SprykerSdk\Extension\Tasks\Commands\GeneratePbcCommand;
+use SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand;
+use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
+use SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use Symfony\Component\Console\Helper\ProcessHelper;

@@ -48,8 +48,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "SprykerSdk\\Sdk\\": "src/",
-            "SprykerSdk\\Extension\\": "extension/Extension/"
+            "SprykerSdk\\Sdk\\": "src/"
         }
     },
     "autoload-dev": {

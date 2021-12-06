@@ -44,7 +44,13 @@ class AutoloaderService
             };
         }
 
-        foreach ($this->getFiles($directories, $filePattern)->files() as $file) {
+        $finder = $this->getFiles($directories, $filePattern);
+
+        if ($finder === null) {
+            return;
+        }
+
+        foreach ($finder->files() as $file) {
             $pathName = $file->getPathname();
 
             $namespace = $this->retrieveNamespaceFromFile($pathName);
@@ -92,17 +98,22 @@ class AutoloaderService
     }
 
     /**
-     * @param array $lookupDirectories
+     * @param array<string> $pathCandidates
      * @param string $filePattern
      *
-     * @return \Symfony\Component\Finder\Finder
+     * @return \Symfony\Component\Finder\Finder|null
      */
-    protected function getFiles(array $lookupDirectories, string $filePattern): Finder
+    protected function getFiles(array $pathCandidates, string $filePattern): ?Finder
     {
-        /** @var array<string> $pathCandidates */
-        $pathCandidates = array_map(function (string $path) {
-            return preg_replace('|//|', '/', $path);
-        }, $lookupDirectories);
+        $pathCandidates = array_filter($pathCandidates, function (string $pathCandidate): bool {
+            $result = glob($pathCandidate, (\defined('GLOB_BRACE') ? \GLOB_BRACE : 0) | \GLOB_ONLYDIR | \GLOB_NOSORT);
+
+            return (bool)$result;
+        });
+
+        if (empty($pathCandidates)) {
+            return null;
+        }
 
         return Finder::create()->in($pathCandidates)->name($filePattern);
     }

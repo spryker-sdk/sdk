@@ -153,13 +153,15 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected function getValueResolverDirectories(): array
     {
-        $paths = $this->settingRepository->findOneByPath('value_resolver_dirs');
+        $paths = $this->settingRepository->findOneByPath('extension_dirs');
 
         if (!$paths) {
-            throw new MissingSettingException('Setting value_resolver_dirs is missing');
+            throw new MissingSettingException('Setting extension_dirs is missing');
         }
 
-        return $paths->getValues();
+        return array_map(function (string $directory) {
+            return $directory . '/*/ValueResolvers/';
+        }, $paths->getValues());
     }
 
     /**

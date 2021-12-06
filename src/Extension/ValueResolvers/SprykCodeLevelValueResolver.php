@@ -5,23 +5,28 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Extension\ValueResolvers;
+namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
 
-class NamespaceValueResolver extends AbstractValueResolver
+class SprykCodeLevelValueResolver extends AbstractValueResolver
 {
     /**
      * @var string
      */
-    public const ALIAS = 'namespace';
+    protected const CORE = 'core';
+
+    /**
+     * @var string
+     */
+    protected const PROJECT = 'project';
 
     /**
      * @return string
      */
     public function getId(): string
     {
-        return 'NAMESPACE';
+        return 'CORE';
     }
 
     /**
@@ -29,7 +34,7 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getAlias(): string
     {
-        return static::ALIAS;
+        return 'mode';
     }
 
     /**
@@ -37,7 +42,7 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getDescription(): string
     {
-        return 'Namespace name';
+        return 'Core level';
     }
 
     /**
@@ -49,22 +54,31 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
+     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
+     * @param bool|false $optional
+     * @param array<string, mixed> $resolvedValues
+     *
+     * @return mixed
+     */
+    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed
+    {
+        if (!array_key_exists(NamespaceValueResolver::ALIAS, $resolvedValues)) {
+            return $this->getDefaultValue();
+        }
+
+        if (in_array($resolvedValues[NamespaceValueResolver::ALIAS], (array)$settingValues['coreNamespaces'], false)) {
+            return static::CORE;
+        }
+
+        return $this->getDefaultValue();
+    }
+
+    /**
      * @return mixed
      */
     public function getDefaultValue(): mixed
     {
-        return 'Pyz';
-    }
-
-    /**
-     * @param array $settingValues
-     * @param array $resolvedValues
-     *
-     * @return array
-     */
-    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
-    {
-        return array_merge($settingValues['projectNamespaces'], $settingValues['coreNamespaces']);
+        return static::PROJECT;
     }
 
     /**
@@ -90,6 +104,6 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getSettingPaths(): array
     {
-        return ['projectNamespaces', 'coreNamespaces'];
+        return ['coreNamespaces'];
     }
 }
