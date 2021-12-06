@@ -68,18 +68,8 @@ class TaskExecutor
     {
         $task = $this->getTask($taskId, $tags);
 
-        $afterCommandExecutedCallback = function (CommandInterface $command, CommandResponse $commandResponse) use ($task) {
-            $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$commandResponse->getCode()));
-
-            $result = $commandResponse->getIsSuccessful();
-            if (!$result && $command->hasStopOnError()) {
-                $this->progressBar->setMessage((string)$commandResponse->getErrorMessage());
-                $this->progressBar->finish();
-
-                throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
-            }
-
-            $this->progressBar->advance();
+        $afterCommandExecutedCallback = function (CommandInterface $command, CommandResponse $commandResponse) use ($task): void {
+            $this->afterCommandExecuted($command, $commandResponse, $task);
         };
 
         $this->progressBar->start();
@@ -89,6 +79,28 @@ class TaskExecutor
         $this->progressBar->finish();
 
         return $result->getCode();
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse $commandResponse
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
+    public function afterCommandExecuted(CommandInterface $command, CommandResponse $commandResponse, TaskInterface $task): void
+    {
+        $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$commandResponse->getCode()));
+
+        $result = $commandResponse->getIsSuccessful();
+        if (!$result && $command->hasStopOnError()) {
+            $this->progressBar->setMessage((string)$commandResponse->getErrorMessage());
+            $this->progressBar->finish();
+
+            throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
+        }
+
+        $this->progressBar->advance();
     }
 
     /**
