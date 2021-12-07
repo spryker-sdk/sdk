@@ -29,3 +29,7 @@ Using `bin/consolespryker-sdk <task-id> -h` will give a description on what opti
 
 Pleaser refer to the [development documentation](./docs/development.md) for further information on how
 to extend the SDK.
+
+## PhpStorm Command Line Tools
+
+Please refer to the [phpstorm integration documentation](./docs/phpstorm_cli_integration.md) for further information on how to integrate the SDK to PhpStorm.
