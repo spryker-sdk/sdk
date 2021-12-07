@@ -2,7 +2,7 @@
 
 Run
 ```bash
-bin/console phpstorm:create-config
+spryker-sdk phpstorm:create-config
 ```
 
 to generate the custom xml file for PhpStorm Command Line Tools.
