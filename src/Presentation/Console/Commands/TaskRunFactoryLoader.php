@@ -124,12 +124,18 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             );
         }
 
-        return new RunTaskWrapperCommand(
+        $command = new RunTaskWrapperCommand(
             $this->getTaskExecutor(),
             $options,
             $task->getShortDescription(),
             $task->getId(),
         );
+
+        if (empty($command->getHelp())) {
+            $command->setHelp((string)$task->getHelp());
+        }
+
+        return $command;
     }
 
     /**

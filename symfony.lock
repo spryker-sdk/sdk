@@ -199,9 +199,6 @@
     "spryker/container": {
         "version": "1.4.5"
     },
-    "spryker/decimal-object": {
-        "version": "1.0.2"
-    },
     "spryker/doctrine-inflector": {
         "version": "1.1.0"
     },
@@ -219,9 +216,6 @@
     },
     "spryker/gui": {
         "version": "3.41.2"
-    },
-    "spryker/health-check-extension": {
-        "version": "1.0.0"
     },
     "spryker/kernel": {
         "version": "3.61.0"
@@ -247,9 +241,6 @@
     "spryker/monolog": {
         "version": "2.0.5"
     },
-    "spryker/propel": {
-        "version": "3.33.0"
-    },
     "spryker/propel-orm": {
         "version": "1.14.0"
     },
@@ -265,9 +256,6 @@
     "spryker/symfony": {
         "version": "3.7.0"
     },
-    "spryker/transfer": {
-        "version": "3.29.2"
-    },
     "spryker/twig": {
         "version": "3.15.1"
     },
@@ -276,9 +264,6 @@
     },
     "spryker/util-encoding": {
         "version": "2.1.0"
-    },
-    "spryker/util-glob": {
-        "version": "1.0.0"
     },
     "spryker/util-network": {
         "version": "1.1.1"
@@ -550,11 +535,5 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
-    },
-    "webmozart/glob": {
-        "version": "4.4.0"
-    },
-    "webmozart/path-util": {
-        "version": "2.3.0"
     }
 }

@@ -26,7 +26,7 @@ class InitSdkCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'init:sdk';
+    protected static $defaultName = 'init:sdk';
 
     protected CliValueReceiver $cliValueReceiver;
 
@@ -62,7 +62,7 @@ class InitSdkCommand extends Command
         $this->createDatabaseDoctrineCommand = $createDatabaseDoctrineCommand;
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
-        parent::__construct(static::NAME);
+        parent::__construct(static::$defaultName);
     }
 
     /**
