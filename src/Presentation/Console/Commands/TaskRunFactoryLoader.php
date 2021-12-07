@@ -131,7 +131,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             $task->getId(),
         );
 
-        if (empty($command->getHelp())) {
+        if (!$command->getHelp()) {
             $command->setHelp((string)$task->getHelp());
         }
 

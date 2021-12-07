@@ -22,7 +22,7 @@ class CreatePhpStormConfig extends Command
     /**
      * @var string
      */
-    protected static $defaultDescription = 'Puts PhpStorm xml config to .idea directory to make spryker-sdk available as the tool';
+    protected static $defaultDescription = 'Puts PhpStorm XML config to `.idea/` directory to make spryker-sdk available as the tool';
 
     protected ConfigManagerInterface $configManager;
 
