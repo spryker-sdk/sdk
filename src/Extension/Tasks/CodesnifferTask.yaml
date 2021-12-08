@@ -3,7 +3,7 @@ id: 'validation:php:codestyle'
 short_description: 'Check your code by running a static code analysis'
 help: ~
 stage: build
-command: 'php %sdk_dir%/vendor/bin/phpcs --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml ./%path%'
+command: 'php %sdk_dir%/vendor/bin/phpcs --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml --report=checkstyle ./%path% > phpcs.codestyle.xml'
 type: local_cli
 placeholders:
   - name: '%sdk_dir%'
@@ -17,3 +17,8 @@ placeholders:
       description: 'Relative path to module directory in project'
       type: path
       settingPaths: []
+report_converter:
+  name: CheckstyleViolationReportConverter
+  configuration:
+    input_file: phpcs.codestyle.xml
+    producer: phpcs

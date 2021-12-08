@@ -75,3 +75,10 @@ services:
       - '@value_receiver'
       - !tagged_iterator sdk.value_resolver
       - '%kernel.project_dir%'
+  violation_report_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
+    arguments:
+      - '@project_setting_repository'
+      - '@yaml_parser'
+  converter_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\ConverterRepository

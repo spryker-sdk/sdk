@@ -86,7 +86,7 @@ class InitProjectCommand extends Command
 
         $settingEntities = $this->settingRepository->findProjectSettings();
         $needsToAsk = $input->getOption('default');
-        $settingEntities = $this->initializeSettingValues($settingEntities, $needsToAsk);
+        $settingEntities = $this->initializeSettingValues($settingEntities, (bool)$needsToAsk);
         $this->writeProjectSettings($settingEntities);
 
         return static::SUCCESS;

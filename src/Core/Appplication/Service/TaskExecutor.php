@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
+use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 
@@ -43,24 +44,32 @@ class TaskExecutor
     protected ProgressBarInterface $progressBar;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
+     */
+    protected ViolationReportGenerator $violationReportGenerator;
+
+    /**
      * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
      * @param \SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface $progressBar
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
      */
     public function __construct(
         iterable $commandRunners,
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
         EventLoggerInterface $eventLogger,
-        ProgressBarInterface $progressBar
+        ProgressBarInterface $progressBar,
+        ViolationReportGenerator $violationReportGenerator
     ) {
         $this->eventLogger = $eventLogger;
         $this->taskRepository = $taskRepository;
         $this->placeholderResolver = $placeholderResolver;
         $this->commandRunners = $commandRunners;
         $this->progressBar = $progressBar;
+        $this->violationReportGenerator = $violationReportGenerator;
     }
 
     /**
@@ -78,19 +87,13 @@ class TaskExecutor
 
         $result = true;
 
-        $countExecutableCommands = 0;
-        foreach ($task->getCommands() as $command) {
-            foreach ($this->commandRunners as $commandRunner) {
-                if ($commandRunner->canHandle($command)) {
-                    $countExecutableCommands++;
-                }
-            }
-        }
-
         $this->progressBar->start();
+
+        $executableCommands = [];
         foreach ($task->getCommands() as $command) {
             foreach ($this->commandRunners as $commandRunner) {
                 if ($commandRunner->canHandle($command)) {
+                    $executableCommands[] = $command;
                     $commandResponse = $commandRunner->execute($command, $resolvedValues);
 
                     $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, $commandResponse->getIsSuccessful()));
@@ -107,6 +110,8 @@ class TaskExecutor
                 }
             }
         }
+
+        $this->violationReportGenerator->collectViolations($task->getId(), $executableCommands);
 
         $this->progressBar->finish();
 

@@ -70,3 +70,10 @@ settings:
     is_project: true
     type: string
     values: Pyz
+  - path: reportDir
+    initialization_description: Where is the project report directory?
+    strategy: overwrite
+    init: true
+    is_project: true
+    type: string
+    values: './reports'
