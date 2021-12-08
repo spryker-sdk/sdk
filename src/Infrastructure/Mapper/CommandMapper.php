@@ -23,7 +23,7 @@ class CommandMapper implements CommandMapperInterface
             $command->getCommand(),
             $command->getType(),
             $command->hasStopOnError(),
-            $command->getTags()
+            $command->getTags(),
         );
     }
 }
