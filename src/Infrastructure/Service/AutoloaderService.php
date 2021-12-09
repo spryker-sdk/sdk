@@ -106,7 +106,7 @@ class AutoloaderService
     protected function getFiles(array $pathCandidates, string $filePattern): ?Finder
     {
         $pathCandidates = array_filter($pathCandidates, function (string $pathCandidate): bool {
-            $result = glob($pathCandidate, (\defined('GLOB_BRACE') ? \GLOB_BRACE : 0) | \GLOB_ONLYDIR | \GLOB_NOSORT);
+            $result = glob($pathCandidate, (defined('GLOB_BRACE') ? \GLOB_BRACE : 0) | \GLOB_ONLYDIR | \GLOB_NOSORT);
 
             return (bool)$result;
         });

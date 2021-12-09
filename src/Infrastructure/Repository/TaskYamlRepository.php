@@ -63,7 +63,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $tasks = [];
         $taskListData = [];
 
-        $finder = $this->fileFinder->in(array_map(function (string $directory): string{
+        $finder = $this->fileFinder->in(array_map(function (string $directory): string {
             return $directory . '/*/Tasks/';
         }, $taskDirSetting->getValues()))->name('*.yaml');
 
