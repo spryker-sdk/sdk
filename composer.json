@@ -1,5 +1,5 @@
 {
-    "name": "spryker-sdk/spryker-sdk",
+    "name": "spryker-sdk/sdk",
     "description": "The Spryker SDK aims to provide a single entry point to accelerate your productivity working with Spryker.",
     "type": "project",
     "license": "proprietary",
@@ -8,7 +8,14 @@
     "require": {
         "php": ">=8.0",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-pcre": "*",
+        "ext-pdo": "*",
+        "ext-phar": "*",
+        "ext-sqlite3": "*",
+        "ext-xml": "*",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/migrations": "^3.3",

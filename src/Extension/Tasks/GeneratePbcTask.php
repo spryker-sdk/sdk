@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use Symfony\Component\Console\Helper\ProcessHelper;
 
 class GeneratePbcTask implements TaskInterface
@@ -31,7 +31,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getShortDescription(): string
     {
-        return 'This command generate new PBC project';
+        return 'Generate a new PBC project';
     }
 
     /**
@@ -84,7 +84,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'pbc:generate';
+        return 'generate:php:pbc';
     }
 
     /**

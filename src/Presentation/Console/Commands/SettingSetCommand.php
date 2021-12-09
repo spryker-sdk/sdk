@@ -20,7 +20,7 @@ class SettingSetCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'setting:set';
+    protected const NAME = 'sdk:setting:set';
 
     /**
      * @var string

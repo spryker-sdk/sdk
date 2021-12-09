@@ -43,24 +43,29 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected PlaceholderResolver $placeholderResolver;
 
+    private string $environment;
+
     /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
      * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @param string $environment
      */
     public function __construct(
         ContainerInterface $container,
         array $commandMap,
         TaskRepositoryInterface $taskRepository,
         TaskExecutor $taskExecutor,
-        PlaceholderResolver $placeholderResolver
+        PlaceholderResolver $placeholderResolver,
+        string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
         $this->placeholderResolver = $placeholderResolver;
+        $this->environment = $environment;
     }
 
     /**
@@ -138,7 +143,20 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     public function getNames(): array
     {
         try {
-            return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
+            $symfonyCommands = parent::getNames();
+
+            if ($this->environment === 'prod') {
+                $allowedCommands = ['list', 'help'];
+                $symfonyCommands = array_filter($symfonyCommands, function (string $commandName) use ($allowedCommands): bool {
+                    if (in_array($commandName, $allowedCommands)) {
+                        return true;
+                    }
+
+                    return preg_match('/^sdk:/', $commandName) >= 1;
+                });
+            }
+
+            return array_merge($symfonyCommands, array_map(function (TaskInterface $task) {
                 return $task->getId();
             }, $this->getTaskRepository()->findAll()));
         } catch (Throwable $exception) {

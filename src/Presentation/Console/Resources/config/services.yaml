@@ -8,7 +8,6 @@ services:
     arguments:
       - '@cli_value_receiver'
       - '@setting_repository'
-      - '@doctrine.database_create_command'
       - '@doctrine_migrations.migrate_command'
       - '@yaml_parser'
       - '%kernel.project_dir%/src/Extension/Settings/settings.yaml'

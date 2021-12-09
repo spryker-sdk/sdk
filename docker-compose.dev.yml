@@ -1,0 +1,48 @@
+version: '3'
+
+x-volumes:
+    volumes:
+      - spryker_sdk_dev_data_sync:/data
+
+services:
+  spryker-sdk:
+    entrypoint: ["/bin/bash", "-c", "php -dopcache.enable=0 /data/bin/console \"$$@\"", "--"]
+    volumes:
+      - spryker_sdk_dev_data_sync:/data:nocopy
+###< doctrine/doctrine-bundle ###
+
+volumes:
+    ###> doctrine/doctrine-bundle ###
+    db-data:
+    spryker_sdk_dev_data_sync:
+###< doctrine/doctrine-bundle ###
+
+x-mutagen:
+  sync:
+    defaults:
+      symlink:
+        mode: posix-raw
+      ignore:
+        paths:
+          - '/.git*'
+          - '.idea'
+          - '.DS_Store'
+          - '/.nvmrc'
+          - '/.scrutinizer.yml'
+          - '/.travis.yml'
+          - '/newrelic.ini'
+          - '.unison*'
+          - '.docker-sync'
+          - '/infrastructure'
+
+    spryker-sdk-dev-codebase:
+      alpha: "./"
+      beta: "volume://spryker_sdk_dev_data_sync"
+      mode: two-way-resolved
+      permissions:
+        defaultFileMode: 0666
+        defaultDirectoryMode: 0777
+      configurationBeta:
+        permissions:
+          defaultOwner: id:1000
+          defaultGroup: id:1000

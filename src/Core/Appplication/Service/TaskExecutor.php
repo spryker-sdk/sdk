@@ -13,7 +13,6 @@ use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
-use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 
 class TaskExecutor
 {
@@ -67,8 +66,6 @@ class TaskExecutor
      * @param string $taskId
      * @param array $tags
      *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
-     *
      * @return int
      */
     public function execute(string $taskId, array $tags = []): int
@@ -100,7 +97,7 @@ class TaskExecutor
                         $this->progressBar->setMessage((string)$commandResponse->getErrorMessage());
                         $this->progressBar->finish();
 
-                        throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
+                        return (int)$result;
                     }
 
                     $this->progressBar->advance();

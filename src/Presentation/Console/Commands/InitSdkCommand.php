@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
@@ -26,13 +25,11 @@ class InitSdkCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'init:sdk';
+    protected const NAME = 'sdk:init:sdk';
 
     protected CliValueReceiver $cliValueReceiver;
 
     protected SettingRepository $settingRepository;
-
-    protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand;
 
     protected MigrateCommand $doctrineMigrationCommand;
 
@@ -43,7 +40,6 @@ class InitSdkCommand extends Command
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository $settingRepository
-     * @param \Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
@@ -51,7 +47,6 @@ class InitSdkCommand extends Command
     public function __construct(
         CliValueReceiver $cliValueReceiver,
         SettingRepository $settingRepository,
-        CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
         MigrateCommand $doctrineMigrationCommand,
         Yaml $yamlParser,
         string $settingsPath
@@ -59,7 +54,6 @@ class InitSdkCommand extends Command
         $this->settingsPath = $settingsPath;
         $this->yamlParser = $yamlParser;
         $this->doctrineMigrationCommand = $doctrineMigrationCommand;
-        $this->createDatabaseDoctrineCommand = $createDatabaseDoctrineCommand;
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
         parent::__construct(static::NAME);
@@ -180,7 +174,6 @@ class InitSdkCommand extends Command
      */
     protected function createDatabase(): void
     {
-        $this->createDatabaseDoctrineCommand->run(new ArrayInput([]), new NullOutput());
         $migrationInput = new ArrayInput([]);
         $migrationInput->setInteractive(false);
         $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());

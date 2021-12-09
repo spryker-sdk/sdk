@@ -15,3 +15,5 @@
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
 ###< squizlabs/php_codesniffer ###
+
+auth.json
