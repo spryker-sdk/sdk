@@ -13,6 +13,8 @@ services:
       - database
     env_file:
         - ./infrastructure/.env
+    profiles:
+      - run
 
 ###> doctrine/doctrine-bundle ###
   database:
