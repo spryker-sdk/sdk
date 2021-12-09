@@ -37,11 +37,11 @@ services:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
     arguments:
-      - !tagged_iterator command.runner
-      - '@placeholder_resolver'
-      - '@task_repository'
-      - '@event_logger'
-      - '@progress_bar'
+        - '@task_repository'
+        - '@service.command_executor'
+        - '@event_logger'
+        - '@progress_bar'
+
   project_setting_repository:
     abstract: true
     synthetic: true
@@ -50,3 +50,36 @@ services:
     arguments:
       - '@project_setting_repository'
       - '@setting_repository'
+
+  service.file_manager:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\FileManager
+
+  lifecycle.initialized_subscriber:
+    class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\InitializedEventSubscriber
+    tags: ['kernel.event_subscriber']
+    arguments:
+      - '@service.file_manager'
+      - '@placeholder_resolver'
+      - '@service.command_executor'
+
+  lifecycle.removed_subscriber:
+    class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\UpdatedEventSubscriber
+    tags: ['kernel.event_subscriber']
+    arguments:
+      - '@service.file_manager'
+      - '@placeholder_resolver'
+      - '@service.command_executor'
+
+  lifecycle.updated_subscriber:
+    class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\RemovedEventSubscriber
+    tags: ['kernel.event_subscriber']
+    arguments:
+      - '@service.file_manager'
+      - '@placeholder_resolver'
+      - '@service.command_executor'
+
+  service.command_executor:
+      class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
+      arguments:
+          - '@placeholder_resolver'
+          - !tagged_iterator command.runner
