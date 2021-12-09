@@ -38,7 +38,7 @@ class RemovedEventMapper implements RemovedEventMapperInterface
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
-    public function mapRemovedEvent(LifecycleEventDataInterface $lifecycleEvent): RemovedEvent
+    public function mapRemovedEvent(LifecycleEventDataInterface $lifecycleEventData): RemovedEvent
     {
         $removedEvent = new RemovedEvent();
         $removedEvent = $this->mapCommands($lifecycleEvent->getCommands(), $removedEvent);
