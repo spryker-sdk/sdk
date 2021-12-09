@@ -12,17 +12,17 @@ use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface;
 class CommandXmlFormatter implements CommandXmlFormatterInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface $ideCommand
+     * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface $command
      *
      * @return array
      */
-    public function format(CommandInterface $ideCommand): array
+    public function format(CommandInterface $command): array
     {
         return [
-            'name' => $ideCommand->getName(),
-            'help' => $ideCommand->getHelp(),
-            'params' => $this->formatParams($ideCommand->getParams()),
-            'optionsBefore' => $this->formatOptionsBefore($ideCommand->getOptionsBefore()),
+            'name' => $command->getName(),
+            'help' => $command->getHelp(),
+            'params' => $this->formatParams($command->getParams()),
+            'optionsBefore' => $this->formatOptionsBefore($command->getOptionsBefore()),
         ];
     }
 
