@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface;
 interface CommandXmlFormatterInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface $command
+     * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface $ideCommand
      *
      * @return array
      */

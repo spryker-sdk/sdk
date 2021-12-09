@@ -38,7 +38,7 @@ class CommandXmlFormatter implements CommandXmlFormatterInterface
         foreach ($params as $param) {
             $xmlParams[] = [
                 'name' => $param->getName(),
-                'default' => $param->getDefault(),
+                'default' => $param->getDefaultValue(),
             ];
         }
 
