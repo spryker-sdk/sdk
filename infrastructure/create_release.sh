@@ -6,7 +6,7 @@ docker-compose -f docker-compose.yml build --no-cache
 CURRENT_DIR=$(pwd)
 BUILD_DIR="${CURRENT_DIR}/build"
 
-mkdir -p "${BUILD_DIR}"
+mkdir -p "${BUILD_DIR}/bin/"
 cp "${CURRENT_DIR}/bin/spryker-sdk.sh" "${BUILD_DIR}/bin/"
 cp "${CURRENT_DIR}/docker-compose.yml" "${BUILD_DIR}/docker-compose.yml"
 mkdir -p "${BUILD_DIR}/db"
