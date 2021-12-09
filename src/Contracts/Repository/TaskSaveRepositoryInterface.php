@@ -14,9 +14,9 @@ interface TaskSaveRepositoryInterface
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
+     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
      */
-    public function create(TaskInterface $task): Task;
+    public function create(TaskInterface $task): TaskInterface;
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task

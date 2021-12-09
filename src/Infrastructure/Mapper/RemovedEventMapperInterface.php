@@ -13,9 +13,9 @@ use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 interface RemovedEventMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEvent
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
-    public function mapRemovedEvent(LifecycleEventDataInterface $lifecycleEvent): RemovedEvent;
+    public function mapRemovedEvent(LifecycleEventDataInterface $lifecycleEventData): RemovedEvent;
 }

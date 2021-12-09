@@ -108,7 +108,7 @@ class TaskMapper implements TaskMapperInterface
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task>
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
     protected function mapPlaceholders(array $placeholders, Task $task): Task
     {

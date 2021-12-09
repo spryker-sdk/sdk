@@ -232,9 +232,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface
     {
         return new Lifecycle(
-            $this->buildInitializedEvent($taskData, $taskListData, $tags),
-            $this->buildUpdatedEvent($taskData, $taskListData, $tags),
-            $this->buildRemovedEvent($taskData, $taskListData, $tags),
+            $this->buildInitializedEventData($taskData, $taskListData, $tags),
+            $this->buildUpdatedEventData($taskData, $taskListData, $tags),
+            $this->buildRemovedEventData($taskData, $taskListData, $tags),
         );
     }
 
@@ -245,7 +245,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
      */
-    protected function buildInitializedEvent(array $taskData, array $taskListData, array $tags = []): InitializedEventData
+    protected function buildInitializedEventData(array $taskData, array $taskListData, array $tags = []): InitializedEventData
     {
         if (!isset($taskData['lifecycle']['INITIALIZED'])) {
             return new InitializedEventData();
@@ -267,7 +267,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
      */
-    protected function buildRemovedEvent(array $taskData, array $taskListData, array $tags = []): RemovedEventData
+    protected function buildRemovedEventData(array $taskData, array $taskListData, array $tags = []): RemovedEventData
     {
         if (!isset($taskData['lifecycle']['REMOVED'])) {
             return new RemovedEventData();
@@ -289,7 +289,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
      */
-    protected function buildUpdatedEvent(array $taskData, array $taskListData, array $tags = []): UpdatedEventData
+    protected function buildUpdatedEventData(array $taskData, array $taskListData, array $tags = []): UpdatedEventData
     {
         if (!isset($taskData['lifecycle']['UPDATED'])) {
             return new UpdatedEventData();

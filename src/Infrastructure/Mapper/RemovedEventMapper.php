@@ -34,16 +34,16 @@ class RemovedEventMapper implements RemovedEventMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEvent
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
     public function mapRemovedEvent(LifecycleEventDataInterface $lifecycleEventData): RemovedEvent
     {
         $removedEvent = new RemovedEvent();
-        $removedEvent = $this->mapCommands($lifecycleEvent->getCommands(), $removedEvent);
-        $removedEvent = $this->mapPlaceholders($lifecycleEvent->getPlaceholders(), $removedEvent);
-        $removedEvent = $this->mapFiles($lifecycleEvent->getFiles(), $removedEvent);
+        $removedEvent = $this->mapCommands($lifecycleEventData->getCommands(), $removedEvent);
+        $removedEvent = $this->mapPlaceholders($lifecycleEventData->getPlaceholders(), $removedEvent);
+        $removedEvent = $this->mapFiles($lifecycleEventData->getFiles(), $removedEvent);
 
         return $removedEvent;
     }

@@ -15,7 +15,7 @@ interface PlaceholderMapperInterface
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $placeholder
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder>
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder
      */
     public function mapPlaceholder(PlaceholderInterface $placeholder): Placeholder;
 }
