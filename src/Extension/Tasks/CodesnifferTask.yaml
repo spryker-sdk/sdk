@@ -3,6 +3,7 @@ id: 'validation:php:codestyle'
 short_description: 'Check your code by running a static code analysis'
 help: ~
 stage: build
+version: 1.0.0
 command: 'php %sdk_dir%/vendor/bin/phpcs --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml --report=checkstyle ./%path% > phpcs.codestyle.xml'
 type: local_cli
 placeholders:
