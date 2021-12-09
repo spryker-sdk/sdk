@@ -6,7 +6,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Setting:
     id:
       type: integer
       generator:
-        strategy: SEQUENCE
+        strategy: AUTO
   fields:
     path:
       type: string
