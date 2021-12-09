@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 
-class LifecycleEventMapper implements LifecycleEventMapperInterface
+class RemovedEventMapper implements RemovedEventMapperInterface
 {
     protected PlaceholderMapperInterface $placeholderMapper;
 

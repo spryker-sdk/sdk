@@ -96,10 +96,10 @@ services:
     mapper.lifecycle_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
         arguments:
-            - '@mapper.lifecycle_event_mapper'
+            - '@mapper.removed_event_mapper'
 
-    mapper.lifecycle_event_mapper:
-        class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleEventMapper
+    mapper.removed_event_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper
         arguments:
             - '@mapper.placeholder_mapper'
             - '@mapper.command_mapper'
