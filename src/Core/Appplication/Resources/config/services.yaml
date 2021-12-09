@@ -1,9 +1,9 @@
 parameters:
   project_settings_file: '.ssdk'
 services:
-    path_resolver:
-    class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
-    arguments:
+  path_resolver:
+   class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+   arguments:
       - '%kernel.project_dir%'
   value_receiver:
     abstract: true
@@ -27,16 +27,21 @@ services:
   value_resolver_registry:
     abstract: true
     synthetic: true
+  converter_registry:
+    abstract: true
+    synthetic: true
   placeholder_resolver:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
     arguments:
       - '@project_setting_repository'
       - '@value_resolver_registry'
-  violation_convertor_resolver:
-    class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConvertorResolver
+  violation_converter_resolver:
+    public: true
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
     arguments:
-        - '@converter_repository'
+      - '@converter_repository'
+      - '@converter_registry'
   violation_report_merger:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger
   violation_report_generator:
@@ -44,7 +49,7 @@ services:
     arguments:
       - '@violation_report_merger'
       - '@violation_report_repository'
-      - '@violation_convertor_resolver'
+      - '@violation_converter_resolver'
   task_executor:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor

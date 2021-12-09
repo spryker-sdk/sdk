@@ -23,6 +23,7 @@ services:
       - '@setting_repository'
       - '@yaml_parser'
       - '%project_settings_file%'
+      - '@path_resolver'
   yaml_parser:
     class: Symfony\Component\Yaml\Yaml
   task_repository:
@@ -82,3 +83,8 @@ services:
       - '@yaml_parser'
   converter_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ConverterRepository
+  converter_registry:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
+    arguments:
+        - '@setting_repository'
+        - '%kernel.project_dir%'

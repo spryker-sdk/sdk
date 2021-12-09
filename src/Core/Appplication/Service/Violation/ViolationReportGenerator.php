@@ -24,23 +24,23 @@ class ViolationReportGenerator
     protected ViolationReportRepositoryInterface $violationReportRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConvertorResolver
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
      */
-    protected ViolationConvertorResolver $violationConvertorResolver;
+    protected ViolationConverterResolver $violationConverterResolver;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger $violationReportMerger
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface $violationReportRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConvertorResolver $violationConvertorResolver
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver $violationConverterResolver
      */
     public function __construct(
         ViolationReportMerger $violationReportMerger,
         ViolationReportRepositoryInterface $violationReportRepository,
-        ViolationConvertorResolver $violationConvertorResolver
+        ViolationConverterResolver $violationConverterResolver
     ) {
         $this->violationReportMerger = $violationReportMerger;
         $this->violationReportRepository = $violationReportRepository;
-        $this->violationConvertorResolver = $violationConvertorResolver;
+        $this->violationConverterResolver = $violationConverterResolver;
     }
 
     /**
@@ -63,9 +63,9 @@ class ViolationReportGenerator
                 continue;
             }
 
-            $violationConvertor = $this->violationConvertorResolver->resolve($command);
-            if ($violationConvertor) {
-                $violationReports[] = $violationConvertor->convert();
+            $violationConverter = $this->violationConverterResolver->resolve($command);
+            if ($violationConverter) {
+                $violationReports[] = $violationConverter->convert();
             }
         }
 
@@ -74,6 +74,7 @@ class ViolationReportGenerator
         }
 
         $violationReport = $this->violationReportMerger->merge($violationReports);
+
         $this->violationReportRepository->save($taskId, $violationReport);
 
         return $violationReport;

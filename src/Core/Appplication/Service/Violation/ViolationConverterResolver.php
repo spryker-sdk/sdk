@@ -9,9 +9,10 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRepositoryInterface;
 
-class ViolationConvertorResolver
+class ViolationConverterResolver
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRepositoryInterface
@@ -19,18 +20,18 @@ class ViolationConvertorResolver
     protected ConverterRepositoryInterface $converterRepository;
 
     /**
-     * @var array<\SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface> c
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
      */
-    public array $violationConverters;
+    public ConverterRegistryInterface $converterRegistry;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRepositoryInterface $converterRepository
-     * @param array<\SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface> $violationConverters
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface $converterRegistry
      */
-    public function __construct(ConverterRepositoryInterface $converterRepository, array $violationConverters)
+    public function __construct(ConverterRepositoryInterface $converterRepository, ConverterRegistryInterface $converterRegistry)
     {
         $this->converterRepository = $converterRepository;
-        $this->violationConverters = $violationConverters;
+        $this->converterRegistry = $converterRegistry;
     }
 
     /**
@@ -42,18 +43,17 @@ class ViolationConvertorResolver
     {
         $converter = $this->converterRepository->getConverter($command);
 
-        if (!$converter) {
+        if (!$converter || !$this->converterRegistry->has($converter->getName())) {
             return null;
         }
 
-        foreach ($this->violationConverters as $violationConverter) {
-            if (get_class($violationConverter) === $converter->getName()) {
-                $violationConverter->configure($converter->getConfiguration());
+        $violationConverter = $this->converterRegistry->get($converter->getName());
 
-                return $violationConverter;
-            }
+        if (!$violationConverter) {
+            return null;
         }
+        $violationConverter->configure($converter->getConfiguration());
 
-        return null;
+        return $violationConverter;
     }
 }

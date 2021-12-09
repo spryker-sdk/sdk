@@ -22,6 +22,16 @@ class Converter implements ConverterInterface
     protected array $configuration;
 
     /**
+     * @param string $name
+     * @param array $configuration
+     */
+    public function __construct(string $name, array $configuration)
+    {
+        $this->name = $name;
+        $this->configuration = $configuration;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string

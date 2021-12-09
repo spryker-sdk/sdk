@@ -25,12 +25,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     /**
      * @var string
      */
-    protected const REPORT_DIR_SETTING_NAME = 'project_dir';
-
-    /**
-     * @var string
-     */
-    protected const PROJECT_DIR_SETTING_NAME = 'project_dir';
+    protected const REPORT_DIR_SETTING_NAME = 'report_dir';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
@@ -65,6 +60,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
         $violationReportStructure = [];
         $violationReportStructure['project'] = $violationReport->getProject();
         $violationReportStructure['path'] = $violationReport->getPath();
+        $violationReportStructure['violations'] = [];
         foreach ($violationReport->getViolations() as $violation) {
             $violationReportStructure['violations'] = $this->convertViolationToArray($violation);
         }
@@ -262,16 +258,21 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     protected function getViolationReportPath(?string $taskId): string
     {
         $reportDirSetting = $this->projectSettingRepository->findOneByPath(static::REPORT_DIR_SETTING_NAME);
-        $projectRootPath = $this->projectSettingRepository->findOneByPath(static::PROJECT_DIR_SETTING_NAME);
 
-        if (!$reportDirSetting || !$projectRootPath) {
-            throw new MissingSettingException(sprintf('No setting definition for %s,%s found', static::REPORT_DIR_SETTING_NAME, static::PROJECT_DIR_SETTING_NAME));
+        if (!$reportDirSetting) {
+            throw new MissingSettingException(sprintf('Some of setting definition for %s,%s not found', static::REPORT_DIR_SETTING_NAME, static::PROJECT_DIR_SETTING_NAME));
         }
+
+        $reportPath = $reportDirSetting->getValues();
 
         if (!$taskId) {
-            return $projectRootPath->getValues() . $reportDirSetting->getValues();
+            return $reportPath;
         }
 
-        return $projectRootPath->getValues() . $reportDirSetting->getValues() . $taskId . '.violations.yaml';
+        if (!is_dir($reportPath)) {
+            mkdir($reportPath, 0777);
+        }
+
+        return $reportPath . DIRECTORY_SEPARATOR . $taskId . '.violations.yaml';
     }
 }
