@@ -7,7 +7,6 @@
 namespace SprykerSdk\Sdk\Contracts\Repository;
 
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 
 interface TaskSaveRepositoryInterface
 {
