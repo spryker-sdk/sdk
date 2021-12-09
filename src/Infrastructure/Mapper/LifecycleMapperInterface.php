@@ -7,15 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 
 interface LifecycleMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface $lifecycle
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface
      */
-    public function mapLifecycle(PersistentLifecycleInterface $lifecycle): Lifecycle;
+    public function mapLifecycle(LifecycleInterface $lifecycle): PersistentLifecycleInterface;
 }

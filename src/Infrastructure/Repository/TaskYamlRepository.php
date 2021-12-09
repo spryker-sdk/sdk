@@ -7,17 +7,17 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use Symfony\Component\Finder\Finder;
@@ -227,9 +227,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface
      */
-    protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): LifecycleInterface
+    protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface
     {
         return new Lifecycle(
             $this->buildInitializedEvent($taskData, $taskListData, $tags),
@@ -243,17 +243,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
      */
-    protected function buildInitializedEvent(array $taskData, array $taskListData, array $tags = []): InitializedEvent
+    protected function buildInitializedEvent(array $taskData, array $taskListData, array $tags = []): InitializedEventData
     {
         if (!isset($taskData['lifecycle']['INITIALIZED'])) {
-            return new InitializedEvent();
+            return new InitializedEventData();
         }
 
         $eventData = $taskData['lifecycle']['INITIALIZED'];
 
-        return new InitializedEvent(
+        return new InitializedEventData(
             $this->buildLifecycleCommands($eventData),
             $this->buildPlaceholders($eventData, $taskListData, $tags),
             $this->buildFiles($eventData),
@@ -265,17 +265,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
      */
-    protected function buildRemovedEvent(array $taskData, array $taskListData, array $tags = []): RemovedEvent
+    protected function buildRemovedEvent(array $taskData, array $taskListData, array $tags = []): RemovedEventData
     {
         if (!isset($taskData['lifecycle']['REMOVED'])) {
-            return new RemovedEvent();
+            return new RemovedEventData();
         }
 
         $eventData = $taskData['lifecycle']['REMOVED'];
 
-        return new RemovedEvent(
+        return new RemovedEventData(
             $this->buildLifecycleCommands($eventData),
             $this->buildPlaceholders($eventData, $taskListData, $tags),
             $this->buildFiles($eventData),
@@ -287,17 +287,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
      */
-    protected function buildUpdatedEvent(array $taskData, array $taskListData, array $tags = []): UpdatedEvent
+    protected function buildUpdatedEvent(array $taskData, array $taskListData, array $tags = []): UpdatedEventData
     {
         if (!isset($taskData['lifecycle']['UPDATED'])) {
-            return new UpdatedEvent();
+            return new UpdatedEventData();
         }
 
         $eventData = $taskData['lifecycle']['UPDATED'];
 
-        return new UpdatedEvent(
+        return new UpdatedEventData(
             $this->buildLifecycleCommands($eventData),
             $this->buildPlaceholders($eventData, $taskListData, $tags),
             $this->buildFiles($eventData),

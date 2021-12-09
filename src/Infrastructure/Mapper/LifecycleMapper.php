@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 
@@ -25,11 +26,11 @@ class LifecycleMapper implements LifecycleMapperInterface
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface
      */
-    public function mapLifecycle(PersistentLifecycleInterface $lifecycle): Lifecycle
+    public function mapLifecycle(LifecycleInterface $lifecycle): PersistentLifecycleInterface
     {
-        $removedEvent = $this->lifecycleEventMapper->mapRemovedEvent($lifecycle->getRemovedEvent());
+        $removedEvent = $this->lifecycleEventMapper->mapRemovedEvent($lifecycle->getRemovedEventData());
 
         return new Lifecycle($removedEvent);
     }

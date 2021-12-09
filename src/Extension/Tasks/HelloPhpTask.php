@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Extension\Tasks;
 
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\HelloPhpCommand;
 
 class HelloPhpTask implements TaskInterface
@@ -89,9 +89,9 @@ class HelloPhpTask implements TaskInterface
     public function getLifecycle(): LifecycleInterface
     {
         return new Lifecycle(
-            new InitializedEvent(),
-            new UpdatedEvent(),
-            new RemovedEvent(),
+            new InitializedEventData(),
+            new UpdatedEventData(),
+            new RemovedEventData(),
         );
     }
 }

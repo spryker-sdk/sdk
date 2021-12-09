@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity\Lifecycle;
 
-interface LifecycleEventInterface
+interface LifecycleEventDataInterface
 {
     /**
      * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>

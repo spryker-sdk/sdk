@@ -7,8 +7,18 @@
 
 namespace SprykerSdk\Sdk\Contracts\Entity\Lifecycle;
 
-interface PersistentLifecycleInterface extends LifecycleInterface
+interface TaskLifecycleInterface extends LifecycleInterface
 {
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface
+     */
+    public function getInitializedEventData(): LifecycleEventDataInterface;
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface
+     */
+    public function getUpdatedEventData(): LifecycleEventDataInterface;
+
     /**
      * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface
      */

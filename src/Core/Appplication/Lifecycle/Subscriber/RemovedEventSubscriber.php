@@ -30,11 +30,13 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
      */
     public function onRemovedEvent(RemovedEvent $event): void
     {
-        $removedEvent = $event->getTask()->getLifecycle()->getRemovedEvent();
+        /** @var \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle */
+        $lifecycle = $event->getTask()->getLifecycle();
+        $removedEventData = $lifecycle->getRemovedEventData();
 
-        $this->manageFiles($removedEvent->getFiles(), $removedEvent->getPlaceholders());
+        $this->manageFiles($removedEventData->getFiles(), $removedEventData->getPlaceholders());
 
-        $this->commandExecutor->execute($removedEvent->getCommands(), $removedEvent->getPlaceholders());
+        $this->commandExecutor->execute($removedEventData->getCommands(), $removedEventData->getPlaceholders());
     }
 
     /**

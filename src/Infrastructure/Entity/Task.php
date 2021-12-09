@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task as CoreTask;
 
@@ -24,7 +25,10 @@ class Task extends CoreTask
      */
     protected Collection $commandCollection;
 
-    protected PersistentLifecycleInterface $lifecycle;
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface
+     */
+    protected LifecycleInterface $lifecycle;
 
     /**
      * @param string $id
@@ -38,7 +42,7 @@ class Task extends CoreTask
     public function __construct(
         string $id,
         string $shortDescription,
-        PersistentLifecycleInterface $lifecycle,
+        LifecycleInterface $lifecycle,
         string $version,
         ?string $help = null,
         ?string $successor = null,
@@ -51,19 +55,11 @@ class Task extends CoreTask
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface
-     */
-    public function getLifecycle(): PersistentLifecycleInterface
-    {
-        return $this->lifecycle;
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle $lifecycle
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      *
      * @return $this
      */
-    public function setLifecycle(Lifecycle $lifecycle)
+    public function setLifecycle(PersistentLifecycleInterface $lifecycle)
     {
         $this->lifecycle = $lifecycle;
 

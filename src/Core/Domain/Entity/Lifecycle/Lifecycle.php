@@ -7,84 +7,84 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface;
 
-class Lifecycle implements LifecycleInterface
+class Lifecycle implements TaskLifecycleInterface
 {
-    protected InitializedEvent $initializedEvent;
+    protected InitializedEventData $initializedEventData;
 
-    protected UpdatedEvent $updatedEvent;
+    protected UpdatedEventData $updatedEventData;
 
-    protected RemovedEvent $removedEvent;
+    protected RemovedEventData $removedEventData;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent $initializedEvent
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent $updatedEvent
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent $removedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData $initializedEventData
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData $updatedEventData
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData $removedEventData
      */
-    public function __construct(InitializedEvent $initializedEvent, UpdatedEvent $updatedEvent, RemovedEvent $removedEvent)
+    public function __construct(InitializedEventData $initializedEventData, UpdatedEventData $updatedEventData, RemovedEventData $removedEventData)
     {
-        $this->initializedEvent = $initializedEvent;
-        $this->updatedEvent = $updatedEvent;
-        $this->removedEvent = $removedEvent;
+        $this->initializedEventData = $initializedEventData;
+        $this->updatedEventData = $updatedEventData;
+        $this->removedEventData = $removedEventData;
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
      */
-    public function getRemovedEvent(): RemovedEvent
+    public function getRemovedEventData(): RemovedEventData
     {
-        return $this->removedEvent;
+        return $this->removedEventData;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEvent $removedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData $removedEventData
      *
      * @return $this
      */
-    public function setRemovedEvent(RemovedEvent $removedEvent)
+    public function setRemovedEventData(RemovedEventData $removedEventData)
     {
-        $this->removedEvent = $removedEvent;
+        $this->removedEventData = $removedEventData;
 
         return $this;
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
      */
-    public function getInitializedEvent(): InitializedEvent
+    public function getInitializedEventData(): InitializedEventData
     {
-        return $this->initializedEvent;
+        return $this->initializedEventData;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEvent $initializedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData $initializedEventData
      *
      * @return $this
      */
-    public function setInitializedEvent(InitializedEvent $initializedEvent)
+    public function setInitializedEventData(InitializedEventData $initializedEventData)
     {
-        $this->initializedEvent = $initializedEvent;
+        $this->initializedEventData = $initializedEventData;
 
         return $this;
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
      */
-    public function getUpdatedEvent(): UpdatedEvent
+    public function getUpdatedEventData(): UpdatedEventData
     {
-        return $this->updatedEvent;
+        return $this->updatedEventData;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEvent $updatedEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData $updatedEventData
      *
      * @return $this
      */
-    public function setUpdatedEvent(UpdatedEvent $updatedEvent)
+    public function setUpdatedEventData(UpdatedEventData $updatedEventData)
     {
-        $this->updatedEvent = $updatedEvent;
+        $this->updatedEventData = $updatedEventData;
 
         return $this;
     }

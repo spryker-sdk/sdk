@@ -30,9 +30,9 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
      */
     public function onInitializedEvent(InitializedEvent $event): void
     {
-        /** @var \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface $lifecycle */
+        /** @var \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface $lifecycle */
         $lifecycle = $event->getTask()->getLifecycle();
-        $initializedEvent = $lifecycle->getInitializedEvent();
+        $initializedEvent = $lifecycle->getInitializedEventData();
 
         $this->manageFiles($initializedEvent->getFiles(), $initializedEvent->getPlaceholders());
 

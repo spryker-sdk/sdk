@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface;
 
-abstract class BaseLifecycleEventData implements LifecycleEventInterface
+abstract class BaseLifecycleEventData implements LifecycleEventDataInterface
 {
     /**
      * @var array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>

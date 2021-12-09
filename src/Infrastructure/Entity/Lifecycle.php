@@ -26,7 +26,7 @@ class Lifecycle implements PersistentLifecycleInterface
     /**
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
-    public function getRemovedEvent(): RemovedEvent
+    public function getRemovedEventData(): RemovedEvent
     {
         return $this->removedEvent;
     }

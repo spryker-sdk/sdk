@@ -7,15 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 
 interface LifecycleEventMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface $lifecycleEvent
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEvent
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
-    public function mapRemovedEvent(LifecycleEventInterface $lifecycleEvent): RemovedEvent;
+    public function mapRemovedEvent(LifecycleEventDataInterface $lifecycleEvent): RemovedEvent;
 }

@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventInterface;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface;
 
-class RemovedEvent implements LifecycleEventInterface
+class RemovedEvent implements LifecycleEventDataInterface
 {
     protected int $id;
 
