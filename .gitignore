@@ -10,6 +10,7 @@
 /.idea
 .ssdk
 .ssdk.log
+db/data.db
 ###< symfony/framework-bundle ###
 
 ###> squizlabs/php_codesniffer ###

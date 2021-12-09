@@ -2,31 +2,14 @@ version: '3'
 
 services:
   spryker-sdk:
-    image: spryker-sdk:0.0.2
+    image: spryker-sdk:0.0.3
     build:
-      context: .
+      context: ./
       dockerfile: ./infrastructure/sdk.Dockerfile
-    working_dir: "/data/project"
+    working_dir: "/project"
     volumes:
-      - $PWD:/data/project:rw
-    depends_on:
-      - database
-    env_file:
-        - ./infrastructure/.env
-    profiles:
-      - run
-
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-13}-alpine
-    env_file:
-      - ./infrastructure/.env
-    volumes:
-      - db-data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - $PWD:/project:rw
+      - ./db:/data/db:rw
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
   project:
-###< doctrine/doctrine-bundle ###

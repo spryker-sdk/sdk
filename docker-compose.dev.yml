@@ -37,6 +37,7 @@ x-mutagen:
           - '.unison*'
           - '.docker-sync'
           - '/infrastructure'
+          - '/db'
 
     spryker-sdk-dev-codebase:
       alpha: "./"

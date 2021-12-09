@@ -11,6 +11,7 @@ ENV DATABASE_USER=user
 ENV DATABASE_NAME=db
 ENV DATABASE_URL="No DATABASE_URL set"
 
+#@todo remove
 COPY --chown=spryker:spryker FooTasks ${srcRoot}/FooTasks
 
 COPY --chown=spryker:spryker auth.jso[n] ${srcRoot}/auth.json
@@ -33,6 +34,6 @@ COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
-RUN bin/console cache:clear && bin/console cache:warmup
+RUN bin/console cache:warmup
 
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]
