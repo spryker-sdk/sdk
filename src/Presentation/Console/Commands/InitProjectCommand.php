@@ -22,7 +22,7 @@ class InitProjectCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'init:project';
+    protected const NAME = 'init:project';
 
     protected CliValueReceiver $cliValueReceiver;
 
@@ -48,7 +48,7 @@ class InitProjectCommand extends Command
         $this->settingRepository = $settingRepository;
         $this->projectSettingManager = $projectSettingManager;
         $this->cliValueReceiver = $cliValueReceiver;
-        parent::__construct(static::$defaultName);
+        parent::__construct(static::NAME);
     }
 
     /**

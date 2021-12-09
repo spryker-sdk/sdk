@@ -9,6 +9,9 @@ namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto;
 
 class Option implements OptionInterface
 {
+    /**
+     * @var string
+     */
     protected string $name;
 
     /**
@@ -16,6 +19,9 @@ class Option implements OptionInterface
      */
     protected ?string $shortcut;
 
+    /**
+     * @var string|null
+     */
     protected ?string $help = null;
 
     /**

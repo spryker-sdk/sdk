@@ -21,6 +21,9 @@ class Command implements CommandInterface
      */
     protected array $optionsBefore = [];
 
+    /**
+     * @var string|null
+     */
     protected ?string $help = null;
 
     /**

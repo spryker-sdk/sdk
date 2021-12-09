@@ -15,16 +15,16 @@ class Param implements ParamInterface
 {
     protected string $name;
 
-    protected string|bool|int|float|array|null $default;
+    protected string|bool|int|float|array|null $defaultValue;
 
     /**
      * @param string $name
-     * @param array|string|float|int|bool $default
+     * @param array|string|float|int|bool $defaultValue
      */
-    public function __construct(string $name, float|int|bool|array|string|null $default)
+    public function __construct(string $name, float|int|bool|array|string|null $defaultValue)
     {
         $this->name = $name;
-        $this->default = $default;
+        $this->defaultValue = $defaultValue;
     }
 
     /**
@@ -38,8 +38,8 @@ class Param implements ParamInterface
     /**
      * @return array|string|float|int|bool|null
      */
-    public function getDefault(): float|int|bool|array|string|null
+    public function getDefaultValue(): float|int|bool|array|string|null
     {
-        return $this->default;
+        return $this->defaultValue;
     }
 }
