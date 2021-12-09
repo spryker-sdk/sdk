@@ -9,16 +9,9 @@ services:
     entrypoint: ["/bin/bash", "-c", "php -dopcache.enable=0 /data/bin/console \"$$@\"", "--"]
     volumes:
       - spryker_sdk_dev_data_sync:/data:nocopy
-  database:
-    ports:
-      - '5432:5432'
-###< doctrine/doctrine-bundle ###
 
 volumes:
-    ###> doctrine/doctrine-bundle ###
-    db-data:
     spryker_sdk_dev_data_sync:
-###< doctrine/doctrine-bundle ###
 
 x-mutagen:
   sync:
