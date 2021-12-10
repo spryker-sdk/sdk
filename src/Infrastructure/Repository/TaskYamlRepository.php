@@ -154,14 +154,14 @@ class TaskYamlRepository implements TaskRepositoryInterface
         if ($data['type'] === 'local_cli') {
             $converter = isset($data['report_converter']) ? new Converter(
                 $data['report_converter']['name'],
-                $data['report_converter']['configuration']
+                $data['report_converter']['configuration'],
             ) : null;
             $commands[] = new Command(
                 $data['command'],
                 $data['type'],
                 true,
                 [],
-                $converter
+                $converter,
             );
         }
 

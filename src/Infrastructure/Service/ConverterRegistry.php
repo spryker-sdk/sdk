@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Composer\Autoload\ClassLoader;
+use ReflectionClass;
 use SplFileInfo;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface;
@@ -16,7 +17,6 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConverterException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use Symfony\Component\Finder\Finder;
-use ReflectionClass;
 
 class ConverterRegistry implements ConverterRegistryInterface
 {

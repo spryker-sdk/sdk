@@ -7,9 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
-
 interface ConverterRepositoryInterface
 {
 }

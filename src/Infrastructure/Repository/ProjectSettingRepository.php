@@ -83,11 +83,11 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
         $coreSetting = $this->coreSettingRepository->findOneByPath($settingPath);
-        $coreSetting = $this->resolvePathSetting($coreSetting);
-
         if (!$coreSetting) {
             return $coreSetting;
         }
+
+        $coreSetting = $this->resolvePathSetting($coreSetting);
 
         return $this->fillProjectValues([$coreSetting])[0];
     }

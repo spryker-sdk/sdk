@@ -7,9 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ConverterInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Command;
 use SprykerSdk\Sdk\Infrastructure\Entity\Converter;
 
 class ConverterMapper implements ConverterMapperInterface
@@ -23,7 +21,7 @@ class ConverterMapper implements ConverterMapperInterface
     {
         return new Converter(
             $converter->getName(),
-            $converter->getConfiguration()
+            $converter->getConfiguration(),
         );
     }
 }

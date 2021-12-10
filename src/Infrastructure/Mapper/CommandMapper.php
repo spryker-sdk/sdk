@@ -20,9 +20,8 @@ class CommandMapper implements CommandMapperInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapperInterface $converterMapper
      */
-    public function __construct(
-        ConverterMapperInterface $converterMapper,
-    ) {
+    public function __construct(ConverterMapperInterface $converterMapper)
+    {
         $this->converterMapper = $converterMapper;
     }
 
@@ -38,7 +37,7 @@ class CommandMapper implements CommandMapperInterface
             $command->getType(),
             $command->hasStopOnError(),
             $command->getTags(),
-            $command->getConverter() ? $this->converterMapper->mapConverter($command->getConverter()) : null
+            $command->getConverter() ? $this->converterMapper->mapConverter($command->getConverter()) : null,
         );
     }
 }

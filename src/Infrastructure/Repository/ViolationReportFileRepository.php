@@ -169,7 +169,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     }
 
     /**
-     * @param ViolationInterface $violation
+     * @param \SprykerSdk\Sdk\Contracts\Violation\ViolationInterface $violation
      *
      * @return array<string, mixed>
      */
@@ -253,6 +253,8 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     /**
      * @param string|null $taskId
      *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
      * @return string
      */
     protected function getViolationReportPath(?string $taskId): string
@@ -260,7 +262,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
         $reportDirSetting = $this->projectSettingRepository->findOneByPath(static::REPORT_DIR_SETTING_NAME);
 
         if (!$reportDirSetting) {
-            throw new MissingSettingException(sprintf('Some of setting definition for %s,%s not found', static::REPORT_DIR_SETTING_NAME, static::PROJECT_DIR_SETTING_NAME));
+            throw new MissingSettingException(sprintf('Some of setting definition for %s not found', static::REPORT_DIR_SETTING_NAME));
         }
 
         $reportPath = $reportDirSetting->getValues();

@@ -11,7 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRepositoryInterface;
 
 /**
- * @extends \Doctrine\ORM\EntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Converter>
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Converter>
  */
 class ConverterRepository extends ServiceEntityRepository implements ConverterRepositoryInterface
 {
