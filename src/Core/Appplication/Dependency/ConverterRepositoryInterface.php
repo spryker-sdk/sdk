@@ -12,10 +12,4 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 
 interface ConverterRepositoryInterface
 {
-    /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Converter|null
-     */
-    public function getConverter(CommandInterface $command): ?Converter;
 }

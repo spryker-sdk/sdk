@@ -85,6 +85,8 @@ class TaskExecutor
 
         $result = $this->commandExecutor->execute($task->getCommands(), $task->getPlaceholders(), $afterCommandExecutedCallback);
 
+        $this->violationReportGenerator->collectViolations($task->getId(), $task->getCommands());
+
         $this->progressBar->finish();
 
         return $result->getCode();

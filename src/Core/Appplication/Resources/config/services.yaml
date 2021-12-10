@@ -40,7 +40,6 @@ services:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
     arguments:
-      - '@converter_repository'
       - '@converter_registry'
   violation_report_merger:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger

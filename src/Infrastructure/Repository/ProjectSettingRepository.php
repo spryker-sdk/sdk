@@ -98,6 +98,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     public function find(): array
     {
         $entities = $this->coreSettingRepository->findProjectSettings();
+        foreach ($entities as $key => $entity) {
+            $entities[$key] = $this->resolvePathSetting($entity);
+        }
 
         if (empty($entities)) {
             return $entities;
@@ -182,7 +185,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         if (!$setting instanceof InfrastructureSetting) {
             throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
         }
-        if ($setting->getType() === 'path' && $setting->isProject()) {
+        if ($setting->getType() === 'path') {
             $values = $setting->getValues();
             if (is_array($values)) {
                 foreach ($values as $key => $value) {

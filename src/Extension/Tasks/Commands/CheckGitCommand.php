@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Contracts\Entity\ConverterInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 
@@ -53,5 +54,13 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     public function getTags(): array
     {
         return [];
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ConverterInterface|null
+     */
+    public function getConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }

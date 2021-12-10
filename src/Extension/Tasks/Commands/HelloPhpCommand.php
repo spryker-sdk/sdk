@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
+use SprykerSdk\Sdk\Contracts\Entity\ConverterInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -56,5 +57,13 @@ class HelloPhpCommand implements ExecutableCommandInterface
     public function getTags(): array
     {
         return [];
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\ConverterInterface|null
+     */
+    public function getConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }

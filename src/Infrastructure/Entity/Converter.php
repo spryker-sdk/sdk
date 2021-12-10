@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Command as CoreCommand;
+use SprykerSdk\Sdk\Core\Domain\Entity\Converter as CoreConverter;
 
-class Command extends CoreCommand
+class Converter extends CoreConverter
 {
     protected int $id;
 

@@ -15,22 +15,15 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRepositoryInterface;
 class ViolationConverterResolver
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRepositoryInterface
-     */
-    protected ConverterRepositoryInterface $converterRepository;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
      */
     public ConverterRegistryInterface $converterRegistry;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRepositoryInterface $converterRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface $converterRegistry
      */
-    public function __construct(ConverterRepositoryInterface $converterRepository, ConverterRegistryInterface $converterRegistry)
+    public function __construct(ConverterRegistryInterface $converterRegistry)
     {
-        $this->converterRepository = $converterRepository;
         $this->converterRegistry = $converterRegistry;
     }
 
@@ -41,7 +34,7 @@ class ViolationConverterResolver
      */
     public function resolve(CommandInterface $command): ?ViolationConverterInterface
     {
-        $converter = $this->converterRepository->getConverter($command);
+        $converter = $command->getConverter();
 
         if (!$converter || !$this->converterRegistry->has($converter->getName())) {
             return null;

@@ -13,6 +13,20 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Command;
 class CommandMapper implements CommandMapperInterface
 {
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapperInterface
+     */
+    protected ConverterMapperInterface $converterMapper;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapperInterface $converterMapper
+     */
+    public function __construct(
+        ConverterMapperInterface $converterMapper,
+    ) {
+        $this->converterMapper = $converterMapper;
+    }
+
+    /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Command>
@@ -24,6 +38,7 @@ class CommandMapper implements CommandMapperInterface
             $command->getType(),
             $command->hasStopOnError(),
             $command->getTags(),
+            $command->getConverter() ? $this->converterMapper->mapConverter($command->getConverter()) : null
         );
     }
 }
