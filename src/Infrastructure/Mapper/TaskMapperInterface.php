@@ -7,20 +7,20 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface TaskMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
     public function mapToInfrastructureEntity(TaskInterface $task): Task;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $taskToUpdate
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task

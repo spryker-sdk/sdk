@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class SettingManager
 {
@@ -39,7 +39,7 @@ class SettingManager
     /**
      * @param array<string, mixed> $pathValues
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function setSettings(array $pathValues): array
     {
@@ -76,7 +76,7 @@ class SettingManager
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     public function setSetting(string $path, mixed $value): SettingInterface
     {
@@ -96,10 +96,10 @@ class SettingManager
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $settingDefinition
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingDefinition
      * @param mixed $value
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     protected function buildPathValue(SettingInterface $settingDefinition, mixed $value): SettingInterface
     {

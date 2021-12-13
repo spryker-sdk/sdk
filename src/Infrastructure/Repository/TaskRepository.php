@@ -9,12 +9,12 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Task>
@@ -36,9 +36,9 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function create(TaskInterface $task): TaskInterface
     {
@@ -51,12 +51,12 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $taskToUpdate
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $taskToUpdate
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function update(TaskInterface $task, TaskInterface $taskToUpdate): TaskInterface
     {
@@ -78,11 +78,11 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @return array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
+     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function findAllIndexedCollection(): array
     {
-        /** @var array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks */
+        /** @var array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks */
         $tasks = $this->findAll();
 
         $tasksMap = [];
@@ -95,7 +95,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */

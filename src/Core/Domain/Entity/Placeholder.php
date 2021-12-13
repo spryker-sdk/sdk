@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 class Placeholder implements PlaceholderInterface
 {

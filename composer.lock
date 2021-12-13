@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63ba1288ed4a883a6cf05961575a61ce",
+    "content-hash": "3f525ab781e7400ceab8a0633584938c",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3087,14 +3087,8 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:spryker-sdk/sdk-contracts.git",
-                "reference": "69c281db59dedd821788c1b4f03cb63ce37de296"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/69c281db59dedd821788c1b4f03cb63ce37de296",
-                "reference": "69c281db59dedd821788c1b4f03cb63ce37de296",
-                "shasum": ""
+                "url": "https://github.com/spryker-sdk/sdk-contracts",
+                "reference": "2c1686f326134458ccabd8c2b21d159969557d7f"
             },
             "require": {
                 "php": ">= 8.0"
@@ -3107,7 +3101,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "SprykerSdk\\Sdk\\Contracts\\": "src/"
+                    "SprykerSdk\\SdkContracts\\": "src/"
                 }
             },
             "scripts": {
@@ -3125,11 +3119,7 @@
                 "proprietary"
             ],
             "description": "Contracts to extend the Spryker SDK",
-            "support": {
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master",
-                "issues": "https://github.com/spryker-sdk/sdk-contracts/issues"
-            },
-            "time": "2021-12-13T07:53:42+00:00"
+            "time": "2021-12-13T13:30:25+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

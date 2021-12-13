@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
 class Command implements CommandInterface
 {

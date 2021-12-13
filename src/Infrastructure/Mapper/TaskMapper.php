@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskMapper implements TaskMapperInterface
 {
@@ -35,7 +35,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
      */
@@ -60,7 +60,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $taskToUpdate
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
@@ -88,7 +88,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
@@ -105,7 +105,7 @@ class TaskMapper implements TaskMapperInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task

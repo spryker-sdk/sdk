@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface TaskRemoveRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */

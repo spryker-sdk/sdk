@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskManager implements TaskManagerInterface
@@ -40,9 +40,9 @@ class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function initialize(array $tasks): array
     {
@@ -58,7 +58,7 @@ class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */
@@ -70,8 +70,8 @@ class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $folderTask
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $databaseTask
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $folderTask
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $databaseTask
      *
      * @return void
      */

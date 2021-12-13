@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 
 class CheckGitCommand implements CommandInterface, ErrorCommandInterface
 {
@@ -22,7 +22,7 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface $commandResponse
+     * @param \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface $commandResponse
      *
      * @return string
      */

@@ -9,14 +9,14 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 /**
- * @extends \Doctrine\ORM\EntityRepository<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+ * @extends \Doctrine\ORM\EntityRepository<\SprykerSdk\SdkContracts\Entity\SettingInterface>
  */
 class SettingRepository extends EntityRepository implements SettingRepositoryInterface
 {
@@ -42,7 +42,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
@@ -58,7 +58,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findProjectSettings(): array
     {
@@ -70,7 +70,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findCoreSettings(): array
     {
@@ -92,9 +92,9 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     public function save(SettingInterface $setting): SettingInterface
     {
@@ -105,11 +105,11 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|\SprykerSdk\Sdk\Infrastructure\Entity\Setting
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|\SprykerSdk\Sdk\Infrastructure\Entity\Setting
      */
     protected function resolvePathSetting(SettingInterface $setting)
     {
@@ -134,9 +134,9 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array
     {

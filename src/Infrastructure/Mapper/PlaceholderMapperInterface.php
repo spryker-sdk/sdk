@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Placeholder;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 interface PlaceholderMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $placeholder
+     * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder
      */

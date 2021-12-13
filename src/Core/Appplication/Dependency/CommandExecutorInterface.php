@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
 
 interface CommandExecutorInterface
 {
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      * @param callable|null $afterCommandExecutedCallback
      *
-     * @return \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface
+     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
      */
     public function execute(array $commands, array $placeholders, ?callable $afterCommandExecutedCallback = null): CommandResponseInterface;
 }

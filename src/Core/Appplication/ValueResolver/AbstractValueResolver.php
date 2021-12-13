@@ -7,21 +7,21 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\ValueResolver;
 
-use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
-use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
+use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 abstract class AbstractValueResolver implements ValueResolverInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
      */
     protected ValueReceiverInterface $valueReceiver;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
      */
     public function __construct(ValueReceiverInterface $valueReceiver)
     {

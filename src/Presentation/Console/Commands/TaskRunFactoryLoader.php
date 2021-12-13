@@ -8,13 +8,13 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Psr\Container\ContainerInterface;
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;

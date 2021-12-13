@@ -6,22 +6,22 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface TaskSaveRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function create(TaskInterface $task): TaskInterface;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $taskToUpdate
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $taskToUpdate
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function update(TaskInterface $task, TaskInterface $taskToUpdate): TaskInterface;
 }

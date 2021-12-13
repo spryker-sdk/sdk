@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface TaskRepositoryInterface
 {
     /**
-     * @return array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
+     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function findAll();
 
@@ -20,7 +20,7 @@ interface TaskRepositoryInterface
      * @param string $taskId
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
     public function findById(string $taskId, array $tags = []): ?TaskInterface;
 }

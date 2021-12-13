@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dto;
 
-use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
 
 class CommandResponse implements CommandResponseInterface
 {

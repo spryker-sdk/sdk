@@ -7,22 +7,22 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
 
 class CommandExecutor implements CommandExecutorInterface
 {
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
+     * @var iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
      */
     protected iterable $commandRunners;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
-     * @param iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
+     * @param iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
      */
     public function __construct(
         PlaceholderResolver $placeholderResolver,
@@ -33,11 +33,11 @@ class CommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      * @param callable|null $afterCommandExecutedCallback
      *
-     * @return \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface
+     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
      */
     public function execute(array $commands, array $placeholders, ?callable $afterCommandExecutedCallback = null): CommandResponseInterface
     {
