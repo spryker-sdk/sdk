@@ -36,3 +36,4 @@ services:
     arguments:
       - '@process_helper'
       - '@service.lifecycle_manager'
+      - '%kernel.project_dir%'

@@ -36,7 +36,7 @@ placeholders:
 
 #### Adding a tasks to the SDK
 
-Tasks that located in `extension/<your extension name>/Tasks` will be automatically loaded inside the SDK.
+Tasks that located in `extension/<your extension name>/Tasks` can be added to the SDK by executing `spryker-sdk sdk:update:all`
 
 ### via PHP implementation
 

@@ -18,6 +18,7 @@ db/data.db
 ###< squizlabs/php_codesniffer ###
 
 auth.json
+VERSION
 
 ###> phpunit/phpunit ###
 /phpunit.xml

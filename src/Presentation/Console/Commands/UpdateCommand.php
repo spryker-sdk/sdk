@@ -7,16 +7,17 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use Composer\InstalledVersions;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
+use Throwable;
 
 class UpdateCommand extends Command
 {
+    const OPTION_CHECK_ONLY = 'check-only';
     /**
      * @var string
      */
@@ -31,18 +32,38 @@ class UpdateCommand extends Command
 
     protected LifecycleManagerInterface $lifecycleManager;
 
+    protected string $sdkDirectory;
+
     /**
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @param string $sdkDirectory
      */
     public function __construct(
         ProcessHelper $processHelper,
-        LifecycleManagerInterface $lifecycleManager
+        LifecycleManagerInterface $lifecycleManager,
+        string $sdkDirectory
     ) {
         parent::__construct(static::$defaultName);
         $this->processHelper = $processHelper;
         $this->lifecycleManager = $lifecycleManager;
+        $this->sdkDirectory = $sdkDirectory;
     }
+
+    /**
+     * @return void
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this->addOption(
+            static::OPTION_CHECK_ONLY,
+            'c',
+            InputOption::VALUE_OPTIONAL | InputOption::VALUE_NONE,
+            false
+        );
+    }
+
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
@@ -52,37 +73,70 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $exitCode = $this->selfUpdate($output);
+        $this->checkForUpdate($output);
 
-        $this->lifecycleManager->update();
+        if ($input->getOption(static::OPTION_CHECK_ONLY) === false) {
+            $this->lifecycleManager->update();
+        }
 
-        return $exitCode;
+        return static::SUCCESS;
     }
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int
+     * @return void
      */
-    protected function selfUpdate(OutputInterface $output): int
+    protected function checkForUpdate(OutputInterface $output)
     {
-        $sdkPackage = InstalledVersions::getRootPackage();
-        $sdkPackageName = $sdkPackage['name'];
+        $versionFilePath = $this->sdkDirectory . '/VERSION';
 
-        $process = Process::fromShellCommandline(sprintf('composer update %s', $sdkPackageName));
-        $process->setTimeout(null);
-        $process->setIdleTimeout(null);
-
-        $process = $this->processHelper->run($output, [$process]);
-
-        $exitCode = (int)$process->getExitCode();
-
-        if ($exitCode !== 0) {
-            $output->writeln($process->getErrorOutput());
-
-            return $exitCode;
+        if (!file_exists($versionFilePath)) {
+            $output->writeln('<error>Could not find VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
+            return;
         }
 
-        return $exitCode;
+        $currentVersion = file_get_contents($versionFilePath);
+
+        if (!$currentVersion) {
+            $output->writeln('<error>Could not read VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
+            return;
+        }
+
+        $latestVersion = $this->getLatestVersion($output);
+
+        if (version_compare($currentVersion, $latestVersion) === -1) {
+            $output->writeln(sprintf('SDK is outdated (current: %s, latest: %s)', $currentVersion, $latestVersion));
+            $output->writeln('Please update manually by downloading the installer for the newest version at https://github.com/spryker-sdk/sdk/releases');
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return string
+     */
+    protected function getLatestVersion(OutputInterface $output): string
+    {
+        $githubVersion = '0.0.0';
+
+        $context = stream_context_create(['https'=> ['timeout' => 10]]);
+        $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
+
+        try {
+            $githubContent = json_decode(file_get_contents($githubEndpoint, false, $context), true);
+        } catch (Throwable $exception) {
+            $output->writeln('<error>' . $exception->getMessage() . '</error>', OutputInterface::VERBOSITY_VERBOSE);
+
+            return $githubVersion;
+        }
+
+        if (!$githubContent) {
+            $output->writeln(sprintf('<error>Could not read version from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
+
+            return $githubVersion;
+        }
+
+        return $githubContent['tag_name'] ?? '0.0.0';
     }
 }

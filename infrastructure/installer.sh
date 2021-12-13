@@ -21,6 +21,7 @@ ARCHIVE=$(awk '/^__ARCHIVE__/ {print NR + 1; exit 0; }' "${0}")
 tail -n+"${ARCHIVE}" "${0}" | tar xpJ -C "${DESTINATION}"
 
 ${DESTINATION}/bin/spryker-sdk.sh sdk:init:sdk
+${DESTINATION}/bin/spryker-sdk.sh sdk:update:all
 
 echo ""
 echo "Installation complete."
