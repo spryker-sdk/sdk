@@ -11,9 +11,6 @@ ENV DATABASE_USER=user
 ENV DATABASE_NAME=db
 ENV DATABASE_URL="No DATABASE_URL set"
 
-#@todo remove
-COPY --chown=spryker:spryker FooTasks ${srcRoot}/FooTasks
-
 COPY --chown=spryker:spryker auth.jso[n] ${srcRoot}/auth.json
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \

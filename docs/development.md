@@ -46,6 +46,7 @@ This requires to provide the __Task__ as part of a symfony bundle.
 
 #### Implement the bundle
 Please refer to https://symfony.com/doc/current/bundles.html for information on creating a Symfony bundle.
+Your bundle needs to use the https://github.com/spryker-sdk/sdk-contracts via composer.
 
 #### Implement __Task__
 
@@ -181,7 +182,7 @@ services:
 
 #### Register your bundle
 
-@TODO implement registration of 3rd party bundles
+Registration of 3rd party bundles will require to (build a flavored Spryker SDK)[build.md].
 
 ## Add a value resolver
 
@@ -267,8 +268,6 @@ services:
 
 ## Add a setting
 
-@todo rework settings, they can be added via YAML & we need to add ability to tag them
-
 A bundle might add additional __Settings__ that can be used by __ValueResolvers__ to create a persistent behavior.
 Settings are defined in yaml file called `settings.yaml` and will be added to the SDK by calling
 `spryker-sdk setting:set setting_dirs <path to your settings>`
@@ -350,7 +349,7 @@ Requires (mutagen)[https://mutagen.io/documentation/introduction/installation] t
 `bin/spryker-sdk.sh --mode=debug`
 
 #### Reset SDK
-@todo delete database volume
+`rm db/data.db && bin/spryker-sdk.sh sdk:init:sdk`
 
 #### Reset project
-`cd <project> && rm .ssdk && rm .ssdk.log && spry init:project`
+`cd <project> && rm .ssdk && rm .ssdk.log && spry sdk:init:project`

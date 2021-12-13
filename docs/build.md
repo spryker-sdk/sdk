@@ -43,8 +43,6 @@ $bundles = [
 
 Once the flavored Spryker SDK is build you can execute the same way a non-flavored one will be executed.
 
-@todo describe how to make flavored SDK available via docker push & pull
-
 #### Private repositories
 
 Adding private repositories requires to add an (auth.json)[https://getcomposer.org/doc/articles/authentication-for-private-packages.md] before building the container.
