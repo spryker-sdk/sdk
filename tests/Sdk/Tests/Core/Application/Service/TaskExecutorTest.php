@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
@@ -71,7 +71,7 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Logger\EventLoggerInterface
      */
     protected function createEventLoggerMock(): mixed
     {
@@ -98,7 +98,7 @@ class TaskExecutorTest extends Unit
     /**
      * @param bool|false $hasStopOnError
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     protected function createTaskMock($hasStopOnError = false): mixed
     {
@@ -117,7 +117,7 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\PlaceholderInterface
      */
     protected function createPlaceholderMock(): mixed
     {
@@ -129,7 +129,7 @@ class TaskExecutorTest extends Unit
     /**
      * @param bool|false $hasStopOnError
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\Entity\CommandInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\CommandInterface
      */
     protected function createCommandMock(bool $hasStopOnError = false): mixed
     {
