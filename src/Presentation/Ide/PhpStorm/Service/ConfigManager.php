@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class ConfigManager implements ConfigManagerInterface
@@ -42,7 +42,7 @@ class ConfigManager implements ConfigManagerInterface
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface $commandLoader
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface $commandXmlFormatter
      * @param \Symfony\Component\Serializer\Encoder\XmlEncoder $xmlEncoder
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      */
     public function __construct(
         CommandLoaderInterface $commandLoader,
@@ -98,7 +98,7 @@ class ConfigManager implements ConfigManagerInterface
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     protected function getSetting(string $settingName): SettingInterface
     {
