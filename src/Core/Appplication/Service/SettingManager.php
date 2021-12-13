@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 
@@ -20,13 +20,13 @@ class SettingManager
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,

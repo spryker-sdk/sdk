@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dto;
 
-class CommandResponse
+use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
+
+class CommandResponse implements CommandResponseInterface
 {
     /**
      * @var bool
@@ -49,7 +51,7 @@ class CommandResponse
      *
      * @return $this
      */
-    public function setIsSuccessful(bool $isSuccessful)
+    public function setIsSuccessful(bool $isSuccessful): static
     {
         $this->isSuccessful = $isSuccessful;
 
@@ -87,7 +89,7 @@ class CommandResponse
      *
      * @return $this
      */
-    public function setErrorMessage(string $errorMessage)
+    public function setErrorMessage(string $errorMessage): static
     {
         $this->errorMessage = $errorMessage;
 

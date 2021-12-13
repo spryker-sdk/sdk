@@ -5,9 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Contracts\ValueResolver;
+namespace SprykerSdk\Sdk\Core\Appplication\ValueResolver;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 
 interface ProjectSettingRepositoryInterface extends SettingRepositoryInterface
 {

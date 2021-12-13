@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
 use Composer\Semver\Comparator;
-use SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 
 class TaskUpdatedAction implements SdkUpdateActionInterface

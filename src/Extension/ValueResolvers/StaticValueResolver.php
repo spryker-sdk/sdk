@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
-use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
 use SprykerSdk\Sdk\Contracts\ValueResolver\ConfigurableValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf6cdfe6047ee79c89dd28bb15abdd0a",
+    "content-hash": "63ba1288ed4a883a6cf05961575a61ce",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3081,6 +3081,55 @@
                 }
             ],
             "time": "2021-10-22T06:56:51+00:00"
+        },
+        {
+            "name": "spryker-sdk/sdk-contracts",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:spryker-sdk/sdk-contracts.git",
+                "reference": "f0646c59bdcb730e9b666ea12bfea7843a93e924"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/f0646c59bdcb730e9b666ea12bfea7843a93e924",
+                "reference": "f0646c59bdcb730e9b666ea12bfea7843a93e924",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.2",
+                "spryker/code-sniffer": "^0.17.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SprykerSdk\\Sdk\\Contracts\\": "src/"
+                }
+            },
+            "scripts": {
+                "cs-check": [
+                    "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/"
+                ],
+                "cs-fix": [
+                    "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/"
+                ],
+                "stan": [
+                    "phpstan analyze -l 8 src/"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Contracts to extend the Spryker SDK",
+            "support": {
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master",
+                "issues": "https://github.com/spryker-sdk/sdk-contracts/issues"
+            },
+            "time": "2021-12-13T07:48:01+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -12923,6 +12972,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/spryk": 20
     },
     "prefer-stable": true,

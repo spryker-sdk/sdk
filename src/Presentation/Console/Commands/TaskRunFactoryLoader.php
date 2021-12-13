@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
@@ -29,7 +29,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected SymfonyContainerInterface $symfonyContainer;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 
@@ -46,7 +46,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      */
@@ -149,7 +149,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected function getTaskRepository(): TaskRepositoryInterface
     {

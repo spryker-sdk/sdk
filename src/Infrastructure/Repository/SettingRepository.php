@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;

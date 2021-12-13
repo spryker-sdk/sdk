@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Composer\Autoload\ClassLoader;
 use SplFileInfo;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
@@ -38,7 +38,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected ClassLoader $classLoader;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface $valueReceiver
      * @param iterable<\SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param string $sdkBasePath
@@ -55,7 +55,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected iterable $valueResolverServices;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface $valueReceiver
      * @param iterable<\SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param string $sdkBasePath

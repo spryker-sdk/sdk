@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRemoveRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent;
@@ -26,8 +26,8 @@ class TaskManager implements TaskManagerInterface
 
     /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRemoveRepositoryInterface $taskRemoveRepository
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface $taskSaveRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface $taskRemoveRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface $taskSaveRepository
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,

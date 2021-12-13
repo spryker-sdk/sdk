@@ -5,8 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Contracts\Entity\Lifecycle;
+namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
-interface LifecycleInterface
+interface RemovedEventRepositoryInterface
 {
 }

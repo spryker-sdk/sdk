@@ -12,8 +12,8 @@ use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
-use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
@@ -83,7 +83,7 @@ class TaskExecutorTest extends Unit
     /**
      * @param bool|false $hasStopOnError
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected function createTaskRepositoryMock($hasStopOnError = false): mixed
     {

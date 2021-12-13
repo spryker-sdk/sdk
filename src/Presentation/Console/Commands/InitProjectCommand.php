@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
@@ -35,7 +35,7 @@ class InitProjectCommand extends Command
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $projectSettingManager
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param string $projectSettingFileName
      */
     public function __construct(

@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dto;
 
-class ReceiverValue
+use SprykerSdk\Sdk\Contracts\ValueReceiver\ReceiverValueInterface;
+
+class ReceiverValue implements ReceiverValueInterface
 {
     public string $description;
 

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
-use SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 
 class TaskCreatedAction implements SdkUpdateActionInterface

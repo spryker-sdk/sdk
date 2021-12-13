@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use SprykerSdk\Sdk\Contracts\ValueReceiver\ReceiverValueInterface;
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
@@ -74,11 +75,11 @@ class CliValueReceiver implements ValueReceiverInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue $receiverValue
+     * @param ReceiverValueInterface $receiverValue
      *
      * @return mixed
      */
-    public function receiveValue(ReceiverValue $receiverValue): mixed
+    public function receiveValue(ReceiverValueInterface $receiverValue): mixed
     {
         $choiceValues = $receiverValue->getChoiceValues();
         $defaultValue = $receiverValue->getDefaultValue();

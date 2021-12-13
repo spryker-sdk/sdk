@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
-use SprykerSdk\Sdk\Contracts\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
 
 class SdkDirectoryValueResolver extends AbstractValueResolver
 {

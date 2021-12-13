@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 
@@ -36,9 +37,9 @@ class CommandExecutor implements CommandExecutorInterface
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param callable|null $afterCommandExecutedCallback
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
+     * @return CommandResponseInterface
      */
-    public function execute(array $commands, array $placeholders, ?callable $afterCommandExecutedCallback = null): CommandResponse
+    public function execute(array $commands, array $placeholders, ?callable $afterCommandExecutedCallback = null): CommandResponseInterface
     {
         $resolvedValues = $this->placeholderResolver->resolvePlaceholders($placeholders);
 

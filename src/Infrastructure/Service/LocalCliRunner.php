@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
@@ -69,11 +70,11 @@ class LocalCliRunner implements CommandRunnerInterface
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      * @param array $resolvedValues
      *
+     * @return CommandResponseInterface
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
      */
-    public function execute(CommandInterface $command, array $resolvedValues): CommandResponse
+    public function execute(CommandInterface $command, array $resolvedValues): CommandResponseInterface
     {
         $placeholders = array_map(function (mixed $placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';

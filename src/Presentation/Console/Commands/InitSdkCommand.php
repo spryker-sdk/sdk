@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
@@ -54,7 +54,7 @@ class InitSdkCommand extends Command
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskYamlRepository
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,

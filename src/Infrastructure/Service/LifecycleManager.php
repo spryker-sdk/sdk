@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 
@@ -18,14 +18,14 @@ class LifecycleManager implements LifecycleManagerInterface
     protected TaskRepository $taskEntityRepository;
 
     /**
-     * @var array<\SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface>
+     * @var array<\SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface>
      */
     protected iterable $actions;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskYamlRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository $taskEntityRepository
-     * @param iterable<\SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface> $actions
+     * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface> $actions
      */
     public function __construct(
         TaskRepositoryInterface $taskYamlRepository,

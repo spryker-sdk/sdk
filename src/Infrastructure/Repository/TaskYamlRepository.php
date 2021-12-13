@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
@@ -34,7 +34,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected iterable $existingTasks = [];
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param iterable<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $existingTasks
