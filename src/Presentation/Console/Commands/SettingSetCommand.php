@@ -20,7 +20,7 @@ class SettingSetCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'sdk:setting:set';
+    protected static $defaultName = 'sdk:setting:set';
 
     /**
      * @var string
@@ -46,7 +46,7 @@ class SettingSetCommand extends Command
     ) {
         $this->settingManager = $settingManager;
         $this->settingRepository = $settingRepository;
-        parent::__construct(static::NAME);
+        parent::__construct(static::$defaultName);
     }
 
     /**
