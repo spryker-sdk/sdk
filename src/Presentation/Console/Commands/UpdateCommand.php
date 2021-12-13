@@ -17,7 +17,11 @@ use Throwable;
 
 class UpdateCommand extends Command
 {
-    const OPTION_CHECK_ONLY = 'check-only';
+    /**
+     * @var string
+     */
+    public const OPTION_CHECK_ONLY = 'check-only';
+
     /**
      * @var string
      */
@@ -60,10 +64,10 @@ class UpdateCommand extends Command
             static::OPTION_CHECK_ONLY,
             'c',
             InputOption::VALUE_OPTIONAL | InputOption::VALUE_NONE,
-            false
+            'Only checks if the current version is up-to-date',
+            false,
         );
     }
-
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
@@ -93,6 +97,7 @@ class UpdateCommand extends Command
 
         if (!file_exists($versionFilePath)) {
             $output->writeln('<error>Could not find VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
+
             return;
         }
 
@@ -100,6 +105,7 @@ class UpdateCommand extends Command
 
         if (!$currentVersion) {
             $output->writeln('<error>Could not read VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
+
             return;
         }
 
@@ -120,11 +126,19 @@ class UpdateCommand extends Command
     {
         $githubVersion = '0.0.0';
 
-        $context = stream_context_create(['https'=> ['timeout' => 10]]);
+        $context = stream_context_create(['https' => ['timeout' => 10]]);
         $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
 
         try {
-            $githubContent = json_decode(file_get_contents($githubEndpoint, false, $context), true);
+            $content = file_get_contents($githubEndpoint, false, $context);
+
+            if (!$content) {
+                $output->writeln(sprintf('<error>Could not read from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
+
+                return $githubVersion;
+            }
+
+            $githubContent = json_decode($content, true);
         } catch (Throwable $exception) {
             $output->writeln('<error>' . $exception->getMessage() . '</error>', OutputInterface::VERBOSITY_VERBOSE);
 
