@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class SettingManagerTest extends Unit
 {

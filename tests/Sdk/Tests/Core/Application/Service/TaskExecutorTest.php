@@ -8,16 +8,16 @@
 namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
-use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 class TaskExecutorTest extends Unit
 {

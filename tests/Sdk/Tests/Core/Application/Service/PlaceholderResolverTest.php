@@ -8,15 +8,15 @@
 namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
-use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
-use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 class PlaceholderResolverTest extends Unit
 {
