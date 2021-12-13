@@ -11,8 +11,6 @@ use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class PhpCommandRunner implements CommandRunnerInterface
 {
@@ -30,7 +28,7 @@ class PhpCommandRunner implements CommandRunnerInterface
      * @param \SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface $command
      * @param array $resolvedValues
      *
-     * @return CommandResponseInterface
+     * @return \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface
      */
     public function execute(CommandInterface $command, array $resolvedValues): CommandResponseInterface
     {

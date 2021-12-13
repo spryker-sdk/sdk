@@ -16,7 +16,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     /**
      * @param array $resolvedValues
      *
-     * @return CommandResponseInterface
+     * @return \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface
      */
     public function execute(array $resolvedValues): CommandResponseInterface
     {

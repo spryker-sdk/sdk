@@ -51,7 +51,7 @@ class CommandResponse implements CommandResponseInterface
      *
      * @return $this
      */
-    public function setIsSuccessful(bool $isSuccessful): static
+    public function setIsSuccessful(bool $isSuccessful)
     {
         $this->isSuccessful = $isSuccessful;
 
@@ -89,7 +89,7 @@ class CommandResponse implements CommandResponseInterface
      *
      * @return $this
      */
-    public function setErrorMessage(string $errorMessage): static
+    public function setErrorMessage(string $errorMessage)
     {
         $this->errorMessage = $errorMessage;
 

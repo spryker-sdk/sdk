@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ReceiverValueInterface;
 use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -75,7 +74,7 @@ class CliValueReceiver implements ValueReceiverInterface
     }
 
     /**
-     * @param ReceiverValueInterface $receiverValue
+     * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ReceiverValueInterface $receiverValue
      *
      * @return mixed
      */

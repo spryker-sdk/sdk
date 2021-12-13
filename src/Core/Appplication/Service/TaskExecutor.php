@@ -11,10 +11,9 @@ use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
@@ -84,12 +83,12 @@ class TaskExecutor
 
     /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
-     * @param CommandResponseInterface $commandResponse
+     * @param \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface $commandResponse
      * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
      *
-     * @return void
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
+     * @return void
      */
     public function afterCommandExecuted(CommandInterface $command, CommandResponseInterface $commandResponse, TaskInterface $task): void
     {

@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 use SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class HelloPhpCommand implements ExecutableCommandInterface
 {
@@ -41,7 +40,7 @@ class HelloPhpCommand implements ExecutableCommandInterface
     /**
      * @param array $resolvedValues
      *
-     * @return CommandResponseInterface
+     * @return \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface
      */
     public function execute(array $resolvedValues): CommandResponseInterface
     {

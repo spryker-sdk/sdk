@@ -70,9 +70,9 @@ class LocalCliRunner implements CommandRunnerInterface
      * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
      * @param array $resolvedValues
      *
-     * @return CommandResponseInterface
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
+     * @return \SprykerSdk\Sdk\Contracts\CommandRunner\CommandResponseInterface
      */
     public function execute(CommandInterface $command, array $resolvedValues): CommandResponseInterface
     {
