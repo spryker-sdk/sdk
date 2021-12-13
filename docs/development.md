@@ -182,7 +182,10 @@ services:
 
 #### Register your bundle
 
-Registration of 3rd party bundles will require to (build a flavored Spryker SDK)[build.md].
+If your bundle does not have different dependencies than the Spryker SDK itself you don't need to register the bundle at
+but just need to place it into the `extension` directory that is part of your SDK installation.
+
+For more complex bundles, that for example require additional dependencies you need to follow the guide to [build a flavored Spryker SDK](build.md).
 
 ## Add a value resolver
 
