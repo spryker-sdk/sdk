@@ -8,7 +8,12 @@
 namespace Hello\Tasks;
 
 use Hello\Tasks\Commands\HelloPhpCommand;
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 
 class HelloPhpTask implements TaskInterface
 {
@@ -52,5 +57,41 @@ class HelloPhpTask implements TaskInterface
         return [
             new HelloPhpCommand(),
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return '1.0.0';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeprecated(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSuccessor(): ?string
+    {
+        return '/bin/echo "hello %world% %somebody%"';
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     */
+    public function getLifecycle(): LifecycleInterface
+    {
+        return new Lifecycle(
+            new InitializedEventData(),
+            new UpdatedEventData(),
+            new RemovedEventData(),
+        );
     }
 }

@@ -80,3 +80,76 @@ services:
       - !tagged_iterator sdk.value_resolver
       - '@autoloader_service'
       - '%kernel.project_dir%'
+
+  mapper.command_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper
+
+  mapper.placeholder_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper
+
+  mapper.task_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapper
+    arguments:
+      - '@mapper.command_mapper'
+      - '@mapper.placeholder_mapper'
+      - '@mapper.lifecycle_mapper'
+
+  mapper.lifecycle_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
+    arguments:
+      - '@mapper.removed_event_mapper'
+
+  mapper.removed_event_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper
+    arguments:
+      - '@mapper.placeholder_mapper'
+      - '@mapper.command_mapper'
+      - '@mapper.file_mapper'
+
+  mapper.file_mapper:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
+
+  task_persistence_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+    arguments:
+      - '@mapper.task_mapper'
+      - '@doctrine'
+
+  service.task_manager:
+    class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
+    arguments:
+      - '@event_dispatcher'
+      - '@task_persistence_repository'
+      - '@task_persistence_repository'
+
+  service.lifecycle_manager:
+    class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
+    arguments:
+      - '@task_repository'
+      - '@task_persistence_repository'
+      - !tagged_iterator sdk.update_action
+
+  task_created_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
+    tags: [ 'sdk.update_action' ]
+    arguments:
+      - '@service.task_manager'
+
+  task_deprecated_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction
+    tags: [ 'sdk.update_action' ]
+    arguments:
+      - '@task_persistence_repository'
+      - '@service.task_manager'
+
+  task_removed_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskRemovedAction
+    tags: [ 'sdk.update_action' ]
+    arguments:
+      - '@service.task_manager'
+
+  task_updated_action:
+    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskUpdatedAction
+    tags: [ 'sdk.update_action' ]
+    arguments:
+      - '@service.task_manager'

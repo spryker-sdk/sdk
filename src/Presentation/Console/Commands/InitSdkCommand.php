@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
@@ -37,25 +39,35 @@ class InitSdkCommand extends Command
 
     protected string $settingsPath;
 
+    protected TaskManagerInterface $taskManager;
+
+    protected TaskRepositoryInterface $taskYamlRepository;
+
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository $settingRepository
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
+     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskYamlRepository
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
         SettingRepository $settingRepository,
         MigrateCommand $doctrineMigrationCommand,
         Yaml $yamlParser,
-        string $settingsPath
+        string $settingsPath,
+        TaskManagerInterface $taskManager,
+        TaskRepositoryInterface $taskYamlRepository
     ) {
         $this->settingsPath = $settingsPath;
         $this->yamlParser = $yamlParser;
         $this->doctrineMigrationCommand = $doctrineMigrationCommand;
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
+        $this->taskYamlRepository = $taskYamlRepository;
+        $this->taskManager = $taskManager;
         parent::__construct(static::NAME);
     }
 
@@ -69,6 +81,7 @@ class InitSdkCommand extends Command
     {
         $this->createDatabase();
         $this->initializeSettingValues($this->readSettingDefinitions());
+        $this->taskManager->initialize($this->taskYamlRepository->findAll());
 
         return static::SUCCESS;
     }
@@ -174,7 +187,7 @@ class InitSdkCommand extends Command
      */
     protected function createDatabase(): void
     {
-        $migrationInput = new ArrayInput([]);
+        $migrationInput = new ArrayInput(['allow-no-migration']);
         $migrationInput->setInteractive(false);
         $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }

@@ -7,30 +7,19 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
 use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
 use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
+use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 
 class TaskExecutor
 {
-    /**
-     * @var iterable<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface>
-     */
-    protected iterable $commandRunners;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
-     */
-    protected PlaceholderResolver $placeholderResolver;
-
-    /**
-     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
-     */
-    protected TaskRepositoryInterface $taskRepository;
-
     /**
      * @var \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
      */
@@ -42,23 +31,30 @@ class TaskExecutor
     protected ProgressBarInterface $progressBar;
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface> $commandRunners
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
+     */
+    protected CommandExecutorInterface $commandExecutor;
+
+    /**
+     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     */
+    protected TaskRepositoryInterface $taskRepository;
+
+    /**
      * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
      * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
      * @param \SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface $progressBar
      */
     public function __construct(
-        iterable $commandRunners,
-        PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
+        CommandExecutorInterface $commandExecutor,
         EventLoggerInterface $eventLogger,
         ProgressBarInterface $progressBar
     ) {
-        $this->eventLogger = $eventLogger;
         $this->taskRepository = $taskRepository;
-        $this->placeholderResolver = $placeholderResolver;
-        $this->commandRunners = $commandRunners;
+        $this->commandExecutor = $commandExecutor;
+        $this->eventLogger = $eventLogger;
         $this->progressBar = $progressBar;
     }
 
@@ -71,43 +67,42 @@ class TaskExecutor
     public function execute(string $taskId, array $tags = []): int
     {
         $task = $this->getTask($taskId, $tags);
-        $resolvedValues = $this->getResolvedValues($task);
 
-        $result = true;
-
-        $countExecutableCommands = 0;
-        foreach ($task->getCommands() as $command) {
-            foreach ($this->commandRunners as $commandRunner) {
-                if ($commandRunner->canHandle($command)) {
-                    $countExecutableCommands++;
-                }
-            }
-        }
+        $afterCommandExecutedCallback = function (CommandInterface $command, CommandResponse $commandResponse) use ($task): void {
+            $this->afterCommandExecuted($command, $commandResponse, $task);
+        };
 
         $this->progressBar->start();
-        foreach ($task->getCommands() as $command) {
-            foreach ($this->commandRunners as $commandRunner) {
-                if ($commandRunner->canHandle($command)) {
-                    $commandResponse = $commandRunner->execute($command, $resolvedValues);
 
-                    $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, $commandResponse->getIsSuccessful()));
-
-                    $result = $commandResponse->getIsSuccessful();
-                    if (!$result && $command->hasStopOnError()) {
-                        $this->progressBar->setMessage((string)$commandResponse->getErrorMessage());
-                        $this->progressBar->finish();
-
-                        return (int)$result;
-                    }
-
-                    $this->progressBar->advance();
-                }
-            }
-        }
+        $result = $this->commandExecutor->execute($task->getCommands(), $task->getPlaceholders(), $afterCommandExecutedCallback);
 
         $this->progressBar->finish();
 
-        return (int)$result;
+        return $result->getCode();
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse $commandResponse
+     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
+     *
+     * @return void
+     */
+    public function afterCommandExecuted(CommandInterface $command, CommandResponse $commandResponse, TaskInterface $task): void
+    {
+        $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$commandResponse->getCode()));
+
+        $result = $commandResponse->getIsSuccessful();
+        if (!$result && $command->hasStopOnError()) {
+            $this->progressBar->setMessage((string)$commandResponse->getErrorMessage());
+            $this->progressBar->finish();
+
+            throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
+        }
+
+        $this->progressBar->advance();
     }
 
     /**
@@ -127,21 +122,5 @@ class TaskExecutor
         }
 
         return $task;
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
-     *
-     * @return array<string, mixed>
-     */
-    protected function getResolvedValues(TaskInterface $task): array
-    {
-        $resolvedValues = [];
-
-        foreach ($task->getPlaceholders() as $placeholder) {
-            $resolvedValues[$placeholder->getName()] = $this->placeholderResolver->resolve($placeholder);
-        }
-
-        return $resolvedValues;
     }
 }

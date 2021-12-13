@@ -7,7 +7,12 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
@@ -97,5 +102,41 @@ class GeneratePbcTask implements TaskInterface
             new GeneratePbcCommand(),
             new ChangeNamesCommand(),
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return '0.1.0';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeprecated(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSuccessor(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     */
+    public function getLifecycle(): LifecycleInterface
+    {
+        return new Lifecycle(
+            new InitializedEventData(),
+            new UpdatedEventData(),
+            new RemovedEventData(),
+        );
     }
 }

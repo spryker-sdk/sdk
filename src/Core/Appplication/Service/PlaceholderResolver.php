@@ -69,6 +69,21 @@ class PlaceholderResolver
     }
 
     /**
+     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     *
+     * @return array<string, mixed>
+     */
+    public function resolvePlaceholders(array $placeholders): array
+    {
+        $resolvedValues = [];
+        foreach ($placeholders as $placeholder) {
+            $resolvedValues[$placeholder->getName()] = $this->resolve($placeholder);
+        }
+
+        return $resolvedValues;
+    }
+
+    /**
      * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $placeholder
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException

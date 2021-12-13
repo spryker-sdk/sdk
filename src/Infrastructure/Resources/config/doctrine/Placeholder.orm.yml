@@ -1,0 +1,29 @@
+SprykerSdk\Sdk\Infrastructure\Entity\Placeholder:
+  type: entity
+  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\PlaceholderRepository
+  table: sdk_placeholder
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      nullable: false
+      unique: false
+    valueResolver:
+      name: value_resolver
+      type: string
+      nullable: false
+      unique: false
+    configuration:
+      type: json
+      nullable: false
+      unique: false
+    isOptional:
+      name: is_optional
+      type: boolean
+      default: false
+      unique: false
+      nullable: false

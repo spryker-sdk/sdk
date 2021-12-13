@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 
 class Task implements TaskInterface
@@ -36,25 +37,45 @@ class Task implements TaskInterface
      */
     protected ?string $help = null;
 
+    protected string $version;
+
+    protected ?string $successor = null;
+
+    protected bool $isDeprecated;
+
+    protected LifecycleInterface $lifecycle;
+
     /**
      * @param string $id
      * @param string $shortDescription
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface $lifecycle
+     * @param string $version
      * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
      * @param string|null $help
+     * @param string|null $successor
+     * @param bool $isDeprecated
      */
     public function __construct(
         string $id,
         string $shortDescription,
         array $commands,
+        LifecycleInterface $lifecycle,
+        string $version,
         array $placeholders = [],
-        ?string $help = null
+        ?string $help = null,
+        ?string $successor = null,
+        bool $isDeprecated = false
     ) {
         $this->help = $help;
         $this->placeholders = $placeholders;
         $this->commands = $commands;
         $this->shortDescription = $shortDescription;
         $this->id = $id;
+        $this->version = $version;
+        $this->successor = $successor;
+        $this->isDeprecated = $isDeprecated;
+        $this->lifecycle = $lifecycle;
     }
 
     /**
@@ -95,5 +116,37 @@ class Task implements TaskInterface
     public function getHelp(): ?string
     {
         return $this->help;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSuccessor(): ?string
+    {
+        return $this->successor;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeprecated(): bool
+    {
+        return $this->isDeprecated;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     */
+    public function getLifecycle(): LifecycleInterface
+    {
+        return $this->lifecycle;
     }
 }
