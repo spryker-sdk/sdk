@@ -1,0 +1,46 @@
+SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\RemovedEventRepository
+    table: sdk_removed_event
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    manyToMany:
+        commands:
+            targetEntity: Command
+            cascade: [ "persist", "remove" ]
+            joinTable:
+                name: sdk_removed_events_commands
+                joinColumns:
+                    removed_event_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    command_id:
+                        referencedColumnName: id
+                        unique: true
+        placeholders:
+            targetEntity: Placeholder
+            cascade: [ "persist", "remove" ]
+            joinTable:
+                name: sdk_removed_events_placeholders
+                joinColumns:
+                    removed_event_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    placeholder_id:
+                        referencedColumnName: id
+                        unique: true
+        files:
+            targetEntity: File
+            cascade: [ "persist", "remove" ]
+            joinTable:
+                name: sdk_removed_events_files
+                joinColumns:
+                    removed_event_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    file_id:
+                        referencedColumnName: id
+                        unique: true

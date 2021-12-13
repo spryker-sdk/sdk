@@ -1,0 +1,64 @@
+SprykerSdk\Sdk\Infrastructure\Entity\Task:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+    table: sdk_task
+    id:
+        id:
+            type: string
+            generator:
+                strategy: NONE
+    fields:
+        shortDescription:
+            type: string
+            unique: false
+            nullable: false
+        help:
+            type: string
+            unique: false
+            nullable: true
+        version:
+            type: string
+            unique: false
+            nullable: false
+        successor:
+            type: string
+            unique: false
+            nullable: true
+        isDeprecated:
+            type: boolean
+            unique: false
+            nullable: false
+            default: false
+    manyToMany:
+        commandCollection:
+            targetEntity: Command
+            cascade: ["persist", "remove"]
+            joinTable:
+                name: sdk_tasks_commands
+                joinColumns:
+                    task_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    command_id:
+                        referencedColumnName: id
+                        unique: true
+        placeholderCollection:
+            targetEntity: Placeholder
+            cascade: ["persist", "remove"]
+            joinTable:
+                name: sdk_tasks_placeholders
+                joinColumns:
+                    task_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    placeholder_id:
+                        referencedColumnName: id
+                        unique: true
+    oneToOne:
+        lifecycle:
+            targetEntity: Lifecycle
+            cascade: [ "persist", "remove" ]
+            joinColumn:
+                name: lifecycle_id
+                referencedColumnName: id
+                onDelete: CASCADE
