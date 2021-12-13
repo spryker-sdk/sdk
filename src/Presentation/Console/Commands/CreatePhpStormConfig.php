@@ -17,7 +17,7 @@ class CreatePhpStormConfig extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'phpstorm:create-config';
+    protected static $defaultName = 'sdk:php:create-phpstorm-config';
 
     /**
      * @var string
