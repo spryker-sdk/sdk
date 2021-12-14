@@ -2,6 +2,9 @@
     "behat/gherkin": {
         "version": "v4.9.0"
     },
+    "clue/stream-filter": {
+        "version": "v1.5.0"
+    },
     "codeception/codeception": {
         "version": "4.1",
         "recipe": {
@@ -34,6 +37,9 @@
     },
     "container-interop/container-interop": {
         "version": "1.2.0"
+    },
+    "davidrjonas/composer-lock-diff": {
+        "version": "1.6.1"
     },
     "dealerdirect/phpcodesniffer-composer-installer": {
         "version": "v0.7.1"
@@ -118,6 +124,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.2"
     },
+    "ergebnis/json-printer": {
+        "version": "3.1.1"
+    },
     "everon/collection": {
         "version": "v1.0.3"
     },
@@ -127,11 +136,26 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.4.1"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.1"
+    },
     "guzzlehttp/psr7": {
         "version": "2.1.0"
     },
     "jetbrains/phpstorm-stubs": {
         "version": "v2019.3"
+    },
+    "knplabs/github-api": {
+        "version": "3.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.6",
+            "ref": "a7d5781e4a8e84f1c238c43e4c9bb806f01d8a3f"
+        }
     },
     "laminas/laminas-code": {
         "version": "4.4.3"
@@ -175,6 +199,30 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
+    "php-http/cache-plugin": {
+        "version": "1.7.4"
+    },
+    "php-http/client-common": {
+        "version": "2.5.0"
+    },
+    "php-http/discovery": {
+        "version": "1.14.1"
+    },
+    "php-http/httplug": {
+        "version": "2.2.0"
+    },
+    "php-http/message": {
+        "version": "1.12.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
+    },
+    "php-http/multipart-stream-builder": {
+        "version": "1.2.0"
+    },
+    "php-http/promise": {
+        "version": "1.1.0"
+    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
@@ -195,9 +243,6 @@
     },
     "phpstan/phpstan": {
         "version": "1.2.0"
-    },
-    "propel/propel": {
-        "version": "2.0.0-beta1"
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.9"
@@ -228,6 +273,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "propel/propel": {
+        "version": "2.0.0-beta1"
+    },
     "psr/cache": {
         "version": "2.0.0"
     },
@@ -236,6 +284,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-client": {
+        "version": "1.0.1"
     },
     "psr/http-factory": {
         "version": "1.0.1"
@@ -303,6 +354,15 @@
     "slevomat/coding-standard": {
         "version": "7.0.16"
     },
+    "sllh/composer-versions-check": {
+        "version": "v2.0.5"
+    },
+    "spryker-sdk/evaluator": {
+        "version": "dev-poc"
+    },
+    "spryker-sdk/sdk-contracts": {
+        "version": "dev-master"
+    },
     "spryker-sdk/spryk": {
         "version": "0.3.2"
     },
@@ -314,9 +374,6 @@
     },
     "spryker/application-extension": {
         "version": "1.0.1"
-    },
-    "sllh/composer-versions-check": {
-        "version": "v2.0.5"
     },
     "spryker/architecture-sniffer": {
         "version": "0.5.2"
@@ -468,11 +525,11 @@
             "bin/console"
         ]
     },
-    "symfony/debug": {
-        "version": "v4.4.31"
-    },
     "symfony/css-selector": {
         "version": "v5.3.4"
+    },
+    "symfony/debug": {
+        "version": "v4.4.31"
     },
     "symfony/dependency-injection": {
         "version": "v5.3.10"
@@ -673,6 +730,9 @@
     "symfony/yaml": {
         "version": "v5.3.6"
     },
+    "theseer/tokenizer": {
+        "version": "1.2.1"
+    },
     "twig/twig": {
         "version": "v3.3.3"
     },
@@ -684,9 +744,6 @@
     },
     "voku/portable-utf8": {
         "version": "5.4.51"
-    },
-    "theseer/tokenizer": {
-        "version": "1.2.1"
     },
     "webmozart/assert": {
         "version": "1.10.0"
