@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,7 +35,7 @@ class InitProjectCommand extends Command
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $projectSettingManager
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param string $projectSettingFileName
      */
     public function __construct(
@@ -93,10 +93,10 @@ class InitProjectCommand extends Command
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settingEntities
+     * @param array<string, \SprykerSdk\SdkContracts\Entity\SettingInterface> $settingEntities
      * @param bool $needsToAsk
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settingEntities, bool $needsToAsk): array
     {
@@ -139,7 +139,7 @@ class InitProjectCommand extends Command
     }
 
     /**
-     * @param array<int, \SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $projectSettings
+     * @param array<int, \SprykerSdk\SdkContracts\Entity\SettingInterface> $projectSettings
      *
      * @return void
      */

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface;
 
@@ -22,7 +22,7 @@ class CommandLoader implements CommandLoaderInterface
     /**
      * @param \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader $commandContainer
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface $commandMapper
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
     public function __construct(TaskRunFactoryLoader $commandContainer, CommandMapperInterface $commandMapper, TaskRepositoryInterface $taskRepository)
     {
@@ -42,7 +42,7 @@ class CommandLoader implements CommandLoaderInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
      * @return array<\SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface>
      */

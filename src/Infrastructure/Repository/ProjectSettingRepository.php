@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
@@ -21,7 +21,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected string $projectSettingFileName;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $coreSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
      */
@@ -36,9 +36,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     public function save(SettingInterface $setting): SettingInterface
     {
@@ -46,9 +46,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array
     {
@@ -67,7 +67,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     /**
      * @param string $settingPath
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
@@ -81,7 +81,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function find(): array
     {
@@ -95,7 +95,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findProjectSettings(): array
     {
@@ -103,9 +103,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $entities
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $entities
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function fillProjectValues(array $entities): array
     {
@@ -139,7 +139,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findCoreSettings(): array
     {
@@ -149,7 +149,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     /**
      * @param array<string> $paths
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findByPaths(array $paths): array
     {

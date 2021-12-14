@@ -196,9 +196,6 @@
     "phpstan/phpstan": {
         "version": "1.2.0"
     },
-    "propel/propel": {
-        "version": "2.0.0-beta1"
-    },
     "phpunit/php-code-coverage": {
         "version": "9.2.9"
     },
@@ -227,6 +224,9 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "propel/propel": {
+        "version": "2.0.0-beta1"
     },
     "psr/cache": {
         "version": "2.0.0"
@@ -303,6 +303,12 @@
     "slevomat/coding-standard": {
         "version": "7.0.16"
     },
+    "sllh/composer-versions-check": {
+        "version": "v2.0.5"
+    },
+    "spryker-sdk/sdk-contracts": {
+        "version": "dev-master"
+    },
     "spryker-sdk/spryk": {
         "version": "0.3.2"
     },
@@ -314,9 +320,6 @@
     },
     "spryker/application-extension": {
         "version": "1.0.1"
-    },
-    "sllh/composer-versions-check": {
-        "version": "v2.0.5"
     },
     "spryker/architecture-sniffer": {
         "version": "0.5.2"
@@ -453,11 +456,11 @@
             "bin/console"
         ]
     },
-    "symfony/debug": {
-        "version": "v4.4.31"
-    },
     "symfony/css-selector": {
         "version": "v5.3.4"
+    },
+    "symfony/debug": {
+        "version": "v4.4.31"
     },
     "symfony/dependency-injection": {
         "version": "v5.3.10"
@@ -658,6 +661,9 @@
     "symfony/yaml": {
         "version": "v5.3.6"
     },
+    "theseer/tokenizer": {
+        "version": "1.2.1"
+    },
     "twig/twig": {
         "version": "v3.3.3"
     },
@@ -669,9 +675,6 @@
     },
     "voku/portable-utf8": {
         "version": "5.4.51"
-    },
-    "theseer/tokenizer": {
-        "version": "1.2.1"
     },
     "webmozart/assert": {
         "version": "1.10.0"

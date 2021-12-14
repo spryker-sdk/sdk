@@ -9,31 +9,31 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task as CoreTask;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
 
 class Task extends CoreTask
 {
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     protected Collection $placeholderCollection;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected Collection $commandCollection;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface
+     * @var \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface
      */
     protected LifecycleInterface $lifecycle;
 
     /**
      * @param string $id
      * @param string $shortDescription
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      * @param string $version
      * @param string|null $help
      * @param string|null $successor
@@ -55,7 +55,7 @@ class Task extends CoreTask
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      *
      * @return $this
      */
@@ -67,7 +67,7 @@ class Task extends CoreTask
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -75,7 +75,7 @@ class Task extends CoreTask
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return $this
      */
@@ -123,7 +123,7 @@ class Task extends CoreTask
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -131,7 +131,7 @@ class Task extends CoreTask
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      *
      * @return $this
      */

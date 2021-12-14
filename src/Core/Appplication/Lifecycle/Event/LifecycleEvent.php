@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class LifecycleEvent extends Event
@@ -15,7 +15,7 @@ abstract class LifecycleEvent extends Event
     protected TaskInterface $task;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      */
     public function __construct(TaskInterface $task)
     {
@@ -23,7 +23,7 @@ abstract class LifecycleEvent extends Event
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function getTask(): TaskInterface
     {

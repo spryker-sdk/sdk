@@ -9,24 +9,24 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
 
 class RemovedEvent implements LifecycleEventDataInterface
 {
     protected int $id;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     protected Collection $placeholders;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected Collection $commands;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\FileInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\FileInterface>
      */
     protected Collection $files;
 
@@ -38,7 +38,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -46,7 +46,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -54,7 +54,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
      */
     public function getFiles(): array
     {
@@ -62,7 +62,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return $this
      */
@@ -74,7 +74,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      *
      * @return $this
      */
@@ -86,7 +86,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\FileInterface> $files
      *
      * @return $this
      */

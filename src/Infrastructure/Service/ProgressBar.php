@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Helper\ProgressBar as SymfonyProgressBar;
 

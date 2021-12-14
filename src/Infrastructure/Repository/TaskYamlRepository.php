@@ -7,10 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
@@ -20,6 +18,8 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -34,10 +34,10 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected iterable $existingTasks = [];
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param iterable<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $existingTasks
+     * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
@@ -90,7 +90,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param string $taskId
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
     public function findById(string $taskId, array $tags = []): ?TaskInterface
     {
@@ -108,7 +108,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     protected function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
     {
@@ -178,7 +178,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected function buildLifecycleCommands(array $data): array
     {
@@ -202,7 +202,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $data
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
      */
     protected function buildFiles(array $data): array
     {
@@ -227,7 +227,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface
+     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
      */
     protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface
     {
@@ -309,7 +309,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     protected function buildTask(array $taskData, array $taskListData, array $tags = []): TaskInterface
     {
