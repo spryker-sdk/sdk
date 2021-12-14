@@ -36,6 +36,7 @@ class ViolationReportMerger
             foreach ($violationReport->getPackages() as $package) {
                 $packageData = $this->getArrayFromPackage($package);
                 $packagePath = $package->getPath();
+
                 if (!isset($packages[$packagePath])) {
                     $packages[$packagePath] = $packageData;
 

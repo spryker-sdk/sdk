@@ -17,7 +17,7 @@ interface ViolationConverterInterface
     public function configure(array $configuration): void;
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface|null
      */
-    public function convert(): ViolationReportInterface;
+    public function convert(): ?ViolationReportInterface;
 }

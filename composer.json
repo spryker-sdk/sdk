@@ -10,6 +10,7 @@
         "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-simplexml": "*",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
         "doctrine/doctrine-bundle": "^2.4",

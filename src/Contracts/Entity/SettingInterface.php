@@ -60,4 +60,9 @@ interface SettingInterface
      * @return string|null
      */
     public function getInitializationDescription(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getInitializer(): ?string;
 }

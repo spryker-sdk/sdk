@@ -19,7 +19,7 @@ class Violation implements ViolationInterface
 
     protected string $produced;
 
-    protected ?string $severity;
+    protected ?string $priority;
 
     protected ?string $class;
 
@@ -38,7 +38,7 @@ class Violation implements ViolationInterface
     /**
      * @param string $id
      * @param string $message
-     * @param string|null $severity
+     * @param string|null $priority
      * @param string|null $class
      * @param int|null $startLine
      * @param int|null $endLine
@@ -52,7 +52,7 @@ class Violation implements ViolationInterface
     public function __construct(
         string $id,
         string $message,
-        ?string $severity,
+        ?string $priority,
         ?string $class,
         ?int $startLine,
         ?int $endLine,
@@ -65,7 +65,7 @@ class Violation implements ViolationInterface
     ) {
         $this->id = $id;
         $this->message = $message;
-        $this->severity = $severity;
+        $this->priority = $priority;
         $this->class = $class;
         $this->startLine = $startLine;
         $this->endLine = $endLine;
@@ -112,9 +112,9 @@ class Violation implements ViolationInterface
     /**
      * @return string|null
      */
-    public function severity(): ?string
+    public function priority(): ?string
     {
-        return $this->severity;
+        return $this->priority;
     }
 
     /**

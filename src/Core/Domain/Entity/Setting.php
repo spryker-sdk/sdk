@@ -47,6 +47,11 @@ class Setting implements SettingInterface
     protected ?string $initializationDescription = null;
 
     /**
+     * @var string|null
+     */
+    protected ?string $initializer = null;
+
+    /**
      * @param string $path
      * @param mixed $values
      * @param string $strategy
@@ -54,6 +59,7 @@ class Setting implements SettingInterface
      * @param bool $isProject
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
+     * @param string|null $initializer
      */
     public function __construct(
         string $path,
@@ -62,7 +68,8 @@ class Setting implements SettingInterface
         string $type = 'string',
         bool $isProject = true,
         bool $hasInitialization = false,
-        ?string $initializationDescription = null
+        ?string $initializationDescription = null,
+        ?string $initializer = null
     ) {
         $this->initializationDescription = $initializationDescription;
         $this->hasInitialization = $hasInitialization;
@@ -71,6 +78,7 @@ class Setting implements SettingInterface
         $this->strategy = $strategy;
         $this->values = $values;
         $this->path = $path;
+        $this->initializer = $initializer;
     }
 
     /**
@@ -137,5 +145,13 @@ class Setting implements SettingInterface
     public function getInitializationDescription(): ?string
     {
         return $this->initializationDescription;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getInitializer(): ?string
+    {
+        return $this->initializer;
     }
 }

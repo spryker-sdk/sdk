@@ -39,5 +39,5 @@ interface ViolationReportRepositoryInterface
      *
      * @return void
      */
-    public function removeViolationReport(?string $taskId = null): void;
+    public function cleanupViolationReport(?string $taskId = null): void;
 }

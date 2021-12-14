@@ -187,7 +187,7 @@ class ConverterRegistry implements ConverterRegistryInterface
             if (array_key_exists($fullClassName, $this->converterClasses)) {
                 continue;
             }
-            $converterFile = new $fullClassName();
+            $converterFile = new $fullClassName($this->settingRepository);
 
             if (!$converterFile instanceof ViolationConverterInterface) {
                 throw new InvalidTypeException(sprintf('Converter (%s) must implement %s', $converterFile::class, ViolationConverterInterface::class));

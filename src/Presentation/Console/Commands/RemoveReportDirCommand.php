@@ -59,10 +59,10 @@ class RemoveReportDirCommand extends Command
     {
         if (
             $this->cliValueReceiver->receiveValue(
-                new ReceiverValue('Should report folder be removed?', true, 'boolean'),
+                new ReceiverValue('Should report folder be cleaned?', true, 'boolean'),
             )
         ) {
-            $this->violationReportRepository->removeViolationReport();
+            $this->violationReportRepository->cleanupViolationReport();
         }
 
         return static::SUCCESS;

@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
 use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Contracts\Setting\SettingInitializerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
@@ -133,6 +134,13 @@ class InitProjectCommand extends Command
             }
 
             $settingEntity->setValues($values);
+
+            $initializerClassName = $settingEntity->getInitializer();
+            if ($initializerClassName && in_array(SettingInitializerInterface::class, (array) class_implements($initializerClassName))) {
+                /** @var \SprykerSdk\Sdk\Contracts\Setting\SettingInitializerInterface $initializer */
+                $initializer = new $initializerClassName();
+                $initializer->initialize($settingEntity);
+            }
         }
 
         return $settingEntities;

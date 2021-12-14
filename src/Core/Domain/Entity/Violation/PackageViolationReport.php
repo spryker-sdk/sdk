@@ -22,8 +22,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     /**
      * @param string $package
      * @param string $path
-     * @param array $violations
-     * @param array $fileViolations
+     * @param array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface> $violations
+     * @param array<string, array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface>> $fileViolations
      */
     public function __construct(string $package, string $path, array $violations, array $fileViolations)
     {

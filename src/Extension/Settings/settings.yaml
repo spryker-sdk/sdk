@@ -85,3 +85,4 @@ settings:
     is_project: true
     type: path
     values: './reports/'
+    initializer: \SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer

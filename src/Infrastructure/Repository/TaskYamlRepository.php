@@ -159,7 +159,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $commands[] = new Command(
                 $data['command'],
                 $data['type'],
-                true,
+                false,
                 [],
                 $converter,
             );
@@ -170,11 +170,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 if ($tags && !array_intersect($tags, $task['tags'])) {
                     continue;
                 }
+                $converter = isset($taskListData[$task['id']]['report_converter']) ? new Converter(
+                    $taskListData[$task['id']]['report_converter']['name'],
+                    $taskListData[$task['id']]['report_converter']['configuration'],
+                ) : null;
+
                 $commands[] = new Command(
                     $taskListData[$task['id']]['command'],
                     $taskListData[$task['id']]['type'],
                     $task['stop_on_error'],
                     $task['tags'],
+                    $converter,
                 );
             }
         }
@@ -199,7 +205,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $commands[] = new Command(
                 $command['command'],
                 $command['type'],
-                true,
+                false,
             );
         }
 

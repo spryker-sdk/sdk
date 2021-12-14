@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
 
-class CheckstyleViolationReportConverter extends AbstractViolationConverter
+class PHPMDViolationConverter extends AbstractViolationConverter
 {
     /**
      * @var string
@@ -77,11 +77,8 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
     protected function getPackages(string $projectDirectory, array $files): array
     {
         $packages = [];
-        foreach ($files as $path => $file) {
-            if (!$file['errors']) {
-                continue;
-            }
-
+        foreach ($files as $file) {
+            $path = $file['file'];
             $relatedPathToFile = ltrim(str_replace($projectDirectory, '', $path), DIRECTORY_SEPARATOR);
             preg_match('~(Zed|Glue)/(\w+)/~', $relatedPathToFile, $matches);
             $moduleName = $matches[2];
@@ -91,19 +88,19 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
             $classNamespace = str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0]);
 
             $fileViolations = [];
-            foreach ($file['messages'] as $message) {
+            foreach ($file['violations'] as $violation) {
                 $fileViolations[$relatedPathToFile][] = new Violation(
                     basename($relatedPathToFile, '.php'),
-                    $message['message'],
-                    null,
+                    $violation['description'],
+                    $violation['priority'],
                     $classNamespace,
-                    (int)$message['line'],
-                    (int)$message['line'],
-                    (int)$message['column'],
-                    (int)$message['column'],
+                    (int)$violation['beginLine'],
+                    (int)$violation['endLine'],
                     null,
-                    $message,
-                    $message['fixable'],
+                    null,
+                    $violation['method'],
+                    $violation,
+                    false,
                     $this->producer,
                 );
             }
@@ -112,7 +109,7 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
                 $moduleName,
                 $pathToModule,
                 [],
-                $fileViolations
+                $fileViolations,
             );
         }
 

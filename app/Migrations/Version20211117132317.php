@@ -34,7 +34,7 @@ final class Version20211117132317 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE sdk_setting (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, path VARCHAR(255) NOT NULL, "values" CLOB DEFAULT NULL --(DC2Type:json)
-        , strategy VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, is_project BOOLEAN NOT NULL, has_initialization BOOLEAN NOT NULL, initialization_description VARCHAR(255) DEFAULT NULL)');
+        , strategy VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, is_project BOOLEAN NOT NULL, has_initialization BOOLEAN NOT NULL, initialization_description VARCHAR(255) DEFAULT NULL, initializer VARCHAR(255) DEFAULT NULL)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8463B8E1B548B0F ON sdk_setting (path)');
     }
 

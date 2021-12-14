@@ -32,7 +32,7 @@ interface ViolationInterface
     /**
      * @return string|null
      */
-    public function severity(): ?string;
+    public function priority(): ?string;
 
     /**
      * @return string|null

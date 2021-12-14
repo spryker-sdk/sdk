@@ -110,6 +110,7 @@ class InitSdkCommand extends Command
             'strategy' => $setting['strategy'] ?? 'overwrite',
             'init' => $setting['init'] ?? false,
             'values' => $setting['values'],
+            'initializer' => $setting['initializer'] ?? null,
         ];
 
         if ($settingEntity) {
@@ -119,6 +120,7 @@ class InitSdkCommand extends Command
             $settingEntity->setHasInitialization($settingData['init']);
             $settingEntity->setValues($settingData['values']);
             $settingEntity->setType($settingData['type']);
+            $settingEntity->setInitializer($settingData['initializer']);
         } else {
             $settingEntity = new Setting(
                 null,
@@ -129,6 +131,7 @@ class InitSdkCommand extends Command
                 $settingData['is_project'],
                 $settingData['init'],
                 $settingData['initialization_description'],
+                $settingData['initializer'],
             );
         }
 

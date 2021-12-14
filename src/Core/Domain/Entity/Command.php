@@ -25,7 +25,7 @@ class Command implements CommandInterface
     /**
      * @var bool
      */
-    protected bool $hasStopOnError = true;
+    protected bool $hasStopOnError = false;
 
     /**
      * @var array<string>
@@ -47,7 +47,7 @@ class Command implements CommandInterface
     public function __construct(
         string $command,
         string $type,
-        bool $hasStopOnError = true,
+        bool $hasStopOnError = false,
         array $tags = [],
         ?ConverterInterface $converter = null
     ) {

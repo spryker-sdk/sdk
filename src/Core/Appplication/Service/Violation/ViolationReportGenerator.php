@@ -73,7 +73,7 @@ class ViolationReportGenerator
             return null;
         }
 
-        $violationReport = $this->violationReportMerger->merge($violationReports);
+        $violationReport = $this->violationReportMerger->merge(array_filter($violationReports));
 
         $this->violationReportRepository->save($taskId, $violationReport);
 

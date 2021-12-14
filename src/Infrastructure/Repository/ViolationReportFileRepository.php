@@ -68,11 +68,16 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
         foreach ($violationReport->getPackages() as $package) {
             $files = [];
             foreach ($package->getFileViolations() as $path => $fileViolations) {
-                $files['path'] = $path;
-                $files['violations'] = array_map(function (ViolationInterface $violation) {
+                $file = [];
+                $file['path'] = $path;
+                $file['violations'] = [];
+                $violations = array_map(function (ViolationInterface $violation) {
                     return $this->convertViolationToArray($violation);
                 }, $fileViolations);
+                $file['violations'] = array_merge($file['violations'], $violations);
+                $files[] = $file;
             }
+
             $violationReportStructure['packages'][] = [
                 'id' => $package->getPackage(),
                 'path' => $package->getPath(),
@@ -134,7 +139,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
             if (isset($packageData['files'])) {
                 foreach ($packageData['files'] as $file) {
                     foreach ($file['violations'] as $violation) {
-                        $violations[$file['path']][] = $this->createViolation($violation);
+                        $violations[(string)$file['path']][] = $this->createViolation($violation);
                     }
                 }
             }
@@ -179,7 +184,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
 
         $violationData['id'] = $violation->getId();
         $violationData['message'] = $violation->getMessage();
-        $violationData['severity'] = $violation->severity();
+        $violationData['priority'] = $violation->priority();
         $violationData['class'] = $violation->getClass();
         $violationData['method'] = $violation->getMethod();
         $violationData['start_line'] = $violation->getStartLine();
@@ -203,7 +208,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
         return new Violation(
             $violation['id'],
             $violation['message'],
-            $violation['severity'] ?: null,
+            $violation['priority'] ?: null,
             $violation['class'] ?: null,
             $violation['method'] ?: null,
             $violation['start_line'] ?: null,
@@ -223,7 +228,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      *
      * @return void
      */
-    public function removeViolationReport(?string $taskId = null): void
+    public function cleanupViolationReport(?string $taskId = null): void
     {
         $dirname = $this->getViolationReportPath($taskId);
 
@@ -242,12 +247,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
                     throw new Exception('Unknown object type: ' . $object->getFileName());
                 }
             }
-            rmdir($dirname);
-
-            return;
         }
-
-        unlink($dirname);
     }
 
     /**
@@ -269,10 +269,6 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
 
         if (!$taskId) {
             return $reportPath;
-        }
-
-        if (!is_dir($reportPath)) {
-            mkdir($reportPath, 0777);
         }
 
         return $reportPath . DIRECTORY_SEPARATOR . $taskId . '.violations.yaml';
