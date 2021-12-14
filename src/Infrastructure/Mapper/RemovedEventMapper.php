@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
 
 class RemovedEventMapper implements RemovedEventMapperInterface
 {
@@ -34,7 +34,7 @@ class RemovedEventMapper implements RemovedEventMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
@@ -49,7 +49,7 @@ class RemovedEventMapper implements RemovedEventMapperInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $event
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
@@ -66,7 +66,7 @@ class RemovedEventMapper implements RemovedEventMapperInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $event
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
@@ -83,7 +83,7 @@ class RemovedEventMapper implements RemovedEventMapperInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
+     * @param array<\SprykerSdk\SdkContracts\Entity\FileInterface> $files
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $event
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent

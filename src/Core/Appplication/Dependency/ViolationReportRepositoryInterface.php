@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 interface ViolationReportRepositoryInterface
 {
     /**
      * @param string $taskId
-     * @param \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
      *
      * @return void
      */
@@ -22,7 +22,7 @@ interface ViolationReportRepositoryInterface
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
     public function findByTask(string $taskId): ?ViolationReportInterface;
 
@@ -30,7 +30,7 @@ interface ViolationReportRepositoryInterface
      * @param string $taskId
      * @param string $package
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
     public function findByPackage(string $taskId, string $package): ?ViolationReportInterface;
 

@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 
 class ViolationConverterResolver
 {
@@ -27,9 +27,9 @@ class ViolationConverterResolver
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationConverterInterface|null
      */
     public function resolve(CommandInterface $command): ?ViolationConverterInterface
     {

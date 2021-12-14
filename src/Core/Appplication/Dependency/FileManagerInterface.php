@@ -7,19 +7,19 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
+use SprykerSdk\SdkContracts\Entity\FileInterface;
 
 interface FileManagerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
+     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
      *
      * @return void
      */
     public function create(FileInterface $file): void;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
+     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
      *
      * @return bool
      */

@@ -7,27 +7,27 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface TaskManagerInterface
 {
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function initialize(array $tasks): array;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */
     public function remove(TaskInterface $task): void;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $folderTask
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $databaseTask
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $folderTask
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $databaseTask
      *
      * @return void
      */

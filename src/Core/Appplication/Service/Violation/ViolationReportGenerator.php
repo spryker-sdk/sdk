@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
-use SprykerSdk\Sdk\Contracts\Violation\ViolationReportableInterface;
-use SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportableInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ViolationReportGenerator
 {
@@ -45,13 +45,13 @@ class ViolationReportGenerator
 
     /**
      * @param string $taskId
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
     public function collectViolations(string $taskId, array $commands): ?ViolationReportInterface
     {
-        /** @var array<\SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface> $violationReports */
+        /** @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface> $violationReports */
         $violationReports = [];
         foreach ($commands as $command) {
             if ($command instanceof ViolationReportableInterface) {

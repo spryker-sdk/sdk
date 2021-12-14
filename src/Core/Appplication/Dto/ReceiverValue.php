@@ -7,15 +7,17 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dto;
 
-class ReceiverValue
+use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
+
+class ReceiverValue implements ReceiverValueInterface
 {
-    public string $description;
+    protected string $description;
 
-    public mixed $defaultValue;
+    protected mixed $defaultValue;
 
-    public string $type;
+    protected string $type;
 
-    public array $choiceValues;
+    protected array $choiceValues;
 
     /**
      * @param string $description

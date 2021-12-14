@@ -43,3 +43,44 @@ services:
     arguments:
       - '@process_helper'
       - '@service.lifecycle_manager'
+
+  create_phpstorm_config_command:
+      class: SprykerSdk\Sdk\Presentation\Console\Commands\CreatePhpStormConfig
+      tags: ['console.command']
+      arguments:
+          - '@ide.config_manager'
+
+  ide.command_mapper:
+      class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapper
+      arguments:
+          - '@ide.option_mapper'
+          - '@ide.param_mapper'
+
+  ide.option_mapper:
+      class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\OptionMapper
+
+  ide.param_mapper:
+      class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\ParamMapper
+
+  ide.config_manager:
+      class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\ConfigManager
+      arguments:
+          - '@ide.command_loader'
+          - '@ide.command_xml_formatter'
+          - '@xml_encoder'
+          - '@setting_repository'
+
+  ide.command_loader:
+      class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader
+      arguments:
+          - '@console.command_loader'
+          - '@ide.command_mapper'
+          -  '@task_repository'
+
+  ide.command_xml_formatter:
+      class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatter
+
+  xml_encoder:
+      class: Symfony\Component\Serializer\Encoder\XmlEncoder
+      arguments:
+          - { xml_format_output: true, xml_root_node_name: framework }

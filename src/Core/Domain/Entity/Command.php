@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class Command implements CommandInterface
 {
@@ -33,7 +33,7 @@ class Command implements CommandInterface
     protected array $tags;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Entity\ConverterInterface
+     * @var \SprykerSdk\SdkContracts\Entity\ConverterInterface
      */
     protected ?ConverterInterface $converter;
 
@@ -42,7 +42,7 @@ class Command implements CommandInterface
      * @param string $type
      * @param bool $hasStopOnError
      * @param array<string> $tags
-     * @param \SprykerSdk\Sdk\Contracts\Entity\ConverterInterface|null $converter
+     * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
      */
     public function __construct(
         string $command,
@@ -91,7 +91,7 @@ class Command implements CommandInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\ConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
     {

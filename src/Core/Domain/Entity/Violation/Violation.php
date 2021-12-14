@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
 
-use SprykerSdk\Sdk\Contracts\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 
 class Violation implements ViolationInterface
 {

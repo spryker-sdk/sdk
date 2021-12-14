@@ -9,14 +9,14 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Exception;
 use RecursiveIteratorIterator;
-use SprykerSdk\Sdk\Contracts\Violation\ViolationInterface;
-use SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 use Symfony\Component\Yaml\Yaml;
 
@@ -51,7 +51,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
 
     /**
      * @param string $taskId
-     * @param \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
      *
      * @return void
      */
@@ -94,7 +94,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
     public function findByTask(string $taskId): ?ViolationReportInterface
     {
@@ -105,7 +105,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      * @param string $taskId
      * @param string $package
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
     public function findByPackage(string $taskId, string $package): ?ViolationReportInterface
     {
@@ -116,7 +116,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      * @param string $taskId
      * @param string|null $package
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
      */
     protected function getViolationReport(string $taskId, ?string $package = null): ViolationReportInterface
     {
@@ -174,7 +174,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Violation\ViolationInterface $violation
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violation
      *
      * @return array<string, mixed>
      */
@@ -201,7 +201,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     /**
      * @param array $violation
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
      */
     protected function createViolation(array $violation): ViolationInterface
     {

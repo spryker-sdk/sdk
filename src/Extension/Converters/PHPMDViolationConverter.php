@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Sdk\Extension\Converters;
 
-use SprykerSdk\Sdk\Contracts\Violation\AbstractViolationConverter;
-use SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface;
+use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class PHPMDViolationConverter extends AbstractViolationConverter
 {
@@ -37,7 +37,7 @@ class PHPMDViolationConverter extends AbstractViolationConverter
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
     {
@@ -72,7 +72,7 @@ class PHPMDViolationConverter extends AbstractViolationConverter
      * @param string $projectDirectory
      * @param array $files
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Violation\PackageViolationReportInterface>
+     * @return array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
      */
     protected function getPackages(string $projectDirectory, array $files): array
     {

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
 
-use SprykerSdk\Sdk\Contracts\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
 
 class PackageViolationReport implements PackageViolationReportInterface
 {
@@ -22,8 +22,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     /**
      * @param string $package
      * @param string $path
-     * @param array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface> $violations
-     * @param array<string, array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface>> $fileViolations
+     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>> $fileViolations
      */
     public function __construct(string $package, string $path, array $violations, array $fileViolations)
     {
@@ -50,7 +50,7 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface>
+     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
      */
     public function getViolations(): array
     {
@@ -58,7 +58,7 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
-     * @return array<string, array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface>>
+     * @return array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
      */
     public function getFileViolations(): array
     {

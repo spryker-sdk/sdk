@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Extension\Settings\Initializers;
 
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Setting\SettingInitializerInterface;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 
 class CreateDirectoryInitializer implements SettingInitializerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
      * @return void
      */

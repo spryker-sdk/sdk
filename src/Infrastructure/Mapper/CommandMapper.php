@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
 class CommandMapper implements CommandMapperInterface
 {
@@ -26,7 +26,7 @@ class CommandMapper implements CommandMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Command>
      */

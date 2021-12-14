@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Contracts\Entity\ConverterInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Converter;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class ConverterMapper implements ConverterMapperInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\ConverterInterface $converter
+     * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface $converter
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Converter
      */

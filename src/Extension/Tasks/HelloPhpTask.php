@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\HelloPhpCommand;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class HelloPhpTask implements TaskInterface
 {
@@ -50,7 +50,7 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -84,7 +84,7 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface
     {

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 
 interface ConverterRegistryInterface
 {
@@ -21,7 +21,7 @@ interface ConverterRegistryInterface
     /**
      * @param string $class
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationConverterInterface|null
      */
     public function get(string $class): ?ViolationConverterInterface;
 }

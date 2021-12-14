@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
-use SprykerSdk\Sdk\Contracts\SdkUpdateAction\SdkUpdateActionInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 
 class TaskCreatedAction implements SdkUpdateActionInterface
@@ -24,8 +24,8 @@ class TaskCreatedAction implements SdkUpdateActionInterface
 
     /**
      * @param array<string> $taskIds
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return void
      */
@@ -41,8 +41,8 @@ class TaskCreatedAction implements SdkUpdateActionInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDirectories
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasksFromDatabase
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasksFromDirectories
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasksFromDatabase
      *
      * @return array<string>
      */

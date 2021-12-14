@@ -7,11 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Contracts\CommandRunner\CommandRunnerInterface;
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -56,7 +57,7 @@ class LocalCliRunner implements CommandRunnerInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
      * @return bool
      */
@@ -66,14 +67,14 @@ class LocalCliRunner implements CommandRunnerInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param array $resolvedValues
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
+     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
      */
-    public function execute(CommandInterface $command, array $resolvedValues): CommandResponse
+    public function execute(CommandInterface $command, array $resolvedValues): CommandResponseInterface
     {
         $placeholders = array_map(function (mixed $placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class Setting implements SettingInterface
 {

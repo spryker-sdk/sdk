@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class Converter implements ConverterInterface
 {

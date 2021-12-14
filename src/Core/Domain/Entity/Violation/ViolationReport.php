@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
 
-use SprykerSdk\Sdk\Contracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ViolationReport implements ViolationReportInterface
 {
@@ -17,7 +17,7 @@ class ViolationReport implements ViolationReportInterface
     protected string $project;
 
     /**
-     * @var array<\SprykerSdk\Sdk\Contracts\Violation\PackageViolationReportInterface>
+     * @var array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
      */
     protected array $packages;
 
@@ -27,15 +27,15 @@ class ViolationReport implements ViolationReportInterface
     protected string $path;
 
     /**
-     * @var array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface>
+     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
      */
     protected array $violations;
 
     /**
      * @param string $project
      * @param string $path
-     * @param array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface> $violations
-     * @param array<\SprykerSdk\Sdk\Contracts\Violation\PackageViolationReportInterface> $packages
+     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface> $packages
      */
     public function __construct(string $project, string $path, array $violations, array $packages)
     {
@@ -54,7 +54,7 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Violation\PackageViolationReportInterface>
+     * @return array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
      */
     public function getPackages(): array
     {
@@ -70,7 +70,7 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Violation\ViolationInterface>
+     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
      */
     public function getViolations(): array
     {

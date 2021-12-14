@@ -1,6 +1,5 @@
 {
     "name": "spryker-sdk/spryker-sdk",
-    "version": "0.1.0",
     "description": "The Spryker SDK aims to provide a single entry point to accelerate your productivity working with Spryker.",
     "type": "project",
     "license": "proprietary",
@@ -10,6 +9,7 @@
         "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "spryker-sdk/sdk-contracts": "dev-feature/sdk-188-violations",
         "ext-simplexml": "*",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
@@ -90,5 +90,11 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/spryker-sdk/sdk-contracts"
+        }
+    ]
 }

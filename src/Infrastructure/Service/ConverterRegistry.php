@@ -10,12 +10,12 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use Composer\Autoload\ClassLoader;
 use ReflectionClass;
 use SplFileInfo;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConverterException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 use Symfony\Component\Finder\Finder;
 
 class ConverterRegistry implements ConverterRegistryInterface
@@ -23,7 +23,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     protected bool $isInitialized = false;
 
     /**
-     * @var array<string, \SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface>
+     * @var array<string, \SprykerSdk\SdkContracts\Violation\ViolationConverterInterface>
      */
     protected array $converterClasses = [];
 
@@ -33,7 +33,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     protected ClassLoader $classLoader;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param string $sdkBasePath
      */
     protected SettingRepositoryInterface $settingRepository;
@@ -44,7 +44,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     protected string $sdkBasePath;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param string $sdkBasePath
      */
     public function __construct(
@@ -71,7 +71,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     /**
      * @param string $class
      *
-     * @return \SprykerSdk\Sdk\Contracts\Violation\ViolationConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationConverterInterface|null
      */
     public function get(string $class): ?ViolationConverterInterface
     {
