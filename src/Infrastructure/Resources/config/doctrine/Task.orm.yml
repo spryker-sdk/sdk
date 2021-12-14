@@ -38,10 +38,12 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
                 joinColumns:
                     task_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     command_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE
         placeholderCollection:
             targetEntity: Placeholder
             cascade: ["persist", "remove"]
@@ -50,10 +52,12 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
                 joinColumns:
                     task_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     placeholder_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE
     oneToOne:
         lifecycle:
             targetEntity: Lifecycle

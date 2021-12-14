@@ -136,7 +136,7 @@ class InitProjectCommand extends Command
             $settingEntity->setValues($values);
 
             $initializerClassName = $settingEntity->getInitializer();
-            if ($initializerClassName && in_array(SettingInitializerInterface::class, (array) class_implements($initializerClassName))) {
+            if ($initializerClassName && in_array(SettingInitializerInterface::class, (array)class_implements($initializerClassName))) {
                 /** @var \SprykerSdk\Sdk\Contracts\Setting\SettingInitializerInterface $initializer */
                 $initializer = new $initializerClassName();
                 $initializer->initialize($settingEntity);

@@ -26,6 +26,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
+    "composer/pcre": {
+        "version": "1.0.0"
+    },
     "composer/semver": {
         "version": "3.2.6"
     },
@@ -196,9 +199,6 @@
     "phpstan/phpstan": {
         "version": "1.2.0"
     },
-    "propel/propel": {
-        "version": "2.0.0-beta1"
-    },
     "phpunit/php-code-coverage": {
         "version": "9.2.9"
     },
@@ -227,6 +227,9 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "propel/propel": {
+        "version": "2.0.0-beta1"
     },
     "psr/cache": {
         "version": "2.0.0"
@@ -303,6 +306,9 @@
     "slevomat/coding-standard": {
         "version": "7.0.16"
     },
+    "sllh/composer-versions-check": {
+        "version": "v2.0.5"
+    },
     "spryker-sdk/spryk": {
         "version": "0.3.2"
     },
@@ -314,9 +320,6 @@
     },
     "spryker/application-extension": {
         "version": "1.0.1"
-    },
-    "sllh/composer-versions-check": {
-        "version": "v2.0.5"
     },
     "spryker/architecture-sniffer": {
         "version": "0.5.2"
@@ -332,9 +335,6 @@
     },
     "spryker/container": {
         "version": "1.4.5"
-    },
-    "spryker/decimal-object": {
-        "version": "1.0.2"
     },
     "spryker/doctrine-inflector": {
         "version": "1.1.0"
@@ -353,9 +353,6 @@
     },
     "spryker/gui": {
         "version": "3.41.2"
-    },
-    "spryker/health-check-extension": {
-        "version": "1.0.0"
     },
     "spryker/kernel": {
         "version": "3.61.0"
@@ -381,9 +378,6 @@
     "spryker/monolog": {
         "version": "2.0.5"
     },
-    "spryker/propel": {
-        "version": "3.33.0"
-    },
     "spryker/propel-orm": {
         "version": "1.14.0"
     },
@@ -399,9 +393,6 @@
     "spryker/symfony": {
         "version": "3.7.0"
     },
-    "spryker/transfer": {
-        "version": "3.29.2"
-    },
     "spryker/twig": {
         "version": "3.15.1"
     },
@@ -410,9 +401,6 @@
     },
     "spryker/util-encoding": {
         "version": "2.1.0"
-    },
-    "spryker/util-glob": {
-        "version": "1.0.0"
     },
     "spryker/util-network": {
         "version": "1.1.1"
@@ -468,11 +456,11 @@
             "bin/console"
         ]
     },
-    "symfony/debug": {
-        "version": "v4.4.31"
-    },
     "symfony/css-selector": {
         "version": "v5.3.4"
+    },
+    "symfony/debug": {
+        "version": "v4.4.31"
     },
     "symfony/dependency-injection": {
         "version": "v5.3.10"
@@ -673,6 +661,9 @@
     "symfony/yaml": {
         "version": "v5.3.6"
     },
+    "theseer/tokenizer": {
+        "version": "1.2.1"
+    },
     "twig/twig": {
         "version": "v3.3.3"
     },
@@ -685,16 +676,7 @@
     "voku/portable-utf8": {
         "version": "5.4.51"
     },
-    "theseer/tokenizer": {
-        "version": "1.2.1"
-    },
     "webmozart/assert": {
         "version": "1.10.0"
-    },
-    "webmozart/glob": {
-        "version": "4.4.0"
-    },
-    "webmozart/path-util": {
-        "version": "2.3.0"
     }
 }

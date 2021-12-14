@@ -150,3 +150,9 @@ services:
         arguments:
             - '@setting_repository'
             - '%kernel.project_dir%'
+    app.event_listener.request_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }

@@ -112,7 +112,7 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
                 $moduleName,
                 $pathToModule,
                 [],
-                $fileViolations
+                $fileViolations,
             );
         }
 
