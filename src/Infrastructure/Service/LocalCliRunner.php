@@ -113,7 +113,7 @@ class LocalCliRunner implements CommandRunnerInterface
         $commandResponse = new CommandResponse($process->isSuccessful(), (int)$process->getExitCode());
 
         if (!$process->isSuccessful()) {
-            $errorMessage = $this->getErrorMessage($command, $process);
+            $errorMessage = $this->getErrorMessage($command, $process, $commandResponse);
             $commandResponse->setErrorMessage($errorMessage);
         }
 
@@ -123,14 +123,16 @@ class LocalCliRunner implements CommandRunnerInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param \Symfony\Component\Process\Process $process
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse $commandResponse
      *
      * @return string
      */
     protected function getErrorMessage(
         CommandInterface $command,
-        Process $process
+        Process $process,
+        CommandResponse $commandResponse
     ): string {
-        $errorMessage = ($command instanceof ErrorCommandInterface) ? $command->getErrorMessage() : $process->getErrorOutput();
+        $errorMessage = ($command instanceof ErrorCommandInterface) ? $command->getErrorMessage($commandResponse) : $process->getErrorOutput();
 
         if ($errorMessage) {
             return $errorMessage;
