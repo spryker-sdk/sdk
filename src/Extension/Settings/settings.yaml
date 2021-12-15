@@ -1,4 +1,13 @@
 settings:
+  - path: extension_dirs
+    initialization_description: Where can extensions be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    is_project: false
+    values:
+      - src/
+      - extension/
   - path: task_dirs
     initialization_description: Where can tasks be loaded from?
     strategy: merge

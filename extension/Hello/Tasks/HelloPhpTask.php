@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Extension\Tasks;
+namespace Hello\Tasks;
 
+use Hello\Tasks\Commands\HelloPhpCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\HelloPhpCommand;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 

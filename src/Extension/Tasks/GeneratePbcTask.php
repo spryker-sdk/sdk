@@ -25,7 +25,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getShortDescription(): string
     {
-        return 'This command generate new PBC project';
+        return 'Generate a new PBC project';
     }
 
     /**
@@ -78,7 +78,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'pbc:generate';
+        return 'generate:php:pbc';
     }
 
     /**

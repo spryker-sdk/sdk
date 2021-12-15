@@ -11,7 +11,7 @@ services:
     progress_bar:
         class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
         tags:
-            - { name: kernel.event_listener, event: console.command, method: initProgressBar }
+          - { name: kernel.event_listener, event: console.command, method: initProgressBar }
     setting_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
         arguments:
@@ -36,6 +36,7 @@ services:
             - !tagged_iterator sdk.task
     process_helper:
         class: Symfony\Component\Console\Helper\ProcessHelper
+
     local_cli_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
         tags: [ 'command.runner' ]
@@ -61,74 +62,91 @@ services:
             - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
         arguments:
             - '@local_cli_command_runner'
+
     value_receiver:
         alias: 'cli_value_receiver'
+    autoloader_service:
+        class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
+        arguments:
+            - '%kernel.project_dir%'
     value_resolver_registry:
         class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
         arguments:
             - '@setting_repository'
             - '@value_receiver'
             - !tagged_iterator sdk.value_resolver
+            - '@autoloader_service'
             - '%kernel.project_dir%'
+    mapper.converter_mapper:
+      class: SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper
     mapper.command_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper
         arguments:
             - '@mapper.converter_mapper'
-    mapper.converter_mapper:
-        class: SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper
     mapper.placeholder_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper
+
     mapper.task_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapper
         arguments:
             - '@mapper.command_mapper'
             - '@mapper.placeholder_mapper'
             - '@mapper.lifecycle_mapper'
+
     mapper.lifecycle_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
         arguments:
             - '@mapper.removed_event_mapper'
+
     mapper.removed_event_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper
         arguments:
             - '@mapper.placeholder_mapper'
             - '@mapper.command_mapper'
             - '@mapper.file_mapper'
+
     mapper.file_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
+
     task_persistence_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
         arguments:
             - '@mapper.task_mapper'
             - '@doctrine'
+
     service.task_manager:
         class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
         arguments:
             - '@event_dispatcher'
             - '@task_persistence_repository'
             - '@task_persistence_repository'
+
     service.lifecycle_manager:
         class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
         arguments:
             - '@task_repository'
             - '@task_persistence_repository'
             - !tagged_iterator sdk.update_action
+
     task_created_action:
         class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
         tags: [ 'sdk.update_action' ]
         arguments:
             - '@service.task_manager'
+
     task_deprecated_action:
         class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction
         tags: [ 'sdk.update_action' ]
         arguments:
             - '@task_persistence_repository'
             - '@service.task_manager'
+
     task_removed_action:
         class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskRemovedAction
         tags: [ 'sdk.update_action' ]
         arguments:
             - '@service.task_manager'
+
     task_updated_action:
         class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskUpdatedAction
         tags: [ 'sdk.update_action' ]
@@ -139,17 +157,17 @@ services:
     violation_report_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
         arguments:
-            - '@project_setting_repository'
-            - '@yaml_parser'
-            - '@violation_report_mapper'
+          - '@project_setting_repository'
+          - '@yaml_parser'
+          - '@violation_report_mapper'
     converter_registry:
-        class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
-        arguments:
-            - '@setting_repository'
-            - '%kernel.project_dir%'
+      class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
+      arguments:
+        - '@setting_repository'
+        - '%kernel.project_dir%'
     app.event_listener.request_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
-        arguments:
-            - '@doctrine'
-        tags:
-            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+      class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
+      arguments:
+        - '@doctrine'
+      tags:
+        - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }

@@ -8,15 +8,12 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Composer\Autoload\ClassLoader;
-use SplFileInfo;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
-use SprykerSdk\Sdk\Infrastructure\Exception\InvalidValueResolverException;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
-use Symfony\Component\Finder\Finder;
 
 class ValueResolverRegistry implements ValueResolverRegistryInterface
 {
@@ -55,22 +52,29 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected iterable $valueResolverServices;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
+     */
+    protected AutoloaderService $autoloaderService;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
      * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService $autoloaderService
      * @param string $sdkBasePath
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
         ValueReceiverInterface $valueReceiver,
         iterable $valueResolverServices,
+        AutoloaderService $autoloaderService,
         string $sdkBasePath
     ) {
         $this->valueResolverServices = $valueResolverServices;
-        $this->sdkBasePath = $sdkBasePath;
         $this->valueReceiver = $valueReceiver;
         $this->settingRepository = $settingRepository;
-        $this->classLoader = require $this->sdkBasePath . '/vendor/autoload.php';
+        $this->autoloaderService = $autoloaderService;
+        $this->sdkBasePath = $sdkBasePath;
     }
 
     /**
@@ -123,61 +127,6 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     }
 
     /**
-     * @param string $signature
-     *
-     * @return bool
-     */
-    protected function isClassOrInterfaceDeclared(string $signature): bool
-    {
-        $signatures = array_merge(get_declared_interfaces(), get_declared_classes());
-
-        return in_array($signature, $signatures, true);
-    }
-
-    /**
-     * @param string $pathName
-     *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidValueResolverException
-     *
-     * @return string|null
-     */
-    protected function retrieveNamespaceFromFile(string $pathName): ?string
-    {
-        $fileContent = file_get_contents($pathName);
-
-        if (!$fileContent) {
-            throw new InvalidValueResolverException('Could not read value resolver from ' . $pathName);
-        }
-
-        if (preg_match('#(namespace)(\\s+)([A-Za-z0-9\\\\]+?)(\\s*);#sm', $fileContent, $matches)) {
-            return $matches[3];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param \SplFileInfo $valueResolverFile
-     * @param string $namespace
-     *
-     * @return string
-     */
-    protected function autoloadValueResolver(SplFileInfo $valueResolverFile, string $namespace): string
-    {
-        $className = $valueResolverFile->getBasename('.' . $valueResolverFile->getExtension());
-
-        $namespace .= '\\';
-        $fullClassName = $namespace . $className;
-
-        if (!$this->isClassOrInterfaceDeclared($fullClassName)) {
-            $this->classLoader->addPsr4($namespace, $valueResolverFile->getPath());
-            $this->classLoader->loadClass($fullClassName);
-        }
-
-        return $fullClassName;
-    }
-
-    /**
      * @param string $id
      *
      * @return bool
@@ -200,25 +149,19 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     /**
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
-     * @return \Symfony\Component\Finder\Finder
+     * @return array<string>
      */
-    protected function getValueResolverFiles(): Finder
+    protected function getValueResolverDirectories(): array
     {
-        $paths = $this->settingRepository->findOneByPath('value_resolver_dirs');
+        $paths = $this->settingRepository->findOneByPath('extension_dirs');
 
         if (!$paths) {
-            throw new MissingSettingException('Setting value_resolver_dirs is missing');
+            throw new MissingSettingException('Setting extension_dirs is missing');
         }
 
-        $pathCandidates = array_merge($paths->getValues(), array_map(function (string $path) {
-            return preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
-        }, $paths->getValues()));
-
-        $pathCandidates = array_filter($pathCandidates, function (string $path) {
-            return is_dir($path);
-        });
-
-        return Finder::create()->in($pathCandidates)->name('*ValueResolver.php');
+        return array_map(function (string $directory) {
+            return $directory . '/*/ValueResolvers/';
+        }, $paths->getValues());
     }
 
     /**
@@ -233,34 +176,40 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
-     *
      * @return void
      */
     protected function loadValueResolversFromFiles(): void
     {
-        $valueResolverFiles = $this->getValueResolverFiles();
+        $this->autoloaderService->loadClassesFromDirectory(
+            $this->getValueResolverDirectories(),
+            '*ValueResolver.php',
+            function (string $loadableClassName) {
+                $this->loadValueResolver($loadableClassName);
+            },
+        );
+    }
 
-        foreach ($valueResolverFiles->files() as $valueResolverFile) {
-            $pathName = $valueResolverFile->getPathname();
-            $namespace = $this->retrieveNamespaceFromFile($pathName);
-            if ($namespace === null) {
-                continue;
-            }
-
-            $fullClassName = $this->autoloadValueResolver($valueResolverFile, $namespace);
-
-            if (array_key_exists($fullClassName, $this->valueResolversClasses)) {
-                continue;
-            }
-            $valueResolver = new $fullClassName($this->valueReceiver);
-
-            if (!$valueResolver instanceof ValueResolverInterface) {
-                throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', $valueResolver::class, ValueResolverInterface::class));
-            }
-
-            $this->valueResolvers[$valueResolver->getId()] = $valueResolver;
-            $this->valueResolversClasses[get_class($valueResolver)] = $valueResolver;
+    /**
+     * @param string $loadableClassName
+     *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
+     *
+     * @return void
+     */
+    protected function loadValueResolver(string $loadableClassName): void
+    {
+        //value resolver might already be registered as service
+        if (array_key_exists($loadableClassName, $this->valueResolversClasses)) {
+            return;
         }
+
+        $valueResolver = new $loadableClassName($this->valueReceiver);
+
+        if (!$valueResolver instanceof ValueResolverInterface) {
+            throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', $valueResolver::class, ValueResolverInterface::class));
+        }
+
+        $this->valueResolvers[$valueResolver->getId()] = $valueResolver;
+        $this->valueResolversClasses[get_class($valueResolver)] = $valueResolver;
     }
 }

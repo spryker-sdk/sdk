@@ -10,11 +10,15 @@
 /.idea
 .ssdk
 .ssdk.log
+db/data.db
 ###< symfony/framework-bundle ###
 
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
 ###< squizlabs/php_codesniffer ###
+
+auth.json
+VERSION
 
 ###> phpunit/phpunit ###
 /phpunit.xml

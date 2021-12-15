@@ -23,8 +23,6 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface $commandResponse
-     *
      * @return string
      */
     public function getErrorMessage(CommandResponseInterface $commandResponse): string

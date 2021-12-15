@@ -108,12 +108,12 @@ class Setting extends DomainSetting
     }
 
     /**
-     * @param string $initializer
+     * @param string|null $initializer
      *
-     * @return string|null
+     * @return void
      */
-    public function setInitializer(string $initializer): ?string
+    public function setInitializer(?string $initializer): void
     {
-        return $this->initializer = $initializer;
+        $this->initializer = $initializer;
     }
 }

@@ -23,7 +23,7 @@ class InitProjectCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'init:project';
+    protected const NAME = 'sdk:init:project';
 
     protected CliValueReceiver $cliValueReceiver;
 
@@ -86,8 +86,8 @@ class InitProjectCommand extends Command
         }
 
         $settingEntities = $this->settingRepository->findProjectSettings();
-        $needsToAsk = $input->getOption('default');
-        $settingEntities = $this->initializeSettingValues($settingEntities, (bool)$needsToAsk);
+        $needsToAsk = (bool)$input->getOption('default');
+        $settingEntities = $this->initializeSettingValues($settingEntities, $needsToAsk);
         $this->writeProjectSettings($settingEntities);
 
         return static::SUCCESS;

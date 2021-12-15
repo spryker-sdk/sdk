@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "191d4970fe303eb2ff7e954c842ba56f",
+    "content-hash": "edd796556221d1e45e3c42e790422a77",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1942,12 +1942,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/JetBrains/phpstorm-stubs.git",
-                "reference": "392d5f406789aae66469e2967507aba5ebaf3ada"
+                "reference": "5c8fa734665045bd71b86547b9c6dda602227e4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/392d5f406789aae66469e2967507aba5ebaf3ada",
-                "reference": "392d5f406789aae66469e2967507aba5ebaf3ada",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/5c8fa734665045bd71b86547b9c6dda602227e4f",
+                "reference": "5c8fa734665045bd71b86547b9c6dda602227e4f",
                 "shasum": ""
             },
             "require-dev": {
@@ -1983,7 +1983,7 @@
             "support": {
                 "source": "https://github.com/JetBrains/phpstorm-stubs/tree/master"
             },
-            "time": "2021-12-09T20:47:25+00:00"
+            "time": "2021-12-15T14:53:09+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -12674,8 +12674,15 @@
     "platform": {
         "php": ">=8.0",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
         "ext-simplexml": "*",
+        "ext-json": "*",
+        "ext-pcre": "*",
+        "ext-pdo": "*",
+        "ext-phar": "*",
+        "ext-sqlite3": "*",
+        "ext-xml": "*",
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],

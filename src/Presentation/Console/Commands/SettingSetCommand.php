@@ -20,7 +20,7 @@ class SettingSetCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'setting:set';
+    protected static $defaultName = 'sdk:setting:set';
 
     /**
      * @var string

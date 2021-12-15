@@ -7,7 +7,7 @@ The SDK offers different extension points to enable 3rd parties to contribute to
 A task is essentially the execution of a very specific function.
 This could be for example executing an external tool through a CLI call.
 
-There are two possibilities to define a new task. Based on YAML for simple task definitions and 
+There are two possibilities to define a new task. Based on YAML for simple task definitions and
 implementation via PHP and Symfony services for specialized purposes.
 
 ### via YAML definition
@@ -36,7 +36,7 @@ placeholders:
 
 #### Adding a tasks to the SDK
 
-Call `spryker-sdk setting:set task_dirs <path>/Tasks`
+Tasks that located in `extension/<your extension name>/Tasks` can be added to the SDK by executing `spryker-sdk sdk:update:all`
 
 ### via PHP implementation
 
@@ -46,6 +46,7 @@ This requires to provide the __Task__ as part of a symfony bundle.
 
 #### Implement the bundle
 Please refer to https://symfony.com/doc/current/bundles.html for information on creating a Symfony bundle.
+Your bundle needs to use the https://github.com/spryker-sdk/sdk-contracts via composer.
 
 #### Implement __Task__
 
@@ -181,7 +182,10 @@ services:
 
 #### Register your bundle
 
-@TODO implement registration of 3rd party bundles
+If your bundle does not have different dependencies than the Spryker SDK itself you don't need to register the bundle at
+but just need to place it into the `extension` directory that is part of your SDK installation.
+
+For more complex bundles, that for example require additional dependencies you need to follow the guide to [build a flavored Spryker SDK](build.md).
 
 ## Add a value resolver
 
@@ -276,9 +280,9 @@ settings:
   - path: string #e.g.: some_setting
     initialization_description: string #Will be used when a user is asked to provide the setting value
     strategy: string #merge or overwrite, where merge will add the value to the list and overwrite will replace it
-    init: bool #if the user should be asked for the setting value when `spryker-sdk init:sdk` or `spryker-sdk init:project` is called
+    init: bool #if the user should be asked for the setting value when `spryker-sdk sdk:init:sdk` or `spryker-sdk sdk:init:project` is called
     type: string #Use array for lists of values or any scalar type (string|integer|float|boolean)
-    is_project: boolean #defines if the setting is persisted across projects and initialized during `spryker-sdk init:sdk` or per project and initialized with `spryker-sdk init:project`
+    is_project: boolean #defines if the setting is persisted across projects and initialized during `spryker-sdk sdk:init:sdk` or per project and initialized with `spryker-sdk sdk:init:project`
     values: array|string|integer|float|boolean #serve as default values for initialization
 ```
 
@@ -315,7 +319,7 @@ class YourTypeCommandRunner implements CommandRunnerInterface
     {
         //own implementation on how to execute a command
 
-        //MUST return 0 for success and 1-255 for failure 
+        //MUST return 0 for success and 1-255 for failure
         return 0;
     }
 }
@@ -339,8 +343,16 @@ with better suitable implementation.
 
 Helpful commands to use during development are
 
+#### Run SDK in development mode
+Requires (mutagen)[https://mutagen.io/documentation/introduction/installation] to be installed.
+
+`bin/spryker-sdk.sh --mode=dev`
+
+#### Debug SDK
+`bin/spryker-sdk.sh --mode=debug`
+
 #### Reset SDK
-`rm var/data.db && bin/console init:sdk`
+`rm db/data.db && bin/spryker-sdk.sh sdk:init:sdk`
 
 #### Reset project
-`cd <project> && rm .ssdk && rm .ssdk.log && <path to sdk>/bin/console init:project`
+`cd <project> && rm .ssdk && rm .ssdk.log && spry sdk:init:project`
