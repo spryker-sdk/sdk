@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6a022e8a785fef1e132920df825a0d4",
+    "content-hash": "beba4cc5fb2d8cda1cd23d94c674f67b",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3155,6 +3155,45 @@
             "time": "2021-12-07T17:19:06+00:00"
         },
         {
+            "name": "spryker-sdk/sdk-contracts",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/sdk-contracts",
+                "reference": "b842c3c9deb8fed29d70beca03b0057e2e04ff87"
+            },
+            "require": {
+                "php": ">= 8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.2",
+                "spryker/code-sniffer": "^0.17.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SprykerSdk\\SdkContracts\\": "src/"
+                }
+            },
+            "scripts": {
+                "cs-check": [
+                    "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/"
+                ],
+                "cs-fix": [
+                    "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/"
+                ],
+                "stan": [
+                    "phpstan analyze -l 8 src/"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Contracts to extend the Spryker SDK",
+            "time": "2021-12-15T08:34:43+00:00"
+        },
+        {
             "name": "spryker-sdk/spryk",
             "version": "dev-feature/sdk-135-spryk-task",
             "source": {
@@ -4522,20 +4561,20 @@
         },
         {
             "name": "spryker/propel-orm",
-            "version": "1.14.0",
+            "version": "1.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker/propel-orm.git",
-                "reference": "7ec65cae859ab43242d6a61329755ad16d3c1003"
+                "reference": "98247f9cc07c9d36117e4c9bba9d7f838c9ce786"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker/propel-orm/zipball/7ec65cae859ab43242d6a61329755ad16d3c1003",
-                "reference": "7ec65cae859ab43242d6a61329755ad16d3c1003",
+                "url": "https://api.github.com/repos/spryker/propel-orm/zipball/98247f9cc07c9d36117e4c9bba9d7f838c9ce786",
+                "reference": "98247f9cc07c9d36117e4c9bba9d7f838c9ce786",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3",
+                "php": ">=7.4",
                 "propel/propel": "2.0.0-beta1",
                 "spryker/config": "^3.0.0",
                 "spryker/error-handler": "^2.0.0",
@@ -4565,9 +4604,9 @@
             ],
             "description": "PropelOrm module",
             "support": {
-                "source": "https://github.com/spryker/propel-orm/tree/1.14.0"
+                "source": "https://github.com/spryker/propel-orm/tree/1.14.1"
             },
-            "time": "2021-09-08T16:37:24+00:00"
+            "time": "2021-12-13T15:47:30+00:00"
         },
         {
             "name": "spryker/queue",
@@ -12998,6 +13037,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/spryk": 20
     },
     "prefer-stable": true,

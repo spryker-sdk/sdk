@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 
 class CheckGitCommand implements CommandInterface, ErrorCommandInterface
 {

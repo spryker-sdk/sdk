@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class Task implements TaskInterface
 {
@@ -23,12 +23,12 @@ class Task implements TaskInterface
     protected string $shortDescription;
 
     /**
-     * @var array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected array $commands = [];
 
     /**
-     * @var array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     * @var array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     protected array $placeholders = [];
 
@@ -48,10 +48,10 @@ class Task implements TaskInterface
     /**
      * @param string $id
      * @param string $shortDescription
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface> $commands
-     * @param \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface $lifecycle
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface $lifecycle
      * @param string $version
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      * @param string|null $help
      * @param string|null $successor
      * @param bool $isDeprecated
@@ -95,7 +95,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\CommandInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -103,7 +103,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -143,7 +143,7 @@ class Task implements TaskInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\LifecycleInterface
+     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface
     {

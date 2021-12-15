@@ -8,24 +8,24 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Composer\Autoload\ClassLoader;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface;
-use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 class ValueResolverRegistry implements ValueResolverRegistryInterface
 {
     protected bool $isInitialized = false;
 
     /**
-     * @var array<string, \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
+     * @var array<string, \SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface>
      */
     protected array $valueResolvers = [];
 
     /**
-     * @var array<string, \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
+     * @var array<string, \SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface>
      */
     protected array $valueResolversClasses = [];
 
@@ -35,9 +35,9 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected ClassLoader $classLoader;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface $valueReceiver
-     * @param iterable<\SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface> $valueResolverServices
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param string $sdkBasePath
      */
     protected SettingRepositoryInterface $settingRepository;
@@ -47,7 +47,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected string $sdkBasePath;
 
     /**
-     * @var iterable<\SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface>
+     * @var iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface>
      */
     protected iterable $valueResolverServices;
 
@@ -57,9 +57,9 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected AutoloaderService $autoloaderService;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Contracts\ValueReceiver\ValueReceiverInterface $valueReceiver
-     * @param iterable<\SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface> $valueResolverServices
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param \SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService $autoloaderService
      * @param string $sdkBasePath
      */
@@ -96,7 +96,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     /**
      * @param string $id
      *
-     * @return \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface|null
+     * @return \SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface|null
      */
     public function get(string $id): ?ValueResolverInterface
     {

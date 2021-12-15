@@ -16,6 +16,7 @@
         "ext-phar": "*",
         "ext-sqlite3": "*",
         "ext-xml": "*",
+        "spryker-sdk/sdk-contracts": "dev-master",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
         "doctrine/doctrine-bundle": "^2.4",
@@ -95,5 +96,11 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/spryker-sdk/sdk-contracts"
+        }
+    ]
 }

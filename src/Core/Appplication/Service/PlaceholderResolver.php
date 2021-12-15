@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Contracts\ValueResolver\ConfigurableValueResolverInterface;
-use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 class PlaceholderResolver
 {
@@ -44,7 +44,7 @@ class PlaceholderResolver
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $placeholder
+     * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
      * @return mixed
      */
@@ -69,7 +69,7 @@ class PlaceholderResolver
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return array<string, mixed>
      */
@@ -84,16 +84,16 @@ class PlaceholderResolver
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface $placeholder
+     * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException
      *
-     * @return \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface
+     * @return \SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface
      */
     public function getValueResolver(PlaceholderInterface $placeholder): ValueResolverInterface
     {
         if ($this->valueResolverRegistry->has($placeholder->getValueResolver())) {
-            /** @var \SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface $valueResolverPrototype */
+            /** @var \SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface $valueResolverPrototype */
             $valueResolverPrototype = $this->valueResolverRegistry->get($placeholder->getValueResolver());
 
             $valueResolver = clone $valueResolverPrototype;

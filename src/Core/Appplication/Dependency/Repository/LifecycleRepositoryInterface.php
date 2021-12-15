@@ -5,12 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Contracts\Entity;
+namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
-interface ErrorCommandInterface extends CommandInterface
+interface LifecycleRepositoryInterface
 {
-    /**
-     * @return string
-     */
-    public function getErrorMessage(): string;
 }

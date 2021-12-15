@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dto;
 
-class CommandResponse
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+
+class CommandResponse implements CommandResponseInterface
 {
     /**
      * @var bool

@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Events;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskExecutedEvent extends Event
 {
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param bool $isSuccessful
      */
     public function __construct(

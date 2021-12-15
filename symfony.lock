@@ -309,6 +309,9 @@
     "sllh/composer-versions-check": {
         "version": "v2.0.5"
     },
+    "spryker-sdk/sdk-contracts": {
+        "version": "dev-master"
+    },
     "spryker-sdk/spryk": {
         "version": "0.3.2"
     },
