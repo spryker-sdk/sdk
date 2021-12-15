@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber;
 
-use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\SdkContracts\Entity\FileInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InitializedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
@@ -30,7 +30,7 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
      */
     public function onInitializedEvent(InitializedEvent $event): void
     {
-        /** @var \SprykerSdk\Sdk\Contracts\Entity\Lifecycle\TaskLifecycleInterface $lifecycle */
+        /** @var \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface $lifecycle */
         $lifecycle = $event->getTask()->getLifecycle();
         $initializedEvent = $lifecycle->getInitializedEventData();
 
@@ -40,7 +40,7 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
+     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
      *
      * @return void
      */

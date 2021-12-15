@@ -17,7 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [
-            '8.0'
+            '8.0',
+            '8.1'
         ]
 
     steps:
@@ -57,6 +58,10 @@ jobs:
 
       - name: Run CodeStyle checks
         run: composer cs-check
+
+      - name: Codecept tests with coverage
+        if: ${{ matrix.php-version == '8.1' }}
+        run: composer test
 
       - name: Codecept tests with coverage
         if: ${{ matrix.php-version == '8.0' }}

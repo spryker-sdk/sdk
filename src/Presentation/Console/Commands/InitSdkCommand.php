@@ -7,15 +7,14 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,13 +27,11 @@ class InitSdkCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'init:sdk';
+    protected const NAME = 'sdk:init:sdk';
 
     protected CliValueReceiver $cliValueReceiver;
 
     protected SettingRepository $settingRepository;
-
-    protected CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand;
 
     protected MigrateCommand $doctrineMigrationCommand;
 
@@ -49,17 +46,15 @@ class InitSdkCommand extends Command
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository $settingRepository
-     * @param \Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskYamlRepository
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
         SettingRepository $settingRepository,
-        CreateDatabaseDoctrineCommand $createDatabaseDoctrineCommand,
         MigrateCommand $doctrineMigrationCommand,
         Yaml $yamlParser,
         string $settingsPath,
@@ -69,7 +64,6 @@ class InitSdkCommand extends Command
         $this->settingsPath = $settingsPath;
         $this->yamlParser = $yamlParser;
         $this->doctrineMigrationCommand = $doctrineMigrationCommand;
-        $this->createDatabaseDoctrineCommand = $createDatabaseDoctrineCommand;
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->taskYamlRepository = $taskYamlRepository;
@@ -95,7 +89,7 @@ class InitSdkCommand extends Command
     /**
      * @param array $setting
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     protected function createSettingEntity(array $setting): SettingInterface
     {
@@ -136,7 +130,7 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function readSettingDefinitions(): array
     {
@@ -151,9 +145,9 @@ class InitSdkCommand extends Command
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settingEntities
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settingEntities
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settingEntities): array
     {
@@ -193,7 +187,6 @@ class InitSdkCommand extends Command
      */
     protected function createDatabase(): void
     {
-        $this->createDatabaseDoctrineCommand->run(new ArrayInput([]), new NullOutput());
         $migrationInput = new ArrayInput(['allow-no-migration']);
         $migrationInput->setInteractive(false);
         $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());

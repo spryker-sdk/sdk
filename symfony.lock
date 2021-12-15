@@ -2,9 +2,6 @@
     "behat/gherkin": {
         "version": "v4.9.0"
     },
-    "clue/stream-filter": {
-        "version": "v1.5.0"
-    },
     "codeception/codeception": {
         "version": "4.1",
         "recipe": {
@@ -29,6 +26,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
+    "composer/pcre": {
+        "version": "1.0.0"
+    },
     "composer/semver": {
         "version": "3.2.6"
     },
@@ -37,9 +37,6 @@
     },
     "container-interop/container-interop": {
         "version": "1.2.0"
-    },
-    "davidrjonas/composer-lock-diff": {
-        "version": "1.6.1"
     },
     "dealerdirect/phpcodesniffer-composer-installer": {
         "version": "v0.7.1"
@@ -124,9 +121,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.2"
     },
-    "ergebnis/json-printer": {
-        "version": "3.1.1"
-    },
     "everon/collection": {
         "version": "v1.0.3"
     },
@@ -136,26 +130,11 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "guzzlehttp/guzzle": {
-        "version": "7.4.1"
-    },
-    "guzzlehttp/promises": {
-        "version": "1.5.1"
-    },
     "guzzlehttp/psr7": {
         "version": "2.1.0"
     },
     "jetbrains/phpstorm-stubs": {
         "version": "v2019.3"
-    },
-    "knplabs/github-api": {
-        "version": "3.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.6",
-            "ref": "a7d5781e4a8e84f1c238c43e4c9bb806f01d8a3f"
-        }
     },
     "laminas/laminas-code": {
         "version": "4.4.3"
@@ -198,30 +177,6 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
-    },
-    "php-http/cache-plugin": {
-        "version": "1.7.4"
-    },
-    "php-http/client-common": {
-        "version": "2.5.0"
-    },
-    "php-http/discovery": {
-        "version": "1.14.1"
-    },
-    "php-http/httplug": {
-        "version": "2.2.0"
-    },
-    "php-http/message": {
-        "version": "1.12.0"
-    },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
-    },
-    "php-http/multipart-stream-builder": {
-        "version": "1.2.0"
-    },
-    "php-http/promise": {
-        "version": "1.1.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -284,9 +239,6 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
-    },
-    "psr/http-client": {
-        "version": "1.0.1"
     },
     "psr/http-factory": {
         "version": "1.0.1"
@@ -357,9 +309,6 @@
     "sllh/composer-versions-check": {
         "version": "v2.0.5"
     },
-    "spryker-sdk/evaluator": {
-        "version": "dev-poc"
-    },
     "spryker-sdk/sdk-contracts": {
         "version": "dev-master"
     },
@@ -390,9 +339,6 @@
     "spryker/container": {
         "version": "1.4.5"
     },
-    "spryker/decimal-object": {
-        "version": "1.0.2"
-    },
     "spryker/doctrine-inflector": {
         "version": "1.1.0"
     },
@@ -410,9 +356,6 @@
     },
     "spryker/gui": {
         "version": "3.41.2"
-    },
-    "spryker/health-check-extension": {
-        "version": "1.0.0"
     },
     "spryker/kernel": {
         "version": "3.61.0"
@@ -438,9 +381,6 @@
     "spryker/monolog": {
         "version": "2.0.5"
     },
-    "spryker/propel": {
-        "version": "3.33.0"
-    },
     "spryker/propel-orm": {
         "version": "1.14.0"
     },
@@ -456,9 +396,6 @@
     "spryker/symfony": {
         "version": "3.7.0"
     },
-    "spryker/transfer": {
-        "version": "3.29.2"
-    },
     "spryker/twig": {
         "version": "3.15.1"
     },
@@ -467,9 +404,6 @@
     },
     "spryker/util-encoding": {
         "version": "2.1.0"
-    },
-    "spryker/util-glob": {
-        "version": "1.0.0"
     },
     "spryker/util-network": {
         "version": "1.1.1"
@@ -747,11 +681,5 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
-    },
-    "webmozart/glob": {
-        "version": "4.4.0"
-    },
-    "webmozart/path-util": {
-        "version": "2.3.0"
     }
 }

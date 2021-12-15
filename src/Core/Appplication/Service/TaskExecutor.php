@@ -7,26 +7,26 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface;
-use SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 class TaskExecutor
 {
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface
+     * @var \SprykerSdk\SdkContracts\Logger\EventLoggerInterface
      */
     protected EventLoggerInterface $eventLogger;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface
      */
     protected ProgressBarInterface $progressBar;
 
@@ -36,15 +36,15 @@ class TaskExecutor
     protected CommandExecutorInterface $commandExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
-     * @param \SprykerSdk\Sdk\Contracts\Logger\EventLoggerInterface $eventLogger
-     * @param \SprykerSdk\Sdk\Contracts\ProgressBar\ProgressBarInterface $progressBar
+     * @param \SprykerSdk\SdkContracts\Logger\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface $progressBar
      */
     public function __construct(
         TaskRepositoryInterface $taskRepository,
@@ -68,7 +68,7 @@ class TaskExecutor
     {
         $task = $this->getTask($taskId, $tags);
 
-        $afterCommandExecutedCallback = function (CommandInterface $command, CommandResponse $commandResponse) use ($task): void {
+        $afterCommandExecutedCallback = function (CommandInterface $command, CommandResponseInterface $commandResponse) use ($task): void {
             $this->afterCommandExecuted($command, $commandResponse, $task);
         };
 
@@ -82,15 +82,15 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse $commandResponse
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface $commandResponse
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
      * @return void
      */
-    public function afterCommandExecuted(CommandInterface $command, CommandResponse $commandResponse, TaskInterface $task): void
+    public function afterCommandExecuted(CommandInterface $command, CommandResponseInterface $commandResponse, TaskInterface $task): void
     {
         $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$commandResponse->getCode()));
 
@@ -111,7 +111,7 @@ class TaskExecutor
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     protected function getTask(string $taskId, array $tags = []): TaskInterface
     {

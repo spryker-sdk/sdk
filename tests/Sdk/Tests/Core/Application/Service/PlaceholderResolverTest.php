@@ -8,15 +8,15 @@
 namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\ValueResolver\ConfigurableValueResolverInterface;
-use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
+use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 class PlaceholderResolverTest extends Unit
 {
@@ -203,7 +203,7 @@ class PlaceholderResolverTest extends Unit
     /**
      * @param bool $optionalPlaceholder
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\PlaceholderInterface
      */
     protected function createPlaceholderMock(bool $optionalPlaceholder): mixed
     {

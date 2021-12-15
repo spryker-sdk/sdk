@@ -8,13 +8,13 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Psr\Container\ContainerInterface;
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
-use SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,7 +29,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected SymfonyContainerInterface $symfonyContainer;
 
     /**
-     * @var \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 
@@ -43,24 +43,29 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected PlaceholderResolver $placeholderResolver;
 
+    private string $environment;
+
     /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @param string $environment
      */
     public function __construct(
         ContainerInterface $container,
         array $commandMap,
         TaskRepositoryInterface $taskRepository,
         TaskExecutor $taskExecutor,
-        PlaceholderResolver $placeholderResolver
+        PlaceholderResolver $placeholderResolver,
+        string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
         $this->placeholderResolver = $placeholderResolver;
+        $this->environment = $environment;
     }
 
     /**
@@ -124,12 +129,18 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             );
         }
 
-        return new RunTaskWrapperCommand(
+        $command = new RunTaskWrapperCommand(
             $this->getTaskExecutor(),
             $options,
             $task->getShortDescription(),
             $task->getId(),
         );
+
+        if (!$command->getHelp()) {
+            $command->setHelp((string)$task->getHelp());
+        }
+
+        return $command;
     }
 
     /**
@@ -138,7 +149,20 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     public function getNames(): array
     {
         try {
-            return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
+            $symfonyCommands = parent::getNames();
+
+            if ($this->environment === 'prod') {
+                $allowedCommands = ['list', 'help'];
+                $symfonyCommands = array_filter($symfonyCommands, function (string $commandName) use ($allowedCommands): bool {
+                    if (in_array($commandName, $allowedCommands)) {
+                        return true;
+                    }
+
+                    return preg_match('/^sdk:/', $commandName) >= 1;
+                });
+            }
+
+            return array_merge($symfonyCommands, array_map(function (TaskInterface $task) {
                 return $task->getId();
             }, $this->getTaskRepository()->findAll()));
         } catch (Throwable $exception) {
@@ -149,7 +173,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Contracts\Repository\TaskRepositoryInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected function getTaskRepository(): TaskRepositoryInterface
     {

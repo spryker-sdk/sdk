@@ -7,6 +7,7 @@
 
 namespace App;
 
+use SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -25,6 +26,7 @@ class Kernel extends BaseKernel
     {
         $container->import('../config/{packages}/*.yaml');
         $container->import('../config/{packages}/' . $this->environment . '/*.yaml');
+
 
         if (is_file(dirname(__DIR__) . '/config/services.yaml')) {
             $container->import('../config/services.yaml');
@@ -49,5 +51,33 @@ class Kernel extends BaseKernel
         } else {
             $routes->import('../config/{routes}.php');
         }
+    }
+
+    /**
+     * @return iterable
+     */
+    public function registerBundles(): iterable
+    {
+        $contents = require $this->getProjectDir() . '/config/bundles.php';
+        $bundles = [];
+
+        foreach ($contents as $class => $envs) {
+            if ($envs[$this->environment] ?? $envs['all'] ?? false) {
+                $bundles[$class] = new $class();
+            }
+        }
+
+        $extensionDirectory = $this->getProjectDir() . '/extension/*/';
+
+        $autoloader = new AutoloaderService($this->getProjectDir());
+        $autoloader->loadClassesFromDirectory(
+            [$extensionDirectory],
+            '*Bundle.php',
+            function (string $loadableClassName) use (&$bundles): void {
+                $bundles[$loadableClassName] = new $loadableClassName();
+            }
+        );
+
+        return $bundles;
     }
 }

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
+use SprykerSdk\SdkContracts\Entity\FileInterface;
 
 class File implements FileInterface
 {

@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber;
 
-use SprykerSdk\Sdk\Contracts\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
+use SprykerSdk\SdkContracts\Entity\FileInterface;
 
 abstract class LifecycleEventSubscriber
 {
@@ -37,8 +37,8 @@ abstract class LifecycleEventSubscriber
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\FileInterface> $files
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\PlaceholderInterface> $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\FileInterface> $files
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return void
      */
@@ -65,7 +65,7 @@ abstract class LifecycleEventSubscriber
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\FileInterface $file
+     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
      *
      * @return void
      */
