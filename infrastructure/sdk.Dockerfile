@@ -6,10 +6,6 @@ USER spryker
 
 COPY --chown=spryker:spryker composer.json composer.lock ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
-ENV DATABASE_PASSWORD=password
-ENV DATABASE_USER=user
-ENV DATABASE_NAME=db
-ENV DATABASE_URL="No DATABASE_URL set"
 
 COPY --chown=spryker:spryker auth.jso[n] ${srcRoot}/auth.json
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
