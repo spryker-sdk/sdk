@@ -33,7 +33,7 @@ class ViolationConverterResolver
      */
     public function resolve(CommandInterface $command): ?ViolationConverterInterface
     {
-        $converter = $command->getConverter();
+        $converter = $command->getViolationConverter();
 
         if (!$converter || !$this->converterRegistry->has($converter->getName())) {
             return null;

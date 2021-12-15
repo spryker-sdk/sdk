@@ -12,10 +12,7 @@ use RecursiveIteratorIterator;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
+use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 use Symfony\Component\Yaml\Yaml;
@@ -38,15 +35,23 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     protected Yaml $yamlParser;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface
+     */
+    protected ViolationReportFileMapperInterface $violationReportFileMapper;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapper
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
-        Yaml $yamlParser
+        Yaml $yamlParser,
+        ViolationReportFileMapperInterface $violationReportFileMapper
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
         $this->yamlParser = $yamlParser;
+        $this->violationReportFileMapper = $violationReportFileMapper;
     }
 
     /**
@@ -57,36 +62,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      */
     public function save(string $taskId, ViolationReportInterface $violationReport): void
     {
-        $violationReportStructure = [];
-        $violationReportStructure['project'] = $violationReport->getProject();
-        $violationReportStructure['path'] = $violationReport->getPath();
-        $violationReportStructure['violations'] = [];
-        foreach ($violationReport->getViolations() as $violation) {
-            $violationReportStructure['violations'] = $this->convertViolationToArray($violation);
-        }
-        $violationReportStructure['packages'] = [];
-        foreach ($violationReport->getPackages() as $package) {
-            $files = [];
-            foreach ($package->getFileViolations() as $path => $fileViolations) {
-                $file = [];
-                $file['path'] = $path;
-                $file['violations'] = [];
-                $violations = array_map(function (ViolationInterface $violation) {
-                    return $this->convertViolationToArray($violation);
-                }, $fileViolations);
-                $file['violations'] = array_merge($file['violations'], $violations);
-                $files[] = $file;
-            }
-
-            $violationReportStructure['packages'][] = [
-                'id' => $package->getPackage(),
-                'path' => $package->getPath(),
-                'violations' => array_map(function (ViolationInterface $violation) {
-                    return $this->convertViolationToArray($violation);
-                }, $package->getViolations()),
-                'files' => $files,
-            ];
-        }
+        $violationReportStructure = $this->violationReportFileMapper->mapViolationReportToFileStructure($violationReport);
 
         file_put_contents($this->getViolationReportPath($taskId), $this->yamlParser->dump($violationReportStructure));
     }
@@ -98,127 +74,22 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      */
     public function findByTask(string $taskId): ?ViolationReportInterface
     {
-        return $this->getViolationReport($taskId);
+        $violationReportData = $this->yamlParser->parseFile($this->getViolationReportPath($taskId));
+
+        return $this->violationReportFileMapper->mapFileStructureToViolationReport($violationReportData);
     }
 
     /**
      * @param string $taskId
-     * @param string $package
+     * @param array<string> $packageIds
      *
      * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
-    public function findByPackage(string $taskId, string $package): ?ViolationReportInterface
-    {
-        return $this->getViolationReport($taskId, $package);
-    }
-
-    /**
-     * @param string $taskId
-     * @param string|null $package
-     *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
-     */
-    protected function getViolationReport(string $taskId, ?string $package = null): ViolationReportInterface
+    public function findByPackage(string $taskId, array $packageIds): ?ViolationReportInterface
     {
         $violationReportData = $this->yamlParser->parseFile($this->getViolationReportPath($taskId));
 
-        $packages = [];
-        foreach ($violationReportData['packages'] as $packageData) {
-            if ($package && $packageData['id'] !== $package) {
-                continue;
-            }
-
-            $packageViolations = [];
-            if (isset($packageData['violations'])) {
-                foreach ($packageData['violations'] as $violation) {
-                    $packageViolations[] = $this->createViolation($violation);
-                }
-            }
-
-            $violations = [];
-            if (isset($packageData['files'])) {
-                foreach ($packageData['files'] as $file) {
-                    foreach ($file['violations'] as $violation) {
-                        $violations[(string)$file['path']][] = $this->createViolation($violation);
-                    }
-                }
-            }
-
-            if ($package && $packageData['id'] === $package) {
-                $packages[] = new PackageViolationReport(
-                    $packageData['id'],
-                    $packageData['path'],
-                    $packageViolations,
-                    $violations,
-                );
-
-                break;
-            }
-
-            $packages[] = new PackageViolationReport(
-                $packageData['id'],
-                $packageData['path'],
-                $packageViolations,
-                $violations,
-            );
-        }
-
-        $projectViolations = [];
-        if (isset($violationReportData['violations'])) {
-            foreach ($violationReportData['violations'] as $violation) {
-                $projectViolations[] = $this->createViolation($violation);
-            }
-        }
-
-        return new ViolationReport($violationReportData['project'], $violationReportData['path'], $projectViolations, $packages);
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violation
-     *
-     * @return array<string, mixed>
-     */
-    protected function convertViolationToArray(ViolationInterface $violation): array
-    {
-        $violationData = [];
-
-        $violationData['id'] = $violation->getId();
-        $violationData['message'] = $violation->getMessage();
-        $violationData['priority'] = $violation->priority();
-        $violationData['class'] = $violation->getClass();
-        $violationData['method'] = $violation->getMethod();
-        $violationData['start_line'] = $violation->getStartLine();
-        $violationData['end_line'] = $violation->getEndLine();
-        $violationData['start_column'] = $violation->getStartColumn();
-        $violationData['end_column'] = $violation->getStartColumn();
-        $violationData['additional_attributes'] = $violation->getAdditionalAttributes();
-        $violationData['fixable'] = $violation->isFixable();
-        $violationData['produced_by'] = $violation->producedBy();
-
-        return $violationData;
-    }
-
-    /**
-     * @param array $violation
-     *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
-     */
-    protected function createViolation(array $violation): ViolationInterface
-    {
-        return new Violation(
-            $violation['id'],
-            $violation['message'],
-            $violation['priority'] ?: null,
-            $violation['class'] ?: null,
-            $violation['method'] ?: null,
-            $violation['start_line'] ?: null,
-            $violation['end_line'] ?: null,
-            $violation['start_column'] ?: null,
-            $violation['end_column'] ?: null,
-            $violation['additional_attributes'],
-            $violation['fixable'] ?: false,
-            $violation['produced_by'] ?: '',
-        );
+        return $this->violationReportFileMapper->mapFileStructureToViolationReport($violationReportData, $packageIds);
     }
 
     /**

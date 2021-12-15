@@ -7,25 +7,58 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
-use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand;
+use SprykerSdk\Sdk\Extension\Tasks\Commands\RemoveReportDirCommand;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class GeneratePbcTask implements TaskInterface
+class RemoveRepDirTask implements TaskInterface
 {
+    /**
+     * @var string
+     */
+    protected const NAME = 'remove:report:dir';
+
+    /**
+     * @uses \SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
+     *
+     * @var string
+     */
+    protected const REPORT_DIR_SETTING_NAME = 'reportDir';
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface
+     */
+    protected ViolationReportRepositoryInterface $violationReportRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     */
+    protected CliValueReceiver $cliValueReceiver;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface $violationReportRepository
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     */
+    public function __construct(
+        ViolationReportRepositoryInterface $violationReportRepository,
+        CliValueReceiver $cliValueReceiver
+    ) {
+        $this->violationReportRepository = $violationReportRepository;
+        $this->cliValueReceiver = $cliValueReceiver;
+    }
+
     /**
      * @return string
      */
     public function getShortDescription(): string
     {
-        return 'This command generate new PBC project';
+        return 'This command cleanup report directory';
     }
 
     /**
@@ -33,36 +66,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getPlaceholders(): array
     {
-        return [
-            new Placeholder(
-                '%sdk_dir%',
-                'SDK_DIR',
-                [],
-                true,
-            ),
-            new Placeholder(
-                '%boilerplate_url%',
-                'PBC_TYPE',
-            ),
-            new Placeholder(
-                '%pbc_name%',
-                'STATIC',
-                [
-                    'name' => 'pbc_name',
-                    'description' => 'Input name for new PBC',
-                    'type' => 'string',
-                ],
-            ),
-            new Placeholder(
-                '%project_url%',
-                'STATIC',
-                [
-                    'name' => 'project_url',
-                    'description' => 'Input repository for new PBC',
-                    'type' => 'string',
-                ],
-            ),
-        ];
+        return [];
     }
 
     /**
@@ -78,7 +82,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'pbc:generate';
+        return 'violation:php:clean-report-dir';
     }
 
     /**
@@ -87,9 +91,7 @@ class GeneratePbcTask implements TaskInterface
     public function getCommands(): array
     {
         return [
-            new CheckGitCommand(),
-            new GeneratePbcCommand(),
-            new ChangeNamesCommand(),
+            new RemoveReportDirCommand($this->violationReportRepository, $this->cliValueReceiver),
         ];
     }
 

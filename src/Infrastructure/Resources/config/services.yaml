@@ -134,11 +134,14 @@ services:
         tags: [ 'sdk.update_action' ]
         arguments:
             - '@service.task_manager'
+    violation_report_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
     violation_report_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
         arguments:
             - '@project_setting_repository'
             - '@yaml_parser'
+            - '@violation_report_mapper'
     converter_registry:
         class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
         arguments:

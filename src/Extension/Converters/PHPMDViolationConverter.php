@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Extension\Converters;
 
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class PHPMDViolationConverter extends AbstractViolationConverter
@@ -89,7 +89,7 @@ class PHPMDViolationConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['violations'] as $violation) {
-                $fileViolations[$relatedPathToFile][] = new Violation(
+                $fileViolations[$relatedPathToFile][] = new ViolationReportConverter(
                     basename($relatedPathToFile, '.php'),
                     $violation['description'],
                     $violation['priority'],

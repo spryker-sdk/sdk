@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
 
-class Violation implements ViolationInterface
+class ViolationReportConverter implements ViolationReportConverterInterface
 {
     protected string $id;
 

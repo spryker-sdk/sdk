@@ -59,7 +59,7 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     /**
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
-    public function getConverter(): ?ConverterInterface
+    public function getViolationConverter(): ?ConverterInterface
     {
         return null;
     }

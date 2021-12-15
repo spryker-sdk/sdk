@@ -27,14 +27,14 @@ class ViolationReport implements ViolationReportInterface
     protected string $path;
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface>
      */
     protected array $violations;
 
     /**
      * @param string $project
      * @param string $path
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface> $violations
      * @param array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface> $packages
      */
     public function __construct(string $project, string $path, array $violations, array $packages)
@@ -70,7 +70,7 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface>
      */
     public function getViolations(): array
     {

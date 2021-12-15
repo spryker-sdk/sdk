@@ -28,11 +28,11 @@ interface ViolationReportRepositoryInterface
 
     /**
      * @param string $taskId
-     * @param string $package
+     * @param array<string> $packageIds
      *
      * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
-    public function findByPackage(string $taskId, string $package): ?ViolationReportInterface;
+    public function findByPackage(string $taskId, array $packageIds): ?ViolationReportInterface;
 
     /**
      * @param string|null $taskId

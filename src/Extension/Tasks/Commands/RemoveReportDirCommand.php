@@ -5,16 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\Console\Commands;
+namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
-class RemoveReportDirCommand extends Command
+class RemoveReportDirCommand implements ExecutableCommandInterface
 {
     /**
      * @var string
@@ -33,6 +34,9 @@ class RemoveReportDirCommand extends Command
      */
     protected ViolationReportRepositoryInterface $violationReportRepository;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     */
     protected CliValueReceiver $cliValueReceiver;
 
     /**
@@ -45,18 +49,16 @@ class RemoveReportDirCommand extends Command
     ) {
         $this->violationReportRepository = $violationReportRepository;
         $this->cliValueReceiver = $cliValueReceiver;
-
-        parent::__construct(static::NAME);
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array $resolvedValues
      *
-     * @return int
+     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
      */
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function execute(array $resolvedValues): CommandResponseInterface
     {
+        $commandResponse = new CommandResponse(true);
         if (
             $this->cliValueReceiver->receiveValue(
                 new ReceiverValue('Should report folder be cleaned?', true, 'boolean'),
@@ -65,6 +67,46 @@ class RemoveReportDirCommand extends Command
             $this->violationReportRepository->cleanupViolationReport();
         }
 
-        return static::SUCCESS;
+        return $commandResponse;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'php';
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasStopOnError(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getTags(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    public function getViolationConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }
