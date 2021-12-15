@@ -20,11 +20,6 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class RemoveRepDirTask implements TaskInterface
 {
     /**
-     * @var string
-     */
-    protected const NAME = 'remove:report:dir';
-
-    /**
      * @uses \SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
      *
      * @var string

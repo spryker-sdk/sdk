@@ -18,11 +18,6 @@ use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 class RemoveReportDirCommand implements ExecutableCommandInterface
 {
     /**
-     * @var string
-     */
-    protected const NAME = 'remove:report:dir';
-
-    /**
      * @uses \SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
      *
      * @var string
