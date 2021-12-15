@@ -20,9 +20,9 @@ interface ViolationReportFileMapperInterface
 
     /**
      * @param array $violationReport
-     * @param array<string>|null $package
+     * @param array<string>|null $includePackages
      *
      * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
      */
-    public function mapFileStructureToViolationReport(array $violationReport, ?array $package = null): ViolationReportInterface;
+    public function mapFileStructureToViolationReport(array $violationReport, ?array $includePackages = []): ViolationReportInterface;
 }

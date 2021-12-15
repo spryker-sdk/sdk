@@ -17,15 +17,15 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
 {
     /**
      * @param array $violationReport
-     * @param array<string>|null $package
+     * @param array<string>|null $includePackages
      *
      * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
      */
-    public function mapFileStructureToViolationReport(array $violationReport, ?array $package = null): ViolationReportInterface
+    public function mapFileStructureToViolationReport(array $violationReport, ?array $includePackages = []): ViolationReportInterface
     {
         $packages = [];
         foreach ($violationReport['packages'] as $packageData) {
-            if ($package && $packageData['id'] !== $package) {
+            if ($includePackages && !in_array($packageData['id'], $includePackages)) {
                 continue;
             }
 
@@ -43,17 +43,6 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
                         $violations[(string)$file['path']][] = $this->createViolation($violation);
                     }
                 }
-            }
-
-            if ($package && $packageData['id'] === $package) {
-                $packages[] = new PackageViolationReport(
-                    $packageData['id'],
-                    $packageData['path'],
-                    $packageViolations,
-                    $violations,
-                );
-
-                break;
             }
 
             $packages[] = new PackageViolationReport(
