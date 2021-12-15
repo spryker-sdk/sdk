@@ -11,7 +11,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "composer-runtime-api": "^2.1",
-        "aws/aws-sdk-php": "^3.207",
+        "aws/aws-sdk-php": "^3",
         "composer/semver": "^3.2",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
