@@ -1,4 +1,10 @@
 {
+    "aws/aws-crt-php": {
+        "version": "v1.0.2"
+    },
+    "aws/aws-sdk-php": {
+        "version": "3.208.5"
+    },
     "behat/gherkin": {
         "version": "v4.9.0"
     },
@@ -183,6 +189,9 @@
     },
     "monolog/monolog": {
         "version": "2.3.5"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.6.1"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
