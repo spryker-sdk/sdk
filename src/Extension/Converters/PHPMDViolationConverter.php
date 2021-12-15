@@ -41,16 +41,13 @@ class PHPMDViolationConverter extends AbstractViolationConverter
      */
     public function convert(): ?ViolationReportInterface
     {
-        $reportDirectory = $this->settingRepository->findOneByPath('report_dir');
         $projectDirectory = $this->settingRepository->findOneByPath('project_dir');
 
-        if (!$projectDirectory || !$reportDirectory) {
+        if (!$projectDirectory) {
             return null;
         }
+        $jsonReport = $this->readFile();
 
-        $reportDirectory = $reportDirectory->getValues() . DIRECTORY_SEPARATOR . $this->fileName;
-
-        $jsonReport = file_get_contents($reportDirectory);
         if (!$jsonReport) {
             return null;
         }
@@ -80,12 +77,7 @@ class PHPMDViolationConverter extends AbstractViolationConverter
         foreach ($files as $file) {
             $path = $file['file'];
             $relatedPathToFile = ltrim(str_replace($projectDirectory, '', $path), DIRECTORY_SEPARATOR);
-            preg_match('~(Zed|Glue)/(\w+)/~', $relatedPathToFile, $matches);
-            $moduleName = $matches[2];
-            preg_match('~(\w+/)+(Zed|Glue)/(\w+)~', $relatedPathToFile, $matches);
-            $pathToModule = $matches[0];
-            preg_match('~/(Zed|Glue)/([a-zA-Z/]+)~', $relatedPathToFile, $matches);
-            $classNamespace = str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0]);
+            [$moduleName, $pathToModule, $classNamespace] = $this->resolveEntityNamesByPath($relatedPathToFile);
 
             $fileViolations = [];
             foreach ($file['violations'] as $violation) {

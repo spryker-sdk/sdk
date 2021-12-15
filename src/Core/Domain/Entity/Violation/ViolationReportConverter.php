@@ -11,28 +11,64 @@ use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
 
 class ViolationReportConverter implements ViolationReportConverterInterface
 {
+    /**
+     * @var string
+     */
     protected string $id;
 
+    /**
+     * @var string
+     */
     protected string $message;
 
+    /**
+     * @var bool
+     */
     protected bool $fixable;
 
+    /**
+     * @var string
+     */
     protected string $produced;
 
+    /**
+     * @var string|null
+     */
     protected ?string $priority;
 
+    /**
+     * @var string|null
+     */
     protected ?string $class;
 
+    /**
+     * @var int|null
+     */
     protected ?int $startLine;
 
+    /**
+     * @var int|null
+     */
     protected ?int $endLine;
 
+    /**
+     * @var int|null
+     */
     protected ?int $startColumn;
 
+    /**
+     * @var int|null
+     */
     protected ?int $endColumn;
 
+    /**
+     * @var string|null
+     */
     protected ?string $method;
 
+    /**
+     * @var array
+     */
     protected array $attributes;
 
     /**

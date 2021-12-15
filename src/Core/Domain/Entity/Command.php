@@ -33,7 +33,7 @@ class Command implements CommandInterface
     protected array $tags;
 
     /**
-     * @var \SprykerSdk\SdkContracts\Entity\ConverterInterface
+     * @var \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     protected ?ConverterInterface $converter;
 

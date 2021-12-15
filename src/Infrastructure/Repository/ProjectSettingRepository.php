@@ -178,7 +178,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|\SprykerSdk\Sdk\Infrastructure\Entity\Setting
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     protected function resolvePathSetting(SettingInterface $setting)
     {
