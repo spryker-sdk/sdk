@@ -11,11 +11,12 @@ so you can focus developing exciting features for your business case.
 
 ## Installation
 
-- composer require `spryker-sdk/spryker-sdk`
-- echo "add alias spryker-sdk='php {path to sdk}/bin/console'" >> ~/.bashrc
+- ensure docker & docker-compose is installed
+- @todo download release from github to /<any path>
+- echo "add alias spryker-sdk='php /<any path>/bin/spryker-sdk.sh'" >> ~/.bashrc
 
 ## Update
-composer update `spryker-sdk/spryker-sdk`
+- @todo auto update for sdk in spryker-sdk.sh
 
 ## Getting started
 

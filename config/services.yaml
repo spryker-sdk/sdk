@@ -25,6 +25,3 @@ services:
     SprykerSdk\Sdk\Presentation\Console\:
         resource: '../src/Presentation/Console'
         exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
-    SprykerSdk\Sdk\Extension\:
-        resource: '../src/Extension'
-        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'

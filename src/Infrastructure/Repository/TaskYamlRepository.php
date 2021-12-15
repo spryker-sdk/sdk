@@ -60,16 +60,21 @@ class TaskYamlRepository implements TaskRepositoryInterface
      */
     public function findAll(array $tags = []): array
     {
-        $taskDirSetting = $this->settingRepository->findOneByPath('task_dirs');
+        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
 
         if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
-            throw new MissingSettingException('task_dirs are not configured properly');
+            throw new MissingSettingException('extension_dirs are not configured properly');
         }
 
         $tasks = [];
         $taskListData = [];
+
+        $finder = $this->fileFinder->in(array_map(function (string $directory): string {
+            return $directory . '/*/Tasks/';
+        }, $taskDirSetting->getValues()))->name('*.yaml');
+
         //read task from path, parse and create Task, later use DB for querying
-        foreach ($this->fileFinder->in($taskDirSetting->getValues())->name('*.yaml')->files() as $taskFile) {
+        foreach ($finder->files() as $taskFile) {
             $taskData = $this->yamlParser->parse($taskFile->getContents());
             $taskListData[$taskData['id']] = $taskData;
         }
