@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0fd995080c0b0b4c91bbbdba86b463b",
+    "content-hash": "42fecbfc6f8cd2338225a15b97ebf0ed",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.207.0",
+            "version": "3.208.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c5252787784bf41b678b03cb3292d413fe281319"
+                "reference": "58fa9d8b522b0afa260299179ff950c783ff0ee1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c5252787784bf41b678b03cb3292d413fe281319",
-                "reference": "c5252787784bf41b678b03cb3292d413fe281319",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/58fa9d8b522b0afa260299179ff950c783ff0ee1",
+                "reference": "58fa9d8b522b0afa260299179ff950c783ff0ee1",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.207.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.208.5"
             },
-            "time": "2021-11-30T23:44:55+00:00"
+            "time": "2021-12-13T20:17:56+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -4732,12 +4732,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "2c1686f326134458ccabd8c2b21d159969557d7f"
+                "reference": "36f12fe77c2fb6d78e613844031dbdc76f5e390b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/2c1686f326134458ccabd8c2b21d159969557d7f",
-                "reference": "2c1686f326134458ccabd8c2b21d159969557d7f",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/36f12fe77c2fb6d78e613844031dbdc76f5e390b",
+                "reference": "36f12fe77c2fb6d78e613844031dbdc76f5e390b",
                 "shasum": ""
             },
             "require": {
@@ -4763,7 +4763,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
             },
-            "time": "2021-12-13T13:30:25+00:00"
+            "time": "2021-12-15T07:52:24+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
