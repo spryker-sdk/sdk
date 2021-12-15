@@ -20,6 +20,9 @@ use Symfony\Component\Finder\Finder;
 
 class ConverterRegistry implements ConverterRegistryInterface
 {
+    /**
+     * @var bool
+     */
     protected bool $isInitialized = false;
 
     /**

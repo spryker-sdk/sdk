@@ -33,26 +33,7 @@ class ViolationReportMerger
             foreach ($violationReport->getViolations() as $violation) {
                 $project['violations'][] = $violation;
             }
-            foreach ($violationReport->getPackages() as $package) {
-                $packageData = $this->getArrayFromPackage($package);
-                $packagePath = $package->getPath();
-
-                if (!isset($packages[$packagePath])) {
-                    $packages[$packagePath] = $packageData;
-
-                    continue;
-                }
-
-                $packages[$packagePath]['violations'] = array_merge($packages[$packagePath]['violations'], $packageData['violations']);
-                foreach ($packageData['files'] as $path => $violations) {
-                    if (!isset($packages[$packagePath]['files'][$path])) {
-                        $packages[$packagePath]['files'][$path] = $violations;
-
-                        continue;
-                    }
-                    $packages[$packagePath]['files'][$path] = array_merge($packages[$packagePath]['files'][$path], $violations);
-                }
-            }
+            $packages = $this->mergePackages($packages, $violationReport->getPackages());
         }
         $packageEntities = [];
         foreach ($packages as $package) {
@@ -60,6 +41,38 @@ class ViolationReportMerger
         }
 
         return new ViolationReport($project['project'], $project['path'], $project['violations'], $packageEntities);
+    }
+
+    /**
+     * @param array $packages
+     * @param array $packageViolationReports
+     *
+     * @return array
+     */
+    protected function mergePackages(array $packages, array $packageViolationReports): array
+    {
+        foreach ($packageViolationReports as $packageViolationReport) {
+            $packageData = $this->getArrayFromPackage($packageViolationReport);
+            $packagePath = $packageViolationReport->getPath();
+
+            if (!isset($packages[$packagePath])) {
+                $packages[$packagePath] = $packageData;
+
+                continue;
+            }
+
+            $packages[$packagePath]['violations'] = array_merge($packages[$packagePath]['violations'], $packageData['violations']);
+            foreach ($packageData['files'] as $path => $violations) {
+                if (!isset($packages[$packagePath]['files'][$path])) {
+                    $packages[$packagePath]['files'][$path] = $violations;
+
+                    continue;
+                }
+                $packages[$packagePath]['files'][$path] = array_merge($packages[$packagePath]['files'][$path], $violations);
+            }
+        }
+
+        return $packages;
     }
 
     /**

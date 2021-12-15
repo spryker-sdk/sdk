@@ -80,8 +80,9 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
             }
 
             $relatedPathToFile = ltrim(str_replace($projectDirectory, '', $path), DIRECTORY_SEPARATOR);
-
-            [$moduleName, $pathToModule, $classNamespace] = $this->resolveEntityNamesByPath($relatedPathToFile);
+            $moduleName = $this->resolveModuleName($relatedPathToFile);
+            $pathToModule = $this->resolvePathToModule($relatedPathToFile);
+            $classNamespace = $this->resolveClassNamespace($relatedPathToFile);
 
             $fileViolations = [];
             foreach ($file['messages'] as $message) {

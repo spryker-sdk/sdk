@@ -14,6 +14,11 @@ use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 abstract class AbstractViolationConverter implements ViolationConverterInterface
 {
     /**
+     * @var array<string>
+     */
+    protected const LAYERS = ['Client', 'Yves', 'Shared', 'Service', 'Zed', 'Glue'];
+
+    /**
      * @var string
      */
     protected string $fileName;
@@ -22,11 +27,6 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
      * @var string
      */
     protected string $producer;
-
-    /**
-     * @var array
-     */
-    public const LAYERS = ['Client', 'Yves', 'Shared', 'Service', 'Zed', 'Glue'];
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
@@ -62,19 +62,41 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
     /**
      * @param string $relatedPathToFile
      *
-     * @return array
+     * @return string
      */
-    protected function resolveEntityNamesByPath(string $relatedPathToFile): array
+    protected function resolveModuleName(string $relatedPathToFile): string
     {
         $layers = implode('|', static::LAYERS);
         preg_match(sprintf('~(%s)/(\w+)/~', $layers), $relatedPathToFile, $matches);
-        $moduleName = $matches[2];
-        preg_match(sprintf('~(\w+/)+(%s)/(\w+)~', $layers), $relatedPathToFile, $matches);
-        $pathToModule = $matches[0];
-        preg_match(sprintf('~/(%s)/([a-zA-Z/]+)~', $layers), $relatedPathToFile, $matches);
-        $classNamespace = str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0]);
 
-        return [$moduleName, $pathToModule, $classNamespace];
+        return $matches[2];
+    }
+
+    /**
+     * @param string $relatedPathToFile
+     *
+     * @return string
+     */
+    protected function resolvePathToModule(string $relatedPathToFile): string
+    {
+        $layers = implode('|', static::LAYERS);
+        preg_match(sprintf('~(\w+/)+(%s)/(\w+)~', $layers), $relatedPathToFile, $matches);
+
+        return $matches[0];
+    }
+
+    /**
+     * @param string $relatedPathToFile
+     *
+     * @return string
+     */
+    protected function resolveClassNamespace(string $relatedPathToFile): string
+    {
+        $layers = implode('|', static::LAYERS);
+
+        preg_match(sprintf('~/(%s)/([a-zA-Z/]+)~', $layers), $relatedPathToFile, $matches);
+
+        return str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0]);
     }
 
     /**

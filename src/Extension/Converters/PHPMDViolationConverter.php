@@ -77,7 +77,9 @@ class PHPMDViolationConverter extends AbstractViolationConverter
         foreach ($files as $file) {
             $path = $file['file'];
             $relatedPathToFile = ltrim(str_replace($projectDirectory, '', $path), DIRECTORY_SEPARATOR);
-            [$moduleName, $pathToModule, $classNamespace] = $this->resolveEntityNamesByPath($relatedPathToFile);
+            $moduleName = $this->resolveModuleName($relatedPathToFile);
+            $pathToModule = $this->resolvePathToModule($relatedPathToFile);
+            $classNamespace = $this->resolveClassNamespace($relatedPathToFile);
 
             $fileViolations = [];
             foreach ($file['violations'] as $violation) {
