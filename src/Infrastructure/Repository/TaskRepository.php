@@ -66,7 +66,6 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
         return $this->getEntityManager()->transactional(function () use ($task, $taskToUpdate): Task {
             $this->getEntityManager()->remove($taskToUpdate->getLifecycle());
-            $this->getEntityManager()->flush();
 
             $entity = $this->taskMapper->updateInfrastructureEntity($task, $taskToUpdate);
 
