@@ -7,7 +7,6 @@
 
 namespace Hello\Tasks\Commands;
 
-use SprykerSdk\Sdk\Extension\Tasks\GreeterCommand;
 
 class HelloPhpCommand extends GreeterCommand
 {
