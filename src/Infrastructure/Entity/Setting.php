@@ -22,6 +22,7 @@ class Setting extends DomainSetting
      * @param bool $isProject
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
+     * @param string|null $initializer
      */
     public function __construct(
         ?int $id,
@@ -31,10 +32,11 @@ class Setting extends DomainSetting
         string $type = 'string',
         bool $isProject = true,
         bool $hasInitialization = false,
-        ?string $initializationDescription = null
+        ?string $initializationDescription = null,
+        ?string $initializer = null
     ) {
         $this->id = $id;
-        parent::__construct($path, $values, $strategy, $type, $isProject, $hasInitialization, $initializationDescription);
+        parent::__construct($path, $values, $strategy, $type, $isProject, $hasInitialization, $initializationDescription, $initializer);
     }
 
     /**
@@ -103,5 +105,15 @@ class Setting extends DomainSetting
     public function setInitializationDescription(?string $initializationDescription): void
     {
         $this->initializationDescription = $initializationDescription;
+    }
+
+    /**
+     * @param string|null $initializer
+     *
+     * @return void
+     */
+    public function setInitializer(?string $initializer): void
+    {
+        $this->initializer = $initializer;
     }
 }

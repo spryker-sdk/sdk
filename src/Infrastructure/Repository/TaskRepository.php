@@ -9,17 +9,18 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRemoveRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Task>
  */
-class TaskRepository extends ServiceEntityRepository implements TaskSaveRepositoryInterface, TaskRemoveRepositoryInterface
+class TaskRepository extends ServiceEntityRepository implements TaskSaveRepositoryInterface, TaskRemoveRepositoryInterface, TaskRepositoryInterface
 {
     protected TaskMapperInterface $taskMapper;
 
@@ -36,9 +37,9 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function create(TaskInterface $task): TaskInterface
     {
@@ -51,12 +52,12 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $taskToUpdate
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $taskToUpdate
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function update(TaskInterface $task, TaskInterface $taskToUpdate): TaskInterface
     {
@@ -66,7 +67,6 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
         return $this->getEntityManager()->transactional(function () use ($task, $taskToUpdate): Task {
             $this->getEntityManager()->remove($taskToUpdate->getLifecycle());
-            $this->getEntityManager()->flush();
 
             $entity = $this->taskMapper->updateInfrastructureEntity($task, $taskToUpdate);
 
@@ -78,11 +78,11 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @return array<string, \SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
+     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function findAllIndexedCollection(): array
     {
-        /** @var array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks */
+        /** @var array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks */
         $tasks = $this->findAll();
 
         $tasksMap = [];
@@ -95,7 +95,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */
@@ -107,5 +107,24 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
         $this->getEntityManager()->remove($task);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param string $taskId
+     * @param array<string> $tags
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
+     */
+    public function findById(string $taskId, array $tags = []): ?TaskInterface
+    {
+        $criteria = [
+            'id' => $taskId,
+        ];
+
+        if ($tags) {
+            $criteria['tags'] = $tags;
+        }
+
+        return $this->findOneBy($criteria);
     }
 }

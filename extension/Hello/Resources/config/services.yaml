@@ -1,0 +1,4 @@
+services:
+  hello_php_task:
+    class: Hello\Tasks\HelloPhpTask
+    tags: ['sdk.task']

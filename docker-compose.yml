@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  spryker-sdk:
+    image: spryker-sdk:0.0.3
+    build:
+      context: ./
+      dockerfile: ./infrastructure/sdk.Dockerfile
+    working_dir: "/project"
+    volumes:
+      - $PWD:/project:rw
+      - ./db:/data/db:rw
+      - ./extension:/data/extension:rw
+
+volumes:
+  project:

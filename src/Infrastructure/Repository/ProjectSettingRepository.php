@@ -7,9 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Contracts\Entity\SettingInterface;
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
+use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
@@ -21,24 +24,32 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected string $projectSettingFileName;
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface $coreSettingRepository
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+     */
+    protected PathResolver $pathResolver;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver $pathResolver
      */
     public function __construct(
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
-        string $projectSettingFileName
+        string $projectSettingFileName,
+        PathResolver $pathResolver
     ) {
         $this->projectSettingFileName = $projectSettingFileName;
         $this->yamlParser = $yamlParser;
         $this->coreSettingRepository = $coreSettingRepository;
+        $this->pathResolver = $pathResolver;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\SettingInterface $setting
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     public function save(SettingInterface $setting): SettingInterface
     {
@@ -46,9 +57,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array
     {
@@ -67,25 +78,29 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     /**
      * @param string $settingPath
      *
-     * @return \SprykerSdk\Sdk\Contracts\Entity\SettingInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
         $coreSetting = $this->coreSettingRepository->findOneByPath($settingPath);
-
         if (!$coreSetting) {
             return $coreSetting;
         }
+
+        $coreSetting = $this->resolvePathSetting($coreSetting);
 
         return $this->fillProjectValues([$coreSetting])[0];
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function find(): array
     {
         $entities = $this->coreSettingRepository->findProjectSettings();
+        foreach ($entities as $key => $entity) {
+            $entities[$key] = $this->resolvePathSetting($entity);
+        }
 
         if (empty($entities)) {
             return $entities;
@@ -95,7 +110,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findProjectSettings(): array
     {
@@ -103,9 +118,9 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $entities
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $entities
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function fillProjectValues(array $entities): array
     {
@@ -139,7 +154,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findCoreSettings(): array
     {
@@ -149,12 +164,41 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     /**
      * @param array<string> $paths
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function findByPaths(array $paths): array
     {
         return $this->fillProjectValues(
             $this->coreSettingRepository->findByPaths($paths),
         );
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
+     *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
+     */
+    protected function resolvePathSetting(SettingInterface $setting)
+    {
+        if (!$setting instanceof InfrastructureSetting) {
+            throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
+        }
+        if ($setting->getType() === 'path') {
+            $values = $setting->getValues();
+            if (is_array($values)) {
+                foreach ($values as $key => $value) {
+                    $values[$key] = $this->pathResolver->getResolveProjectRelativePath($value);
+                }
+            }
+            if (is_string($values)) {
+                $values = $this->pathResolver->getResolveProjectRelativePath($values);
+            }
+
+            $setting->setValues($values);
+        }
+
+        return $setting;
     }
 }

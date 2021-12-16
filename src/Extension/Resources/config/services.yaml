@@ -1,15 +1,16 @@
 services:
-  hello_php_task:
-    class: SprykerSdk\Sdk\Extension\Tasks\HelloPhpTask
-    tags: ['sdk.task'],
   generate_pbc:
     class: SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask
     tags: [ 'sdk.task' ]
-    arguments:
-      - '@process_helper'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'
       - '%kernel.project_dir%'
+  remove_report_dir:
+    class: SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask
+    tags: [ 'sdk.task' ]
+    arguments:
+        - '@violation_report_repository'
+        - '@cli_value_receiver'

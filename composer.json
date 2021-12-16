@@ -1,6 +1,5 @@
 {
-    "name": "spryker-sdk/spryker-sdk",
-    "version": "0.1.0",
+    "name": "spryker-sdk/sdk",
     "description": "The Spryker SDK aims to provide a single entry point to accelerate your productivity working with Spryker.",
     "type": "project",
     "license": "proprietary",
@@ -9,7 +8,16 @@
     "require": {
         "php": ">=8.0",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
+        "ext-simplexml": "*",
+        "ext-json": "*",
+        "ext-pcre": "*",
+        "ext-pdo": "*",
+        "ext-phar": "*",
+        "ext-sqlite3": "*",
+        "ext-xml": "*",
+        "spryker-sdk/sdk-contracts": "dev-master",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
         "doctrine/doctrine-bundle": "^2.4",
@@ -69,8 +77,8 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
-        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/",
-        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/",
+        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
+        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
         "stan": "phpstan analyze -l 8 src/",
         "test": "codecept build && codecept run",
         "test-cover": "codecept build && codecept run --coverage-xml",
@@ -93,5 +101,11 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/spryker-sdk/sdk-contracts"
+        }
+    ]
 }

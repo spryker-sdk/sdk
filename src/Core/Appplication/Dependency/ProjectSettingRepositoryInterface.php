@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\Sdk\Contracts\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 
 interface ProjectSettingRepositoryInterface extends SettingRepositoryInterface
 {
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface> $settings
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array;
 }

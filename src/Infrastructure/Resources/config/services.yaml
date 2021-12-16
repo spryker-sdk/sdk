@@ -23,6 +23,7 @@ services:
             - '@setting_repository'
             - '@yaml_parser'
             - '%project_settings_file%'
+            - '@path_resolver'
     yaml_parser:
         class: Symfony\Component\Yaml\Yaml
     task_repository:
@@ -42,7 +43,7 @@ services:
         arguments:
             - '@process_helper'
             - '@progress_bar'
-    php__command_runner:
+    php_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
         tags: [ 'command.runner' ]
     cli_value_receiver:
@@ -62,27 +63,26 @@ services:
         arguments:
             - '@local_cli_command_runner'
 
-    php_command_runner_runner_setup_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\PhpCommandRunnerSetupListener
-        tags:
-          - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
-        arguments:
-          - '@php__command_runner'
-
     value_receiver:
         alias: 'cli_value_receiver'
-
+    autoloader_service:
+        class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
+        arguments:
+            - '%kernel.project_dir%'
     value_resolver_registry:
         class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
         arguments:
             - '@setting_repository'
             - '@value_receiver'
             - !tagged_iterator sdk.value_resolver
+            - '@autoloader_service'
             - '%kernel.project_dir%'
-
+    mapper.converter_mapper:
+      class: SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper
     mapper.command_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper
-
+        arguments:
+            - '@mapper.converter_mapper'
     mapper.placeholder_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper
 
@@ -119,7 +119,6 @@ services:
         arguments:
             - '@event_dispatcher'
             - '@task_persistence_repository'
-            - '@task_persistence_repository'
 
     service.lifecycle_manager:
         class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
@@ -152,3 +151,22 @@ services:
         tags: [ 'sdk.update_action' ]
         arguments:
             - '@service.task_manager'
+    violation_report_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
+    violation_report_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
+        arguments:
+          - '@project_setting_repository'
+          - '@yaml_parser'
+          - '@violation_report_mapper'
+    converter_registry:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
+      arguments:
+        - '@setting_repository'
+        - '%kernel.project_dir%'
+    app.event_listener.request_listener:
+      class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
+      arguments:
+        - '@doctrine'
+      tags:
+        - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }

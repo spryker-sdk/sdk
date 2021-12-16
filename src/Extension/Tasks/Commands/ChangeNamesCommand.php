@@ -7,19 +7,19 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
-use Symfony\Component\Console\Output\OutputInterface;
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
 class ChangeNamesCommand implements ExecutableCommandInterface
 {
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param array $resolvedValues
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse
+     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
      */
-    public function execute(OutputInterface $output, array $resolvedValues): CommandResponse
+    public function execute(array $resolvedValues): CommandResponseInterface
     {
         $repositoryName = basename($resolvedValues['%boilerplate_url%']);
         $newRepositoryName = basename($resolvedValues['%project_url%']);
@@ -69,5 +69,13 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     public function getTags(): array
     {
         return [];
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    public function getViolationConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }

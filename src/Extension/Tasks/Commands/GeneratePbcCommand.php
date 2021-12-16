@@ -7,7 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Contracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class GeneratePbcCommand implements CommandInterface
 {
@@ -41,5 +42,13 @@ class GeneratePbcCommand implements CommandInterface
     public function getTags(): array
     {
         return [];
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    public function getViolationConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }

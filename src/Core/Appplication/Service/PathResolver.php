@@ -36,4 +36,22 @@ class PathResolver
 
         return rtrim($path, DIRECTORY_SEPARATOR);
     }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    public function getResolveProjectRelativePath(string $path): string
+    {
+        if (strpos($path, DIRECTORY_SEPARATOR) === 0) {
+            return $path;
+        }
+
+        $path = preg_replace('/^\P{L}+/u', '', $path);
+
+        $path = getcwd() . DIRECTORY_SEPARATOR . $path;
+
+        return rtrim($path, DIRECTORY_SEPARATOR);
+    }
 }

@@ -7,50 +7,54 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskRemoveRepositoryInterface;
-use SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskManager implements TaskManagerInterface
 {
     protected EventDispatcherInterface $eventDispatcher;
 
-    protected TaskRemoveRepositoryInterface $taskRemoveRepository;
-
-    protected TaskSaveRepositoryInterface $taskSaveRepository;
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface
+     */
+    protected TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository;
 
     /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskRemoveRepositoryInterface $taskRemoveRepository
-     * @param \SprykerSdk\Sdk\Contracts\Repository\TaskSaveRepositoryInterface $taskSaveRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface $taskRepository
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        TaskRemoveRepositoryInterface $taskRemoveRepository,
-        TaskSaveRepositoryInterface $taskSaveRepository
+        TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository
     ) {
         $this->eventDispatcher = $eventDispatcher;
-        $this->taskRemoveRepository = $taskRemoveRepository;
-        $this->taskSaveRepository = $taskSaveRepository;
+        $this->taskRepository = $taskRepository;
     }
 
     /**
-     * @param array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface> $tasks
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
-     * @return array<\SprykerSdk\Sdk\Contracts\Entity\TaskInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function initialize(array $tasks): array
     {
         $entities = [];
 
         foreach ($tasks as $task) {
-            $entities[] = $this->taskSaveRepository->create($task);
+            $existingTask = $this->taskRepository->findById($task->getId());
 
+            if ($existingTask) {
+                continue;
+            }
+
+            $entities[] = $this->taskRepository->create($task);
             $this->eventDispatcher->dispatch(new InitializedEvent($task), InitializedEvent::NAME);
         }
 
@@ -58,26 +62,26 @@ class TaskManager implements TaskManagerInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */
     public function remove(TaskInterface $task): void
     {
-        $this->taskRemoveRepository->remove($task);
+        $this->taskRepository->remove($task);
 
         $this->eventDispatcher->dispatch(new RemovedEvent($task), RemovedEvent::NAME);
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $folderTask
-     * @param \SprykerSdk\Sdk\Contracts\Entity\TaskInterface $databaseTask
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $folderTask
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $databaseTask
      *
      * @return void
      */
     public function update(TaskInterface $folderTask, TaskInterface $databaseTask): void
     {
-        $this->taskSaveRepository->update($folderTask, $databaseTask);
+        $this->taskRepository->update($folderTask, $databaseTask);
 
         $this->eventDispatcher->dispatch(new UpdatedEvent($folderTask), UpdatedEvent::NAME);
     }
