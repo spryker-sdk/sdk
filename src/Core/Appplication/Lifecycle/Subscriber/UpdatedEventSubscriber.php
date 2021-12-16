@@ -33,10 +33,11 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
         /** @var \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface $lifecycle */
         $lifecycle = $event->getTask()->getLifecycle();
         $updatedEvent = $lifecycle->getUpdatedEventData();
+        $context = $this->createContext($updatedEvent);
 
-        $this->manageFiles($updatedEvent->getFiles(), $updatedEvent->getPlaceholders());
+        $this->manageFiles($updatedEvent->getFiles(), $context);
 
-        $this->commandExecutor->execute($updatedEvent->getCommands(), $updatedEvent->getPlaceholders());
+        $this->executeCommands($updatedEvent->getCommands(), $context, $event->getTask());
     }
 
     /**

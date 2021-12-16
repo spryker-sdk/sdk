@@ -16,7 +16,7 @@ class ViolationConverterResolver
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
      */
-    public ConverterRegistryInterface $converterRegistry;
+    protected ConverterRegistryInterface $converterRegistry;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface $converterRegistry

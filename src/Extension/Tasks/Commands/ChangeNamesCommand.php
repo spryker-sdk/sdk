@@ -7,36 +7,43 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
-use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 class ChangeNamesCommand implements ExecutableCommandInterface
 {
     /**
-     * @param array $resolvedValues
-     *
-     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
+     * @var string
      */
-    public function execute(array $resolvedValues): CommandResponseInterface
+    protected const COMPOSER_INITIALIZATION_ERROR = 'Can not initialize composer.json in generated PBC';
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     */
+    public function execute(ContextInterface $context): ContextInterface
     {
+        $resolvedValues = $context->getResolvedValues();
+
         $repositoryName = basename($resolvedValues['%boilerplate_url%']);
         $newRepositoryName = basename($resolvedValues['%project_url%']);
         $composerFilePath = $resolvedValues['%pbc_name%'] . DIRECTORY_SEPARATOR . 'composer.json';
 
-        $commandResponse = new CommandResponse(true);
         if (!file_exists($composerFilePath)) {
-            return $commandResponse
-                ->setIsSuccessful(false)
-                ->setErrorMessage('Can not initialize composer.json in generated PBC');
+            $context->addMessage(new Message(static::COMPOSER_INITIALIZATION_ERROR, MessageInterface::ERROR));
+
+            return $context;
         }
 
         $text = file_get_contents($composerFilePath);
         $text = str_replace($repositoryName, $newRepositoryName, (string)$text);
         file_put_contents($composerFilePath, $text);
 
-        return $commandResponse;
+        return $context;
     }
 
     /**

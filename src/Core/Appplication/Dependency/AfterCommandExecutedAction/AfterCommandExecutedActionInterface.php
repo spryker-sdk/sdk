@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
+namespace SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction;
 
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-interface CommandExecutorInterface
+interface AfterCommandExecutedActionInterface
 {
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command

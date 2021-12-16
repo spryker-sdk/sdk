@@ -1,0 +1,359 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdk\Sdk\Core\Domain\Entity;
+
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+
+//@todo perfect use case for marks DTO library
+class Context implements ContextInterface
+{
+    /**
+     * @var array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     */
+    protected array $requiredPlaceholders = [];
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $resolvedValues = [];
+
+    /**
+     * @var array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
+     */
+    protected array $messages = [];
+
+    /**
+     * @var array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     */
+    protected array $tasks = [];
+
+    /**
+     * @var array<string>
+     */
+    protected array $availableStages = self::DEFAULT_STAGES;
+
+    /**
+     * @var array<string>
+     */
+    protected array $requiredStages = self::DEFAULT_STAGES;
+
+    /**
+     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface>
+     */
+    protected array $violationReports = [];
+
+    protected int $exitCode = self::SUCCESS_EXIT_CODE;
+
+    /**
+     * @var array<string>
+     */
+    protected array $tags = [];
+
+    /**
+     * @var bool
+     */
+    protected bool $isDryRun = false;
+
+    protected TaskInterface $task;
+
+    protected string $name = 'sdk';
+
+    /**
+     * @var array<string>
+     */
+    protected array $overwrites = [];
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     */
+    public function getRequiredPlaceholders(): array
+    {
+        return $this->requiredPlaceholders;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
+     *
+     * @return void
+     */
+    public function addRequiredPlaceholder(PlaceholderInterface $placeholder): void
+    {
+        $this->requiredPlaceholders[] = $placeholder;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $requiredPlaceholders
+     *
+     * @return void
+     */
+    public function setRequiredPlaceholders(array $requiredPlaceholders): void
+    {
+        $this->requiredPlaceholders = [];
+
+        array_map(function (PlaceholderInterface $placeholder): void {
+            $this->addRequiredPlaceholder($placeholder);
+        }, $requiredPlaceholders);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getResolvedValues(): array
+    {
+        return $this->resolvedValues;
+    }
+
+    /**
+     * @param array<string, mixed> $resolvedValues
+     *
+     * @return void
+     */
+    public function setResolvedValues(array $resolvedValues): void
+    {
+        $this->resolvedValues = $resolvedValues;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function addResolvedValues(string $key, mixed $value)
+    {
+        $this->resolvedValues[$key] = $value;
+    }
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
+     */
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\MessageInterface $message
+     *
+     * @return void
+     */
+    public function addMessage(MessageInterface $message)
+    {
+        $this->messages[] = $message;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\MessageInterface> $messages
+     *
+     * @return void
+     */
+    public function setMessages(array $messages): void
+    {
+        $this->messages = $messages;
+    }
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     */
+    public function getSubTasks(): array
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
+    public function addSubTask(TaskInterface $task)
+    {
+        $this->tasks[$task->getId()] = $task;
+        $stage = $task instanceof StagedTaskInterface ? $task->getStage() : static::DEFAULT_STAGE;
+        $this->availableStages[] = $stage;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getAvailableStages(): array
+    {
+        return array_unique($this->availableStages);
+    }
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface>
+     */
+    public function getViolationReports(): array
+    {
+        return $this->violationReports;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     *
+     * @return void
+     */
+    public function addViolationReport(ViolationReportInterface $violationReport)
+    {
+        $this->violationReports[] = $violationReport;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExitCode(): int
+    {
+        return $this->exitCode;
+    }
+
+    /**
+     * @param int $exitCode
+     *
+     * @return void
+     */
+    public function setExitCode(int $exitCode): void
+    {
+        $this->exitCode = $exitCode;
+    }
+
+    /**
+     * @param array<string> $availableStages
+     *
+     * @return void
+     */
+    public function setAvailableStages(array $availableStages): void
+    {
+        $this->availableStages = $availableStages;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getRequiredStages(): array
+    {
+        return $this->requiredStages;
+    }
+
+    /**
+     * @param array<string> $requiredStages
+     *
+     * @return void
+     */
+    public function setRequiredStages(array $requiredStages): void
+    {
+        $this->requiredStages = $requiredStages;
+    }
+
+    /**
+     * @param array<string> $tags
+     *
+     * @return void
+     */
+    public function setTags(array $tags): void
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDryRun(): bool
+    {
+        return $this->isDryRun;
+    }
+
+    /**
+     * @param bool $isDryRun
+     *
+     * @return void
+     */
+    public function setIsDryRun(bool $isDryRun = true): void
+    {
+        $this->isDryRun = $isDryRun;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
+    public function setTask(TaskInterface $task): void
+    {
+        $this->task = $task;
+        $this->name = $task->getId();
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    public function getTask(): TaskInterface
+    {
+        return $this->task;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $subTasks
+     *
+     * @return void
+     */
+    public function setSubTasks(array $subTasks): void
+    {
+        array_map(function (TaskInterface $task) {
+            $this->addSubTask($task);
+        }, $subTasks);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return void
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getOverwrites(): array
+    {
+        return $this->overwrites;
+    }
+
+    /**
+     * @param array<string> $overwrites
+     *
+     * @return void
+     */
+    public function setOverwrites(array $overwrites): void
+    {
+        $this->overwrites = $overwrites;
+    }
+}

@@ -14,3 +14,6 @@ services:
     arguments:
         - '@violation_report_repository'
         - '@cli_value_receiver'
+  staged_task_set:
+    class: SprykerSdk\Sdk\Extension\Tasks\HelloStagedSetTask
+    tags: ['sdk.task']
