@@ -346,7 +346,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['help'] ?? null,
             $taskData['successor'] ?? null,
             $taskData['deprecated'] ?? false,
-            $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE
+            $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
         );
     }
 }

@@ -79,6 +79,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
      * @param string|null $help
      * @param string|null $successor
      * @param bool $isDeprecated
+     * @param string $stage
      */
     public function __construct(
         string $id,

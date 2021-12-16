@@ -7,7 +7,6 @@
 
 namespace Hello\Tasks\Commands;
 
-
 class HelloPhpCommand extends GreeterCommand
 {
     /**
