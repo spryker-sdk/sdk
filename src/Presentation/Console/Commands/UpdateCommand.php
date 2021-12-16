@@ -25,6 +25,11 @@ class UpdateCommand extends Command
     /**
      * @var string
      */
+    public const OPTION_NO_CHECK = 'no-check';
+
+    /**
+     * @var string
+     */
     protected static $defaultName = 'sdk:update:all';
 
     /**
@@ -63,7 +68,14 @@ class UpdateCommand extends Command
         $this->addOption(
             static::OPTION_CHECK_ONLY,
             'c',
-            InputOption::VALUE_OPTIONAL | InputOption::VALUE_NONE,
+            InputOption::VALUE_OPTIONAL,
+            'Only checks if the current version is up-to-date',
+            false
+        );
+        $this->addOption(
+            static::OPTION_NO_CHECK,
+            null,
+            InputOption::VALUE_OPTIONAL,
             'Only checks if the current version is up-to-date',
             false,
         );
@@ -77,9 +89,11 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->checkForUpdate($output);
+        if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
+            $this->checkForUpdate($output);
+        }
 
-        if ($input->getOption(static::OPTION_CHECK_ONLY) === false) {
+        if ($input->getOption(static::OPTION_CHECK_ONLY) !== null) {
             $this->lifecycleManager->update();
         }
 
