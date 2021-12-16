@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -133,6 +134,13 @@ class InitProjectCommand extends Command
             }
 
             $settingEntity->setValues($values);
+
+            $initializerClassName = $settingEntity->getInitializer();
+            if ($initializerClassName && in_array(SettingInitializerInterface::class, (array)class_implements($initializerClassName))) {
+                /** @var \SprykerSdk\SdkContracts\Setting\SettingInitializerInterface $initializer */
+                $initializer = new $initializerClassName();
+                $initializer->initialize($settingEntity);
+            }
         }
 
         return $settingEntities;

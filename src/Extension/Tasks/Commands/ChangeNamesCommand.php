@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
 class ChangeNamesCommand implements ExecutableCommandInterface
@@ -68,5 +69,13 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     public function getTags(): array
     {
         return [];
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    public function getViolationConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }

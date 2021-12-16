@@ -17,20 +17,9 @@ use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use Symfony\Component\Console\Helper\ProcessHelper;
 
 class GeneratePbcTask implements TaskInterface
 {
-    protected ProcessHelper $processHelper;
-
-    /**
-     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
-     */
-    public function __construct(ProcessHelper $processHelper)
-    {
-        $this->processHelper = $processHelper;
-    }
-
     /**
      * @return string
      */

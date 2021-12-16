@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterfa
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -33,6 +34,7 @@ class TaskExecutorTest extends Unit
             $this->createCommandExecutorMock(true, $code),
             $this->createEventLoggerMock(),
             $this->createMock(ProgressBarInterface::class),
+            $this->createMock(ViolationReportGenerator::class),
         );
         $result = $taskExecutor->execute('test');
         $this->assertSame($code, $result);
@@ -50,6 +52,7 @@ class TaskExecutorTest extends Unit
             $this->createCommandExecutorMock(false, $code),
             $this->createEventLoggerMock(),
             $this->createMock(ProgressBarInterface::class),
+            $this->createMock(ViolationReportGenerator::class),
         );
 
         $result = $taskExecutor->execute('test');
@@ -107,7 +110,7 @@ class TaskExecutorTest extends Unit
             ->method('getPlaceholders')
             ->willReturn([$this->createPlaceholderMock()]);
 
-        $taskMock->expects($this->exactly(1))
+        $taskMock->expects($this->exactly(2))
             ->method('getCommands')
             ->willReturnCallback(function () use ($hasStopOnError): array {
                 return [$this->createCommandMock(), $this->createCommandMock($hasStopOnError)];

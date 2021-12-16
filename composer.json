@@ -10,6 +10,7 @@
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
+        "ext-simplexml": "*",
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-pdo": "*",

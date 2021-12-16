@@ -6,8 +6,40 @@ settings:
     type: path
     is_project: false
     values:
-        - src/
-        - extension/
+      - src/
+      - extension/
+  - path: task_dirs
+    initialization_description: Where can tasks be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    is_project: false
+    values:
+      - src/Extension/Tasks
+  - path: setting_dirs
+    initialization_description: Where can settings be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    is_project: false
+    values:
+      - src/Extension/Settings
+  - path: value_resolver_dirs
+    initialization_description: Where can value resolvers be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    is_project: false
+    values:
+      - src/Extension/ValueResolvers
+  - path: converter_dirs
+    initialization_description: Where can converter be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    is_project: false
+    values:
+        - src/Extension/Converters
   - path: sdk_dir
     initialization_description: Where is the sdk directory?
     strategy: overwrite
@@ -55,3 +87,11 @@ settings:
     is_project: true
     type: string
     values: Pyz
+  - path: report_dir
+    initialization_description: Where is the project report directory?
+    strategy: overwrite
+    init: true
+    is_project: true
+    type: path
+    values: './reports/'
+    initializer: \SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer

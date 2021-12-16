@@ -9,6 +9,7 @@ namespace Hello\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
 class HelloPhpCommand implements ExecutableCommandInterface
@@ -55,5 +56,13 @@ class HelloPhpCommand implements ExecutableCommandInterface
     public function getTags(): array
     {
         return [];
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    public function getViolationConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }

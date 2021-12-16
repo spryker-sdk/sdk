@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInte
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
@@ -156,10 +157,16 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $commands = [];
 
         if ($data['type'] === 'local_cli') {
+            $converter = isset($data['report_converter']) ? new Converter(
+                $data['report_converter']['name'],
+                $data['report_converter']['configuration'],
+            ) : null;
             $commands[] = new Command(
                 $data['command'],
                 $data['type'],
-                true,
+                false,
+                [],
+                $converter,
             );
         }
 
@@ -168,11 +175,17 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 if ($tags && !array_intersect($tags, $task['tags'])) {
                     continue;
                 }
+                $converter = isset($taskListData[$task['id']]['report_converter']) ? new Converter(
+                    $taskListData[$task['id']]['report_converter']['name'],
+                    $taskListData[$task['id']]['report_converter']['configuration'],
+                ) : null;
+
                 $commands[] = new Command(
                     $taskListData[$task['id']]['command'],
                     $taskListData[$task['id']]['type'],
                     $task['stop_on_error'],
                     $task['tags'],
+                    $converter,
                 );
             }
         }
@@ -197,7 +210,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $commands[] = new Command(
                 $command['command'],
                 $command['type'],
-                true,
+                false,
             );
         }
 
