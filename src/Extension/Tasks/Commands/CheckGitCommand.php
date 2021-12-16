@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
+use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 
 class CheckGitCommand implements CommandInterface, ErrorCommandInterface
@@ -21,9 +23,11 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface $commandResponse
+     *
      * @return string
      */
-    public function getErrorMessage(): string
+    public function getErrorMessage(CommandResponseInterface $commandResponse): string
     {
         return 'For using this task you should to have GIT. More details you can find https://git-scm.com/book/en/v2/Getting-Started-Installing-Git';
     }
@@ -50,5 +54,13 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     public function getTags(): array
     {
         return [];
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    public function getViolationConverter(): ?ConverterInterface
+    {
+        return null;
     }
 }

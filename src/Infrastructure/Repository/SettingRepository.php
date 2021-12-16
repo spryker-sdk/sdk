@@ -116,15 +116,19 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         if (!$setting instanceof InfrastructureSetting) {
             throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
         }
-        if ($setting->getType() === 'path' && !$setting->isProject()) {
+        if ($setting->getType() === 'path') {
             $values = $setting->getValues();
             if (is_array($values)) {
                 foreach ($values as $key => $value) {
-                    $values[$key] = $this->pathResolver->getResolveRelativePath($value);
+                    $values[$key] = !$setting->isProject() ?
+                        $this->pathResolver->getResolveRelativePath($value) :
+                        $this->pathResolver->getResolveProjectRelativePath($value);
                 }
             }
             if (is_string($values)) {
-                $values = $this->pathResolver->getResolveRelativePath($values);
+                $values = !$setting->isProject() ?
+                    $this->pathResolver->getResolveRelativePath($values) :
+                    $this->pathResolver->getResolveProjectRelativePath($values);
             }
 
             $setting->setValues($values);

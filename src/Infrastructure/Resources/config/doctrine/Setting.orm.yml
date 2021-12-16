@@ -34,3 +34,6 @@ SprykerSdk\Sdk\Infrastructure\Entity\Setting:
     initializationDescription:
       type: string
       nullable: true
+    initializer:
+        type: string
+        nullable: true

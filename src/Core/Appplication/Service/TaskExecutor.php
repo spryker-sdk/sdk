@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
+use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
@@ -31,6 +32,11 @@ class TaskExecutor
     protected ProgressBarInterface $progressBar;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
+     */
+    protected ViolationReportGenerator $violationReportGenerator;
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
      */
     protected CommandExecutorInterface $commandExecutor;
@@ -45,17 +51,20 @@ class TaskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
      * @param \SprykerSdk\SdkContracts\Logger\EventLoggerInterface $eventLogger
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface $progressBar
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
      */
     public function __construct(
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
         EventLoggerInterface $eventLogger,
-        ProgressBarInterface $progressBar
+        ProgressBarInterface $progressBar,
+        ViolationReportGenerator $violationReportGenerator
     ) {
         $this->taskRepository = $taskRepository;
         $this->commandExecutor = $commandExecutor;
         $this->eventLogger = $eventLogger;
         $this->progressBar = $progressBar;
+        $this->violationReportGenerator = $violationReportGenerator;
     }
 
     /**
@@ -75,6 +84,8 @@ class TaskExecutor
         $this->progressBar->start();
 
         $result = $this->commandExecutor->execute($task->getCommands(), $task->getPlaceholders(), $afterCommandExecutedCallback);
+
+        $this->violationReportGenerator->collectViolations($task->getId(), $task->getCommands());
 
         $this->progressBar->finish();
 

@@ -134,14 +134,6 @@ class CliValueReceiver implements ValueReceiverInterface
                     return $inputPath . $dirOrFile;
                 }, $foundFilesAndDirs);
             });
-
-            $question->setValidator(function ($value) {
-                if ($value && !is_dir($value)) {
-                    throw new MissingValueException('Directory doesn\'t exist');
-                }
-
-                return $value;
-            });
         }
 
         return $this->questionHelper->ask(

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class Command implements CommandInterface
 {
@@ -24,7 +25,7 @@ class Command implements CommandInterface
     /**
      * @var bool
      */
-    protected bool $hasStopOnError = true;
+    protected bool $hasStopOnError = false;
 
     /**
      * @var array<string>
@@ -32,21 +33,29 @@ class Command implements CommandInterface
     protected array $tags;
 
     /**
+     * @var \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    protected ?ConverterInterface $converter;
+
+    /**
      * @param string $command
      * @param string $type
      * @param bool $hasStopOnError
      * @param array<string> $tags
+     * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
      */
     public function __construct(
         string $command,
         string $type,
-        bool $hasStopOnError = true,
-        array $tags = []
+        bool $hasStopOnError = false,
+        array $tags = [],
+        ?ConverterInterface $converter = null
     ) {
         $this->hasStopOnError = $hasStopOnError;
         $this->type = $type;
         $this->command = $command;
         $this->tags = $tags;
+        $this->converter = $converter;
     }
 
     /**
@@ -79,5 +88,13 @@ class Command implements CommandInterface
     public function hasStopOnError(): bool
     {
         return $this->hasStopOnError;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
+     */
+    public function getViolationConverter(): ?ConverterInterface
+    {
+        return $this->converter;
     }
 }
