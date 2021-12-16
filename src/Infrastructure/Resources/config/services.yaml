@@ -119,7 +119,6 @@ services:
         arguments:
             - '@event_dispatcher'
             - '@task_persistence_repository'
-            - '@task_persistence_repository'
 
     service.lifecycle_manager:
         class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager

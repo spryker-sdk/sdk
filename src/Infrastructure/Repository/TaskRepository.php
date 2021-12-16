@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
@@ -19,7 +20,7 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Task>
  */
-class TaskRepository extends ServiceEntityRepository implements TaskSaveRepositoryInterface, TaskRemoveRepositoryInterface
+class TaskRepository extends ServiceEntityRepository implements TaskSaveRepositoryInterface, TaskRemoveRepositoryInterface, TaskRepositoryInterface
 {
     protected TaskMapperInterface $taskMapper;
 
@@ -107,5 +108,24 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
         $this->getEntityManager()->remove($task);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param string $taskId
+     * @param array<string> $tags
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
+     */
+    public function findById(string $taskId, array $tags = []): ?TaskInterface
+    {
+        $criteria = [
+            'id' => $taskId,
+        ];
+
+        if ($tags) {
+            $criteria['tags'] = $tags;
+        }
+
+        return $this->findOneBy($criteria);
     }
 }
