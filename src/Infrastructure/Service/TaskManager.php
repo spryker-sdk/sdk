@@ -21,15 +21,18 @@ class TaskManager implements TaskManagerInterface
 {
     protected EventDispatcherInterface $eventDispatcher;
 
-    protected TaskRepositoryInterface | TaskRemoveRepositoryInterface | TaskSaveRepositoryInterface $taskRepository;
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface
+     */
+    protected TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository;
 
     /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface $taskRepository
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        TaskRepositoryInterface | TaskRemoveRepositoryInterface | TaskSaveRepositoryInterface $taskRepository,
+        TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;

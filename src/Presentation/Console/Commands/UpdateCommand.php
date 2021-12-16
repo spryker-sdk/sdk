@@ -70,7 +70,7 @@ class UpdateCommand extends Command
             'c',
             InputOption::VALUE_OPTIONAL,
             'Only checks if the current version is up-to-date',
-            false
+            false,
         );
         $this->addOption(
             static::OPTION_NO_CHECK,

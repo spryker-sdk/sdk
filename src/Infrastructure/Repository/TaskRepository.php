@@ -119,7 +119,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     public function findById(string $taskId, array $tags = []): ?TaskInterface
     {
         $criteria = [
-            'id' => $taskId
+            'id' => $taskId,
         ];
 
         if ($tags) {
