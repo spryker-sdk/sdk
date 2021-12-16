@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskMapper implements TaskMapperInterface
@@ -53,6 +54,8 @@ class TaskMapper implements TaskMapperInterface
             $task->isDeprecated(),
         );
 
+        $entity = $this->setStage($entity, $task);
+
         $entity = $this->mapPlaceholders($task->getPlaceholders(), $entity);
         $entity = $this->mapCommands($task->getCommands(), $entity);
 
@@ -76,6 +79,8 @@ class TaskMapper implements TaskMapperInterface
 
         $taskToUpdate->setCommands(new ArrayCollection());
         $taskToUpdate->setPlaceholders(new ArrayCollection());
+
+        $taskToUpdate = $this->setStage($taskToUpdate, $task);
 
         $taskToUpdate = $this->mapPlaceholders($task->getPlaceholders(), $taskToUpdate);
         $taskToUpdate = $this->mapCommands($task->getCommands(), $taskToUpdate);
@@ -119,5 +124,20 @@ class TaskMapper implements TaskMapperInterface
         }
 
         return $task;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $taskToUpdate
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
+     */
+    protected function setStage(Task $taskToUpdate, TaskInterface $task): Task
+    {
+        if (!$task instanceof StagedTaskInterface) {
+            return $taskToUpdate;
+        }
+
+        return $taskToUpdate->setStage($task->getStage());
     }
 }

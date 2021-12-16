@@ -39,8 +39,14 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
      */
     protected ?string $help = null;
 
+    /**
+     * @var string
+     */
     protected string $version;
 
+    /**
+     * @var string|null
+     */
     protected ?string $successor = null;
 
     /**
@@ -83,7 +89,8 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         array $placeholders = [],
         ?string $help = null,
         ?string $successor = null,
-        bool $isDeprecated = false
+        bool $isDeprecated = false,
+        string $stage = ContextInterface::DEFAULT_STAGE
     ) {
         $this->help = $help;
         $this->placeholders = $placeholders;
@@ -94,6 +101,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         $this->successor = $successor;
         $this->isDeprecated = $isDeprecated;
         $this->lifecycle = $lifecycle;
+        $this->stage = $stage;
     }
 
     /**

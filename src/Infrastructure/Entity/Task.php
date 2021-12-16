@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task as CoreTask;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
 

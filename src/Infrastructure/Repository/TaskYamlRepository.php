@@ -19,6 +19,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
@@ -345,6 +346,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['help'] ?? null,
             $taskData['successor'] ?? null,
             $taskData['deprecated'] ?? false,
+            $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE
         );
     }
 }
