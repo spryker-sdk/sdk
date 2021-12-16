@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskMapper implements TaskMapperInterface
@@ -129,7 +130,7 @@ class TaskMapper implements TaskMapperInterface
     {
         $taskLifecycle = $task->getLifecycle();
 
-        return $taskLifecycle instanceof PersistentLifecycleInterface ?
+        return $taskLifecycle instanceof TaskLifecycleInterface ?
             $this->lifecycleMapper->mapLifecycle($taskLifecycle) :
             new Lifecycle(new RemovedEvent());
     }
