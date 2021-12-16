@@ -17,7 +17,7 @@
         "ext-phar": "*",
         "ext-sqlite3": "*",
         "ext-xml": "*",
-        "spryker-sdk/sdk-contracts": "dev-feature/sdk-188-violations",
+        "spryker-sdk/sdk-contracts": "dev-master",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
         "doctrine/doctrine-bundle": "^2.4",
