@@ -80,6 +80,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
      * @param string|null $successor
      * @param bool $isDeprecated
      * @param string $stage
+     * @param array<string> $tags
      */
     public function __construct(
         string $id,
@@ -91,7 +92,8 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         ?string $help = null,
         ?string $successor = null,
         bool $isDeprecated = false,
-        string $stage = ContextInterface::DEFAULT_STAGE
+        string $stage = ContextInterface::DEFAULT_STAGE,
+        array $tags = []
     ) {
         $this->help = $help;
         $this->placeholders = $placeholders;
@@ -103,6 +105,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         $this->isDeprecated = $isDeprecated;
         $this->lifecycle = $lifecycle;
         $this->stage = $stage;
+        $this->tags = $tags;
     }
 
     /**
