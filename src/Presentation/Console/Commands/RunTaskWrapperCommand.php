@@ -204,7 +204,7 @@ class RunTaskWrapperCommand extends Command
         }
 
         if ($input->hasOption(static::OPTION_STAGES)) {
-            $context->setAvailableStages($input->getOption(static::OPTION_STAGES));
+            $context->setInputStages($input->getOption(static::OPTION_STAGES));
         }
 
         if ($input->hasOption(static::OPTION_OVERWRITES) && !empty($input->getOption(static::OPTION_OVERWRITES))) {

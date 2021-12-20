@@ -81,8 +81,9 @@ class TaskExecutor
     public function execute(string $taskId, ContextInterface $context): ContextInterface
     {
         $context = $this->addBaseTask($taskId, $context);
-        $context = $this->collectAvailableStages($context);
         $context = $this->collectTasks($context);
+        $context = $this->collectAvailableStages($context);
+        $context = $this->resolveInputStages($context);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);
 
@@ -147,18 +148,6 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
-     */
-    protected function executeCommand(CommandInterface $command, ContextInterface $context, TaskInterface $task): ContextInterface
-    {
-        return $this->commandExecutor->execute($command, $context, $task);
-    }
-
-    /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param string|null $stage
      *
@@ -182,7 +171,7 @@ class TaskExecutor
             //execute stage as sub process
 
             foreach ($task->getCommands() as $command) {
-                $context = $this->executeCommand($command, $context, $task);
+                $context = $this->commandExecutor->execute($command, $context, $task);
 
                 $this->addViolation($context, $command);
 
@@ -243,7 +232,7 @@ class TaskExecutor
             return count(array_intersect($task->getTags(), $context->getTags())) > 0;
         });
 
-        if (!empty($context->getRequiredStages()) && $context->getRequiredStages() != ContextInterface::DEFAULT_STAGES) {
+        if ($context->getRequiredStages() != ContextInterface::DEFAULT_STAGES) {
             $subTasks = array_filter($subTasks, function (TaskInterface $task) use ($context): bool {
                 if (!$task instanceof StagedTaskInterface) {
                     return false;
@@ -311,6 +300,35 @@ class TaskExecutor
         if ($context->getRequiredStages() === ContextInterface::DEFAULT_STAGES) {
             $context->setRequiredStages($context->getAvailableStages());
         }
+
+        return $context;
+    }
+
+    /**
+     * @param ContextInterface $context
+     *
+     * @return ContextInterface
+     */
+    protected function resolveInputStages(ContextInterface $context): ContextInterface
+    {
+        $task = $context->getTask();
+
+        $requiredStages = array_intersect($context->getInputStages(), $context->getAvailableStages());;
+
+        if ($task instanceof TaskSetInterface &&
+            count($context->getInputStages()) === 0 &&
+            count($task->getStages()) !== 0
+        ) {
+            $requiredStages = $task->getStages();
+        }
+
+        if (empty($requiredStages)) {
+            $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
+
+            return $context;
+        }
+
+        $context->setRequiredStages($requiredStages);
 
         return $context;
     }

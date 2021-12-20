@@ -7,6 +7,7 @@
 
 namespace Hello\Tasks;
 
+use Hello\Tasks\Commands\GreeterCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
@@ -20,6 +21,14 @@ use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
 class HelloStagedTaskSet implements TaskSetInterface
 {
+    /**
+     * @return array<string>
+     */
+    public function getStages(): array
+    {
+        return ['stageA', 'stageB'];
+    }
+
     /**
      * @return string
      */
@@ -133,6 +142,16 @@ class HelloStagedTaskSet implements TaskSetInterface
                             ],
                         ),
                     ];
+                }
+
+                /**
+                 * @param array<string> $tags
+                 *
+                 * @return $this
+                 */
+                public function setTags(array $tags)
+                {
+                    return $this;
                 }
 
                 /**
@@ -288,6 +307,127 @@ class HelloStagedTaskSet implements TaskSetInterface
                         new UpdatedEventData(),
                         new RemovedEventData(),
                     );
+                }
+
+                /**
+                 * @param array<string> $tags
+                 *
+                 * @return $this
+                 */
+                public function setTags(array $tags)
+                {
+                    return $this;
+                }
+            },
+            new class implements TaggedTaskInterface, StagedTaskInterface {
+                /**
+                 * @return string
+                 */
+                public function getStage(): string
+                {
+                    return 'default';
+                }
+
+                /**
+                 * @return array<string>
+                 */
+                public function getTags(): array
+                {
+                    return ['tagDefault'];
+                }
+
+                /**
+                 * @return bool
+                 */
+                public function hasStopOnError(): bool
+                {
+                    return true;
+                }
+
+                /**
+                 * @return string
+                 */
+                public function getId(): string
+                {
+                    return 'hello:php:stage_default';
+                }
+
+                /**
+                 * @return string
+                 */
+                public function getShortDescription(): string
+                {
+                    return '';
+                }
+
+                /**
+                 * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+                 */
+                public function getCommands(): array
+                {
+                    return [new GreeterCommand('Hello Stage Default')];
+                }
+
+                /**
+                 * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+                 */
+                public function getPlaceholders(): array
+                {
+                    return [];
+                }
+
+                /**
+                 * @return string|null
+                 */
+                public function getHelp(): ?string
+                {
+                    return null;
+                }
+
+                /**
+                 * @return string
+                 */
+                public function getVersion(): string
+                {
+                    return '0.1.0';
+                }
+
+                /**
+                 * @return bool
+                 */
+                public function isDeprecated(): bool
+                {
+                    return false;
+                }
+
+                /**
+                 * @return string|null
+                 */
+                public function getSuccessor(): ?string
+                {
+                    return null;
+                }
+
+                /**
+                 * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
+                 */
+                public function getLifecycle(): LifecycleInterface
+                {
+                    return new Lifecycle(
+                        new InitializedEventData(),
+                        new UpdatedEventData(),
+                        new RemovedEventData(),
+                    );
+                }
+
+                /**
+                 * @param array<string> $tags
+                 *
+                 * @return $this
+                 */
+                public function setTags(array $tags)
+                {
+                    return $this;
                 }
             },
         ];

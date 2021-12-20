@@ -186,7 +186,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $stages = [];
 
         if ($task instanceof StagedTaskInterface) {
-            $stages = $task->getStage();
+            $stages[] = $task->getStage();
         }
 
         if ($task instanceof TaskSetInterface) {
@@ -202,7 +202,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             substr(RunTaskWrapperCommand::OPTION_STAGES, 0, 1),
             InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
             'Only execute subtasks that matches at least one of the given stages',
-            !empty($stages) ? array_unique($stages) : ContextInterface::DEFAULT_STAGES,
+            [],
         );
 
         return $options;

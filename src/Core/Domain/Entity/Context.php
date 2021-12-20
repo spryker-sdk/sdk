@@ -71,6 +71,11 @@ class Context implements ContextInterface
     /**
      * @var array<string>
      */
+    protected array $inputStages = [];
+
+    /**
+     * @var array<string>
+     */
     protected array $overwrites = [];
 
     /**
@@ -355,5 +360,23 @@ class Context implements ContextInterface
     public function setOverwrites(array $overwrites): void
     {
         $this->overwrites = $overwrites;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputStages(): array
+    {
+        return $this->inputStages;
+    }
+
+    /**
+     * @param array $inputStages
+     *
+     * @return void
+     */
+    public function setInputStages(array $inputStages): void
+    {
+        $this->inputStages = $inputStages;
     }
 }

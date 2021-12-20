@@ -49,7 +49,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected Yaml $yamlParser;
 
     /**
-     * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     protected iterable $existingTasks = [];
 
