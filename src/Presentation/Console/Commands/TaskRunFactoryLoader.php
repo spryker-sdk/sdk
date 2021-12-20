@@ -114,13 +114,19 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $options = $this->addStageOptions($task, $options);
         $options = $this->addContextOptions($options);
 
-        return new RunTaskWrapperCommand(
+        $command = new RunTaskWrapperCommand(
             $this->taskExecutor,
             $this->contextRepository,
             $options,
             $task->getShortDescription(),
             $task->getId(),
         );
+
+        if (!$command->getHelp()) {
+            $command->setHelp((string)$task->getHelp());
+        }
+
+        return $command;
     }
 
     /**
