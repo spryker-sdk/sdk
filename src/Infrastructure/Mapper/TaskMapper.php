@@ -8,7 +8,11 @@
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
+use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -52,12 +56,10 @@ class TaskMapper implements TaskMapperInterface
      */
     public function mapToInfrastructureEntity(TaskInterface $task): Task
     {
-        $lifecycle = $this->lifecycleMapper->mapLifecycle($task->getLifecycle());
-
         $entity = new Task(
             $task->getId(),
             $task->getShortDescription(),
-            $lifecycle,
+            $this->mapLifecycle($task),
             $task->getVersion(),
             $task->getHelp(),
             $task->getSuccessor(),
@@ -97,9 +99,7 @@ class TaskMapper implements TaskMapperInterface
         $taskToUpdate = $this->mapPlaceholders($task->getPlaceholders(), $taskToUpdate);
         $taskToUpdate = $this->mapCommands($task->getCommands(), $taskToUpdate);
 
-        $taskToUpdate->setLifecycle(
-            $this->lifecycleMapper->mapLifecycle($task->getLifecycle()),
-        );
+        $taskToUpdate->setLifecycle($this->mapLifecycle($task));
 
         return $taskToUpdate;
     }
@@ -136,6 +136,20 @@ class TaskMapper implements TaskMapperInterface
         }
 
         return $task;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface
+     */
+    protected function mapLifecycle(TaskInterface $task): PersistentLifecycleInterface
+    {
+        $taskLifecycle = $task->getLifecycle();
+
+        return $taskLifecycle instanceof TaskLifecycleInterface ?
+            $this->lifecycleMapper->mapLifecycle($taskLifecycle) :
+            new Lifecycle(new RemovedEvent());
     }
 
     /**
