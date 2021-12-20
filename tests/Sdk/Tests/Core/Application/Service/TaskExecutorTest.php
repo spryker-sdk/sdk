@@ -9,13 +9,13 @@ namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProgressBarInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
+use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
@@ -27,17 +27,17 @@ class TaskExecutorTest extends Unit
      */
     public function testExecute(): void
     {
-        $code = 0;
+        $context = new Context();
+        $context->setExitCode(ContextInterface::SUCCESS_EXIT_CODE);
 
         $taskExecutor = new TaskExecutor(
+            $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
-            $this->createCommandExecutorMock(true, $code),
-            $this->createEventLoggerMock(),
-            $this->createMock(ProgressBarInterface::class),
-            $this->createMock(ViolationReportGenerator::class),
+            $this->createCommandExecutorMock($context),
+            $this->createViolationConverterResolverMock(),
         );
-        $result = $taskExecutor->execute('test');
-        $this->assertSame($code, $result);
+        $result = $taskExecutor->execute('test', $context);
+        $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
     /**
@@ -45,19 +45,29 @@ class TaskExecutorTest extends Unit
      */
     public function testExecuteFailed(): void
     {
-        $code = 255;
+        $context = new Context();
+        $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
 
         $taskExecutor = new TaskExecutor(
-            $this->createTaskRepositoryMock(true),
-            $this->createCommandExecutorMock(false, $code),
-            $this->createEventLoggerMock(),
-            $this->createMock(ProgressBarInterface::class),
-            $this->createMock(ViolationReportGenerator::class),
+            $this->createPlaceholderResolverMock(),
+            $this->createTaskRepositoryMock(),
+            $this->createCommandExecutorMock($context),
+            $this->createViolationConverterResolverMock(),
         );
 
-        $result = $taskExecutor->execute('test');
+        $result = $taskExecutor->execute('test', $context);
 
-        $this->assertSame($code, $result);
+        $this->assertSame($context->getExitCode(), $result->getExitCode());
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
+     */
+    protected function createViolationConverterResolverMock(): ViolationConverterResolver
+    {
+        $violationConverterResolver = $this->createMock(ViolationConverterResolver::class);
+
+        return $violationConverterResolver;
     }
 
     /**
@@ -110,12 +120,6 @@ class TaskExecutorTest extends Unit
             ->method('getPlaceholders')
             ->willReturn([$this->createPlaceholderMock()]);
 
-        $taskMock->expects($this->exactly(2))
-            ->method('getCommands')
-            ->willReturnCallback(function () use ($hasStopOnError): array {
-                return [$this->createCommandMock(), $this->createCommandMock($hasStopOnError)];
-            });
-
         return $taskMock;
     }
 
@@ -145,18 +149,13 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @param bool $isSuccessful
-     * @param int $code
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
      */
-    protected function createCommandExecutorMock(bool $isSuccessful, int $code): CommandExecutorInterface
+    protected function createCommandExecutorMock(ContextInterface $context): CommandExecutorInterface
     {
         $commandExecutor = $this->createMock(CommandExecutorInterface::class);
-        $commandExecutor
-            ->expects($this->once())
-            ->method('execute')
-            ->willReturn(new CommandResponse($isSuccessful, $code));
 
         return $commandExecutor;
     }

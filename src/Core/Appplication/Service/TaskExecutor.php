@@ -305,17 +305,18 @@ class TaskExecutor
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return ContextInterface
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
     protected function resolveInputStages(ContextInterface $context): ContextInterface
     {
         $task = $context->getTask();
 
-        $requiredStages = array_intersect($context->getInputStages(), $context->getAvailableStages());;
+        $requiredStages = array_intersect($context->getInputStages(), $context->getAvailableStages());
 
-        if ($task instanceof TaskSetInterface &&
+        if (
+            $task instanceof TaskSetInterface &&
             count($context->getInputStages()) === 0 &&
             count($task->getStages()) !== 0
         ) {
