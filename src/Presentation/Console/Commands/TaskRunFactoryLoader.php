@@ -51,26 +51,42 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ContextRepositoryInterface $contextRepository;
 
     /**
+     * @var string
+     */
+    protected string $environment;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     */
+    protected TaskRepositoryInterface $taskFileRepository;
+
+    /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskFileRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @param string $environment
      */
     public function __construct(
         ContainerInterface $container,
         array $commandMap,
         TaskRepositoryInterface $taskRepository,
+        TaskRepositoryInterface $taskFileRepository,
         ContextRepositoryInterface $contextRepository,
         TaskExecutor $taskExecutor,
-        PlaceholderResolver $placeholderResolver
+        PlaceholderResolver $placeholderResolver,
+        string $environment
     ) {
         parent::__construct($container, $commandMap);
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
         $this->placeholderResolver = $placeholderResolver;
         $this->contextRepository = $contextRepository;
+        $this->environment = $environment;
+        $this->taskFileRepository = $taskFileRepository;
     }
 
     /**
@@ -102,7 +118,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             return parent::get($name);
         }
 
-        $task = $this->taskRepository->findById($name);
+        $task = $this->taskFileRepository->findById($name);
 
         if (!$task) {
             throw new TaskMissingException('Could not find task ' . $name);
@@ -135,7 +151,20 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     public function getNames(): array
     {
         try {
-            return array_merge(parent::getNames(), array_map(function (TaskInterface $task) {
+            $symfonyCommands = parent::getNames();
+
+            if ($this->environment === 'prod') {
+                $allowedCommands = ['list', 'help'];
+                $symfonyCommands = array_filter($symfonyCommands, function (string $commandName) use ($allowedCommands): bool {
+                    if (in_array($commandName, $allowedCommands)) {
+                        return true;
+                    }
+
+                    return preg_match('/^sdk:/', $commandName) >= 1;
+                });
+            }
+
+            return array_merge($symfonyCommands, array_map(function (TaskInterface $task) {
                 return $task->getId();
             }, $this->taskRepository->findAll()));
         } catch (Throwable) {
