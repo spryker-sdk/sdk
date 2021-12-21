@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation;
 
 use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
@@ -12,7 +17,7 @@ class ReportFormatterFactory
     protected ?string $format = null;
 
     /**
-     * @var iterable|\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface[]
+     * @var iterable<\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface>
      */
     protected iterable $violationReportFormatters;
 
@@ -26,6 +31,8 @@ class ReportFormatterFactory
 
     /**
      * @param string $format
+     *
+     * @return void
      */
     public function setFormat(string $format): void
     {

@@ -60,6 +60,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      * @param string $environment
      */
     public function __construct(
@@ -140,7 +141,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
                 'format',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_REQUIRED,
-                'Format for violation report'
+                'Format for violation report',
             );
         }
 

@@ -9,15 +9,11 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Exception;
 use RecursiveIteratorIterator;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
-use Symfony\Component\Yaml\Yaml;
 
 class ViolationReportFileRepository implements ViolationReportRepositoryInterface
 {
@@ -48,7 +44,9 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      */
     public function save(string $taskId, ViolationReportInterface $violationReport): void
     {
-        $this->reportFormatterFactory->getViolationReportFormatter()?->format($taskId, $violationReport);
+        if ($this->reportFormatterFactory->getViolationReportFormatter()) {
+            $this->reportFormatterFactory->getViolationReportFormatter()->format($taskId, $violationReport);
+        }
     }
 
     /**
@@ -58,7 +56,11 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      */
     public function findByTask(string $taskId): ?ViolationReportInterface
     {
-        return $this->reportFormatterFactory->getViolationReportFormatter()?->read($taskId);
+        if (!$this->reportFormatterFactory->getViolationReportFormatter()) {
+            return null;
+        }
+
+        return $this->reportFormatterFactory->getViolationReportFormatter()->read($taskId);
     }
 
     /**

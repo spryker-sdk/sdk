@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters;
 
 use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
@@ -39,7 +44,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
      * @param string $name
      * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
      *
-     * @return mixed
+     * @return void
      */
     public function format(string $name, ViolationReportInterface $violationReport): void
     {
@@ -51,6 +56,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
             foreach ($violationReport->getViolations() as $violation) {
                 $table->addRow([$violation->getId(), $violation->priority(), $violation->isFixable() ? 'true' : 'false']);
             }
+            $table->render();
         }
 
         if ($violationReport->getPackages()) {
@@ -68,7 +74,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                             $fileViolation->isFixable() ? 'true' : 'false',
                             $fileViolation->getStartLine(),
                             $fileViolation->getClass(),
-                            $fileViolation->getMethod()
+                            $fileViolation->getMethod(),
                         ];
                     }
                 }
@@ -80,6 +86,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                     ->setHeaderTitle('Violations found on package level')
                     ->setHeaders(['Violation', 'Priority', 'Fixable', 'Package'])
                     ->setRows($packages);
+                $table->render();
             }
 
             if ($violations) {
@@ -88,14 +95,9 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                     ->setHeaderTitle('Violations found in files')
                     ->setHeaders(['Violation', 'Priority', 'Fixable', 'File', 'Line', 'Class', 'Method'])
                     ->setRows($violations);
+                $table->render();
             }
-
         }
-
-
-
-
-        $table->render();
     }
 
     /**

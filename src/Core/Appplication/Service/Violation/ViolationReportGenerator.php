@@ -64,10 +64,11 @@ class ViolationReportGenerator
             }
 
             $violationConverter = $this->violationConverterResolver->resolve($command);
-            if ($violationConverter && $violationReport = $violationConverter->convert()) {
-                $violationReports[] = $violationReport;
+            if ($violationConverter) {
+                $violationReports[] = $violationConverter->convert();
             }
         }
+        $violationReports = array_filter($violationReports);
 
         if (!$violationReports) {
             return null;

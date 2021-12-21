@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Core\Appplication\Violation;
 
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
@@ -15,7 +20,7 @@ interface ViolationReportFormatterInterface
      * @param string $name
      * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
      *
-     * @return mixed
+     * @return void
      */
     public function format(string $name, ViolationReportInterface $violationReport): void;
 

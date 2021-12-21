@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
@@ -21,15 +26,13 @@ class ViolationPathReader
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      */
     public function __construct(
-        ProjectSettingRepositoryInterface $projectSettingRepository,
+        ProjectSettingRepositoryInterface $projectSettingRepository
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
     }
 
     /**
      * @param string|null $taskId
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
      * @return string
      */
