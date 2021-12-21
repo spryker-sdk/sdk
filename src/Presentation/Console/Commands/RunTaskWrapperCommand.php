@@ -249,12 +249,7 @@ class RunTaskWrapperCommand extends Command
         }
 
         $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
-        $context = $this->contextRepository->findByName($contextFilePath);
 
-        if (!$context) {
-            $context = new Context();
-        }
-
-        return $context;
+        return $this->contextRepository->findByName($contextFilePath) ?: new Context();
     }
 }
