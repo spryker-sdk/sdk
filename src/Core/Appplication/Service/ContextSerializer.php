@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ContextSerializer
 {
@@ -30,7 +31,9 @@ class ContextSerializer
                     'verbosity' => $message->getVerbosity(),
                 ];
             }, $context->getMessages()),
-            'violation_reports' => ['list of violation report files'],
+            'violation_reports' => array_map(function (ViolationReportInterface $report): string {
+                return $report->getPath();
+            }, $context->getViolationReports()),
         ];
 
         return json_encode($data, JSON_THROW_ON_ERROR);
