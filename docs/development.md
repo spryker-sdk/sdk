@@ -2,6 +2,12 @@
 
 The SDK offers different extension points to enable 3rd parties to contribute to the SDK without needing to modify it.
 
+From simple to complex the SDK can be extended by:
+
+1. providing additional tasks or settings via YAML definition placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Tasks/<taskname>.yaml`. Those tasks can't introduce additional dependencies and therefore are best suited to integrate existing tools that come with a standalone executable.
+2. providing additional tasks, value resolvers or settings via PHP implementation, placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Tasks/<taskname>.php`. Those tasks need to implement the [TaskInterface](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/Entity/TaskInterface.php) and need to be exposed by providing a Symfony bundle to the Spryker SDK (e.g.: `<path/to/spryker/sdk>/extension/<YourBundleName>/<YourBundleName>Bundle.php`), following the conventions of a [Symphony bundle](https://symfony.com/doc/current/bundles.html#creating-a-bundle). This possibility is best suited for more complex tasks that do not require additional dependencies (e.g.: validating the content of a yaml file by using Symphony validators)
+3. Providing additional tasks, value resolver or settings that come with additional dependencies follows the same guideline as 2. but requires to build your own [SDK docker image](./build.md) that includes those dependencies.
+
 ## Implementing a new task
 
 A task is essentially the execution of a very specific function.
@@ -151,7 +157,8 @@ The used __ValueResolver__ can be referenced by his id or by his full qualified 
 ```php
 namespace <YourNamespace>\Tasks;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\__Placeholder__;use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
 use <YourNamespace>\ValueResolvers\YourValueResolver;
 
 class YourTask implements TaskInterface
@@ -162,7 +169,7 @@ class YourTask implements TaskInterface
     public function getPlaceholders(): array
     {
         return [
-            new __Placeholder__('%some_placeholder%', YourValueResolver::class, [], false),
+            new Placeholder('%some_placeholder%', YourValueResolver::class, [], false),
         ];
     }
 }
@@ -355,4 +362,4 @@ Requires (mutagen)[https://mutagen.io/documentation/introduction/installation] t
 `rm db/data.db && bin/spryker-sdk.sh sdk:init:sdk`
 
 #### Reset project
-`cd <project> && rm .ssdk && rm .ssdk.log && spry sdk:init:project`
+`cd <project> && rm .ssdk && rm .ssdk.log && bin/spryker-sdk.sh sdk:init:project`
