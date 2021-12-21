@@ -14,7 +14,6 @@ use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
-//@todo perfect use case for marks DTO library
 class Context implements ContextInterface
 {
     /**
@@ -52,6 +51,9 @@ class Context implements ContextInterface
      */
     protected array $violationReports = [];
 
+    /**
+     * @var int
+     */
     protected int $exitCode = self::SUCCESS_EXIT_CODE;
 
     /**
@@ -64,8 +66,14 @@ class Context implements ContextInterface
      */
     protected bool $isDryRun = false;
 
+    /**
+     * @var \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
     protected TaskInterface $task;
 
+    /**
+     * @var string
+     */
     protected string $name = 'sdk';
 
     /**

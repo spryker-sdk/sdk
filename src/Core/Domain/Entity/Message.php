@@ -11,8 +11,14 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 class Message implements MessageInterface
 {
+    /**
+     * @var string
+     */
     protected string $message;
 
+    /**
+     * @var int
+     */
     protected int $verbosity;
 
     /**
