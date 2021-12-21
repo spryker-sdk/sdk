@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
@@ -55,6 +56,24 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         }
 
         return $this->resolvePathSetting($setting);
+    }
+
+    /**
+     * @param string $settingPath
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
+     */
+    public function getOneByPath(string $settingPath): SettingInterface
+    {
+        $setting = $this->findOneByPath($settingPath);
+
+        if (!$setting) {
+            throw new MissingSettingException(sprintf('Setting by path "%s" not found', $settingPath));
+        }
+
+        return $setting;
     }
 
     /**

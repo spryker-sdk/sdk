@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -15,16 +16,28 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class ContextFileRepository implements ContextRepositoryInterface
 {
     /**
+     * @var string
+     */
+    protected const CONTEXT_DIR_PATH = 'context_dir';
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
      */
     protected ContextSerializer $contextSerializer;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer $contextSerializer
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
      */
-    public function __construct(ContextSerializer $contextSerializer)
+    protected SettingRepositoryInterface $settingRepository;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer $contextSerializer
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     */
+    public function __construct(ContextSerializer $contextSerializer, SettingRepositoryInterface $settingRepository)
     {
         $this->contextSerializer = $contextSerializer;
+        $this->settingRepository = $settingRepository;
     }
 
     /**
@@ -80,20 +93,20 @@ class ContextFileRepository implements ContextRepositoryInterface
     }
 
     /**
-     * @param string $name
+     * @param string $filePath
      *
      * @return string
      */
-    protected function getContextFilePath(string $name): string
+    protected function getContextFilePath(string $filePath): string
     {
-        $filePath = $name;
-
         if (preg_match('/\.context\.json$/', $filePath) != 1) {
             $filePath .= '.context.json';
         }
 
         if (preg_match('/^\//', $filePath) != 1) {
-            $filePath = getcwd() . DIRECTORY_SEPARATOR . $filePath;
+            $contextDir = (string)$this->settingRepository->getOneByPath(static::CONTEXT_DIR_PATH)->getValues();
+
+            $filePath = $contextDir . DIRECTORY_SEPARATOR . $filePath;
         }
 
         return $filePath;
