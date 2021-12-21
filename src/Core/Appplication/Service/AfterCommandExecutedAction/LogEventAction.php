@@ -11,7 +11,6 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction\After
 use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 class LogEventAction implements AfterCommandExecutedActionInterface
@@ -32,12 +31,17 @@ class LogEventAction implements AfterCommandExecutedActionInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     * @param string $subTaskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(CommandInterface $command, ContextInterface $context, TaskInterface $task): ContextInterface
+    public function execute(CommandInterface $command, ContextInterface $context, string $subTaskId): ContextInterface
     {
+        if (!isset($context->getSubTasks()[$subTaskId])) {
+            return $context;
+        }
+
+        $task = $context->getSubTasks()[$subTaskId];
         $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$context->getExitCode()));
 
         return $context;

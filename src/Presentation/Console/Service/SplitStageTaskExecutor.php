@@ -66,6 +66,7 @@ class SplitStageTaskExecutor extends TaskExecutor
         $stagesCount = count($stages);
         $nextContext = $context;
 
+        // todo: refactor it
         for ($i = 0; $i < $stagesCount; $i++) {
             $currentStage = $stages[$i];
             $stageContext = $this->buildStageContext($nextContext, $currentStage, $tasks);
@@ -152,7 +153,7 @@ class SplitStageTaskExecutor extends TaskExecutor
             return $nextContext;
         }
 
-        $currentContext->addMessage(new Message('Could not read context for next stage', MessageInterface::ERROR));
+        $currentContext->addMessage($nextContextName, new Message('Could not read context for next stage', MessageInterface::ERROR));
         $currentContext->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
 
         return $currentContext;

@@ -9,16 +9,15 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface CommandExecutorInterface
 {
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     * @param string $subTaskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(CommandInterface $command, ContextInterface $context, TaskInterface $task): ContextInterface;
+    public function execute(CommandInterface $command, ContextInterface $context, string $subTaskId): ContextInterface;
 }

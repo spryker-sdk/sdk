@@ -33,11 +33,11 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
         /** @var \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle */
         $lifecycle = $event->getTask()->getLifecycle();
         $removedEventData = $lifecycle->getRemovedEventData();
-        $context = $this->createContext($removedEventData);
+        $context = $this->createContext($removedEventData, $event->getTask());
 
         $this->manageFiles($removedEventData->getFiles(), $context);
 
-        $this->executeCommands($removedEventData->getCommands(), $context, $event->getTask());
+        $this->executeCommands($removedEventData->getCommands(), $context);
     }
 
     /**

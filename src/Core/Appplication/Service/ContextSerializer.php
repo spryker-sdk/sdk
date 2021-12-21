@@ -29,12 +29,7 @@ class ContextSerializer
         $data = [
             'tags' => $context->getTags(),
             'resolved_values' => $context->getResolvedValues(),
-            'messages' => array_map(function (MessageInterface $message): array {
-                return [
-                    'message' => $message->getMessage(),
-                    'verbosity' => $message->getVerbosity(),
-                ];
-            }, $context->getMessages()),
+            'messages' => $this->convertMessagesToArray($context->getMessages()),
             'violation_reports' => array_map(function (ViolationReportInterface $report): array {
                 return [
                     'path' => $report->getPath(),
@@ -67,9 +62,12 @@ class ContextSerializer
         }
 
         if (array_key_exists('messages', $data) && is_array($data['messages'])) {
-            $context->setMessages(array_map(function (array $messageData): Message {
-                return new Message($messageData['message'], $messageData['verbosity'] ?? MessageInterface::INFO);
-            }, $data['messages']));
+            foreach ($data['messages'] as $id => $messageData) {
+                $context->addMessage(
+                    $id,
+                    new Message($messageData['message'], $messageData['verbosity'] ?? MessageInterface::INFO),
+                );
+            }
         }
 
         if (array_key_exists('violation_reports', $data) && is_array($data['violation_reports'])) {
@@ -81,6 +79,24 @@ class ContextSerializer
         }
 
         return $context;
+    }
+
+    /**
+     * @param array<string, \SprykerSdk\SdkContracts\Entity\MessageInterface> $messages
+     *
+     * @return array<string, array>
+     */
+    protected function convertMessagesToArray(array $messages): array
+    {
+        $messagesData = [];
+        foreach ($messages as $id => $message) {
+            $messagesData[$id] = [
+                'message' => $message->getMessage(),
+                'verbosity' => $message->getVerbosity(),
+            ];
+        }
+
+        return $messagesData;
     }
 
     /**

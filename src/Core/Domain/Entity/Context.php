@@ -87,6 +87,11 @@ class Context implements ContextInterface
     protected array $overwrites = [];
 
     /**
+     * @var array<string, int>
+     */
+    protected array $exitCodeMap = [];
+
+    /**
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getRequiredPlaceholders(): array
@@ -148,7 +153,7 @@ class Context implements ContextInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
+     * @return array<string, \SprykerSdk\SdkContracts\Entity\MessageInterface>
      */
     public function getMessages(): array
     {
@@ -156,17 +161,18 @@ class Context implements ContextInterface
     }
 
     /**
+     * @param string $id
      * @param \SprykerSdk\SdkContracts\Entity\MessageInterface $message
      *
      * @return void
      */
-    public function addMessage(MessageInterface $message): void
+    public function addMessage(string $id, MessageInterface $message): void
     {
-        $this->messages[] = $message;
+        $this->messages[$id] = $message;
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\MessageInterface> $messages
+     * @param array<string, \SprykerSdk\SdkContracts\Entity\MessageInterface> $messages
      *
      * @return void
      */
@@ -386,5 +392,34 @@ class Context implements ContextInterface
     public function setInputStages(array $inputStages): void
     {
         $this->inputStages = $inputStages;
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    public function getExitCodeMap(): array
+    {
+        return $this->exitCodeMap;
+    }
+
+    /**
+     * @param array<string, int> $exitCodeMap
+     *
+     * @return void
+     */
+    public function setExitCodeMap(array $exitCodeMap): void
+    {
+        $this->exitCodeMap = $exitCodeMap;
+    }
+
+    /**
+     * @param string $id
+     * @param int $code
+     *
+     * @return void
+     */
+    public function addExitCode(string $id, int $code): void
+    {
+        $this->exitCodeMap[$id] = $code;
     }
 }

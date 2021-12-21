@@ -80,25 +80,27 @@ abstract class LifecycleEventSubscriber
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */
-    protected function executeCommands(array $commands, ContextInterface $context, TaskInterface $task): void
+    protected function executeCommands(array $commands, ContextInterface $context): void
     {
         foreach ($commands as $command) {
-            $this->commandExecutor->execute($command, $context, $task);
+            $this->commandExecutor->execute($command, $context, $context->getTask()->getId());
         }
     }
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $eventData
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    protected function createContext(LifecycleEventDataInterface $eventData): ContextInterface
+    protected function createContext(LifecycleEventDataInterface $eventData, TaskInterface $task): ContextInterface
     {
         $context = new Context();
+        $context->setSubTasks([$task]);
+        $context->setTask($task);
         $resolvedValues = $this->placeholderResolver->resolvePlaceholders($eventData->getPlaceholders(), $context);
 
         $context->setResolvedValues($resolvedValues);

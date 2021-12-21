@@ -33,11 +33,11 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
         /** @var \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface $lifecycle */
         $lifecycle = $event->getTask()->getLifecycle();
         $initializedEvent = $lifecycle->getInitializedEventData();
-        $context = $this->createContext($initializedEvent);
+        $context = $this->createContext($initializedEvent, $event->getTask());
 
         $this->manageFiles($initializedEvent->getFiles(), $context);
 
-        $this->executeCommands($initializedEvent->getCommands(), $context, $event->getTask());
+        $this->executeCommands($initializedEvent->getCommands(), $context);
     }
 
     /**

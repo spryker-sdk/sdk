@@ -34,7 +34,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
         $composerFilePath = $resolvedValues['%pbc_name%'] . DIRECTORY_SEPARATOR . 'composer.json';
 
         if (!file_exists($composerFilePath)) {
-            $context->addMessage(new Message(static::COMPOSER_INITIALIZATION_ERROR, MessageInterface::ERROR));
+            $context->addMessage(static::class, new Message(static::COMPOSER_INITIALIZATION_ERROR, MessageInterface::ERROR));
 
             return $context;
         }

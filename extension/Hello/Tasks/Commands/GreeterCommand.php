@@ -88,7 +88,7 @@ class GreeterCommand implements ExecutableCommandInterface
         }
 
         $context->setExitCode(0);
-        $context->addMessage(new Message($message, MessageInterface::SUCCESS));
+        $context->addMessage($this->getCommand(), new Message($message, MessageInterface::SUCCESS));
 
         return $context;
     }

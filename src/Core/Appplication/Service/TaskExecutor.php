@@ -163,15 +163,20 @@ class TaskExecutor
             });
 
             if (count($stageTasks) > 0) {
-                $context->addMessage(new Message('Executing stage ' . $stage, MessageInterface::DEBUG));
+                $context->addMessage(
+                    $context->getTask()->getId(),
+                    new Message('Executing stage ' . $stage, MessageInterface::DEBUG),
+                );
             }
+
+            $context->setSubTasks($stageTasks);
         }
 
         foreach ($stageTasks as $task) {
             //execute stage as sub process
 
             foreach ($task->getCommands() as $command) {
-                $context = $this->commandExecutor->execute($command, $context, $task);
+                $context = $this->commandExecutor->execute($command, $context, $task->getId());
 
                 $this->addViolation($context, $command);
 

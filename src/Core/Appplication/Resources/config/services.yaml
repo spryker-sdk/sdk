@@ -80,7 +80,7 @@ services:
     arguments:
       - '@service.file_manager'
       - '@placeholder_resolver'
-      - '@service.command_executor'
+      - '@service.lifecycle_command_executor'
 
   lifecycle.removed_subscriber:
     class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\UpdatedEventSubscriber
@@ -88,7 +88,7 @@ services:
     arguments:
       - '@service.file_manager'
       - '@placeholder_resolver'
-      - '@service.command_executor'
+      - '@service.lifecycle_command_executor'
 
   lifecycle.updated_subscriber:
     class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\RemovedEventSubscriber
@@ -96,7 +96,7 @@ services:
     arguments:
       - '@service.file_manager'
       - '@placeholder_resolver'
-      - '@service.command_executor'
+      - '@service.lifecycle_command_executor'
 
   service.command_executor:
       class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
@@ -104,6 +104,12 @@ services:
           - '@placeholder_resolver'
           - !tagged_iterator command.runner
           - !tagged_iterator action.after_command_executed
+
+  service.lifecycle_command_executor:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
+    arguments:
+      - '@placeholder_resolver'
+      - !tagged_iterator command.runner
 
   log_event_action_after_command_executed:
     class: SprykerSdk\Sdk\Core\Appplication\Service\AfterCommandExecutedAction\LogEventAction
