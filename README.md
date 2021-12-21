@@ -29,7 +29,7 @@ Using `bin/consolespryker-sdk <task-id> -h` will give a description on what opti
 
 ## Extending the SDK capabilities
 
-Pleaser refer to the [development documentation](./docs/development.md) for further information on how
+Pleaser refer to the [extension documentation](./docs/extending_the_sdk.md) for further information on how
 to extend the SDK.
 Extensions to the SDK should follow the [SDK conventions](./docs/conventions.md).
 For maintaining an extension of the SDK please refer to the [lifecycle management](./docs/lifecycle_management.md).
@@ -37,3 +37,7 @@ For maintaining an extension of the SDK please refer to the [lifecycle managemen
 ## PhpStorm Command Line Tools
 
 Please refer to the [phpstorm integration documentation](./docs/phpstorm_cli_integration.md) for further information on how to integrate the SDK to PhpStorm.
+
+## Running the SDK as a developer
+
+Running the SDK in a development or debug mode is documented at [development documentation](./docs/development.md)

@@ -7,12 +7,10 @@ USER spryker
 COPY --chown=spryker:spryker composer.json composer.lock ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
-COPY --chown=spryker:spryker auth.jso[n] ${srcRoot}/auth.json
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
     composer install --no-scripts --no-interaction ${SPRYKER_COMPOSER_MODE} -vvv
 # ensure composer credentials are not leaked
-RUN rm -f auth.json
 
 FROM application-production-dependencies AS application-production-codebase
 
@@ -27,6 +25,8 @@ COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
+RUN mkdir -p ${srcRoot}/db && touch ${srcRoot}/db/data.db
 RUN bin/console cache:warmup
+RUN rm ${srcRoot}/db/data.db
 
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]
