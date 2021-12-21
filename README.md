@@ -12,8 +12,9 @@ so you can focus developing exciting features for your business case.
 ## Installation
 
 - ensure docker & docker-compose is installed
-- @todo download release from github to /<any path>
-- echo "add alias spryker-sdk='php /<any path>/bin/spryker-sdk.sh'" >> ~/.bashrc
+- Download the `install.sh` from the latest release at https://github.com/spryker-sdk/sdk/releases
+- run `install.sh </path/to/install/sdk/in>`
+- echo "add alias spryker-sdk='php </path/to/install/sdk/in>/bin/spryker-sdk.sh'" >> ~/.bashrc
 
 ## Update
 - @todo auto update for sdk in spryker-sdk.sh
@@ -30,6 +31,8 @@ Using `bin/consolespryker-sdk <task-id> -h` will give a description on what opti
 
 Pleaser refer to the [development documentation](./docs/development.md) for further information on how
 to extend the SDK.
+Extensions to the SDK should follow the [SDK conventions](./docs/conventions.md).
+For maintaining an extension of the SDK please refer to the [lifecycle management](./docs/lifecycle_management.md).
 
 ## PhpStorm Command Line Tools
 
