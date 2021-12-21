@@ -134,7 +134,7 @@ class Context implements ContextInterface
      *
      * @return void
      */
-    public function addResolvedValues(string $key, mixed $value)
+    public function addResolvedValues(string $key, mixed $value): void
     {
         $this->resolvedValues[$key] = $value;
     }
@@ -152,7 +152,7 @@ class Context implements ContextInterface
      *
      * @return void
      */
-    public function addMessage(MessageInterface $message)
+    public function addMessage(MessageInterface $message): void
     {
         $this->messages[] = $message;
     }
@@ -180,7 +180,7 @@ class Context implements ContextInterface
      *
      * @return void
      */
-    public function addSubTask(TaskInterface $task)
+    public function addSubTask(TaskInterface $task): void
     {
         $this->tasks[$task->getId()] = $task;
         $stage = $task instanceof StagedTaskInterface ? $task->getStage() : static::DEFAULT_STAGE;
@@ -208,7 +208,7 @@ class Context implements ContextInterface
      *
      * @return void
      */
-    public function addViolationReport(ViolationReportInterface $violationReport)
+    public function addViolationReport(ViolationReportInterface $violationReport): void
     {
         $this->violationReports[] = $violationReport;
     }
