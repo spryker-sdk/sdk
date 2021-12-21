@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber;
 
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\SdkContracts\Entity\FileInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
@@ -30,8 +31,11 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
      */
     public function onRemovedEvent(RemovedEvent $event): void
     {
-        /** @var \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle */
         $lifecycle = $event->getTask()->getLifecycle();
+        if (!$lifecycle instanceof PersistentLifecycleInterface) {
+            return;
+        }
+
         $removedEventData = $lifecycle->getRemovedEventData();
 
         $this->manageFiles($removedEventData->getFiles(), $removedEventData->getPlaceholders());
