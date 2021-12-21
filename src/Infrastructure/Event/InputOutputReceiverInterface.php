@@ -17,12 +17,12 @@ interface InputOutputReceiverInterface
      *
      * @return void
      */
-    public function setInput(InputInterface $input);
+    public function setInput(InputInterface $input): void;
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return void
      */
-    public function setOutput(OutputInterface $output);
+    public function setOutput(OutputInterface $output): void;
 }

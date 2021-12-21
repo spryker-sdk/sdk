@@ -48,7 +48,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      *
      * @return void
      */
-    public function setInput(InputInterface $input)
+    public function setInput(InputInterface $input): void
     {
         $this->input = $input;
     }
@@ -58,7 +58,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      *
      * @return void
      */
-    public function setOutput(OutputInterface $output)
+    public function setOutput(OutputInterface $output): void
     {
         $this->output = $output;
     }
