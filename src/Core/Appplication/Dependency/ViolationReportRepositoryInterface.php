@@ -27,17 +27,9 @@ interface ViolationReportRepositoryInterface
     public function findByTask(string $taskId): ?ViolationReportInterface;
 
     /**
-     * @param string $taskId
-     * @param array<string> $packageIds
-     *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
-     */
-    public function findByPackage(string $taskId, array $packageIds): ?ViolationReportInterface;
-
-    /**
-     * @param string|null $taskId
+     * @throws \Exception
      *
      * @return void
      */
-    public function cleanupViolationReport(?string $taskId = null): void;
+    public function cleanupViolationReport(): void;
 }

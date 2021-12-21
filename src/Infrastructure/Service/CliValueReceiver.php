@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
+use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
@@ -17,12 +18,21 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class CliValueReceiver implements ValueReceiverInterface
+class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInterface
 {
+    /**
+     * @var \Symfony\Component\Console\Input\InputInterface
+     */
     protected InputInterface $input;
 
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
     protected OutputInterface $output;
 
+    /**
+     * @var \Symfony\Component\Console\Helper\SymfonyQuestionHelper
+     */
     protected SymfonyQuestionHelper $questionHelper;
 
     /**

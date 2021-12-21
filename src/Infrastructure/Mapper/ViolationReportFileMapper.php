@@ -68,7 +68,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
      *
      * @return array
      */
-    public function mapViolationReportToFileStructure(ViolationReportInterface $violationReport): array
+    public function mapViolationReportToYamlStructure(ViolationReportInterface $violationReport): array
     {
         $violationReportStructure = [];
         $violationReportStructure['project'] = $violationReport->getProject();
