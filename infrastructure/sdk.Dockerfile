@@ -31,13 +31,13 @@ RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer
 ENV APP_ENV=prod
 
 ARG ACCESS_TOKEN
-ENV ACCESS_TOKEN=${ACCESS_TOKEN}
+ENV ACCESS_TOKEN=${ACCESS_TOKEN:-'default'}
 
 ARG ORGANIZATION_NAME
-ENV ORGANIZATION_NAME=${ORGANIZATION_NAME}
+ENV ORGANIZATION_NAME=${ORGANIZATION_NAME:-'default'}
 
 ARG REPOSITORY_NAME
-ENV REPOSITORY_NAME=${REPOSITORY_NAME}
+ENV REPOSITORY_NAME=${REPOSITORY_NAME:-'default'}
 
 RUN bin/console sdk:init:sdk && \
     bin/console cache:warmup && \
