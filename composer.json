@@ -10,14 +10,13 @@
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
-        "ext-simplexml": "*",
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-pdo": "*",
         "ext-phar": "*",
+        "ext-simplexml": "*",
         "ext-sqlite3": "*",
         "ext-xml": "*",
-        "spryker-sdk/sdk-contracts": "dev-master",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
         "doctrine/doctrine-bundle": "^2.4",
@@ -27,7 +26,8 @@
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpstan/phpstan": "^1.2",
-        "spryker-sdk/evaluator": "dev-poc",
+        "spryker-sdk/evaluator": "dev-pplus-417/single-require-to-the-file-system-merge",
+        "spryker-sdk/sdk-contracts": "dev-master",
         "spryker-sdk/spryk": "dev-feature/sdk-135-spryk-task as 0.3.2",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.1",
@@ -68,12 +68,6 @@
             "SprykerSdk\\Sdk\\Tests\\": "tests/Sdk/Tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "git@github.com:spryker-sdk/evaluator.git"
-        }
-    ],
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
@@ -106,6 +100,10 @@
         }
     },
     "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/spryker-sdk/evaluator"
+        },
         {
             "type": "git",
             "url": "https://github.com/spryker-sdk/sdk-contracts"
