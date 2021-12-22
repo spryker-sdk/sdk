@@ -37,7 +37,7 @@ class ViolationReport implements ViolationReportInterface
      * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface> $violations
      * @param array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface> $packages
      */
-    public function __construct(string $project, string $path, array $violations, array $packages)
+    public function __construct(string $project, string $path, array $violations = [], array $packages = [])
     {
         $this->project = $project;
         $this->path = $path;

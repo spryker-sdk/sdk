@@ -63,6 +63,10 @@ class ContextSerializer
 
         if (array_key_exists('messages', $data) && is_array($data['messages'])) {
             foreach ($data['messages'] as $id => $messageData) {
+                if (!$messageData['message']) {
+                    continue;
+                }
+
                 $context->addMessage(
                     $id,
                     new Message($messageData['message'], $messageData['verbosity'] ?? MessageInterface::INFO),

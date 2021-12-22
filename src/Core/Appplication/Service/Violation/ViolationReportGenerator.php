@@ -53,6 +53,7 @@ class ViolationReportGenerator
     {
         /** @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface> $violationReports */
         $violationReports = [];
+
         foreach ($commands as $command) {
             if ($command instanceof ViolationReportableInterface) {
                 $violationReport = $command->getViolationReport();

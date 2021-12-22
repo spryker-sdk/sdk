@@ -7,11 +7,15 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportableInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
-class CheckGitCommand implements CommandInterface, ErrorCommandInterface
+class CheckGitCommand implements CommandInterface, ErrorCommandInterface, ViolationReportableInterface
 {
     /**
      * @return string
@@ -59,5 +63,20 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     public function getViolationConverter(): ?ConverterInterface
     {
         return null;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     */
+    public function getViolationReport(): ?ViolationReportInterface
+    {
+        $vol = ['asdasd', 'asdasd', 'asdasdasd', 'asdasdasd', 'asdasdasdas'];
+        $t = [];
+        foreach ($vol as $v) {
+            $t[] = new ViolationReportConverter($v, $v);
+        }
+
+        $v = new ViolationReport('asdsa','asdasd', $t, []);
+        return $v;
     }
 }
