@@ -14,6 +14,7 @@ so you can focus developing exciting features for your business case.
 - ensure docker & docker-compose is installed
 - @todo download release from github to /<any path>
 - echo "add alias spryker-sdk='php /<any path>/bin/spryker-sdk.sh'" >> ~/.bashrc
+- source ~/.bashrc
 
 ## Update
 - @todo auto update for sdk in spryker-sdk.sh

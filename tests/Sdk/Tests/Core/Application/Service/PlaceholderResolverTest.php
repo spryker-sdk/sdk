@@ -12,7 +12,9 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterfac
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
@@ -58,9 +60,10 @@ class PlaceholderResolverTest extends Unit
         $settingRepositoryMock = $this->createSettingRepositoryMock($expectedSettings);
         $valueResolverMock = $this->createValueResolverMock($expectedSettings, $expectedValue);
         $registryMock = $this->createRegistryMock($valueResolverMock);
+        $context = new Context();
 
         $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
-        $this->assertSame($expectedValue, $placeholderResolver->resolve($placeholderMock));
+        $this->assertSame($expectedValue, $placeholderResolver->resolve($placeholderMock, $context));
     }
 
     /**
@@ -82,15 +85,18 @@ class PlaceholderResolverTest extends Unit
             ->willReturn(array_keys($expectedSettings));
         $valueResolverMock->expects($this->once())
             ->method('getValue')
-            ->willReturnCallback(function (array $settings) use ($expectedSettingKey): mixed {
-                $this->assertArrayHasKey($expectedSettingKey, $settings);
+            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey): mixed {
+                $this->assertArrayHasKey($expectedSettingKey, $context->getResolvedValues());
 
-                return $settings[$expectedSettingKey];
+                return $context->getResolvedValues()[$expectedSettingKey];
             });
         $registryMock = $this->createRegistryMock($valueResolverMock);
 
+        $context = new Context();
+        $context->setResolvedValues($expectedSettings);
+
         $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
-        $this->assertSame($expectedValue, $placeholderResolver->resolve($placeholderMock));
+        $this->assertSame($expectedValue, $placeholderResolver->resolve($placeholderMock, $context));
     }
 
     /**

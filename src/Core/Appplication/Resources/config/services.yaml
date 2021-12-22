@@ -49,15 +49,19 @@ services:
       - '@violation_report_merger'
       - '@violation_report_repository'
       - '@violation_converter_resolver'
+  context_serializer:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
+  context_repository:
+    synthetic: true
   task_executor:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
     arguments:
-        - '@task_repository'
-        - '@service.command_executor'
-        - '@event_logger'
-        - '@progress_bar'
-        - '@violation_report_generator'
+      - '@placeholder_resolver'
+      - '@task_repository'
+      - '@service.command_executor'
+      - '@violation_report_generator'
+
   project_setting_repository:
     abstract: true
     synthetic: true
@@ -76,7 +80,7 @@ services:
     arguments:
       - '@service.file_manager'
       - '@placeholder_resolver'
-      - '@service.command_executor'
+      - '@service.lifecycle_command_executor'
 
   lifecycle.removed_subscriber:
     class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\UpdatedEventSubscriber
@@ -84,7 +88,7 @@ services:
     arguments:
       - '@service.file_manager'
       - '@placeholder_resolver'
-      - '@service.command_executor'
+      - '@service.lifecycle_command_executor'
 
   lifecycle.updated_subscriber:
     class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\RemovedEventSubscriber
@@ -92,10 +96,23 @@ services:
     arguments:
       - '@service.file_manager'
       - '@placeholder_resolver'
-      - '@service.command_executor'
+      - '@service.lifecycle_command_executor'
 
   service.command_executor:
       class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
       arguments:
           - '@placeholder_resolver'
           - !tagged_iterator command.runner
+          - !tagged_iterator action.after_command_executed
+
+  service.lifecycle_command_executor:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
+    arguments:
+      - '@placeholder_resolver'
+      - !tagged_iterator command.runner
+
+  log_event_action_after_command_executed:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\AfterCommandExecutedAction\LogEventAction
+    arguments:
+      - '@event_logger'
+    tags: ['action.after_command_executed']

@@ -68,6 +68,7 @@ class ViolationReportGenerator
                 $violationReports[] = $violationConverter->convert();
             }
         }
+        $violationReports = array_filter($violationReports);
 
         if (!$violationReports) {
             return null;

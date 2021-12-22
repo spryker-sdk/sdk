@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\ValueResolver;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
@@ -29,15 +30,15 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
-     * @param bool|false $optional
-     * @param array<string, mixed> $resolvedValues
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     * @param bool $optional
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
-     * @return mixed
+     * @return string
      */
-    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
         if ($this->valueReceiver->has($this->getValueName())) {
             return $this->valueReceiver->get($this->getValueName());
@@ -50,7 +51,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                 'Required settings are missing: ' . implode(', ', array_diff($this->getRequiredSettingPaths(), $settingValues)),
             );
         }
-        $choiceValues = $this->getChoiceValues($settingValues, $resolvedValues);
+        $choiceValues = $this->getChoiceValues($settingValues, $context->getResolvedValues());
 
         $defaultValue = $this->getDefaultValue();
 

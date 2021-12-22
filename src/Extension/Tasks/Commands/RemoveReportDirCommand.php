@@ -8,10 +8,9 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
-use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
@@ -47,13 +46,12 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @param array $resolvedValues
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(array $resolvedValues): CommandResponseInterface
+    public function execute(ContextInterface $context): ContextInterface
     {
-        $commandResponse = new CommandResponse(true);
         if (
             $this->cliValueReceiver->receiveValue(
                 new ReceiverValue('Should report folder be cleaned?', true, 'boolean'),
@@ -62,7 +60,7 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
             $this->violationReportRepository->cleanupViolationReport();
         }
 
-        return $commandResponse;
+        return $context;
     }
 
     /**

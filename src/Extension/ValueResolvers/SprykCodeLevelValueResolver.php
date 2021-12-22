@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class SprykCodeLevelValueResolver extends AbstractValueResolver
 {
@@ -54,14 +55,16 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
-     * @param bool|false $optional
-     * @param array<string, mixed> $resolvedValues
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     * @param bool $optional
      *
-     * @return mixed
+     * @return string
      */
-    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): mixed
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
+        $resolvedValues = $context->getResolvedValues();
+
         if (!array_key_exists(NamespaceValueResolver::ALIAS, $resolvedValues)) {
             return $this->getDefaultValue();
         }

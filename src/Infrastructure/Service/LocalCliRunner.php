@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\CommandResponse;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
-use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
 use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -68,24 +68,24 @@ class LocalCliRunner implements CommandRunnerInterface
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param array $resolvedValues
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
-     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(CommandInterface $command, array $resolvedValues): CommandResponseInterface
+    public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
         $placeholders = array_map(function (mixed $placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';
-        }, array_keys($resolvedValues));
+        }, array_keys($context->getResolvedValues()));
 
         $values = array_map(function (mixed $value): string {
             return match (gettype($value)) {
                 'array' => implode(',', $value),
                 default => (string)$value,
             };
-        }, array_values($resolvedValues));
+        }, array_values($context->getResolvedValues()));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
 
@@ -104,38 +104,24 @@ class LocalCliRunner implements CommandRunnerInterface
         $process = $this->processHelper->run(
             $this->output,
             [$process],
-            null,
-            function ($type, $buffer) {
-                $this->progressBar->setMessage($buffer);
-            },
         );
 
-        $commandResponse = new CommandResponse($process->isSuccessful(), (int)$process->getExitCode());
+        $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
 
-        if (!$process->isSuccessful()) {
-            $errorMessage = $this->getErrorMessage($command, $process);
-            $commandResponse->setErrorMessage($errorMessage);
+        foreach (explode(PHP_EOL, $process->getOutput()) as $outputLine) {
+            if (!$outputLine) {
+                continue;
+            }
+            $context->addMessage($command->getCommand(), new Message($outputLine, MessageInterface::INFO));
         }
 
-        return $commandResponse;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param \Symfony\Component\Process\Process $process
-     *
-     * @return string
-     */
-    protected function getErrorMessage(
-        CommandInterface $command,
-        Process $process
-    ): string {
-        $errorMessage = ($command instanceof ErrorCommandInterface) ? $command->getErrorMessage() : $process->getErrorOutput();
-
-        if ($errorMessage) {
-            return $errorMessage;
+        foreach (explode(PHP_EOL, $process->getErrorOutput()) as $errorLine) {
+            if (!$errorLine) {
+                continue;
+            }
+            $context->addMessage($command->getCommand(), new Message($errorLine, MessageInterface::ERROR));
         }
 
-        return $process->getOutput();
+        return $context;
     }
 }

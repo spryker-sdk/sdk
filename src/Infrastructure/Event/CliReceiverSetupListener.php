@@ -7,19 +7,21 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 class CliReceiverSetupListener
 {
-    protected CliValueReceiver $cliValueReceiver;
+    /**
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface>
+     */
+    protected iterable $inputOutputConnectors;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface> $inputOutputConnectors
      */
-    public function __construct(CliValueReceiver $cliValueReceiver)
+    public function __construct(iterable $inputOutputConnectors)
     {
-        $this->cliValueReceiver = $cliValueReceiver;
+        $this->inputOutputConnectors = $inputOutputConnectors;
     }
 
     /**
@@ -29,7 +31,9 @@ class CliReceiverSetupListener
      */
     public function beforeConsoleCommand(ConsoleCommandEvent $event)
     {
-        $this->cliValueReceiver->setInput($event->getInput());
-        $this->cliValueReceiver->setOutput($event->getOutput());
+        foreach ($this->inputOutputConnectors as $inputOutputConnector) {
+            $inputOutputConnector->setInput($event->getInput());
+            $inputOutputConnector->setOutput($event->getOutput());
+        }
     }
 }
