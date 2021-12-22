@@ -43,6 +43,7 @@ RUN bin/console sdk:init:sdk && \
     bin/console cache:warmup && \
     bin/console sdk:setting:set task_dirs vendor/spryker-sdk/evaluator/src/Evaluate/Infrastructure/Task/Analyze && \
     bin/console sdk:setting:set task_dirs vendor/spryker-sdk/evaluator/src/Evaluate/Infrastructure/Task/Report && \
+    bin/console sdk:setting:set task_dirs vendor/spryker-sdk/evaluator/src/Upgrade/Application/Task/UpgradeTask && \
     bin/console sdk:init:sdk
 
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]
