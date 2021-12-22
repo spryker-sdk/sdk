@@ -60,7 +60,7 @@ services:
       - '@placeholder_resolver'
       - '@task_repository'
       - '@service.command_executor'
-      - '@violation_converter_resolver'
+      - '@violation_report_generator'
 
   project_setting_repository:
     abstract: true

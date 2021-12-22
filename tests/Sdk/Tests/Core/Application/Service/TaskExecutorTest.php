@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver;
+use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -34,7 +34,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createCommandExecutorMock($context),
-            $this->createViolationConverterResolverMock(),
+            $this->createViolationConverterGeneratorMock(),
         );
         $result = $taskExecutor->execute('test', $context);
         $this->assertSame($context->getExitCode(), $result->getExitCode());
@@ -52,7 +52,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createCommandExecutorMock($context),
-            $this->createViolationConverterResolverMock(),
+            $this->createViolationConverterGeneratorMock(),
         );
 
         $result = $taskExecutor->execute('test', $context);
@@ -61,13 +61,13 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
+     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
      */
-    protected function createViolationConverterResolverMock(): ViolationConverterResolver
+    protected function createViolationConverterGeneratorMock(): ViolationReportGenerator
     {
-        $violationConverterResolver = $this->createMock(ViolationConverterResolver::class);
+        $violationReportGenerator = $this->createMock(ViolationReportGenerator::class);
 
-        return $violationConverterResolver;
+        return $violationReportGenerator;
     }
 
     /**
