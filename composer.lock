@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "352052939081c62306c64c90a6803f22",
+    "content-hash": "769e9f6def6083eff4b486c4d24a5c87",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -3503,10 +3503,10 @@
         {
             "name": "spryker-sdk/evaluator",
             "version": "dev-pplus-417/report-fix",
-            "dist": {
-                "type": "path",
-                "url": "../evaluator",
-                "reference": "cdaf003be0738188ee863b53963f292c55e5fa73"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/evaluator",
+                "reference": "07757a4cb157f969fc2a06af154ae3c14c67c2cc"
             },
             "require": {
                 "davidrjonas/composer-lock-diff": "^1.6",
@@ -3564,9 +3564,7 @@
                 "proprietary"
             ],
             "description": "PHP-SDK for Spryker",
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2021-12-22T13:12:41+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -9001,6 +8999,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/evaluator": 20,
         "spryker-sdk/sdk-contracts": 20
     },
     "prefer-stable": true,

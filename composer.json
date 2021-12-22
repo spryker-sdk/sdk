@@ -26,7 +26,7 @@
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpstan/phpstan": "^1.2",
-        "spryker-sdk/evaluator": "*",
+        "spryker-sdk/evaluator": "dev-pplus-417/report-fix",
         "spryker-sdk/sdk-contracts": "dev-master",
         "symfony/console": "5.3.*",
         "symfony/dotenv": "5.3.*",
@@ -99,8 +99,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../evaluator"
+            "type": "git",
+            "url": "https://github.com/spryker-sdk/evaluator"
         },
         {
             "type": "git",
