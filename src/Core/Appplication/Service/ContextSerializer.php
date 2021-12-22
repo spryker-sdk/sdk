@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -134,13 +135,34 @@ class ContextSerializer
     protected function createViolationReport(array $violationReportData): ViolationReportInterface
     {
         $violations = array_map([$this, 'convertArrayToViolationReportConverter'], $violationReportData['violations']);
-        $packages = [];
+        $packages = array_map([$this, 'convertArrayToPackageViolationReport'], $violationReportData['packages']);
 
         return new ViolationReport(
             $violationReportData['project'],
             $violationReportData['path'],
             $violations,
             $packages,
+        );
+    }
+
+    /**
+     * @param array $report
+     *
+     * @return \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface
+     */
+    protected function convertArrayToPackageViolationReport(array $report): PackageViolationReportInterface
+    {
+        $fileViolations = [];
+
+        foreach ($report['file_violations'] as $key => $reports) {
+            $fileViolations[(string)$key] = array_map([$this, 'convertArrayToViolationReportConverter'], $reports);
+        }
+
+        return new PackageViolationReport(
+            $report['package'],
+            $report['path'],
+            array_map([$this, 'convertArrayToViolationReportConverter'], $report['violations']),
+            $fileViolations,
         );
     }
 
