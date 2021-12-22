@@ -55,6 +55,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @var string
      */
     private string $environment;
+
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface
      */
@@ -140,8 +141,8 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
 
         $command = new RunTaskWrapperCommand(
             $this->taskExecutor,
-            $this->reportFormatterFactory,
             $this->contextRepository,
+            $this->reportFormatterFactory,
             $options,
             $task->getShortDescription(),
             $task->getId(),
@@ -322,6 +323,13 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
             'Will allow to overwrite values that are already passed inside the context',
             [],
+        );
+        $options[] = new InputOption(
+            RunTaskWrapperCommand::OPTION_FORMAT,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Set format for violations report',
+            null,
         );
 
         return $options;

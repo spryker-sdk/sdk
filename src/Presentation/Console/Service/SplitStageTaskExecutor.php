@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver;
+use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Presentation\Console\Commands\RunTaskWrapperCommand;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -38,7 +38,7 @@ class SplitStageTaskExecutor extends TaskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver $violationConverterResolver
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
      * @param string $sdkDirectory
      */
     public function __construct(
@@ -46,10 +46,10 @@ class SplitStageTaskExecutor extends TaskExecutor
         TaskRepositoryInterface $taskRepository,
         ContextRepositoryInterface $contextRepository,
         CommandExecutorInterface $commandExecutor,
-        ViolationConverterResolver $violationConverterResolver,
+        ViolationReportGenerator $violationReportGenerator,
         string $sdkDirectory
     ) {
-        parent::__construct($placeholderResolver, $taskRepository, $commandExecutor, $violationConverterResolver);
+        parent::__construct($placeholderResolver, $taskRepository, $commandExecutor, $violationReportGenerator);
         $this->contextRepository = $contextRepository;
         $this->sdkDirectory = $sdkDirectory;
     }
