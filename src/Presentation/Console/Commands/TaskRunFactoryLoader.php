@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterfa
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -43,6 +44,14 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected PlaceholderResolver $placeholderResolver;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+     */
+    protected ReportFormatterFactory $reportFormatterFactory;
+
+    /**
+     * @var string
+     */
     private string $environment;
 
     /**
@@ -51,6 +60,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      * @param string $environment
      */
     public function __construct(
@@ -59,12 +69,14 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         TaskRepositoryInterface $taskRepository,
         TaskExecutor $taskExecutor,
         PlaceholderResolver $placeholderResolver,
+        ReportFormatterFactory $reportFormatterFactory,
         string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
         $this->placeholderResolver = $placeholderResolver;
+        $this->reportFormatterFactory = $reportFormatterFactory;
         $this->environment = $environment;
     }
 
@@ -117,9 +129,23 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $tags = array_map(function (CommandInterface $command): array {
             return $command->getTags();
         }, $task->getCommands());
+
         $tags = array_unique(array_merge(...$tags));
 
-        if (count($tags) > 0) {
+        $converters = array_filter(array_map(function (CommandInterface $command) {
+            return $command->getViolationConverter();
+        }, $task->getCommands()));
+
+        if ($converters) {
+            $options[] = new InputOption(
+                'format',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_REQUIRED,
+                'Format for violation report',
+            );
+        }
+
+        if ($tags) {
             $options[] = new InputOption(
                 'tags',
                 't',
@@ -131,6 +157,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
 
         $command = new RunTaskWrapperCommand(
             $this->getTaskExecutor(),
+            $this->reportFormatterFactory,
             $options,
             $task->getShortDescription(),
             $task->getId(),

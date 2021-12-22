@@ -81,13 +81,8 @@ class TaskExecutor
             $this->afterCommandExecuted($command, $commandResponse, $task);
         };
 
-        $this->progressBar->start();
-
         $result = $this->commandExecutor->execute($task->getCommands(), $task->getPlaceholders(), $afterCommandExecutedCallback);
-
         $this->violationReportGenerator->collectViolations($task->getId(), $task->getCommands());
-
-        $this->progressBar->finish();
 
         return $result->getCode();
     }
@@ -107,13 +102,8 @@ class TaskExecutor
 
         $result = $commandResponse->getIsSuccessful();
         if (!$result && $command->hasStopOnError()) {
-            $this->progressBar->setMessage((string)$commandResponse->getErrorMessage());
-            $this->progressBar->finish();
-
             throw new CommandRunnerException((string)$commandResponse->getErrorMessage());
         }
-
-        $this->progressBar->advance();
     }
 
     /**

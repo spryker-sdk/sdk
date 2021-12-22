@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,22 +16,41 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunTaskWrapperCommand extends Command
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     */
     protected TaskExecutor $taskExecutor;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+     */
+    protected ReportFormatterFactory $reportFormatterFactory;
+
+    /**
+     * @var array<\Symfony\Component\Console\Input\InputOption>
+     */
     protected array $taskOptions;
 
+    /**
+     * @var string
+     */
     protected string $description;
 
+    /**
+     * @var string
+     */
     protected string $name;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name
      */
     public function __construct(
         TaskExecutor $taskExecutor,
+        ReportFormatterFactory $reportFormatterFactory,
         array $taskOptions,
         string $description,
         string $name
@@ -38,6 +58,7 @@ class RunTaskWrapperCommand extends Command
         $this->description = $description;
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
+        $this->reportFormatterFactory = $reportFormatterFactory;
         $this->name = $name;
         parent::__construct($name);
     }
@@ -73,6 +94,10 @@ class RunTaskWrapperCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
+        if ($input->hasOption('format') && $input->getOption('format')) {
+            $this->reportFormatterFactory->setFormat($input->getOption('format'));
+        }
+
         return $input->hasOption('tags') ?
             $this->taskExecutor->execute($this->name, $input->getOption('tags')) :
             $this->taskExecutor->execute($this->name, []);

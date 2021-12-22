@@ -9,49 +9,31 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Exception;
 use RecursiveIteratorIterator;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
+use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
+use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
-use Symfony\Component\Yaml\Yaml;
 
 class ViolationReportFileRepository implements ViolationReportRepositoryInterface
 {
     /**
-     * @var string
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader
      */
-    protected const REPORT_DIR_SETTING_NAME = 'report_dir';
+    protected ViolationPathReader $violationPathReader;
+
+    protected ReportFormatterFactory $reportFormatterFactory;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
-     */
-    protected ProjectSettingRepositoryInterface $projectSettingRepository;
-
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
-
-    /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface
-     */
-    protected ViolationReportFileMapperInterface $violationReportFileMapper;
-
-    /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
-     * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapper
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader $violationPathReader
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      */
     public function __construct(
-        ProjectSettingRepositoryInterface $projectSettingRepository,
-        Yaml $yamlParser,
-        ViolationReportFileMapperInterface $violationReportFileMapper
+        ViolationPathReader $violationPathReader,
+        ReportFormatterFactory $reportFormatterFactory
     ) {
-        $this->projectSettingRepository = $projectSettingRepository;
-        $this->yamlParser = $yamlParser;
-        $this->violationReportFileMapper = $violationReportFileMapper;
+        $this->violationPathReader = $violationPathReader;
+        $this->reportFormatterFactory = $reportFormatterFactory;
     }
 
     /**
@@ -62,9 +44,9 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      */
     public function save(string $taskId, ViolationReportInterface $violationReport): void
     {
-        $violationReportStructure = $this->violationReportFileMapper->mapViolationReportToFileStructure($violationReport);
-
-        file_put_contents($this->getViolationReportPath($taskId), $this->yamlParser->dump($violationReportStructure));
+        if ($this->reportFormatterFactory->getViolationReportFormatter()) {
+            $this->reportFormatterFactory->getViolationReportFormatter()->format($taskId, $violationReport);
+        }
     }
 
     /**
@@ -74,34 +56,21 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      */
     public function findByTask(string $taskId): ?ViolationReportInterface
     {
-        $violationReportData = $this->yamlParser->parseFile($this->getViolationReportPath($taskId));
+        if (!$this->reportFormatterFactory->getViolationReportFormatter()) {
+            return null;
+        }
 
-        return $this->violationReportFileMapper->mapFileStructureToViolationReport($violationReportData);
+        return $this->reportFormatterFactory->getViolationReportFormatter()->read($taskId);
     }
 
     /**
-     * @param string $taskId
-     * @param array<string> $packageIds
-     *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
-     */
-    public function findByPackage(string $taskId, array $packageIds): ?ViolationReportInterface
-    {
-        $violationReportData = $this->yamlParser->parseFile($this->getViolationReportPath($taskId));
-
-        return $this->violationReportFileMapper->mapFileStructureToViolationReport($violationReportData, $packageIds);
-    }
-
-    /**
-     * @param string|null $taskId
-     *
      * @throws \Exception
      *
      * @return void
      */
-    public function cleanupViolationReport(?string $taskId = null): void
+    public function cleanupViolationReport(): void
     {
-        $dirname = $this->getViolationReportPath($taskId);
+        $dirname = $this->violationPathReader->getViolationReportDirPath();
 
         if (!$dirname) {
             return;
@@ -119,29 +88,5 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
                 }
             }
         }
-    }
-
-    /**
-     * @param string|null $taskId
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
-     *
-     * @return string
-     */
-    protected function getViolationReportPath(?string $taskId): string
-    {
-        $reportDirSetting = $this->projectSettingRepository->findOneByPath(static::REPORT_DIR_SETTING_NAME);
-
-        if (!$reportDirSetting) {
-            throw new MissingSettingException(sprintf('Some of setting definition for %s not found', static::REPORT_DIR_SETTING_NAME));
-        }
-
-        $reportPath = $reportDirSetting->getValues();
-
-        if (!$taskId) {
-            return $reportPath;
-        }
-
-        return $reportPath . DIRECTORY_SEPARATOR . $taskId . '.violations.yaml';
     }
 }

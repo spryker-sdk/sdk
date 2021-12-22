@@ -54,6 +54,10 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
 
         $reportDirectory = $reportDirectory->getValues() . DIRECTORY_SEPARATOR . $this->fileName;
 
+        if (!is_file($reportDirectory)) {
+            return null;
+        }
+
         $jsonReport = file_get_contents($reportDirectory);
 
         return $jsonReport ?: null;
