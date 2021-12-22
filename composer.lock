@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cae6e8ae3fe11df6d57e98b27ae520e5",
+    "content-hash": "2aeea06697d4d1de0cb5fd945f2dcf99",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3156,11 +3156,11 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-231-staged-execution",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts",
-                "reference": "9ca5f1c0349c2447ed6839e4a65c40827ce127d8"
+                "reference": "78fa99fe097b5dbaf8e7ce862a40bc7e8a6918c6"
             },
             "require": {
                 "php": ">= 8.0"
@@ -3169,6 +3169,7 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3190,7 +3191,7 @@
                 "proprietary"
             ],
             "description": "Contracts to extend the Spryker SDK",
-            "time": "2021-12-21T17:08:11+00:00"
+            "time": "2021-12-22T10:23:56+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -10461,16 +10462,16 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "4.1.25",
+            "version": "4.1.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "bd05fe0a6c861b9045662fe25ea62c86a6915b5b"
+                "reference": "2d9a11e6f487e3bcc17e22b7552fb6a10cec5c7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/bd05fe0a6c861b9045662fe25ea62c86a6915b5b",
-                "reference": "bd05fe0a6c861b9045662fe25ea62c86a6915b5b",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/2d9a11e6f487e3bcc17e22b7552fb6a10cec5c7c",
+                "reference": "2d9a11e6f487e3bcc17e22b7552fb6a10cec5c7c",
                 "shasum": ""
             },
             "require": {
@@ -10490,7 +10491,6 @@
                 "symfony/yaml": ">=2.7 <6.0"
             },
             "require-dev": {
-                "codeception/lib-innerbrowser": "^1.0 | 2.0.*@dev",
                 "codeception/module-asserts": "^1.0 | 2.0.*@dev",
                 "codeception/module-cli": "^1.0 | 2.0.*@dev",
                 "codeception/module-db": "^1.0 | 2.0.*@dev",
@@ -10548,7 +10548,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/Codeception/issues",
-                "source": "https://github.com/Codeception/Codeception/tree/4.1.25"
+                "source": "https://github.com/Codeception/Codeception/tree/4.1.27"
             },
             "funding": [
                 {
@@ -10556,7 +10556,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-12-21T01:23:05+00:00"
+            "time": "2021-12-22T06:40:46+00:00"
         },
         {
             "name": "codeception/lib-asserts",
