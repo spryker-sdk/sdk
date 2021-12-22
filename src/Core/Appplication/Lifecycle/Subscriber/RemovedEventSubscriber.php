@@ -37,10 +37,11 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
         }
 
         $removedEventData = $lifecycle->getRemovedEventData();
+        $context = $this->createContext($removedEventData, $event->getTask());
 
-        $this->manageFiles($removedEventData->getFiles(), $removedEventData->getPlaceholders());
+        $this->manageFiles($removedEventData->getFiles(), $context);
 
-        $this->commandExecutor->execute($removedEventData->getCommands(), $removedEventData->getPlaceholders());
+        $this->executeCommands($removedEventData->getCommands(), $context);
     }
 
     /**

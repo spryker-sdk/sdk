@@ -34,6 +34,12 @@ services:
             - '@file_finder'
             - '@yaml_parser'
             - !tagged_iterator sdk.task
+    context_repository:
+      class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
+      arguments:
+        - '@context_serializer'
+        - '@setting_repository'
+
     process_helper:
         class: Symfony\Component\Console\Helper\ProcessHelper
 

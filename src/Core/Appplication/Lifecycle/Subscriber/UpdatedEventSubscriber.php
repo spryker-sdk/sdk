@@ -37,10 +37,11 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
         }
 
         $updatedEvent = $lifecycle->getUpdatedEventData();
+        $context = $this->createContext($updatedEvent, $event->getTask());
 
-        $this->manageFiles($updatedEvent->getFiles(), $updatedEvent->getPlaceholders());
+        $this->manageFiles($updatedEvent->getFiles(), $context);
 
-        $this->commandExecutor->execute($updatedEvent->getCommands(), $updatedEvent->getPlaceholders());
+        $this->executeCommands($updatedEvent->getCommands(), $context);
     }
 
     /**

@@ -37,10 +37,11 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
         }
 
         $initializedEvent = $lifecycle->getInitializedEventData();
+        $context = $this->createContext($initializedEvent, $event->getTask());
 
-        $this->manageFiles($initializedEvent->getFiles(), $initializedEvent->getPlaceholders());
+        $this->manageFiles($initializedEvent->getFiles(), $context);
 
-        $this->commandExecutor->execute($initializedEvent->getCommands(), $initializedEvent->getPlaceholders());
+        $this->executeCommands($initializedEvent->getCommands(), $context);
     }
 
     /**

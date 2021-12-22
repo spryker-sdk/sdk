@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
+
 class FlagValueResolver extends StaticValueResolver
 {
     /**
@@ -35,15 +37,15 @@ class FlagValueResolver extends StaticValueResolver
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
-     * @param bool|false $optional
-     * @param array<string, mixed> $resolvedValues
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     * @param bool $optional
      *
      * @return string
      */
-    public function getValue(array $settingValues, bool $optional = false, array $resolvedValues = []): string
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
-        $defaultValue = parent::getValue($settingValues, $optional);
+        $defaultValue = parent::getValue($context, $settingValues, $optional);
 
         return !$defaultValue ? '' : sprintf('--%s', $this->flag);
     }

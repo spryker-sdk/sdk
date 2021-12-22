@@ -19,19 +19,38 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskRepositoryInterface
 {
+    /**
+     * @var string
+     */
+    protected const TASK_SET_TYPE = 'task_set';
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
     protected SettingRepositoryInterface $settingRepository;
 
+    /**
+     * @var \Symfony\Component\Finder\Finder
+     */
     protected Finder $fileFinder;
 
+    /**
+     * @var \Symfony\Component\Yaml\Yaml
+     */
     protected Yaml $yamlParser;
 
+    /**
+     * @var iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     */
     protected iterable $existingTasks = [];
 
     /**
@@ -69,6 +88,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
         $tasks = [];
         $taskListData = [];
+        $taskSetsData = [];
 
         $finder = $this->fileFinder->in(array_map(function (string $directory): string {
             return $directory . '/*/Tasks/';
@@ -77,11 +97,21 @@ class TaskYamlRepository implements TaskRepositoryInterface
         //read task from path, parse and create Task, later use DB for querying
         foreach ($finder->files() as $taskFile) {
             $taskData = $this->yamlParser->parse($taskFile->getContents());
-            $taskListData[$taskData['id']] = $taskData;
+
+            if ($taskData['type'] === static::TASK_SET_TYPE) {
+                $taskSetsData[$taskData['id']] = $taskData;
+            } else {
+                $taskListData[$taskData['id']] = $taskData;
+            }
         }
 
         foreach ($taskListData as $taskData) {
             $task = $this->buildTask($taskData, $taskListData, $tags);
+            $tasks[$task->getId()] = $task;
+        }
+
+        foreach ($taskSetsData as $taskData) {
+            $task = $this->buildTaskSet($taskData, $taskListData, $tasks, $tags);
             $tasks[$task->getId()] = $task;
         }
 
@@ -122,7 +152,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        if (isset($data['type']) && $data['type'] === 'task_set') {
+        if (isset($data['type']) && $data['type'] === static::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
                 if ($tags && !array_intersect($tags, $task['tags'])) {
                     continue;
@@ -170,7 +200,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             );
         }
 
-        if ($data['type'] === 'task_set') {
+        if ($data['type'] === static::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
                 if ($tags && !array_intersect($tags, $task['tags'])) {
                     continue;
@@ -345,6 +375,36 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['help'] ?? null,
             $taskData['successor'] ?? null,
             $taskData['deprecated'] ?? false,
+            $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
         );
+    }
+
+    /**
+     * @param array $taskData
+     * @param array $taskListData
+     * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param array $tags
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    protected function buildTaskSet(array $taskData, array $taskListData, array $tasks, array $tags = []): TaskInterface
+    {
+        $task = $this->buildTask($taskData, $taskListData, $tags);
+
+        if (!isset($taskData['tasks'])) {
+            return $task;
+        }
+
+        foreach ($taskData['tasks'] as $taggedTaskData) {
+            $taggedTask = $tasks[$taggedTaskData['id']] ?? null;
+
+            if (!$taggedTask instanceof TaggedTaskInterface) {
+                continue;
+            }
+
+            $taggedTask->setTags($taggedTaskData['tags'] ?? []);
+        }
+
+        return $task;
     }
 }
