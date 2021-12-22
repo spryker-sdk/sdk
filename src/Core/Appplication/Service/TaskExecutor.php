@@ -148,22 +148,18 @@ class TaskExecutor
      */
     protected function executeStage(ContextInterface $context, string $stage = ContextInterface::DEFAULT_STAGE): ContextInterface
     {
-        $stageTasks = $context->getSubTasks();
+        $stageTasks = array_filter($context->getSubTasks(), function (TaskInterface $task) use ($stage): bool {
+            return ($task instanceof StagedTaskInterface && $task->getStage() === $stage);
+        });
 
-        if ($stage !== ContextInterface::DEFAULT_STAGE) {
-            $stageTasks = array_filter($context->getSubTasks(), function (TaskInterface $task) use ($stage): bool {
-                return ($task instanceof StagedTaskInterface && $task->getStage() === $stage);
-            });
-
-            if (count($stageTasks) > 0) {
-                $context->addMessage(
-                    $context->getTask()->getId(),
-                    new Message('Executing stage ' . $stage, MessageInterface::DEBUG),
-                );
-            }
-
-            $context->setSubTasks($stageTasks);
+        if (count($stageTasks) > 0) {
+            $context->addMessage(
+                $context->getTask()->getId(),
+                new Message('Executing stage ' . $stage, MessageInterface::DEBUG),
+            );
         }
+
+        $context->setSubTasks($stageTasks);
 
         $commands = [];
         foreach ($stageTasks as $task) {
