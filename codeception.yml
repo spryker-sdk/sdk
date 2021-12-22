@@ -6,6 +6,7 @@ suites:
         modules:
             enabled:
                 - Asserts
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\ContextSerializerHelper
         step_decorators: ~
 settings:
     shuffle: true
