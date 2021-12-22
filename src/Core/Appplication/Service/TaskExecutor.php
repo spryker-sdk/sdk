@@ -10,9 +10,8 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver;
+use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
@@ -20,7 +19,6 @@ use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 class TaskExecutor
 {
@@ -35,11 +33,6 @@ class TaskExecutor
     protected iterable $commandRunners;
 
     /**
-     * @var \SprykerSdk\SdkContracts\Logger\EventLoggerInterface
-     */
-    protected EventLoggerInterface $eventLogger;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
@@ -50,26 +43,26 @@ class TaskExecutor
     protected CommandExecutorInterface $commandExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
      */
-    protected ViolationConverterResolver $violationConverterResolver;
+    protected ViolationReportGenerator $violationReportGenerator;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver $violationConverterResolver
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
      */
     public function __construct(
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
-        ViolationConverterResolver $violationConverterResolver
+        ViolationReportGenerator $violationReportGenerator
     ) {
         $this->placeholderResolver = $placeholderResolver;
         $this->taskRepository = $taskRepository;
         $this->commandExecutor = $commandExecutor;
-        $this->violationConverterResolver = $violationConverterResolver;
+        $this->violationReportGenerator = $violationReportGenerator;
     }
 
     /**
@@ -177,39 +170,13 @@ class TaskExecutor
 
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());
-
-                $this->addViolation($context, $command);
+                $this->violationReportGenerator->collectViolations($task->getId(), $task->getCommands());
 
                 if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
                     return $context;
                 }
             }
         }
-
-        return $context;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
-     */
-    protected function addViolation(ContextInterface $context, CommandInterface $command): ContextInterface
-    {
-        $violationConverter = $this->violationConverterResolver->resolve($command);
-
-        if (!$violationConverter) {
-            return $context;
-        }
-
-        $violationReport = $violationConverter->convert();
-
-        if (!$violationReport) {
-            return $context;
-        }
-
-        $context->addViolationReport($violationReport);
 
         return $context;
     }

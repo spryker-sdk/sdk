@@ -30,6 +30,7 @@ class DynamicConsoleCommandsCompilerPass implements CompilerPassInterface
                 ->addArgument(new Reference('context_repository'))
                 ->addArgument(new Reference('task_executor'))
                 ->addArgument(new Reference('placeholder_resolver'))
+                ->addArgument(new Reference('report_formatter_factory'))
                 ->addArgument(new Parameter('kernel.environment'));
         }
     }

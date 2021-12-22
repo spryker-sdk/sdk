@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
+use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -54,12 +55,34 @@ class RunTaskWrapperCommand extends Command
      */
     public const OPTION_OVERWRITES = 'overwrites';
 
+    /**
+     * @var string
+     */
+    public const OPTION_FORMAT = 'format';
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     */
     protected TaskExecutor $taskExecutor;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+     */
+    protected ReportFormatterFactory $reportFormatterFactory;
+
+    /**
+     * @var array<\Symfony\Component\Console\Input\InputOption>
+     */
     protected array $taskOptions;
 
+    /**
+     * @var string
+     */
     protected string $description;
 
+    /**
+     * @var string
+     */
     protected string $name;
 
     /**
@@ -70,6 +93,7 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name
@@ -77,6 +101,7 @@ class RunTaskWrapperCommand extends Command
     public function __construct(
         TaskExecutor $taskExecutor,
         ContextRepositoryInterface $contextRepository,
+        ReportFormatterFactory $reportFormatterFactory,
         array $taskOptions,
         string $description,
         string $name
@@ -84,9 +109,10 @@ class RunTaskWrapperCommand extends Command
         $this->description = $description;
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
+        $this->reportFormatterFactory = $reportFormatterFactory;
         $this->name = $name;
-        parent::__construct($name);
         $this->contextRepository = $contextRepository;
+        parent::__construct($name);
     }
 
     /**
@@ -209,6 +235,10 @@ class RunTaskWrapperCommand extends Command
 
         if ($input->hasOption(static::OPTION_OVERWRITES) && !empty($input->getOption(static::OPTION_OVERWRITES))) {
             $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
+        }
+
+        if ($input->hasOption(static::OPTION_FORMAT) && $input->getOption(static::OPTION_FORMAT)) {
+            $this->reportFormatterFactory->setFormat($input->getOption(static::OPTION_FORMAT));
         }
 
         return $context;

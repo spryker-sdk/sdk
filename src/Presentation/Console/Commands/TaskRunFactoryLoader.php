@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterfa
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -46,14 +47,18 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
      */
-    protected ContextRepositoryInterface $contextRepository;
+    protected ReportFormatterFactory $reportFormatterFactory;
 
     /**
      * @var string
      */
-    protected string $environment;
+    private string $environment;
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface
+     */
+    protected ContextRepositoryInterface $contextRepository;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
@@ -68,6 +73,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      * @param string $environment
      */
     public function __construct(
@@ -78,12 +84,14 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         ContextRepositoryInterface $contextRepository,
         TaskExecutor $taskExecutor,
         PlaceholderResolver $placeholderResolver,
-        string $environment
+        ReportFormatterFactory $reportFormatterFactory,
+        string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
         $this->placeholderResolver = $placeholderResolver;
+        $this->reportFormatterFactory = $reportFormatterFactory;
         $this->contextRepository = $contextRepository;
         $this->environment = $environment;
         $this->taskFileRepository = $taskFileRepository;
@@ -132,6 +140,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
 
         $command = new RunTaskWrapperCommand(
             $this->taskExecutor,
+            $this->reportFormatterFactory,
             $this->contextRepository,
             $options,
             $task->getShortDescription(),

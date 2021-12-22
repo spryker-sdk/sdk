@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber;
 
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\SdkContracts\Entity\FileInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
@@ -30,8 +31,11 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
      */
     public function onUpdatedEvent(UpdatedEvent $event): void
     {
-        /** @var \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface $lifecycle */
         $lifecycle = $event->getTask()->getLifecycle();
+        if (!$lifecycle instanceof TaskLifecycleInterface) {
+            return;
+        }
+
         $updatedEvent = $lifecycle->getUpdatedEventData();
         $context = $this->createContext($updatedEvent, $event->getTask());
 

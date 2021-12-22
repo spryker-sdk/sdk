@@ -54,14 +54,15 @@ services:
         tags: [ 'command.runner' ]
     cli_value_receiver:
         class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+        tags: [ 'sdk.cli_receiver_setup' ]
         arguments:
             - '@question_helper'
-    cli_value_receiver_setup_listener:
+    cli_receiver_setup_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
         tags:
             - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
         arguments:
-            - '@cli_value_receiver'
+            - !tagged_iterator sdk.cli_receiver_setup
     cli_runner_setup_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
         tags:
@@ -157,19 +158,37 @@ services:
         tags: [ 'sdk.update_action' ]
         arguments:
             - '@service.task_manager'
+    output_violation_report_formatter:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\OutputViolationReportFormatter
+        tags: [ 'sdk.violation_formatter', 'sdk.cli_receiver_setup' ]
+    yaml_violation_report_formatter:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\YamlViolationReportFormatter
+        tags: [ 'sdk.violation_formatter' ]
+        arguments:
+          - '@violation_report_mapper'
+          - '@violation_path_reader'
+          - '@yaml_parser'
     violation_report_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
+    violation_path_reader:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader
+        arguments:
+          - '@project_setting_repository'
+    report_formatter_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+        arguments:
+          - !tagged_iterator sdk.violation_formatter
     violation_report_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
         arguments:
-          - '@project_setting_repository'
-          - '@yaml_parser'
-          - '@violation_report_mapper'
+          - '@violation_path_reader'
+          - '@report_formatter_factory'
     converter_registry:
       class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
       arguments:
         - '@setting_repository'
         - '%kernel.project_dir%'
+
     app.event_listener.request_listener:
       class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
       arguments:

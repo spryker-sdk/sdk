@@ -122,7 +122,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         if (empty($entities)) {
-            return $entities;
+            return [];
         }
 
         return $this->fillProjectValues($entities);
