@@ -19,7 +19,6 @@ use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
-use const SprykerSdk\SdkContracts\Entity\DEFAULT_STAGE;
 
 class TaskExecutor
 {

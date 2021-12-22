@@ -88,8 +88,8 @@ class GeneratePbcTask implements TaskInterface
     {
         return [
             new CheckGitCommand(),
-//            new GeneratePbcCommand(),
-//            new ChangeNamesCommand(),
+            new GeneratePbcCommand(),
+            new ChangeNamesCommand(),
         ];
     }
 
