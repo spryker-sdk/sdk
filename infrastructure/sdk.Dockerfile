@@ -20,15 +20,24 @@ COPY --chown=spryker:spryker src ${srcRoot}/src
 COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db
 COPY --chown=spryker:spryker extension ${srcRoot}/extension
-COPY --chown=spryker:spryker translations ${srcRoot}/translations
 COPY --chown=spryker:spryker config ${srcRoot}/config
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
 
+RUN mkdir reports/
+
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
-ENV ACCESS_TOKEN=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
+
+ARG ACCESS_TOKEN
+ENV ACCESS_TOKEN=${ACCESS_TOKEN}
+
+ARG ORGANIZATION_NAME
+ENV ORGANIZATION_NAME=${ORGANIZATION_NAME}
+
+ARG REPOSITORY_NAME
+ENV REPOSITORY_NAME=${REPOSITORY_NAME}
 
 RUN bin/console sdk:init:sdk && \
     bin/console cache:warmup && \

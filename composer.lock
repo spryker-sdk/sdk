@@ -3506,7 +3506,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator",
-                "reference": "019699dcea43ca90bb045ef0965193be514f66f6"
+                "reference": "78660f057bb5815bf6e8cd5a90b1a5000c1196f7"
             },
             "require": {
                 "davidrjonas/composer-lock-diff": "^1.6",
@@ -3564,7 +3564,7 @@
                 "proprietary"
             ],
             "description": "PHP-SDK for Spryker",
-            "time": "2021-12-22T08:18:35+00:00"
+            "time": "2021-12-22T09:10:43+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
