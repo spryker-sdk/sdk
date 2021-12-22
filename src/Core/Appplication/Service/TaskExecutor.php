@@ -142,15 +142,15 @@ class TaskExecutor
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param string|null $stage
+     * @param string $stage
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    protected function executeStage(ContextInterface $context, ?string $stage = null): ContextInterface
+    protected function executeStage(ContextInterface $context, string $stage = ContextInterface::DEFAULT_STAGE): ContextInterface
     {
         $stageTasks = $context->getSubTasks();
 
-        if ($stage !== null) {
+        if ($stage !== ContextInterface::DEFAULT_STAGE) {
             $stageTasks = array_filter($context->getSubTasks(), function (TaskInterface $task) use ($stage): bool {
                 return ($task instanceof StagedTaskInterface && $task->getStage() === $stage);
             });
@@ -165,11 +165,13 @@ class TaskExecutor
             $context->setSubTasks($stageTasks);
         }
 
+        $commands = [];
         foreach ($stageTasks as $task) {
             //execute stage as sub process
 
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());
+                $commands[] = $task->getCommands();
                 $this->violationReportGenerator->collectViolations($task->getId(), $task->getCommands());
 
                 if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
@@ -177,6 +179,9 @@ class TaskExecutor
                 }
             }
         }
+        $commands = array_merge(...$commands);
+
+        $this->violationReportGenerator->collectViolations($context->getTask()->getId(), $commands);
 
         return $context;
     }

@@ -75,7 +75,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
         $violationReportStructure['path'] = $violationReport->getPath();
         $violationReportStructure['violations'] = [];
         foreach ($violationReport->getViolations() as $violation) {
-            $violationReportStructure['violations'] = $this->convertViolationToArray($violation);
+            $violationReportStructure['violations'][] = $this->convertViolationToArray($violation);
         }
         $violationReportStructure['packages'] = [];
         foreach ($violationReport->getPackages() as $package) {
