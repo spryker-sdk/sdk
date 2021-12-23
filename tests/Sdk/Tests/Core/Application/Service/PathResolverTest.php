@@ -18,6 +18,9 @@ class PathResolverTest extends Unit
      */
     public const SDK_DIRECTORY = '/sdk/dir';
 
+    /**
+     * @var string
+     */
     public const PROJECT_DIRECTORY = '/project/dir';
 
     /**

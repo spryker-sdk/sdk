@@ -94,7 +94,7 @@ class ContextSerializerTest extends Unit
             'key1' => [
                 'message' => '',
                 'verbosity' => MessageInterface::ERROR,
-            ]
+            ],
         ]);
 
         $expectedContext = $this->tester->createContext(

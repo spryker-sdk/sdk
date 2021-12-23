@@ -21,6 +21,7 @@ class PathResolver
 
     /**
      * @param string $sdkBasePath
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Filesystem $filesystem
      */
     public function __construct(string $sdkBasePath, Filesystem $filesystem)
     {
