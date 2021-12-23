@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
@@ -12,6 +17,7 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
  * Inherited Methods
+ *
  * @method void wantToTest($text)
  * @method void wantTo($text)
  * @method void execute($callable)
@@ -24,7 +30,7 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
  * @method void pause()
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class UnitTester extends Actor
 {
     use _generated\UnitTesterActions;
@@ -39,7 +45,7 @@ class UnitTester extends Actor
             'short description',
             [],
             new Lifecycle(new InitializedEventData(), new UpdatedEventData(), new RemovedEventData()),
-            '0.0.1'
+            '0.0.1',
         );
     }
 }

@@ -1,8 +1,4 @@
 <?php
-/*
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
 
 /**
  * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
@@ -16,9 +12,9 @@ use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 
 class ReceiverValueTest extends Unit
 {
- /**
-  * @return void
-  */
+    /**
+     * @return void
+     */
     public function testReceivedValueGettersShouldReturnCorrectValues(): void
     {
         // Arrange

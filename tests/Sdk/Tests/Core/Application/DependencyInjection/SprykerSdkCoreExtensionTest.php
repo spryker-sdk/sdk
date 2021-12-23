@@ -1,8 +1,4 @@
 <?php
-/*
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
 
 /**
  * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
@@ -17,9 +13,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SprykerSdkCoreExtensionTest extends Unit
 {
- /**
-  * @var \SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension
-  */
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension
+     */
     protected SprykerSdkCoreExtension $sprykerSdkCoreExtension;
 
     /**

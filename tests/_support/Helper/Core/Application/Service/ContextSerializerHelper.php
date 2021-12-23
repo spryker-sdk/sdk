@@ -5,6 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Tests\Helper\Core\Application\Service;
 
 use Codeception\Module;
@@ -33,8 +38,7 @@ class ContextSerializerHelper extends Module
         array $tags,
         array $messages,
         array $violationReports
-    ): ContextInterface
-    {
+    ): ContextInterface {
         $context = new Context();
         $context->setResolvedValues($resolvedValues);
         $context->setTags($tags);
@@ -61,7 +65,7 @@ class ContextSerializerHelper extends Module
             $violationReport['project'],
             $violationReport['path'],
             array_map([$this, 'createViolationReportConverter'], $violationReport['violations']),
-            array_map([$this, 'createPackageViolationReport'], $violationReport['packages'])
+            array_map([$this, 'createPackageViolationReport'], $violationReport['packages']),
         );
     }
 
@@ -104,7 +108,7 @@ class ContextSerializerHelper extends Module
             $report['package'],
             $report['path'],
             array_map([$this, 'createViolationReportConverter'], $report['violations']),
-            $fileViolations
+            $fileViolations,
         );
     }
 
@@ -113,7 +117,7 @@ class ContextSerializerHelper extends Module
      *
      * @return array
      */
-    public function createArrayContext(array $messages = null): array
+    public function createArrayContext(?array $messages = null): array
     {
         $defaultMessages = [
             'key1' => ['message' => 'Command executed', 'verbosity' => 2],

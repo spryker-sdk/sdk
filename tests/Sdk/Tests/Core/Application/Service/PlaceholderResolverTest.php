@@ -156,11 +156,7 @@ class PlaceholderResolverTest extends Unit
         $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
 
         // Act
-        $result = $placeholderResolver->getValueResolver($placeholder);
-
-        // Assert
-
-        dd($result);
+        $placeholderResolver->getValueResolver($placeholder);
     }
 
     /**
