@@ -1,7 +1,14 @@
 <?php
+
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
  * Inherited Methods
@@ -23,6 +30,16 @@ class UnitTester extends Actor
     use _generated\UnitTesterActions;
 
     /**
-     * Define custom actions here
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
+    public function createTask(): TaskInterface
+    {
+        return new Task(
+            'task',
+            'short description',
+            [],
+            new Lifecycle(new InitializedEventData(), new UpdatedEventData(), new RemovedEventData()),
+            '0.0.1'
+        );
+    }
 }

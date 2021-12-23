@@ -9,8 +9,10 @@ namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
-use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class SettingManagerTest extends Unit
@@ -31,6 +33,41 @@ class SettingManagerTest extends Unit
     protected const VALUE = 'value';
 
     /**
+     * @var \SprykerSdk\Sdk\Tests\UnitTester
+     */
+    protected UnitTester $tester;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
+     */
+    protected SettingManager $settingManager;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected ProjectSettingRepositoryInterface $projectSettingRepositoryMock;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected SettingRepositoryInterface $settingRepositoryMock;
+
+    /**
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->projectSettingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
+        $this->settingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
+
+        $this->settingManager = new SettingManager(
+            $this->projectSettingRepositoryMock,
+            $this->settingRepositoryMock,
+        );
+    }
+
+    /**
      * @dataProvider provideSettingList
      *
      * @param mixed $pathValues
@@ -39,35 +76,30 @@ class SettingManagerTest extends Unit
      */
     public function testProjectSetSettings(array $pathValues): void
     {
-        $projectSettingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
-        $projectSettingRepositoryMock->expects($this->once())
+        // Arrange
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
             ->method('saveMultiple')
             ->willReturnCallback(function (array $settings) {
                 return $settings;
             });
-        $projectSettingRepositoryMock->expects($this->once())
+
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
             ->method('findByPaths')
             ->willReturnCallback(function (array $settingKeys) use ($pathValues): array {
                 $settings = [];
                 foreach (array_intersect_key($pathValues, array_flip($settingKeys)) as $path => $value) {
-                    $settings[] = new Setting(
-                        $path,
-                        $value ?? null,
-                        SettingInterface::STRATEGY_REPLACE,
-                        gettype($value),
-                    );
+                    $settings[] = $this->tester->createSetting($path, $value);
                 }
 
                 return $settings;
             });
 
-        $settingManager = new SettingManager(
-            $projectSettingRepositoryMock,
-            $this->createMock(ProjectSettingRepositoryInterface::class),
-        );
+        // Act
+        $settings = $this->settingManager->setSettings($pathValues);
 
-        $settings = $settingManager->setSettings($pathValues);
-
+        // Assert
         $this->assertCount(count($pathValues), $settings);
     }
 
@@ -80,37 +112,30 @@ class SettingManagerTest extends Unit
      */
     public function testSetSettings(array $pathValues): void
     {
-        $projectSettingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
-        $projectSettingRepositoryMock->expects($this->once())
+        // Arrange
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
             ->method('findByPaths')
             ->willReturnCallback(function (array $settingKeys) use ($pathValues): array {
                 $settings = [];
                 foreach (array_intersect_key($pathValues, array_flip($settingKeys)) as $path => $value) {
-                    $settings[] = new Setting(
-                        $path,
-                        $value ?? null,
-                        SettingInterface::STRATEGY_REPLACE,
-                        gettype($value),
-                        false,
-                    );
+                    $settings[] = $this->tester->createSetting($path, $value, SettingInterface::STRATEGY_REPLACE, false);
                 }
 
                 return $settings;
             });
-        $settingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
-        $settingRepositoryMock->expects($this->once())
+
+        $this->settingRepositoryMock
+            ->expects($this->once())
             ->method('saveMultiple')
             ->willReturnCallback(function (array $settings) {
                 return $settings;
             });
 
-        $settingManager = new SettingManager(
-            $projectSettingRepositoryMock,
-            $settingRepositoryMock,
-        );
+        // Act
+        $settings = $this->settingManager->setSettings($pathValues);
 
-        $settings = $settingManager->setSettings($pathValues);
-
+        // Assert
         $this->assertCount(count($pathValues), $settings);
     }
 
@@ -124,29 +149,25 @@ class SettingManagerTest extends Unit
      */
     public function testProjectSetSetting(string $path, mixed $value): void
     {
-        $projectSettingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
-        $projectSettingRepositoryMock->expects($this->once())
+        // Arrange
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
             ->method('findOneByPath')
             ->willReturnCallback(function (string $settingPath) use ($value): SettingInterface {
-                return new Setting(
-                    $settingPath,
-                    $value,
-                    SettingInterface::STRATEGY_REPLACE,
-                    gettype($value),
-                );
+                return $this->tester->createSetting($settingPath, $value);
             });
-        $projectSettingRepositoryMock->expects($this->once())
+
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
             ->method('save')
             ->willReturnCallback(function (SettingInterface $setting) {
                 return $setting;
             });
 
-        $settingManager = new SettingManager(
-            $projectSettingRepositoryMock,
-            $this->createMock(ProjectSettingRepositoryInterface::class),
-        );
-        $setting = $settingManager->setSetting($path, $value);
+        // Act
+        $setting = $this->settingManager->setSetting($path, $value);
 
+        // Assert
         $this->assertSame($path, $setting->getPath());
         $this->assertSame($value, $setting->getValues());
     }
@@ -159,36 +180,85 @@ class SettingManagerTest extends Unit
      *
      * @return void
      */
-    public function testSetSetting(string $path, mixed $value): void
+    public function testSetSettingWithStrategyReplace(string $path, mixed $value): void
     {
-        $projectSettingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
-        $projectSettingRepositoryMock->expects($this->once())
+        // Arrange
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
             ->method('findOneByPath')
             ->willReturnCallback(function (string $settingPath) use ($value): SettingInterface {
-                return new Setting(
-                    $settingPath,
-                    $value,
-                    SettingInterface::STRATEGY_REPLACE,
-                    gettype($value),
-                    false,
-                );
+                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_REPLACE, false);
             });
 
-        $settingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
-        $settingRepositoryMock->expects($this->once())
+        $this->settingRepositoryMock->expects($this->once())
             ->method('save')
             ->willReturnCallback(function (SettingInterface $setting) {
                 return $setting;
             });
 
-        $settingManager = new SettingManager(
-            $projectSettingRepositoryMock,
-            $settingRepositoryMock,
-        );
-        $setting = $settingManager->setSetting($path, $value);
+        // Act
+        $setting = $this->settingManager->setSetting($path, $value);
 
+        // Assert
         $this->assertSame($path, $setting->getPath());
         $this->assertSame($value, $setting->getValues());
+    }
+
+    /**
+     * @dataProvider provideSettingsForMergeStrategy
+     *
+     * @param string $path
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function testSetSettingWithStrategyMerge(string $path, mixed $value): void
+    {
+        // Arrange
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
+            ->method('findOneByPath')
+            ->with($path)
+            ->willReturnCallback(function (string $settingPath) use ($value): SettingInterface {
+                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_MERGE, false);
+            });
+
+        $this->settingRepositoryMock->expects($this->once())
+            ->method('save')
+            ->willReturnCallback(function (SettingInterface $setting) {
+                return $setting;
+            });
+
+        // Act
+        $setting = $this->settingManager->setSetting($path, $value);
+
+        // Assert
+        $this->assertSame($path, $setting->getPath());
+        $this->assertSame($value, $setting->getValues());
+    }
+
+    /**
+     * @dataProvider provideSettings
+     *
+     * @param string $path
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function testSetSettingShouldThrowExceptionWhenSettingNotFound(string $path, mixed $value): void
+    {
+        // Arrange
+        $this->projectSettingRepositoryMock
+            ->expects($this->once())
+            ->method('findOneByPath')
+            ->with($path)
+            ->willReturn(null);
+
+        $this->expectException(MissingSettingException::class);
+        $this->expectExceptionMessage('No setting definition for ' . $path . ' found',);
+
+        // Act
+        $this->settingManager->setSetting($path, $value);
     }
 
     /**
@@ -220,6 +290,23 @@ class SettingManagerTest extends Unit
                 static::PATH => 'path2',
                 static::VALUE => 'string',
             ], [
+                static::PATH => 'path3',
+                static::VALUE => ['string'],
+            ],
+        ];
+    }
+
+    /**
+     * @return array<array<string, mixed>>
+     */
+    public function provideSettingsForMergeStrategy(): array
+    {
+        return [
+            [
+                static::PATH => 'path2',
+                static::VALUE => ['string'],
+            ],
+            [
                 static::PATH => 'path3',
                 static::VALUE => ['string'],
             ],

@@ -6,9 +6,10 @@ suites:
         modules:
             enabled:
                 - Asserts
-                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\ContextSerializerHelper
-                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\FileManagerHelper
-                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\PlaceholderResolverHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\ContextSerializerHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\FileManagerHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\PlaceholderResolverHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\SettingManagerHelper
         step_decorators: ~
 settings:
     shuffle: true
