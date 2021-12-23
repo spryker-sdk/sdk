@@ -9,14 +9,24 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 class PathResolver
 {
+    /**
+     * @var string
+     */
     protected string $sdkBasePath;
 
     /**
-     * @param string $sdkBasePath
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Filesystem
      */
-    public function __construct(string $sdkBasePath)
+    protected Filesystem $filesystem;
+
+    /**
+     * @param string $sdkBasePath
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Filesystem $filesystem
+     */
+    public function __construct(string $sdkBasePath, Filesystem $filesystem)
     {
         $this->sdkBasePath = $sdkBasePath;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -26,7 +36,7 @@ class PathResolver
      */
     public function getResolveRelativePath(string $path): string
     {
-        if (strpos($path, DIRECTORY_SEPARATOR) === 0) {
+        if ($this->filesystem->isAbsolutePath($path)) {
             return $path;
         }
 
@@ -44,13 +54,13 @@ class PathResolver
      */
     public function getResolveProjectRelativePath(string $path): string
     {
-        if (strpos($path, DIRECTORY_SEPARATOR) === 0) {
+        if ($this->filesystem->isAbsolutePath($path)) {
             return $path;
         }
 
         $path = preg_replace('/^\P{L}+/u', '', $path);
 
-        $path = getcwd() . DIRECTORY_SEPARATOR . $path;
+        $path = $this->filesystem->getcwd() . DIRECTORY_SEPARATOR . $path;
 
         return rtrim($path, DIRECTORY_SEPARATOR);
     }
