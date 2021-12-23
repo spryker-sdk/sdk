@@ -109,19 +109,23 @@ class ContextSerializerHelper extends Module
     }
 
     /**
+     * @param array|null $messages
+     *
      * @return array
      */
-    public function createArrayContext(): array
+    public function createArrayContext(array $messages = null): array
     {
+        $defaultMessages = [
+            'key1' => ['message' => 'Command executed', 'verbosity' => 2],
+            'key2' => ['message' => 'Command error', 'verbosity' => 4],
+        ];
+
         return [
             'tags' => ['exampleA'],
             'resolved_values' => [
                 'key' => 'resolved value',
             ],
-            'messages' => [
-                'key1' => ['message' => 'Command executed', 'verbosity' => 2],
-                'key2' => ['message' => 'Command error', 'verbosity' => 4],
-            ],
+            'messages' => $messages ?? $defaultMessages,
             'violation_reports' => [
                 [
                     'path' => '/path/to/file',
