@@ -121,8 +121,8 @@ class ContextSerializer
             $reportData['start_column'],
             $reportData['end_column'],
             $reportData['method'],
-            $reportData['attributes'],
-            $reportData['fixable'],
+            $reportData['additional_attributes'],
+            $reportData['is_fixable'],
             $reportData['produced_by'],
         );
     }
