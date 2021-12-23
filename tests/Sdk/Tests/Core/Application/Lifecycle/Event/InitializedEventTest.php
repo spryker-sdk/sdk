@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace  SprykerSdk\Sdk\Tests\Core\Application\Lifecycle\Event;
+namespace SprykerSdk\Sdk\Tests\Core\Application\Lifecycle\Event;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
