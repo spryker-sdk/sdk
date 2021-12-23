@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Tests\Core\Application\Dto;
+namespace  SprykerSdk\Sdk\Tests\Core\Application\Dto;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;

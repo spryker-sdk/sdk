@@ -111,7 +111,7 @@ class FileManagerTest extends Unit
     }
 
     /**
-     * @return array<array<string>
+     * @return array<array<string>>
      */
     public function provideFileData(): array
     {
