@@ -64,6 +64,7 @@ class TaskMapper implements TaskMapperInterface
             $task->getHelp(),
             $task->getSuccessor(),
             $task->isDeprecated(),
+            $task->isOptional(),
         );
 
         $entity = $this->setStage($entity, $task);

@@ -376,6 +376,8 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['successor'] ?? null,
             $taskData['deprecated'] ?? false,
             $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
+            [],
+            !empty($taskData['optional']),
         );
     }
 

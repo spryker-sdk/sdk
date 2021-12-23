@@ -115,6 +115,14 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isOptional(): bool
+    {
+        return false;
+    }
+
+    /**
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface

@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
@@ -48,6 +49,11 @@ class TaskExecutor
     protected ViolationReportGenerator $violationReportGenerator;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface
+     */
+    protected ActionApproverInterface $actionApprover;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
@@ -57,12 +63,14 @@ class TaskExecutor
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
-        ViolationReportGenerator $violationReportGenerator
+        ViolationReportGenerator $violationReportGenerator,
+        ActionApproverInterface $actionApprover
     ) {
         $this->placeholderResolver = $placeholderResolver;
         $this->taskRepository = $taskRepository;
         $this->commandExecutor = $commandExecutor;
         $this->violationReportGenerator = $violationReportGenerator;
+        $this->actionApprover = $actionApprover;
     }
 
     /**
@@ -163,7 +171,9 @@ class TaskExecutor
 
         $commands = [];
         foreach ($stageTasks as $task) {
-            //execute stage as sub process
+            if ($task->isOptional() && !$this->actionApprover->approve(sprintf('Do you want to run this task: %s - %s', $task->getId(), $task->getShortDescription()))) {
+                continue;
+            }
 
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());

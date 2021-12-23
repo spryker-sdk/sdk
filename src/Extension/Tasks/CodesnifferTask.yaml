@@ -1,5 +1,5 @@
 ---
-id: 'validation:php:codestyle'
+id: 'validation:php:codestyle-check'
 short_description: 'Check your code by running a static code analysis'
 help: ~
 stage: build

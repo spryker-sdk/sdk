@@ -40,6 +40,11 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
             nullable: false;
             unique: false
             name: stage
+        optional:
+            type: boolean
+            nullable: false;
+            unique: false
+            default: false
     manyToMany:
         commandCollection:
             targetEntity: Command

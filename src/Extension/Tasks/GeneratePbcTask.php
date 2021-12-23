@@ -110,6 +110,14 @@ class GeneratePbcTask implements TaskInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isOptional(): bool
+    {
+        return false;
+    }
+
+    /**
      * @return string|null
      */
     public function getSuccessor(): ?string

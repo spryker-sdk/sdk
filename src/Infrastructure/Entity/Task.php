@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task as CoreTask;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
 
@@ -38,6 +39,7 @@ class Task extends CoreTask
      * @param string|null $help
      * @param string|null $successor
      * @param bool $isDeprecated
+     * @param bool $isOptional
      */
     public function __construct(
         string $id,
@@ -46,12 +48,13 @@ class Task extends CoreTask
         string $version,
         ?string $help = null,
         ?string $successor = null,
-        bool $isDeprecated = false
+        bool $isDeprecated = false,
+        bool $isOptional = false
     ) {
         $this->commandCollection = new ArrayCollection();
         $this->placeholderCollection = new ArrayCollection();
 
-        parent::__construct($id, $shortDescription, [], $lifecycle, $version, [], $help, $successor, $isDeprecated);
+        parent::__construct($id, $shortDescription, [], $lifecycle, $version, [], $help, $successor, $isDeprecated, $stage = ContextInterface::DEFAULT_STAGE, [], $isOptional);
     }
 
     /**

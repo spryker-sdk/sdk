@@ -10,7 +10,7 @@ tasks:
   - id: 'validation:php:architecture'
     tags: ['architecture']
     stop_on_error: false
-  - id: 'validation:php:codestyle'
+  - id: 'validation:php:codestyle-fix'
     tags: [ 'codestyle' ]
     stop_on_error: false
   - id: 'validation:php:static'

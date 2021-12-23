@@ -21,6 +21,9 @@ services:
   progress_bar:
     abstract: true
     synthetic: true
+  action_approver:
+    abstract: true
+    synthetic: true
   setting_repository:
     abstract: true
     synthetic: true
@@ -61,7 +64,7 @@ services:
       - '@task_repository'
       - '@service.command_executor'
       - '@violation_report_generator'
-
+      - '@action_approver'
   project_setting_repository:
     abstract: true
     synthetic: true
