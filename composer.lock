@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbf2ca8760fe3aafa67cd82dc5cf4167",
+    "content-hash": "09ed41735ec123286564a7b8e1f9b63b",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -3682,11 +3682,11 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk",
+            "version": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk-base-tests",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator",
-                "reference": "ecf5e09d4aa17eae805a09112bb697892972ad00"
+                "reference": "c53459e0b2b1627adba94be8ac7716976b9e9ad0"
             },
             "require": {
                 "davidrjonas/composer-lock-diff": "^1.6",
@@ -3705,6 +3705,7 @@
                 "symfony/dependency-injection": "^5.0",
                 "symfony/filesystem": "^5.3",
                 "symfony/finder": "^5.3",
+                "symfony/framework-bundle": "5.3.*",
                 "symfony/http-kernel": "^5.0",
                 "symfony/process": "^5.0",
                 "symfony/yaml": "^5.3"
@@ -3721,7 +3722,11 @@
                     "Evaluate\\": "src/Evaluate/",
                     "Upgrade\\": "src/Upgrade/",
                     "Sdk\\": "src/Sdk/",
-                    "CodeComplianceTest\\": "tests/CodeComplianceTest/"
+                    "CodeComplianceTest\\": "tests/CodeComplianceTest/",
+                    "CodebaseTest\\": "tests/CodebaseTest/",
+                    "CoreTest\\": "tests/Core/",
+                    "TestProject\\": "tests/data/Project/",
+                    "TestCore\\": "tests/data/Core/"
                 }
             },
             "autoload-dev": {
@@ -3745,7 +3750,7 @@
                 "proprietary"
             ],
             "description": "PHP-SDK for Spryker",
-            "time": "2021-12-23T11:20:56+00:00"
+            "time": "2021-12-27T19:08:58+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",

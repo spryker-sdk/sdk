@@ -6,6 +6,7 @@
 /public/bundles/
 /var/
 /vendor/
+/project/
 /reports/
 /.idea
 .ssdk
