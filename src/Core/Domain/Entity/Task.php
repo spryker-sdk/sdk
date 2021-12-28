@@ -65,6 +65,11 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     protected string $stage = ContextInterface::DEFAULT_STAGE;
 
     /**
+     * @var bool
+     */
+    protected bool $optional = false;
+
+    /**
      * @var array<string>
      */
     protected array $tags = [];
@@ -81,6 +86,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
      * @param bool $isDeprecated
      * @param string $stage
      * @param array<string> $tags
+     * @param bool|false $optional
      */
     public function __construct(
         string $id,
@@ -93,7 +99,8 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         ?string $successor = null,
         bool $isDeprecated = false,
         string $stage = ContextInterface::DEFAULT_STAGE,
-        array $tags = []
+        array $tags = [],
+        bool $optional = false
     ) {
         $this->help = $help;
         $this->placeholders = $placeholders;
@@ -106,6 +113,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         $this->lifecycle = $lifecycle;
         $this->stage = $stage;
         $this->tags = $tags;
+        $this->optional = $optional;
     }
 
     /**
@@ -189,6 +197,14 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isOptional(): bool
+    {
+        return $this->optional;
+    }
+
+    /**
      * @return array
      */
     public function getTags(): array
@@ -212,6 +228,18 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     public function setStage(string $stage)
     {
         $this->stage = $stage;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $optional
+     *
+     * @return $this
+     */
+    public function setOptional(bool $optional)
+    {
+        $this->optional = $optional;
 
         return $this;
     }

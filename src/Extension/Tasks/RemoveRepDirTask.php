@@ -13,7 +13,6 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Extension\Tasks\Commands\RemoveReportDirCommand;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -32,20 +31,12 @@ class RemoveRepDirTask implements TaskInterface
     protected ViolationReportRepositoryInterface $violationReportRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
-     */
-    protected CliValueReceiver $cliValueReceiver;
-
-    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface $violationReportRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      */
     public function __construct(
-        ViolationReportRepositoryInterface $violationReportRepository,
-        CliValueReceiver $cliValueReceiver
+        ViolationReportRepositoryInterface $violationReportRepository
     ) {
         $this->violationReportRepository = $violationReportRepository;
-        $this->cliValueReceiver = $cliValueReceiver;
     }
 
     /**
@@ -86,7 +77,7 @@ class RemoveRepDirTask implements TaskInterface
     public function getCommands(): array
     {
         return [
-            new RemoveReportDirCommand($this->violationReportRepository, $this->cliValueReceiver),
+            new RemoveReportDirCommand($this->violationReportRepository),
         ];
     }
 
@@ -112,6 +103,14 @@ class RemoveRepDirTask implements TaskInterface
     public function getSuccessor(): ?string
     {
         return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOptional(): bool
+    {
+        return true;
     }
 
     /**
