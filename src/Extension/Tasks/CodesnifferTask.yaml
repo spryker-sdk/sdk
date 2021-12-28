@@ -1,6 +1,6 @@
 ---
 id: 'validation:php:codestyle-check'
-short_description: 'Check your code by running a static code analysis'
+short_description: 'Check your code by running a static code analysis and generate report with violations'
 help: ~
 stage: build
 version: 1.0.0

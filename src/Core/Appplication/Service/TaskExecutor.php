@@ -157,7 +157,7 @@ class TaskExecutor
     protected function executeStage(ContextInterface $context, string $stage = ContextInterface::DEFAULT_STAGE): ContextInterface
     {
         $stageTasks = array_filter($context->getSubTasks(), function (TaskInterface $task) use ($stage): bool {
-            return ($task instanceof StagedTaskInterface && $task->getStage() === $stage);
+            return ($task instanceof StagedTaskInterface && $task->getStage() === $stage) || !($task instanceof StagedTaskInterface);
         });
 
         if (count($stageTasks) > 0) {
@@ -171,7 +171,7 @@ class TaskExecutor
 
         $commands = [];
         foreach ($stageTasks as $task) {
-            if ($task->isOptional() && !$this->actionApprover->approve(sprintf('Do you want to run this task: %s - %s', $task->getId(), $task->getShortDescription()))) {
+            if ($task->isOptional() && !$this->actionApprover->approve(sprintf('Do you want to run this task: `%s` - %s', $task->getId(), $task->getShortDescription()))) {
                 continue;
             }
 
@@ -296,7 +296,10 @@ class TaskExecutor
     {
         $task = $context->getTask();
 
-        $requiredStages = array_intersect($context->getInputStages(), $context->getAvailableStages());
+
+        $requiredStages = $context->getInputStages() ?
+            array_intersect($context->getInputStages(), $context->getAvailableStages()) :
+            $context->getAvailableStages();
 
         if (
             $task instanceof TaskSetInterface &&
