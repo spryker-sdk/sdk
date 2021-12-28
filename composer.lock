@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09ed41735ec123286564a7b8e1f9b63b",
+    "content-hash": "fbf2ca8760fe3aafa67cd82dc5cf4167",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -3682,11 +3682,11 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk-base-tests",
+            "version": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator",
-                "reference": "c53459e0b2b1627adba94be8ac7716976b9e9ad0"
+                "reference": "7eccc0d752365264800cbb1404923e99b9c720a2"
             },
             "require": {
                 "davidrjonas/composer-lock-diff": "^1.6",
@@ -3750,7 +3750,7 @@
                 "proprietary"
             ],
             "description": "PHP-SDK for Spryker",
-            "time": "2021-12-27T19:08:58+00:00"
+            "time": "2021-12-28T10:16:46+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",

@@ -26,7 +26,7 @@
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpstan/phpstan": "^1.2",
-        "spryker-sdk/evaluator": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk-base-tests",
+        "spryker-sdk/evaluator": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk",
         "spryker-sdk/sdk-contracts": "dev-master",
         "symfony/console": "5.3.*",
         "symfony/dotenv": "5.3.*",
