@@ -32,12 +32,12 @@ class ActionApprover implements ActionApproverInterface
      */
     public function approve(string $message): bool
     {
-        return (bool) $this->cliValueReceiver->receiveValue(
+        return (bool)$this->cliValueReceiver->receiveValue(
             new ReceiverValue(
                 $message,
                 true,
-                'boolean'
-            )
+                'boolean',
+            ),
         );
     }
 }

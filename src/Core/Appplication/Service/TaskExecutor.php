@@ -49,22 +49,23 @@ class TaskExecutor
     protected ViolationReportGenerator $violationReportGenerator;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null
      */
-    protected ActionApproverInterface $actionApprover;
+    protected ?ActionApproverInterface $actionApprover;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null $actionApprover
      */
     public function __construct(
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
         ViolationReportGenerator $violationReportGenerator,
-        ActionApproverInterface $actionApprover
+        ?ActionApproverInterface $actionApprover = null
     ) {
         $this->placeholderResolver = $placeholderResolver;
         $this->taskRepository = $taskRepository;
@@ -171,7 +172,7 @@ class TaskExecutor
 
         $commands = [];
         foreach ($stageTasks as $task) {
-            if ($task->isOptional() && !$this->actionApprover->approve(sprintf('Do you want to run this task: `%s` - %s', $task->getId(), $task->getShortDescription()))) {
+            if ($this->actionApprover && $task->isOptional() && !$this->actionApprover->approve(sprintf('Do you want to run this task: `%s` - %s', $task->getId(), $task->getShortDescription()))) {
                 continue;
             }
 
@@ -295,7 +296,6 @@ class TaskExecutor
     protected function resolveInputStages(ContextInterface $context): ContextInterface
     {
         $task = $context->getTask();
-
 
         $requiredStages = $context->getInputStages() ?
             array_intersect($context->getInputStages(), $context->getAvailableStages()) :

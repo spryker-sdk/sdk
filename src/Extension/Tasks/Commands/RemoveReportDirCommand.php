@@ -30,7 +30,7 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface $violationReportRepository
      */
     public function __construct(
-        ViolationReportRepositoryInterface $violationReportRepository,
+        ViolationReportRepositoryInterface $violationReportRepository
     ) {
         $this->violationReportRepository = $violationReportRepository;
     }

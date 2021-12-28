@@ -54,7 +54,7 @@ class Task extends CoreTask
         $this->commandCollection = new ArrayCollection();
         $this->placeholderCollection = new ArrayCollection();
 
-        parent::__construct($id, $shortDescription, [], $lifecycle, $version, [], $help, $successor, $isDeprecated, $stage = ContextInterface::DEFAULT_STAGE, [], $isOptional);
+        parent::__construct($id, $shortDescription, [], $lifecycle, $version, [], $help, $successor, $isDeprecated, ContextInterface::DEFAULT_STAGE, [], $isOptional);
     }
 
     /**
