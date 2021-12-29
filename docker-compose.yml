@@ -2,7 +2,7 @@ version: '3'
 
 services:
   spryker-sdk:
-    image: spryker-sdk:0.0.3
+    image: spryker/spryker-sdk:0.0.3
     build:
       context: ./
       dockerfile: ./infrastructure/sdk.Dockerfile

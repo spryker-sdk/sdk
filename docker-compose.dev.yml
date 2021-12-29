@@ -6,9 +6,15 @@ x-volumes:
 
 services:
   spryker-sdk:
-    entrypoint: ["/bin/bash", "-c", "php -dopcache.enable=0 /data/bin/console \"$$@\"", "--"]
+    image: spryker/spryker-sdk:dev
+    build:
+      context: ./
+      dockerfile: ./infrastructure/sdk.debug.Dockerfile
     volumes:
       - spryker_sdk_dev_data_sync:/data:nocopy
+    environment:
+      SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
 
 volumes:
     spryker_sdk_dev_data_sync:
