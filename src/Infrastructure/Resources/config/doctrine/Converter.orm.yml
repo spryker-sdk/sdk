@@ -1,0 +1,20 @@
+SprykerSdk\Sdk\Infrastructure\Entity\Converter:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\ConverterRepository
+    table: sdk_converter
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            nullable: false
+            unique: false
+        configuration:
+            name: tags
+            type: json
+            nullable: false
+            unique: false
+            default: [ ]

@@ -1,0 +1,239 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdk\Sdk\Infrastructure\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use SprykerSdk\Sdk\Core\Domain\Entity\Task as CoreTask;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
+
+class Task extends CoreTask
+{
+    /**
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     */
+    protected Collection $placeholderCollection;
+
+    /**
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected Collection $commandCollection;
+
+    /**
+     * @var \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface
+     */
+    protected LifecycleInterface $lifecycle;
+
+    /**
+     * @param string $id
+     * @param string $shortDescription
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
+     * @param string $version
+     * @param string|null $help
+     * @param string|null $successor
+     * @param bool $isDeprecated
+     * @param bool $isOptional
+     */
+    public function __construct(
+        string $id,
+        string $shortDescription,
+        LifecycleInterface $lifecycle,
+        string $version,
+        ?string $help = null,
+        ?string $successor = null,
+        bool $isDeprecated = false,
+        bool $isOptional = false
+    ) {
+        $this->commandCollection = new ArrayCollection();
+        $this->placeholderCollection = new ArrayCollection();
+
+        parent::__construct($id, $shortDescription, [], $lifecycle, $version, [], $help, $successor, $isDeprecated, ContextInterface::DEFAULT_STAGE, [], $isOptional);
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
+     *
+     * @return $this
+     */
+    public function setLifecycle(PersistentLifecycleInterface $lifecycle)
+    {
+        $this->lifecycle = $lifecycle;
+
+        return $this;
+    }
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     */
+    public function getPlaceholders(): array
+    {
+        return $this->placeholderCollection->toArray();
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
+     *
+     * @return $this
+     */
+    public function setPlaceholders(Collection $placeholders)
+    {
+        $this->placeholderCollection = $placeholders;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $help
+     *
+     * @return $this
+     */
+    public function setHelp(?string $help)
+    {
+        $this->help = $help;
+
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return $this
+     */
+    public function setId(string $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @param string $shortDescription
+     *
+     * @return $this
+     */
+    public function setShortDescription(string $shortDescription)
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    public function getCommands(): array
+    {
+        return $this->commandCollection->toArray();
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     *
+     * @return $this
+     */
+    public function setCommands(Collection $commands)
+    {
+        $this->commandCollection = $commands;
+
+        return $this;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Command $command
+     *
+     * @return $this
+     */
+    public function addCommand(Command $command)
+    {
+        if (!$this->commandCollection->contains($command)) {
+            $this->commandCollection[] = $command;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Command $command
+     *
+     * @return $this
+     */
+    public function removeCommand(Command $command)
+    {
+        if ($this->commandCollection->contains($command)) {
+            $this->commandCollection->removeElement($command);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder $placeholder
+     *
+     * @return $this
+     */
+    public function addPlaceholder(Placeholder $placeholder)
+    {
+        if (!$this->placeholderCollection->contains($placeholder)) {
+            $this->placeholderCollection[] = $placeholder;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Placeholder $placeholder
+     *
+     * @return $this
+     */
+    public function removePlaceholder(Placeholder $placeholder)
+    {
+        if ($this->placeholderCollection->contains($placeholder)) {
+            $this->placeholderCollection->removeElement($placeholder);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $version
+     *
+     * @return $this
+     */
+    public function setVersion(string $version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $successor
+     *
+     * @return $this
+     */
+    public function setSuccessor(?string $successor)
+    {
+        $this->successor = $successor;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $isDeprecated
+     *
+     * @return $this
+     */
+    public function setIsDeprecated(bool $isDeprecated)
+    {
+        $this->isDeprecated = $isDeprecated;
+
+        return $this;
+    }
+}

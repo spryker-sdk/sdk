@@ -17,7 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [
-            '8.0'
+            '8.0',
+            '8.1'
         ]
 
     steps:
@@ -59,6 +60,10 @@ jobs:
         run: composer cs-check
 
       - name: Codecept tests with coverage
+        if: ${{ matrix.php-version == '8.1' }}
+        run: composer test
+
+      - name: Codecept tests with coverage
         if: ${{ matrix.php-version == '8.0' }}
         run: composer test-cover
 
@@ -67,5 +72,5 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          composer global require php-coveralls/php-coveralls
+          composer global require "php-coveralls/php-coveralls" "symfony/console: ^5.4"
           php-coveralls --coverage_clover=tests/_output/coverage.xml --json_path=tests/_output/coveralls-upload.json -vvv

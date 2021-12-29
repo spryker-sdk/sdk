@@ -11,13 +11,13 @@ so you can focus developing exciting features for your business case.
 
 ## Installation
 
-- composer require `spryker-sdk/spryker-sdk`
-- nano ~/.bashrc
-- add alias spryker-sdk='php {path to sdk}/bin/console'
-- source ~/.bashrc
+- ensure docker & docker-compose is installed
+- Download the `install.sh` from the latest release at https://github.com/spryker-sdk/sdk/releases
+- run `install.sh </path/to/install/sdk/in>`
+- echo "add alias spryker-sdk='</path/to/install/sdk/in>/bin/spryker-sdk.sh'" >> ~/.bashrc
 
 ## Update
-composer update `spryker-sdk/spryker-sdk`
+- @todo auto update for sdk in spryker-sdk.sh
 
 ## Getting started
 
@@ -29,5 +29,15 @@ Using `bin/consolespryker-sdk <task-id> -h` will give a description on what opti
 
 ## Extending the SDK capabilities
 
-Pleaser refer to the [development documentation](./docs/development.md) for further information on how
+Pleaser refer to the [extension documentation](./docs/extending_the_sdk.md) for further information on how
 to extend the SDK.
+Extensions to the SDK should follow the [SDK conventions](./docs/conventions.md).
+For maintaining an extension of the SDK please refer to the [lifecycle management](./docs/lifecycle_management.md).
+
+## PhpStorm Command Line Tools
+
+Please refer to the [phpstorm integration documentation](./docs/phpstorm_cli_integration.md) for further information on how to integrate the SDK to PhpStorm.
+
+## Running the SDK as a developer
+
+Running the SDK in a development or debug mode is documented at [development documentation](./docs/development.md)

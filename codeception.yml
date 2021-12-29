@@ -1,4 +1,4 @@
-namespace: SprykerSdk\Tests
+namespace: SprykerSdk\Sdk\Tests
 suites:
     unit:
         path: .
@@ -6,6 +6,10 @@ suites:
         modules:
             enabled:
                 - Asserts
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\ContextSerializerHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\FileManagerHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\PlaceholderResolverHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\SettingManagerHelper
         step_decorators: ~
 settings:
     shuffle: true
@@ -19,4 +23,4 @@ paths:
 coverage:
     enabled: true
     include:
-        - src/SprykerSdk/*
+        - src/*

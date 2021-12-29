@@ -8,20 +8,20 @@ parameters:
 services:
     # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: false      # Automatically injects dependencies in your services.
+        autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/App'
+        resource: '../app'
+        exclude: '../app/{DependencyInjection,Entity,Tests,Kernel.php}'
+    SprykerSdk\Sdk\Core\:
+        resource: '../src/Core'
         exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
-    SprykerSdk\Sdk\Core\Application:
-        resource: '../src/SprykerSdk/Sdk/Core/Application'
+    SprykerSdk\Sdk\Infrastructure\:
+        resource: '../src/Infrastructure'
         exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
-    SprykerSdk\Sdk\Infrastructure:
-        resource: '../src/SprykerSdk/Sdk/Infrastructure'
-        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
-    SprykerSdk\Sdk\Presentation\Console:
-        resource: '../src/SprykerSdk/Sdk/Presentation/Console'
+    SprykerSdk\Sdk\Presentation\Console\:
+        resource: '../src/Presentation/Console'
         exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
