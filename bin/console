@@ -11,8 +11,6 @@ if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 define('APPLICATION_ROOT_DIR', dirname(__DIR__, 1));
-define('APPLICATION_SOURCE_DIR', APPLICATION_ROOT_DIR . '/src');
-define('APPLICATION_VENDOR_DIR', APPLICATION_ROOT_DIR . '/vendor');
 
 return function (array $context) {
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
