@@ -8,8 +8,8 @@ building an own flavored Spryker SDK image.
 
 ## Add additional dependencies
 
-Beside extending the Spryker SDK through (Yaml definitions)[./development.md#via-yaml-definition] more complex
-extensions can be provided via (PHP implementations)[./development.md#via-php-implementation].
+Beside extending the Spryker SDK through (Yaml definitions)[./extending_the_sdk.md#via-yaml-definition] more complex
+extensions can be provided via (PHP implementations)[./extending_the_sdk.md#via-php-implementation].
 This extension through a PHP implementation need to be added as a composer dependency and registered as Symfony bundle.
 
 #### Download the SDK source code
@@ -18,7 +18,7 @@ First you need to download the source to be able to build your own flavored Spry
 
 `git clone --depth 1 --branch <tag_name> git@github.com:spryker-sdk/sdk.git`
 
-For testing and development purposes you can run the Spryker SDK in (development mode)[./development.md#run-sdk-in-development-mode].
+For testing and development purposes you can run the Spryker SDK in (development mode)[./extending_the_sdk.md#run-sdk-in-development-mode].
 
 #### Composer
 

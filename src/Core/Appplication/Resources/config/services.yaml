@@ -5,6 +5,10 @@ services:
     class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
     arguments:
       - '%kernel.project_dir%'
+      - '@sdk_filesystem'
+  sdk_filesystem:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Filesystem
+
   value_receiver:
     abstract: true
     synthetic: true
@@ -19,6 +23,9 @@ services:
     abstract: true
     synthetic: true
   progress_bar:
+    abstract: true
+    synthetic: true
+  action_approver:
     abstract: true
     synthetic: true
   setting_repository:
@@ -61,7 +68,7 @@ services:
       - '@task_repository'
       - '@service.command_executor'
       - '@violation_report_generator'
-
+      - '@action_approver'
   project_setting_repository:
     abstract: true
     synthetic: true

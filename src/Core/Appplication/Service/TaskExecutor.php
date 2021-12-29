@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
@@ -48,21 +49,29 @@ class TaskExecutor
     protected ViolationReportGenerator $violationReportGenerator;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null
+     */
+    protected ?ActionApproverInterface $actionApprover;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null $actionApprover
      */
     public function __construct(
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
-        ViolationReportGenerator $violationReportGenerator
+        ViolationReportGenerator $violationReportGenerator,
+        ?ActionApproverInterface $actionApprover = null
     ) {
         $this->placeholderResolver = $placeholderResolver;
         $this->taskRepository = $taskRepository;
         $this->commandExecutor = $commandExecutor;
         $this->violationReportGenerator = $violationReportGenerator;
+        $this->actionApprover = $actionApprover;
     }
 
     /**
@@ -148,32 +157,28 @@ class TaskExecutor
      */
     protected function executeStage(ContextInterface $context, string $stage = ContextInterface::DEFAULT_STAGE): ContextInterface
     {
-        $stageTasks = $context->getSubTasks();
+        $stageTasks = array_filter($context->getSubTasks(), function (TaskInterface $task) use ($stage): bool {
+            return ($task instanceof StagedTaskInterface && $task->getStage() === $stage) || !($task instanceof StagedTaskInterface);
+        });
 
-        if ($stage !== ContextInterface::DEFAULT_STAGE) {
-            $stageTasks = array_filter($context->getSubTasks(), function (TaskInterface $task) use ($stage): bool {
-                return ($task instanceof StagedTaskInterface && $task->getStage() === $stage);
-            });
-
-            if (count($stageTasks) > 0) {
-                $context->addMessage(
-                    $context->getTask()->getId(),
-                    new Message('Executing stage ' . $stage, MessageInterface::DEBUG),
-                );
-            }
-
-            $context->setSubTasks($stageTasks);
+        if (count($stageTasks) > 0) {
+            $context->addMessage(
+                $context->getTask()->getId(),
+                new Message('Executing stage ' . $stage, MessageInterface::DEBUG),
+            );
         }
+
+        $context->setSubTasks($stageTasks);
 
         $commands = [];
         foreach ($stageTasks as $task) {
-            //execute stage as sub process
+            if ($this->actionApprover && $task->isOptional() && !$this->actionApprover->approve(sprintf('Do you want to run this task: `%s` - %s', $task->getId(), $task->getShortDescription()))) {
+                continue;
+            }
 
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());
                 $commands[] = $task->getCommands();
-                $this->violationReportGenerator->collectViolations($task->getId(), $task->getCommands());
-
                 if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
                     return $context;
                 }
@@ -290,7 +295,9 @@ class TaskExecutor
     {
         $task = $context->getTask();
 
-        $requiredStages = array_intersect($context->getInputStages(), $context->getAvailableStages());
+        $requiredStages = $context->getInputStages() ?
+            array_intersect($context->getInputStages(), $context->getAvailableStages()) :
+            $context->getAvailableStages();
 
         if (
             $task instanceof TaskSetInterface &&
@@ -300,7 +307,7 @@ class TaskExecutor
             $requiredStages = $task->getStages();
         }
 
-        if (empty($requiredStages)) {
+        if (!$requiredStages) {
             $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
             return $context;
@@ -329,7 +336,7 @@ class TaskExecutor
 
         $valueResolver = $this->placeholderResolver->getValueResolver($requiredPlaceholder);
 
-        if (in_array($valueResolver->getAlias(), $overwrites) || in_array($valueResolver->getId(), $overwrites)) {
+        if (in_array($valueResolver->getAlias(), $overwrites, true) || in_array($valueResolver->getId(), $overwrites, true)) {
             return false;
         }
 

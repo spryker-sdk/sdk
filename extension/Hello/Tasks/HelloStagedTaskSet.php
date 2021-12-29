@@ -179,6 +179,14 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * @return bool
+                 */
+                public function isOptional(): bool
+                {
+                    return false;
+                }
+
+                /**
                  * @return string|null
                  */
                 public function getSuccessor(): ?string
@@ -285,6 +293,14 @@ class HelloStagedTaskSet implements TaskSetInterface
                  * @return bool
                  */
                 public function isDeprecated(): bool
+                {
+                    return false;
+                }
+
+                /**
+                 * @return bool
+                 */
+                public function isOptional(): bool
                 {
                     return false;
                 }
@@ -401,6 +417,14 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * @return bool
+                 */
+                public function isOptional(): bool
+                {
+                    return false;
+                }
+
+                /**
                  * @return string|null
                  */
                 public function getSuccessor(): ?string
@@ -453,6 +477,14 @@ class HelloStagedTaskSet implements TaskSetInterface
      * @return bool
      */
     public function isDeprecated(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOptional(): bool
     {
         return false;
     }

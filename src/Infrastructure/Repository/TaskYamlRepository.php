@@ -154,7 +154,8 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
         if (isset($data['type']) && $data['type'] === static::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
-                if ($tags && !array_intersect($tags, $task['tags'])) {
+                $taskTags = $task['tags'] ?? [];
+                if ($tags && !array_intersect($tags, $taskTags)) {
                     continue;
                 }
                 $taskPlaceholders[] = $taskListData[$task['id']]['placeholders'];
@@ -202,7 +203,8 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
         if ($data['type'] === static::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
-                if ($tags && !array_intersect($tags, $task['tags'])) {
+                $tasksTags = $task['tags'] ?? [];
+                if ($tags && !array_intersect($tags, $tasksTags)) {
                     continue;
                 }
                 $converter = isset($taskListData[$task['id']]['report_converter']) ? new Converter(
@@ -214,7 +216,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                     $taskListData[$task['id']]['command'],
                     $taskListData[$task['id']]['type'],
                     $task['stop_on_error'],
-                    $task['tags'],
+                    $tasksTags,
                     $converter,
                 );
             }
@@ -376,6 +378,8 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['successor'] ?? null,
             $taskData['deprecated'] ?? false,
             $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
+            [],
+            !empty($taskData['optional']),
         );
     }
 

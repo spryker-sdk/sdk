@@ -10,13 +10,14 @@
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
+        "ext-simplexml": "*",
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-pdo": "*",
         "ext-phar": "*",
-        "ext-simplexml": "*",
         "ext-sqlite3": "*",
         "ext-xml": "*",
+        "spryker-sdk/sdk-contracts": "dev-master",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
         "doctrine/doctrine-bundle": "^2.4",
@@ -26,8 +27,9 @@
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpstan/phpstan": "^1.2",
-        "spryker-sdk/evaluator": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk",
-        "spryker-sdk/sdk-contracts": "dev-master",
+        "spryker-sdk/spryk": "dev-feature/sdk-135-spryk-task as 0.3.2",
+        "spryker/architecture-sniffer": "^0.5.2",
+        "spryker/code-sniffer": "^0.17.1",
         "symfony/console": "5.3.*",
         "symfony/dotenv": "5.3.*",
         "symfony/event-dispatcher": "5.3.*",
@@ -52,7 +54,14 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "sllh/composer-versions-check": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -72,11 +81,17 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
-        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
-        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
+        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/, src/ tests/ extension/",
+        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/, src/ tests/ extension/",
         "stan": "phpstan analyze -l 8 src/",
+        "linters": [
+            "@cs-fix",
+            "@cs-check",
+            "@stan"
+        ],
         "test": "codecept build && codecept run",
         "test-cover": "codecept build && codecept run --coverage-xml",
+        "test-cover-html": "codecept build && codecept run --coverage-html",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
@@ -96,15 +111,5 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/spryker-sdk/evaluator"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/spryker-sdk/sdk-contracts"
-        }
-    ]
+    }
 }
