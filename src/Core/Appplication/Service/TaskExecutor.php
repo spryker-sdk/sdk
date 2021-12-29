@@ -307,7 +307,7 @@ class TaskExecutor
             $requiredStages = $task->getStages();
         }
 
-        if (empty($requiredStages)) {
+        if (!$requiredStages) {
             $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
             return $context;
@@ -336,7 +336,7 @@ class TaskExecutor
 
         $valueResolver = $this->placeholderResolver->getValueResolver($requiredPlaceholder);
 
-        if (in_array($valueResolver->getAlias(), $overwrites) || in_array($valueResolver->getId(), $overwrites)) {
+        if (in_array($valueResolver->getAlias(), $overwrites, true) || in_array($valueResolver->getId(), $overwrites, true)) {
             return false;
         }
 
