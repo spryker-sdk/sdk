@@ -54,7 +54,14 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "sllh/composer-versions-check": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -104,11 +111,5 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/spryker-sdk/sdk-contracts"
-        }
-    ]
+    }
 }
