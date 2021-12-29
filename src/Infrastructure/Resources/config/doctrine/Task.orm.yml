@@ -29,6 +29,22 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
             unique: false
             nullable: false
             default: false
+        tags:
+            name: tags
+            type: json
+            nullable: false
+            unique: false
+            default: [ ]
+        stage:
+            type: string
+            nullable: false;
+            unique: false
+            name: stage
+        optional:
+            type: boolean
+            nullable: false;
+            unique: false
+            default: false
     manyToMany:
         commandCollection:
             targetEntity: Command

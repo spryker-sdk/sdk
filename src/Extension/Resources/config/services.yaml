@@ -13,4 +13,3 @@ services:
     tags: [ 'sdk.task' ]
     arguments:
         - '@violation_report_repository'
-        - '@cli_value_receiver'

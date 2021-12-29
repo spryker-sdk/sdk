@@ -10,17 +10,13 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 class PlaceholderResolver
 {
-    /**
-     * @var array<string, mixed>
-     */
-    protected array $resolvedValues = [];
-
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
@@ -45,10 +41,11 @@ class PlaceholderResolver
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return mixed
      */
-    public function resolve(PlaceholderInterface $placeholder): mixed
+    public function resolve(PlaceholderInterface $placeholder, ContextInterface $context): mixed
     {
         $valueResolverInstance = $this->getValueResolver($placeholder);
         $settingValues = [];
@@ -61,23 +58,24 @@ class PlaceholderResolver
             }
         }
 
-        if (empty($this->resolvedValues[$valueResolverInstance->getAlias()])) {
-            $this->resolvedValues[$valueResolverInstance->getAlias()] = $valueResolverInstance->getValue($settingValues, $placeholder->isOptional(), $this->resolvedValues);
-        }
-
-        return $this->resolvedValues[$valueResolverInstance->getAlias()];
+        return $valueResolverInstance->getValue(
+            $context,
+            $settingValues,
+            $placeholder->isOptional(),
+        );
     }
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return array<string, mixed>
      */
-    public function resolvePlaceholders(array $placeholders): array
+    public function resolvePlaceholders(array $placeholders, ContextInterface $context): array
     {
         $resolvedValues = [];
         foreach ($placeholders as $placeholder) {
-            $resolvedValues[$placeholder->getName()] = $this->resolve($placeholder);
+            $resolvedValues[$placeholder->getName()] = $this->resolve($placeholder, $context);
         }
 
         return $resolvedValues;

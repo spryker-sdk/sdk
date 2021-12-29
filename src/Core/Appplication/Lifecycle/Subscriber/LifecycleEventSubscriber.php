@@ -10,15 +10,28 @@ namespace SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\FileInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 abstract class LifecycleEventSubscriber
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface
+     */
     protected FileManagerInterface $fileManager;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     */
     protected PlaceholderResolver $placeholderResolver;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
+     */
     protected CommandExecutorInterface $commandExecutor;
 
     /**
@@ -38,13 +51,13 @@ abstract class LifecycleEventSubscriber
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\FileInterface> $files
-     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */
-    protected function manageFiles(array $files, array $placeholders): void
+    protected function manageFiles(array $files, ContextInterface $context): void
     {
-        $resolvedValues = $this->placeholderResolver->resolvePlaceholders($placeholders);
+        $resolvedValues = $context->getResolvedValues();
 
         $placeholdersKeys = array_map(function (mixed $placeholder): string {
             return '~' . $placeholder . '~';
@@ -62,6 +75,37 @@ abstract class LifecycleEventSubscriber
                 $this->doManageFile($resolvedFile);
             }
         }
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     *
+     * @return void
+     */
+    protected function executeCommands(array $commands, ContextInterface $context): void
+    {
+        foreach ($commands as $command) {
+            $this->commandExecutor->execute($command, $context, $context->getTask()->getId());
+        }
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $eventData
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     */
+    protected function createContext(LifecycleEventDataInterface $eventData, TaskInterface $task): ContextInterface
+    {
+        $context = new Context();
+        $context->setSubTasks([$task]);
+        $context->setTask($task);
+        $resolvedValues = $this->placeholderResolver->resolvePlaceholders($eventData->getPlaceholders(), $context);
+
+        $context->setResolvedValues($resolvedValues);
+
+        return $context;
     }
 
     /**

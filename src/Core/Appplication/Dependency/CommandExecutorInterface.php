@@ -7,16 +7,17 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-use SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 interface CommandExecutorInterface
 {
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
-     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
-     * @param callable|null $afterCommandExecutedCallback
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param string $subTaskId
      *
-     * @return \SprykerSdk\SdkContracts\CommandRunner\CommandResponseInterface
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(array $commands, array $placeholders, ?callable $afterCommandExecutedCallback = null): CommandResponseInterface;
+    public function execute(CommandInterface $command, ContextInterface $context, string $subTaskId): ContextInterface;
 }

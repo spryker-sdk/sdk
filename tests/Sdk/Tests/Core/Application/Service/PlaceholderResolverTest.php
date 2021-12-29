@@ -12,8 +12,10 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterfac
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
-use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\Sdk\Tests\UnitTester;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
@@ -24,6 +26,11 @@ class PlaceholderResolverTest extends Unit
      * @var string
      */
     protected const VALUE_RESOLVER_ID = 'value_resolver_id';
+
+    /**
+     * @var string
+     */
+    protected const PLACEHOLDER_NAME = 'test_setting';
 
     /**
      * @var string
@@ -41,6 +48,11 @@ class PlaceholderResolverTest extends Unit
     protected const OPTIONAL = 'optional';
 
     /**
+     * @var \SprykerSdk\Sdk\Tests\UnitTester
+     */
+    protected UnitTester $tester;
+
+    /**
      * @dataProvider providePlaceholders
      *
      * @param mixed $expectedValue
@@ -54,13 +66,24 @@ class PlaceholderResolverTest extends Unit
         array $expectedSettings,
         bool $optionalPlaceholder
     ): void {
-        $placeholderMock = $this->createPlaceholderMock($optionalPlaceholder);
+        // Arrange
+        $placeholder = $this->tester->createPlaceholder(
+            static::PLACEHOLDER_NAME,
+            static::VALUE_RESOLVER_ID,
+            $optionalPlaceholder,
+        );
+
         $settingRepositoryMock = $this->createSettingRepositoryMock($expectedSettings);
         $valueResolverMock = $this->createValueResolverMock($expectedSettings, $expectedValue);
         $registryMock = $this->createRegistryMock($valueResolverMock);
-
+        $context = new Context();
         $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
-        $this->assertSame($expectedValue, $placeholderResolver->resolve($placeholderMock));
+
+        // Act
+        $result = $placeholderResolver->resolve($placeholder, $context);
+
+        // Assert
+        $this->assertSame($expectedValue, $result);
     }
 
     /**
@@ -68,13 +91,18 @@ class PlaceholderResolverTest extends Unit
      */
     public function testSettingsAreInjectedDuringResolve(): void
     {
-        $expectedSettingKey = 'test_setting';
+        // Arrange
+        $expectedSettingKey = static::PLACEHOLDER_NAME;
         $expectedValue = 'some_setting_value';
         $expectedSettings = [
              $expectedSettingKey => $expectedValue,
         ];
 
-        $placeholderMock = $this->createPlaceholderMock(true);
+        $placeholderMock = $this->tester->createPlaceholder(
+            static::PLACEHOLDER_NAME,
+            static::VALUE_RESOLVER_ID,
+            true,
+        );
         $settingRepositoryMock = $this->createSettingRepositoryMock($expectedSettings);
         $valueResolverMock = $this->createMock(ValueResolverInterface::class);
         $valueResolverMock->expects($this->once())
@@ -82,15 +110,23 @@ class PlaceholderResolverTest extends Unit
             ->willReturn(array_keys($expectedSettings));
         $valueResolverMock->expects($this->once())
             ->method('getValue')
-            ->willReturnCallback(function (array $settings) use ($expectedSettingKey): mixed {
-                $this->assertArrayHasKey($expectedSettingKey, $settings);
+            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey): mixed {
+                $this->assertArrayHasKey($expectedSettingKey, $context->getResolvedValues());
 
-                return $settings[$expectedSettingKey];
+                return $context->getResolvedValues()[$expectedSettingKey];
             });
         $registryMock = $this->createRegistryMock($valueResolverMock);
 
+        $context = new Context();
+        $context->setResolvedValues($expectedSettings);
+
         $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
-        $this->assertSame($expectedValue, $placeholderResolver->resolve($placeholderMock));
+
+        // Act
+        $result = $placeholderResolver->resolve($placeholderMock, $context);
+
+        // Assert
+        $this->assertSame($expectedValue, $result);
     }
 
     /**
@@ -98,6 +134,7 @@ class PlaceholderResolverTest extends Unit
      */
     public function testUnresolvableValueResolver(): void
     {
+        // Arrange
         $settingRepositoryMock = $this->createSettingRepositoryMock([]);
         $registryMock = $this->createMock(ValueResolverRegistryInterface::class);
         $registryMock->expects($this->once())
@@ -106,16 +143,20 @@ class PlaceholderResolverTest extends Unit
         $registryMock->expects($this->never())
             ->method('get')
             ->willReturn(null);
-        $placeholderMock = $this->createMock(PlaceholderInterface::class);
-        $placeholderMock->expects($this->exactly(2))
-            ->method('getValueResolver')
-            ->willReturn(static::VALUE_RESOLVER_ID);
+
+        $placeholder = $this->tester->createPlaceholder(
+            static::PLACEHOLDER_NAME,
+            static::VALUE_RESOLVER_ID,
+            false,
+        );
 
         $this->expectException(UnresolvablePlaceholderException::class);
         $this->expectExceptionMessage('Placeholder not resolvable ' . static::VALUE_RESOLVER_ID);
 
         $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
-        $placeholderResolver->getValueResolver($placeholderMock);
+
+        // Act
+        $placeholderResolver->getValueResolver($placeholder);
     }
 
     /**
@@ -123,6 +164,7 @@ class PlaceholderResolverTest extends Unit
      */
     public function testConfigurableValueResolver(): void
     {
+        // Arrange
         $expectedConfiguration = [
             'key' => 'value',
         ];
@@ -140,17 +182,65 @@ class PlaceholderResolverTest extends Unit
         $registryMock->expects($this->once())
             ->method('get')
             ->willReturn($valueResolverMock);
-        $placeholderMock = $this->createMock(PlaceholderInterface::class);
-        $placeholderMock->expects($this->exactly(2))
-            ->method('getValueResolver')
-            ->willReturn(static::VALUE_RESOLVER_ID);
-        $placeholderMock->expects($this->once())
-            ->method('getConfiguration')
-            ->willReturn($expectedConfiguration);
+        $placeholder = $this->tester->createPlaceholder(
+            static::PLACEHOLDER_NAME,
+            static::VALUE_RESOLVER_ID,
+            false,
+            $expectedConfiguration,
+        );
 
         $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
-        $resolvedValueResolver = $placeholderResolver->getValueResolver($placeholderMock);
+
+        // Act
+        $resolvedValueResolver = $placeholderResolver->getValueResolver($placeholder);
+
+        // Assert
         $this->assertInstanceOf(ConfigurableValueResolverInterface::class, $resolvedValueResolver);
+    }
+
+    /**
+     * @return void
+     */
+    public function testResolvePlaceholdersShouldReturnIndexedResolvedValues(): void
+    {
+        // Arrange
+        $expectedSettingKey = static::PLACEHOLDER_NAME;
+        $expectedValue = 'some_setting_value';
+        $expectedSettings = [
+            $expectedSettingKey => $expectedValue,
+        ];
+
+        $placeholder = $this->tester->createPlaceholder(
+            $expectedSettingKey,
+            static::VALUE_RESOLVER_ID,
+            false,
+        );
+
+        $settingRepositoryMock = $this->createSettingRepositoryMock($expectedSettings);
+        $valueResolverMock = $this->createMock(ValueResolverInterface::class);
+        $valueResolverMock->expects($this->once())
+            ->method('getSettingPaths')
+            ->willReturn(array_keys($expectedSettings));
+        $valueResolverMock->expects($this->once())
+            ->method('getValue')
+            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey): mixed {
+                $this->assertArrayHasKey($expectedSettingKey, $context->getResolvedValues());
+
+                return $context->getResolvedValues()[$expectedSettingKey];
+            });
+
+        $registryMock = $this->createRegistryMock($valueResolverMock);
+
+        $context = new Context();
+        $context->setResolvedValues($expectedSettings);
+
+        $placeholderResolver = new PlaceholderResolver($settingRepositoryMock, $registryMock);
+
+        // Act
+        $result = $placeholderResolver->resolvePlaceholders([$placeholder], $context);
+
+        // Assert
+        $this->assertSame($expectedSettings, $result);
     }
 
     /**
@@ -198,24 +288,6 @@ class PlaceholderResolverTest extends Unit
             });
 
         return $settingRepositoryMock;
-    }
-
-    /**
-     * @param bool $optionalPlaceholder
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\PlaceholderInterface
-     */
-    protected function createPlaceholderMock(bool $optionalPlaceholder): mixed
-    {
-        $placeholderMock = $this->createMock(PlaceholderInterface::class);
-        $placeholderMock->expects($this->exactly(2))
-            ->method('getValueResolver')
-            ->willReturn(static::VALUE_RESOLVER_ID);
-        $placeholderMock->expects($this->once())
-            ->method('isOptional')
-            ->willReturn($optionalPlaceholder);
-
-        return $placeholderMock;
     }
 
     /**

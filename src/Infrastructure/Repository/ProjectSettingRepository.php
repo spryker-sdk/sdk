@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
@@ -93,6 +94,24 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
+     * @param string $settingPath
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
+     */
+    public function getOneByPath(string $settingPath): SettingInterface
+    {
+        $setting = $this->findOneByPath($settingPath);
+
+        if (!$setting) {
+            throw new MissingSettingException(sprintf('Setting by path "%s" not found', $settingPath));
+        }
+
+        return $setting;
+    }
+
+    /**
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function find(): array
@@ -103,7 +122,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         if (empty($entities)) {
-            return $entities;
+            return [];
         }
 
         return $this->fillProjectValues($entities);

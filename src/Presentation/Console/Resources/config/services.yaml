@@ -68,7 +68,7 @@ services:
     arguments:
       - '@console.command_loader'
       - '@ide.command_mapper'
-      -  '@task_repository'
+      - '@task_repository'
 
   ide.command_xml_formatter:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatter

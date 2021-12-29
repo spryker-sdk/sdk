@@ -64,7 +64,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SprykerSdk\\Sdk\\Tests\\": "tests/Sdk/Tests/"
+            "SprykerSdk\\Sdk\\Tests\\": "tests/Sdk/Tests/",
+            "Hello\\": "extension"
         }
     },
     "replace": {
@@ -73,11 +74,17 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
-        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
-        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/,/_support/ src/ tests/ extension/",
+        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/, src/ tests/ extension/",
+        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/, src/ tests/ extension/",
         "stan": "phpstan analyze -l 8 src/",
+        "linters": [
+            "@cs-fix",
+            "@cs-check",
+            "@stan"
+        ],
         "test": "codecept build && codecept run",
         "test-cover": "codecept build && codecept run --coverage-xml",
+        "test-cover-html": "codecept build && codecept run --coverage-html",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
