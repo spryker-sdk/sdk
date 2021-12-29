@@ -179,8 +179,6 @@ class TaskExecutor
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());
                 $commands[] = $task->getCommands();
-                $this->violationReportGenerator->collectViolations($task->getId(), $task->getCommands());
-
                 if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
                     return $context;
                 }
