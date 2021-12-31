@@ -28,6 +28,6 @@ docker-compose -f docker-compose.yml build --no-cache
 echo "Nearly done, the next steps are:"
 echo "docker login"
 echo "docker push spryker-sdk:${VERSION}"
-echo "git tag ${VERSION} && git push git push origin ${VERSION}"
+echo "git tag ${VERSION} && git push origin ${VERSION}"
 echo "create a github release (https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release)"
 echo "upload the ${BUILD_DIR}/installer.sh to the github release"
