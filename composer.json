@@ -26,7 +26,7 @@
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpstan/phpstan": "^1.2",
-        "spryker-sdk/evaluator": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk-clean-up",
+        "spryker-sdk/evaluator": "dev-master",
         "spryker-sdk/sdk-contracts": "dev-master",
         "spryker-sdk/spryk": "dev-feature/sdk-135-spryk-task as 0.3.2",
         "spryker/architecture-sniffer": "^0.5.2",

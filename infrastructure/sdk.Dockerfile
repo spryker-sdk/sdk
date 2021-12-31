@@ -25,7 +25,6 @@ COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db
 COPY --chown=spryker:spryker extension ${srcRoot}/extension
 COPY --chown=spryker:spryker config ${srcRoot}/config
-COPY --chown=spryker:spryker project ${srcRoot}/project
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
 COPY --chown=spryker:spryker infrastructure/entrypoint.sh /
