@@ -112,11 +112,5 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/spryker-sdk/evaluator"
-        }
-    ]
+    }
 }

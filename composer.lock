@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc01d92290bcf383352d0c0e7da5484c",
+    "content-hash": "f024d917c8774768439f455d88db7f7b",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4450,8 +4450,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spryker-sdk/evaluator",
-                "reference": "1160bba085cff799b5cf2caec7757607b55c0892"
+                "url": "https://github.com/spryker-sdk/evaluator.git",
+                "reference": "19cc1a4882df6e687bfefee74e7aa92e70418fb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/19cc1a4882df6e687bfefee74e7aa92e70418fb9",
+                "reference": "19cc1a4882df6e687bfefee74e7aa92e70418fb9",
+                "shasum": ""
             },
             "require": {
                 "davidrjonas/composer-lock-diff": "^1.6",
@@ -4487,36 +4493,19 @@
                     "CodeCompliance\\": "src/CodeCompliance/",
                     "Evaluate\\": "src/Evaluate/",
                     "Upgrade\\": "src/Upgrade/",
-                    "Sdk\\": "src/Sdk/",
-                    "CodeComplianceTest\\": "tests/CodeComplianceTest/",
-                    "CodebaseTest\\": "tests/CodebaseTest/",
-                    "CoreTest\\": "tests/Core/",
-                    "TestProject\\": "tests/data/Project/",
-                    "TestCore\\": "tests/data/Core/"
+                    "Upgrader\\": "src/Upgrader/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": []
-            },
-            "scripts": {
-                "cs-check": [
-                    "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/ tests/ src/"
-                ],
-                "cs-fix": [
-                    "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_data/ tests/ src/"
-                ],
-                "stan": [
-                    "phpstan analyze -l 8 src/"
-                ],
-                "tests": [
-                    "phpunit tests/"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "PHP-SDK for Spryker",
-            "time": "2021-12-31T07:36:09+00:00"
+            "description": "Code evaluator and upgrader tool",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/evaluator/issues",
+                "source": "https://github.com/spryker-sdk/evaluator/tree/master"
+            },
+            "time": "2021-12-31T09:01:13+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
