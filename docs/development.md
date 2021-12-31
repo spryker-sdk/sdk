@@ -7,10 +7,10 @@
 you might need to build the SDK and tag it first:
 
 ```bash
-docker image rm spryker/spryker-sdk:dev
+docker image rm spryker/php-sdk:dev
 bin/spryker-sdk.sh
-docker images spryker/spryker-sdk #find latest tag
-docker image tag spryker/spryker-sdk:<latest tag> spryker/spryker-sdk:latest
+docker images spryker/php-sdk #find latest tag
+docker image tag spryker/php-sdk:<latest tag> spryker/php-sdk:latest
 bin/spryker-sdk.sh --mode=dev
 ```
 

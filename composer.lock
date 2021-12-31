@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f024d917c8774768439f455d88db7f7b",
+    "content-hash": "df1bf43e2bd56d1f02d7bd8820dd7b06",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4548,16 +4548,16 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "dev-feature/sdk-135-spryk-task",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "c60f590c6145828e4bd08d40e03d4a54701a69e2"
+                "reference": "3b84913605da52d1483a2ea2f747f9462003a444"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/c60f590c6145828e4bd08d40e03d4a54701a69e2",
-                "reference": "c60f590c6145828e4bd08d40e03d4a54701a69e2",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/3b84913605da52d1483a2ea2f747f9462003a444",
+                "reference": "3b84913605da52d1483a2ea2f747f9462003a444",
                 "shasum": ""
             },
             "require": {
@@ -4624,9 +4624,9 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/feature/sdk-135-spryk-task"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.3.3"
             },
-            "time": "2021-11-30T14:18:59+00:00"
+            "time": "2021-12-31T09:49:51+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
@@ -13746,17 +13746,16 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/spryk",
-            "version": "dev-feature/sdk-135-spryk-task",
-            "alias": "0.3.2",
-            "alias_normalized": "0.3.2.0"
+            "package": "spryker-sdk/evaluator",
+            "version": "9999999-dev",
+            "alias": "0.1.0",
+            "alias_normalized": "0.1.0.0"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/evaluator": 20,
-        "spryker-sdk/sdk-contracts": 20,
-        "spryker-sdk/spryk": 20
+        "spryker-sdk/sdk-contracts": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
