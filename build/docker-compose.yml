@@ -2,7 +2,7 @@ version: '3'
 
 services:
   spryker-sdk:
-    image: spryker/php-sdk:0.0.3
+    image: spryker/php-sdk:latest
     build:
       context: ./
       dockerfile: ./infrastructure/sdk.Dockerfile
