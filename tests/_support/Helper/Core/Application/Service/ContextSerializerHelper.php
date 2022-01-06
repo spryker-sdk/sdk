@@ -25,18 +25,21 @@ class ContextSerializerHelper extends Module
      * @param array<string> $tags
      * @param array<string, array> $messages
      * @param array<array> $violationReports
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $subTasks
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
     public function createContext(
-        array $resolvedValues,
-        array $tags,
-        array $messages,
-        array $violationReports
+        array $resolvedValues = [],
+        array $tags = [],
+        array $messages = [],
+        array $violationReports = [],
+        array $subTasks = []
     ): ContextInterface {
         $context = new Context();
         $context->setResolvedValues($resolvedValues);
         $context->setTags($tags);
+        $context->setSubTasks($subTasks);
 
         foreach ($messages as $key => $message) {
             $context->addMessage($key, new Message($message['message'], $message['verbosity']));
@@ -182,6 +185,127 @@ class ContextSerializerHelper extends Module
                                         'produced_by' => 'task',
                                     ],
                                 ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function createArrayViolationReport(): array
+    {
+        return [
+            'path' => '/path/to/file',
+            'project' => 'b2c',
+            'violations' => [
+                [
+                    'id' => 'task',
+                    'message' => 'violation message',
+                    'additional_attributes' => [],
+                    'class' => 'Foo',
+                    'method' => 'foo',
+                    'start_column' => 1,
+                    'end_column' => 2,
+                    'start_line' => 1,
+                    'end_line' => 10,
+                    'is_fixable' => true,
+                    'priority' => 'priority',
+                    'produced_by' => 'task',
+                ],
+            ],
+            'packages' => [
+                [
+                    'violations' => [
+                        [
+                            'id' => 'task',
+                            'message' => 'violation message',
+                            'additional_attributes' => [],
+                            'class' => 'Foo',
+                            'method' => 'foo',
+                            'start_column' => 1,
+                            'end_column' => 2,
+                            'start_line' => 1,
+                            'end_line' => 10,
+                            'is_fixable' => true,
+                            'priority' => 'priority',
+                            'produced_by' => 'task',
+                        ],
+                    ],
+                    'path' => '/path/to/another/file',
+                    'package' => 'Pyz\\Test\\',
+                    'file_violations' => [
+                        'key1' => [
+                            [
+                                'id' => 'somefile',
+                                'message' => 'violation message',
+                                'additional_attributes' => [],
+                                'class' => 'Foo',
+                                'method' => 'foo',
+                                'start_column' => 1,
+                                'end_column' => 2,
+                                'start_line' => 1,
+                                'end_line' => 10,
+                                'is_fixable' => true,
+                                'priority' => 'priority',
+                                'produced_by' => 'task',
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'violations' => [
+                        [
+                            'id' => 'task',
+                            'message' => 'violation message',
+                            'additional_attributes' => [],
+                            'class' => 'Foo',
+                            'method' => 'foo',
+                            'start_column' => 1,
+                            'end_column' => 2,
+                            'start_line' => 1,
+                            'end_line' => 10,
+                            'is_fixable' => true,
+                            'priority' => 'priority',
+                            'produced_by' => 'task',
+                        ],
+                    ],
+                    'path' => '/path/to/another/file',
+                    'package' => 'Pyz\\Test\\',
+                    'file_violations' => [
+                        'key1' => [
+                            [
+                                'id' => 'somefile',
+                                'message' => 'violation message',
+                                'additional_attributes' => [],
+                                'class' => 'Foo',
+                                'method' => 'foo',
+                                'start_column' => 1,
+                                'end_column' => 2,
+                                'start_line' => 1,
+                                'end_line' => 10,
+                                'is_fixable' => true,
+                                'priority' => 'priority',
+                                'produced_by' => 'task',
+                            ],
+                        ],
+                        'key2' => [
+                            [
+                                'id' => 'somefile',
+                                'message' => 'violation message',
+                                'additional_attributes' => [],
+                                'class' => 'Foo',
+                                'method' => 'foo',
+                                'start_column' => 1,
+                                'end_column' => 2,
+                                'start_line' => 1,
+                                'end_line' => 10,
+                                'is_fixable' => true,
+                                'priority' => 'priority',
+                                'produced_by' => 'task',
                             ],
                         ],
                     ],

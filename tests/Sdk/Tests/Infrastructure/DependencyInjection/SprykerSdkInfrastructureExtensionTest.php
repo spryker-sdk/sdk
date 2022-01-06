@@ -5,18 +5,18 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Tests\Core\Application\DependencyInjection;
+namespace SprykerSdk\Sdk\Tests\Infrastructure\DependencyInjection;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension;
+use SprykerSdk\Sdk\Infrastructure\DependencyInjection\SprykerSdkInfrastructureExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class SprykerSdkCoreExtensionTest extends Unit
+class SprykerSdkInfrastructureExtensionTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension
+     * @var \SprykerSdk\Sdk\Infrastructure\DependencyInjection\SprykerSdkInfrastructureExtension
      */
-    protected SprykerSdkCoreExtension $sprykerSdkCoreExtension;
+    protected SprykerSdkInfrastructureExtension $sprykerSdkInfrastructureExtension;
 
     /**
      * @return void
@@ -24,7 +24,7 @@ class SprykerSdkCoreExtensionTest extends Unit
     protected function setUp(): void
     {
         parent::setUp();
-        $this->sprykerSdkCoreExtension = new SprykerSdkCoreExtension();
+        $this->sprykerSdkInfrastructureExtension = new SprykerSdkInfrastructureExtension();
     }
 
     /**
@@ -37,7 +37,7 @@ class SprykerSdkCoreExtensionTest extends Unit
         $configs = [];
 
         // Act
-        $this->sprykerSdkCoreExtension->load($configs, $containerBuilder);
+        $this->sprykerSdkInfrastructureExtension->load($configs, $containerBuilder);
 
         // Assert
         $this->assertNotEmpty($containerBuilder->getResources());

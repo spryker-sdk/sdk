@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Tests\Core\Application;
+namespace Sdk\Tests\Core;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension;
@@ -33,8 +33,10 @@ class SprykerSdkCoreBundleTest extends Unit
      */
     public function testGetContainerExtensionShouldReturnSdkExtension(): void
     {
+        // Act
         $extension = $this->sprykerSdkCoreBundle->getContainerExtension();
 
+        // Assert
         $this->assertInstanceOf(SprykerSdkCoreExtension::class, $extension);
     }
 }

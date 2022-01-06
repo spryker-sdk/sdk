@@ -16,11 +16,6 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class CommandExecutor implements CommandExecutorInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
-     */
-    protected PlaceholderResolver $placeholderResolver;
-
-    /**
      * @var iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
      */
     protected iterable $commandRunners;
@@ -31,16 +26,13 @@ class CommandExecutor implements CommandExecutorInterface
     protected iterable $afterCommandExecutedActions;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface> $afterCommandExecutedActions
      */
     public function __construct(
-        PlaceholderResolver $placeholderResolver,
         iterable $commandRunners,
         iterable $afterCommandExecutedActions = []
     ) {
-        $this->placeholderResolver = $placeholderResolver;
         $this->commandRunners = $commandRunners;
         $this->afterCommandExecutedActions = $afterCommandExecutedActions;
     }
