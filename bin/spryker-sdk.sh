@@ -2,8 +2,8 @@
 
 MODE='prod'
 
-SDK_DIR=$PWD
-
+SDK_DIR="$PWD/$(dirname $0)"
+echo $SDK_DIR
 ARGUMENTS=""
 
 for i in "$@"; do
@@ -35,17 +35,17 @@ case $MODE in
   echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
   export SPRYKER_XDEBUG_HOST_IP=${myIp}
   export PHP_IDE_CONFIG=serverName=spryker-sdk
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_SESSION=1 -e APP_ENV=dev spryker-sdk "$ARGUMENTS"
+  docker-compose -f "${SDK_DIR}/../docker-compose.yml" -f "${SDK_DIR}/../docker-compose.dev.yml" run --rm -e XDEBUG_SESSION=1 -e APP_ENV=dev spryker-sdk "$ARGUMENTS"
   ;;
 "dev")
   echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
   export SPRYKER_XDEBUG_HOST_IP=${myIp}
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.dev.yml" run --rm --entrypoint="/bin/bash" -e APP_ENV=dev spryker-sdk
+  docker-compose -f "${SDK_DIR}/../docker-compose.yml" -f "${SDK_DIR}/../docker-compose.dev.yml" run --rm --entrypoint="/bin/bash" -e APP_ENV=dev spryker-sdk
   ;;
 "debug-prod")
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash" --rm spryker-sdk
+  docker-compose -f "${SDK_DIR}/../docker-compose.yml" run --entrypoint="/bin/bash" --rm spryker-sdk
   ;;
 *)
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
+  docker-compose -f "${SDK_DIR}/../docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
   ;;
 esac

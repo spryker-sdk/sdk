@@ -8,7 +8,7 @@ VERSION=$1
 
 mkdir -p "${BUILD_DIR}/bin/"
 cp "${CURRENT_DIR}/bin/spryker-sdk.sh" "${BUILD_DIR}/bin/"
-sed -i.back $(/image:/s/:[0-9].*/:"${VERSION}"/g) "${CURRENT_DIR}/docker-compose.yaml"
+#sed -i.back $(/image:/s/:[0-9].*/:"${VERSION}"/g) "${CURRENT_DIR}/docker-compose.yaml"
 echo "${VERSION}" > "${CURRENT_DIR}/VERSION"
 cp "${CURRENT_DIR}/docker-compose.yml" "${BUILD_DIR}/docker-compose.yml"
 
@@ -27,7 +27,7 @@ docker-compose -f docker-compose.yml build --no-cache
 
 echo "Nearly done, the next steps are:"
 echo "docker login"
-echo "docker push spryker-sdk:${VERSION}"
+echo "docker push php-sdk:${VERSION}"
 echo "git tag ${VERSION} && git push origin ${VERSION}"
 echo "create a github release (https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release)"
 echo "upload the ${BUILD_DIR}/installer.sh to the github release"
