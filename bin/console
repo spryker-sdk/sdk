@@ -10,6 +10,11 @@ if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
+$currentProjectAutoload = getcwd() . '/vendor/autoload.php';
+if (is_file($currentProjectAutoload)) {
+    require_once $currentProjectAutoload;
+}
+
 define('APPLICATION_ROOT_DIR', dirname(__DIR__, 1));
 
 return function (array $context) {
