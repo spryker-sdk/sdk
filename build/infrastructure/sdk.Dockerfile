@@ -13,13 +13,14 @@ USER spryker
 COPY --chown=spryker:spryker composer.json composer.lock ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
-COPY --chown=spryker:spryker auth.json auth.json
+#COPY --chown=spryker:spryker auth.json auth.json
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
     composer install --no-scripts --no-interaction ${SPRYKER_COMPOSER_MODE} -vvv
 
 FROM application-production-dependencies AS application-production-codebase
 
+RUN chown spryker:spryker ${srcRoot}
 COPY --chown=spryker:spryker src ${srcRoot}/src
 COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db
@@ -36,5 +37,5 @@ ENV APP_ENV=prod
 
 RUN bin/console sdk:init:sdk && \
     bin/console cache:warmup
-
+USER root
 ENTRYPOINT ["/entrypoint.sh"]

@@ -10,6 +10,7 @@ mkdir -p "${BUILD_DIR}/bin/"
 cp "${CURRENT_DIR}/bin/spryker-sdk.sh" "${BUILD_DIR}/bin/"
 #sed -i.back $(/image:/s/:[0-9].*/:"${VERSION}"/g) "${CURRENT_DIR}/docker-compose.yaml"
 echo "${VERSION}" > "${CURRENT_DIR}/VERSION"
+cp "${CURRENT_DIR}/docker-compose.dev.yml" "${BUILD_DIR}/docker-compose.dev.yml"
 cp "${CURRENT_DIR}/docker-compose.yml" "${BUILD_DIR}/docker-compose.yml"
 
 mkdir -p "${BUILD_DIR}/db"
