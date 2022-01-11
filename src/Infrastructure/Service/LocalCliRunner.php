@@ -123,8 +123,8 @@ class LocalCliRunner implements CommandRunnerInterface
                 $command->getCommand(),
                 new Message(
                     $errorLine,
-                    !$process->isSuccessful() ? MessageInterface::ERROR : MessageInterface::INFO
-                )
+                    !$process->isSuccessful() ? MessageInterface::ERROR : MessageInterface::INFO,
+                ),
             );
         }
 
