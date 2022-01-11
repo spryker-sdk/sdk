@@ -46,7 +46,7 @@ settings:
     init: true
     is_project: false
     type: path
-    values: '/data'
+    values: './'
   - path: project_dir
     initialization_description: Where is the project directory?
     strategy: overwrite
