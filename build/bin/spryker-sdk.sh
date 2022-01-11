@@ -2,8 +2,8 @@
 
 MODE='prod'
 
-SDK_DIR="$PWD/$(dirname $0)"
-echo $SDK_DIR
+SDK_DIR="$(dirname $0)"
+
 ARGUMENTS=""
 
 for i in "$@"; do
