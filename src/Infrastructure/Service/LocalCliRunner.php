@@ -119,7 +119,13 @@ class LocalCliRunner implements CommandRunnerInterface
             if (!$errorLine) {
                 continue;
             }
-            $context->addMessage($command->getCommand(), new Message($errorLine, MessageInterface::ERROR));
+            $context->addMessage(
+                $command->getCommand(),
+                new Message(
+                    $errorLine,
+                    !$process->isSuccessful() ? MessageInterface::ERROR : MessageInterface::INFO,
+                ),
+            );
         }
 
         return $context;
