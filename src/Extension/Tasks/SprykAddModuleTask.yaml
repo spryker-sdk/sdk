@@ -3,7 +3,7 @@ id: 'generate:php:add-module'
 short_description: 'Generate a new Spryker module in the current project'
 help: ~
 stage: build
-command: 'CORE_NAMESPACES=%coreNamespaces% PROJECT_NAMESPACES=%projectNamespaces% PROJECT_NAMESPACE=%projectNamespace% php %sdk_dir%/vendor/bin/spryk-run AddModule --mode=%coreLevel% --organization=%namespace% --module=%module%'
+command: 'APPLICATION_ENV=development CORE_NAMESPACES=%coreNamespaces% PROJECT_NAMESPACES=%projectNamespaces% PROJECT_NAMESPACE=%projectNamespace% php %sdk_dir%/vendor/bin/spryk-run AddModule --mode=%coreLevel% --organization=%namespace% --module=%module%'
 version: 1.0.0
 type: local_cli
 placeholders:

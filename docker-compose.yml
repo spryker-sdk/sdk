@@ -9,6 +9,8 @@ services:
     working_dir: "/project"
     volumes:
       - $PWD:/project:rw
+#      - ./db:/data/db:rw
+#      - ./extension:/data/extension:rw
 
 volumes:
   project:

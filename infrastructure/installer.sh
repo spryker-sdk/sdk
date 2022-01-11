@@ -26,7 +26,7 @@ ${DESTINATION}/bin/spryker-sdk.sh sdk:update:all
 echo ""
 echo "Installation complete."
 echo "To use the spryker sdk execute: "
-echo "echo \"alias spryker-sdk='${DESTINATION}/bin/spryker-sdk.sh'\" >> ~/.bashrc && source ~/.bashrc"
+echo "echo \"alias spryker-sdk='${DESTINATION}/bin/spryker-sdk.sh'\" >> ~/.bashrc && source ~/.bashrc OR echo \"alias spryker-sdk='</path/to/install/sdk/in>/bin/spryker-sdk.sh'\" >> ~/.zshrc  && source ~/.zshrc if you use zsh"
 echo ""
 
 # Exit from the script with success (0)
