@@ -4,7 +4,7 @@ short_description: 'Check your code by running a static code analysis'
 help: ~
 stage: build
 version: 1.0.0
-command: 'php %sdk_dir%/vendor/bin/phpstan analyze ./%path% -c phpstan.neon'
+command: 'php %sdk_dir%/vendor/bin/phpstan analyze ./%path% -c ./phpstan.neon'
 type: local_cli
 placeholders:
   - name: '%sdk_dir%'
