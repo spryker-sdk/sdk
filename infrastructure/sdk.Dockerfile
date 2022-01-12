@@ -8,8 +8,6 @@ RUN apk update \
     curl \
     git
 
-USER spryker
-
 COPY --chown=spryker:spryker composer.json composer.lock ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
@@ -19,6 +17,9 @@ RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer
 
 FROM application-production-dependencies AS application-production-codebase
 
+RUN chown spryker:spryker ${srcRoot}
+
+COPY --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
 COPY --chown=spryker:spryker src ${srcRoot}/src
 COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db
