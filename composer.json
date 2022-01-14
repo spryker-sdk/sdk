@@ -26,7 +26,7 @@
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpstan/phpstan": "^1.2",
-        "spryker-sdk/evaluator": "dev-master as 0.1.0",
+        "spryker-sdk/evaluator": "dev-bugfix/sdk-302-fixed-error-return as 0.1.0",
         "spryker-sdk/sdk-contracts": "dev-master",
         "spryker-sdk/spryk": "^0.3.2",
         "spryker/architecture-sniffer": "^0.5.2",
@@ -47,6 +47,7 @@
         "mikey179/vfsstream": "^1.6",
         "phpunit/php-code-coverage": "^9.2",
         "sllh/composer-versions-check": "^2.0",
+        "spryker-sdk/security-checker": "^0.1.0",
         "symfony/filesystem": "^5.3",
         "symfony/var-dumper": "*"
     },
