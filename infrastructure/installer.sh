@@ -23,11 +23,25 @@ tail -n+"${ARCHIVE}" "${0}" | tar xpJ -C "${DESTINATION}"
 ${DESTINATION}/bin/spryker-sdk.sh sdk:init:sdk
 ${DESTINATION}/bin/spryker-sdk.sh sdk:update:all
 
-echo ""
-echo "Installation complete."
-echo "To use the spryker sdk execute: "
-echo "echo \"alias spryker-sdk='${DESTINATION}/bin/spryker-sdk.sh'\" >> ~/.bashrc && source ~/.bashrc OR echo \"alias spryker-sdk='</path/to/install/sdk/in>/bin/spryker-sdk.sh'\" >> ~/.zshrc  && source ~/.zshrc if you use zsh"
-echo ""
+if [ ! -f "$FILE" ]
+then
+    echo "File $FILE does not exist"
+fi
+
+if [ -f ~/.bashrc ]
+then
+    echo "alias spryker-sdk2=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.bashrc && source ~/.bashrc
+    echo 'Created alias in ~/.bashrc';
+elif [ -f ~/.zshrc ]
+then
+    echo "alias spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.zshrc  && source ~/.zshrc
+    echo 'Created alias in ~/.zshrc';
+else
+  echo ""
+  echo "Installation complete."
+  echo "Add alias for your system spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\""
+  echo ""
+fi
 
 # Exit from the script with success (0)
 exit 0

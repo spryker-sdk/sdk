@@ -8,8 +8,6 @@ RUN apk update \
     curl \
     git
 
-USER spryker
-
 COPY --chown=spryker:spryker composer.json composer.lock ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
@@ -29,14 +27,12 @@ COPY --chown=spryker:spryker extension ${srcRoot}/extension
 COPY --chown=spryker:spryker config ${srcRoot}/config
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
-COPY --chown=spryker:spryker infrastructure/entrypoint.sh /
 
-RUN chmod +x /entrypoint.sh
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
 
 RUN bin/console sdk:init:sdk && \
     bin/console cache:warmup
-USER root
-ENTRYPOINT ["/entrypoint.sh"]
+
+ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]

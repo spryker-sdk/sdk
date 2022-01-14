@@ -363,6 +363,9 @@
     "spryker-sdk/sdk-contracts": {
         "version": "dev-master"
     },
+    "spryker-sdk/security-checker": {
+        "version": "0.1.0"
+    },
     "spryker-sdk/spryk": {
         "version": "0.3.2"
     },
