@@ -15,6 +15,13 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group LogEventActionTest
+ */
 class LogEventActionTest extends Unit
 {
     /**

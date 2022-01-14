@@ -15,6 +15,13 @@ use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group CommandExecutorTest
+ */
 class CommandExecutorTest extends Unit
 {
     /**

@@ -10,6 +10,13 @@ namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Service\Filesystem;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group FilesystemTest
+ */
 class FilesystemTest extends Unit
 {
     /**
