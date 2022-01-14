@@ -108,14 +108,12 @@ services:
   service.command_executor:
       class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
       arguments:
-          - '@placeholder_resolver'
           - !tagged_iterator command.runner
           - !tagged_iterator action.after_command_executed
 
   service.lifecycle_command_executor:
     class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
     arguments:
-      - '@placeholder_resolver'
       - !tagged_iterator command.runner
 
   log_event_action_after_command_executed:
