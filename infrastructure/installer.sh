@@ -23,16 +23,12 @@ tail -n+"${ARCHIVE}" "${0}" | tar xpJ -C "${DESTINATION}"
 ${DESTINATION}/bin/spryker-sdk.sh sdk:init:sdk
 ${DESTINATION}/bin/spryker-sdk.sh sdk:update:all
 
-if [ ! -f "$FILE" ]
-then
-    echo "File $FILE does not exist"
-fi
 
-if [ -f ~/.bashrc ]
+if [[ -e ~/.bashrc ]]
 then
-    echo "alias spryker-sdk2=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.bashrc && source ~/.bashrc
+    echo "alias spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.bashrc && source ~/.bashrc
     echo 'Created alias in ~/.bashrc';
-elif [ -f ~/.zshrc ]
+elif [[ -e ~/.zshrc ]]
 then
     echo "alias spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.zshrc  && source ~/.zshrc
     echo 'Created alias in ~/.zshrc';

@@ -179,7 +179,7 @@ class TaskExecutor
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());
                 $commands[] = $command;
-                if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {echo '+++';
+                if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
                     return $context;
                 }
             }
