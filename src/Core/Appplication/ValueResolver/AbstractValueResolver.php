@@ -36,9 +36,9 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
      *
-     * @return string
+     * @return mixed
      */
-    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): mixed
     {
         if ($this->valueReceiver->has($this->getValueName())) {
             return $this->valueReceiver->get($this->getValueName());

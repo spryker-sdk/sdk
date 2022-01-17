@@ -42,7 +42,9 @@ services:
     tags: ['console.command']
     arguments:
       - '@ide.config_manager'
-
+  security_checker_command:
+    class: SecurityChecker\Command\SecurityCheckerCommand
+    tags: [ 'console.command' ]
   ide.command_mapper:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapper
     arguments:

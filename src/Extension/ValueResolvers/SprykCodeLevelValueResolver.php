@@ -64,12 +64,12 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
         $resolvedValues = $context->getResolvedValues();
-
-        if (!array_key_exists(NamespaceValueResolver::ALIAS, $resolvedValues)) {
+        $namespaceAlias = '%' . NamespaceValueResolver::ALIAS . '%';
+        if (!array_key_exists($namespaceAlias, $resolvedValues)) {
             return $this->getDefaultValue();
         }
 
-        if (in_array($resolvedValues[NamespaceValueResolver::ALIAS], (array)$settingValues['coreNamespaces'], false)) {
+        if (in_array($resolvedValues[$namespaceAlias], (array)$settingValues['coreNamespaces'], false)) {
             return static::CORE;
         }
 

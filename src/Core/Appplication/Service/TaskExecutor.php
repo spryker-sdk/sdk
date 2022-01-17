@@ -178,13 +178,12 @@ class TaskExecutor
 
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());
-                $commands[] = $task->getCommands();
+                $commands[] = $command;
                 if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
                     return $context;
                 }
             }
         }
-        $commands = array_merge(...$commands);
 
         $this->violationReportGenerator->collectViolations($context->getTask()->getId(), $commands);
 

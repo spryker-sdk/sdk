@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df1bf43e2bd56d1f02d7bd8820dd7b06",
+    "content-hash": "ce089e90ef72185c6ebc87dccf706172",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4447,16 +4447,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "dev-master",
+            "version": "dev-bugfix/sdk-302-fixed-error-return",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "b4a37b0056abc4b66d3fe36e66109eb5db031c65"
+                "reference": "a3f82343a6a225340410119b9cd2851aaf7f6191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/b4a37b0056abc4b66d3fe36e66109eb5db031c65",
-                "reference": "b4a37b0056abc4b66d3fe36e66109eb5db031c65",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/a3f82343a6a225340410119b9cd2851aaf7f6191",
+                "reference": "a3f82343a6a225340410119b9cd2851aaf7f6191",
                 "shasum": ""
             },
             "require": {
@@ -4484,7 +4484,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4503,9 +4502,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/master"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/bugfix/sdk-302-fixed-error-return"
             },
-            "time": "2022-01-05T09:41:51+00:00"
+            "time": "2022-01-13T15:31:29+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -14008,6 +14007,54 @@
             "time": "2021-07-12T14:38:48+00:00"
         },
         {
+            "name": "spryker-sdk/security-checker",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/security-checker.git",
+                "reference": "86844935b54a8bd22ef8a28f8bed55c6e82d28a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/security-checker/zipball/86844935b54a8bd22ef8a28f8bed55c6e82d28a9",
+                "reference": "86844935b54a8bd22ef8a28f8bed55c6e82d28a9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3",
+                "symfony/console": "^4.0.0 || ^5.0.0",
+                "symfony/options-resolver": "^4.0.0 || ^5.0.0",
+                "symfony/process": "^4.0.0 || ^5.0.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.18",
+                "slevomat/coding-standard": "^6.2",
+                "spryker/code-sniffer": "^0.15.6",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SecurityChecker\\": "src/SecurityChecker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "A security checker for your composer.lock",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/security-checker/issues",
+                "source": "https://github.com/spryker-sdk/security-checker/tree/0.1.0"
+            },
+            "time": "2021-01-26T13:25:24+00:00"
+        },
+        {
             "name": "symfony/css-selector",
             "version": "v5.3.4",
             "source": {
@@ -14127,7 +14174,7 @@
     "aliases": [
         {
             "package": "spryker-sdk/evaluator",
-            "version": "9999999-dev",
+            "version": "dev-bugfix/sdk-302-fixed-error-return",
             "alias": "0.1.0",
             "alias_normalized": "0.1.0.0"
         }
@@ -14154,5 +14201,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
