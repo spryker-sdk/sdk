@@ -20,6 +20,13 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group PlaceholderResolverTest
+ */
 class PlaceholderResolverTest extends Unit
 {
     /**

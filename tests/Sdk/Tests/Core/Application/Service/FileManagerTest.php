@@ -13,6 +13,13 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Core\Appplication\Service\FileManager;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group FileManagerTest
+ */
 class FileManagerTest extends Unit
 {
     /**

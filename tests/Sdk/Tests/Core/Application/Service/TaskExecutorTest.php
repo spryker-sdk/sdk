@@ -20,6 +20,13 @@ use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group TaskExecutorTest
+ */
 class TaskExecutorTest extends Unit
 {
     /**

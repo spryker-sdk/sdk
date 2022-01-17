@@ -11,6 +11,13 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Service\Filesystem;
 use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group PathResolverTest
+ */
 class PathResolverTest extends Unit
 {
     /**

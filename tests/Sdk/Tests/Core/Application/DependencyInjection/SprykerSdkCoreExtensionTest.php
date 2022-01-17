@@ -11,6 +11,13 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group DependencyInjection
+ * @group SprykerSdkCoreExtensionTest
+ */
 class SprykerSdkCoreExtensionTest extends Unit
 {
     /**

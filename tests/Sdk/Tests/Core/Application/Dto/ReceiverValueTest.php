@@ -10,6 +10,13 @@ namespace SprykerSdk\Sdk\Tests\Core\Application\Dto;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Dto
+ * @group ReceiverValueTest
+ */
 class ReceiverValueTest extends Unit
 {
     /**
