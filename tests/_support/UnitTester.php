@@ -8,6 +8,8 @@
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
+use Monolog\DateTimeImmutable;
+use Monolog\Logger;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
@@ -170,5 +172,25 @@ class UnitTester extends Actor
             [$this->createPlaceholder('path', 'static', false)],
             [$this->createFile('path', 'content')],
         );
+    }
+
+    /**
+     * @param int $level
+     * @param string $message
+     * @param array $context
+     *
+     * @return array
+     */
+    public function getMonologRecord(int $level = Logger::WARNING, string $message = 'test', array $context = []): array
+    {
+        return [
+            'message' => $message,
+            'context' => $context,
+            'level' => $level,
+            'level_name' => Logger::getLevelName($level),
+            'channel' => 'test',
+            'datetime' => new DateTimeImmutable(true),
+            'extra' => [],
+        ];
     }
 }
