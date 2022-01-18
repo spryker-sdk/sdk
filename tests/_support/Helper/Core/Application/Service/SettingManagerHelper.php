@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Tests\Helper\Core\Application\Service;
 
 use Codeception\Module;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Infrastructure\Entity\Setting as EntitySetting;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class SettingManagerHelper extends Module
@@ -33,9 +34,9 @@ class SettingManagerHelper extends Module
     }
 
     /**
-     * @param int|null $id
      * @param string $path
      * @param mixed $values
+     * @param int|null $id
      * @param string $strategy
      * @param string $type
      * @param bool $isProject
@@ -56,7 +57,7 @@ class SettingManagerHelper extends Module
         ?string $initializationDescription = null,
         ?string $initializer = null
     ): SettingInterface {
-        return new \SprykerSdk\Sdk\Infrastructure\Entity\Setting(
+        return new EntitySetting(
             $id,
             $path,
             $values,
@@ -65,7 +66,7 @@ class SettingManagerHelper extends Module
             $isProject,
             $hasInitialization,
             $initializationDescription,
-            $initializer
+            $initializer,
         );
     }
 }

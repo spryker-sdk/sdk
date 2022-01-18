@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Sdk\Tests\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
@@ -78,7 +83,7 @@ class ContextFileRepositoryTest extends Unit
         // Assert
         $this->assertSame($context, $result);
 
-        $childName = $context->getName().'.context.json';
+        $childName = $context->getName() . '.context.json';
 
         $this->assertTrue($this->vfsStream->hasChild($childName));
         $this->assertSame($jsonContext, $this->vfsStream->getChild($childName)->getContent());
@@ -93,7 +98,7 @@ class ContextFileRepositoryTest extends Unit
         $jsonContext = json_encode($this->tester->createArrayContext());
         $context = $this->tester->createContext();
 
-        $fileName = $context->getName().'.context.json';
+        $fileName = $context->getName() . '.context.json';
 
         $vfsFile = $this->tester->createVfsStreamFile($fileName, $jsonContext);
         $this->vfsStream->addChild($vfsFile);
@@ -122,7 +127,7 @@ class ContextFileRepositoryTest extends Unit
         $jsonContext = json_encode($this->tester->createArrayContext());
         $context = $this->tester->createContext();
 
-        $fileName = $context->getName().'.context.json';
+        $fileName = $context->getName() . '.context.json';
         $vfsFile = $this->tester->createVfsStreamFile($fileName, $jsonContext);
         $this->vfsStream->addChild($vfsFile);
 
@@ -154,7 +159,7 @@ class ContextFileRepositoryTest extends Unit
         // Arrange
         $context = $this->tester->createContext();
 
-        $fileName = $context->getName().'.context.json';
+        $fileName = $context->getName() . '.context.json';
         $vfsFile = $this->tester->createVfsStreamFile($fileName, '');
         $this->vfsStream->addChild($vfsFile);
 

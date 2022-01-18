@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Sdk\Tests\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
@@ -66,7 +71,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
-            $this->pathResolver
+            $this->pathResolver,
         );
     }
 
@@ -83,7 +88,7 @@ class ProjectSettingRepositoryTest extends Unit
             '/root/test/path',
             1,
             SettingInterface::STRATEGY_REPLACE,
-            'path'
+            'path',
         );
 
         $this->coreSettingRepository
@@ -157,7 +162,7 @@ class ProjectSettingRepositoryTest extends Unit
             '/root/test/path',
             1,
             SettingInterface::STRATEGY_REPLACE,
-            'path'
+            'path',
         );
 
         $this->coreSettingRepository
@@ -226,13 +231,13 @@ class ProjectSettingRepositoryTest extends Unit
         // Arrange
         $setting = $this->tester->createSetting('path', 'value');
 
-        $this->projectSettingFileName = $this->vfsStream->url().'/settings.yml';
+        $this->projectSettingFileName = $this->vfsStream->url() . '/settings.yml';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
-            $this->pathResolver
+            $this->pathResolver,
         );
 
         // Act
@@ -256,13 +261,13 @@ class ProjectSettingRepositoryTest extends Unit
             $this->tester->createSetting('path2', 'value2'),
         ];
 
-        $this->projectSettingFileName = $this->vfsStream->url().'/settings.yml';
+        $this->projectSettingFileName = $this->vfsStream->url() . '/settings.yml';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
-            $this->pathResolver
+            $this->pathResolver,
         );
 
         // Act
@@ -386,7 +391,7 @@ path1:
     - /root/path2
 path2: value2
 path3: value3
-YAML
+YAML,
         );
         $this->vfsStream->addChild($settingsFile);
 
@@ -396,7 +401,7 @@ YAML
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
-            $this->pathResolver
+            $this->pathResolver,
         );
 
         $this->coreSettingRepository

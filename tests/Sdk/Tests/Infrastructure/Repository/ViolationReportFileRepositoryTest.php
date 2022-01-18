@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Sdk\Tests\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
@@ -43,7 +48,7 @@ class ViolationReportFileRepositoryTest extends Unit
         $this->reportFormatterFactory = $this->createMock(ReportFormatterFactory::class);
         $this->violationReportFileRepository = new ViolationReportFileRepository(
             $this->violationPathReader,
-            $this->reportFormatterFactory
+            $this->reportFormatterFactory,
         );
     }
 

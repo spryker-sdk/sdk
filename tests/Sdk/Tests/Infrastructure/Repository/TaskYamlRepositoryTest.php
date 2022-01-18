@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Sdk\Tests\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
@@ -11,7 +16,6 @@ use SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
-use Sdk\Tests\Tasks\HelloPhpTask;
 
 class TaskYamlRepositoryTest extends Unit
 {
@@ -53,7 +57,7 @@ class TaskYamlRepositoryTest extends Unit
             $this->settingRepository,
             new Finder(),
             new Yaml(),
-            [new GeneratePbcTask()]
+            [new GeneratePbcTask()],
         );
     }
 
@@ -86,7 +90,7 @@ class TaskYamlRepositoryTest extends Unit
 
         $setting = $this->tester->createInfrastructureSetting(
             'extension_dirs',
-            [$pathToTasks]
+            [$pathToTasks],
         );
 
         $this->settingRepository
@@ -112,7 +116,7 @@ class TaskYamlRepositoryTest extends Unit
 
         $setting = $this->tester->createInfrastructureSetting(
             'extension_dirs',
-            [$pathToTasks]
+            [$pathToTasks],
         );
 
         $this->settingRepository
@@ -127,7 +131,7 @@ class TaskYamlRepositoryTest extends Unit
         // Arrange
         $this->assertSame('hello:world', $result->getId());
         $this->assertSame('hello:php', $result->getSuccessor());
-        $this->assertSame(false, $result->isDeprecated());
+        $this->assertFalse($result->isDeprecated());
         $this->assertSame('1.0.0', $result->getVersion());
     }
 
@@ -141,7 +145,7 @@ class TaskYamlRepositoryTest extends Unit
 
         $setting = $this->tester->createInfrastructureSetting(
             'extension_dirs',
-            [$pathToTasks]
+            [$pathToTasks],
         );
 
         $this->settingRepository
