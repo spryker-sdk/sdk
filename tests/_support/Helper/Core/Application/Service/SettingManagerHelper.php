@@ -31,4 +31,41 @@ class SettingManagerHelper extends Module
             $isProject,
         );
     }
+
+    /**
+     * @param int|null $id
+     * @param string $path
+     * @param mixed $values
+     * @param string $strategy
+     * @param string $type
+     * @param bool $isProject
+     * @param bool $hasInitialization
+     * @param string|null $initializationDescription
+     * @param string|null $initializer
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
+     */
+    public function createInfrastructureSetting(
+        string $path,
+        $values,
+        ?int $id = null,
+        string $strategy = SettingInterface::STRATEGY_REPLACE,
+        string $type = 'string',
+        bool $isProject = true,
+        bool $hasInitialization = false,
+        ?string $initializationDescription = null,
+        ?string $initializer = null
+    ): SettingInterface {
+        return new \SprykerSdk\Sdk\Infrastructure\Entity\Setting(
+            $id,
+            $path,
+            $values,
+            $strategy,
+            $type,
+            $isProject,
+            $hasInitialization,
+            $initializationDescription,
+            $initializer
+        );
+    }
 }
