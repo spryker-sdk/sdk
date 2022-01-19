@@ -203,7 +203,7 @@
         "version": "3.1.0"
     },
     "php-http/cache-plugin": {
-        "version": "1.7.4"
+        "version": "1.7.5"
     },
     "php-http/client-common": {
         "version": "2.5.0"
@@ -357,9 +357,6 @@
     "sllh/composer-versions-check": {
         "version": "v2.0.5"
     },
-    "spryker-sdk/evaluator": {
-        "version": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk-clean-up"
-    },
     "spryker-sdk/sdk-contracts": {
         "version": "dev-master"
     },
@@ -368,6 +365,9 @@
     },
     "spryker-sdk/spryk": {
         "version": "0.3.2"
+    },
+    "spryker-sdk/upgrader": {
+        "version": "1.0.x-dev"
     },
     "spryker/acl-entity-extension": {
         "version": "1.0.0"

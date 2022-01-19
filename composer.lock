@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce089e90ef72185c6ebc87dccf706172",
+    "content-hash": "bce8b5228331153efe07757a2c6e0eb2",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -3203,23 +3203,23 @@
         },
         {
             "name": "php-http/cache-plugin",
-            "version": "1.7.4",
+            "version": "1.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/cache-plugin.git",
-                "reference": "2c00b4c6d41c0c9cad4d901adaf1a7db55f98744"
+                "reference": "63bc3f7242825c9a817db8f78e4c9703b0c471e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/cache-plugin/zipball/2c00b4c6d41c0c9cad4d901adaf1a7db55f98744",
-                "reference": "2c00b4c6d41c0c9cad4d901adaf1a7db55f98744",
+                "url": "https://api.github.com/repos/php-http/cache-plugin/zipball/63bc3f7242825c9a817db8f78e4c9703b0c471e2",
+                "reference": "63bc3f7242825c9a817db8f78e4c9703b0c471e2",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0",
                 "php-http/client-common": "^1.9 || ^2.0",
                 "php-http/message-factory": "^1.0",
-                "psr/cache": "^1.0 || ^2.0",
+                "psr/cache": "^1.0 || ^2.0 || ^3.0",
                 "symfony/options-resolver": "^2.6 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "require-dev": {
@@ -3256,9 +3256,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/cache-plugin/issues",
-                "source": "https://github.com/php-http/cache-plugin/tree/1.7.4"
+                "source": "https://github.com/php-http/cache-plugin/tree/1.7.5"
             },
-            "time": "2021-11-30T07:06:42+00:00"
+            "time": "2022-01-18T12:24:56+00:00"
         },
         {
             "name": "php-http/client-common",
@@ -4446,67 +4446,6 @@
             "time": "2021-12-07T17:19:06+00:00"
         },
         {
-            "name": "spryker-sdk/evaluator",
-            "version": "dev-bugfix/sdk-302-fixed-error-return",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "a3f82343a6a225340410119b9cd2851aaf7f6191"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/a3f82343a6a225340410119b9cd2851aaf7f6191",
-                "reference": "a3f82343a6a225340410119b9cd2851aaf7f6191",
-                "shasum": ""
-            },
-            "require": {
-                "davidrjonas/composer-lock-diff": "^1.6",
-                "ergebnis/json-printer": "^3.1",
-                "ext-json": "*",
-                "ext-simplexml": "*",
-                "guzzlehttp/guzzle": "^7.3",
-                "knplabs/github-api": "^3.4",
-                "nikic/php-parser": "^4.13",
-                "php": ">=8.0",
-                "phpstan/phpstan": "^1.2",
-                "spryker-sdk/sdk-contracts": "dev-master",
-                "spryker/code-sniffer": "^0.17.3",
-                "symfony/config": "^5.0",
-                "symfony/console": "^5.0",
-                "symfony/dependency-injection": "^5.0",
-                "symfony/filesystem": "^5.3",
-                "symfony/finder": "^5.3",
-                "symfony/framework-bundle": "5.3.*",
-                "symfony/http-kernel": "^5.0",
-                "symfony/process": "^5.0",
-                "symfony/yaml": "^5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Core\\": "src/Core/",
-                    "Codebase\\": "src/Codebase/",
-                    "CodeCompliance\\": "src/CodeCompliance/",
-                    "Evaluate\\": "src/Evaluate/",
-                    "Upgrade\\": "src/Upgrade/",
-                    "Upgrader\\": "src/Upgrader/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "description": "Code evaluator and upgrader tool",
-            "support": {
-                "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/bugfix/sdk-302-fixed-error-return"
-            },
-            "time": "2022-01-13T15:31:29+00:00"
-        },
-        {
             "name": "spryker-sdk/sdk-contracts",
             "version": "dev-master",
             "source": {
@@ -4626,6 +4565,67 @@
                 "source": "https://github.com/spryker-sdk/spryk/tree/0.3.3"
             },
             "time": "2021-12-31T09:49:51+00:00"
+        },
+        {
+            "name": "spryker-sdk/upgrader",
+            "version": "dev-master-new",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/upgrader.git",
+                "reference": "6196a278ceea8fc44f48658d80d3b068a86f9756"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/6196a278ceea8fc44f48658d80d3b068a86f9756",
+                "reference": "6196a278ceea8fc44f48658d80d3b068a86f9756",
+                "shasum": ""
+            },
+            "require": {
+                "davidrjonas/composer-lock-diff": "^1.6",
+                "ergebnis/json-printer": "^3.1",
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^7.3",
+                "knplabs/github-api": "^3.4",
+                "nikic/php-parser": "^4.13",
+                "php": ">=8.0",
+                "phpstan/phpstan": "^1.2",
+                "spryker-sdk/sdk-contracts": "dev-master",
+                "spryker/code-sniffer": "^0.17.3",
+                "symfony/config": "^5.0",
+                "symfony/console": "^5.0",
+                "symfony/dependency-injection": "^5.0",
+                "symfony/filesystem": "^5.3",
+                "symfony/finder": "^5.3",
+                "symfony/framework-bundle": "5.3.*",
+                "symfony/http-kernel": "^5.0",
+                "symfony/process": "^5.0",
+                "symfony/yaml": "^5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Core\\": "src/Core/",
+                    "Codebase\\": "src/Codebase/",
+                    "CodeCompliance\\": "src/CodeCompliance/",
+                    "Evaluate\\": "src/Evaluate/",
+                    "Upgrade\\": "src/Upgrade/",
+                    "Upgrader\\": "src/Upgrader/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Code evaluator and upgrader tool",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/upgrader/issues",
+                "source": "https://github.com/spryker-sdk/upgrader/tree/master-new"
+            },
+            "time": "2022-01-19T17:32:46+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
@@ -13793,16 +13793,16 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/evaluator",
-            "version": "dev-bugfix/sdk-302-fixed-error-return",
+            "package": "spryker-sdk/upgrader",
+            "version": "dev-master-new",
             "alias": "0.1.0",
             "alias_normalized": "0.1.0.0"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "spryker-sdk/evaluator": 20,
-        "spryker-sdk/sdk-contracts": 20
+        "spryker-sdk/sdk-contracts": 20,
+        "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -13821,5 +13821,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
