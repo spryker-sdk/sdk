@@ -25,12 +25,24 @@ class InitProjectCommand extends Command
      */
     protected const NAME = 'sdk:init:project';
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     */
     protected CliValueReceiver $cliValueReceiver;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
+     */
     protected SettingManager $projectSettingManager;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
     protected SettingRepositoryInterface $settingRepository;
 
+    /**
+     * @var string
+     */
     protected string $projectSettingFileName;
 
     /**
@@ -73,9 +85,7 @@ class InitProjectCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $projectSettingPath = $this->projectSettingFileName;
-
-        if (file_exists($projectSettingPath)) {
+        if (file_exists($this->projectSettingFileName)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'boolean'),
@@ -129,10 +139,6 @@ class InitProjectCommand extends Command
                 'array' => (array)$values,
                 default => (string)$values,
             };
-
-            if ($settingEntity->getStrategy() === SettingInterface::STRATEGY_MERGE) {
-                $values = array_merge((array)$settingEntity->getValues(), (array)$values);
-            }
 
             $settingEntity->setValues($values);
 
