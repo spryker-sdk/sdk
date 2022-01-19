@@ -138,6 +138,5 @@ class CommandExecutorTest extends Unit
             ->willReturn($context);
 
         return $afterCommandExecutedAction;
-namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
     }
 }
