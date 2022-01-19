@@ -50,48 +50,48 @@ class ViolationReportMergerTest extends Unit
     }
 
     /**
-     * @param string $prefix
+     * @param string $postfix
      *
      * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
      */
-    protected function createViolationReport(string $prefix = ''): ViolationReportInterface
+    protected function createViolationReport(string $postfix = ''): ViolationReportInterface
     {
         return new ViolationReport(
-            'project' . $prefix,
-            'path' . $prefix,
-            [$this->createViolationReportConverter($prefix)],
-            [$this->createPackageViolationReport($prefix)],
+            'project' . $postfix,
+            'path' . $postfix,
+            [$this->createViolationReportConverter($postfix)],
+            [$this->createPackageViolationReport($postfix)],
         );
     }
 
     /**
-     * @param string $prefix
+     * @param string $postfix
      *
      * @return \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface
      */
-    protected function createPackageViolationReport(string $prefix = ''): PackageViolationReportInterface
+    protected function createPackageViolationReport(string $postfix = ''): PackageViolationReportInterface
     {
         return new PackageViolationReport(
-            'package' . $prefix,
-            'path' . $prefix,
-            [$this->createViolationReportConverter($prefix)],
+            'package' . $postfix,
+            'path' . $postfix,
+            [$this->createViolationReportConverter($postfix)],
             [
-                'file' => [$this->createViolationReportConverter($prefix)],
-                'file' . $prefix => [$this->createViolationReportConverter($prefix)],
+                'file' => [$this->createViolationReportConverter($postfix)],
+                'file' . $postfix => [$this->createViolationReportConverter($postfix)],
             ],
         );
     }
 
     /**
-     * @param string $prefix
+     * @param string $postfix
      *
      * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
      */
-    protected function createViolationReportConverter(string $prefix = ''): ViolationReportConverterInterface
+    protected function createViolationReportConverter(string $postfix = ''): ViolationReportConverterInterface
     {
         return new ViolationReportConverter(
-            'id' . $prefix,
-            'message' . $prefix,
+            'id' . $postfix,
+            'message' . $postfix,
         );
     }
 }
