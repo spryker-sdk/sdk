@@ -7,11 +7,10 @@
 you might need to build the SDK and tag it first:
 
 ```bash
-docker image rm spryker/php-sdk:dev
-bin/spryker-sdk.sh
-docker images spryker/php-sdk #find latest tag
-docker image tag spryker/php-sdk:<latest tag> spryker/php-sdk:latest
-bin/spryker-sdk.sh --mode=dev
+docker pull spryker/php-sdk:latest
+#Create new image with enabled debug spryker/php-sdk-debug:latest image
+docker build -f {path to SDK}/infrastructure/sdk.debug.Dockerfile -t spryker/php-sdk-debug:latest {path to SDK}/spryker-sdk
+spryker-sdk --mode=dev
 ```
 
 ### Run SDK in development mode
@@ -25,7 +24,7 @@ This will start a xdebug session with the serverName "spryker-sdk" (needs to be 
 `bin/spryker-sdk.sh --mode=debug <task>`
 
 ## handy commands
-
+debug
 Helpful commands to use during development are
 
 ### Reset SDK
