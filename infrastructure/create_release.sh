@@ -18,13 +18,13 @@ mkdir -p "${BUILD_DIR}/extension"
 mkdir -p "${BUILD_DIR}/infrastructure"
 cp "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.Dockerfile"
 cd "${BUILD_DIR}"
-tar cJf spryker-sdk.tar.gz bin/ extension/ db/ infrastructure/sdk.Dockerfile docker-compose.yml
+tar cJf spryker-sdk.tar.gz bin/ extension/ db/ infrastructure/sdk.Dockerfile docker-compose.yml docker-compose.dev.yml
 cd "${CURRENT_DIR}"
 cp "${CURRENT_DIR}/infrastructure/installer.sh" "${BUILD_DIR}/installer.sh"
 cat "${BUILD_DIR}/spryker-sdk.tar.gz" >> "${BUILD_DIR}/installer.sh"
 chmod a+x "${BUILD_DIR}/installer.sh"
 
-docker-compose -f docker-compose.yml build --no-cache
+DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build --no-cache
 
 echo "Nearly done, the next steps are:"
 echo "docker login"

@@ -28,7 +28,12 @@ class ConfigManager implements ConfigManagerInterface
     /**
      * @var string
      */
-    protected const IDEA_CONFIG_PATH = '/.idea/commandlinetools/Custom_Spryker_Sdk.xml';
+    protected const IDEA_CONFIG_FOLDER_PATH = DIRECTORY_SEPARATOR . '.idea' . DIRECTORY_SEPARATOR . 'commandlinetools' . DIRECTORY_SEPARATOR;
+
+    /**
+     * @var string
+     */
+    protected const IDEA_CONFIG_FILE_NAME = 'Custom_Spryker_Sdk.xml';
 
     protected CommandXmlFormatterInterface $commandXmlFormatter;
 
@@ -68,8 +73,13 @@ class ConfigManager implements ConfigManagerInterface
         $xmlConfig = $this->xmlEncoder->encode($arrayConfig, XmlEncoder::FORMAT);
 
         $projectDirSetting = (string)$this->getSetting(static::PROJECT_DIR_PATH)->getValues();
+        $ideaFolderPath = $projectDirSetting . static::IDEA_CONFIG_FOLDER_PATH;
 
-        return (bool)file_put_contents($projectDirSetting . static::IDEA_CONFIG_PATH, $xmlConfig);
+        if (!is_dir($ideaFolderPath)) {
+            mkdir($ideaFolderPath, 0777, true);
+        }
+
+        return !(file_put_contents($ideaFolderPath . static::IDEA_CONFIG_FILE_NAME, $xmlConfig) !== false);
     }
 
     /**
