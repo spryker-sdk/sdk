@@ -281,7 +281,7 @@ class PlaceholderResolverTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
-    protected function createSettingRepositoryMock(array $expectedSettings): mixed
+    protected function createSettingRepositoryMock(array $expectedSettings): ProjectSettingRepositoryInterface
     {
         $settingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
         $settingRepositoryMock->expects(empty($expectedSettings) ? $this->never() : $this->exactly(count($expectedSettings)))
@@ -301,9 +301,9 @@ class PlaceholderResolverTest extends Unit
      * @param array $expectedSettings
      * @param mixed $expectedValue
      *
-     * @return mixed
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface
      */
-    protected function createValueResolverMock(array $expectedSettings, mixed $expectedValue): mixed
+    protected function createValueResolverMock(array $expectedSettings, mixed $expectedValue): ValueResolverInterface
     {
         $valueResolverMock = $this->createMock(ValueResolverInterface::class);
         $valueResolverMock->expects($this->once())
@@ -319,9 +319,9 @@ class PlaceholderResolverTest extends Unit
     /**
      * @param mixed $valueResolverMock
      *
-     * @return mixed
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface
      */
-    protected function createRegistryMock(mixed $valueResolverMock): mixed
+    protected function createRegistryMock(mixed $valueResolverMock): ValueResolverRegistryInterface
     {
         $registryMock = $this->createMock(ValueResolverRegistryInterface::class);
         $registryMock->expects($this->once())

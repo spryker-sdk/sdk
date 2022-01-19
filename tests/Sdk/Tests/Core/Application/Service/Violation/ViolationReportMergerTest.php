@@ -31,13 +31,16 @@ class ViolationReportMergerTest extends Unit
      */
     public function testMerge(): void
     {
+        // Arrange
         $violationReportMerger = new ViolationReportMerger();
 
+        // Act
         $violationReport = $violationReportMerger->merge([
             $this->createViolationReport('first'),
             $this->createViolationReport('second'),
         ]);
 
+        // Assert
         $this->assertCount(2, $violationReport->getViolations());
         $this->assertCount(2, $violationReport->getPackages());
         foreach ($violationReport->getPackages() as $package) {

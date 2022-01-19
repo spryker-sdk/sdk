@@ -25,13 +25,30 @@ use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 class ViolationConverterResolverTest extends Unit
 {
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
+     */
+    protected ViolationConverterResolver $violationConverterResolver;
+
+    /**
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Arrange
+        $this->violationConverterResolver = new ViolationConverterResolver($this->createConverterRegistryMock());
+    }
+
+    /**
      * @return void
      */
     public function testResolve(): void
     {
-        $violationConverterResolver = new ViolationConverterResolver($this->createConverterRegistryMock());
-        $violationConverter = $violationConverterResolver->resolve($this->createCommandMock());
+        // Act
+        $violationConverter = $this->violationConverterResolver->resolve($this->createCommandMock());
 
+        // Assert
         $this->assertInstanceOf(ViolationConverterInterface::class, $violationConverter);
     }
 
@@ -40,9 +57,13 @@ class ViolationConverterResolverTest extends Unit
      */
     public function testResolveIfCommandDoesNotHaveConvertor(): void
     {
+        // Arrange
         $violationConverterResolver = new ViolationConverterResolver($this->createConverterRegistryMock());
+
+        // Act
         $violationConverter = $violationConverterResolver->resolve($this->createCommandMock(false));
 
+        // Assert
         $this->assertNull($violationConverter);
     }
 

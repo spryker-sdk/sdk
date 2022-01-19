@@ -29,6 +29,7 @@ class CommandExecutorTest extends Unit
      */
     public function testExecute(): void
     {
+        // Arrange
         $context = $this->createContextMock();
         $commandExecutor = new CommandExecutor(
             [
@@ -38,8 +39,10 @@ class CommandExecutorTest extends Unit
             [$this->createAfterCommandExecutedActionMock($context, $this->once())],
         );
 
+        // Act
         $result = $commandExecutor->execute($this->createCommandMock(), $context, 'test');
 
+        // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
@@ -48,6 +51,7 @@ class CommandExecutorTest extends Unit
      */
     public function testExecuteIsDry(): void
     {
+        // Arrange
         $context = $this->createContextMock(true);
         $commandExecutor = new CommandExecutor(
             [
@@ -57,8 +61,10 @@ class CommandExecutorTest extends Unit
             [$this->createAfterCommandExecutedActionMock($context, $this->never())],
         );
 
+        // Act
         $result = $commandExecutor->execute($this->createCommandMock(), $context, 'test');
 
+        // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 

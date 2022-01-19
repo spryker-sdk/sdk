@@ -31,12 +31,14 @@ class ViolationReportGeneratorTest extends Unit
      */
     public function testCollectViolations(): void
     {
+        // Arrange
         $violationReportGenerator = new ViolationReportGenerator(
             $this->createViolationReportMergerMock(),
             $this->createViolationReportRepositoryMock(),
             $this->createViolationConverterResolverMock(),
         );
 
+        // Act
         $violationReport = $violationReportGenerator->collectViolations(
             'test',
             [
@@ -45,6 +47,7 @@ class ViolationReportGeneratorTest extends Unit
             ],
         );
 
+        // Assert
         $this->assertNotNull($violationReport);
     }
 

@@ -29,10 +29,14 @@ class LogEventActionTest extends Unit
      */
     public function testExecuteWithLog(): void
     {
+        // Arrange
         $logEventAction = new LogEventAction($this->createEventLoggerMock($this->once()));
         $context = $this->createContextMock();
+
+        // Act
         $result = $logEventAction->execute($this->createCommandMock(), $context, 'test');
 
+        // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
@@ -41,17 +45,21 @@ class LogEventActionTest extends Unit
      */
     public function testExecuteWithoutLog(): void
     {
+        // Arrange
         $logEventAction = new LogEventAction($this->createEventLoggerMock($this->never()));
         $context = $this->createContextMock();
+
+        // Act
         $result = $logEventAction->execute($this->createCommandMock(), $context, '');
 
+        // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    protected function createContextMock(): mixed
+    protected function createContextMock(): ContextInterface
     {
         $context = $this->createMock(ContextInterface::class);
         $context->method('getSubTasks')
@@ -66,7 +74,7 @@ class LogEventActionTest extends Unit
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function createTaskMock(): mixed
+    protected function createTaskMock(): TaskInterface
     {
         return $this->createMock(TaskInterface::class);
     }
@@ -74,7 +82,7 @@ class LogEventActionTest extends Unit
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\CommandInterface
      */
-    protected function createCommandMock(): mixed
+    protected function createCommandMock(): CommandInterface
     {
         return $this->createMock(CommandInterface::class);
     }
@@ -84,7 +92,7 @@ class LogEventActionTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Logger\EventLoggerInterface
      */
-    protected function createEventLoggerMock(InvocationOrder $invocationRule): mixed
+    protected function createEventLoggerMock(InvocationOrder $invocationRule): EventLoggerInterface
     {
         $eventLogger = $this->createMock(EventLoggerInterface::class);
         $eventLogger->expects($invocationRule)
