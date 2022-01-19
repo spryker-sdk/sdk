@@ -13,6 +13,13 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group ContextSerializerTest
+ */
 class ContextSerializerTest extends Unit
 {
     /**

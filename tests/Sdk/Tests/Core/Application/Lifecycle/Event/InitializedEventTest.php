@@ -11,6 +11,13 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Lifecycle
+ * @group InitializedEventTest
+ */
 class InitializedEventTest extends Unit
 {
     /**

@@ -20,6 +20,13 @@ use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group TaskExecutorTest
+ */
 class TaskExecutorTest extends Unit
 {
     /**
@@ -27,6 +34,7 @@ class TaskExecutorTest extends Unit
      */
     public function testExecute(): void
     {
+        // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::SUCCESS_EXIT_CODE);
 
@@ -36,7 +44,11 @@ class TaskExecutorTest extends Unit
             $this->createCommandExecutorMock($context),
             $this->createViolationConverterGeneratorMock(),
         );
+
+        // Act
         $result = $taskExecutor->execute('test', $context);
+
+        // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
@@ -45,6 +57,7 @@ class TaskExecutorTest extends Unit
      */
     public function testExecuteFailed(): void
     {
+        // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
 
@@ -55,8 +68,10 @@ class TaskExecutorTest extends Unit
             $this->createViolationConverterGeneratorMock(),
         );
 
+        // Act
         $result = $taskExecutor->execute('test', $context);
 
+        // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
@@ -73,7 +88,7 @@ class TaskExecutorTest extends Unit
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
      */
-    protected function createPlaceholderResolverMock(): mixed
+    protected function createPlaceholderResolverMock(): PlaceholderResolver
     {
         $placeholderResolver = $this->createMock(PlaceholderResolver::class);
         $placeholderResolver->expects($this->once())
@@ -86,7 +101,7 @@ class TaskExecutorTest extends Unit
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Logger\EventLoggerInterface
      */
-    protected function createEventLoggerMock(): mixed
+    protected function createEventLoggerMock(): EventLoggerInterface
     {
         $eventLogger = $this->createMock(EventLoggerInterface::class);
 
@@ -98,7 +113,7 @@ class TaskExecutorTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
-    protected function createTaskRepositoryMock($hasStopOnError = false): mixed
+    protected function createTaskRepositoryMock($hasStopOnError = false): TaskRepositoryInterface
     {
         $placeholderResolver = $this->createMock(TaskRepositoryInterface::class);
         $placeholderResolver->expects($this->once())
@@ -113,7 +128,7 @@ class TaskExecutorTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function createTaskMock($hasStopOnError = false): mixed
+    protected function createTaskMock($hasStopOnError = false): TaskInterface
     {
         $taskMock = $this->createMock(TaskInterface::class);
         $taskMock->expects($this->once())
@@ -126,7 +141,7 @@ class TaskExecutorTest extends Unit
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\PlaceholderInterface
      */
-    protected function createPlaceholderMock(): mixed
+    protected function createPlaceholderMock(): PlaceholderInterface
     {
         $placeholderMock = $this->createMock(PlaceholderInterface::class);
 
@@ -138,7 +153,7 @@ class TaskExecutorTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\CommandInterface
      */
-    protected function createCommandMock(bool $hasStopOnError = false): mixed
+    protected function createCommandMock(bool $hasStopOnError = false): CommandInterface
     {
         $placeholderResolver = $this->createMock(CommandInterface::class);
         $placeholderResolver
