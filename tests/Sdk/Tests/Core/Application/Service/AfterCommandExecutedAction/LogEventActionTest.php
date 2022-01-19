@@ -1,79 +1,103 @@
 <?php
 
-
 /**
  * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Tests\Core\Application\Service\AfterCommandExecutedAction;
+namespace SprykerSdk\Sdk\Tests\Core\Application\Service\AfterCommandExecutedAction;
 
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use SprykerSdk\Sdk\Core\Appplication\Service\AfterCommandExecutedAction\LogEventAction;
-use SprykerSdk\Sdk\Tests\UnitTester;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group LogEventActionTest
+ */
 class LogEventActionTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Tests\UnitTester
-     */
-    protected UnitTester $tester;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\AfterCommandExecutedAction\LogEventAction
-     */
-    protected LogEventAction $logEventAction;
-
-    /**
-     * @var \SprykerSdk\SdkContracts\Logger\EventLoggerInterface
-     */
-    protected EventLoggerInterface $eventLogger;
-
-    /**
      * @return void
      */
-    protected function setUp(): void
+    public function testExecuteWithLog(): void
     {
-        parent::setUp();
+        // Arrange
+        $logEventAction = new LogEventAction($this->createEventLoggerMock($this->once()));
+        $context = $this->createContextMock();
 
-        $this->eventLogger = $this->createMock(EventLoggerInterface::class);
-        $this->logEventAction = new LogEventAction($this->eventLogger);
+        // Act
+        $result = $logEventAction->execute($this->createCommandMock(), $context, 'test');
+
+        // Assert
+        $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
     /**
      * @return void
      */
-    public function testExecuteShouldLogEventWhenSubTaskExistsInContext(): void
+    public function testExecuteWithoutLog(): void
     {
         // Arrange
-        $command = $this->tester->createCommand();
-        $subTask = $this->tester->createTask();
-        $context = $this->tester->createContext([], [], [], [], [$subTask]);
-
-        $this->eventLogger
-            ->expects($this->once())
-            ->method('logEvent');
+        $logEventAction = new LogEventAction($this->createEventLoggerMock($this->never()));
+        $context = $this->createContextMock();
 
         // Act
-        $this->logEventAction->execute($command, $context, $subTask->getId());
+        $result = $logEventAction->execute($this->createCommandMock(), $context, '');
+
+        // Assert
+        $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
     /**
-     * @return void
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function testExecuteShouldLogEventWhenSubTaskNotExistsInContext(): void
+    protected function createContextMock(): ContextInterface
     {
-        // Arrange
-        $command = $this->tester->createCommand();
-        $subTask = $this->tester->createTask();
-        $context = $this->tester->createContext([], [], [], [], []);
+        $context = $this->createMock(ContextInterface::class);
+        $context->method('getSubTasks')
+            ->willReturn(['test' => $this->createTaskMock()]);
 
-        $this->eventLogger
-            ->expects($this->never())
+        $context->method('getExitCode')
+            ->willReturn(0);
+
+        return $context;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    protected function createTaskMock(): TaskInterface
+    {
+        return $this->createMock(TaskInterface::class);
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\CommandInterface
+     */
+    protected function createCommandMock(): CommandInterface
+    {
+        return $this->createMock(CommandInterface::class);
+    }
+
+    /**
+     * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder $invocationRule
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Logger\EventLoggerInterface
+     */
+    protected function createEventLoggerMock(InvocationOrder $invocationRule): EventLoggerInterface
+    {
+        $eventLogger = $this->createMock(EventLoggerInterface::class);
+        $eventLogger->expects($invocationRule)
             ->method('logEvent');
 
-        // Act
-        $this->logEventAction->execute($command, $context, $subTask->getId());
+        return $eventLogger;
     }
 }

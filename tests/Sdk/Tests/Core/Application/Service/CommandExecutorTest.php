@@ -5,176 +5,139 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Tests\Core\Application\Service;
+namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
 
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor;
-use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group CommandExecutorTest
+ */
 class CommandExecutorTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Tests\UnitTester
-     */
-    protected UnitTester $tester;
-
-    /**
      * @return void
      */
-    public function testExecuteWithCommandRunnerShouldExecuteCommand(): void
+    public function testExecute(): void
     {
         // Arrange
-        $task = $this->tester->createTask();
-        $context = $this->tester->createContext([], [], [], [], [$task]);
-        $command = $this->tester->createCommand();
-
-        $commandRunner = $this->createMock(CommandRunnerInterface::class);
-
-        $commandRunner
-            ->expects($this->once())
-            ->method('canHandle')
-            ->willReturn(true);
-
-        $commandRunner
-            ->expects($this->once())
-            ->method('execute')
-            ->willReturn($context);
-
-        $afterCommandExecutedAction = $this->createMock(AfterCommandExecutedActionInterface::class);
-
-        $afterCommandExecutedAction
-            ->expects($this->once())
-            ->method('execute')
-            ->willReturn($context);
-
-        $afterCommandExecutedActions = [$afterCommandExecutedAction];
-
-        $commandRunners = [$commandRunner];
-        $commandExecutor = new CommandExecutor($commandRunners, $afterCommandExecutedActions);
+        $context = $this->createContextMock();
+        $commandExecutor = new CommandExecutor(
+            [
+                $this->createCommandRunnerMock($context, false),
+                $this->createCommandRunnerMock($context),
+            ],
+            [$this->createAfterCommandExecutedActionMock($context, $this->once())],
+        );
 
         // Act
-        $context = $commandExecutor->execute($command, $context, $task->getId());
+        $result = $commandExecutor->execute($this->createCommandMock(), $context, 'test');
 
         // Assert
-        $this->assertArrayHasKey($command->getCommand(), $context->getExitCodeMap());
-        $this->assertSame(ContextInterface::SUCCESS_EXIT_CODE, $context->getExitCodeMap()[$command->getCommand()]);
+        $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
     /**
      * @return void
      */
-    public function testExecuteWithoutCommandRunnerShouldNotExecuteCommand(): void
+    public function testExecuteIsDry(): void
     {
         // Arrange
-        $task = $this->tester->createTask();
-        $context = $this->tester->createContext([], [], [], [], [$task]);
-        $command = $this->tester->createCommand();
-
-        $afterCommandExecutedAction = $this->createMock(AfterCommandExecutedActionInterface::class);
-
-        $afterCommandExecutedAction
-            ->expects($this->never())
-            ->method('execute')
-            ->willReturn($context);
-
-        $afterCommandExecutedActions = [$afterCommandExecutedAction];
-
-        $commandExecutor = new CommandExecutor([], $afterCommandExecutedActions);
+        $context = $this->createContextMock(true);
+        $commandExecutor = new CommandExecutor(
+            [
+                $this->createCommandRunnerMock($context),
+                $this->createCommandRunnerMock($context),
+            ],
+            [$this->createAfterCommandExecutedActionMock($context, $this->never())],
+        );
 
         // Act
-        $context = $commandExecutor->execute($command, $context, $task->getId());
+        $result = $commandExecutor->execute($this->createCommandMock(), $context, 'test');
 
         // Assert
-        $this->assertEmpty($context->getExitCodeMap());
+        $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
     /**
-     * @return void
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\CommandInterface
      */
-    public function testExecuteWithCommandRunnersWhichCannotHandleCommandShouldNotExecuteCommand(): void
+    protected function createCommandMock(): CommandInterface
     {
-        // Arrange
-        $task = $this->tester->createTask();
-        $context = $this->tester->createContext([], [], [], [], [$task]);
-        $command = $this->tester->createCommand();
-
-        $commandRunner = $this->createMock(CommandRunnerInterface::class);
-
-        $commandRunner
-            ->expects($this->once())
-            ->method('canHandle')
-            ->willReturn(false);
-
-        $commandRunner
-            ->expects($this->never())
-            ->method('execute')
-            ->willReturn($context);
-
-        $afterCommandExecutedAction = $this->createMock(AfterCommandExecutedActionInterface::class);
-
-        $afterCommandExecutedAction
-            ->expects($this->never())
-            ->method('execute')
-            ->willReturn($context);
-
-        $afterCommandExecutedActions = [$afterCommandExecutedAction];
-
-        $commandRunners = [$commandRunner];
-        $commandExecutor = new CommandExecutor($commandRunners, $afterCommandExecutedActions);
-
-        // Act
-        $context = $commandExecutor->execute($command, $context, $task->getId());
-
-        // Assert
-        $this->assertEmpty($context->getExitCodeMap());
+        return $this->createMock(CommandInterface::class);
     }
 
     /**
-     * @return void
+     * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param bool|true $canHandle
+     * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder|null $invocationRule
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface
      */
-    public function testExecuteWithContextIsDryRunHasTrueShouldGatherMessages(): void
-    {
-        // Arrange
-        $task = $this->tester->createTask();
-        $context = $this->tester->createContext([], [], [], [], [$task]);
-        $command = $this->tester->createCommand();
-
-        $context->setIsDryRun(true);
-
+    protected function createCommandRunnerMock(
+        ContextInterface $context,
+        bool $canHandle = true,
+        ?InvocationOrder $invocationRule = null
+    ): CommandRunnerInterface {
+        if ($invocationRule === null) {
+            $invocationRule = $this->once();
+        }
         $commandRunner = $this->createMock(CommandRunnerInterface::class);
-
         $commandRunner
-            ->expects($this->once())
+            ->expects($invocationRule)
             ->method('canHandle')
-            ->willReturn(true);
-
+            ->willReturn($canHandle);
         $commandRunner
-            ->expects($this->never())
+            ->expects(!$canHandle || $invocationRule->isNever() || $context->isDryRun() ? $this->never() : $this->once())
             ->method('execute')
             ->willReturn($context);
 
+        return $commandRunner;
+    }
+
+    /**
+     * @param bool|false $isDry
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface
+     */
+    protected function createContextMock(bool $isDry = false): ContextInterface
+    {
+        $context = $this->createMock(ContextInterface::class);
+        $context->method('isDryRun')
+            ->willReturn($isDry);
+
+        $context->method('getExitCode')
+            ->willReturn(0);
+
+        $context->expects($isDry ? $this->atLeast(2) : $this->never())
+            ->method('addMessage');
+
+        return $context;
+    }
+
+    /**
+     * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder $invocationRule
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface
+     */
+    protected function createAfterCommandExecutedActionMock(ContextInterface $context, InvocationOrder $invocationRule): AfterCommandExecutedActionInterface
+    {
         $afterCommandExecutedAction = $this->createMock(AfterCommandExecutedActionInterface::class);
-
-        $afterCommandExecutedAction
-            ->expects($this->never())
+        $afterCommandExecutedAction->expects($invocationRule)
             ->method('execute')
             ->willReturn($context);
 
-        $afterCommandExecutedActions = [$afterCommandExecutedAction];
-
-        $commandRunners = [$commandRunner];
-        $commandExecutor = new CommandExecutor($commandRunners, $afterCommandExecutedActions);
-
-        // Act
-        $context = $commandExecutor->execute($command, $context, $task->getId());
-
-        // Assert
-        $this->assertEmpty($context->getExitCodeMap());
-        $this->assertArrayHasKey($command->getCommand(), $context->getMessages());
-        $this->assertInstanceOf(MessageInterface::class, $context->getMessages()[$command->getCommand()]);
+        return $afterCommandExecutedAction;
+namespace SprykerSdk\Sdk\Tests\Core\Application\Service;
     }
 }

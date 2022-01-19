@@ -5,16 +5,23 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Tests\Core\Application\Service\Violation;
+namespace SprykerSdk\Sdk\Tests\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver;
-use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
-use SprykerSdk\Sdk\Tests\UnitTester;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group Violation
+ * @group ViolationConverterResolverTest
+ */
 class ViolationConverterResolverTest extends Unit
 {
     /**
@@ -23,119 +30,87 @@ class ViolationConverterResolverTest extends Unit
     protected ViolationConverterResolver $violationConverterResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
-     */
-    protected ConverterRegistryInterface $converterRegistry;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
-     */
-    protected SettingRepositoryInterface $settingRepository;
-
-    /**
-     * @var \SprykerSdk\Sdk\Tests\UnitTester
-     */
-    protected UnitTester $tester;
-
-    /**
      * @return void
      */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->converterRegistry = $this->createMock(ConverterRegistryInterface::class);
-        $this->settingRepository = $this->createMock(SettingRepositoryInterface::class);
-        $this->violationConverterResolver = new ViolationConverterResolver($this->converterRegistry);
+        // Arrange
+        $this->violationConverterResolver = new ViolationConverterResolver($this->createConverterRegistryMock());
     }
 
     /**
      * @return void
      */
-    public function testResolveWithNullConverterShouldReturnNull(): void
+    public function testResolve(): void
     {
-        // Arrange
-        $converter = null;
-        $command = $this->tester->createCommand($converter);
-
         // Act
-        $result = $this->violationConverterResolver->resolve($command);
+        $violationConverter = $this->violationConverterResolver->resolve($this->createCommandMock());
 
         // Assert
-        $this->assertNull($result);
+        $this->assertInstanceOf(ViolationConverterInterface::class, $violationConverter);
     }
 
     /**
      * @return void
      */
-    public function testResolveWithConverterRegistryHasNotConverter(): void
+    public function testResolveIfCommandDoesNotHaveConvertor(): void
     {
         // Arrange
-        $converter = new Converter('converter', []);
-        $command = $this->tester->createCommand($converter);
+        $violationConverterResolver = new ViolationConverterResolver($this->createConverterRegistryMock());
 
         // Act
-        $result = $this->violationConverterResolver->resolve($command);
+        $violationConverter = $violationConverterResolver->resolve($this->createCommandMock(false));
 
         // Assert
-        $this->assertNull($result);
+        $this->assertNull($violationConverter);
     }
 
     /**
      * @return void
      */
-    public function testResolveWithConverterRegistryHasConverterButCannotRetrieveViolationConverter(): void
+    public function testResolveIfConvertorDoesNotExist(): void
     {
-        // Arrange
-        $converter = new Converter('converter', []);
-        $command = $this->tester->createCommand($converter);
+        $violationConverterResolver = new ViolationConverterResolver($this->createConverterRegistryMock(false));
+        $violationConverter = $violationConverterResolver->resolve($this->createCommandMock());
 
-        $this->converterRegistry
-            ->expects($this->once())
+        $this->assertNull($violationConverter);
+    }
+
+    /**
+     * @param bool $hasConvertor
+     *
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
+     */
+    protected function createConverterRegistryMock(bool $hasConvertor = true): ConverterRegistryInterface
+    {
+        $converterRegistry = $this->createMock(ConverterRegistryInterface::class);
+        $converterRegistry
             ->method('has')
-            ->willReturn(true);
-
-        $this->converterRegistry
-            ->expects($this->once())
+            ->willReturn($hasConvertor);
+        $converterRegistry
             ->method('get')
-            ->willReturn(null);
+            ->willReturn($this->createMock(ViolationConverterInterface::class));
 
-        // Act
-        $result = $this->violationConverterResolver->resolve($command);
-
-        // Assert
-        $this->assertNull($result);
+        return $converterRegistry;
     }
 
     /**
-     * @return void
+     * @param bool $hasConvertor
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\CommandInterface
      */
-    public function testResolveShouldReturnViolationConverter(): void
+    protected function createCommandMock(bool $hasConvertor = true): CommandInterface
     {
-        // Arrange
-        $converter = new Converter('converter', []);
-        $command = $this->tester->createCommand($converter);
+        $command = $this->createMock(CommandInterface::class);
 
-        $violationConverter = $this->createMock(ViolationConverterInterface::class);
-        $violationConverter
-            ->expects($this->once())
-            ->method('configure')
-            ->with($converter->getConfiguration());
+        if ($hasConvertor) {
+            $command
+                ->method('getViolationConverter')
+                ->willReturn($this->createMock(ConverterInterface::class));
+        }
 
-        $this->converterRegistry
-            ->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-
-        $this->converterRegistry
-            ->expects($this->once())
-            ->method('get')
-            ->willReturn($violationConverter);
-
-        // Act
-        $result = $this->violationConverterResolver->resolve($command);
-
-        // Assert
-        $this->assertSame($violationConverter, $result);
+        return $command;
     }
 }

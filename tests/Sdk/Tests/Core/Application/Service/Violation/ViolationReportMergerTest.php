@@ -5,72 +5,93 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Tests\Core\Application\Service\Violation;
+namespace SprykerSdk\Sdk\Tests\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger;
-use SprykerSdk\Sdk\Tests\UnitTester;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
+use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group Violation
+ * @group ViolationReportMergerTest
+ */
 class ViolationReportMergerTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger
-     */
-    protected ViolationReportMerger $violationReportMerger;
-
-    /**
-     * @var \SprykerSdk\Sdk\Tests\UnitTester
-     */
-    protected UnitTester $tester;
-
-    /**
      * @return void
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->violationReportMerger = new ViolationReportMerger();
-    }
-
-    /**
-     * @return void
-     */
-    public function testMergeWithEmptyViolationReportsShouldReturnEmptyViolationReport(): void
+    public function testMerge(): void
     {
         // Arrange
-        $reports = [];
+        $violationReportMerger = new ViolationReportMerger();
 
         // Act
-        $result = $this->violationReportMerger->merge($reports);
+        $violationReport = $violationReportMerger->merge([
+            $this->createViolationReport('first'),
+            $this->createViolationReport('second'),
+        ]);
 
         // Assert
-        $this->assertEmpty($result->getPath());
-        $this->assertEmpty($result->getProject());
-        $this->assertEmpty($result->getViolations());
-        $this->assertEmpty($result->getViolations());
-    }
-
-    /**
-     * @return void
-     */
-    public function testMergeWithViolationReportsShouldReturnMergedViolationReport(): void
-    {
-        // Arrange
-        $violationReport = $this->tester->createViolationReport($this->tester->createArrayViolationReport());
-        $reports = [
-            $violationReport,
-        ];
-
-        // Act
-        $result = $this->violationReportMerger->merge($reports);
-
-        // Assert
-        foreach ($reports as $report) {
-            $this->assertSame($result->getViolations(), $report->getViolations());
+        $this->assertCount(2, $violationReport->getViolations());
+        $this->assertCount(2, $violationReport->getPackages());
+        foreach ($violationReport->getPackages() as $package) {
+            $this->assertCount(1, $package->getViolations());
+            $this->assertCount(2, $package->getFileViolations());
         }
+    }
 
-        $this->assertSame($result->getProject(), $violationReport->getProject());
-        $this->assertSame($result->getPath(), $violationReport->getPath());
+    /**
+     * @param string $postfix
+     *
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     */
+    protected function createViolationReport(string $postfix = ''): ViolationReportInterface
+    {
+        return new ViolationReport(
+            'project' . $postfix,
+            'path' . $postfix,
+            [$this->createViolationReportConverter($postfix)],
+            [$this->createPackageViolationReport($postfix)],
+        );
+    }
+
+    /**
+     * @param string $postfix
+     *
+     * @return \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface
+     */
+    protected function createPackageViolationReport(string $postfix = ''): PackageViolationReportInterface
+    {
+        return new PackageViolationReport(
+            'package' . $postfix,
+            'path' . $postfix,
+            [$this->createViolationReportConverter($postfix)],
+            [
+                'file' => [$this->createViolationReportConverter($postfix)],
+                'file' . $postfix => [$this->createViolationReportConverter($postfix)],
+            ],
+        );
+    }
+
+    /**
+     * @param string $postfix
+     *
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
+     */
+    protected function createViolationReportConverter(string $postfix = ''): ViolationReportConverterInterface
+    {
+        return new ViolationReportConverter(
+            'id' . $postfix,
+            'message' . $postfix,
+        );
     }
 }
