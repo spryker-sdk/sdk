@@ -67,9 +67,13 @@ class ConfigManager implements ConfigManagerInterface
     public function createXmlFile(): bool
     {
         $ideCommands = $this->commandLoader->load();
-        $sdkDirSetting = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
+        $executableFile = getenv('EXECUTABLE_FILE_PATH');
+        if ($executableFile === false || !\is_string($executableFile)) {
+            $executableFile = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
+            $executableFile = '"$PhpExecutable$" ' . $executableFile . '/bin/console';
+        }
 
-        $arrayConfig = $this->prepareConfig($ideCommands, $sdkDirSetting);
+        $arrayConfig = $this->prepareConfig($ideCommands, $executableFile);
         $xmlConfig = $this->xmlEncoder->encode($arrayConfig, XmlEncoder::FORMAT);
 
         $projectDirSetting = (string)$this->getSetting(static::PROJECT_DIR_PATH)->getValues();
@@ -95,7 +99,7 @@ class ConfigManager implements ConfigManagerInterface
             '@xsi:noNamespaceSchemaLocation' => 'schemas/frameworkDescriptionVersion1.1.3.xsd',
             '@frameworkId' => 'spryker-sdk',
             '@name' => 'Spryker Sdk',
-            '@invoke' => '"$PhpExecutable$" ' . $sdkDir . '/bin/console',
+            '@invoke' => $sdkDir,
             '@alias' => 'spryker-sdk',
             '@enabled' => 'true',
             '@version' => 2,

@@ -17,7 +17,7 @@ RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer
 
 FROM application-production-dependencies AS application-production-codebase
 
-#RUN chown spryker:spryker ${srcRoot}
+RUN chown spryker:spryker ${srcRoot}
 
 COPY --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
 COPY --chown=spryker:spryker src ${srcRoot}/src
