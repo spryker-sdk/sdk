@@ -68,7 +68,7 @@ class ConfigManager implements ConfigManagerInterface
     {
         $ideCommands = $this->commandLoader->load();
         $executableFile = getenv('EXECUTABLE_FILE_PATH');
-        if ($executableFile === false || !is_string($executableFile)) {
+        if (!$executableFile || !is_string($executableFile)) {
             $executableFile = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
             $executableFile = '"$PhpExecutable$" ' . $executableFile . '/bin/console';
         }
