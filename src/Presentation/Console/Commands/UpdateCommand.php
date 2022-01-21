@@ -143,10 +143,10 @@ class UpdateCommand extends Command
             'http' => [
                 'method' => 'GET',
                 'header' => [
-                    'User-Agent: PHP'
+                    'User-Agent: PHP',
                 ],
-                'timeout' => 10
-            ]
+                'timeout' => 10,
+            ],
         ];
         $context = stream_context_create($opts);
         $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
