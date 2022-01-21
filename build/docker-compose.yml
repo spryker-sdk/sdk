@@ -11,8 +11,8 @@ services:
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
     volumes:
       - $PWD:/project:rw
-#      - ./db:/data/db:rw
-#      - ./extension:/data/extension:rw
-
+      - ./db:/data/db:rw
+      - ./extension:/data/extension:rw
+      - ./VERSION:/VERSION:rw
 volumes:
   project:

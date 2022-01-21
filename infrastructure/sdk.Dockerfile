@@ -11,8 +11,8 @@ RUN apk update \
 COPY --chown=spryker:spryker composer.json composer.lock ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
-RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1001 \
-  --mount=type=ssh,uid=1001 --mount=type=secret,id=secrets-env,uid=1001 \
+RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
+  --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
     composer install --no-scripts --no-interaction ${SPRYKER_COMPOSER_MODE} -vvv
 
 FROM application-production-dependencies AS application-production-codebase
@@ -28,7 +28,7 @@ COPY --chown=spryker:spryker config ${srcRoot}/config
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
 
-RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1001 \
+RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
 
