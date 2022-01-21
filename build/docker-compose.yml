@@ -13,6 +13,6 @@ services:
       - $PWD:/project:rw
       - ./db:/data/db:rw
       - ./extension:/data/extension:rw
-      - ./VERSION:/VERSION:rw
+      - ./VERSION:/data/VERSION:rw
 volumes:
   project:
