@@ -62,15 +62,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ContextRepositoryInterface $contextRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
-     */
-    protected TaskRepositoryInterface $taskFileRepository;
-
-    /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskFileRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
@@ -81,7 +75,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         ContainerInterface $container,
         array $commandMap,
         TaskRepositoryInterface $taskRepository,
-        TaskRepositoryInterface $taskFileRepository,
         ContextRepositoryInterface $contextRepository,
         TaskExecutor $taskExecutor,
         PlaceholderResolver $placeholderResolver,
@@ -95,7 +88,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $this->reportFormatterFactory = $reportFormatterFactory;
         $this->contextRepository = $contextRepository;
         $this->environment = $environment;
-        $this->taskFileRepository = $taskFileRepository;
     }
 
     /**
@@ -127,7 +119,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             return parent::get($name);
         }
 
-        $task = $this->taskFileRepository->findById($name);
+        $task = $this->taskRepository->findById($name);
 
         if (!$task) {
             throw new TaskMissingException('Could not find task ' . $name);

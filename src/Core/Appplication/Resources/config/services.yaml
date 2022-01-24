@@ -65,7 +65,7 @@ services:
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
     arguments:
       - '@placeholder_resolver'
-      - '@task_repository'
+      - '@task_persistence_repository'
       - '@service.command_executor'
       - '@violation_report_generator'
       - '@action_approver'

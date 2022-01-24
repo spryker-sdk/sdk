@@ -20,6 +20,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                     command_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE
         placeholders:
             targetEntity: Placeholder
             cascade: [ "persist", "remove" ]
@@ -32,6 +33,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                     placeholder_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE
         files:
             targetEntity: File
             cascade: [ "persist", "remove" ]
@@ -44,3 +46,4 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                     file_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE
