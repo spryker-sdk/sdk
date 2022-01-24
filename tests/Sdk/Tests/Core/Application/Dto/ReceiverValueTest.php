@@ -25,7 +25,6 @@ class ReceiverValueTest extends Unit
     public function testReceivedValueGettersShouldReturnCorrectValues(): void
     {
         // Arrange
-
         $description = 'Test description';
         $defaultValue = 'test';
         $type = 'string';

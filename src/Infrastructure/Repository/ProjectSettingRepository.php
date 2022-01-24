@@ -18,10 +18,19 @@ use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
     protected SettingRepositoryInterface $coreSettingRepository;
 
+    /**
+     * @var \Symfony\Component\Yaml\Yaml
+     */
     protected Yaml $yamlParser;
 
+    /**
+     * @var string
+     */
     protected string $projectSettingFileName;
 
     /**
