@@ -7,10 +7,12 @@ services:
       context: ./
       dockerfile: ./infrastructure/sdk.Dockerfile
     working_dir: "/project"
+    environment:
+      EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
     volumes:
       - $PWD:/project:rw
-#      - ./db:/data/db:rw
-#      - ./extension:/data/extension:rw
-
+      - ./db:/data/db:rw
+      - ./extension:/data/extension:rw
+      - ./VERSION:/data/VERSION:rw
 volumes:
   project:

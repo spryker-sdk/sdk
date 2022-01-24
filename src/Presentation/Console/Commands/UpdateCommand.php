@@ -125,7 +125,7 @@ class UpdateCommand extends Command
 
         $latestVersion = $this->getLatestVersion($output);
 
-        if (version_compare($currentVersion, $latestVersion) === -1) {
+        if (version_compare($currentVersion, $latestVersion, '<')) {
             $output->writeln(sprintf('SDK is outdated (current: %s, latest: %s)', $currentVersion, $latestVersion));
             $output->writeln('Please update manually by downloading the installer for the newest version at https://github.com/spryker-sdk/sdk/releases');
         }
@@ -139,8 +139,16 @@ class UpdateCommand extends Command
     protected function getLatestVersion(OutputInterface $output): string
     {
         $githubVersion = '0.0.0';
-
-        $context = stream_context_create(['https' => ['timeout' => 10]]);
+        $opts = [
+            'http' => [
+                'method' => 'GET',
+                'header' => [
+                    'User-Agent: PHP',
+                ],
+                'timeout' => 10,
+            ],
+        ];
+        $context = stream_context_create($opts);
         $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
 
         try {

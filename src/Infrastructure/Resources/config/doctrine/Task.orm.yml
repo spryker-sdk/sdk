@@ -49,6 +49,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
         commandCollection:
             targetEntity: Command
             cascade: ["persist", "remove"]
+            orphanRemoval: true
             joinTable:
                 name: sdk_tasks_commands
                 joinColumns:
@@ -63,6 +64,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
         placeholderCollection:
             targetEntity: Placeholder
             cascade: ["persist", "remove"]
+            orphanRemoval: true
             joinTable:
                 name: sdk_tasks_placeholders
                 joinColumns:
