@@ -7,7 +7,7 @@
 The Spryker SDK aims to provide a single entry point to accelerate your productivity working with Spryker.
 No matter if you want to validate existing code, implement new features with Spryker or go live with your project,
 the Spryker SDK provides you the tools to fulfill your mission faster and cut out the boring parts of the development,
-so you can focus developinPHP_INI_SCAN_DIRg exciting features for your business case.
+so you can focus developing exciting features for your business case.
 
 ## Installation
 

@@ -35,7 +35,7 @@ case $MODE in
   echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
   export SPRYKER_XDEBUG_HOST_IP=${myIp}
   export PHP_IDE_CONFIG=serverName=spryker-sdk
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_SESSION=1 -e APP_ENV=dev spryker-sdk "$ARGUMENTS"
+  docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.debug.yml" run --rm -e XDEBUG_SESSION=1 -e APP_ENV=dev spryker-sdk "$ARGUMENTS"
   ;;
 "dev")
   echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
