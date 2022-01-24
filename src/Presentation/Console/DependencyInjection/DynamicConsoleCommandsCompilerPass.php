@@ -26,7 +26,6 @@ class DynamicConsoleCommandsCompilerPass implements CompilerPassInterface
             $container->getDefinition('console.command_loader')
                 ->setClass(TaskRunFactoryLoader::class)
                 ->addArgument(new Reference('task_persistence_repository'))
-                ->addArgument(new Reference('task_repository'))
                 ->addArgument(new Reference('context_repository'))
                 ->addArgument(new Reference('task_executor'))
                 ->addArgument(new Reference('placeholder_resolver'))

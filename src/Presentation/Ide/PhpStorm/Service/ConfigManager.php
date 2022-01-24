@@ -28,7 +28,12 @@ class ConfigManager implements ConfigManagerInterface
     /**
      * @var string
      */
-    protected const IDEA_CONFIG_PATH = '/.idea/commandlinetools/Custom_Spryker_Sdk.xml';
+    protected const IDEA_CONFIG_FOLDER_PATH = DIRECTORY_SEPARATOR . '.idea' . DIRECTORY_SEPARATOR . 'commandlinetools' . DIRECTORY_SEPARATOR;
+
+    /**
+     * @var string
+     */
+    protected const IDEA_CONFIG_FILE_NAME = 'Custom_Spryker_Sdk.xml';
 
     protected CommandXmlFormatterInterface $commandXmlFormatter;
 
@@ -62,14 +67,23 @@ class ConfigManager implements ConfigManagerInterface
     public function createXmlFile(): bool
     {
         $ideCommands = $this->commandLoader->load();
-        $sdkDirSetting = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
+        $executableFile = getenv('EXECUTABLE_FILE_PATH');
+        if (!$executableFile || !is_string($executableFile)) {
+            $executableFile = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
+            $executableFile = '"$PhpExecutable$" ' . $executableFile . '/bin/console';
+        }
 
-        $arrayConfig = $this->prepareConfig($ideCommands, $sdkDirSetting);
+        $arrayConfig = $this->prepareConfig($ideCommands, $executableFile);
         $xmlConfig = $this->xmlEncoder->encode($arrayConfig, XmlEncoder::FORMAT);
 
         $projectDirSetting = (string)$this->getSetting(static::PROJECT_DIR_PATH)->getValues();
+        $ideaFolderPath = $projectDirSetting . static::IDEA_CONFIG_FOLDER_PATH;
 
-        return (bool)file_put_contents($projectDirSetting . static::IDEA_CONFIG_PATH, $xmlConfig);
+        if (!is_dir($ideaFolderPath)) {
+            mkdir($ideaFolderPath, 0777, true);
+        }
+
+        return !(file_put_contents($ideaFolderPath . static::IDEA_CONFIG_FILE_NAME, $xmlConfig) !== false);
     }
 
     /**
@@ -85,7 +99,7 @@ class ConfigManager implements ConfigManagerInterface
             '@xsi:noNamespaceSchemaLocation' => 'schemas/frameworkDescriptionVersion1.1.3.xsd',
             '@frameworkId' => 'spryker-sdk',
             '@name' => 'Spryker Sdk',
-            '@invoke' => '"$PhpExecutable$" ' . $sdkDir . '/bin/console',
+            '@invoke' => $sdkDir,
             '@alias' => 'spryker-sdk',
             '@enabled' => 'true',
             '@version' => 2,

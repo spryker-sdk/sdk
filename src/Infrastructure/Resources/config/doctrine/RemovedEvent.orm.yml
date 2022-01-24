@@ -16,10 +16,12 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     command_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE
         placeholders:
             targetEntity: Placeholder
             cascade: [ "persist", "remove" ]
@@ -28,10 +30,12 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     placeholder_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE
         files:
             targetEntity: File
             cascade: [ "persist", "remove" ]
@@ -40,7 +44,9 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     file_id:
                         referencedColumnName: id
                         unique: true
+                        onDelete: CASCADE

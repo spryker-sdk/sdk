@@ -12,9 +12,9 @@ use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface
 class ReportFormatterFactory
 {
     /**
-     * @var string|null
+     * @var string
      */
-    protected ?string $format = null;
+    protected string $format = 'output';
 
     /**
      * @var iterable<\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface>
@@ -44,10 +44,6 @@ class ReportFormatterFactory
      */
     public function getViolationReportFormatter(): ?ViolationReportFormatterInterface
     {
-        if (!$this->format) {
-            return null;
-        }
-
         foreach ($this->violationReportFormatters as $violationReportFormatter) {
             if ($violationReportFormatter->getFormat() === $this->format) {
                 return $violationReportFormatter;
