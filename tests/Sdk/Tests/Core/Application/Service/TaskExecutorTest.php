@@ -109,26 +109,22 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @param bool|false $hasStopOnError
-     *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
-    protected function createTaskRepositoryMock($hasStopOnError = false): TaskRepositoryInterface
+    protected function createTaskRepositoryMock(): TaskRepositoryInterface
     {
         $placeholderResolver = $this->createMock(TaskRepositoryInterface::class);
         $placeholderResolver->expects($this->once())
             ->method('findById')
-            ->willReturn($this->createTaskMock($hasStopOnError));
+            ->willReturn($this->createTaskMock());
 
         return $placeholderResolver;
     }
 
     /**
-     * @param bool|false $hasStopOnError
-     *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function createTaskMock($hasStopOnError = false): TaskInterface
+    protected function createTaskMock(): TaskInterface
     {
         $taskMock = $this->createMock(TaskInterface::class);
         $taskMock->expects($this->once())
@@ -164,11 +160,9 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
      */
-    protected function createCommandExecutorMock(ContextInterface $context): CommandExecutorInterface
+    protected function createCommandExecutorMock(): CommandExecutorInterface
     {
         $commandExecutor = $this->createMock(CommandExecutorInterface::class);
 

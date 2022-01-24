@@ -102,7 +102,7 @@ class TaskYamlRepositoryTest extends Unit
         // Act
         $result = $this->taskYamlRepository->findAll();
 
-        // Arrange
+        // Assert
         $this->assertCount(4, $result);
     }
 
@@ -128,7 +128,7 @@ class TaskYamlRepositoryTest extends Unit
         // Act
         $result = $this->taskYamlRepository->findById('hello:world');
 
-        // Arrange
+        // Assert
         $this->assertSame('hello:world', $result->getId());
         $this->assertSame('hello:php', $result->getSuccessor());
         $this->assertFalse($result->isDeprecated());
@@ -157,7 +157,7 @@ class TaskYamlRepositoryTest extends Unit
         // Act
         $result = $this->taskYamlRepository->findById('not exist');
 
-        // Arrange
+        // Assert
         $this->assertNull($result);
     }
 }
