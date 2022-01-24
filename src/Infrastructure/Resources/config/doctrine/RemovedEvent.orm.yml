@@ -16,6 +16,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     command_id:
                         referencedColumnName: id
@@ -29,6 +30,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     placeholder_id:
                         referencedColumnName: id
@@ -42,6 +44,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     file_id:
                         referencedColumnName: id
