@@ -122,7 +122,7 @@ class UpdateCommand extends Command
 
             return;
         }
-        $currentVersion = trim($currentVersion, '\n');
+        $currentVersion = trim($currentVersion);
         $latestVersion = $this->getLatestVersion($output);
 
         if (version_compare($currentVersion, $latestVersion, '<')) {
