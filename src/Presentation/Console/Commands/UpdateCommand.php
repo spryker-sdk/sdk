@@ -125,7 +125,7 @@ class UpdateCommand extends Command
 
         $latestVersion = $this->getLatestVersion($output);
 
-        if (version_compare($currentVersion, $latestVersion, '>')) {
+        if (version_compare($currentVersion, $latestVersion, '<')) {
             $output->writeln(sprintf('SDK is outdated (current: %s, latest: %s)', $currentVersion, $latestVersion));
             $output->writeln('Please update manually by downloading the installer for the newest version at https://github.com/spryker-sdk/sdk/releases');
         }
