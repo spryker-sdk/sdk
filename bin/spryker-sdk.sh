@@ -30,6 +30,13 @@ export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export EXECUTABLE_FILE_PATH=$(realpath "$0")
 
+if [ "$(uname)" == "Darwin" ] && ( ! type realpath &>/dev/null ); then
+    echo
+    echo "realpath is not installed."
+    echo "Run 'brew install coreutils' to install 'realpath'"
+    echo
+fi
+
 case $MODE in
 "debug")
   echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
