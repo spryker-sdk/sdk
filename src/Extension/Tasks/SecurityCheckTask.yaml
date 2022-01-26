@@ -1,5 +1,5 @@
 ---
-id: 'validation:security:check'
+id: 'validation:php:security-check'
 short_description: 'Check your code by running a static code analysis and generate report with violations'
 help: ~
 stage: build
