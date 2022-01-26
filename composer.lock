@@ -14008,16 +14008,16 @@
         },
         {
             "name": "spryker-sdk/security-checker",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/security-checker.git",
-                "reference": "86844935b54a8bd22ef8a28f8bed55c6e82d28a9"
+                "reference": "12f0987dbbaa6c2fdc5178aefdc988b87c7bde88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/security-checker/zipball/86844935b54a8bd22ef8a28f8bed55c6e82d28a9",
-                "reference": "86844935b54a8bd22ef8a28f8bed55c6e82d28a9",
+                "url": "https://api.github.com/repos/spryker-sdk/security-checker/zipball/12f0987dbbaa6c2fdc5178aefdc988b87c7bde88",
+                "reference": "12f0987dbbaa6c2fdc5178aefdc988b87c7bde88",
                 "shasum": ""
             },
             "require": {
@@ -14027,7 +14027,7 @@
                 "symfony/process": "^4.0.0 || ^5.0.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.18",
+                "phpstan/phpstan": "^1.2.0",
                 "slevomat/coding-standard": "^6.2",
                 "spryker/code-sniffer": "^0.15.6",
                 "squizlabs/php_codesniffer": "^3.5"
@@ -14050,9 +14050,9 @@
             "description": "A security checker for your composer.lock",
             "support": {
                 "issues": "https://github.com/spryker-sdk/security-checker/issues",
-                "source": "https://github.com/spryker-sdk/security-checker/tree/0.1.0"
+                "source": "https://github.com/spryker-sdk/security-checker/tree/0.1.1"
             },
-            "time": "2021-01-26T13:25:24+00:00"
+            "time": "2022-01-25T15:31:47+00:00"
         },
         {
             "name": "symfony/css-selector",
