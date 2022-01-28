@@ -13,10 +13,19 @@ use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface;
 
 class CommandLoader implements CommandLoaderInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader
+     */
     protected TaskRunFactoryLoader $commandContainer;
 
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface
+     */
     protected CommandMapperInterface $commandMapper;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     */
     protected TaskRepositoryInterface $taskRepository;
 
     /**
