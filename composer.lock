@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8938799cadcb002bdfc1f2776c6b490e",
+    "content-hash": "39ba70bc0e8357bfc8780d7a962eed44",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4447,16 +4447,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "dev-feature/sdk-321-reports-impovments",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "52cb8701195efe742d4a90794cdf456ea512dd62"
+                "reference": "ac3d7d89431ab74a9f5baebc4e56982c5c67d9e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/52cb8701195efe742d4a90794cdf456ea512dd62",
-                "reference": "52cb8701195efe742d4a90794cdf456ea512dd62",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/ac3d7d89431ab74a9f5baebc4e56982c5c67d9e6",
+                "reference": "ac3d7d89431ab74a9f5baebc4e56982c5c67d9e6",
                 "shasum": ""
             },
             "require": {
@@ -4484,6 +4484,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4502,9 +4503,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/feature/sdk-321-reports-impovments"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/master"
             },
-            "time": "2022-01-28T07:35:08+00:00"
+            "time": "2022-01-19T08:46:00+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -14174,7 +14175,7 @@
     "aliases": [
         {
             "package": "spryker-sdk/evaluator",
-            "version": "dev-feature/sdk-321-reports-impovments",
+            "version": "9999999-dev",
             "alias": "0.1.0",
             "alias_normalized": "0.1.0.0"
         }
