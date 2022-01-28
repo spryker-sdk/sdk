@@ -31,7 +31,7 @@ class GreeterCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return 'Greet' . $this->message;
+        return static::class;
     }
 
     /**

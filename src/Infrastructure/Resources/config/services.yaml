@@ -124,6 +124,7 @@ services:
     arguments:
       - '@mapper.task_mapper'
       - '@doctrine'
+      - !tagged_iterator sdk.task
 
   service.task_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
