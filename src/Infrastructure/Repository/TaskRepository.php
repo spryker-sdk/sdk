@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
-use ReflectionProperty;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
@@ -30,14 +29,14 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     protected TaskMapperInterface $taskMapper;
 
     /**
-     * @var iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
-    protected iterable $existingTasks = [];
+    protected array $existingTasks = [];
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
-     * @param iterable|array $existingTasks
+     * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
@@ -97,7 +96,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
      */
     public function findAllIndexedCollection(): array
     {
-        /** @var array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks */
+        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Task> $tasks */
         $tasks = $this->findAll();
 
         $tasksMap = [];
@@ -139,17 +138,18 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
         if ($tags) {
             $criteria['tags'] = $tags;
         }
+        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task */
         $task = $this->findOneBy($criteria);
 
-        if (!$task) {
+        if ($task === null) {
             return null;
         }
 
-        return $this->changePhpCommand($this->findOneBy($criteria));
+        return $this->changePhpCommand($task);
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
@@ -171,6 +171,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
             }
             $commands[] = $command;
         }
+
         $task->setCommands(new ArrayCollection($commands));
 
         return $task;

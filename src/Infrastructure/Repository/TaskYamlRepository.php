@@ -50,9 +50,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected Yaml $yamlParser;
 
     /**
-     * @var iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
-    protected iterable $existingTasks = [];
+    protected array $existingTasks = [];
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
@@ -188,7 +188,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array<string> $tags
      *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
+     * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected function buildCommands(array $data, array $taskListData, array $tags = []): array
     {
