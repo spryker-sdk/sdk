@@ -1,5 +1,5 @@
 ---
-id: 'validation:php:codestyle'
+id: 'validation:php:codestyle-fix'
 short_description: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
 help: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
 stage: build
