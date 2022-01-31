@@ -12,10 +12,10 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ContextSerializerHelper extends Module
@@ -70,11 +70,11 @@ class ContextSerializerHelper extends Module
     /**
      * @param array $reportData
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
      */
-    public function createViolationReportConverter(array $reportData): ViolationReportConverterInterface
+    public function createViolationReportConverter(array $reportData): ViolationInterface
     {
-        return new ViolationReportConverter(
+        return new Violation(
             $reportData['id'],
             $reportData['message'],
             $reportData['severity'],

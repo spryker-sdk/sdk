@@ -4451,12 +4451,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "e751ad7faf1b8a5042de7fbc1168f420d281abfd"
+                "reference": "7e8d440b969205f774ae9e73f86738b67ed20313"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/e751ad7faf1b8a5042de7fbc1168f420d281abfd",
-                "reference": "e751ad7faf1b8a5042de7fbc1168f420d281abfd",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/7e8d440b969205f774ae9e73f86738b67ed20313",
+                "reference": "7e8d440b969205f774ae9e73f86738b67ed20313",
                 "shasum": ""
             },
             "require": {
@@ -4469,7 +4469,7 @@
                 "nikic/php-parser": "^4.13",
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.2",
-                "spryker-sdk/sdk-contracts": "dev-master",
+                "spryker-sdk/sdk-contracts": "dev-feature/sdk-321-reports-impovments",
                 "spryker/code-sniffer": "^0.17.3",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
@@ -4504,7 +4504,7 @@
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
                 "source": "https://github.com/spryker-sdk/evaluator/tree/feature/sdk-321-reports-impovments"
             },
-            "time": "2022-01-31T10:22:42+00:00"
+            "time": "2022-01-31T14:26:48+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -4512,12 +4512,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "ea416a8e9c170c2e308c144e230291a292d05c53"
+                "reference": "1fd68cb90a338722e9622bbbec7178fe6aa81043"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ea416a8e9c170c2e308c144e230291a292d05c53",
-                "reference": "ea416a8e9c170c2e308c144e230291a292d05c53",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/1fd68cb90a338722e9622bbbec7178fe6aa81043",
+                "reference": "1fd68cb90a338722e9622bbbec7178fe6aa81043",
                 "shasum": ""
             },
             "require": {
@@ -4542,7 +4542,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-321-reports-impovments"
             },
-            "time": "2022-01-31T10:21:14+00:00"
+            "time": "2022-01-31T14:25:25+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

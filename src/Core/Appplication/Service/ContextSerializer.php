@@ -11,11 +11,11 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
+use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ContextSerializer
@@ -107,11 +107,11 @@ class ContextSerializer
     /**
      * @param array $reportData
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
      */
-    protected function convertArrayToViolationReportConverter(array $reportData): ViolationReportConverterInterface
+    protected function convertArrayToViolationReportConverter(array $reportData): ViolationInterface
     {
-        return new ViolationReportConverter(
+        return new Violation(
             $reportData['id'],
             $reportData['message'],
             $reportData['severity'],
@@ -168,11 +168,11 @@ class ContextSerializer
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface $violationReportConverter
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violationReportConverter
      *
      * @return array
      */
-    protected function convertViolationToArray(ViolationReportConverterInterface $violationReportConverter): array
+    protected function convertViolationToArray(ViolationInterface $violationReportConverter): array
     {
         return [
             'id' => $violationReportConverter->getId(),
@@ -212,7 +212,7 @@ class ContextSerializer
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface> $reports
+     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $reports
      *
      * @return array
      */

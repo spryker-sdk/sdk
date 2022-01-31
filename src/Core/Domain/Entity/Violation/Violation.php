@@ -7,9 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationFixInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 
-class ViolationReportConverter implements ViolationReportConverterInterface
+class Violation implements ViolationInterface
 {
     /**
      * @var string
@@ -94,7 +95,7 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     public function __construct(
         string $id,
         string $message,
-        string $severity = ViolationReportConverterInterface::SEVERITY_ERROR,
+        string $severity = ViolationInterface::SEVERITY_ERROR,
         ?string $priority = null,
         ?string $class = null,
         ?int $startLine = null,
@@ -225,5 +226,13 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     public function getAdditionalAttributes(): array
     {
         return $this->attributes;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null
+     */
+    public function getFix(): ?ViolationFixInterface
+    {
+        return null;
     }
 }
