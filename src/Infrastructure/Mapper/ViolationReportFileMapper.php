@@ -115,6 +115,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
 
         $violationData['id'] = $violation->getId();
         $violationData['message'] = $violation->getMessage();
+        $violationData['severity'] = $violation->getSeverity();
         $violationData['priority'] = $violation->priority();
         $violationData['class'] = $violation->getClass();
         $violationData['method'] = $violation->getMethod();
@@ -139,6 +140,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
         return new ViolationReportConverter(
             $violation['id'],
             $violation['message'],
+            $violation['severity'] ?: ViolationReportConverterInterface::SEVERITY_ERROR,
             $violation['priority'] ?: null,
             $violation['class'] ?: null,
             $violation['method'] ?: null,

@@ -114,6 +114,7 @@ class ContextSerializer
         return new ViolationReportConverter(
             $reportData['id'],
             $reportData['message'],
+            $reportData['severity'],
             $reportData['priority'],
             $reportData['class'],
             $reportData['start_line'],
@@ -176,6 +177,7 @@ class ContextSerializer
         return [
             'id' => $violationReportConverter->getId(),
             'message' => $violationReportConverter->getMessage(),
+            'severity' => $violationReportConverter->getSeverity(),
             'additional_attributes' => $violationReportConverter->getAdditionalAttributes(),
             'class' => $violationReportConverter->getClass(),
             'method' => $violationReportConverter->getMethod(),

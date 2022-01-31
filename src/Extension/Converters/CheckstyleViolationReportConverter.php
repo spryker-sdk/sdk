@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
+use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class CheckstyleViolationReportConverter extends AbstractViolationConverter
@@ -89,6 +90,7 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
                 $fileViolations[$relatedPathToFile][] = new ViolationReportConverter(
                     basename($relatedPathToFile, '.php'),
                     $message['message'],
+                    ViolationReportConverterInterface::SEVERITY_ERROR,
                     null,
                     $classNamespace,
                     (int)$message['line'],

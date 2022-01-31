@@ -22,6 +22,11 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     protected string $message;
 
     /**
+     * @var string
+     */
+    protected string $severity;
+
+    /**
      * @var bool
      */
     protected bool $fixable;
@@ -74,6 +79,7 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     /**
      * @param string $id
      * @param string $message
+     * @param string $severity
      * @param string|null $priority
      * @param string|null $class
      * @param int|null $startLine
@@ -88,6 +94,7 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     public function __construct(
         string $id,
         string $message,
+        string $severity = ViolationReportConverterInterface::SEVERITY_ERROR,
         ?string $priority = null,
         ?string $class = null,
         ?int $startLine = null,
@@ -101,6 +108,7 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     ) {
         $this->id = $id;
         $this->message = $message;
+        $this->severity = $severity;
         $this->priority = $priority;
         $this->class = $class;
         $this->startLine = $startLine;
@@ -143,6 +151,16 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     public function producedBy(): string
     {
         return $this->produced;
+    }
+
+    /**
+     * INFO, WARNING, ERROR
+     *
+     * @return string
+     */
+    public function getSeverity(): string
+    {
+        return $this->severity;
     }
 
     /**

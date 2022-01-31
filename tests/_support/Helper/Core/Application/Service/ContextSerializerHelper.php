@@ -77,6 +77,7 @@ class ContextSerializerHelper extends Module
         return new ViolationReportConverter(
             $reportData['id'],
             $reportData['message'],
+            $reportData['severity'],
             $reportData['priority'],
             $reportData['class'],
             $reportData['start_line'],

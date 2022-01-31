@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39ba70bc0e8357bfc8780d7a962eed44",
+    "content-hash": "a1bca281e0719f7ddeef864c3384cadc",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4447,16 +4447,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "dev-master",
+            "version": "dev-feature/sdk-321-reports-impovments",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "ac3d7d89431ab74a9f5baebc4e56982c5c67d9e6"
+                "reference": "e751ad7faf1b8a5042de7fbc1168f420d281abfd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/ac3d7d89431ab74a9f5baebc4e56982c5c67d9e6",
-                "reference": "ac3d7d89431ab74a9f5baebc4e56982c5c67d9e6",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/e751ad7faf1b8a5042de7fbc1168f420d281abfd",
+                "reference": "e751ad7faf1b8a5042de7fbc1168f420d281abfd",
                 "shasum": ""
             },
             "require": {
@@ -4484,7 +4484,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4503,22 +4502,22 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/master"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/feature/sdk-321-reports-impovments"
             },
-            "time": "2022-01-19T08:46:00+00:00"
+            "time": "2022-01-31T10:22:42+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-master",
+            "version": "dev-feature/sdk-321-reports-impovments",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "73198a6b719012b3d9d8f7129dc3ff0478abf96b"
+                "reference": "ea416a8e9c170c2e308c144e230291a292d05c53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/73198a6b719012b3d9d8f7129dc3ff0478abf96b",
-                "reference": "73198a6b719012b3d9d8f7129dc3ff0478abf96b",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ea416a8e9c170c2e308c144e230291a292d05c53",
+                "reference": "ea416a8e9c170c2e308c144e230291a292d05c53",
                 "shasum": ""
             },
             "require": {
@@ -4528,7 +4527,6 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4542,9 +4540,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.1.0"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-321-reports-impovments"
             },
-            "time": "2021-12-28T08:09:48+00:00"
+            "time": "2022-01-31T10:21:14+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14175,9 +14173,15 @@
     "aliases": [
         {
             "package": "spryker-sdk/evaluator",
-            "version": "9999999-dev",
+            "version": "dev-feature/sdk-321-reports-impovments",
             "alias": "0.1.0",
             "alias_normalized": "0.1.0.0"
+        },
+        {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "dev-feature/sdk-321-reports-impovments",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
         }
     ],
     "minimum-stability": "dev",
