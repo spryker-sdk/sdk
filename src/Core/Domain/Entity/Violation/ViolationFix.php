@@ -25,7 +25,8 @@ class ViolationFix implements ViolationFixInterface
      * @param string $type
      * @param string $action
      */
-    public function __construct(string $type, string $action) {
+    public function __construct(string $type, string $action)
+    {
         $this->type = $type;
         $this->action = $action;
     }

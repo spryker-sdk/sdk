@@ -14,7 +14,7 @@ use ReflectionProperty;
 class DtoClass
 {
     /**
-     * @var \ReflectionClass
+     * @var \ReflectionClass<\SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto>
      */
     protected ReflectionClass $reflectionClass;
 
@@ -29,7 +29,7 @@ class DtoClass
     protected array $propertyMap;
 
     /**
-     * @param class-string<\SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto>|string $class
+     * @param class-string<\SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto> $class
      */
     public function __construct(string $class)
     {

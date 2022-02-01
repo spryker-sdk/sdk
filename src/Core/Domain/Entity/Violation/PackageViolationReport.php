@@ -22,12 +22,12 @@ class PackageViolationReport implements PackageViolationReportInterface
     protected string $path;
 
     /**
-     * @var array|\SprykerSdk\SdkContracts\Violation\ViolationInterface[]
+     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
      */
     protected array $violations;
 
     /**
-     * @var array|\SprykerSdk\SdkContracts\Violation\ViolationInterface[][]
+     * @var array<array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
      */
     protected array $fileViolations;
 
