@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationFix;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
@@ -126,7 +126,7 @@ class ContextSerializer
             $reportData['additional_attributes'],
             $reportData['is_fixable'],
             $reportData['produced_by'],
-            $reportData['fix'] ? new ViolationFix($reportData['type'], $reportData['action']) : null,
+            $reportData['fix'] ? new ViolationFix($reportData['fix']['type'], $reportData['fix']['action']) : null,
         );
     }
 

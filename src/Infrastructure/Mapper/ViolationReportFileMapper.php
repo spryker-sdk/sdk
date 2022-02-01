@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationFix;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
@@ -158,7 +158,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
             $violation['additional_attributes'],
             $violation['fixable'] ?: false,
             $violation['produced_by'] ?: '',
-            $violation['fix'] ? new ViolationFix($violation['type'], $violation['action']) : null,
+            $violation['fix'] ? new ViolationFix($violation['fix']['type'], $violation['fix']['action']) : null,
         );
     }
 }

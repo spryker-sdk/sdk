@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Extension\Converters;
 
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\Violation;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
+namespace SprykerSdk\Sdk\Core\Appplication\Dto\Violation;
 
 use SprykerSdk\SdkContracts\Violation\ViolationFixInterface;
 
