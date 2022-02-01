@@ -11,12 +11,24 @@ use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
 
 class PackageViolationReport implements PackageViolationReportInterface
 {
+    /**
+     * @var string
+     */
     protected string $package;
 
+    /**
+     * @var string
+     */
     protected string $path;
 
+    /**
+     * @var array|\SprykerSdk\SdkContracts\Violation\ViolationInterface[]
+     */
     protected array $violations;
 
+    /**
+     * @var array|\SprykerSdk\SdkContracts\Violation\ViolationInterface[][]
+     */
     protected array $fileViolations;
 
     /**

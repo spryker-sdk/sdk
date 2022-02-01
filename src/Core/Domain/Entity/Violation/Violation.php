@@ -78,6 +78,11 @@ class Violation implements ViolationInterface
     protected array $attributes;
 
     /**
+     * @var \SprykerSdk\SdkContracts\Violation\ViolationFixInterface
+     */
+    protected ?ViolationFixInterface $fix;
+
+    /**
      * @param string $id
      * @param string $message
      * @param string $severity
@@ -91,6 +96,7 @@ class Violation implements ViolationInterface
      * @param array $attributes
      * @param bool $fixable
      * @param string $produced
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null $fix
      */
     public function __construct(
         string $id,
@@ -105,7 +111,8 @@ class Violation implements ViolationInterface
         ?string $method = null,
         array $attributes = [],
         bool $fixable = false,
-        string $produced = ''
+        string $produced = '',
+        ?ViolationFixInterface $fix = null
     ) {
         $this->id = $id;
         $this->message = $message;
@@ -120,6 +127,7 @@ class Violation implements ViolationInterface
         $this->attributes = $attributes;
         $this->fixable = $fixable;
         $this->produced = $produced;
+        $this->fix = $fix;
     }
 
     /**
@@ -233,6 +241,6 @@ class Violation implements ViolationInterface
      */
     public function getFix(): ?ViolationFixInterface
     {
-        return null;
+        return $this->fix;
     }
 }
