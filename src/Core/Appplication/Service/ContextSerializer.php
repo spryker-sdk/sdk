@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
