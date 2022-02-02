@@ -76,7 +76,7 @@ class Dto implements FromArrayToArrayInterface
             $value = $this->$field;
 
             if ($property->isArray()) {
-                $value = $this->toArrayValue($value, $type);
+                $value = $this->toArrayValue($property, $value, $type);
             } else {
                 $value = $this->toSingularValue($value, $type);
             }
@@ -105,20 +105,42 @@ class Dto implements FromArrayToArrayInterface
     }
 
     /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty $property
      * @param array $arrayValue
      * @param string $type
      *
      * @return array
      */
-    protected function toArrayValue($arrayValue, string $type = DtoProperty::TYPE_DEFAULT): array
+    protected function toArrayValue(DtoProperty $property, $arrayValue, string $type = DtoProperty::TYPE_DEFAULT): array
+    {
+        if (!is_iterable($arrayValue) || empty($property->getKeyType())) {
+            return [];
+        }
+
+        return $this->toNestedArrayValue($property->getKeyType(), $arrayValue, $type);
+    }
+
+    /**
+     * @param array $keyStack
+     * @param array $arrayValue
+     * @param string $type
+     *
+     * @return array
+     */
+    protected function toNestedArrayValue(array $keyStack, $arrayValue, string $type = DtoProperty::TYPE_DEFAULT): array
     {
         if (!is_iterable($arrayValue)) {
             return [];
         }
 
         $array = [];
+        array_shift($keyStack);
         foreach ($arrayValue as $key => $value) {
-            $array[$key] = $this->toSingularValue($value, $type);
+            $value = !empty($keyStack)
+                ? $this->toNestedArrayValue($keyStack, $value, $type)
+                : $this->toSingularValue($value, $type);
+
+            $array[$key] = $value;
         }
 
         return $array;
@@ -181,13 +203,39 @@ class Dto implements FromArrayToArrayInterface
      */
     protected function fromCollectionValue(DtoProperty $property, $collectionValue, bool $ignoreMissing = false): array
     {
+        if (!is_iterable($collectionValue) || empty($property->getKeyType())) {
+            return [];
+        }
+
+        return $this->fromNestedCollectionValue($property->getKeyType(), $property, $collectionValue, $ignoreMissing);
+    }
+
+    /**
+     * @param array $keyStack
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty $property
+     * @param array $collectionValue
+     * @param bool $ignoreMissing
+     *
+     * @return array
+     */
+    protected function fromNestedCollectionValue(
+        array $keyStack,
+        DtoProperty $property,
+        $collectionValue,
+        bool $ignoreMissing = false
+    ): array {
         if (!is_iterable($collectionValue)) {
             return [];
         }
 
         $collection = [];
+        array_shift($keyStack);
         foreach ($collectionValue as $key => $value) {
-            $collection[$key] = $this->fromSingularValue($property, $value, $ignoreMissing);
+            $value = !empty($keyStack)
+                ? $this->fromNestedCollectionValue($keyStack, $property, $value, $ignoreMissing)
+                : $this->fromSingularValue($property, $value, $ignoreMissing);
+
+            $collection[$key] = $value;
         }
 
         return $collection;

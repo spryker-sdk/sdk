@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Tests\Core\Application\Dto\Abstraction;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty;
 use stdClass;
 
 /**
@@ -225,5 +226,48 @@ class DtoTest extends Unit
 
         // Assert
         $this->assertSame($dtoData, $dtoArray);
+    }
+
+    /**
+     * @return void
+     */
+    public function testNestedDtoConversionToArray(): void
+    {
+        // Arrange
+        $dto = new class ([[
+            'key' => new class ('test') extends Dto {
+                /**
+                 * @var string
+                 */
+                protected string $data;
+
+                /**
+                 * @param string $data
+                 */
+                public function __construct(string $data)
+                {
+                    $this->data = $data;
+                }
+            },
+        ]]) extends Dto {
+            /**
+             * @var array<array<string, \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto>>
+             */
+            protected array $dtoArray;
+
+            /**
+             * @param array $dtoArray
+             */
+            public function __construct(array $dtoArray)
+            {
+                $this->dtoArray = $dtoArray;
+            }
+        };
+
+        // Act
+        $dtoArray = $dto->toArray(DtoProperty::TYPE_UNDERSCORED);
+
+        // Assert
+        $this->assertSame(['dto_array' => [['key' => ['data' => 'test']]]], $dtoArray);
     }
 }

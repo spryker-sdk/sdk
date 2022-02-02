@@ -23,7 +23,7 @@ class DtoProperty
     /**
      * @var string
      */
-    protected const ARRAY_TYPE_REGEX = '/(?:array(?:<(?:(?<key>\S+)(?:\s*,\s*))?(?<value1>\S+)>)?)|(?:(?<value2>\S+)\[\])/';
+    protected const ARRAY_TYPE_REGEX = '/(?:array(?:<(?:(?<key>[^<>]+)(?:\s*,\s*))?(?<value1>.+)>)?)|(?:(?<value2>\S+)\[\])/';
 
     /**
      * @var string
@@ -39,6 +39,11 @@ class DtoProperty
      * @var string
      */
     public const TYPE_DASHED = 'dashed';
+
+    /**
+     * @var string
+     */
+    public const LIST_KEY_TYPE = 'int';
 
     /**
      * @var \ReflectionClass
@@ -216,7 +221,7 @@ class DtoProperty
         $keyTypes = null;
 
         while (preg_match(static::ARRAY_TYPE_REGEX, $type, $matches)) {
-            $keyTypes[] = ($matches['key'] ?? '') ?: 'int';
+            $keyTypes[] = ($matches['key'] ?? '') ?: static::LIST_KEY_TYPE;
             $type = ($matches['value1'] ?? '') ?: ($matches['value2'] ?? '') ?: 'mixed';
         }
 
