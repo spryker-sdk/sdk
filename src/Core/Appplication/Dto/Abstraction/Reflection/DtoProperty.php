@@ -9,11 +9,22 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection;
 
 use InvalidArgumentException;
 use LogicException;
+use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionProperty;
 
 class DtoProperty
 {
+    /**
+     * @var string
+     */
+    protected const DOC_COMMENT_REGEX = '/@var\s+(?<type>.+)/';
+
+    /**
+     * @var string
+     */
+    protected const ARRAY_TYPE_REGEX = '/(?:array(?:<(?:(?<key>\S+)(?:\s*,\s*))?(?<value1>\S+)>)?)|(?:(?<value2>\S+)\[\])/';
+
     /**
      * @var string
      */
@@ -28,6 +39,11 @@ class DtoProperty
      * @var string
      */
     public const TYPE_DASHED = 'dashed';
+
+    /**
+     * @var \ReflectionClass
+     */
+    protected ReflectionClass $reflectionClass;
 
     /**
      * @var \ReflectionProperty
@@ -65,92 +81,20 @@ class DtoProperty
     protected bool $isArray;
 
     /**
+     * @var array<string>|null
+     */
+    protected ?array $keyType = null;
+
+    /**
+     * @param \ReflectionClass $reflectionClass
      * @param \ReflectionProperty $reflectionProperty
      */
-    public function __construct(ReflectionProperty $reflectionProperty)
+    public function __construct(ReflectionClass $reflectionClass, ReflectionProperty $reflectionProperty)
     {
+        $this->reflectionClass = $reflectionClass;
         $this->reflectionProperty = $reflectionProperty;
+
         $this->initialize($reflectionProperty);
-    }
-
-    /**
-     * @param \ReflectionProperty $property
-     *
-     * @return void
-     */
-    protected function initialize(ReflectionProperty $property): void
-    {
-        $this->parseType($property);
-
-        $this->name = $property->getName();
-        $this->defaultValue = $property->getDefaultValue();
-    }
-
-    /**
-     * @param \ReflectionProperty $property
-     *
-     * @throws \LogicException
-     *
-     * @return void
-     */
-    protected function parseType(ReflectionProperty $property): void
-    {
-        $type = $property->getType();
-        if (!$type instanceof ReflectionNamedType) {
-            throw new LogicException(sprintf(
-                'Property `%s::%s` has an unsupported type',
-                $property->getDeclaringClass(),
-                $property->getName(),
-            ));
-        }
-
-        $docType = '';
-        if (preg_match('/@var\s+(?<type>\S+)/', $property->getDocComment() ?: '', $matches)) {
-            $docType = $matches['type'] ?? '';
-        }
-
-        $docTypesList = explode('|', $docType);
-        $docTypesWithoutNull = array_diff($docTypesList, ['null']);
-        $docPropertyType = reset($docTypesWithoutNull) ?: '';
-        $docIsArray = mb_substr($docPropertyType, -2) === '[]';
-        if ($docIsArray) {
-            $docPropertyType = rtrim($docPropertyType, '[]');
-        }
-
-        $phpType = $type->getName();
-        $this->isArray = $docIsArray || $phpType === 'array';
-
-        if ($this->isArray) {
-            $this->type = $docPropertyType ?: 'mixed';
-        } else {
-            $this->type = $docPropertyType ?: $phpType;
-        }
-
-        $this->isRequired = !$type->allowsNull() && $property->getDefaultValue() === null;
-    }
-
-    /**
-     * @param string|null $type
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string
-     */
-    public function getName(?string $type = null): string
-    {
-        if ($type === null || $type === static::TYPE_DEFAULT) {
-            return $this->name;
-        }
-
-        if (!isset($this->altNames)) {
-            $underscored = strtolower(preg_replace('/(?<!^|[A-Z])([A-Z]+)/u', '_$1', $this->name) ?? '');
-            $this->altNames = [
-                static::TYPE_UNDERSCORED => $underscored,
-                static::TYPE_DASHED => strtr($underscored, ['_' => '-']),
-            ];
-        }
-
-        return $this->altNames[$type] ?? throw new InvalidArgumentException(sprintf('Invalid type `%s`', $type));
     }
 
     /**
@@ -183,5 +127,123 @@ class DtoProperty
     public function isArray(): bool
     {
         return $this->isArray;
+    }
+
+    /**
+     * @return array<string>|null
+     */
+    public function getKeyType(): ?array
+    {
+        return $this->keyType;
+    }
+
+    /**
+     * @param \ReflectionProperty $property
+     *
+     * @return void
+     */
+    protected function initialize(ReflectionProperty $property): void
+    {
+        $this->name = $property->getName();
+        $this->defaultValue = $property->getDefaultValue();
+
+        $this->parseType($property);
+    }
+
+    /**
+     * @param \ReflectionProperty $property
+     *
+     * @throws \LogicException
+     *
+     * @return void
+     */
+    protected function parseType(ReflectionProperty $property): void
+    {
+        $type = $property->getType();
+        if (!$type instanceof ReflectionNamedType) {
+            throw new LogicException(sprintf(
+                'Property `%s::%s` has an unsupported type',
+                $property->getDeclaringClass()->getName(),
+                $property->getName(),
+            ));
+        }
+
+        $this->type = $type->getName();
+        $this->isArray = $type->getName() === 'array';
+        $this->isRequired = !$type->allowsNull() && $property->getDefaultValue() === null;
+
+        $this->parseDocType($property);
+
+        $this->type = match ($this->type) {
+            'self' => $property->getDeclaringClass()->getName(),
+            'static' => $this->reflectionClass->getName(),
+            default => $this->type,
+        };
+    }
+
+    /**
+     * @param \ReflectionProperty $property
+     *
+     * @return void
+     */
+    protected function parseDocType(ReflectionProperty $property): void
+    {
+        $docType = '';
+        if (preg_match(static::DOC_COMMENT_REGEX, $property->getDocComment() ?: '', $matches)) {
+            $docType = $matches['type'] ?? '';
+        }
+
+        $docTypesWithoutNull = array_diff(explode('|', $docType), ['null']);
+        $docPropertyType = reset($docTypesWithoutNull) ?: '';
+
+        [$type, $keyType] = $this->parseArrayType($docPropertyType);
+
+        $this->keyType = $keyType;
+        $this->isArray = $this->isArray || $keyType !== null;
+
+        if ($type) {
+            $this->type = $type;
+        }
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return array
+     */
+    protected function parseArrayType(string $type): array
+    {
+        $keyTypes = null;
+
+        while (preg_match(static::ARRAY_TYPE_REGEX, $type, $matches)) {
+            $keyTypes[] = ($matches['key'] ?? '') ?: 'int';
+            $type = ($matches['value1'] ?? '') ?: ($matches['value2'] ?? '') ?: 'mixed';
+        }
+
+        return [$type, $keyTypes];
+    }
+
+    /**
+     * @param string|null $type
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
+    public function getName(?string $type = null): string
+    {
+        if ($type === null || $type === static::TYPE_DEFAULT) {
+            return $this->name;
+        }
+
+        if (!isset($this->altNames)) {
+            $underscored = strtolower(preg_replace('/(?<!^|[A-Z])([A-Z]+)/u', '_$1', $this->name) ?? '');
+            $this->altNames = [
+                static::TYPE_UNDERSCORED => $underscored,
+                static::TYPE_DASHED => strtr($underscored, ['_' => '-']),
+            ];
+        }
+
+        return $this->altNames[$type] ?? throw new InvalidArgumentException(sprintf('Invalid type `%s`', $type));
     }
 }

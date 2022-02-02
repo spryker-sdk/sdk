@@ -57,7 +57,7 @@ class DtoClass
 
             $this->properties = [];
             foreach ($writeableProperties as $property) {
-                $this->properties[$property->getName()] = new DtoProperty($property);
+                $this->properties[$property->getName()] = new DtoProperty($this->reflectionClass, $property);
             }
         }
 
