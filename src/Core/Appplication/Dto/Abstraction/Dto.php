@@ -196,7 +196,7 @@ class Dto implements FromArrayToArrayInterface
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty $property
-     * @param mixed $collectionValue
+     * @param array $collectionValue
      * @param bool $ignoreMissing
      *
      * @return array
