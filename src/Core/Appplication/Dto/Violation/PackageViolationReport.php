@@ -5,25 +5,37 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
+namespace SprykerSdk\Sdk\Core\Appplication\Dto\Violation;
 
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
 
 class PackageViolationReport implements PackageViolationReportInterface
 {
+    /**
+     * @var string
+     */
     protected string $package;
 
+    /**
+     * @var string
+     */
     protected string $path;
 
+    /**
+     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     */
     protected array $violations;
 
+    /**
+     * @var array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
+     */
     protected array $fileViolations;
 
     /**
      * @param string $package
      * @param string $path
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface> $violations
-     * @param array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface>> $fileViolations
+     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>> $fileViolations
      */
     public function __construct(string $package, string $path, array $violations = [], array $fileViolations = [])
     {
@@ -50,7 +62,7 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface>
+     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
      */
     public function getViolations(): array
     {
@@ -58,7 +70,7 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
-     * @return array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface>>
+     * @return array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
      */
     public function getFileViolations(): array
     {

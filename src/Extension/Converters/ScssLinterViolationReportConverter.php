@@ -7,10 +7,11 @@
 
 namespace SprykerSdk\Sdk\Extension\Converters;
 
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ScssLinterViolationReportConverter extends AbstractViolationConverter
@@ -85,9 +86,10 @@ class ScssLinterViolationReportConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['warnings'] as $warning) {
-                $fileViolations[$relatedPathToFile][] = new ViolationReportConverter(
+                $fileViolations[$relatedPathToFile][] = new Violation(
                     basename($relatedPathToFile, '.scss'),
                     $warning['text'],
+                    ViolationInterface::SEVERITY_ERROR,
                     null,
                     null,
                     (int)$warning['line'],

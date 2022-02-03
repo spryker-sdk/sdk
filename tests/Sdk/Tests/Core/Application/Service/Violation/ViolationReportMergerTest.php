@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Tests\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 /**
@@ -85,11 +85,11 @@ class ViolationReportMergerTest extends Unit
     /**
      * @param string $postfix
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
      */
-    protected function createViolationReportConverter(string $postfix = ''): ViolationReportConverterInterface
+    protected function createViolationReportConverter(string $postfix = ''): ViolationInterface
     {
-        return new ViolationReportConverter(
+        return new Violation(
             'id' . $postfix,
             'message' . $postfix,
         );

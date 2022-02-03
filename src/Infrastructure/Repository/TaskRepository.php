@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
@@ -22,18 +23,31 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
  */
 class TaskRepository extends ServiceEntityRepository implements TaskSaveRepositoryInterface, TaskRemoveRepositoryInterface, TaskRepositoryInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface
+     */
     protected TaskMapperInterface $taskMapper;
+
+    /**
+     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     */
+    protected array $existingTasks = [];
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
+     * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
-        ManagerRegistry $registry
+        ManagerRegistry $registry,
+        iterable $existingTasks = []
     ) {
         parent::__construct($registry, Task::class);
         $this->taskMapper = $taskMapper;
+        foreach ($existingTasks as $existingTask) {
+            $this->existingTasks[$existingTask->getId()] = $existingTask;
+        }
     }
 
     /**
@@ -82,13 +96,13 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
      */
     public function findAllIndexedCollection(): array
     {
-        /** @var array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks */
+        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Task> $tasks */
         $tasks = $this->findAll();
 
         $tasksMap = [];
 
         foreach ($tasks as $task) {
-            $tasksMap[$task->getId()] = $task;
+            $tasksMap[$task->getId()] = $this->changePhpCommand($task);
         }
 
         return $tasksMap;
@@ -121,10 +135,42 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
             'id' => $taskId,
         ];
 
-        if ($tags) {
-            $criteria['tags'] = $tags;
+        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task */
+        $task = $this->findOneBy($criteria);
+
+        if ($task === null || ($tags && !array_intersect($task->getTags(), $tags))) {
+            return null;
         }
 
-        return $this->findOneBy($criteria);
+        return $this->changePhpCommand($task);
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    protected function changePhpCommand(TaskInterface $task): TaskInterface
+    {
+        $existingCommands = [];
+        foreach ($this->existingTasks as $existingTask) {
+            foreach ($existingTask->getCommands() as $existingCommand) {
+                $existingCommands[get_class($existingCommand)] = $existingCommand;
+            }
+        }
+
+        $commands = [];
+        foreach ($task->getCommands() as $command) {
+            if ($command->getType() === 'php' && isset($existingCommands[$command->getCommand()])) {
+                $commands[] = $existingCommands[$command->getCommand()];
+
+                continue;
+            }
+            $commands[] = $command;
+        }
+
+        $task->setCommands(new ArrayCollection($commands));
+
+        return $task;
     }
 }

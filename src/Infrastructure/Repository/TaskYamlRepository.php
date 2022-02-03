@@ -21,6 +21,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
@@ -49,9 +50,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected Yaml $yamlParser;
 
     /**
-     * @var iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
-    protected iterable $existingTasks = [];
+    protected array $existingTasks = [];
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
@@ -65,10 +66,12 @@ class TaskYamlRepository implements TaskRepositoryInterface
         Yaml $yamlParser,
         iterable $existingTasks = []
     ) {
-        $this->existingTasks = $existingTasks;
         $this->yamlParser = $yamlParser;
         $this->fileFinder = $fileFinder;
         $this->settingRepository = $settingRepository;
+        foreach ($existingTasks as $existingTask) {
+            $this->existingTasks[$existingTask->getId()] = $existingTask;
+        }
     }
 
     /**
@@ -115,11 +118,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $tasks[$task->getId()] = $task;
         }
 
-        foreach ($this->existingTasks as $existingTask) {
-            $tasks[$existingTask->getId()] = $existingTask;
-        }
-
-        return $tasks;
+        return array_merge($tasks, $this->existingTasks);
     }
 
     /**
@@ -158,12 +157,20 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 if ($tags && !array_intersect($tags, $taskTags)) {
                     continue;
                 }
-                $taskPlaceholders[] = $taskListData[$task['id']]['placeholders'];
+                $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
+                    $taskListData[$task['id']]['placeholders'] :
+                    $this->existingTasks[$task['id']]->getPlaceholders();
             }
         }
         $taskPlaceholders = array_merge(...$taskPlaceholders);
 
         foreach ($taskPlaceholders as $placeholderData) {
+            if ($placeholderData instanceof PlaceholderInterface) {
+                $placeholders[$placeholderData->getName()] = $placeholderData;
+
+                continue;
+            }
+
             $placeholderName = $placeholderData['name'];
             $placeholders[$placeholderName] = new Placeholder(
                 $placeholderName,
@@ -181,7 +188,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array<string> $tags
      *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
+     * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected function buildCommands(array $data, array $taskListData, array $tags = []): array
     {
@@ -207,14 +214,24 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 if ($tags && !array_intersect($tags, $tasksTags)) {
                     continue;
                 }
-                $converter = isset($taskListData[$task['id']]['report_converter']) ? new Converter(
-                    $taskListData[$task['id']]['report_converter']['name'],
-                    $taskListData[$task['id']]['report_converter']['configuration'],
+                $taskData = $taskListData[$task['id']] ?? $this->existingTasks[$task['id']];
+
+                if ($taskData instanceof TaskInterface) {
+                    foreach ($taskData->getCommands() as $command) {
+                        $commands[] = $command;
+                    }
+
+                    continue;
+                }
+
+                $converter = isset($taskData['report_converter']) ? new Converter(
+                    $taskData['report_converter']['name'],
+                    $taskData['report_converter']['configuration'],
                 ) : null;
 
                 $commands[] = new Command(
-                    $taskListData[$task['id']]['command'],
-                    $taskListData[$task['id']]['type'],
+                    $taskData['command'],
+                    $taskData['type'],
                     $task['stop_on_error'],
                     $tasksTags,
                     $converter,
