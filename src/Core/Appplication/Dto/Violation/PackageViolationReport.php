@@ -27,7 +27,7 @@ class PackageViolationReport implements PackageViolationReportInterface
     protected array $violations;
 
     /**
-     * @var array<array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
+     * @var array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
      */
     protected array $fileViolations;
 
