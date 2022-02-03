@@ -135,13 +135,10 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
             'id' => $taskId,
         ];
 
-        if ($tags) {
-            $criteria['tags'] = $tags;
-        }
         /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task */
         $task = $this->findOneBy($criteria);
 
-        if ($task === null) {
+        if ($task === null || ($tags && !array_intersect($task->getTags(), $tags))) {
             return null;
         }
 
