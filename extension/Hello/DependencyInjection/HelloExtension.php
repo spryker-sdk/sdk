@@ -10,9 +10,10 @@ namespace Hello\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class HelloExtension extends Extension
+class HelloExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @param array $configs
@@ -22,6 +23,16 @@ class HelloExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        (new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config')))->load('services.yaml');
+        $loader = (new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config')));
+        $loader->load('services.yaml');
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('workflow.yaml');
     }
 }

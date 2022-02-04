@@ -94,7 +94,7 @@ settings:
     is_project: true
     type: path
     values: './reports/'
-    initializer: \SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer
+    initializer: Create_Directory_Initializer
   - path: context_dir
     initialization_description: Where is the context directory?
     strategy: merge

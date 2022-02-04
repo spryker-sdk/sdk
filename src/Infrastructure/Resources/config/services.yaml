@@ -173,6 +173,10 @@ services:
       - '@violation_report_mapper'
       - '@violation_path_reader'
       - '@yaml_parser'
+  workflow_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
+    arguments:
+      - '@doctrine'
   violation_report_mapper:
     class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
   violation_path_reader:

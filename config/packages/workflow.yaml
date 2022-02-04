@@ -1,0 +1,30 @@
+framework:
+  workflows:
+    default:
+      type: workflow
+      marking_store:
+        type: method
+        property: status
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: codestyle
+      places:
+        - codestyle
+        - fix-codestyle
+        - done
+      transitions:
+        style:
+          from: codestyle
+          to: done
+          metadata:
+            task:
+        style-fix:
+          from: fix-codestyle
+          to: done
+          metadata:
+            task:
+        fix:
+          from: codestyle
+          to: fix-codestyle
+          metadata:
+            task:
