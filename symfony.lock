@@ -152,13 +152,16 @@
         "version": "v2019.3"
     },
     "knplabs/github-api": {
-        "version": "3.4",
+        "version": "3.5",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
             "version": "2.6",
             "ref": "a7d5781e4a8e84f1c238c43e4c9bb806f01d8a3f"
-        }
+        },
+        "files": [
+            "config/packages/github_api.yaml"
+        ]
     },
     "laminas/laminas-code": {
         "version": "4.4.3"
@@ -203,7 +206,7 @@
         "version": "3.1.0"
     },
     "php-http/cache-plugin": {
-        "version": "1.7.4"
+        "version": "1.7.5"
     },
     "php-http/client-common": {
         "version": "2.5.0"
@@ -357,9 +360,6 @@
     "sllh/composer-versions-check": {
         "version": "v2.0.5"
     },
-    "spryker-sdk/evaluator": {
-        "version": "dev-pplus-417/evaluator-and-upgrader-flow-as-part-of-sdk-clean-up"
-    },
     "spryker-sdk/sdk-contracts": {
         "version": "dev-master"
     },
@@ -368,6 +368,9 @@
     },
     "spryker-sdk/spryk": {
         "version": "0.3.2"
+    },
+    "spryker-sdk/upgrader": {
+        "version": "dev-master"
     },
     "spryker/acl-entity-extension": {
         "version": "1.0.0"

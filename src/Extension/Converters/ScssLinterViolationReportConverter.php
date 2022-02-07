@@ -14,7 +14,7 @@ use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
 use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
-class CheckstyleViolationReportConverter extends AbstractViolationConverter
+class ScssLinterViolationReportConverter extends AbstractViolationConverter
 {
     /**
      * @var string
@@ -43,18 +43,18 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
     public function convert(): ?ViolationReportInterface
     {
         $projectDirectory = $this->settingRepository->findOneByPath('project_dir');
-
         if (!$projectDirectory) {
             return null;
         }
-        $jsonReport = $this->readFile();
 
+        $jsonReport = $this->readFile();
         if (!$jsonReport) {
             return null;
         }
-        $report = json_decode($jsonReport, true);
 
-        if (empty($report['files'])) {
+        $report = json_decode($jsonReport, true);
+        $report = array_filter((array)$report, fn (array $file): bool => !empty($file['errored']));
+        if (empty($report)) {
             return null;
         }
 
@@ -62,7 +62,7 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
             basename($projectDirectory->getValues()),
             '.' . DIRECTORY_SEPARATOR,
             [],
-            $this->getPackages($projectDirectory->getValues(), $report['files']),
+            $this->getPackages($projectDirectory->getValues(), $report),
         );
     }
 
@@ -75,31 +75,30 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
     protected function getPackages(string $projectDirectory, array $files): array
     {
         $packages = [];
-        foreach ($files as $path => $file) {
-            if (!$file['errors']) {
+        foreach ($files as $file) {
+            if (!$file['warnings']) {
                 continue;
             }
 
-            $relatedPathToFile = ltrim(str_replace($projectDirectory, '', $path), DIRECTORY_SEPARATOR);
+            $relatedPathToFile = ltrim(str_replace($projectDirectory, '', $file['source']), DIRECTORY_SEPARATOR);
             $moduleName = $this->resolveModuleName($relatedPathToFile);
             $pathToModule = $this->resolvePathToModule($relatedPathToFile);
-            $classNamespace = $this->resolveClassNamespace($relatedPathToFile);
 
             $fileViolations = [];
-            foreach ($file['messages'] as $message) {
+            foreach ($file['warnings'] as $warning) {
                 $fileViolations[$relatedPathToFile][] = new Violation(
-                    basename($relatedPathToFile, '.php'),
-                    $message['message'],
+                    basename($relatedPathToFile, '.scss'),
+                    $warning['text'],
                     ViolationInterface::SEVERITY_ERROR,
                     null,
-                    $classNamespace,
-                    (int)$message['line'],
-                    (int)$message['line'],
-                    (int)$message['column'],
-                    (int)$message['column'],
                     null,
-                    $message,
-                    $message['fixable'],
+                    (int)$warning['line'],
+                    (int)$warning['line'],
+                    (int)$warning['column'],
+                    (int)$warning['column'],
+                    null,
+                    $warning,
+                    false,
                     $this->producer,
                 );
             }

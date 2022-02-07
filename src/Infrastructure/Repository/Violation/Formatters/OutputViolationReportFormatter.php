@@ -54,7 +54,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                 ->setHeaderTitle('Violations found on project level')
                 ->setHeaders(['Violation', 'Priority', 'Fixable']);
             foreach ($violationReport->getViolations() as $violation) {
-                $table->addRow([$violation->getId(), $violation->priority(), $violation->isFixable() ? 'true' : 'false']);
+                $table->addRow([$violation->getMessage(), $violation->priority(), $violation->isFixable() ? 'true' : 'false']);
             }
             $table->render();
         }

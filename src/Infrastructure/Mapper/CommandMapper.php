@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use SprykerSdk\Sdk\Infrastructure\Entity\Command;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
 class CommandMapper implements CommandMapperInterface
 {
@@ -33,7 +34,9 @@ class CommandMapper implements CommandMapperInterface
     public function mapCommand(CommandInterface $command): Command
     {
         return new Command(
-            $command->getCommand(),
+            $command instanceof ExecutableCommandInterface || $command->getType() === 'php' ?
+                get_class($command) :
+                $command->getCommand(),
             $command->getType(),
             $command->hasStopOnError(),
             $command->getTags(),

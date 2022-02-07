@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
+namespace SprykerSdk\Sdk\Core\Appplication\Dto\Violation;
 
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
@@ -27,14 +27,14 @@ class ViolationReport implements ViolationReportInterface
     protected string $path;
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface>
+     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
      */
     protected array $violations;
 
     /**
      * @param string $project
      * @param string $path
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
      * @param array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface> $packages
      */
     public function __construct(string $project, string $path, array $violations = [], array $packages = [])
@@ -70,7 +70,7 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface>
+     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
      */
     public function getViolations(): array
     {

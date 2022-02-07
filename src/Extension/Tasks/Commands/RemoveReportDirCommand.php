@@ -52,7 +52,7 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return '';
+        return static::class;
     }
 
     /**

@@ -5,11 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity\Violation;
+namespace SprykerSdk\Sdk\Core\Appplication\Dto\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationFixInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 
-class ViolationReportConverter implements ViolationReportConverterInterface
+class Violation implements ViolationInterface
 {
     /**
      * @var string
@@ -20,6 +21,11 @@ class ViolationReportConverter implements ViolationReportConverterInterface
      * @var string
      */
     protected string $message;
+
+    /**
+     * @var string
+     */
+    protected string $severity;
 
     /**
      * @var bool
@@ -72,8 +78,14 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     protected array $attributes;
 
     /**
+     * @var \SprykerSdk\SdkContracts\Violation\ViolationFixInterface
+     */
+    protected ?ViolationFixInterface $fix;
+
+    /**
      * @param string $id
      * @param string $message
+     * @param string $severity
      * @param string|null $priority
      * @param string|null $class
      * @param int|null $startLine
@@ -84,10 +96,12 @@ class ViolationReportConverter implements ViolationReportConverterInterface
      * @param array $attributes
      * @param bool $fixable
      * @param string $produced
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null $fix
      */
     public function __construct(
         string $id,
         string $message,
+        string $severity = ViolationInterface::SEVERITY_ERROR,
         ?string $priority = null,
         ?string $class = null,
         ?int $startLine = null,
@@ -97,10 +111,12 @@ class ViolationReportConverter implements ViolationReportConverterInterface
         ?string $method = null,
         array $attributes = [],
         bool $fixable = false,
-        string $produced = ''
+        string $produced = '',
+        ?ViolationFixInterface $fix = null
     ) {
         $this->id = $id;
         $this->message = $message;
+        $this->severity = $severity;
         $this->priority = $priority;
         $this->class = $class;
         $this->startLine = $startLine;
@@ -111,6 +127,7 @@ class ViolationReportConverter implements ViolationReportConverterInterface
         $this->attributes = $attributes;
         $this->fixable = $fixable;
         $this->produced = $produced;
+        $this->fix = $fix;
     }
 
     /**
@@ -143,6 +160,16 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     public function producedBy(): string
     {
         return $this->produced;
+    }
+
+    /**
+     * INFO, WARNING, ERROR
+     *
+     * @return string
+     */
+    public function getSeverity(): string
+    {
+        return $this->severity;
     }
 
     /**
@@ -207,5 +234,13 @@ class ViolationReportConverter implements ViolationReportConverterInterface
     public function getAdditionalAttributes(): array
     {
         return $this->attributes;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null
+     */
+    public function getFix(): ?ViolationFixInterface
+    {
+        return $this->fix;
     }
 }

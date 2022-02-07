@@ -7,15 +7,16 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ContextSerializer
@@ -107,13 +108,14 @@ class ContextSerializer
     /**
      * @param array $reportData
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
      */
-    protected function convertArrayToViolationReportConverter(array $reportData): ViolationReportConverterInterface
+    protected function convertArrayToViolationReportConverter(array $reportData): ViolationInterface
     {
-        return new ViolationReportConverter(
+        return new Violation(
             $reportData['id'],
             $reportData['message'],
+            $reportData['severity'],
             $reportData['priority'],
             $reportData['class'],
             $reportData['start_line'],
@@ -124,6 +126,7 @@ class ContextSerializer
             $reportData['additional_attributes'],
             $reportData['is_fixable'],
             $reportData['produced_by'],
+            $reportData['fix'] ? new ViolationFix($reportData['fix']['type'], $reportData['fix']['action']) : null,
         );
     }
 
@@ -167,15 +170,16 @@ class ContextSerializer
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface $violationReportConverter
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violationReportConverter
      *
      * @return array
      */
-    protected function convertViolationToArray(ViolationReportConverterInterface $violationReportConverter): array
+    protected function convertViolationToArray(ViolationInterface $violationReportConverter): array
     {
         return [
             'id' => $violationReportConverter->getId(),
             'message' => $violationReportConverter->getMessage(),
+            'severity' => $violationReportConverter->getSeverity(),
             'additional_attributes' => $violationReportConverter->getAdditionalAttributes(),
             'class' => $violationReportConverter->getClass(),
             'method' => $violationReportConverter->getMethod(),
@@ -186,6 +190,12 @@ class ContextSerializer
             'is_fixable' => $violationReportConverter->isFixable(),
             'priority' => $violationReportConverter->priority(),
             'produced_by' => $violationReportConverter->producedBy(),
+            'fix' => $violationReportConverter->getFix() ?
+                [
+                    'type' => $violationReportConverter->getFix()->getType(),
+                    'action' => $violationReportConverter->getFix()->getAction(),
+                ] :
+                null,
         ];
     }
 
@@ -210,7 +220,7 @@ class ContextSerializer
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface> $reports
+     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $reports
      *
      * @return array
      */
