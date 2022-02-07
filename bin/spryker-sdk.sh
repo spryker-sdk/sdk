@@ -28,14 +28,7 @@ fi
 
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
-export EXECUTABLE_FILE_PATH=$(realpath "$0")
-
-if [ "$(uname)" == "Darwin" ] && ( ! type realpath &>/dev/null ); then
-    echo
-    echo "realpath is not installed."
-    echo "Run 'brew install coreutils' to install 'realpath'"
-    echo
-fi
+export EXECUTABLE_FILE_PATH=$(cd "$(dirname "$0")";pwd)
 
 case $MODE in
 "debug")
