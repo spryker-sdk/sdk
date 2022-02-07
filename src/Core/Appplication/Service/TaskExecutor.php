@@ -91,14 +91,22 @@ class TaskExecutor
     public function execute(string $taskId, ContextInterface $context): ContextInterface
     {
         $context = $this->addBaseTask($taskId, $context);
-        //        echo $this->projectWorkflow->echo();
+
+        if (!$this->projectWorkflow->initWorkflow($context)) {
+            return $context;
+        }
+
         $context = $this->collectTasks($context);
         $context = $this->collectAvailableStages($context);
         $context = $this->resolveInputStages($context);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);
 
-        return $this->executeTasks($context);
+        $context = $this->executeTasks($context);
+
+        $this->projectWorkflow->applyTransaction($context);
+
+        return $context;
     }
 
     /**
@@ -150,7 +158,7 @@ class TaskExecutor
         foreach ($context->getRequiredStages() as $stage) {
             $context = $this->executeStage($context, $stage);
 
-            if ($context->getExitCode() !== 0) {
+            if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
                 return $context;
             }
         }
@@ -188,7 +196,7 @@ class TaskExecutor
             foreach ($task->getCommands() as $command) {
                 $context = $this->commandExecutor->execute($command, $context, $task->getId());
                 $commands[] = $command;
-                if ($context->getExitCode() !== 0 && $command->hasStopOnError()) {
+                if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE && $command->hasStopOnError()) {
                     return $context;
                 }
             }
@@ -309,8 +317,8 @@ class TaskExecutor
 
         if (
             $task instanceof TaskSetInterface &&
-            count($context->getInputStages()) === 0 &&
-            count($task->getStages()) !== 0
+            count($context->getInputStages()) === ContextInterface::SUCCESS_EXIT_CODE &&
+            count($task->getStages()) !== ContextInterface::SUCCESS_EXIT_CODE
         ) {
             $requiredStages = $task->getStages();
         }

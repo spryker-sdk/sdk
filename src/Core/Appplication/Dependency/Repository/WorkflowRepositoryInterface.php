@@ -24,4 +24,9 @@ interface WorkflowRepositoryInterface
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface
      */
     public function save(WorkflowInterface $workflow): WorkflowInterface;
+
+    /**
+     * @return void
+     */
+    public function flush(): void;
 }

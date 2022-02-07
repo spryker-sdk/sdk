@@ -4451,12 +4451,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "86b4cb80bed123e7ef682fccb01e87febf8d79cd"
+                "reference": "d53082038e001e44d316b80811fb1a4da6f10198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/86b4cb80bed123e7ef682fccb01e87febf8d79cd",
-                "reference": "86b4cb80bed123e7ef682fccb01e87febf8d79cd",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/d53082038e001e44d316b80811fb1a4da6f10198",
+                "reference": "d53082038e001e44d316b80811fb1a4da6f10198",
                 "shasum": ""
             },
             "require": {
@@ -4481,7 +4481,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-94-workflow"
             },
-            "time": "2022-02-07T08:00:27+00:00"
+            "time": "2022-02-07T10:58:42+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

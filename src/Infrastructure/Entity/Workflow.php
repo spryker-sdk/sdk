@@ -38,6 +38,8 @@ class Workflow extends EntityWorkflow
 
     /**
      * @param string $project
+     *
+     * @return void
      */
     public function setProject(string $project): void
     {
@@ -46,6 +48,8 @@ class Workflow extends EntityWorkflow
 
     /**
      * @param array $status
+     *
+     * @return void
      */
     public function setStatus(array $status): void
     {
@@ -54,6 +58,8 @@ class Workflow extends EntityWorkflow
 
     /**
      * @param string $workflow
+     *
+     * @return void
      */
     public function setWorkflow(string $workflow): void
     {

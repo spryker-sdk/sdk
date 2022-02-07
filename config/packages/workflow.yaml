@@ -10,21 +10,21 @@ framework:
       initial_marking: codestyle
       places:
         - codestyle
-        - fix-codestyle
+        - phstan-check
         - done
       transitions:
-        style:
+        check:
           from: codestyle
-          to: done
+          to: phstan-check
           metadata:
-            task:
-        style-fix:
-          from: fix-codestyle
-          to: done
-          metadata:
-            task:
+            task: validation:php:codestyle-check
         fix:
           from: codestyle
-          to: fix-codestyle
+          to: phstan-check
           metadata:
-            task:
+            task: validation:php:static
+        phpstan:
+          from: phstan-check
+          to: done
+          metadata:
+            task: validation:php:static

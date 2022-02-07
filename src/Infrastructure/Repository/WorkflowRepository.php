@@ -21,23 +21,30 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     /**
      * @param \Doctrine\Persistence\ManagerRegistry $registry
      */
-    public function __construct(ManagerRegistry $registry,) {
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, Workflow::class);
     }
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface
      */
     public function save(WorkflowInterface $workflow): WorkflowInterface
     {
         $this->getEntityManager()->persist($workflow);
-        $this->getEntityManager()->flush($workflow);
+        $this->getEntityManager()->flush();
 
         return $workflow;
+    }
+
+    /**
+     * @return void
+     */
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
     }
 
     /**

@@ -29,6 +29,8 @@ class HelloExtension extends Extension implements PrependExtensionInterface
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     *
+     * @return void
      */
     public function prepend(ContainerBuilder $container)
     {
