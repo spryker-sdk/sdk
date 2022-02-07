@@ -136,28 +136,10 @@ class ProjectWorkflow
             $this->currentWorkflow->apply(
                 $this->currentProjectWorkflow,
                 $this->currentTransaction->getName(),
-                $this->convertContextToArray($context),
+                ['context' => $context],
             );
 
             $this->workflowRepository->flush();
         }
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return array
-     */
-    protected function convertContextToArray(ContextInterface $context): array
-    {
-        $reflectionClass = new ReflectionClass(get_class($context));
-        $array = [];
-        foreach ($reflectionClass->getProperties() as $property) {
-            $property->setAccessible(true);
-            $array[$property->getName()] = $property->getValue($context);
-            $property->setAccessible(false);
-        }
-
-        return $array;
     }
 }
