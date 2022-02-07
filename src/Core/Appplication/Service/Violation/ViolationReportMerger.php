@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 

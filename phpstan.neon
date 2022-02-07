@@ -1,5 +1,6 @@
 parameters:
     checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
 
     bootstrapFiles:
         - phpstan-bootstrap.php

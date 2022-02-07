@@ -8,14 +8,14 @@
 namespace SprykerSdk\Sdk\Tests\Helper\Core\Application\Service;
 
 use Codeception\Module;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ContextSerializerHelper extends Module
@@ -70,13 +70,14 @@ class ContextSerializerHelper extends Module
     /**
      * @param array $reportData
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
      */
-    public function createViolationReportConverter(array $reportData): ViolationReportConverterInterface
+    public function createViolationReportConverter(array $reportData): ViolationInterface
     {
-        return new ViolationReportConverter(
+        return new Violation(
             $reportData['id'],
             $reportData['message'],
+            $reportData['severity'],
             $reportData['priority'],
             $reportData['class'],
             $reportData['start_line'],
@@ -136,6 +137,7 @@ class ContextSerializerHelper extends Module
                         [
                             'id' => 'task',
                             'message' => 'violation message',
+                            'severity' => 'ERROR',
                             'additional_attributes' => [],
                             'class' => 'Foo',
                             'method' => 'foo',
@@ -146,6 +148,7 @@ class ContextSerializerHelper extends Module
                             'is_fixable' => true,
                             'priority' => 'priority',
                             'produced_by' => 'task',
+                            'fix' => null,
                         ],
                     ],
                     'packages' => [
@@ -154,6 +157,7 @@ class ContextSerializerHelper extends Module
                                 [
                                     'id' => 'task',
                                     'message' => 'violation message',
+                                    'severity' => 'ERROR',
                                     'additional_attributes' => [],
                                     'class' => 'Foo',
                                     'method' => 'foo',
@@ -164,6 +168,7 @@ class ContextSerializerHelper extends Module
                                     'is_fixable' => true,
                                     'priority' => 'priority',
                                     'produced_by' => 'task',
+                                    'fix' => null,
                                 ],
                             ],
                             'path' => '/path/to/another/file',
@@ -173,6 +178,7 @@ class ContextSerializerHelper extends Module
                                     [
                                         'id' => 'somefile',
                                         'message' => 'violation message',
+                                        'severity' => 'ERROR',
                                         'additional_attributes' => [],
                                         'class' => 'Foo',
                                         'method' => 'foo',
@@ -183,6 +189,7 @@ class ContextSerializerHelper extends Module
                                         'is_fixable' => true,
                                         'priority' => 'priority',
                                         'produced_by' => 'task',
+                                        'fix' => null,
                                     ],
                                 ],
                             ],
@@ -206,6 +213,8 @@ class ContextSerializerHelper extends Module
                     'id' => 'task',
                     'message' => 'violation message',
                     'additional_attributes' => [],
+                    'severity' => 'ERROR',
+                    'fix' => null,
                     'class' => 'Foo',
                     'method' => 'foo',
                     'start_column' => 1,
@@ -223,6 +232,8 @@ class ContextSerializerHelper extends Module
                         [
                             'id' => 'task',
                             'message' => 'violation message',
+                            'severity' => 'ERROR',
+                            'fix' => null,
                             'additional_attributes' => [],
                             'class' => 'Foo',
                             'method' => 'foo',
@@ -242,6 +253,8 @@ class ContextSerializerHelper extends Module
                             [
                                 'id' => 'somefile',
                                 'message' => 'violation message',
+                                'severity' => 'ERROR',
+                                'fix' => null,
                                 'additional_attributes' => [],
                                 'class' => 'Foo',
                                 'method' => 'foo',
@@ -261,6 +274,8 @@ class ContextSerializerHelper extends Module
                         [
                             'id' => 'task',
                             'message' => 'violation message',
+                            'severity' => 'ERROR',
+                            'fix' => null,
                             'additional_attributes' => [],
                             'class' => 'Foo',
                             'method' => 'foo',
@@ -280,6 +295,8 @@ class ContextSerializerHelper extends Module
                             [
                                 'id' => 'somefile',
                                 'message' => 'violation message',
+                                'severity' => 'ERROR',
+                                'fix' => null,
                                 'additional_attributes' => [],
                                 'class' => 'Foo',
                                 'method' => 'foo',
@@ -296,6 +313,8 @@ class ContextSerializerHelper extends Module
                             [
                                 'id' => 'somefile',
                                 'message' => 'violation message',
+                                'severity' => 'ERROR',
+                                'fix' => null,
                                 'additional_attributes' => [],
                                 'class' => 'Foo',
                                 'method' => 'foo',
