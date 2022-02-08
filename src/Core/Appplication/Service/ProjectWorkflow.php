@@ -11,6 +11,7 @@ use ReflectionClass;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
@@ -141,5 +142,16 @@ class ProjectWorkflow
 
             $this->workflowRepository->flush();
         }
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getAll(): array
+    {
+        return array_map(
+            fn (Workflow $workflow) => $workflow->getName(),
+            $this->workflows->all(new WorkflowEntity('', [], '')),
+        );
     }
 }

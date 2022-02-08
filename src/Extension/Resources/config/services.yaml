@@ -13,3 +13,27 @@ services:
     tags: [ 'sdk.task' ]
     arguments:
         - '@violation_report_repository'
+  SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer:
+    tags: [ 'sdk.setting_initializer' ]
+    public: true
+  create_directory_initializer:
+    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer
+    public: true
+  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer:
+    tags: [ 'sdk.setting_initializer' ]
+    public: true
+    arguments:
+      - '@project_setting_repository'
+  project_uuid_initializer:
+    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer
+    public: true
+  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer:
+    tags: [ 'sdk.setting_initializer' ]
+    public: true
+    arguments:
+      - '@project_setting_repository'
+      - '@workflow_repository'
+      - '@project_workflow'
+  project_workflow_initializer:
+    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer
+    public: true
