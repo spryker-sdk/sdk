@@ -37,6 +37,7 @@ class TaskExecutorTest extends Unit
         // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::SUCCESS_EXIT_CODE);
+        $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
         $taskExecutor = new TaskExecutor(
             $this->createPlaceholderResolverMock(),
@@ -60,6 +61,7 @@ class TaskExecutorTest extends Unit
         // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
+        $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
         $taskExecutor = new TaskExecutor(
             $this->createPlaceholderResolverMock(),
@@ -131,6 +133,10 @@ class TaskExecutorTest extends Unit
             ->method('getPlaceholders')
             ->willReturn([$this->createPlaceholderMock()]);
 
+        $taskMock
+            ->method('getCommands')
+            ->willReturn([$this->createCommandMock()]);
+
         return $taskMock;
     }
 
@@ -151,20 +157,30 @@ class TaskExecutorTest extends Unit
      */
     protected function createCommandMock(bool $hasStopOnError = false): CommandInterface
     {
-        $placeholderResolver = $this->createMock(CommandInterface::class);
-        $placeholderResolver
+        $command = $this->createMock(CommandInterface::class);
+        $command
             ->method('hasStopOnError')
             ->willReturn($hasStopOnError);
 
-        return $placeholderResolver;
+        $command
+            ->method('getStage')
+            ->willReturn(ContextInterface::DEFAULT_STAGE);
+
+        return $command;
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     *
      * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
      */
-    protected function createCommandExecutorMock(): CommandExecutorInterface
+    protected function createCommandExecutorMock(ContextInterface $context): CommandExecutorInterface
     {
         $commandExecutor = $this->createMock(CommandExecutorInterface::class);
+
+        $commandExecutor
+            ->method('execute')
+            ->willReturn($context);
 
         return $commandExecutor;
     }

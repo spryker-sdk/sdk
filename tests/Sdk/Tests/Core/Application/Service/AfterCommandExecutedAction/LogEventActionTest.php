@@ -40,7 +40,6 @@ class LogEventActionTest extends Unit
         $this->assertSame($context->getExitCode(), $result->getExitCode());
     }
 
-
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface
      */

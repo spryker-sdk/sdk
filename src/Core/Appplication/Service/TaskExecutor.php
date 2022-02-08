@@ -94,20 +94,32 @@ class TaskExecutor
      */
     protected function collectRequiredStages(ContextInterface $context): ContextInterface
     {
-        if ($context->getInputStages()) {
-            $context->setRequiredStages($context->getInputStages());
-
-            return $context;
-        }
-
         $task = $context->getTask();
-        if ($task->getStages()) {
-            $context->setRequiredStages($task->getStages());
+        $commandsStages = array_map(fn (CommandInterface $command): string => $command->getStage(), $task->getCommands());
 
-            return $context;
+        if ($context->getInputStages()) {
+            return $this->setContextRequiredStages($context, $context->getInputStages(), $commandsStages);
         }
 
-        $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
+        if ($task->getStages()) {
+            return $this->setContextRequiredStages($context, $task->getStages(), $commandsStages);
+        }
+
+        return $this->setContextRequiredStages($context, ContextInterface::DEFAULT_STAGES, $commandsStages);
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array<string> $stages
+     * @param array<string> $commandsStages
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     */
+    protected function setContextRequiredStages(ContextInterface $context, array $stages, array $commandsStages): ContextInterface
+    {
+        $context->setRequiredStages(
+            array_intersect($stages, $commandsStages),
+        );
 
         return $context;
     }
@@ -131,6 +143,10 @@ class TaskExecutor
      */
     protected function resolveValues(ContextInterface $context): ContextInterface
     {
+        if (!$context->getRequiredStages()) {
+            return $context;
+        }
+
         $existingValues = $context->getResolvedValues();
         $overwrites = $context->getOverwrites();
 
@@ -171,7 +187,7 @@ class TaskExecutor
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    protected function executeStage(ContextInterface $context, string $stage = ContextInterface::DEFAULT_STAGE): ContextInterface
+    protected function executeStage(ContextInterface $context, string $stage): ContextInterface
     {
         $task = $context->getTask();
 
