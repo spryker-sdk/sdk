@@ -1,0 +1,16 @@
+---
+id: 'hello:task:set'
+short_description: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
+help: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
+stage: build
+version: 1.0.0
+command: ~
+stages: [hello, bye]
+type: task_set
+tasks:
+  - id: 'bye:world'
+    stop_on_error: false
+  - id: 'hello:world'
+    stop_on_error: false
+  - id: 'hi:world'
+    stop_on_error: false

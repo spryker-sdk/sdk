@@ -34,23 +34,7 @@ class LogEventActionTest extends Unit
         $context = $this->createContextMock();
 
         // Act
-        $result = $logEventAction->execute($this->createCommandMock(), $context, 'test');
-
-        // Assert
-        $this->assertSame($context->getExitCode(), $result->getExitCode());
-    }
-
-    /**
-     * @return void
-     */
-    public function testExecuteWithoutLog(): void
-    {
-        // Arrange
-        $logEventAction = new LogEventAction($this->createEventLoggerMock($this->never()));
-        $context = $this->createContextMock();
-
-        // Act
-        $result = $logEventAction->execute($this->createCommandMock(), $context, '');
+        $result = $logEventAction->execute($this->createCommandMock(), $context);
 
         // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());

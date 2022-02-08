@@ -22,6 +22,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
@@ -376,9 +377,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    protected function buildTask(array $taskData, array $taskListData, array $tags = []): TaskInterface
+    protected function buildTask(array $taskData, array $taskListData, array $tags = []): Task
     {
         $placeholders = $this->buildPlaceholders($taskData, $taskListData, $tags);
         $commands = $this->buildCommands($taskData, $taskListData, $tags);
@@ -397,6 +398,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
             [],
             !empty($taskData['optional']),
+            $taskData['stages'] ?? [],
         );
     }
 
@@ -406,9 +408,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      * @param array $tags
      *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    protected function buildTaskSet(array $taskData, array $taskListData, array $tasks, array $tags = []): TaskInterface
+    protected function buildTaskSet(array $taskData, array $taskListData, array $tasks, array $tags = []): Task
     {
         $task = $this->buildTask($taskData, $taskListData, $tags);
 
@@ -416,16 +418,49 @@ class TaskYamlRepository implements TaskRepositoryInterface
             return $task;
         }
 
-        foreach ($taskData['tasks'] as $taggedTaskData) {
-            $taggedTask = $tasks[$taggedTaskData['id']] ?? null;
+        $taskSetCommands = [];
+        $taskSetPlaceholders = [];
 
-            if (!$taggedTask instanceof TaggedTaskInterface) {
+        foreach ($taskData['tasks'] as $subTaskData) {
+            $subTask = $tasks[$subTaskData['id']] ?? null;
+
+            if ($subTask === null) {
                 continue;
             }
 
-            $taggedTask->setTags($taggedTaskData['tags'] ?? []);
+            $subTaskCommands = $this->addStageToSubTasks($subTask, $subTask->getCommands());
+
+            $taskSetCommands = array_merge($subTaskCommands, $taskSetCommands);
+            $taskSetPlaceholders = array_merge($subTask->getPlaceholders(), $taskSetPlaceholders);
+
+            if ($subTask instanceof TaggedTaskInterface) {
+                $subTask->setTags($subTaskData['tags'] ?? []);
+            }
         }
 
+        $task->setCommandsArray($taskSetCommands);
+        $task->setPlaceholdersArray($taskSetPlaceholders);
+
         return $task;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $subTask
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $taskSetCommands
+     *
+     * @return array array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
+     */
+    protected function addStageToSubTasks(TaskInterface $subTask, array $taskSetCommands): array
+    {
+        if (!$subTask instanceof StagedTaskInterface) {
+            return $taskSetCommands;
+        }
+
+        /** @var \SprykerSdk\Sdk\Core\Domain\Entity\Command $taskSetCommand */
+        foreach ($taskSetCommands as $taskSetCommand) {
+            $taskSetCommand->setStage($subTask->getStage());
+        }
+
+        return $taskSetCommands;
     }
 }

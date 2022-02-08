@@ -1,0 +1,19 @@
+---
+id: 'bye:world'
+short_description: 'Bye bye'
+help: 'Will greet the one using it'
+stage: bye
+version: 1.0.0
+deprecated: false
+successor: 'hello:php'
+command: '/bin/echo "bye %world%"'
+type: local_cli
+placeholders:
+  - name: '%world%'
+    value_resolver: SprykerSdk\Sdk\Extension\ValueResolvers\StaticValueResolver
+    optional: false
+    configuration:
+      name: 'world'
+      description: 'what is the world?'
+      defaultValue: 'World'
+

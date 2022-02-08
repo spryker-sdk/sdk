@@ -208,6 +208,14 @@ class HelloStagedTaskSet implements TaskSetInterface
             },
             new class implements TaggedTaskInterface, StagedTaskInterface {
                 /**
+                 * @return array<string>
+                 */
+                public function getStages(): array
+                {
+                    return [];
+                }
+
+                /**
                  * @return string
                  */
                 public function getStage(): string
@@ -336,6 +344,14 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
             },
             new class implements TaggedTaskInterface, StagedTaskInterface {
+                /**
+                 * @return array<string>
+                 */
+                public function getStages(): array
+                {
+                    return [];
+                }
+
                 /**
                  * @return string
                  */

@@ -41,6 +41,7 @@ class CommandMapper implements CommandMapperInterface
             $command->hasStopOnError(),
             $command->getTags(),
             $command->getViolationConverter() ? $this->converterMapper->mapConverter($command->getViolationConverter()) : null,
+            $command->getStage(),
         );
     }
 }

@@ -2,7 +2,7 @@
 id: 'hello:world'
 short_description: 'Sends greetings'
 help: 'Will greet the one using it'
-stage: build
+stage: hello
 version: 1.0.0
 deprecated: false
 successor: 'hello:php'

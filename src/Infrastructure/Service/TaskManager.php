@@ -19,6 +19,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskManager implements TaskManagerInterface
 {
+    /**
+     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
+     */
     protected EventDispatcherInterface $eventDispatcher;
 
     /**

@@ -40,6 +40,7 @@ class Task extends CoreTask
      * @param string|null $successor
      * @param bool $isDeprecated
      * @param bool $isOptional
+     * @param array $stages
      */
     public function __construct(
         string $id,
@@ -49,12 +50,27 @@ class Task extends CoreTask
         ?string $help = null,
         ?string $successor = null,
         bool $isDeprecated = false,
-        bool $isOptional = false
+        bool $isOptional = false,
+        array $stages = []
     ) {
         $this->commandCollection = new ArrayCollection();
         $this->placeholderCollection = new ArrayCollection();
 
-        parent::__construct($id, $shortDescription, [], $lifecycle, $version, [], $help, $successor, $isDeprecated, ContextInterface::DEFAULT_STAGE, [], $isOptional);
+        parent::__construct(
+            $id,
+            $shortDescription,
+            [],
+            $lifecycle,
+            $version,
+            [],
+            $help,
+            $successor,
+            $isDeprecated,
+            ContextInterface::DEFAULT_STAGE,
+            [],
+            $isOptional,
+            $stages,
+        );
     }
 
     /**

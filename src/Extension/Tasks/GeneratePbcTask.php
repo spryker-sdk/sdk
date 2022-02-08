@@ -136,4 +136,12 @@ class GeneratePbcTask implements TaskInterface
             new RemovedEventData(),
         );
     }
+
+    /**
+     * @return array<string>
+     */
+    public function getStages(): array
+    {
+        return [];
+    }
 }

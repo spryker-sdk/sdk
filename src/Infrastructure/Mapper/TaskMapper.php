@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SprykerSdk\Sdk\Core\Domain\Entity\Task as DomainTask;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
@@ -65,6 +66,7 @@ class TaskMapper implements TaskMapperInterface
             $task->getSuccessor(),
             $task->isDeprecated(),
             $task->isOptional(),
+            $task instanceof DomainTask ? $task->getStages() : [],
         );
 
         $entity = $this->setStage($entity, $task);

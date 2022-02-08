@@ -86,7 +86,7 @@ abstract class LifecycleEventSubscriber
     protected function executeCommands(array $commands, ContextInterface $context): void
     {
         foreach ($commands as $command) {
-            $this->commandExecutor->execute($command, $context, $context->getTask()->getId());
+            $this->commandExecutor->execute($command, $context);
         }
     }
 

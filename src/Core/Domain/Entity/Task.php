@@ -75,6 +75,11 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     protected array $tags = [];
 
     /**
+     * @var array<string>
+     */
+    protected array $stages = [];
+
+    /**
      * @param string $id
      * @param string $shortDescription
      * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
@@ -87,6 +92,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
      * @param string $stage
      * @param array<string> $tags
      * @param bool|false $optional
+     * @param array<string> $stages
      */
     public function __construct(
         string $id,
@@ -100,7 +106,8 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         bool $isDeprecated = false,
         string $stage = ContextInterface::DEFAULT_STAGE,
         array $tags = [],
-        bool $optional = false
+        bool $optional = false,
+        array $stages = []
     ) {
         $this->help = $help;
         $this->placeholders = $placeholders;
@@ -114,6 +121,7 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         $this->stage = $stage;
         $this->tags = $tags;
         $this->optional = $optional;
+        $this->stages = $stages;
     }
 
     /**
@@ -252,6 +260,50 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     public function setTags(array $tags)
     {
         $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getStages(): array
+    {
+        return $this->stages;
+    }
+
+    /**
+     * @param array<string> $stages
+     *
+     * @return $this
+     */
+    public function setStages(array $stages)
+    {
+        $this->stages = $stages;
+
+        return $this;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     *
+     * @return $this
+     */
+    public function setCommandsArray(array $commands)
+    {
+        $this->commands = $commands;
+
+        return $this;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
+     *
+     * @return $this
+     */
+    public function setPlaceholdersArray(array $placeholders)
+    {
+        $this->placeholders = $placeholders;
 
         return $this;
     }

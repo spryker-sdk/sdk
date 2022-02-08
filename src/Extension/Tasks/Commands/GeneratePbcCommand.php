@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class GeneratePbcCommand implements CommandInterface
@@ -50,5 +51,13 @@ class GeneratePbcCommand implements CommandInterface
     public function getViolationConverter(): ?ConverterInterface
     {
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
     }
 }

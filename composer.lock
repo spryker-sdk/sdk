@@ -4451,12 +4451,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "444497259b1d952e6384d24392d94d687938954a"
+                "reference": "cc9d67b50f94813be81833057d1662d3d2a368b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/444497259b1d952e6384d24392d94d687938954a",
-                "reference": "444497259b1d952e6384d24392d94d687938954a",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/cc9d67b50f94813be81833057d1662d3d2a368b2",
+                "reference": "cc9d67b50f94813be81833057d1662d3d2a368b2",
                 "shasum": ""
             },
             "require": {
@@ -4572,12 +4572,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "81f9d36ad0d12e9f47d258097961893433fe3676"
+                "reference": "3059b2040ab88771b90a2af8b61a1478f7e5d5bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/81f9d36ad0d12e9f47d258097961893433fe3676",
-                "reference": "81f9d36ad0d12e9f47d258097961893433fe3676",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/3059b2040ab88771b90a2af8b61a1478f7e5d5bb",
+                "reference": "3059b2040ab88771b90a2af8b61a1478f7e5d5bb",
                 "shasum": ""
             },
             "require": {
