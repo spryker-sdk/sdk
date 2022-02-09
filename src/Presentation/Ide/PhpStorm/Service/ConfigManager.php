@@ -35,30 +35,50 @@ class ConfigManager implements ConfigManagerInterface
      */
     protected const IDEA_CONFIG_FILE_NAME = 'Custom_Spryker_Sdk.xml';
 
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface
+     */
     protected CommandXmlFormatterInterface $commandXmlFormatter;
 
+    /**
+     * @var \Symfony\Component\Serializer\Encoder\XmlEncoder
+     */
     protected XmlEncoder $xmlEncoder;
 
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface
+     */
     protected CommandLoaderInterface $commandLoader;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
     protected SettingRepositoryInterface $settingRepository;
+
+    /**
+     * @var string
+     */
+    protected string $executableFilePath;
 
     /**
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface $commandLoader
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface $commandXmlFormatter
      * @param \Symfony\Component\Serializer\Encoder\XmlEncoder $xmlEncoder
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param string $executableFilePath
      */
     public function __construct(
         CommandLoaderInterface $commandLoader,
         CommandXmlFormatterInterface $commandXmlFormatter,
         XmlEncoder $xmlEncoder,
-        SettingRepositoryInterface $settingRepository
+        SettingRepositoryInterface $settingRepository,
+        string $executableFilePath
     ) {
         $this->commandXmlFormatter = $commandXmlFormatter;
         $this->xmlEncoder = $xmlEncoder;
         $this->commandLoader = $commandLoader;
         $this->settingRepository = $settingRepository;
+        $this->executableFilePath = $executableFilePath;
     }
 
     /**
@@ -67,8 +87,8 @@ class ConfigManager implements ConfigManagerInterface
     public function createXmlFile(): bool
     {
         $ideCommands = $this->commandLoader->load();
-        $executableFile = getenv('EXECUTABLE_FILE_PATH');
-        if (!$executableFile || !is_string($executableFile)) {
+        $executableFile = $this->executableFilePath;
+        if (!$executableFile) {
             $executableFile = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
             $executableFile = '"$PhpExecutable$" ' . $executableFile . '/bin/console';
         }
