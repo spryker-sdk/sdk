@@ -136,7 +136,7 @@ class Dto implements FromArrayToArrayInterface
         $array = [];
         array_shift($keyStack);
         foreach ($arrayValue as $key => $value) {
-            $value = !empty($keyStack)
+            $value = (bool)$keyStack
                 ? $this->toNestedArrayValue($keyStack, $value, $type)
                 : $this->toSingularValue($value, $type);
 
@@ -231,7 +231,7 @@ class Dto implements FromArrayToArrayInterface
         $collection = [];
         array_shift($keyStack);
         foreach ($collectionValue as $key => $value) {
-            $value = !empty($keyStack)
+            $value = (bool)$keyStack
                 ? $this->fromNestedCollectionValue($keyStack, $property, $value, $ignoreMissing)
                 : $this->fromSingularValue($property, $value, $ignoreMissing);
 
