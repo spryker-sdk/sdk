@@ -23,7 +23,6 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -204,7 +203,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 $data['command'],
                 $data['type'],
                 false,
-                [],
+                $data['tags'] ?? [],
                 $converter,
             );
         }
@@ -396,7 +395,6 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $taskData['successor'] ?? null,
             $taskData['deprecated'] ?? false,
             $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
-            [],
             !empty($taskData['optional']),
             $taskData['stages'] ?? [],
         );
@@ -432,10 +430,6 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
             $taskSetCommands = array_merge($subTaskCommands, $taskSetCommands);
             $taskSetPlaceholders = array_merge($subTask->getPlaceholders(), $taskSetPlaceholders);
-
-            if ($subTask instanceof TaggedTaskInterface) {
-                $subTask->setTags($subTaskData['tags'] ?? []);
-            }
         }
 
         $task->setCommandsArray($taskSetCommands);

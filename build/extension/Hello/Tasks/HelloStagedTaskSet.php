@@ -16,7 +16,6 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Extension\ValueResolvers\StaticValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
 class HelloStagedTaskSet implements TaskSetInterface
@@ -76,30 +75,23 @@ class HelloStagedTaskSet implements TaskSetInterface
      */
     public function getSubTasks(array $tags = []): array
     {
-        $tasks = [
-            new class implements TaggedTaskInterface, StagedTaskInterface {
+        return [
+            new class implements StagedTaskInterface {
+
+                /**
+                 * @return array<string>
+                 */
+                public function getStages(): array
+                {
+                    return [];
+                }
+
                 /**
                  * @return string
                  */
                 public function getStage(): string
                 {
                     return 'stageA';
-                }
-
-                /**
-                 * @return array<string>
-                 */
-                public function getTags(): array
-                {
-                    return ['tagA'];
-                }
-
-                /**
-                 * @return bool
-                 */
-                public function hasStopOnError(): bool
-                {
-                    return true;
                 }
 
                 /**
@@ -142,16 +134,6 @@ class HelloStagedTaskSet implements TaskSetInterface
                             ],
                         ),
                     ];
-                }
-
-                /**
-                 * @param array<string> $tags
-                 *
-                 * @return $this
-                 */
-                public function setTags(array $tags)
-                {
-                    return $this;
                 }
 
                 /**
@@ -206,7 +188,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                     );
                 }
             },
-            new class implements TaggedTaskInterface, StagedTaskInterface {
+            new class implements StagedTaskInterface {
                 /**
                  * @return array<string>
                  */
@@ -221,22 +203,6 @@ class HelloStagedTaskSet implements TaskSetInterface
                 public function getStage(): string
                 {
                     return 'stageB';
-                }
-
-                /**
-                 * @return array<string>
-                 */
-                public function getTags(): array
-                {
-                    return ['tagB'];
-                }
-
-                /**
-                 * @return bool
-                 */
-                public function hasStopOnError(): bool
-                {
-                    return true;
                 }
 
                 /**
@@ -332,18 +298,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                         new RemovedEventData(),
                     );
                 }
-
-                /**
-                 * @param array<string> $tags
-                 *
-                 * @return $this
-                 */
-                public function setTags(array $tags)
-                {
-                    return $this;
-                }
             },
-            new class implements TaggedTaskInterface, StagedTaskInterface {
+            new class implements StagedTaskInterface {
                 /**
                  * @return array<string>
                  */
@@ -358,22 +314,6 @@ class HelloStagedTaskSet implements TaskSetInterface
                 public function getStage(): string
                 {
                     return 'default';
-                }
-
-                /**
-                 * @return array<string>
-                 */
-                public function getTags(): array
-                {
-                    return ['tagDefault'];
-                }
-
-                /**
-                 * @return bool
-                 */
-                public function hasStopOnError(): bool
-                {
-                    return true;
                 }
 
                 /**
@@ -459,26 +399,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                         new RemovedEventData(),
                     );
                 }
-
-                /**
-                 * @param array<string> $tags
-                 *
-                 * @return $this
-                 */
-                public function setTags(array $tags)
-                {
-                    return $this;
-                }
             },
         ];
-
-        if (empty($tags)) {
-            return $tasks;
-        }
-
-        return array_filter($tasks, function (TaggedTaskInterface $task) use ($tags): bool {
-            return count(array_intersect($task->getTags(), $tags)) > 0;
-        });
     }
 
     /**

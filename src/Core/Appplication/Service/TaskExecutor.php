@@ -203,6 +203,12 @@ class TaskExecutor
             return $command->getStage() === $stage;
         });
 
+        if ($context->getTags()) {
+            $stageCommands = array_filter($stageCommands, function (CommandInterface $command) use ($context): bool {
+                return count(array_intersect($command->getTags(), $context->getTags())) > 0;
+            });
+        }
+
         if (count($stageCommands) > 0) {
             $context->addMessage(
                 $stage,
@@ -235,7 +241,7 @@ class TaskExecutor
      */
     protected function addBaseTask(string $taskId, ContextInterface $context): ContextInterface
     {
-        $baseTask = $this->taskRepository->findById($taskId, $context->getTags());
+        $baseTask = $this->taskRepository->findById($taskId);
 
         if (!$baseTask) {
             throw new TaskMissingException(sprintf('No task with id %s found', $taskId));

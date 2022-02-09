@@ -15,7 +15,6 @@ use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command;
@@ -186,16 +185,8 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     {
         $tags = [];
 
-        if ($task instanceof TaggedTaskInterface) {
-            $tags = array_merge($tags, $task->getTags());
-        }
-
-        if ($task instanceof TaskSetInterface) {
-            foreach ($task->getSubTasks() as $taskSetTask) {
-                if ($taskSetTask instanceof TaggedTaskInterface) {
-                    $tags = array_merge($tags, $taskSetTask->getTags());
-                }
-            }
+        foreach ($task->getCommands() as $command) {
+            $tags = array_merge($tags, $command->getTags());
         }
 
         if (count($tags) > 0) {

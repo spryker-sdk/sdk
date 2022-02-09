@@ -10,9 +10,8 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 
-class Task implements TaggedTaskInterface, StagedTaskInterface
+class Task implements StagedTaskInterface
 {
     /**
      * @var string
@@ -72,11 +71,6 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     /**
      * @var array<string>
      */
-    protected array $tags = [];
-
-    /**
-     * @var array<string>
-     */
     protected array $stages = [];
 
     /**
@@ -90,7 +84,6 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
      * @param string|null $successor
      * @param bool $isDeprecated
      * @param string $stage
-     * @param array<string> $tags
      * @param bool|false $optional
      * @param array<string> $stages
      */
@@ -105,7 +98,6 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         ?string $successor = null,
         bool $isDeprecated = false,
         string $stage = ContextInterface::DEFAULT_STAGE,
-        array $tags = [],
         bool $optional = false,
         array $stages = []
     ) {
@@ -119,7 +111,6 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
         $this->isDeprecated = $isDeprecated;
         $this->lifecycle = $lifecycle;
         $this->stage = $stage;
-        $this->tags = $tags;
         $this->optional = $optional;
         $this->stages = $stages;
     }
@@ -213,22 +204,6 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     }
 
     /**
-     * @return array
-     */
-    public function getTags(): array
-    {
-        return $this->tags;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasStopOnError(): bool
-    {
-        return false;
-    }
-
-    /**
      * @param string $stage
      *
      * @return $this
@@ -248,18 +223,6 @@ class Task implements TaggedTaskInterface, StagedTaskInterface
     public function setOptional(bool $optional)
     {
         $this->optional = $optional;
-
-        return $this;
-    }
-
-    /**
-     * @param array<string> $tags
-     *
-     * @return $this
-     */
-    public function setTags(array $tags)
-    {
-        $this->tags = $tags;
 
         return $this;
     }

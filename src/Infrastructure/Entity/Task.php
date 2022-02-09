@@ -67,7 +67,6 @@ class Task extends CoreTask
             $successor,
             $isDeprecated,
             ContextInterface::DEFAULT_STAGE,
-            [],
             $isOptional,
             $stages,
         );

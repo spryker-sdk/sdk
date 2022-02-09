@@ -4451,12 +4451,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "c36e8c60988d8332660ba3816b5517a90076ed9d"
+                "reference": "f792d6c14e3ba5f171fb3936451da710ef9e06b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/c36e8c60988d8332660ba3816b5517a90076ed9d",
-                "reference": "c36e8c60988d8332660ba3816b5517a90076ed9d",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/f792d6c14e3ba5f171fb3936451da710ef9e06b7",
+                "reference": "f792d6c14e3ba5f171fb3936451da710ef9e06b7",
                 "shasum": ""
             },
             "require": {

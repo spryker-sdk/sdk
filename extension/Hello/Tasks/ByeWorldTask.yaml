@@ -8,6 +8,7 @@ deprecated: false
 successor: 'hello:php'
 command: '/bin/echo "bye %world%"'
 type: local_cli
+tags: ['bye', 'world']
 placeholders:
   - name: '%world%'
     value_resolver: SprykerSdk\Sdk\Extension\ValueResolvers\StaticValueResolver

@@ -46,8 +46,6 @@ class LogEventActionTest extends Unit
     protected function createContextMock(): ContextInterface
     {
         $context = $this->createMock(ContextInterface::class);
-        $context->method('getSubTasks')
-            ->willReturn(['test' => $this->createTaskMock()]);
 
         $context->method('getExitCode')
             ->willReturn(0);
