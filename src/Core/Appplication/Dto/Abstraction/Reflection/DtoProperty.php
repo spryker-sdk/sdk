@@ -63,7 +63,7 @@ class DtoProperty
     /**
      * @var array<string, string>
      */
-    protected array $altNames;
+    protected array $altNames = [];
 
     /**
      * @var bool
@@ -241,7 +241,7 @@ class DtoProperty
             return $this->name;
         }
 
-        if (!isset($this->altNames)) {
+        if (!$this->altNames) {
             $underscored = strtolower(preg_replace('/(?<!^|[A-Z])([A-Z]+)/u', '_$1', $this->name) ?? '');
             $this->altNames = [
                 static::TYPE_UNDERSCORED => $underscored,

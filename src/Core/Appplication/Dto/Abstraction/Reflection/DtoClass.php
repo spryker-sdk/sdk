@@ -21,12 +21,12 @@ class DtoClass
     /**
      * @var array<string, \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty>
      */
-    protected array $properties;
+    protected array $properties = [];
 
     /**
      * @var array<string, string>
      */
-    protected array $propertyMap;
+    protected array $propertyMap = [];
 
     /**
      * @param class-string<\SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto> $class
@@ -49,7 +49,7 @@ class DtoClass
      */
     public function getProperties(): array
     {
-        if (!isset($this->properties)) {
+        if (!$this->properties) {
             $writeableProperties = array_filter(
                 $this->reflectionClass->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED),
                 fn (ReflectionProperty $property) => !$property->isStatic(),
@@ -89,7 +89,7 @@ class DtoClass
      */
     public function getPropertyNameNormalized(string $name): string
     {
-        if (!isset($this->propertyMap)) {
+        if (!$this->propertyMap) {
             $this->propertyMap = [];
 
             foreach ($this->getProperties() as $propertyName => $property) {

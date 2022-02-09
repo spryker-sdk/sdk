@@ -298,7 +298,7 @@ class Dto implements FromArrayToArrayInterface
     protected function fillDefaults()
     {
         foreach (static::getMetadata()->getProperties() as $name => $property) {
-            if (isset($this->$name)) {
+            if (property_exists($this, $name)) {
                 continue;
             }
 
@@ -319,7 +319,7 @@ class Dto implements FromArrayToArrayInterface
     {
         $errors = [];
         foreach (static::getMetadata()->getProperties() as $name => $property) {
-            if (!isset($this->$name) && $property->isRequired()) {
+            if (!property_exists($this, $name) && $property->isRequired()) {
                 $errors[] = $name;
             }
         }
