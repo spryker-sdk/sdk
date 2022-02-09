@@ -99,7 +99,6 @@ abstract class LifecycleEventSubscriber
     protected function createContext(LifecycleEventDataInterface $eventData, TaskInterface $task): ContextInterface
     {
         $context = new Context();
-        $context->setSubTasks([$task]);
         $context->setTask($task);
         $resolvedValues = $this->placeholderResolver->resolvePlaceholders($eventData->getPlaceholders(), $context);
 
