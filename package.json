@@ -22,6 +22,7 @@
     "dependencies": {},
     "devDependencies": {
         "@spryker/frontend-config.stylelint": "~0.0.5",
+        "@spryker/frontend-sniffer": "github:spryker-sdk/frontend-sniffer#0.2.3",
         "commander": "~4.0.1",
         "stylelint": "~13.7.1"
     }
