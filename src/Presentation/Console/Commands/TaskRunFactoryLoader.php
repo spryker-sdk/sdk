@@ -186,8 +186,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $tags = [];
 
         foreach ($task->getCommands() as $command) {
-            $tags = array_merge($tags, $command->getTags());
+            $tags[] = $command->getTags();
         }
+        $tags = array_merge(...$tags);
 
         if (count($tags) > 0) {
             $options[] = new InputOption(
@@ -210,20 +211,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function addStageOptions(TaskInterface $task, array $options): array
     {
-        $stages = [];
-
-        if ($task instanceof StagedTaskInterface) {
-            $stages[] = $task->getStage();
-        }
-
-        if ($task instanceof TaskSetInterface) {
-            foreach ($task->getSubTasks() as $taskSetTask) {
-                if ($taskSetTask instanceof StagedTaskInterface) {
-                    $stages[] = $taskSetTask->getStage();
-                }
-            }
-        }
-
         $options[] = new InputOption(
             RunTaskWrapperCommand::OPTION_STAGES,
             substr(RunTaskWrapperCommand::OPTION_STAGES, 0, 1),

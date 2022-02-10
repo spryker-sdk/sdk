@@ -428,9 +428,12 @@ class TaskYamlRepository implements TaskRepositoryInterface
 
             $subTaskCommands = $this->addStageToSubTasks($subTask, $subTask->getCommands());
 
-            $taskSetCommands = array_merge($subTaskCommands, $taskSetCommands);
-            $taskSetPlaceholders = array_merge($subTask->getPlaceholders(), $taskSetPlaceholders);
+            $taskSetCommands[] = $subTaskCommands;
+            $taskSetPlaceholders[] = $subTask->getPlaceholders();
         }
+
+        $taskSetCommands = array_merge(...$taskSetCommands);
+        $taskSetPlaceholders = array_merge(...$taskSetPlaceholders);
 
         $task->setCommandsArray($taskSetCommands);
         $task->setPlaceholdersArray($taskSetPlaceholders);
