@@ -21,7 +21,7 @@ class HelloExtension extends Extension implements PrependExtensionInterface
      *
      * @return void
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = (new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config')));
         $loader->load('services.yaml');
@@ -32,7 +32,7 @@ class HelloExtension extends Extension implements PrependExtensionInterface
      *
      * @return void
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('workflow.yaml');

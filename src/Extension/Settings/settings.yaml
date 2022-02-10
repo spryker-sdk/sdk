@@ -97,7 +97,7 @@ settings:
     initializer: create_directory_initializer
   - path: context_dir
     initialization_description: Where is the context directory?
-    strategy: merge
+    strategy: overwrite
     init: true
     is_project: true
     type: path
@@ -116,5 +116,5 @@ settings:
     init: true
     is_project: true
     type: string
-    values: 'default'
+    values: ''
     initializer: project_workflow_initializer

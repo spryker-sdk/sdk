@@ -18,6 +18,7 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -72,6 +73,31 @@ class InitSdkCommand extends Command
     }
 
     /**
+     * @return void
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this->createDatabase();
+
+        $settings = $this->yamlParser->parseFile($this->settingsPath)['settings'];
+
+        foreach ($settings as $setting) {
+            $settingData = $this->prepereSettingData($setting);
+            $mode = InputOption::VALUE_REQUIRED;
+            if ($settingData['strategy'] === 'merge') {
+                $mode = $mode | InputOption::VALUE_IS_ARRAY;
+            }
+            $this->addOption(
+                $settingData['path'],
+                null,
+                $mode,
+                $settingData['initialization_description'],
+            );
+        }
+    }
+
+    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -79,8 +105,7 @@ class InitSdkCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $this->createDatabase();
-        $this->initializeSettingValues($this->readSettingDefinitions());
+        $this->initializeSettingValues($input->getOptions(), $this->readSettingDefinitions());
         $this->taskManager->initialize($this->taskYamlRepository->findAll());
 
         return static::SUCCESS;
@@ -96,16 +121,7 @@ class InitSdkCommand extends Command
         /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Setting|null $settingEntity */
         $settingEntity = $this->settingRepository->findOneByPath($setting['path']);
 
-        $settingData = [
-            'path' => $setting['path'],
-            'type' => $setting['type'] ?? 'string',
-            'is_project' => $setting['is_project'] ?? true,
-            'initialization_description' => $setting['initialization_description'] ?? null,
-            'strategy' => $setting['strategy'] ?? 'overwrite',
-            'init' => $setting['init'] ?? false,
-            'values' => $setting['values'],
-            'initializer' => $setting['initializer'] ?? null,
-        ];
+        $settingData = $this->prepereSettingData($setting);
 
         if ($settingEntity) {
             $settingEntity->setIsProject($settingData['is_project']);
@@ -133,6 +149,25 @@ class InitSdkCommand extends Command
     }
 
     /**
+     * @param array $setting
+     *
+     * @return array
+     */
+    protected function prepereSettingData(array $setting): array
+    {
+        return [
+            'path' => $setting['path'],
+            'type' => $setting['type'] ?? 'string',
+            'is_project' => $setting['is_project'] ?? true,
+            'initialization_description' => $setting['initialization_description'] ?? null,
+            'strategy' => $setting['strategy'] ?? 'overwrite',
+            'init' => $setting['init'] ?? false,
+            'values' => $setting['values'],
+            'initializer' => $setting['initializer'] ?? null,
+        ];
+    }
+
+    /**
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function readSettingDefinitions(): array
@@ -148,11 +183,12 @@ class InitSdkCommand extends Command
     }
 
     /**
+     * @param array $options
      * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settingEntities
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
-    protected function initializeSettingValues(array $settingEntities): array
+    protected function initializeSettingValues(array $options, array $settingEntities): array
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
         $coreEntities = array_filter($settingEntities, function (SettingInterface $setting): bool {
@@ -160,6 +196,10 @@ class InitSdkCommand extends Command
         });
 
         foreach ($coreEntities as $settingEntity) {
+            if (!empty($options[$settingEntity->getPath()])) {
+                $settingEntity->setValues($options[$settingEntity->getPath()]);
+            }
+
             if ($settingEntity->hasInitialization() === false) {
                 continue;
             }
@@ -172,7 +212,7 @@ class InitSdkCommand extends Command
                         $settingEntity->getType(),
                     ),
                 );
-                $values = is_scalar($values) ?: json_encode($values);
+                $values = is_scalar($values) ? $values : json_encode($values);
                 $previousSettingValues = $settingEntity->getValues();
                 $settingEntity->setValues($values);
 

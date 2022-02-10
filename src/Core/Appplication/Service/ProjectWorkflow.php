@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use ReflectionClass;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
@@ -24,7 +23,7 @@ class ProjectWorkflow
     /**
      * @var string
      */
-    public const PROJECT_ID_KEY = 'project_id';
+    public const PROJECT_KEY = 'project_key';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
@@ -78,19 +77,20 @@ class ProjectWorkflow
      */
     public function initWorkflow(ContextInterface $context): bool
     {
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_ID_KEY);
-
+        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
         $this->currentProjectWorkflow = $this->workflowRepository->findOne($projectIdSetting->getValues());
         if (!$this->currentProjectWorkflow) {
             return true;
         }
 
         $taskId = $context->getTask()->getId();
+
         $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
         $enabledTransactions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
         $enabledTasksIds = [];
+        $metaWorkflow = $this->currentWorkflow->getMetadataStore();
         foreach ($enabledTransactions as $enabledTransaction) {
-            $transactionTaskId = $this->currentWorkflow->getMetadataStore()->getTransitionMetadata($enabledTransaction)['task'] ?? null;
+            $transactionTaskId = $metaWorkflow->getTransitionMetadata($enabledTransaction)['task'] ?? null;
             if (!$transactionTaskId || $taskId === $transactionTaskId) {
                 $this->currentTransaction = $enabledTransaction;
 
@@ -99,7 +99,7 @@ class ProjectWorkflow
             $enabledTasksIds[] = $transactionTaskId;
         }
 
-        $context->setExitCode(0);
+        $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
         $context->addMessage(
             $taskId,
             new Message(
@@ -117,9 +117,9 @@ class ProjectWorkflow
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return void
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function applyTransaction(ContextInterface $context): void
+    public function applyTransaction(ContextInterface $context): ContextInterface
     {
         if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
             $context->addMessage(
@@ -130,7 +130,7 @@ class ProjectWorkflow
                 ),
             );
 
-            return;
+            return $context;
         }
 
         if ($this->currentWorkflow && $this->currentTransaction && $this->currentProjectWorkflow) {
@@ -142,6 +142,8 @@ class ProjectWorkflow
 
             $this->workflowRepository->flush();
         }
+
+        return $context;
     }
 
     /**

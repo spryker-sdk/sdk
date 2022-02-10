@@ -85,6 +85,21 @@ class InitProjectCommand extends Command
             InputOption::VALUE_NONE | InputOption::VALUE_REQUIRED,
             'Use predefined settings without approve',
         );
+
+        $settings = $this->settingRepository->findProjectSettings();
+
+        foreach ($settings as $setting) {
+            $mode = InputOption::VALUE_REQUIRED;
+            if ($setting->getStrategy() === 'merge') {
+                $mode = $mode | InputOption::VALUE_IS_ARRAY;
+            }
+            $this->addOption(
+                $setting->getPath(),
+                null,
+                $mode,
+                (string)$setting->getInitializationDescription(),
+            );
+        }
     }
 
     /**
@@ -108,21 +123,25 @@ class InitProjectCommand extends Command
         $settingEntities = $this->settingRepository->findProjectSettings();
 
         $needsToAsk = (bool)$input->getOption('default');
-        $settingEntities = $this->initializeSettingValues($settingEntities, $needsToAsk);
+        $settingEntities = $this->initializeSettingValues($input->getOptions(), $settingEntities, $needsToAsk);
         $this->writeProjectSettings($settingEntities);
 
         return static::SUCCESS;
     }
 
     /**
+     * @param array $options
      * @param array<string, \SprykerSdk\SdkContracts\Entity\SettingInterface> $settingEntities
      * @param bool $needsToAsk
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
-    protected function initializeSettingValues(array $settingEntities, bool $needsToAsk): array
+    protected function initializeSettingValues(array $options, array $settingEntities, bool $needsToAsk): array
     {
         foreach ($settingEntities as $settingEntity) {
+            if (!empty($options[$settingEntity->getPath()])) {
+                $settingEntity->setValues($options[$settingEntity->getPath()]);
+            }
             if ($settingEntity->hasInitialization() === false) {
                 continue;
             }
