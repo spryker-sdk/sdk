@@ -130,7 +130,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $entities[$key] = $this->resolvePathSetting($entity);
         }
 
-        if (empty($entities)) {
+        if (!$entities) {
             return [];
         }
 

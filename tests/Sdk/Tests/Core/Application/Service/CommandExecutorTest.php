@@ -40,7 +40,7 @@ class CommandExecutorTest extends Unit
         );
 
         // Act
-        $result = $commandExecutor->execute($this->createCommandMock(), $context, 'test');
+        $result = $commandExecutor->execute($this->createCommandMock(), $context);
 
         // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
@@ -62,7 +62,7 @@ class CommandExecutorTest extends Unit
         );
 
         // Act
-        $result = $commandExecutor->execute($this->createCommandMock(), $context, 'test');
+        $result = $commandExecutor->execute($this->createCommandMock(), $context);
 
         // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());

@@ -53,7 +53,7 @@ class SecurityViolationReportConverter extends AbstractViolationConverter
         }
         $report = json_decode($jsonReport, true);
 
-        if (empty($report) && !is_array($report)) {
+        if (!$report && !is_array($report)) {
             return null;
         }
 

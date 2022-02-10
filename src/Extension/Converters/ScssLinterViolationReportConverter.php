@@ -54,7 +54,7 @@ class ScssLinterViolationReportConverter extends AbstractViolationConverter
 
         $report = json_decode($jsonReport, true);
         $report = array_filter((array)$report, fn (array $file): bool => !empty($file['errored']));
-        if (empty($report)) {
+        if (!$report) {
             return null;
         }
 

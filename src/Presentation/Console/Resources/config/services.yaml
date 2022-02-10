@@ -65,6 +65,7 @@ services:
       - '@ide.command_xml_formatter'
       - '@xml_encoder'
       - '@setting_repository'
+      - '%env(EXECUTABLE_FILE_PATH)%'
 
   ide.command_loader:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader
