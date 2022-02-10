@@ -22,7 +22,6 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
-use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -205,6 +204,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 false,
                 $data['tags'] ?? [],
                 $converter,
+                $data['stage'] ?? ContextInterface::DEFAULT_STAGE,
             );
         }
 
@@ -235,6 +235,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                     $task['stop_on_error'],
                     $tasksTags,
                     $converter,
+                    $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
                 );
             }
         }
@@ -416,7 +417,6 @@ class TaskYamlRepository implements TaskRepositoryInterface
             return $task;
         }
 
-        $taskSetCommands = [];
         $taskSetPlaceholders = [];
 
         foreach ($taskData['tasks'] as $subTaskData) {
@@ -426,38 +426,11 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 continue;
             }
 
-            $subTaskCommands = $this->addStageToSubTasks($subTask, $subTask->getCommands());
-
-            $taskSetCommands[] = $subTaskCommands;
             $taskSetPlaceholders[] = $subTask->getPlaceholders();
         }
 
-        $taskSetCommands = array_merge(...$taskSetCommands);
-        $taskSetPlaceholders = array_merge(...$taskSetPlaceholders);
-
-        $task->setCommandsArray($taskSetCommands);
-        $task->setPlaceholdersArray($taskSetPlaceholders);
+        $task->setPlaceholdersArray(array_merge(...$taskSetPlaceholders));
 
         return $task;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $subTask
-     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $taskSetCommands
-     *
-     * @return array array<\SprykerSdk\Sdk\Core\Domain\Entity\Command>
-     */
-    protected function addStageToSubTasks(TaskInterface $subTask, array $taskSetCommands): array
-    {
-        if (!$subTask instanceof StagedTaskInterface) {
-            return $taskSetCommands;
-        }
-
-        /** @var \SprykerSdk\Sdk\Core\Domain\Entity\Command $taskSetCommand */
-        foreach ($taskSetCommands as $taskSetCommand) {
-            $taskSetCommand->setStage($subTask->getStage());
-        }
-
-        return $taskSetCommands;
     }
 }

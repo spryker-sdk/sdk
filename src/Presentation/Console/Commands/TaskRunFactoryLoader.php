@@ -14,7 +14,6 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
-use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command;

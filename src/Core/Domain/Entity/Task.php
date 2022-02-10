@@ -248,18 +248,6 @@ class Task implements StagedTaskInterface
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
-     *
-     * @return $this
-     */
-    public function setCommandsArray(array $commands)
-    {
-        $this->commands = $commands;
-
-        return $this;
-    }
-
-    /**
      * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return $this
