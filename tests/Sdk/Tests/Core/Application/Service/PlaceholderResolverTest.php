@@ -284,7 +284,7 @@ class PlaceholderResolverTest extends Unit
     protected function createSettingRepositoryMock(array $expectedSettings): ProjectSettingRepositoryInterface
     {
         $settingRepositoryMock = $this->createMock(ProjectSettingRepositoryInterface::class);
-        $settingRepositoryMock->expects(empty($expectedSettings) ? $this->never() : $this->exactly(count($expectedSettings)))
+        $settingRepositoryMock->expects(!$expectedSettings ? $this->never() : $this->exactly(count($expectedSettings)))
             ->method('findOneByPath')
             ->willReturnCallback(function (string $settingPath) use ($expectedSettings): SettingInterface {
                 return new Setting(

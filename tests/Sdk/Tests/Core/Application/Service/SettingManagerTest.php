@@ -262,7 +262,7 @@ class SettingManagerTest extends Unit
             ->willReturn(null);
 
         $this->expectException(MissingSettingException::class);
-        $this->expectExceptionMessage('No setting definition for ' . $path . ' found',);
+        $this->expectExceptionMessage('No setting definition for ' . $path . ' found');
 
         // Act
         $this->settingManager->setSetting($path, $value);

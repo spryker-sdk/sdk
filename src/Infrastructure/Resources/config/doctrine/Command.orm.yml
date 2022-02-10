@@ -28,6 +28,11 @@ SprykerSdk\Sdk\Infrastructure\Entity\Command:
             nullable: false
             unique: false
             default: [ ]
+        stage:
+            type: string
+            nullable: false
+            unique: false
+            name: stage
     oneToOne:
         converter:
             targetEntity: Converter

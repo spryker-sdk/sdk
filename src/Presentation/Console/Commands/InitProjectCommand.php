@@ -120,7 +120,7 @@ class InitProjectCommand extends Command
             if (!$needsToAsk) {
                 $questionDescription = $settingEntity->getInitializationDescription();
 
-                if (empty($questionDescription)) {
+                if (!$questionDescription) {
                     $questionDescription = 'Initial value for ' . $settingEntity->getPath();
                 }
 

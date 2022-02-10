@@ -118,7 +118,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     public function save(SettingInterface $setting): SettingInterface
     {
         $this->getEntityManager()->persist($setting);
-        $this->getEntityManager()->flush($setting);
+        $this->getEntityManager()->flush();
 
         return $setting;
     }

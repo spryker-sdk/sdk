@@ -75,7 +75,6 @@ class UnitTester extends Actor
             'echo "hello"',
             false,
             'default',
-            ['tag1'],
             true,
         );
     }

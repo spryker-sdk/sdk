@@ -125,11 +125,10 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
     /**
      * @param string $taskId
-     * @param array<string> $tags
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
-    public function findById(string $taskId, array $tags = []): ?TaskInterface
+    public function findById(string $taskId): ?TaskInterface
     {
         $criteria = [
             'id' => $taskId,
@@ -138,11 +137,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
         /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Task|null $task */
         $task = $this->findOneBy($criteria);
 
-        if ($task === null || ($tags && !array_intersect($task->getTags(), $tags))) {
-            return null;
-        }
-
-        return $this->changePhpCommand($task);
+        return $task === null ? null : $this->changePhpCommand($task);
     }
 
     /**

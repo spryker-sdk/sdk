@@ -100,4 +100,12 @@ class GreeterCommand implements ExecutableCommandInterface
     {
         return null;
     }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
+    }
 }

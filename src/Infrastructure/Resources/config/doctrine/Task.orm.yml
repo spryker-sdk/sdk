@@ -29,15 +29,14 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
             unique: false
             nullable: false
             default: false
-        tags:
-            name: tags
+        stages:
             type: json
             nullable: false
             unique: false
             default: [ ]
         stage:
             type: string
-            nullable: false;
+            nullable: false
             unique: false
             name: stage
         optional:

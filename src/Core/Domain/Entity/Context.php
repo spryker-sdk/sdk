@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
-use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
@@ -35,11 +34,6 @@ class Context implements ContextInterface
      * @var array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     protected array $tasks = [];
-
-    /**
-     * @var array<string>
-     */
-    protected array $availableStages = self::DEFAULT_STAGES;
 
     /**
      * @var array<string>
@@ -182,34 +176,6 @@ class Context implements ContextInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
-     */
-    public function getSubTasks(): array
-    {
-        return $this->tasks;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     *
-     * @return void
-     */
-    public function addSubTask(TaskInterface $task): void
-    {
-        $this->tasks[$task->getId()] = $task;
-        $stage = $task instanceof StagedTaskInterface ? $task->getStage() : static::DEFAULT_STAGE;
-        $this->availableStages[] = $stage;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getAvailableStages(): array
-    {
-        return array_unique($this->availableStages);
-    }
-
-    /**
      * @return array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface>
      */
     public function getViolationReports(): array
@@ -243,16 +209,6 @@ class Context implements ContextInterface
     public function setExitCode(int $exitCode): void
     {
         $this->exitCode = $exitCode;
-    }
-
-    /**
-     * @param array<string> $availableStages
-     *
-     * @return void
-     */
-    public function setAvailableStages(array $availableStages): void
-    {
-        $this->availableStages = $availableStages;
     }
 
     /**
@@ -326,18 +282,6 @@ class Context implements ContextInterface
     public function getTask(): TaskInterface
     {
         return $this->task;
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $subTasks
-     *
-     * @return void
-     */
-    public function setSubTasks(array $subTasks): void
-    {
-        array_map(function (TaskInterface $task) {
-            $this->addSubTask($task);
-        }, $subTasks);
     }
 
     /**

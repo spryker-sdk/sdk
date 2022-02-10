@@ -25,7 +25,6 @@ class ContextSerializerHelper extends Module
      * @param array<string> $tags
      * @param array<string, array> $messages
      * @param array<array> $violationReports
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $subTasks
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
@@ -33,13 +32,11 @@ class ContextSerializerHelper extends Module
         array $resolvedValues = [],
         array $tags = [],
         array $messages = [],
-        array $violationReports = [],
-        array $subTasks = []
+        array $violationReports = []
     ): ContextInterface {
         $context = new Context();
         $context->setResolvedValues($resolvedValues);
         $context->setTags($tags);
-        $context->setSubTasks($subTasks);
 
         foreach ($messages as $key => $message) {
             $context->addMessage($key, new Message($message['message'], $message['verbosity']));
