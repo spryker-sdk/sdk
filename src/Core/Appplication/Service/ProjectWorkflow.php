@@ -152,7 +152,7 @@ class ProjectWorkflow
     public function getAll(): array
     {
         return array_map(
-            fn (Workflow $workflow) => $workflow->getName(),
+            fn (Workflow $workflow): string => $workflow->getName(),
             $this->workflows->all(new WorkflowEntity('', [], '')),
         );
     }
