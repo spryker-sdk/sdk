@@ -91,7 +91,7 @@ class InitSdkCommand extends Command
                 $setting->getPath(),
                 null,
                 $mode,
-                $setting->getInitializationDescription(),
+                $setting->getInitializationDescription() ?? '',
             );
         }
     }
@@ -223,7 +223,7 @@ class InitSdkCommand extends Command
                 }
             }
         }
-die;
+
         return $coreEntities;
     }
 
