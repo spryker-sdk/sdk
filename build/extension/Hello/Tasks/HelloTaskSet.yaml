@@ -1,14 +1,14 @@
 ---
-id: 'validation:php:codestyle'
+id: 'hello:task:set'
 short_description: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
 help: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
 stage: build
 version: 1.0.0
 command: ~
+stages: [hello, bye]
 type: task_set
 tasks:
-  - id: 'validation:php:codestyle-fix'
+  - id: 'bye:world'
     stop_on_error: false
-  - id: 'validation:php:codestyle-check'
+  - id: 'hello:world'
     stop_on_error: false
-placeholders: []

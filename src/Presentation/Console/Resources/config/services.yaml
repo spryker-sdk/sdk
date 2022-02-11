@@ -22,6 +22,7 @@ services:
       - '@cli_value_receiver'
       - '@project_setting_manager'
       - '@setting_repository'
+      - '@service_container'
       - '%project_settings_file%'
   setting_set_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\SettingSetCommand

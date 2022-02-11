@@ -1,6 +1,7 @@
 SprykerSdk\Sdk\Infrastructure\Entity\Setting:
   type: entity
   repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
+  changeTrackingPolicy: DEFERRED_EXPLICIT
   table: sdk_setting
   id:
     id:

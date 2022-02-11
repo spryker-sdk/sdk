@@ -52,6 +52,9 @@ final class Version20211214113051 extends AbstractMigration
         $this->addSql('CREATE TABLE sdk_tasks_placeholders (task_id VARCHAR(255) NOT NULL COLLATE BINARY, placeholder_id INTEGER NOT NULL, PRIMARY KEY(task_id, placeholder_id), CONSTRAINT FK_613760068DB60186 FOREIGN KEY (task_id) REFERENCES sdk_task (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_61376006DA75C033 FOREIGN KEY (placeholder_id) REFERENCES sdk_placeholder (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE INDEX IDX_613760068DB60186 ON sdk_tasks_placeholders (task_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_61376006DA75C033 ON sdk_tasks_placeholders (placeholder_id)');
+        $this->addSql('CREATE TABLE sdk_workflow (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, project VARCHAR(255) NOT NULL COLLATE BINARY, status CLOB NOT NULL --(DC2Type:json)
+        , workflow VARCHAR(255) NOT NULL COLLATE BINARY)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_4C07468E2FB3D0EE ON sdk_workflow (project)');
     }
 
     public function down(Schema $schema): void
@@ -70,5 +73,6 @@ final class Version20211214113051 extends AbstractMigration
         $this->addSql('DROP TABLE sdk_task');
         $this->addSql('DROP TABLE sdk_tasks_commands');
         $this->addSql('DROP TABLE sdk_tasks_placeholders');
+        $this->addSql('DROP TABLE sdk_workflow');
     }
 }

@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
@@ -37,13 +38,13 @@ class TaskExecutorTest extends Unit
         // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::SUCCESS_EXIT_CODE);
-        $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
         $taskExecutor = new TaskExecutor(
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createCommandExecutorMock($context),
             $this->createViolationConverterGeneratorMock(),
+            $this->createProjectWorkflowMock(),
         );
 
         // Act
@@ -61,13 +62,13 @@ class TaskExecutorTest extends Unit
         // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
-        $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
         $taskExecutor = new TaskExecutor(
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createCommandExecutorMock($context),
             $this->createViolationConverterGeneratorMock(),
+            $this->createProjectWorkflowMock(),
         );
 
         // Act
@@ -75,6 +76,21 @@ class TaskExecutorTest extends Unit
 
         // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     */
+    protected function createProjectWorkflowMock(): ProjectWorkflow
+    {
+        $projectWorkflow = $this->createMock(ProjectWorkflow::class);
+        $projectWorkflow->expects($this->once())
+            ->method('initWorkflow')
+            ->willReturn(true);
+        $projectWorkflow->expects($this->once())
+            ->method('applyTransaction');
+
+        return $projectWorkflow;
     }
 
     /**

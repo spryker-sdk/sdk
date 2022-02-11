@@ -1,0 +1,30 @@
+framework:
+  workflows:
+    default:
+      type: workflow
+      marking_store:
+        type: method
+        property: status
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: codestyle
+      places:
+        - codestyle
+        - phstan-check
+        - done
+      transitions:
+        check:
+          from: codestyle
+          to: phstan-check
+          metadata:
+            task: validation:php:codestyle-check
+        fix:
+          from: codestyle
+          to: phstan-check
+          metadata:
+            task: validation:php:static
+        phpstan:
+          from: phstan-check
+          to: done
+          metadata:
+            task: validation:php:static

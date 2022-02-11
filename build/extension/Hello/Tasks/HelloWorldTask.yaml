@@ -2,12 +2,13 @@
 id: 'hello:world'
 short_description: 'Sends greetings'
 help: 'Will greet the one using it'
-stage: build
+stage: hello
 version: 1.0.0
 deprecated: false
 successor: 'hello:php'
 command: '/bin/echo "hello %world% %somebody%"'
 type: local_cli
+tags: ['hello', 'world']
 placeholders:
   - name: '%world%'
     value_resolver: SprykerSdk\Sdk\Extension\ValueResolvers\StaticValueResolver

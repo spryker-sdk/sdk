@@ -94,11 +94,27 @@ settings:
     is_project: true
     type: path
     values: './reports/'
-    initializer: \SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer
+    initializer: create_directory_initializer
   - path: context_dir
     initialization_description: Where is the context directory?
-    strategy: merge
+    strategy: overwrite
     init: true
     is_project: true
     type: path
     values: './'
+  - path: project_key
+    initialization_description: What is the project unique key?
+    strategy: overwrite
+    init: false
+    is_project: true
+    type: uuid
+    values: ''
+    initializer: project_uuid_initializer
+  - path: workflow
+    initialization_description: What is the project workflow?
+    strategy: overwrite
+    init: true
+    is_project: true
+    type: string
+    values: ''
+    initializer: project_workflow_initializer
