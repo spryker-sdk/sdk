@@ -113,7 +113,7 @@ settings:
   - path: workflow
     initialization_description: What is the project workflow?
     strategy: overwrite
-    init: true
+    init: false
     is_project: true
     type: string
     values: ''
