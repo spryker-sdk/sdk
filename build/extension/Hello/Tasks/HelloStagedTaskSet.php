@@ -77,7 +77,6 @@ class HelloStagedTaskSet implements TaskSetInterface
     {
         return [
             new class implements StagedTaskInterface {
-
                 /**
                  * @return array<string>
                  */
