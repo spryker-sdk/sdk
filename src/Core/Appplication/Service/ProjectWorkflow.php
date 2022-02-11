@@ -89,10 +89,10 @@ class ProjectWorkflow
         $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
         $enabledTasksIds = [];
         $metaWorkflow = $this->currentWorkflow->getMetadataStore();
-        foreach ($enabledTransitions as $enabledTransaction) {
-            $transactionTaskId = $metaWorkflow->getTransitionMetadata($enabledTransaction)['task'] ?? null;
+        foreach ($enabledTransitions as $enabledTransition) {
+            $transactionTaskId = $metaWorkflow->getTransitionMetadata($enabledTransition)['task'] ?? null;
             if (!$transactionTaskId || $taskId === $transactionTaskId) {
-                $this->currentTransition = $enabledTransaction;
+                $this->currentTransition = $enabledTransition;
 
                 return true;
             }
