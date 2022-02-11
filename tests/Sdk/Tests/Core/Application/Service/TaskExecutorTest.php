@@ -38,7 +38,6 @@ class TaskExecutorTest extends Unit
         // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::SUCCESS_EXIT_CODE);
-        $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
         $taskExecutor = new TaskExecutor(
             $this->createPlaceholderResolverMock(),
@@ -63,7 +62,6 @@ class TaskExecutorTest extends Unit
         // Arrange
         $context = new Context();
         $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
-        $context->setRequiredStages(ContextInterface::DEFAULT_STAGES);
 
         $taskExecutor = new TaskExecutor(
             $this->createPlaceholderResolverMock(),

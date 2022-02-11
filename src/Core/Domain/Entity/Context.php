@@ -38,7 +38,7 @@ class Context implements ContextInterface
     /**
      * @var array<string>
      */
-    protected array $requiredStages = self::DEFAULT_STAGES;
+    protected array $requiredStages = [];
 
     /**
      * @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface>

@@ -88,6 +88,7 @@ class TaskExecutor
     public function execute(string $taskId, ContextInterface $context): ContextInterface
     {
         $context = $this->addBaseTask($taskId, $context);
+
         if (!$this->projectWorkflow->initWorkflow($context)) {
             return $context;
         }
@@ -120,7 +121,9 @@ class TaskExecutor
             return $this->setContextRequiredStages($context, $task->getStages(), $commandsStages);
         }
 
-        return $this->setContextRequiredStages($context, ContextInterface::DEFAULT_STAGES, $commandsStages);
+        $context->setRequiredStages($commandsStages);
+
+        return $context;
     }
 
     /**
