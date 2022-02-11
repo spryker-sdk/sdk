@@ -39,30 +39,36 @@ class Workflow extends EntityWorkflow
     /**
      * @param string $project
      *
-     * @return void
+     * @return $this
      */
-    public function setProject(string $project): void
+    public function setProject(string $project)
     {
         $this->project = $project;
+
+        return $this;
     }
 
     /**
      * @param array $status
      *
-     * @return void
+     * @return $this
      */
-    public function setStatus(array $status): void
+    public function setStatus(array $status)
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
      * @param string $workflow
      *
-     * @return void
+     * @return $this
      */
-    public function setWorkflow(string $workflow): void
+    public function setWorkflow(string $workflow)
     {
         $this->workflow = $workflow;
+
+        return $this;
     }
 }

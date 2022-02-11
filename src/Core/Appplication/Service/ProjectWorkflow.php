@@ -48,7 +48,7 @@ class ProjectWorkflow
     /**
      * @var \Symfony\Component\Workflow\Transition|null
      */
-    protected ?Transition $currentTransaction = null;
+    protected ?Transition $currentTransition = null;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
@@ -86,13 +86,13 @@ class ProjectWorkflow
         $taskId = $context->getTask()->getId();
 
         $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
-        $enabledTransactions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
+        $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
         $enabledTasksIds = [];
         $metaWorkflow = $this->currentWorkflow->getMetadataStore();
-        foreach ($enabledTransactions as $enabledTransaction) {
+        foreach ($enabledTransitions as $enabledTransaction) {
             $transactionTaskId = $metaWorkflow->getTransitionMetadata($enabledTransaction)['task'] ?? null;
             if (!$transactionTaskId || $taskId === $transactionTaskId) {
-                $this->currentTransaction = $enabledTransaction;
+                $this->currentTransition = $enabledTransaction;
 
                 return true;
             }
@@ -104,7 +104,7 @@ class ProjectWorkflow
             $taskId,
             new Message(
                 sprintf(
-                    'Running task is not executable for project work flow. Available tasks: %s',
+                    'Running task is not executable for project workflow. Available tasks: %s',
                     implode(',', $enabledTasksIds),
                 ),
                 MessageInterface::ERROR,
@@ -133,10 +133,10 @@ class ProjectWorkflow
             return $context;
         }
 
-        if ($this->currentWorkflow && $this->currentTransaction && $this->currentProjectWorkflow) {
+        if ($this->currentWorkflow && $this->currentTransition && $this->currentProjectWorkflow) {
             $this->currentWorkflow->apply(
                 $this->currentProjectWorkflow,
-                $this->currentTransaction->getName(),
+                $this->currentTransition->getName(),
                 ['context' => $context],
             );
 

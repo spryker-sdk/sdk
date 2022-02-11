@@ -58,13 +58,6 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
             'project' => $project,
         ];
 
-        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Workflow|null $workflow */
-        $workflow = $this->findOneBy($criteria);
-
-        if ($workflow === null) {
-            return null;
-        }
-
-        return $workflow;
+        return $this->findOneBy($criteria);
     }
 }

@@ -80,19 +80,18 @@ class InitSdkCommand extends Command
         parent::configure();
         $this->createDatabase();
 
-        $settings = $this->yamlParser->parseFile($this->settingsPath)['settings'];
+        $settings = $this->readSettingDefinitions();
 
         foreach ($settings as $setting) {
-            $settingData = $this->prepereSettingData($setting);
             $mode = InputOption::VALUE_REQUIRED;
-            if ($settingData['strategy'] === 'merge') {
-                $mode = $mode | InputOption::VALUE_IS_ARRAY;
+            if ($setting->getStrategy() === 'merge') {
+                $mode |= InputOption::VALUE_IS_ARRAY;
             }
             $this->addOption(
-                $settingData['path'],
+                $setting->getPath(),
                 null,
                 $mode,
-                $settingData['initialization_description'],
+                $setting->getInitializationDescription(),
             );
         }
     }
@@ -198,6 +197,9 @@ class InitSdkCommand extends Command
         foreach ($coreEntities as $settingEntity) {
             if (!empty($options[$settingEntity->getPath()])) {
                 $settingEntity->setValues($options[$settingEntity->getPath()]);
+                $this->settingRepository->save($settingEntity);
+
+                continue;
             }
 
             if ($settingEntity->hasInitialization() === false) {
@@ -221,7 +223,7 @@ class InitSdkCommand extends Command
                 }
             }
         }
-
+die;
         return $coreEntities;
     }
 
