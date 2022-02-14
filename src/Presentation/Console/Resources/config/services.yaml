@@ -43,9 +43,6 @@ services:
     tags: ['console.command']
     arguments:
       - '@ide.config_manager'
-  security_checker_command:
-    class: SecurityChecker\Command\SecurityCheckerCommand
-    tags: [ 'console.command' ]
   ide.command_mapper:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapper
     arguments:
@@ -81,3 +78,12 @@ services:
     class: Symfony\Component\Serializer\Encoder\XmlEncoder
     arguments:
       - { xml_format_output: true, xml_root_node_name: framework }
+  security_checker_command:
+    class: SecurityChecker\Command\SecurityCheckerCommand
+    tags: [ 'console.command' ]
+  brancho_commit_command:
+    class: SprykerSdk\Sdk\Extension\Commands\CommitCommand
+    tags: [ 'console.command' ]
+  brancho_branch_builder_command:
+    class: SprykerSdk\Sdk\Extension\Commands\BranchBuilderCommand
+    tags: [ 'console.command' ]
