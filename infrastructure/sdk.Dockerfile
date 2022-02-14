@@ -19,7 +19,7 @@ RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer
 
 RUN --mount=type=cache,id=npm,sharing=locked,target=/home/spryker/.npm \
     --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
-    npm install
+    npm install -g npm@8.4.1 && npm install
 
 FROM application-production-dependencies AS application-production-codebase
 
