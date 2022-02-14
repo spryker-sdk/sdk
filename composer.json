@@ -49,6 +49,7 @@
         "mikey179/vfsstream": "^1.6",
         "phpunit/php-code-coverage": "^9.2",
         "sllh/composer-versions-check": "^2.0",
+        "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/security-checker": "^0.1.0",
         "symfony/filesystem": "^5.3",
         "symfony/var-dumper": "*"

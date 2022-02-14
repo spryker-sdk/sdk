@@ -2,8 +2,14 @@
     "behat/gherkin": {
         "version": "v4.9.0"
     },
+    "chobie/jira-api-restclient": {
+        "version": "2.0-dev"
+    },
     "clue/stream-filter": {
         "version": "v1.5.0"
+    },
+    "cocur/slugify": {
+        "version": "v4.1.0"
     },
     "codeception/codeception": {
         "version": "4.1",
@@ -360,6 +366,9 @@
     "sllh/composer-versions-check": {
         "version": "v2.0.5"
     },
+    "spryker-sdk/brancho": {
+        "version": "1.0.x-dev"
+    },
     "spryker-sdk/sdk-contracts": {
         "version": "dev-master"
     },
@@ -494,6 +503,9 @@
     },
     "symfony-cmf/routing": {
         "version": "2.3.4"
+    },
+    "symfony-cmf/slugifier-api": {
+        "version": "2.1.0"
     },
     "symfony/cache": {
         "version": "v5.3.10"
