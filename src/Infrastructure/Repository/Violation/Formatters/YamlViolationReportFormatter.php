@@ -63,7 +63,7 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
     {
         $violationReportStructure = $this->violationReportFileMapper->mapViolationReportToYamlStructure($violationReport);
         $reportDir = $this->violationPathReader->getViolationReportDirPath();
-        if (is_dir($reportDir)) {
+        if (!is_dir($reportDir)) {
             mkdir($reportDir, 0777, true);
         }
         file_put_contents($this->violationPathReader->getViolationReportPath($name), $this->yamlParser->dump($violationReportStructure));
