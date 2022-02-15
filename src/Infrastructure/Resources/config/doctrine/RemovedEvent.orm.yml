@@ -9,8 +9,8 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                 strategy: AUTO
     manyToMany:
         commands:
-                targetEntity: Command
-                cascade: ["persist", "remove"]
+            targetEntity: Command
+            cascade: ["persist", "remove"]
             joinTable:
                 name: sdk_removed_events_commands
                 joinColumns:
