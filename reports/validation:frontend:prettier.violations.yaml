@@ -1,0 +1,6 @@
+project: spryker-sdk
+path: ./
+violations:
+    - { id: src/Infrastructure/Resources/config/doctrine/RemovedEvent.orm.yml, message: 'All collection items must start at the same column ', severity: ERROR, priority: null, class: null, method: null, start_line: 11, end_line: null, start_column: 9, end_column: 9, additional_attributes: {  }, fixable: false, produced_by: prettier, fix: null }
+    - { id: src/Infrastructure/Resources/config/doctrine/RemovedEvent.orm.yml, message: 'All collection items must start at the same column ', severity: ERROR, priority: null, class: null, method: null, start_line: 11, end_line: null, start_column: 9, end_column: 9, additional_attributes: {  }, fixable: false, produced_by: prettier, fix: null }
+packages: {  }
