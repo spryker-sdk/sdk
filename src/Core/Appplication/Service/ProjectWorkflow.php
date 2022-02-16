@@ -121,7 +121,7 @@ class ProjectWorkflow
      */
     public function applyTransaction(ContextInterface $context): ContextInterface
     {
-        if ($this->currentWorkflow && $context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {\var_dump('die');
+        if ($this->currentWorkflow && $context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
             $context->addMessage(
                 $context->getTask()->getId(),
                 new Message(
