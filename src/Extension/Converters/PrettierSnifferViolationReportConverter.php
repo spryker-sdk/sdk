@@ -77,7 +77,7 @@ class PrettierSnifferViolationReportConverter extends AbstractViolationConverter
         foreach ($reportLines as $line) {
             preg_match('/^(?:\[(?<severity>error|warn)\])\s+(?<path>\/?(?:(?:[\w.-]+)\/+)*(?:[\w.-]+)\.(?:[\w.-]+))(?::\s(?<error>\w+):\s(?<message>(?:\w\s*)+)(?:\((?<line>\d+):(?<column>\d+)\)))?/', $line, $matches);
             if (!empty($matches['path'])) {
-                $violations[] = $violations[] = new Violation(
+                $violations[] = new Violation(
                     $matches['path'],
                     $matches['message'] ?? 'File formatting',
                     match ($matches['severity']) {
