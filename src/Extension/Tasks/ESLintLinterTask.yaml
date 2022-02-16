@@ -1,0 +1,25 @@
+---
+id: 'validation:javascript:eslint'
+short_description: 'Check your javascript code to avoid errors and enforce conventions'
+help: ~
+stage: build
+version: 0.1.0
+command: 'node %sdk_dir%/frontend/libs/eslint.js > %reportDir%/eslint.codestyle.json'
+type: local_cli
+placeholders:
+  -   name: '%sdk_dir%'
+      value_resolver: SDK_DIR
+      optional: true
+  -   name: '%reportDir%'
+      value_resolver: STATIC
+      optional: true
+      configuration:
+        name: 'report_dir'
+        description: 'Reports directory'
+        type: string
+        settingPaths: [ 'report_dir' ]
+report_converter:
+  name: ESLintViolationReportConverter
+  configuration:
+    input_file: eslint.codestyle.json
+    producer: eslint

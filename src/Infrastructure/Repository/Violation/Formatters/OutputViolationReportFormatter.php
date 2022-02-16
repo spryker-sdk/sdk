@@ -70,6 +70,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                     foreach ($fileViolations as $fileViolation) {
                         $violations[] = [
                             $fileViolation->getId(),
+                            $fileViolation->getMessage(),
                             $fileViolation->priority(),
                             $fileViolation->isFixable() ? 'true' : 'false',
                             $fileViolation->getStartLine(),
@@ -93,7 +94,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                 $table = new Table($this->output);
                 $table
                     ->setHeaderTitle('Violations found in files')
-                    ->setHeaders(['Violation', 'Priority', 'Fixable', 'File', 'Line', 'Class', 'Method'])
+                    ->setHeaders(['Violation', 'Message', 'Priority', 'Fixable', 'File', 'Line', 'Class', 'Method'])
                     ->setRows($violations);
                 $table->render();
             }
