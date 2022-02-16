@@ -36,4 +36,3 @@ const filePaths = commandLineParser.filePath ? [commandLineParser.filePath] : de
     console.error(JSON.stringify({message: error.message, messageData: error.messageData}));
     process.exit(1);
 });
-Extension/Converters/ESLintViolationReportConverter.php

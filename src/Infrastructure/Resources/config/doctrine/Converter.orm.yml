@@ -17,4 +17,4 @@ SprykerSdk\Sdk\Infrastructure\Entity\Converter:
             type: json
             nullable: false
             unique: false
-            default: [ ]
+            default: []

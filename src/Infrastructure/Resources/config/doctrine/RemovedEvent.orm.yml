@@ -10,7 +10,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
     manyToMany:
         commands:
             targetEntity: Command
-            cascade: [ "persist", "remove" ]
+            cascade: ["persist", "remove"]
             joinTable:
                 name: sdk_removed_events_commands
                 joinColumns:
@@ -24,7 +24,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                         onDelete: CASCADE
         placeholders:
             targetEntity: Placeholder
-            cascade: [ "persist", "remove" ]
+            cascade: ["persist", "remove"]
             joinTable:
                 name: sdk_removed_events_placeholders
                 joinColumns:
@@ -38,7 +38,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
                         onDelete: CASCADE
         files:
             targetEntity: File
-            cascade: [ "persist", "remove" ]
+            cascade: ["persist", "remove"]
             joinTable:
                 name: sdk_removed_events_files
                 joinColumns:

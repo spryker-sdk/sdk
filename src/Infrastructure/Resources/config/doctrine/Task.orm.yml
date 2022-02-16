@@ -33,7 +33,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
             type: json
             nullable: false
             unique: false
-            default: [ ]
+            default: []
         stage:
             type: string
             nullable: false
@@ -78,7 +78,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
     oneToOne:
         lifecycle:
             targetEntity: Lifecycle
-            cascade: [ "persist", "remove" ]
+            cascade: ["persist", "remove"]
             joinColumn:
                 name: lifecycle_id
                 referencedColumnName: id

@@ -1,11 +1,11 @@
 parameters:
-  project_settings_file: '.ssdk'
+  project_settings_file: ".ssdk"
 services:
   path_resolver:
     class: SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
     arguments:
-      - '%kernel.project_dir%'
-      - '@sdk_filesystem'
+      - "%kernel.project_dir%"
+      - "@sdk_filesystem"
   sdk_filesystem:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Filesystem
 
@@ -16,7 +16,7 @@ services:
     abstract: true
     synthetic: true
     arguments:
-      - '@value_receiver'
+      - "@value_receiver"
   task_repository:
     synthetic: true
   event_logger:
@@ -41,21 +41,21 @@ services:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
     arguments:
-      - '@project_setting_repository'
-      - '@value_resolver_registry'
+      - "@project_setting_repository"
+      - "@value_resolver_registry"
   violation_converter_resolver:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
     arguments:
-      - '@converter_registry'
+      - "@converter_registry"
   violation_report_merger:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger
   violation_report_generator:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
     arguments:
-      - '@violation_report_merger'
-      - '@violation_report_repository'
-      - '@violation_converter_resolver'
+      - "@violation_report_merger"
+      - "@violation_report_repository"
+      - "@violation_converter_resolver"
   context_serializer:
     class: SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
   context_repository:
@@ -64,53 +64,53 @@ services:
     public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
     arguments:
-      - '@placeholder_resolver'
-      - '@task_persistence_repository'
-      - '@service.command_executor'
-      - '@violation_report_generator'
-      - '@project_workflow'
-      - '@action_approver'
+      - "@placeholder_resolver"
+      - "@task_persistence_repository"
+      - "@service.command_executor"
+      - "@violation_report_generator"
+      - "@project_workflow"
+      - "@action_approver"
   project_setting_repository:
     abstract: true
     synthetic: true
   project_setting_manager:
     class: SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
     arguments:
-      - '@project_setting_repository'
-      - '@setting_repository'
+      - "@project_setting_repository"
+      - "@setting_repository"
 
   service.file_manager:
     class: SprykerSdk\Sdk\Core\Appplication\Service\FileManager
 
   lifecycle.initialized_subscriber:
     class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\InitializedEventSubscriber
-    tags: ['kernel.event_subscriber']
+    tags: ["kernel.event_subscriber"]
     arguments:
-      - '@service.file_manager'
-      - '@placeholder_resolver'
-      - '@service.lifecycle_command_executor'
+      - "@service.file_manager"
+      - "@placeholder_resolver"
+      - "@service.lifecycle_command_executor"
 
   lifecycle.removed_subscriber:
     class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\UpdatedEventSubscriber
-    tags: ['kernel.event_subscriber']
+    tags: ["kernel.event_subscriber"]
     arguments:
-      - '@service.file_manager'
-      - '@placeholder_resolver'
-      - '@service.lifecycle_command_executor'
+      - "@service.file_manager"
+      - "@placeholder_resolver"
+      - "@service.lifecycle_command_executor"
 
   lifecycle.updated_subscriber:
     class: SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\RemovedEventSubscriber
-    tags: ['kernel.event_subscriber']
+    tags: ["kernel.event_subscriber"]
     arguments:
-      - '@service.file_manager'
-      - '@placeholder_resolver'
-      - '@service.lifecycle_command_executor'
+      - "@service.file_manager"
+      - "@placeholder_resolver"
+      - "@service.lifecycle_command_executor"
 
   service.command_executor:
-      class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
-      arguments:
-          - !tagged_iterator command.runner
-          - !tagged_iterator action.after_command_executed
+    class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
+    arguments:
+      - !tagged_iterator command.runner
+      - !tagged_iterator action.after_command_executed
 
   service.lifecycle_command_executor:
     class: SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor
@@ -120,12 +120,11 @@ services:
   log_event_action_after_command_executed:
     class: SprykerSdk\Sdk\Core\Appplication\Service\AfterCommandExecutedAction\LogEventAction
     arguments:
-      - '@event_logger'
-    tags: ['action.after_command_executed']
+      - "@event_logger"
+    tags: ["action.after_command_executed"]
   project_workflow:
     class: SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
     arguments:
       - "@project_setting_repository"
-      - '@workflow.registry'
-      - '@workflow_repository'
-
+      - "@workflow.registry"
+      - "@workflow_repository"

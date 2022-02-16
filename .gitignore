@@ -6,6 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
+/node_modules
 /vendor/
 /.idea
 .ssdk

@@ -118,17 +118,22 @@ class ProjectWorkflowTest extends Unit
     public function testApplyTransactionWithError(): void
     {
         // Arrange
-        $projectWorkflow = new ProjectWorkflow(
-            $this->createProjectSettingRepositoryMock(),
-            $this->createWorkflowRegistryMock(),
-            $this->createWorkflowRepositoryMock(),
-        );
+        $projectWorkflow = $this->createProjectWorkflow();
+        $taskMock = $this->createMock(TaskInterface::class);
+        $taskMock->expects($this->exactly(2))
+            ->method('getId')
+            ->willReturn('testTask');
         $context = $this->createContextMock();
+        $context->expects($this->exactly(2))
+            ->method('getTask')
+            ->willReturn($taskMock);
         $context->expects($this->once())
             ->method('addMessage');
         $context->expects($this->once())
             ->method('getExitCode')
             ->willReturn(1);
+
+        $projectWorkflow->initWorkflow($context);
 
         //Act
         $projectWorkflow->applyTransaction($context);

@@ -1,22 +1,22 @@
 SprykerSdk\Sdk\Infrastructure\Entity\Workflow:
-  type: entity
-  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
-  table: sdk_workflow
-  id:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
+    table: sdk_workflow
     id:
-      type: integer
-      generator:
-        strategy: AUTO
-  fields:
-    project:
-      type: string
-      nullable: false
-      unique: true
-    workflow:
-      type: string
-      nullable: false
-      unique: false
-    status:
-      type: json
-      nullable: false
-      unique: false
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        project:
+            type: string
+            nullable: false
+            unique: true
+        workflow:
+            type: string
+            nullable: false
+            unique: false
+        status:
+            type: json
+            nullable: false
+            unique: false
