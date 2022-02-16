@@ -21,7 +21,7 @@
     },
     "devDependencies": {
         "@spryker/frontend-config.stylelint": "~0.0.5",
-        "@spryker/frontend-sniffer": "github:spryker-sdk/frontend-sniffer#0.2.3",
+        "@spryker/frontend-sniffer": "https://github.com/spryker-sdk/frontend-sniffer/tarball/0.2.3",
         "commander": "~4.0.1",
         "prettier": "2.5.1",
         "stylelint": "~13.7.1"
