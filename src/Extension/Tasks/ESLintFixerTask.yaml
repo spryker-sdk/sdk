@@ -1,5 +1,5 @@
 ---
-id: 'validation:javascript:eslint-fix'
+id: 'validation:frontend:eslint-fix'
 short_description: 'Fixes violations and validates your javascript code'
 help: ~
 stage: build
