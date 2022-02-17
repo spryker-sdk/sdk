@@ -4,7 +4,7 @@ short_description: "An opinionated code formatter"
 help: ~
 stage: build
 version: 0.1.0
-command: "npx --prefix %sdk_dir% prettier --write --loglevel=%log_level% ./%path%"
+command: "npx --prefix %sdk_dir% prettier --config=%sdk_dir%/node_modules/@spryker/frontend-config.prettier/.prettierrc.json --write --loglevel=%log_level% ./%path%"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
