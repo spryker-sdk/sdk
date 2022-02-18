@@ -37,3 +37,9 @@ services:
   project_workflow_initializer:
     alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer
     public: true
+
+  option_value_resolver:
+    class: SprykerSdk\Sdk\Extension\ValueResolvers\OptionValueResolver
+    arguments:
+      - '@value_receiver'
+    tags: ['sdk.value_resolver']
