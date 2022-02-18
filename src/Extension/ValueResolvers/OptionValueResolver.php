@@ -90,9 +90,9 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getAlias(): ?string
+    public function getAlias(): string
     {
         return $this->name;
     }
