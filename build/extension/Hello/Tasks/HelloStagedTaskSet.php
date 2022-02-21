@@ -8,6 +8,8 @@
 namespace Hello\Tasks;
 
 use Hello\Tasks\Commands\GreeterCommand;
+use Hello\Tasks\Commands\HelloStageACommand;
+use Hello\Tasks\Commands\HelloStageBCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
@@ -114,7 +116,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getCommands(): array
                 {
-                    return [new GreeterCommand('Hello Stage A (%foo%)')];
+                    return [new HelloStageACommand('Hello Stage A (%foo%)')];
                 }
 
                 /**
@@ -225,7 +227,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getCommands(): array
                 {
-                    return [new GreeterCommand('Hello Stage B (%bar%)')];
+                    return [new HelloStageBCommand('Hello Stage B (%bar%)')];
                 }
 
                 /**

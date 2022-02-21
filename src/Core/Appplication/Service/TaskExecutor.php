@@ -92,6 +92,7 @@ class TaskExecutor
         if (!$this->projectWorkflow->initWorkflow($context)) {
             return $context;
         }
+
         $context = $this->collectRequiredStages($context);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);

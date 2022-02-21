@@ -17,6 +17,7 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Task>
@@ -109,6 +110,43 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    protected function changePhpCommand(TaskInterface $task): TaskInterface
+    {
+        $existingCommands = [];
+
+        foreach ($this->existingTasks as $existingTask) {
+            $existingTaskCommands = $existingTask->getCommands();
+
+            if ($existingTask instanceof TaskSetInterface) {
+                $existingSubTaskCommands = array_map(fn (TaskInterface $subtask) => $subtask->getCommands(), $existingTask->getSubTasks());
+                $existingTaskCommands = array_merge($existingTaskCommands, ...$existingSubTaskCommands);
+            }
+
+            foreach ($existingTaskCommands as $existingCommand) {
+                $existingCommands[get_class($existingCommand)] = $existingCommand;
+            }
+        }
+
+        $commands = [];
+        foreach ($task->getCommands() as $command) {
+            if ($command->getType() === 'php' && isset($existingCommands[$command->getCommand()])) {
+                $commands[] = $existingCommands[$command->getCommand()];
+
+                continue;
+            }
+            $commands[] = $command;
+        }
+
+        $task->setCommands(new ArrayCollection($commands));
+
+        return $task;
+    }
+
+    /**
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
@@ -138,34 +176,5 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
         $task = $this->findOneBy($criteria);
 
         return $task === null ? null : $this->changePhpCommand($task);
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
-     */
-    protected function changePhpCommand(TaskInterface $task): TaskInterface
-    {
-        $existingCommands = [];
-        foreach ($this->existingTasks as $existingTask) {
-            foreach ($existingTask->getCommands() as $existingCommand) {
-                $existingCommands[get_class($existingCommand)] = $existingCommand;
-            }
-        }
-
-        $commands = [];
-        foreach ($task->getCommands() as $command) {
-            if ($command->getType() === 'php' && isset($existingCommands[$command->getCommand()])) {
-                $commands[] = $existingCommands[$command->getCommand()];
-
-                continue;
-            }
-            $commands[] = $command;
-        }
-
-        $task->setCommands(new ArrayCollection($commands));
-
-        return $task;
     }
 }

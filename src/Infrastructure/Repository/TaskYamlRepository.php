@@ -23,6 +23,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -117,7 +118,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $tasks[$task->getId()] = $task;
         }
 
-        return array_merge($tasks, $this->existingTasks);
+        return array_merge($tasks, $this->existingTasks, $this->getPHPTasks());
     }
 
     /**
@@ -432,5 +433,52 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $task->setPlaceholdersArray(array_merge(...$taskSetPlaceholders));
 
         return $task;
+    }
+
+    /**
+     * @FIXME
+     *
+     * - This code is needed to be moved to separate repo (TaskPhpRepository)
+     * - To think about $this->existingTasks as well. I think we don't need them here.
+     *
+     * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task>
+     */
+    private function getPHPTasks(): array
+    {
+        $taskSets = [];
+
+        foreach ($this->existingTasks as $id => $task) {
+            if ($task instanceof TaskSetInterface) {
+                $commands = [];
+                $placeHolders = [];
+
+                foreach ($task->getSubTasks() as $subTask) {
+                    foreach ($subTask->getCommands() as $command) {
+                        $commands[] = $command;
+                    }
+
+                    foreach ($subTask->getPlaceholders() as $placeholder) {
+                        $placeHolders[] = $placeholder;
+                    }
+                }
+
+                $taskSets[$id] = new Task(
+                    $id,
+                    $task->getShortDescription(),
+                    $commands,
+                    $task->getLifecycle(),
+                    $task->getVersion(),
+                    $placeHolders,
+                    $task->getHelp(),
+                    $task->getSuccessor(),
+                    $task->isDeprecated(),
+                    ContextInterface::DEFAULT_STAGE,
+                    $task->isOptional(),
+                    $task->getStages(),
+                );
+            }
+        }
+
+        return $taskSets;
     }
 }
