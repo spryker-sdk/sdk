@@ -28,7 +28,7 @@ fi
 
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
-export EXECUTABLE_FILE_PATH=$(cd "$(dirname "$0")";pwd)
+export EXECUTABLE_FILE_PATH="$(cd "$(dirname "$0")";pwd)/spryker-sdk.sh"
 
 case $MODE in
 "debug")
