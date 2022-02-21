@@ -119,13 +119,10 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
                 }
 
                 $question = new Question($description, $defaultValue);
-                $question->setNormalizer(function ($value) {
-                    return $value ?: '';
-                });
         }
         if ($defaultValue === null) {
             $question->setValidator(function ($value) {
-                if ($value === '' || $value === null) {
+                if ($value === '') {
                     throw new MissingValueException('Value is required');
                 }
 

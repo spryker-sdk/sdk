@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
+use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
 use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
@@ -32,9 +33,9 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = true): mixed
     {
-        $value = parent::getValue($context, $settingValues, true);
+        $value = parent::getValue($context, $settingValues, $optional);
 
-        if (!$value) {
+        if ($value === null) {
             return null;
         }
 
@@ -82,11 +83,11 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getDefaultValue(): string
+    public function getDefaultValue(): mixed
     {
-        return '';
+        return null;
     }
 
     /**
@@ -100,11 +101,15 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
     /**
      * @param array $settingValues
      *
-     * @return array
+     * @return mixed
      */
-    protected function getValueFromSettings(array $settingValues): array
+    protected function getValueFromSettings(array $settingValues): mixed
     {
-        return [];
+        if (!isset($settingValues[$this->getAlias()])) {
+            return null;
+        }
+
+        return $settingValues[$this->getAlias()];
     }
 
     /**

@@ -28,7 +28,7 @@ placeholders:
       settingPaths: ["report_dir"]
   - name: "%severity%"
     value_resolver: OPTION
-    optional: true
+    optional: false
     configuration:
       name: 'severity'
       description: 'Severity level'
