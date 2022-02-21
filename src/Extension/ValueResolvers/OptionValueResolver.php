@@ -17,21 +17,6 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
     /**
      * @var string
      */
-    protected const OPTION_TYPE = 'option';
-
-    /**
-     * @var string
-     */
-    protected const ARGUMENT_TYPE = 'argument';
-
-    /**
-     * @var string
-     */
-    protected string $type = '';
-
-    /**
-     * @var string
-     */
     protected string $name = '';
 
     /**
@@ -54,15 +39,7 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
             return null;
         }
 
-        if ($this->type === static::OPTION_TYPE) {
-            return sprintf('--%s=%s', $this->name, $value);
-        }
-
-        if ($this->type === static::ARGUMENT_TYPE) {
-            return sprintf('%s', $value);
-        }
-
-        return null;
+        return sprintf('--%s=%s', $this->name, $value);
     }
 
     /**
@@ -140,32 +117,5 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
     {
         $this->name = $values['name'];
         $this->description = $values['description'] ?? '';
-
-        $type = $values['type'] ?? '';
-        $this->validateType($type);
-
-        $this->type = $type;
-    }
-
-    /**
-     * @param string $type
-     *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\InvalidSettingException
-     *
-     * @return void
-     */
-    protected function validateType(string $type): void
-    {
-        $types = [static::ARGUMENT_TYPE, static::OPTION_TYPE];
-
-        if (!$type || !in_array($type, $types)) {
-            throw new InvalidSettingException(
-                sprintf(
-                    'Setting "%s" is invalid. Available values: %s',
-                    $type,
-                    implode(',', $types),
-                ),
-            );
-        }
     }
 }

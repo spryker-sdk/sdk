@@ -31,7 +31,6 @@ placeholders:
     optional: true
     configuration:
       name: 'severity'
-      type: 'option'
       description: 'Severity level'
 report_converter:
   name: CheckstyleViolationReportConverter
