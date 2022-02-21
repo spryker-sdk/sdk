@@ -4,7 +4,7 @@ short_description: "Check your code by running a static code analysis and genera
 help: ~
 stage: build
 version: 1.0.0
-command: "php %sdk_dir%/vendor/bin/phpcs --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml --report=json ./%path%  --report-file=%reportDir%/phpcs.codestyle.json"
+command: "php %sdk_dir%/vendor/bin/phpcs %severity% --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml --report=json %path% --report-file=%reportDir%/phpcs.codestyle.json"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
@@ -26,6 +26,12 @@ placeholders:
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+  - name: "%severity%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: 'severity'
+      description: 'Severity level'
 report_converter:
   name: CheckstyleViolationReportConverter
   configuration:
