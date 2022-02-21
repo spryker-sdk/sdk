@@ -5,14 +5,18 @@ const commandLineParser = require('commander');
 commandLineParser
     .option('-f, --fix', 'execute stylelint in the fix mode.')
     .option('-p, --file-path <path>', 'execute stylelint only for this file.')
+    .option('-c, --config-path <path>', 'use this stylelint config instead of default.')
     .parse(process.argv);
 
-const isFixMode = !!commandLineParser.fix;
 const defaultFilePaths = [`${globalSettings.paths.project}/**/*.scss`];
+const defaultConfigFile = `${__dirname}/../../node_modules/@spryker/frontend-config.stylelint/.stylelintrc.json`;
+
+const isFixMode = !!commandLineParser.fix;
 const filePaths = commandLineParser.filePath ? [commandLineParser.filePath] : defaultFilePaths;
+const configFile = commandLineParser.configPath ? commandLineParser.configPath : defaultConfigFile;
 
 stylelint.lint({
-    configFile: `${globalSettings.context}/node_modules/@spryker/frontend-config.stylelint/.stylelintrc.json`,
+    configFile: configFile,
     files: filePaths,
     syntax: "scss",
     formatter: "json",
