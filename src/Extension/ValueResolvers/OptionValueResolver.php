@@ -7,23 +7,10 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
-use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
-class OptionValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
+class OptionValueResolver extends StaticValueResolver
 {
-    /**
-     * @var string
-     */
-    protected string $name = '';
-
-    /**
-     * @var string
-     */
-    protected string $description = '';
-
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
@@ -39,7 +26,7 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
             return null;
         }
 
-        return sprintf('--%s=%s', $this->name, $value);
+        return sprintf('--%s=%s', $this->getAlias(), $value);
     }
 
     /**
@@ -48,78 +35,5 @@ class OptionValueResolver extends AbstractValueResolver implements ConfigurableV
     public function getId(): string
     {
         return 'OPTION';
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'string';
-    }
-
-    /**
-     * @return string
-     */
-    public function getAlias(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue(): mixed
-    {
-        return null;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues): mixed
-    {
-        if (!isset($settingValues[$this->getAlias()])) {
-            return null;
-        }
-
-        return $settingValues[$this->getAlias()];
-    }
-
-    /**
-     * @param array $values
-     *
-     * @return void
-     */
-    public function configure(array $values): void
-    {
-        $this->name = $values['name'];
-        $this->description = $values['description'] ?? '';
     }
 }
