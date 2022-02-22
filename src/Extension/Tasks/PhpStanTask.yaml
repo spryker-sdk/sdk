@@ -4,7 +4,7 @@ short_description: "Check your code by running a static code analysis"
 help: ~
 stage: build
 version: 1.0.0
-command: "php %sdk_dir%/vendor/bin/phpstan analyze ./%path% -c ./phpstan.neon"
+command: "php %sdk_dir%/vendor/bin/phpstan analyze ./%path% -c ./phpstan.neon --error-format=json > %reportDir%/phpstan.static.json"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
@@ -18,3 +18,16 @@ placeholders:
       description: "Relative path to module directory in project"
       type: path
       settingPaths: []
+  - name: "%reportDir%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+report_converter:
+  name: PhpStanViolationConverter
+  configuration:
+    input_file: phpstan.static.json
+    producer: phpstan
