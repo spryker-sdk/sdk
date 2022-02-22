@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 
 class LifecycleManager implements LifecycleManagerInterface
 {
-    protected TaskRepositoryInterface $taskYamlRepository;
+    protected TaskRepositoryInterface $taskFileRepository;
 
     protected TaskRepository $taskEntityRepository;
 
@@ -23,16 +23,16 @@ class LifecycleManager implements LifecycleManagerInterface
     protected iterable $actions;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskFileRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository $taskEntityRepository
      * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface> $actions
      */
     public function __construct(
-        TaskRepositoryInterface $taskYamlRepository,
+        TaskRepositoryInterface $taskFileRepository,
         TaskRepository $taskEntityRepository,
         iterable $actions
     ) {
-        $this->taskYamlRepository = $taskYamlRepository;
+        $this->taskFileRepository = $taskFileRepository;
         $this->taskEntityRepository = $taskEntityRepository;
         $this->actions = $actions;
     }
@@ -42,7 +42,7 @@ class LifecycleManager implements LifecycleManagerInterface
      */
     public function update(): void
     {
-        $folderTasks = $this->taskYamlRepository->findAll();
+        $folderTasks = $this->taskFileRepository->findAll();
         $databaseTasks = $this->taskEntityRepository->findAllIndexedCollection();
 
         foreach ($this->actions as $action) {

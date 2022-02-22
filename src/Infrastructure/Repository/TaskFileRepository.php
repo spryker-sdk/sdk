@@ -27,7 +27,7 @@ use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class TaskYamlRepository implements TaskRepositoryInterface
+class TaskFileRepository implements TaskRepositoryInterface
 {
     /**
      * @var string
@@ -118,7 +118,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
             $tasks[$task->getId()] = $task;
         }
 
-        return array_merge($tasks, $this->existingTasks, $this->getPHPTasks());
+        return array_merge($tasks, $this->existingTasks, $this->changePhpCommand());
     }
 
     /**
@@ -436,14 +436,9 @@ class TaskYamlRepository implements TaskRepositoryInterface
     }
 
     /**
-     * @FIXME
-     *
-     * - This code is needed to be moved to separate repo (TaskPhpRepository)
-     * - To think about $this->existingTasks as well. I think we don't need them here.
-     *
      * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task>
      */
-    private function getPHPTasks(): array
+    private function changePhpCommand(): array
     {
         $taskSets = [];
 

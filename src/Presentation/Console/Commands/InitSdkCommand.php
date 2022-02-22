@@ -42,7 +42,7 @@ class InitSdkCommand extends Command
 
     protected TaskManagerInterface $taskManager;
 
-    protected TaskRepositoryInterface $taskYamlRepository;
+    protected TaskRepositoryInterface $taskFileRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
@@ -51,7 +51,7 @@ class InitSdkCommand extends Command
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskFileRepository
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
@@ -60,14 +60,14 @@ class InitSdkCommand extends Command
         Yaml $yamlParser,
         string $settingsPath,
         TaskManagerInterface $taskManager,
-        TaskRepositoryInterface $taskYamlRepository
+        TaskRepositoryInterface $taskFileRepository
     ) {
         $this->settingsPath = $settingsPath;
         $this->yamlParser = $yamlParser;
         $this->doctrineMigrationCommand = $doctrineMigrationCommand;
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
-        $this->taskYamlRepository = $taskYamlRepository;
+        $this->taskFileRepository = $taskFileRepository;
         $this->taskManager = $taskManager;
         parent::__construct(static::NAME);
     }
@@ -105,7 +105,7 @@ class InitSdkCommand extends Command
     public function run(InputInterface $input, OutputInterface $output): int
     {
         $this->initializeSettingValues($input->getOptions(), $this->readSettingDefinitions());
-        $this->taskManager->initialize($this->taskYamlRepository->findAll());
+        $this->taskManager->initialize($this->taskFileRepository->findAll());
 
         return static::SUCCESS;
     }

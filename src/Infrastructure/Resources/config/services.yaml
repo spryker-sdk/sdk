@@ -36,7 +36,7 @@ services:
     class: Symfony\Component\Yaml\Yaml
   task_repository:
     public: true
-    class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
+    class: SprykerSdk\Sdk\Infrastructure\Repository\TaskFileRepository
     arguments:
       - "@setting_repository"
       - "@file_finder"

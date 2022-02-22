@@ -122,8 +122,13 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
             $existingTaskCommands = $existingTask->getCommands();
 
             if ($existingTask instanceof TaskSetInterface) {
-                $existingSubTaskCommands = array_map(fn (TaskInterface $subtask) => $subtask->getCommands(), $existingTask->getSubTasks());
-                $existingTaskCommands = array_merge($existingTaskCommands, ...$existingSubTaskCommands);
+                $existingSubTaskCommands = array_map(fn (TaskInterface $subtask): array => $subtask->getCommands(), $existingTask->getSubTasks());
+
+                foreach ($existingSubTaskCommands as $existingSubTaskCommandSet) {
+                    foreach ($existingSubTaskCommandSet as $existingSubTaskCommand) {
+                        $existingTaskCommands[] = $existingSubTaskCommand;
+                    }
+                }
             }
 
             foreach ($existingTaskCommands as $existingCommand) {

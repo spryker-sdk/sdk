@@ -12,17 +12,17 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInte
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository;
+use SprykerSdk\Sdk\Infrastructure\Repository\TaskFileRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class TaskYamlRepositoryTest extends Unit
+class TaskFileRepositoryTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\TaskFileRepository
      */
-    protected TaskYamlRepository $taskYamlRepository;
+    protected TaskFileRepository $taskFileRepository;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
@@ -53,7 +53,7 @@ class TaskYamlRepositoryTest extends Unit
 
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->fileFinder = $this->createMock(Finder::class);
-        $this->taskYamlRepository = new TaskYamlRepository(
+        $this->taskFileRepository = new TaskFileRepository(
             $this->settingRepository,
             new Finder(),
             new Yaml(),
@@ -77,7 +77,7 @@ class TaskYamlRepositoryTest extends Unit
         $this->expectExceptionMessage('extension_dirs are not configured properly');
 
         // Act
-        $this->taskYamlRepository->findAll();
+        $this->taskFileRepository->findAll();
     }
 
     /**
@@ -100,7 +100,7 @@ class TaskYamlRepositoryTest extends Unit
             ->willReturn($setting);
 
         // Act
-        $result = $this->taskYamlRepository->findAll();
+        $result = $this->taskFileRepository->findAll();
 
         // Assert
         $this->assertCount(4, $result);
@@ -126,7 +126,7 @@ class TaskYamlRepositoryTest extends Unit
             ->willReturn($setting);
 
         // Act
-        $result = $this->taskYamlRepository->findById('hello:world');
+        $result = $this->taskFileRepository->findById('hello:world');
 
         // Assert
         $this->assertSame('hello:world', $result->getId());
@@ -155,7 +155,7 @@ class TaskYamlRepositoryTest extends Unit
             ->willReturn($setting);
 
         // Act
-        $result = $this->taskYamlRepository->findById('not exist');
+        $result = $this->taskFileRepository->findById('not exist');
 
         // Assert
         $this->assertNull($result);
