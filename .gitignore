@@ -30,3 +30,7 @@ VERSION
 tests/_output/
 tests/_support/_generated/
 ###< codeception ###
+
+###> frontend ###
+node_modules
+###< frontend ###
