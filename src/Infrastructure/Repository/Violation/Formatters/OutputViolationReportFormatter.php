@@ -73,6 +73,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                             $fileViolation->getMessage(),
                             $fileViolation->priority(),
                             $fileViolation->isFixable() ? 'true' : 'false',
+                            $path,
                             $fileViolation->getStartLine(),
                             $fileViolation->getClass(),
                             $fileViolation->getMethod(),
