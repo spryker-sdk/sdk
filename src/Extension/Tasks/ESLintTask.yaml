@@ -31,6 +31,7 @@ placeholders:
     optional: true
     configuration:
       name: 'fix'
+      description: 'Automatically fix problems'
   - name: '%file%'
     value_resolver: STATIC
     optional: true
