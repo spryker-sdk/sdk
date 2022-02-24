@@ -13,7 +13,7 @@ placeholders:
     optional: true
   - name: "%tests%"
     value_resolver: STATIC
-    optional: true
+    optional: false
     configuration:
       name: "tests"
       description: "Relative path to tests directory in project"
