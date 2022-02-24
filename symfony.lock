@@ -369,6 +369,9 @@
     "spryker-sdk/brancho": {
         "version": "1.0.x-dev"
     },
+    "spryker-sdk/composer-replace": {
+        "version": "dev-master"
+    },
     "spryker-sdk/sdk-contracts": {
         "version": "dev-master"
     },
