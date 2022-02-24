@@ -118,7 +118,7 @@ class TaskFileRepository implements TaskRepositoryInterface
             $tasks[$task->getId()] = $task;
         }
 
-        return array_merge($tasks, $this->existingTasks, $this->changePhpCommand());
+        return array_merge($tasks, $this->existingTasks, $this->getPhpTasks());
     }
 
     /**
@@ -438,7 +438,7 @@ class TaskFileRepository implements TaskRepositoryInterface
     /**
      * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task>
      */
-    private function changePhpCommand(): array
+    private function getPhpTasks(): array
     {
         $taskSets = [];
 
