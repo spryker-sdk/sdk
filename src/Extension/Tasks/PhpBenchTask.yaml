@@ -20,7 +20,7 @@ placeholders:
       type: path
   - name: "%bootstrap%"
     value_resolver: STATIC
-    optional: true
+    optional: false
     configuration:
       name: "bootstrap"
       description: "Relative path to bootstrap file in project"
@@ -29,7 +29,7 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "bootstrap"
+      name: "iterations"
       description: "Iterations count"
       type: string
       defaultValue: 1
