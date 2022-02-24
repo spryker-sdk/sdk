@@ -81,6 +81,9 @@ services:
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
     tags: ["console.command"]
+  composer_replace_command:
+    class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
+    tags: [ "console.command" ]
   brancho_commit_command:
     class: SprykerSdk\Sdk\Extension\Commands\CommitCommand
     tags: ["console.command"]

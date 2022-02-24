@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11ca87f10ee19b15bc7d70a84d94056f",
+    "content-hash": "9a1898e571580a41082c66497d1154f4",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4373,6 +4373,46 @@
                 }
             ],
             "time": "2021-12-07T17:19:06+00:00"
+        },
+        {
+            "name": "spryker-sdk/composer-replace",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/composer-replace.git",
+                "reference": "517e6a0ba2ddc40ae34a54327f52c01e05f21ff6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/composer-replace/zipball/517e6a0ba2ddc40ae34a54327f52c01e05f21ff6",
+                "reference": "517e6a0ba2ddc40ae34a54327f52c01e05f21ff6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3",
+                "spryker/symfony": "^3.3.2"
+            },
+            "require-dev": {
+                "spryker/code-sniffer": "*",
+                "spryker/testify": "*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SprykerSdk\\": "src/SprykerSdk/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "ComposerReplace module",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/composer-replace/issues",
+                "source": "https://github.com/spryker-sdk/composer-replace/tree/master"
+            },
+            "time": "2022-02-24T08:49:47+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -14504,6 +14544,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/composer-replace": 20,
         "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
