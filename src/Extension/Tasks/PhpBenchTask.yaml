@@ -4,13 +4,21 @@ short_description: "Check your code efficiency by running a benchmark"
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/phpbench run %tests% --bootstrap=%bootstrap% %iterations% %revs% %report% %time-unit%"
+command: "php %sdk_dir%/vendor/bin/phpbench run %tests% --bootstrap=%bootstrap% %group% %iterations% %revs% %report% %time-unit% --dump-file=%reportDir%/phpbench.benchmark.xml"
 type: local_cli
 optional: false
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
+  - name: "%reportDir%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
   - name: "%tests%"
     value_resolver: STATIC
     optional: false
@@ -25,6 +33,13 @@ placeholders:
       name: "bootstrap"
       description: "Relative path to bootstrap file in project"
       type: path
+  - name: "%group%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: "group"
+      description: "Group to run"
+      type: string
   - name: "%iterations%"
     value_resolver: OPTION
     optional: true
