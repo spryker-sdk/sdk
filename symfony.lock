@@ -235,6 +235,15 @@
     "php-http/promise": {
         "version": "1.1.0"
     },
+    "phpbench/container": {
+        "version": "2.2.1"
+    },
+    "phpbench/dom": {
+        "version": "0.3.2"
+    },
+    "phpbench/phpbench": {
+        "version": "1.2.3"
+    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
@@ -359,6 +368,9 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
+    },
+    "seld/jsonlint": {
+        "version": "1.8.3"
     },
     "slevomat/coding-standard": {
         "version": "7.0.16"

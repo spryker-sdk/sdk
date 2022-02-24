@@ -25,6 +25,7 @@
         "doctrine/orm": "^2.10",
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
+        "phpbench/phpbench": "^1.2",
         "phpstan/phpstan": "^1.2",
         "spryker-sdk/composer-replace": "dev-master",
         "spryker-sdk/sdk-contracts": "dev-master",
