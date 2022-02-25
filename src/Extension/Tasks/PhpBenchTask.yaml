@@ -72,3 +72,8 @@ placeholders:
       description: "Time unit"
       type: string
       defaultValue: milliseconds
+report_converter:
+  name: PhpBenchReportConverter
+  configuration:
+    input_file: phpbench.benchmark.xml
+    producer: phpbench
