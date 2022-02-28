@@ -48,6 +48,8 @@
     "require-dev": {
         "codeception/codeception": "*",
         "codeception/module-asserts": "*",
+        "codeception/module-cli": "*",
+        "codeception/module-filesystem": "*",
         "mikey179/vfsstream": "^1.6",
         "phpunit/php-code-coverage": "^9.2",
         "sllh/composer-versions-check": "^2.0",
@@ -78,7 +80,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SprykerSdk\\Sdk\\Tests\\": "tests/Sdk/Tests/",
+            "SprykerSdk\\Sdk\\": "tests/Sdk/",
             "Hello\\": "extension"
         }
     },
