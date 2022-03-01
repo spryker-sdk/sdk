@@ -57,7 +57,6 @@ class PhpStanTaskCest
         Assert::assertFalse($process->isSuccessful());
         Assert::assertNotEmpty($process->getOutput());
         Assert::assertStringContainsString('Violations found in files', $process->getOutput());
-        Assert::assertStringMatchesFormat('%aProperty %s does not accept string%a', $process->getOutput());
     }
 
     /**
@@ -71,7 +70,7 @@ class PhpStanTaskCest
         $I->cleanReports();
 
         // Act
-        $process = $I->runSdkCommand([
+        $I->runSdkCommand([
             static::COMMAND,
             '--path=src/PhpStan/fail',
             '--format=yaml',
