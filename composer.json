@@ -98,9 +98,10 @@
             "@cs-check",
             "@stan"
         ],
-        "test": "codecept build && codecept run",
-        "test-cover": "codecept build && codecept run --coverage-xml",
-        "test-cover-html": "codecept build && codecept run --coverage-html",
+        "test": "codecept build && codecept run unit",
+        "test-qa": "codecept build && codecept run acceptance",
+        "test-cover": "codecept build && codecept run unit --coverage-xml",
+        "test-cover-html": "codecept build && codecept run unit --coverage-html",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
