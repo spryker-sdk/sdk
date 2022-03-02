@@ -15,7 +15,7 @@ class PhpStanTaskCest
     /**
      * @var string
      */
-    public const COMMAND = 'validation:php:static';
+    protected const COMMAND = 'validation:php:static';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
