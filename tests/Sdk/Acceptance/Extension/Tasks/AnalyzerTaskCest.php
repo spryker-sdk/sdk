@@ -70,7 +70,7 @@ class AnalyzerTaskCest
         $I->cleanReports('upgrader_failing_project');
 
         // Act
-        $process = $I->runSdkCommand(
+        $I->runSdkCommand(
             [
                 static::COMMAND,
                 '--format=yaml',
