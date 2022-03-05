@@ -33,12 +33,7 @@ class AcceptanceTester extends Actor
     /**
      * @var string
      */
-    public const SDK_ROOT = '/data';
-
-    /**
-     * @var string
-     */
-    public const TEST_PROJECT_PATH = 'tests/_support/data/project';
+    public const TESTS_DATA_PATH = 'tests/_support/data';
 
     /**
      * @param string $relativePath
@@ -53,9 +48,19 @@ class AcceptanceTester extends Actor
     /**
      * @return string
      */
-    public function getProjectRoot(): string
+    public function getTestsDataRoot(): string
     {
-        return $this->getPathFromSdkRoot(static::TEST_PROJECT_PATH);
+        return $this->getPathFromSdkRoot(static::TESTS_DATA_PATH);
+    }
+
+    /**
+     * @param string $project
+     *
+     * @return string
+     */
+    public function getProjectRoot(string $project = 'project'): string
+    {
+        return $this->getPathFromTestsDataRoot($project);
     }
 
     /**
@@ -63,32 +68,33 @@ class AcceptanceTester extends Actor
      *
      * @return string
      */
-    public function getPathFromProjectRoot(string $relativePath): string
+    public function getPathFromTestsDataRoot(string $relativePath): string
     {
-        return realpath(sprintf('%s/%s', $this->getProjectRoot(), $relativePath));
+        return realpath(sprintf('%s/%s', $this->getTestsDataRoot(), $relativePath));
     }
 
     /**
      * @return void
      */
-    public function cleanReports(): void
+    public function cleanReports(string $project = 'project'): void
     {
-        $this->cleanDir($this->getPathFromProjectRoot('reports'));
+        $this->cleanDir($this->getPathFromTestsDataRoot("$project/reports"));
     }
 
     /**
      * @param array<string> $command
+     * @param string|null $cwd
      *
      * @return \Symfony\Component\Process\Process
      */
-    public function runSdkCommand(array $command): Process
+    public function runSdkCommand(array $command, ?string $cwd = null): Process
     {
         $process = new Process(
             array_merge(
                 [$this->getPathFromSdkRoot('bin/console')],
                 $command,
             ),
-            $this->getProjectRoot(),
+            $cwd ?? $this->getProjectRoot(),
         );
 
         $process->run();
