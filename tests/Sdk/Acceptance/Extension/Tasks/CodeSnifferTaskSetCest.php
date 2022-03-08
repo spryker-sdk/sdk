@@ -10,12 +10,12 @@ namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
-class CodeSnifferTaskCest
+class CodeSnifferTaskSetCest
 {
     /**
      * @var string
      */
-    protected const COMMAND = 'validation:php:codestyle-check';
+    protected const COMMAND = 'validation:php:codestyle';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
