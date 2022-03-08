@@ -39,7 +39,7 @@ class CodeSnifferTaskCest
         Assert::assertStringNotContainsString('Violation', $process->getOutput());
         Assert::assertStringContainsString(
             '"totals":{"errors":0,"warnings":0,"fixable":0}',
-            file_get_contents($I->getPathFromProjectRoot('reports/phpcs.codestyle.json'))
+            file_get_contents($I->getPathFromProjectRoot('reports/phpcs.codestyle.json')),
         );
     }
 
@@ -66,7 +66,7 @@ class CodeSnifferTaskCest
         Assert::assertStringContainsString('Class name "Success" doesn\'t match filename, expected "Fail"', $process->getOutput());
         Assert::assertStringContainsString(
             '"totals":{"errors":1,"warnings":0,"fixable":0}',
-            file_get_contents($I->getPathFromProjectRoot('reports/phpcs.codestyle.json'))
+            file_get_contents($I->getPathFromProjectRoot('reports/phpcs.codestyle.json')),
         );
     }
 }
