@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -12,13 +12,13 @@ class Success
     /**
      * @var array<string>
      */
-    protected array $test;
+    protected array $tests;
 
     /**
-     * @param array<string> $test
+     * @param array<string> $tests
      */
-    public function __construct(array $test)
+    public function __construct(array $tests)
     {
-        $this->test = $test;
+        $this->tests = $tests;
     }
 }
