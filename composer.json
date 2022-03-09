@@ -90,8 +90,8 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
-        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_support/data/project/, src/ tests/ extension/",
-        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_support/data/project/, src/ tests/ extension/",
+        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_support/data/project/src/CodeSniffer/, src/ tests/ extension/",
+        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_support/data/project/src/CodeSniffer/, src/ tests/ extension/",
         "stan": "phpstan analyze -l 8 src/",
         "linters": [
             "@cs-fix",
