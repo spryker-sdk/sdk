@@ -12,13 +12,13 @@ class Test
     /**
      * @var array<string>
      */
-    protected array $test;
+    protected array $tests;
 
     /**
-     * @param array<string> $test
+     * @param array<string> $tests
      */
-    public function __construct(array $test)
+    public function __construct(array $tests)
     {
-        $this->test = $test;
+        $this->tests = $tests;
     }
 }
