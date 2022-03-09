@@ -4,7 +4,7 @@ short_description: 'Check your javascript code to avoid errors and enforce conve
 help: ~
 stage: build
 version: 0.1.0
-command: 'npx eslint %config% %file% %fix% --format json > %reportDir%/eslint.codestyle.json'
+command: 'npx --prefix %sdk_dir% eslint %config% %file% %fix% --format json > %reportDir%/eslint.codestyle.json'
 type: local_cli
 placeholders:
   - name: '%sdk_dir%'
@@ -22,7 +22,7 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      defaultValue: 'node_modules/@spryker/frontend-config.eslint/.eslintrc.js'
+      defaultValue: null
       name: 'config'
       description: 'Configuration file'
       type: string
@@ -39,7 +39,7 @@ placeholders:
       type: path
       name: 'file'
       description: 'Full path to file'
-      defaultValue: './src/Pyz/Yves'
+      defaultValue: 'src/**/*.{js,ts,jsx,tsx,html,vue}'
 report_converter:
   name: ESLintViolationReportConverter
   configuration:

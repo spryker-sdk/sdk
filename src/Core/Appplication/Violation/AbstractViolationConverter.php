@@ -100,7 +100,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
 
         preg_match(sprintf('~/(%s)/([a-zA-Z/]+)~', $layers), $relatedPathToFile, $matches);
 
-        return str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0]);
+        return str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0] ?? '');
     }
 
     /**
