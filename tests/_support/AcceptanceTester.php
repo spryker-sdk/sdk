@@ -33,7 +33,7 @@ class AcceptanceTester extends Actor
     /**
      * @var string
      */
-    public const TESTS_DATA_PATH = 'tests/_support/data';
+    public const TESTS_DATA_PATH = 'tests/_project';
 
     /**
      * @param string $relativePath
@@ -74,6 +74,8 @@ class AcceptanceTester extends Actor
     }
 
     /**
+     * @param string $project
+     *
      * @return void
      */
     public function cleanReports(string $project = 'project'): void

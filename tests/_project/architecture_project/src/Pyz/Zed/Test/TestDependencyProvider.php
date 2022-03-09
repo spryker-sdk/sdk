@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Pyz\Zed\Test;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
@@ -7,7 +12,6 @@ use Spryker\Zed\Kernel\Container;
 
 class TestDependencyProvider extends AbstractBundleDependencyProvider
 {
-
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -37,5 +41,4 @@ class TestDependencyProvider extends AbstractBundleDependencyProvider
     {
         return $container;
     }
-
 }

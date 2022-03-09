@@ -18,6 +18,11 @@ class ArchitectureSnifferTaskCest
     protected const COMMAND = 'validation:php:architecture';
 
     /**
+     * @var string
+     */
+    protected const PROJECT_DIR = 'architecture_project';
+
+    /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -25,7 +30,7 @@ class ArchitectureSnifferTaskCest
     public function testArchitectureSnifferRunsSuccessfully(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports('architecture_project');
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
@@ -34,7 +39,7 @@ class ArchitectureSnifferTaskCest
                 '--strict=no',
                 '--priority=2',
             ],
-            $I->getPathFromTestsDataRoot('architecture_project'),
+            $I->getPathFromTestsDataRoot(static::PROJECT_DIR),
         );
 
         // Assert
@@ -49,7 +54,7 @@ class ArchitectureSnifferTaskCest
     public function testArchitectureSnifferFindingViolations(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports('architecture_project');
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
@@ -58,7 +63,7 @@ class ArchitectureSnifferTaskCest
                 '--strict=no',
                 '--priority=3',
             ],
-            $I->getPathFromTestsDataRoot('architecture_project'),
+            $I->getPathFromTestsDataRoot(static::PROJECT_DIR),
         );
 
         // Assert
