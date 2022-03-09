@@ -33,14 +33,14 @@ class AcceptanceTester extends Actor
     /**
      * @var string
      */
-    public const TESTS_DATA_PATH = 'tests/_project';
+    protected const TESTS_DATA_PATH = 'tests/_project';
 
     /**
      * @param string $relativePath
      *
      * @return string
      */
-    public function getPathFromSdkRoot(string $relativePath): string
+    protected function getPathFromSdkRoot(string $relativePath): string
     {
         return realpath(sprintf('%s/%s', dirname(__DIR__, 2), $relativePath));
     }
@@ -48,9 +48,19 @@ class AcceptanceTester extends Actor
     /**
      * @return string
      */
-    public function getTestsDataRoot(): string
+    protected function getTestsDataRoot(): string
     {
         return $this->getPathFromSdkRoot(static::TESTS_DATA_PATH);
+    }
+
+    /**
+     * @param string $relativePath
+     *
+     * @return string
+     */
+    protected function getPathFromTestsDataRoot(string $relativePath): string
+    {
+        return realpath(sprintf('%s/%s', $this->getTestsDataRoot(), $relativePath));
     }
 
     /**
@@ -65,12 +75,13 @@ class AcceptanceTester extends Actor
 
     /**
      * @param string $relativePath
+     * @param string $project
      *
      * @return string
      */
-    public function getPathFromTestsDataRoot(string $relativePath): string
+    public function getPathFromProjectRoot(string $relativePath, string $project = 'project'): string
     {
-        return realpath(sprintf('%s/%s', $this->getTestsDataRoot(), $relativePath));
+        return realpath(sprintf('%s/%s', $this->getProjectRoot($project), $relativePath));
     }
 
     /**
@@ -80,7 +91,7 @@ class AcceptanceTester extends Actor
      */
     public function cleanReports(string $project = 'project'): void
     {
-        $this->cleanDir($this->getPathFromTestsDataRoot("$project/reports"));
+        $this->cleanDir($this->getPathFromProjectRoot('reports', $project));
     }
 
     /**

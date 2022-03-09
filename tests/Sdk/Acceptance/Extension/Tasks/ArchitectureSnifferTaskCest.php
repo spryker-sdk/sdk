@@ -39,7 +39,7 @@ class ArchitectureSnifferTaskCest
                 '--strict=no',
                 '--priority=2',
             ],
-            $I->getPathFromTestsDataRoot(static::PROJECT_DIR),
+            $I->getProjectRoot(static::PROJECT_DIR),
         );
 
         // Assert
@@ -63,7 +63,7 @@ class ArchitectureSnifferTaskCest
                 '--strict=no',
                 '--priority=3',
             ],
-            $I->getPathFromTestsDataRoot(static::PROJECT_DIR),
+            $I->getProjectRoot(static::PROJECT_DIR),
         );
 
         // Assert
