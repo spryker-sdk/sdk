@@ -77,6 +77,6 @@ class PhpStanTaskCest
         ]);
 
         // Assert
-        Assert::assertFileExists($I->getPathFromTestsDataRoot('project/reports/' . static::COMMAND . '.violations.yaml'));
+        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml'));
     }
 }

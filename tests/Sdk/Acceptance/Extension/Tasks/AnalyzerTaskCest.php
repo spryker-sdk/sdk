@@ -18,6 +18,16 @@ class AnalyzerTaskCest
     protected const COMMAND = 'analyze:php:code-compliance';
 
     /**
+     * @var string
+     */
+    protected const SUCCESS_PROJECT_DIR = 'upgrader_success_project';
+
+    /**
+     * @var string
+     */
+    protected const FAIL_PROJECT_DIR = 'upgrader_failing_project';
+
+    /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -25,12 +35,12 @@ class AnalyzerTaskCest
     public function testAnalyzerRunsSuccessfully(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports('upgrader_success_project');
+        $I->cleanReports(static::SUCCESS_PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
             [static::COMMAND],
-            $I->getPathFromTestsDataRoot('upgrader_success_project'),
+            $I->getProjectRoot(static::SUCCESS_PROJECT_DIR),
         );
 
         // Assert
@@ -45,12 +55,12 @@ class AnalyzerTaskCest
     public function testAnalyzerFindingViolations(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports('upgrader_failing_project');
+        $I->cleanReports(static::FAIL_PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
             [static::COMMAND],
-            $I->getPathFromTestsDataRoot('upgrader_failing_project'),
+            $I->getProjectRoot(static::FAIL_PROJECT_DIR),
         );
 
         // Assert
@@ -67,7 +77,7 @@ class AnalyzerTaskCest
     public function testAnalyzerGeneratingFileReport(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports('upgrader_failing_project');
+        $I->cleanReports(static::FAIL_PROJECT_DIR);
 
         // Act
         $I->runSdkCommand(
@@ -75,12 +85,12 @@ class AnalyzerTaskCest
                 static::COMMAND,
                 '--format=yaml',
             ],
-            $I->getPathFromTestsDataRoot('upgrader_failing_project'),
+            $I->getProjectRoot(static::FAIL_PROJECT_DIR),
         );
 
         // Assert
         Assert::assertFileExists(
-            $I->getPathFromTestsDataRoot('upgrader_failing_project/reports/' . static::COMMAND . '.violations.yaml'),
+            $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::FAIL_PROJECT_DIR),
         );
     }
 }

@@ -18,6 +18,11 @@ class UpgraderTaskCest
     protected const COMMAND = 'upgradability:php:upgrade';
 
     /**
+     * @var string
+     */
+    protected const PROJECT_DIR = 'upgrader_failing_project';
+
+    /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -25,12 +30,12 @@ class UpgraderTaskCest
     public function testUpgraderFailingBecauseOfEnvs(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports('upgrader_failing_project');
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
             [static::COMMAND],
-            $I->getPathFromTestsDataRoot('upgrader_failing_project'),
+            $I->getProjectRoot(static::PROJECT_DIR),
         );
 
         // Assert
