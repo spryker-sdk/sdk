@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Extension\Converters;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class SecurityViolationReportConverter extends AbstractViolationConverter
@@ -61,21 +60,12 @@ class SecurityViolationReportConverter extends AbstractViolationConverter
 
         foreach ($report as $packageName => $package) {
             foreach ($package['advisories'] as $advisory) {
-                $violations[] = new Violation(
+                $violations[] = (new Violation(
                     uniqid($packageName, true),
                     sprintf('%s - %s', $packageName, $advisory['title']),
-                    ViolationInterface::SEVERITY_ERROR,
-                    null,
-                    $package['version'],
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    [],
-                    false,
-                    $this->producer,
-                );
+                ))
+                    ->setClass($package['version'])
+                    ->setProduced($this->producer);
             }
         }
 

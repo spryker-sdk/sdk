@@ -144,21 +144,22 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
      */
     protected function createViolation(array $violation): ViolationInterface
     {
-        return new Violation(
+        return (new Violation(
             $violation['id'],
             $violation['message'],
-            $violation['severity'] ?: ViolationInterface::SEVERITY_ERROR,
-            $violation['priority'] ?: null,
-            $violation['class'] ?: null,
-            $violation['method'] ?: null,
-            $violation['start_line'] ?: null,
-            $violation['end_line'] ?: null,
-            $violation['start_column'] ?: null,
-            $violation['end_column'] ?: null,
-            $violation['additional_attributes'],
-            $violation['fixable'] ?: false,
-            $violation['produced_by'] ?: '',
-            $violation['fix'] ? new ViolationFix($violation['fix']['type'], $violation['fix']['action']) : null,
-        );
+        )
+        )
+            ->setSeverity($violation['severity'] ?? ViolationInterface::SEVERITY_ERROR)
+            ->setPriority($violation['priority'] ?? null)
+            ->setClass($violation['class'] ?? null)
+            ->setMethod($violation['method'] ?: null)
+            ->setStartLine($violation['start_line'] ?? null)
+            ->setEndLine($violation['end_line'] ?? null)
+            ->setStartColumn($violation['start_column'] ?? null)
+            ->setEndColumn($violation['end_column'] ?? null)
+            ->setAttributes($violation['additional_attributes'])
+            ->setFixable($violation['fixable'] ?? false)
+            ->setProduced($violation['produced_by'] ?? '')
+            ->setFix(isset($violation['fix']) ? new ViolationFix($violation['fix']['type'], $violation['fix']['action']) : null);
     }
 }

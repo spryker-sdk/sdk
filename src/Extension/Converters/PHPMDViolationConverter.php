@@ -11,7 +11,6 @@ use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class PHPMDViolationConverter extends AbstractViolationConverter
@@ -84,21 +83,18 @@ class PHPMDViolationConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['violations'] as $violation) {
-                $fileViolations[$relatedPathToFile][] = new Violation(
+                $fileViolations[$relatedPathToFile][] = (new Violation(
                     basename($relatedPathToFile, '.php'),
                     $violation['description'],
-                    ViolationInterface::SEVERITY_ERROR,
-                    $violation['priority'],
-                    $classNamespace,
-                    (int)$violation['beginLine'],
-                    (int)$violation['endLine'],
-                    null,
-                    null,
-                    $violation['method'],
-                    $violation,
-                    false,
-                    $this->producer,
-                );
+                )
+                )
+                ->setPriority($violation['priority'])
+                ->setClass($classNamespace)
+                ->setStartLine($violation['beginLine'])
+                ->setEndLine($violation['endLine'])
+                ->setMethod($violation['method'])
+                ->setAttributes($violation)
+                ->setProduced($this->producer);
             }
 
             $packages[] = new PackageViolationReport(

@@ -11,7 +11,6 @@ use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ScssLinterViolationReportConverter extends AbstractViolationConverter
@@ -86,21 +85,13 @@ class ScssLinterViolationReportConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['warnings'] as $warning) {
-                $fileViolations[$relatedPathToFile][] = new Violation(
-                    basename($relatedPathToFile, '.scss'),
-                    $warning['text'],
-                    ViolationInterface::SEVERITY_ERROR,
-                    null,
-                    null,
-                    (int)$warning['line'],
-                    (int)$warning['line'],
-                    (int)$warning['column'],
-                    (int)$warning['column'],
-                    null,
-                    $warning,
-                    false,
-                    $this->producer,
-                );
+                $fileViolations[$relatedPathToFile][] = (new Violation(basename($relatedPathToFile, '.scss'), $warning['text']))
+                    ->setStartLine((int)$warning['line'])
+                    ->setEndLine((int)$warning['line'])
+                    ->setStartColumn((int)$warning['column'])
+                    ->setEndColumn((int)$warning['column'])
+                    ->setAttributes($warning)
+                    ->setProduced($this->producer);
             }
 
             $packages[] = new PackageViolationReport(

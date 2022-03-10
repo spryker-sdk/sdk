@@ -112,22 +112,23 @@ class ContextSerializer
      */
     protected function convertArrayToViolationReportConverter(array $reportData): ViolationInterface
     {
-        return new Violation(
+        return (new Violation(
             $reportData['id'],
             $reportData['message'],
-            $reportData['severity'],
-            $reportData['priority'],
-            $reportData['class'],
-            $reportData['start_line'],
-            $reportData['end_line'],
-            $reportData['start_column'],
-            $reportData['end_column'],
-            $reportData['method'],
-            $reportData['additional_attributes'],
-            $reportData['is_fixable'],
-            $reportData['produced_by'],
-            $reportData['fix'] ? new ViolationFix($reportData['fix']['type'], $reportData['fix']['action']) : null,
-        );
+        )
+        )
+            ->setSeverity($reportData['severity'])
+            ->setPriority($reportData['priority'])
+            ->setClass($reportData['class'])
+            ->setStartLine($reportData['start_line'])
+            ->setEndLine($reportData['end_line'])
+            ->setStartColumn($reportData['start_column'])
+            ->setEndColumn($reportData['end_column'])
+            ->setMethod($reportData['method'])
+            ->setAttributes($reportData['additional_attributes'])
+            ->setFixable($reportData['is_fixable'])
+            ->setProduced($reportData['produced_by'])
+            ->setFix($reportData['fix'] ? new ViolationFix($reportData['fix']['type'], $reportData['fix']['action']) : null);
     }
 
     /**
