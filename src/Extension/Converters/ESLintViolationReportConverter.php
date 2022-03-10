@@ -76,11 +76,7 @@ class ESLintViolationReportConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['messages'] as $message) {
-                $fileViolations[$relatedPathToFile][] = (new Violation(
-                    basename($relatedPathToFile),
-                    $message['message'],
-                )
-                )
+                $fileViolations[$relatedPathToFile][] = (new Violation(basename($relatedPathToFile), $message['message']))
                     ->setSeverity($this->mapSeverity($message['severity']))
                     ->setStartLine((int)$message['line'])
                     ->setEndLine((int)($message['endLine'] ?? $message['line']))

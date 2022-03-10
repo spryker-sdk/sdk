@@ -144,11 +144,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
      */
     protected function createViolation(array $violation): ViolationInterface
     {
-        return (new Violation(
-            $violation['id'],
-            $violation['message'],
-        )
-        )
+        return (new Violation($violation['id'], $violation['message']))
             ->setSeverity($violation['severity'] ?? ViolationInterface::SEVERITY_ERROR)
             ->setPriority($violation['priority'] ?? null)
             ->setClass($violation['class'] ?? null)

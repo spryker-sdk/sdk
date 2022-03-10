@@ -112,11 +112,7 @@ class ContextSerializer
      */
     protected function convertArrayToViolationReportConverter(array $reportData): ViolationInterface
     {
-        return (new Violation(
-            $reportData['id'],
-            $reportData['message'],
-        )
-        )
+        return (new Violation($reportData['id'], $reportData['message']))
             ->setSeverity($reportData['severity'])
             ->setPriority($reportData['priority'])
             ->setClass($reportData['class'])

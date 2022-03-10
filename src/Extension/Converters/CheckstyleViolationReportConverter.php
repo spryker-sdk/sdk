@@ -86,11 +86,7 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['messages'] as $message) {
-                $fileViolations[$relatedPathToFile][] = (new Violation(
-                    basename($relatedPathToFile, '.php'),
-                    $message['message'],
-                )
-                )
+                $fileViolations[$relatedPathToFile][] = (new Violation(basename($relatedPathToFile, '.php'), $message['message']))
                     ->setClass($classNamespace)
                     ->setStartLine($message['line'])
                     ->setEndLine($message['line'])

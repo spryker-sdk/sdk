@@ -83,18 +83,14 @@ class PHPMDViolationConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['violations'] as $violation) {
-                $fileViolations[$relatedPathToFile][] = (new Violation(
-                    basename($relatedPathToFile, '.php'),
-                    $violation['description'],
-                )
-                )
-                ->setPriority($violation['priority'])
-                ->setClass($classNamespace)
-                ->setStartLine($violation['beginLine'])
-                ->setEndLine($violation['endLine'])
-                ->setMethod($violation['method'])
-                ->setAttributes($violation)
-                ->setProduced($this->producer);
+                $fileViolations[$relatedPathToFile][] = (new Violation(basename($relatedPathToFile, '.php'), $violation['description']))
+                    ->setPriority($violation['priority'])
+                    ->setClass($classNamespace)
+                    ->setStartLine($violation['beginLine'])
+                    ->setEndLine($violation['endLine'])
+                    ->setMethod($violation['method'])
+                    ->setAttributes($violation)
+                    ->setProduced($this->producer);
             }
 
             $packages[] = new PackageViolationReport(
