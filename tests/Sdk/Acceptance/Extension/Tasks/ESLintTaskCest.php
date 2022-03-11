@@ -121,13 +121,14 @@ class ESLintTaskCest
         $I->cleanReports();
 
         // Act
-        $process = $I->runSdkCommand([
-            static::COMMAND,
-            '--file=src/success',
-            '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
-            '--format=yaml',
-            '--report_dir=notExists',
-        ],
+        $process = $I->runSdkCommand(
+            [
+                static::COMMAND,
+                '--file=src/success',
+                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+                '--format=yaml',
+                '--report_dir=notExists',
+            ],
             $I->getProjectRoot(static::PROJECT_DIR),
         );
 
@@ -148,12 +149,13 @@ class ESLintTaskCest
         $I->cleanReports();
 
         // Act
-        $process = $I->runSdkCommand([
-            static::COMMAND,
-            '--file=src/failed',
-            '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, static::PROJECT_DIR),
-            '--format=yaml',
-        ],
+        $process = $I->runSdkCommand(
+            [
+                static::COMMAND,
+                '--file=src/failed',
+                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, static::PROJECT_DIR),
+                '--format=yaml',
+            ],
             $I->getProjectRoot(static::PROJECT_DIR),
         );
 
