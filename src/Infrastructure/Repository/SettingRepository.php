@@ -51,6 +51,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             'path' => $settingPath,
         ]);
 
+        /** @phpstan-ignore-next-line */
         if (!$setting) {
             return null;
         }
