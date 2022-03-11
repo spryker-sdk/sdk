@@ -42,7 +42,7 @@ class AcceptanceTester extends Actor
      */
     protected function getPathFromSdkRoot(string $relativePath): string
     {
-        return realpath(sprintf('%s/%s', dirname(__DIR__, 2), $relativePath));
+        return realpath(sprintf('%s/%s', dirname(__DIR__, 3), $relativePath));
     }
 
     /**
