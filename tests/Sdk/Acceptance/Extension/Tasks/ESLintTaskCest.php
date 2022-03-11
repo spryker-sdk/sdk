@@ -20,7 +20,7 @@ class ESLintTaskCest
     /**
      * @var string
      */
-    private const REPORT = 'eslint.codestyle.json';
+    protected const PROJECT_DIR = 'eslint';
 
     /**
      * @var string
@@ -38,15 +38,21 @@ class ESLintTaskCest
         $I->cleanReports();
 
         // Act
-        $process = $I->runSdkCommand([
-            static::COMMAND,
-            '--file=src/ESLint/success',
-            '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
-        ]);
+        $process = $I->runSdkCommand(
+            [
+                static::COMMAND,
+                '--file=src/success',
+                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+                '--format=yaml',
+            ],
+            $I->getProjectRoot(static::PROJECT_DIR),
+        );
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/'));
+        Assert::assertFileExists(
+            $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR),
+        );
         Assert::assertStringNotContainsString('Violations found in files', $process->getOutput());
     }
 
@@ -63,15 +69,16 @@ class ESLintTaskCest
         // Act
         $process = $I->runSdkCommand([
             static::COMMAND,
-            '--file=src/ESLint/success',
+            '--file=src/success',
             '--config=notExists.js',
-        ]);
+            '--format=yaml',
+        ],
+            $I->getProjectRoot(static::PROJECT_DIR),);
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::REPORT));
         Assert::assertStringContainsString('at createCLIConfigArray', $process->getOutput());
-        Assert::assertEmpty(file_get_contents($I->getPathFromProjectRoot('reports/' . static::REPORT)));
+        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -88,14 +95,16 @@ class ESLintTaskCest
         $process = $I->runSdkCommand([
             static::COMMAND,
             '--file=notExists',
-            '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
-        ]);
+            '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+            '--format=yaml',
+        ],
+            $I->getProjectRoot(static::PROJECT_DIR),
+        );
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
         Assert::assertStringContainsString('Please check for typing mistakes in the pattern.', $process->getOutput());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::REPORT));
-        Assert::assertEmpty(file_get_contents($I->getPathFromProjectRoot('reports/' . static::REPORT)));
+        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -111,16 +120,18 @@ class ESLintTaskCest
         // Act
         $process = $I->runSdkCommand([
             static::COMMAND,
-            '--file=src/ESLint/success',
-            '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
+            '--file=src/success',
+            '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+            '--format=yaml',
             '--report_dir=notExists',
-        ]);
+        ],
+            $I->getProjectRoot(static::PROJECT_DIR),
+        );
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
         Assert::assertStringContainsString('cannot create notExists/eslint.codestyle.json: Directory nonexistent', $process->getOutput());
-        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('reports/' . static::REPORT));
-        Assert::assertEmpty($I->getPathFromProjectRoot('reports/' . static::REPORT));
+        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -136,15 +147,15 @@ class ESLintTaskCest
         // Act
         $process = $I->runSdkCommand([
             static::COMMAND,
-            '--file=src/ESLint/failed',
-            '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
-        ]);
+            '--file=src/failed',
+            '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, static::PROJECT_DIR),
+            '--format=yaml',
+        ],
+            $I->getProjectRoot(static::PROJECT_DIR),
+        );
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertStringContainsString('failed.js', $process->getOutput());
-        Assert::assertStringContainsString('Violations found in files', $process->getOutput());
-        Assert::assertStringContainsString('Expected an assignment or function call and instead saw an expression.', $process->getOutput());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::REPORT));
+        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 }
