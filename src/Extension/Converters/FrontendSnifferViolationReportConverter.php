@@ -170,21 +170,9 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     {
         $cleanLine = $this->stripColors($reportLines[$offset]);
         if (preg_match('/^(?<id>[\w-]+)/', $cleanLine, $matches)) {
-            $violations[] = new Violation(
-                $matches['id'] ?? '',
-                $cleanLine,
-                ViolationInterface::SEVERITY_WARNING,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                [],
-                false,
-                $this->producer,
-            );
+            $violations[] = (new Violation($matches['id'] ?? '', $cleanLine))
+                ->setSeverity(ViolationInterface::SEVERITY_WARNING)
+                ->setProduced($this->producer);
         }
     }
 
@@ -200,21 +188,9 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
         $firstLine = $this->stripColors($reportLines[$offset]);
         if (preg_match('/(?<message>.* (?<type>[\w-]+) (?<name>[\w-]+)):$/', $firstLine, $matches)) {
             $secondLine = $this->stripColors($reportLines[++$offset]);
-            $violations[] = new Violation(
-                $matches['name'] ?? '',
-                $matches['message'] ?? '',
-                ViolationInterface::SEVERITY_ERROR,
-                null,
-                $secondLine,
-                null,
-                null,
-                null,
-                null,
-                null,
-                [],
-                false,
-                $this->producer,
-            );
+            $violations[] = (new Violation($matches['name'] ?? '', $matches['message'] ?? ''))
+                ->setClass($secondLine)
+                ->setProduced($this->producer);
         }
     }
 

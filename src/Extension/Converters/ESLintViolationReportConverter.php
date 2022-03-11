@@ -76,21 +76,14 @@ class ESLintViolationReportConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['messages'] as $message) {
-                $fileViolations[$relatedPathToFile][] = new Violation(
-                    basename($relatedPathToFile),
-                    $message['message'],
-                    $this->mapSeverity($message['severity']),
-                    null,
-                    null,
-                    (int)$message['line'],
-                    (int)($message['endLine'] ?? $message['line']),
-                    (int)$message['column'],
-                    (int)($message['endColumn'] ?? $message['column']),
-                    null,
-                    $message,
-                    false,
-                    $this->producer,
-                );
+                $fileViolations[$relatedPathToFile][] = (new Violation(basename($relatedPathToFile), $message['message']))
+                    ->setSeverity($this->mapSeverity($message['severity']))
+                    ->setStartLine((int)$message['line'])
+                    ->setEndLine((int)($message['endLine'] ?? $message['line']))
+                    ->setStartColumn((int)$message['column'])
+                    ->setEndColumn((int)($message['endColumn'] ?? $message['column']))
+                    ->setAttributes($message)
+                    ->setProduced($this->producer);
             }
 
             $packages[] = new PackageViolationReport(
