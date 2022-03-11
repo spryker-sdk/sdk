@@ -44,7 +44,7 @@ class TaskDeprecatedAction implements SdkUpdateActionInterface
             if ($tasksFromDirectory->getSuccessor()) {
                 $successor = $this->taskRepository->find($tasksFromDirectory->getSuccessor());
 
-                if ($successor === null) {
+                if (!$successor) {
                     $this->taskManager->initialize([$tasksFromDirectories[$tasksFromDirectory->getSuccessor()]]);
                 }
             }

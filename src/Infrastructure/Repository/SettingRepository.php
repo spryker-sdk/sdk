@@ -51,7 +51,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             'path' => $settingPath,
         ]);
 
-        if ($setting === null) {
+        if (!$setting) {
             return null;
         }
 
