@@ -22,7 +22,7 @@ class PhpStanTaskCest
      *
      * @return void
      */
-    public function testSuccess(AcceptanceTester $I)
+    public function testPhpStanRunsSuccessfully(AcceptanceTester $I): void
     {
         // Arrange
         $I->cleanReports();
@@ -42,7 +42,7 @@ class PhpStanTaskCest
      *
      * @return void
      */
-    public function testFail(AcceptanceTester $I)
+    public function testPhpStanFindingViolations(AcceptanceTester $I): void
     {
         // Arrange
         $I->cleanReports();
@@ -64,7 +64,7 @@ class PhpStanTaskCest
      *
      * @return void
      */
-    public function testFileReport(AcceptanceTester $I)
+    public function testPhpStanGeneratingFileReport(AcceptanceTester $I): void
     {
         // Arrange
         $I->cleanReports();

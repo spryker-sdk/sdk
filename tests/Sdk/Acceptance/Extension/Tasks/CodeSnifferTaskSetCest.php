@@ -31,11 +31,12 @@ class CodeSnifferTaskSetCest
         $process = $I->runSdkCommand([
             static::COMMAND,
             '--path=src/CodeSniffer/success',
+            '--format=yaml',
         ]);
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/phpcs.codestyle.json'));
+        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml'));
     }
 
     /**
@@ -52,10 +53,11 @@ class CodeSnifferTaskSetCest
         $process = $I->runSdkCommand([
             static::COMMAND,
             '--path=src/CodeSniffer/fail',
+            '--format=yaml',
         ]);
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/phpcs.codestyle.json'));
+        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml'));
     }
 }
