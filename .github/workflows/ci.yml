@@ -63,6 +63,14 @@ jobs:
         if: ${{ matrix.php-version == '8.1' }}
         run: composer test
 
+      -   name: Codecept acceptance tests
+          if: ${{ matrix.php-version == '8.0' }}
+          run: composer test-qa
+
+      -   name: Codecept acceptance tests
+          if: ${{ matrix.php-version == '8.1' }}
+          run: composer test-qa
+
       - name: Codecept tests with coverage
         if: ${{ matrix.php-version == '8.0' }}
         run: composer test-cover
