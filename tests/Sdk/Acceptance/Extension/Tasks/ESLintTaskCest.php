@@ -67,13 +67,15 @@ class ESLintTaskCest
         $I->cleanReports();
 
         // Act
-        $process = $I->runSdkCommand([
-            static::COMMAND,
-            '--file=src/success',
-            '--config=notExists.js',
-            '--format=yaml',
-        ],
-            $I->getProjectRoot(static::PROJECT_DIR),);
+        $process = $I->runSdkCommand(
+            [
+                static::COMMAND,
+                '--file=src/success',
+                '--config=notExists.js',
+                '--format=yaml',
+            ],
+            $I->getProjectRoot(static::PROJECT_DIR),
+        );
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
@@ -92,12 +94,13 @@ class ESLintTaskCest
         $I->cleanReports();
 
         // Act
-        $process = $I->runSdkCommand([
-            static::COMMAND,
-            '--file=notExists',
-            '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
-            '--format=yaml',
-        ],
+        $process = $I->runSdkCommand(
+            [
+                static::COMMAND,
+                '--file=notExists',
+                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+                '--format=yaml',
+            ],
             $I->getProjectRoot(static::PROJECT_DIR),
         );
 
