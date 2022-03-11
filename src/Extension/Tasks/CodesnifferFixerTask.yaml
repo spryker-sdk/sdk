@@ -11,6 +11,12 @@ placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
+  - name: "%severity%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: 'severity'
+      description: 'Severity level'
   - name: "%path%"
     value_resolver: STATIC
     optional: false
