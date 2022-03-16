@@ -96,21 +96,19 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
             $classNamespace = $this->resolveClassNamespace($relatedPathToFile);
 
             $fileViolations = [];
-            $fileViolations[$relatedPathToFile][] = new Violation(
+            $violation = new Violation(
                 basename($relatedPathToFile, '.php'),
                 $testCase['message'],
-                ViolationInterface::SEVERITY_ERROR,
-                null,
-                $classNamespace,
-                (int) ($testCase['trace'][0]['line'] ?? null),
-                (int) ($testCase['trace'][0]['line'] ?? null),
-               null,
-                null,
-                $testCase['trace'][1]['function'] ?? null,
-                [],
-                false,
-                $this->producer,
             );
+
+            $violation->setProduced($this->producer);
+            $violation->setFixable(false);
+            $violation->setClass($classNamespace);
+            $violation->setSeverity( ViolationInterface::SEVERITY_ERROR);
+            $violation->setStartLine((int) ($testCase['trace'][0]['line'] ?? null));
+            $violation->setMethod($testCase['trace'][1]['function'] ?? null);
+
+            $fileViolations[$relatedPathToFile][] = $violation;
 
             $packages[] = new PackageViolationReport(
                 $moduleName,
