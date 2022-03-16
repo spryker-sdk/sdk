@@ -211,7 +211,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setSeverity(string $severity)
+    public function setSeverity(string $severity): self
     {
         $this->severity = $severity;
 
@@ -223,7 +223,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setFixable(bool $fixable)
+    public function setFixable(bool $fixable): self
     {
         $this->fixable = $fixable;
 
@@ -235,7 +235,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setProduced(string $produced)
+    public function setProduced(string $produced): self
     {
         $this->produced = $produced;
 
@@ -247,7 +247,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setPriority(?string $priority)
+    public function setPriority(?string $priority): self
     {
         $this->priority = $priority;
 
@@ -259,7 +259,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setClass(?string $class)
+    public function setClass(?string $class): self
     {
         $this->class = $class;
 
@@ -271,7 +271,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setStartLine(?int $startLine)
+    public function setStartLine(?int $startLine): self
     {
         $this->startLine = $startLine;
 
@@ -283,7 +283,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setEndLine(?int $endLine)
+    public function setEndLine(?int $endLine): self
     {
         $this->endLine = $endLine;
 
@@ -295,7 +295,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setStartColumn(?int $startColumn)
+    public function setStartColumn(?int $startColumn): self
     {
         $this->startColumn = $startColumn;
 
@@ -307,7 +307,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setEndColumn(?int $endColumn)
+    public function setEndColumn(?int $endColumn): self
     {
         $this->endColumn = $endColumn;
 
@@ -319,7 +319,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setMethod(?string $method)
+    public function setMethod(?string $method): self
     {
         $this->method = $method;
 
@@ -331,7 +331,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes): self
     {
         $this->attributes = $attributes;
 
@@ -343,7 +343,7 @@ class Violation implements ViolationInterface
      *
      * @return $this
      */
-    public function setFix(?ViolationFixInterface $fix)
+    public function setFix(?ViolationFixInterface $fix): self
     {
         $this->fix = $fix;
 

@@ -64,7 +64,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
             return null;
         }
 
-        $testCases = array_filter($testCases, function($testCase) {
+        $testCases = array_filter($testCases, function ($testCase) {
             return $testCase['event'] === 'test';
         });
 
@@ -101,14 +101,13 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
                 $testCase['message'],
             );
 
-            $violation->setProduced($this->producer);
-            $violation->setFixable(false);
-            $violation->setClass($classNamespace);
-            $violation->setSeverity( ViolationInterface::SEVERITY_ERROR);
-            $violation->setStartLine((int) ($testCase['trace'][0]['line'] ?? null));
-            $violation->setMethod($testCase['trace'][1]['function'] ?? null);
-
-            $fileViolations[$relatedPathToFile][] = $violation;
+            $fileViolations[$relatedPathToFile][] = $violation
+                ->setProduced($this->producer)
+                ->setFixable(false)
+                ->setClass($classNamespace)
+                ->setSeverity(ViolationInterface::SEVERITY_ERROR)
+                ->setStartLine((int)($testCase['trace'][0]['line'] ?? null))
+                ->setMethod($testCase['trace'][1]['function'] ?? null);
 
             $packages[] = new PackageViolationReport(
                 $moduleName,
