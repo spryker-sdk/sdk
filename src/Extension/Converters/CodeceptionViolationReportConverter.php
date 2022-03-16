@@ -25,6 +25,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
      * @var string
      */
     protected string $fileName;
+
     /**
      * @var string
      */
@@ -60,7 +61,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
 
         $testCases = json_decode($jsonReport, true);
 
-        if (empty($testCases)) {
+        if (count($testCases) === 0) {
             return null;
         }
 
@@ -86,7 +87,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
     {
         $packages = [];
         foreach ($testCases as $testCase) {
-            if ($testCase['status'] !== self::FAIL) {
+            if ($testCase['status'] !== static::FAIL) {
                 continue;
             }
 
