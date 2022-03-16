@@ -96,7 +96,8 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
             $classNamespace = $this->resolveClassNamespace($relatedPathToFile);
 
             $fileViolations = [];
-            $fileViolations[$relatedPathToFile][] = new Violation(
+            $fileViolations[$relatedPathToFile][] = new Violation
+            (
                 basename($relatedPathToFile, '.php'),
                 $testCase['message'],
                 ViolationInterface::SEVERITY_ERROR,
