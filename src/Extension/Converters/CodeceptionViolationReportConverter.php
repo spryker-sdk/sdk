@@ -86,7 +86,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
     {
         $packages = [];
         foreach ($testCases as $testCase) {
-            if ($testCase['status'] !== static::FAIL) {
+            if ($testCase['status'] !== self::FAIL) {
                 continue;
             }
 
@@ -102,7 +102,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
                 ViolationInterface::SEVERITY_ERROR,
                 null,
                 $classNamespace,
-                (int) $testCase['trace'][0]['line'] ?? 0,
+                (int) $testCase['trace'][0]['line'],
                 null,
                null,
                 null,
