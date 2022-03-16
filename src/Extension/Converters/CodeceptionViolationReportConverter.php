@@ -19,11 +19,6 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
     /**
      * @var string
      */
-    private const FAIL = 'fail';
-
-    /**
-     * @var string
-     */
     protected string $fileName;
 
     /**
@@ -87,7 +82,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
     {
         $packages = [];
         foreach ($testCases as $testCase) {
-            if ($testCase['status'] !== static::FAIL) {
+            if ($testCase['status'] !== 'fail') {
                 continue;
             }
 
