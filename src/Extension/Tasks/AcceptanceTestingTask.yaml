@@ -18,3 +18,8 @@ placeholders:
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+report_converter:
+  name: CodeceptionViolationReportConverter
+  configuration:
+    input_file: codeception.report.json
+    producer: codeception
