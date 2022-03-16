@@ -102,7 +102,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
                 ViolationInterface::SEVERITY_ERROR,
                 null,
                 $classNamespace,
-                (int) $testCase['trace'][0]['line'],
+                (int) ($testCase['trace'][0]['line'] ?? null),
                 null,
                null,
                 null,
