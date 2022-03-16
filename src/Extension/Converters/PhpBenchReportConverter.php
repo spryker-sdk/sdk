@@ -79,39 +79,20 @@ class PhpBenchReportConverter extends AbstractViolationConverter
         $results = [];
         foreach ((array)$report->xpath('suite/benchmark') as $benchmark) {
             foreach ((array)$benchmark->xpath('subject/variant/errors/error') as $error) {
-                $results[] = new Violation(
-                    (string)($benchmark->subject['name'] ?? ''),
-                    (string)$error,
-                    ViolationInterface::SEVERITY_ERROR,
-                    null,
-                    (string)($error['exception-class'] ?? ''),
-                    (int)($error['line'] ?? ''),
-                    null,
-                    null,
-                    null,
-                    null,
-                    [],
-                    false,
-                    $this->producer,
-                );
+                $results[] = (new Violation((string)($benchmark->subject['name'] ?? ''), (string)$error))
+                    ->setClass((string)($error['exception-class'] ?? ''))
+                    ->setStartLine((int)($error['line'] ?? ''))
+                    ->setProduced($this->producer);
             }
 
             foreach ((array)$benchmark->xpath('subject/variant/iteration') as $iteration) {
-                $results[] = new Violation(
-                    (string)($benchmark->subject['name'] ?? ''),
-                    (string)($benchmark->subject['name'] ?? ''),
-                    ViolationInterface::SEVERITY_INFO,
-                    null,
-                    (string)($benchmark['class'] ?? ''),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    ((array)$iteration)['@attributes'] ?? [],
-                    false,
-                    $this->producer,
-                );
+                $subjectName = (string)($benchmark->subject['name'] ?? '');
+
+                $results[] = (new Violation($subjectName, $subjectName))
+                    ->setSeverity(ViolationInterface::SEVERITY_INFO)
+                    ->setClass((string)($benchmark['class'] ?? ''))
+                    ->setAttributes(((array)$iteration)['@attributes'] ?? [])
+                    ->setProduced($this->producer);
             }
         }
 

@@ -25,109 +25,71 @@ class Violation implements ViolationInterface
     /**
      * @var string
      */
-    protected string $severity;
+    protected string $severity = ViolationInterface::SEVERITY_ERROR;
 
     /**
      * @var bool
      */
-    protected bool $fixable;
+    protected bool $fixable = false;
 
     /**
      * @var string
      */
-    protected string $produced;
+    protected string $produced = '';
 
     /**
      * @var string|null
      */
-    protected ?string $priority;
+    protected ?string $priority = null;
 
     /**
      * @var string|null
      */
-    protected ?string $class;
+    protected ?string $class = null;
 
     /**
      * @var int|null
      */
-    protected ?int $startLine;
+    protected ?int $startLine = null;
 
     /**
      * @var int|null
      */
-    protected ?int $endLine;
+    protected ?int $endLine = null;
 
     /**
      * @var int|null
      */
-    protected ?int $startColumn;
+    protected ?int $startColumn = null;
 
     /**
      * @var int|null
      */
-    protected ?int $endColumn;
+    protected ?int $endColumn = null;
 
     /**
      * @var string|null
      */
-    protected ?string $method;
+    protected ?string $method = null;
 
     /**
      * @var array
      */
-    protected array $attributes;
+    protected array $attributes = [];
 
     /**
      * @var \SprykerSdk\SdkContracts\Violation\ViolationFixInterface
      */
-    protected ?ViolationFixInterface $fix;
+    protected ?ViolationFixInterface $fix = null;
 
     /**
      * @param string $id
      * @param string $message
-     * @param string $severity
-     * @param string|null $priority
-     * @param string|null $class
-     * @param int|null $startLine
-     * @param int|null $endLine
-     * @param int|null $startColumn
-     * @param int|null $endColumn
-     * @param string|null $method
-     * @param array $attributes
-     * @param bool $fixable
-     * @param string $produced
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null $fix
      */
-    public function __construct(
-        string $id,
-        string $message,
-        string $severity = ViolationInterface::SEVERITY_ERROR,
-        ?string $priority = null,
-        ?string $class = null,
-        ?int $startLine = null,
-        ?int $endLine = null,
-        ?int $startColumn = null,
-        ?int $endColumn = null,
-        ?string $method = null,
-        array $attributes = [],
-        bool $fixable = false,
-        string $produced = '',
-        ?ViolationFixInterface $fix = null
-    ) {
+    public function __construct(string $id, string $message)
+    {
         $this->id = $id;
         $this->message = $message;
-        $this->severity = $severity;
-        $this->priority = $priority;
-        $this->class = $class;
-        $this->startLine = $startLine;
-        $this->endLine = $endLine;
-        $this->startColumn = $startColumn;
-        $this->endColumn = $endColumn;
-        $this->method = $method;
-        $this->attributes = $attributes;
-        $this->fixable = $fixable;
-        $this->produced = $produced;
-        $this->fix = $fix;
     }
 
     /**
@@ -242,5 +204,149 @@ class Violation implements ViolationInterface
     public function getFix(): ?ViolationFixInterface
     {
         return $this->fix;
+    }
+
+    /**
+     * @param string $severity
+     *
+     * @return $this
+     */
+    public function setSeverity(string $severity)
+    {
+        $this->severity = $severity;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $fixable
+     *
+     * @return $this
+     */
+    public function setFixable(bool $fixable)
+    {
+        $this->fixable = $fixable;
+
+        return $this;
+    }
+
+    /**
+     * @param string $produced
+     *
+     * @return $this
+     */
+    public function setProduced(string $produced)
+    {
+        $this->produced = $produced;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $priority
+     *
+     * @return $this
+     */
+    public function setPriority(?string $priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $class
+     *
+     * @return $this
+     */
+    public function setClass(?string $class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $startLine
+     *
+     * @return $this
+     */
+    public function setStartLine(?int $startLine)
+    {
+        $this->startLine = $startLine;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $endLine
+     *
+     * @return $this
+     */
+    public function setEndLine(?int $endLine)
+    {
+        $this->endLine = $endLine;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $startColumn
+     *
+     * @return $this
+     */
+    public function setStartColumn(?int $startColumn)
+    {
+        $this->startColumn = $startColumn;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $endColumn
+     *
+     * @return $this
+     */
+    public function setEndColumn(?int $endColumn)
+    {
+        $this->endColumn = $endColumn;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $method
+     *
+     * @return $this
+     */
+    public function setMethod(?string $method)
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null $fix
+     *
+     * @return $this
+     */
+    public function setFix(?ViolationFixInterface $fix)
+    {
+        $this->fix = $fix;
+
+        return $this;
     }
 }

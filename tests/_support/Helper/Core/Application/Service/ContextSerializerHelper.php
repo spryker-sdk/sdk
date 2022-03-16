@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Tests\Helper\Core\Application\Service;
 use Codeception\Module;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
@@ -71,21 +72,19 @@ class ContextSerializerHelper extends Module
      */
     public function createViolationReportConverter(array $reportData): ViolationInterface
     {
-        return new Violation(
-            $reportData['id'],
-            $reportData['message'],
-            $reportData['severity'],
-            $reportData['priority'],
-            $reportData['class'],
-            $reportData['start_line'],
-            $reportData['end_line'],
-            $reportData['start_column'],
-            $reportData['end_column'],
-            $reportData['method'],
-            $reportData['additional_attributes'],
-            $reportData['is_fixable'],
-            $reportData['produced_by'],
-        );
+        return (new Violation($reportData['id'], $reportData['message']))
+            ->setSeverity($reportData['severity'])
+            ->setPriority($reportData['priority'])
+            ->setClass($reportData['class'])
+            ->setStartLine($reportData['start_line'])
+            ->setEndLine($reportData['end_line'])
+            ->setStartColumn($reportData['start_column'])
+            ->setEndColumn($reportData['end_column'])
+            ->setMethod($reportData['method'])
+            ->setAttributes($reportData['additional_attributes'])
+            ->setFixable($reportData['is_fixable'])
+            ->setProduced($reportData['produced_by'])
+            ->setFix($reportData['fix'] ? new ViolationFix($reportData['fix']['type'], $reportData['fix']['action']) : null);
     }
 
     /**
