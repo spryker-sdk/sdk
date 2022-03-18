@@ -53,7 +53,6 @@ class ESLintTaskCest
         Assert::assertFileExists(
             $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR),
         );
-        Assert::assertStringNotContainsString('Violations found in files', $process->getOutput());
     }
 
     /**
@@ -79,7 +78,6 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertStringContainsString('at createCLIConfigArray', $process->getOutput());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
@@ -106,7 +104,6 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertStringContainsString('Please check for typing mistakes in the pattern.', $process->getOutput());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
@@ -134,7 +131,6 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertStringContainsString('cannot create notExists/eslint.codestyle.json: Directory nonexistent', $process->getOutput());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
