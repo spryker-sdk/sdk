@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df1bf43e2bd56d1f02d7bd8820dd7b06",
+    "content-hash": "c386507a6bb8c2e6611050d96c1bd01f",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4446,68 +4446,6 @@
             "time": "2021-12-07T17:19:06+00:00"
         },
         {
-            "name": "spryker-sdk/evaluator",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "19cc1a4882df6e687bfefee74e7aa92e70418fb9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/19cc1a4882df6e687bfefee74e7aa92e70418fb9",
-                "reference": "19cc1a4882df6e687bfefee74e7aa92e70418fb9",
-                "shasum": ""
-            },
-            "require": {
-                "davidrjonas/composer-lock-diff": "^1.6",
-                "ergebnis/json-printer": "^3.1",
-                "ext-json": "*",
-                "ext-simplexml": "*",
-                "guzzlehttp/guzzle": "^7.3",
-                "knplabs/github-api": "^3.4",
-                "nikic/php-parser": "^4.13",
-                "php": ">=8.0",
-                "phpstan/phpstan": "^1.2",
-                "spryker-sdk/sdk-contracts": "dev-master",
-                "spryker/code-sniffer": "^0.17.3",
-                "symfony/config": "^5.0",
-                "symfony/console": "^5.0",
-                "symfony/dependency-injection": "^5.0",
-                "symfony/filesystem": "^5.3",
-                "symfony/finder": "^5.3",
-                "symfony/framework-bundle": "5.3.*",
-                "symfony/http-kernel": "^5.0",
-                "symfony/process": "^5.0",
-                "symfony/yaml": "^5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Core\\": "src/Core/",
-                    "Codebase\\": "src/Codebase/",
-                    "CodeCompliance\\": "src/CodeCompliance/",
-                    "Evaluate\\": "src/Evaluate/",
-                    "Upgrade\\": "src/Upgrade/",
-                    "Upgrader\\": "src/Upgrader/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "description": "Code evaluator and upgrader tool",
-            "support": {
-                "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/master"
-            },
-            "time": "2021-12-31T09:01:13+00:00"
-        },
-        {
             "name": "spryker-sdk/sdk-contracts",
             "version": "dev-master",
             "source": {
@@ -4627,6 +4565,68 @@
                 "source": "https://github.com/spryker-sdk/spryk/tree/0.3.3"
             },
             "time": "2021-12-31T09:49:51+00:00"
+        },
+        {
+            "name": "spryker-sdk/upgrader",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/upgrader.git",
+                "reference": "a8d444d3acc4e2d5bfba252d81db426e3c9507be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a8d444d3acc4e2d5bfba252d81db426e3c9507be",
+                "reference": "a8d444d3acc4e2d5bfba252d81db426e3c9507be",
+                "shasum": ""
+            },
+            "require": {
+                "davidrjonas/composer-lock-diff": "^1.6",
+                "ergebnis/json-printer": "^3.1",
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^7.3",
+                "knplabs/github-api": "^3.4",
+                "nikic/php-parser": "^4.13",
+                "php": ">=8.0",
+                "phpstan/phpstan": "^1.2",
+                "spryker-sdk/sdk-contracts": "dev-master",
+                "spryker/code-sniffer": "^0.17.3",
+                "symfony/config": "^5.0",
+                "symfony/console": "^5.0",
+                "symfony/dependency-injection": "^5.0",
+                "symfony/filesystem": "^5.3",
+                "symfony/finder": "^5.3",
+                "symfony/framework-bundle": "5.3.*",
+                "symfony/http-kernel": "^5.0",
+                "symfony/process": "^5.0",
+                "symfony/yaml": "^5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Core\\": "src/Core/",
+                    "Upgrade\\": "src/Upgrade/",
+                    "Codebase\\": "src/Codebase/",
+                    "Evaluate\\": "src/Evaluate/",
+                    "Upgrader\\": "src/Upgrader/",
+                    "CodeCompliance\\": "src/CodeCompliance/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Code evaluator and upgrader tool",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/upgrader/issues",
+                "source": "https://github.com/spryker-sdk/upgrader/tree/master"
+            },
+            "time": "2022-03-23T10:47:48+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
@@ -13746,7 +13746,7 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/evaluator",
+            "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",
             "alias": "0.1.0",
             "alias_normalized": "0.1.0.0"
@@ -13754,8 +13754,8 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "spryker-sdk/evaluator": 20,
-        "spryker-sdk/sdk-contracts": 20
+        "spryker-sdk/sdk-contracts": 20,
+        "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
