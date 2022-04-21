@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9e7dd8488749a4bf6e5360565f7f8ef",
+    "content-hash": "c0f907314f9fa8ff23628b7ccaaaa086",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4790,16 +4790,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-master",
+            "version": "dev-bugfix/pplus-876/code-checks-has-to-cover-project-namespace-list",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "03bbdf6a5a9d2e92d7ff4c06c09a9fcbd05faf9a"
+                "reference": "bd2b064a12b88811601e80eead607e5e3e394e6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/03bbdf6a5a9d2e92d7ff4c06c09a9fcbd05faf9a",
-                "reference": "03bbdf6a5a9d2e92d7ff4c06c09a9fcbd05faf9a",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/bd2b064a12b88811601e80eead607e5e3e394e6d",
+                "reference": "bd2b064a12b88811601e80eead607e5e3e394e6d",
                 "shasum": ""
             },
             "require": {
@@ -4827,7 +4827,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4846,9 +4845,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/master"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/pplus-876/code-checks-has-to-cover-project-namespace-list"
             },
-            "time": "2022-02-10T14:17:26+00:00"
+            "time": "2022-04-18T14:39:06+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
@@ -14886,14 +14885,7 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "spryker-sdk/upgrader",
-            "version": "9999999-dev",
-            "alias": "0.1.0",
-            "alias_normalized": "0.1.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
@@ -14918,5 +14910,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
