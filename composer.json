@@ -30,7 +30,7 @@
         "spryker-sdk/composer-replace": "dev-master",
         "spryker-sdk/sdk-contracts": "dev-master",
         "spryker-sdk/spryk": "^0.3.2",
-        "spryker-sdk/upgrader": "dev-bugfix/pplus-876/code-checks-has-to-cover-project-namespace-list",
+        "spryker-sdk/upgrader": "dev-feature/pplust-510/global-integrator",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.1",
         "symfony/console": "5.3.*",
@@ -69,7 +69,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "sllh/composer-versions-check": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "spryker-sdk/integrator": false
         }
     },
     "autoload": {
