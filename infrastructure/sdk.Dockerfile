@@ -8,18 +8,23 @@ RUN apk update \
     curl \
     git \
     nodejs \
-    npm
+    npm \
+    && npm install -g npm@8.4.1
 
-COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json ${srcRoot}/
+RUN usermod -a -G spryker spryker && usermod -g spryker spryker
+USER spryker
+
+COPY --chown=spryker:spryker composer.json composer.lock auth.json package.json package-lock.json ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
     composer install --no-scripts --no-interaction ${SPRYKER_COMPOSER_MODE} -vvv
 
-RUN --mount=type=cache,id=npm,sharing=locked,target=/home/spryker/.npm \
+RUN mkdir -p /home/spryker/.npm && chown spryker:spryker /home/spryker/.npm
+RUN --mount=type=cache,id=npm,sharing=locked,target=/home/spryker/.npm,uid=1000 \
     --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
-    npm install -g npm@8.4.1 && npm install
+    npm install
 
 FROM application-production-dependencies AS application-production-codebase
 
