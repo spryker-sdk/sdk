@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9e7dd8488749a4bf6e5360565f7f8ef",
+    "content-hash": "aed6ff641d5d91f4279257a7024934e0",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4626,6 +4626,118 @@
                 }
             ],
             "time": "2021-12-07T17:19:06+00:00"
+        },
+        {
+            "name": "spryker-sdk/aop-sdk",
+            "version": "dev-feature/apps-4126/dev-spryker-sdk-integration",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/aop-sdk.git",
+                "reference": "184f10b83f726656122a9b7850640d147c50e6f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/aop-sdk/zipball/184f10b83f726656122a9b7850640d147c50e6f4",
+                "reference": "184f10b83f726656122a9b7850640d147c50e6f4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "spryker-sdk/async-api": "^0.1.0",
+                "spryker-sdk/spryk": "*",
+                "spryker/console": "^4.10",
+                "spryker/kernel": "^3.61",
+                "spryker/transfer": "^3.29",
+                "symfony/console": "^5.3",
+                "symfony/finder": "^5.3",
+                "webmozart/glob": "^4.4"
+            },
+            "require-dev": {
+                "codeception/codeception": "*",
+                "codeception/module-asserts": "*",
+                "codeception/module-phpbrowser": "*",
+                "mikey179/vfsstream": "^1.6",
+                "sllh/composer-versions-check": "^2.0",
+                "spryker-sdk/architector": "0.1.x-dev",
+                "spryker/code-sniffer": "*",
+                "spryker/testify": "^3.43",
+                "symfony/filesystem": "^5.3",
+                "symfony/var-dumper": "*"
+            },
+            "bin": [
+                "bin/aop-sdk"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SprykerSdk\\": "src/SprykerSdk/",
+                    "Generated\\Shared\\Transfer\\": "src/Generated/Shared/Transfer/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "SDK for AOP.",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/aop-sdk/issues",
+                "source": "https://github.com/spryker-sdk/aop-sdk/tree/feature/apps-4126/dev-spryker-sdk-integration"
+            },
+            "time": "2022-05-06T07:28:15+00:00"
+        },
+        {
+            "name": "spryker-sdk/async-api",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/async-api.git",
+                "reference": "b147ab39b3ebb5ad123944be3372a67f9355471e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/b147ab39b3ebb5ad123944be3372a67f9355471e",
+                "reference": "b147ab39b3ebb5ad123944be3372a67f9355471e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "codeception/codeception": "*",
+                "codeception/module-asserts": "*",
+                "sllh/composer-versions-check": "^2.0",
+                "spryker-sdk/architector": "0.1.x-dev",
+                "spryker/code-sniffer": "*",
+                "spryker/testify": "^3.43",
+                "symfony/filesystem": "^5.3",
+                "symfony/var-dumper": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SprykerSdk\\AsyncApi\\": "src/SprykerSdk/AsyncApi"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "SDK for AsyncAPI.",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/async-api/issues",
+                "source": "https://github.com/spryker-sdk/async-api/tree/0.1.0"
+            },
+            "time": "2022-01-26T07:19:27+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -14896,6 +15008,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/aop-sdk": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,

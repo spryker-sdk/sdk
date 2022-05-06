@@ -28,3 +28,124 @@ framework:
           to: done
           metadata:
             task: validation:php:static
+    pbc:
+      type: workflow
+      marking_store:
+        type: method
+        property: status
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: start
+      places:
+        - start
+        - manifest
+        - manifest-validated
+        - config
+        - config-validated
+        - translation
+        - translation-validated
+        - openapi
+        - openapi-validated
+        - asyncapi
+        - asyncapi-validated
+      transitions:
+        manifest:
+          from: start
+          to: manifest
+          metadata:
+            task: aop:manifest:create
+        manifest-modify:
+          from: manifest
+          to: manifest
+          metadata:
+            task: aop:manifest:create
+        manifest-validate:
+          from: manifest
+          to: manifest-validated
+          metadata:
+            task: aop:manifest:validate
+        manifest-revalidate:
+          from: manifest-validated
+          to: manifest-validated
+          metadata:
+            task: aop:manifest:validate
+        config:
+          from: manifest-validated
+          to: config
+          metadata:
+            task: aop:config:create
+        config-modify:
+          from: config
+          to: config
+          metadata:
+            task: aop:config:create
+        config-validate:
+          from: config
+          to: config-validated
+          metadata:
+            task: aop:config:validate
+        config-revalidate:
+          from: config-validated
+          to: config-validated
+          metadata:
+            task: aop:config:validate
+        translation:
+          from: config-validated
+          to: translation
+          metadata:
+            task: aop:translation:create
+        translation-modify:
+          from: translation
+          to: translation
+          metadata:
+            task: aop:translation:create
+        translation-validate:
+          from: translation
+          to: translation-validated
+          metadata:
+            task: aop:translation:validate
+        translation-revalidate:
+          from: translation-validated
+          to: translation-validated
+          metadata:
+            task: aop:translation:validate
+        openapi:
+          from: translation-validated
+          to: openapi
+          metadata:
+            task: aop:openapi:create
+        openapi-modify:
+          from: openapi
+          to: openapi
+          metadata:
+            task: aop:openapi:create
+        openapi-validate:
+          from: openapi
+          to: openapi-validated
+          metadata:
+            task: aop:openapi:validate
+        openapi-revalidate:
+          from: openapi-validated
+          to: openapi-validated
+          metadata:
+            task: aop:openapi:validate
+        asyncapi:
+          from: openapi-validated
+          to: asyncapi
+          metadata:
+            task: aop:asyncapi:create
+        asyncapi-modify:
+          from: asyncapi
+          to: asyncapi
+          metadata:
+            task: aop:asyncapi:create
+        asyncapi-validate:
+          from: asyncapi
+          to: asyncapi-validated
+          metadata:
+            task: aop:asyncapi:validate
+        asyncapi-revalidate:
+          from: asyncapi-validated
+          to: asyncapi-validated
+          metadata:
+            task: aop:asyncapi:validate

@@ -1,0 +1,19 @@
+---
+id: "aop:manifest:validate"
+short_description: "Validate AOP manifest file."
+help: ~
+stage: build
+version: 0.1.0
+command: "php %sdk_dir%/vendor/bin/aop-sdk app:manifest:validate %manifest-path%"
+type: local_cli_interactive
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%manifest-path%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: "manifest-path"
+      description: "Path to manifest file"
+      type: string
