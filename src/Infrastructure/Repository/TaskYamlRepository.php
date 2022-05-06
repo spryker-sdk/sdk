@@ -193,7 +193,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     {
         $commands = [];
 
-        if ($data['type'] === 'local_cli') {
+        if (in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
             $converter = isset($data['report_converter']) ? new Converter(
                 $data['report_converter']['name'],
                 $data['report_converter']['configuration'],
