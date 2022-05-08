@@ -12,14 +12,27 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand;
-use SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand;
+use SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class GeneratePbcTask implements TaskInterface
 {
+    /**
+     * @var \SprykerSdk\SdkContracts\Entity\CommandInterface[]
+     */
+    protected array $commands = [];
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     */
+    public function __construct(
+        array $commands
+    ) {
+        $this->commands = $commands;
+    }
+
+
     /**
      * @return string
      */
@@ -62,6 +75,12 @@ class GeneratePbcTask implements TaskInterface
                     'type' => 'string',
                 ],
             ),
+            new Placeholder(
+                '%' . PbcPhpVersionValueResolver::VALUE_NAME . '%',
+                PbcPhpVersionValueResolver::VALUE_RESOLVER_NAME,
+                [],
+                true
+            )
         ];
     }
 
@@ -86,11 +105,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getCommands(): array
     {
-        return [
-            new CheckGitCommand(),
-            new GeneratePbcCommand(),
-            new ChangeNamesCommand(),
-        ];
+        return $this->commands;
     }
 
     /**

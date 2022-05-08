@@ -1,13 +1,45 @@
 services:
+  generate_pbc_change_name_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand
+    arguments:
+      - '@yaml_parser'
+  generate_pbc_check_git_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand
+  generate_pbc_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand
+  generate_pbc_change_php_version_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangePhpVersionCommand
+    arguments:
+      - '@yaml_parser'
+  generate_pbc_add_aop_sdk_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAopSdkCommand
+  generate_pbc_prepare_project_container_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\PrepareProjectContainersCommand
+  generate_pbc_next_steps_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\NextPbcStepsCommand
   generate_pbc:
     class: SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask
     tags: [ 'sdk.task' ]
+    arguments:
+      $commands:
+        - '@generate_pbc_check_git_command'
+        - '@generate_pbc_command'
+        - '@generate_pbc_change_name_command'
+        - '@generate_pbc_change_php_version_command'
+        - '@generate_pbc_add_aop_sdk_command'
+        - '@generate_pbc_prepare_project_container_command'
+        - '@generate_pbc_next_steps_command'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'
       - '%kernel.project_dir%'
+  pbc_php_version_value_resolver:
+    class: SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver
+    tags: [ 'sdk.value_resolver' ]
+    arguments:
+      - '@value_receiver'
   remove_report_dir:
     class: SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask
     tags: [ 'sdk.task' ]
