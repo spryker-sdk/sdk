@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\Service;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -8,14 +13,14 @@ interface PbcFileModifierInterface
 {
     /**
      * @param array $content
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */
     public function write(array $content, ContextInterface $context);
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param string|null $errorMessage
      *
      * @return array
@@ -24,7 +29,7 @@ interface PbcFileModifierInterface
 
     /**
      * @param callable $replacementFunction
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param string|null $errorMessage
      *
      * @return void

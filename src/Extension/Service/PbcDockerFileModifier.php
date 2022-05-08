@@ -1,9 +1,12 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\Service;
 
-use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class PbcDockerFileModifier extends AbstractPbcFileModifier
@@ -11,7 +14,7 @@ class PbcDockerFileModifier extends AbstractPbcFileModifier
     private Yaml $yaml;
 
     /**
-     * @param Yaml $yaml
+     * @param \Symfony\Component\Yaml\Yaml $yaml
      */
     public function __construct(Yaml $yaml)
     {
@@ -37,7 +40,6 @@ class PbcDockerFileModifier extends AbstractPbcFileModifier
     {
         return $this->yaml->dump($content, 10, 4, Yaml::DUMP_NULL_AS_TILDE);
     }
-
 
     /**
      * @return string

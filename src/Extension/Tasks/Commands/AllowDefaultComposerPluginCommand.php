@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
@@ -15,7 +20,7 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     private PbcFileModifierInterface $composerFileModifier;
 
     /**
-     * @param PbcFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
      */
     public function __construct(PbcFileModifierInterface $composerFileModifier)
     {
@@ -55,7 +60,7 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @return ConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getViolationConverter(): ?ConverterInterface
     {
@@ -63,9 +68,9 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return ContextInterface
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
     public function execute(ContextInterface $context): ContextInterface
     {

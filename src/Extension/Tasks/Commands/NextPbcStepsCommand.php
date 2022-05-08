@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
@@ -17,12 +22,7 @@ class NextPbcStepsCommand implements ExecutableCommandInterface
      */
     public function execute(ContextInterface $context): ContextInterface
     {
-        $message = <<<MESSAGE
-
-1. go to %s
-2. Run "docker/sdk boot -s deploy.dev.yml" follow the instructions to spin up the local environment and follow the instructions
-MESSAGE;
-
+        $message = 'Run "cd %s && docker/sdk boot -s deploy.dev.yml" follow the instructions to spin up the local environment and follow the instructions';
         $resolvedValues = $context->getResolvedValues();
         $context->addMessage(static::class, new Message(sprintf($message, $resolvedValues['%pbc_name%']), MessageInterface::SUCCESS));
 

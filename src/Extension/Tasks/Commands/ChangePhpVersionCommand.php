@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
@@ -28,8 +33,8 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     private PbcFileModifierInterface $dockerFileModifier;
 
     /**
-     * @param PbcFileModifierInterface $composerFileModifier
-     * @param PbcFileModifierInterface $dockerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $dockerFileModifier
      */
     public function __construct(
         PbcFileModifierInterface $composerFileModifier,
@@ -97,7 +102,7 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -121,7 +126,7 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */

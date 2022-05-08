@@ -19,19 +19,17 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class GeneratePbcTask implements TaskInterface
 {
     /**
-     * @var \SprykerSdk\SdkContracts\Entity\CommandInterface[]
+     * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected array $commands = [];
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      */
-    public function __construct(
-        array $commands
-    ) {
+    public function __construct(array $commands)
+    {
         $this->commands = $commands;
     }
-
 
     /**
      * @return string
@@ -79,8 +77,8 @@ class GeneratePbcTask implements TaskInterface
                 '%' . PbcPhpVersionValueResolver::VALUE_NAME . '%',
                 PbcPhpVersionValueResolver::VALUE_RESOLVER_NAME,
                 [],
-                true
-            )
+                true,
+            ),
         ];
     }
 

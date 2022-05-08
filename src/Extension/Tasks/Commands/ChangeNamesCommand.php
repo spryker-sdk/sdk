@@ -32,8 +32,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     private PbcFileModifierInterface $dockerFileModifier;
 
     /**
-     * @param PbcFileModifierInterface $composerFileModifier
-     * @param PbcFileModifierInterface $dockerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $dockerFileModifier
      */
     public function __construct(
         PbcFileModifierInterface $composerFileModifier,
@@ -42,7 +42,6 @@ class ChangeNamesCommand implements ExecutableCommandInterface
         $this->composerFileModifier = $composerFileModifier;
         $this->dockerFileModifier = $dockerFileModifier;
     }
-
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
@@ -102,7 +101,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -112,7 +111,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
         $newRepositoryName = strtolower(
             basename(dirname($resolvedValues['%project_url%']))
             . '/'
-            . basename($resolvedValues['%project_url%'], '.git')
+            . basename($resolvedValues['%project_url%'], '.git'),
         );
         $composerContent = $this->composerFileModifier->read($context, static::COMPOSER_INITIALIZATION_ERROR);
         $composerContent['name'] = $newRepositoryName;
@@ -120,7 +119,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\Service;
 
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
@@ -10,25 +15,25 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
     /**
      * @return string
      */
-    protected abstract function getFileName(): string;
+    abstract protected function getFileName(): string;
 
     /**
      * @param string $content
      *
      * @return array
      */
-    protected abstract function parseContent(string $content): array;
+    abstract protected function parseContent(string $content): array;
 
     /**
      * @param array $content
      *
      * @return string
      */
-    protected abstract function dumpContent(array $content): string;
+    abstract protected function dumpContent(array $content): string;
 
     /**
      * @param array $content
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -39,8 +44,10 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param string|null $errorMessage
+     *
+     * @throws \SprykerSdk\Sdk\Extension\Exception\FileNotFoundException
      *
      * @return array
      */
@@ -52,13 +59,21 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
             throw new FileNotFoundException($this->buildErrorMessage($errorMessage, $filePath));
         }
 
-        return $this->parseContent(file_get_contents($filePath));
+        $content = file_get_contents($filePath);
+
+        if (!$content) {
+            throw new FileNotFoundException($this->buildErrorMessage($errorMessage, $filePath));
+        }
+
+        return $this->parseContent($content);
     }
 
     /**
      * @param callable $replacementFunction
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param string|null $errorMessage
+     *
+     * @throws \SprykerSdk\Sdk\Extension\Exception\FileNotFoundException
      *
      * @return void
      */
@@ -77,7 +92,7 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
     }
 
     /**
-     * @param ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return string
      */

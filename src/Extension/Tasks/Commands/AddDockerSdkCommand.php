@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
@@ -40,7 +45,7 @@ class AddDockerSdkCommand implements CommandInterface
     }
 
     /**
-     * @return ConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getViolationConverter(): ?ConverterInterface
     {
