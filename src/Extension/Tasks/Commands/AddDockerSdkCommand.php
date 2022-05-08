@@ -5,14 +5,14 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
-class PrepareProjectContainersCommand implements CommandInterface
+class AddDockerSdkCommand implements CommandInterface
 {
     /**
      * @return string
      */
     public function getCommand(): string
     {
-        return 'cd %pbc_name% && git clone https://github.com/spryker/docker-sdk.git ./docker && ./docker/sdk boot -s deploy.dev.yml';
+        return 'cd %pbc_name% && git clone https://github.com/spryker/docker-sdk.git ./docker';
     }
 
     /**

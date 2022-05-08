@@ -4,6 +4,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
+use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -12,6 +13,17 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class AddAopSdkCommand implements ExecutableCommandInterface
 {
     protected const AOP_SDK_REPOSITORY = 'spryker-sdk/aop-sdk';
+
+    private PbcFileModifierInterface $composerFileModifier;
+
+    /**
+     * @param PbcFileModifierInterface $composerFileModifier
+     */
+    public function __construct(PbcFileModifierInterface $composerFileModifier)
+    {
+        $this->composerFileModifier = $composerFileModifier;
+    }
+
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
@@ -76,26 +88,8 @@ class AddAopSdkCommand implements ExecutableCommandInterface
      */
     protected function addAopSdk(ContextInterface $context): void
     {
-        $resolvedValues = $context->getResolvedValues();
-        $composerFilePath = $this->getPbcName($resolvedValues) . DIRECTORY_SEPARATOR . 'composer.json';
-
-        if (!file_exists($composerFilePath)) {
-            throw new FileNotFoundException(sprintf('Can not add %s to composer.json in generated PBC', static::AOP_SDK_REPOSITORY));
-        }
-
-        $composerContent = json_decode(file_get_contents($composerFilePath), true);
-        $composerContent['require'][static::AOP_SDK_REPOSITORY] = '*';
-
-        file_put_contents($composerFilePath, json_encode($composerContent));
-    }
-
-    /**
-     * @param array<string, mixed> $resolveValues
-     *
-     * @return string
-     */
-    protected function getPbcName(array $resolveValues): string
-    {
-        return $resolveValues['%pbc_name%'];
+        $composerContent = $this->composerFileModifier->read($context, sprintf('Can not add %s to composer.json in generated PBC', static::AOP_SDK_REPOSITORY));
+        $composerContent['require-dev'][static::AOP_SDK_REPOSITORY] = '*';
+        $this->composerFileModifier->write($composerContent, $context);
     }
 }

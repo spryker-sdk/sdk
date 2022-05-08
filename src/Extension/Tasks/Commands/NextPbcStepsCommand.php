@@ -17,13 +17,16 @@ class NextPbcStepsCommand implements ExecutableCommandInterface
      */
     public function execute(ContextInterface $context): ContextInterface
     {
+        $message = <<<MESSAGE
+
+1. go to %s
+2. Run "docker/sdk boot -s deploy.dev.yml" to spin up the local environment
+3. Run "docker/sdk up" to run the PBC locally
+4. Run "docker/sdk cli composer update -W" to ensure all dependencies are up to date
+MESSAGE;
+
         $resolvedValues = $context->getResolvedValues();
-        $context->addMessage(static::class, new Message(
-            sprintf('1. go to %s', getcwd() . DIRECTORY_SEPARATOR . $resolvedValues['%pbc_name%']),
-        MessageInterface::SUCCESS
-        ));
-        $context->addMessage(static::class, new Message('2. Run composer update -W', MessageInterface::SUCCESS));
-        $context->addMessage(static::class, new Message('3. Run docker/sdk up', MessageInterface::SUCCESS));
+        $context->addMessage(static::class, new Message(sprintf($message, $resolvedValues['%pbc_name%']), MessageInterface::SUCCESS));
 
         return $context;
     }

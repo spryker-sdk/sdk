@@ -4,12 +4,12 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
+use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
 use SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use Symfony\Component\Yaml\Yaml;
 
 class ChangePhpVersionCommand implements ExecutableCommandInterface
 {
@@ -23,16 +23,21 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
      */
     protected const DOCKER_INITIALIZATION_ERROR = 'Can not change PHP version deploy.dev.yml in generated PBC';
 
-    protected Yaml $yamlParser;
+    private PbcFileModifierInterface $composerFileModifier;
+
+    private PbcFileModifierInterface $dockerFileModifier;
 
     /**
-     * @param Yaml $yamlParser
+     * @param PbcFileModifierInterface $composerFileModifier
+     * @param PbcFileModifierInterface $dockerFileModifier
      */
-    public function __construct(Yaml $yamlParser)
-    {
-        $this->yamlParser = $yamlParser;
+    public function __construct(
+        PbcFileModifierInterface $composerFileModifier,
+        PbcFileModifierInterface $dockerFileModifier
+    ) {
+        $this->composerFileModifier = $composerFileModifier;
+        $this->dockerFileModifier = $dockerFileModifier;
     }
-
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
@@ -99,15 +104,10 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     protected function changeComposerPhpVersion(ContextInterface $context): void
     {
         $resolvedValues = $context->getResolvedValues();
-        $composerFilePath = $this->getPbcName($resolvedValues) . DIRECTORY_SEPARATOR . 'composer.json';
 
-        if (!file_exists($composerFilePath)) {
-            throw new FileNotFoundException(static::COMPOSER_CHANGE_ERROR);
-        }
+        $composerContent = $this->composerFileModifier->read($context, static::COMPOSER_CHANGE_ERROR);
 
-        $composerContent = json_decode(file_get_contents($composerFilePath), true);
-
-        $phpVersion = $this->getPhpVersion($resolvedValues[PbcPhpVersionValueResolver::VALUE_NAME]);
+        $phpVersion = $this->getPhpVersion($resolvedValues);
 
         if (isset($composerContent['require']['php'])) {
             $composerContent['require']['php'] = '>=' . $phpVersion;
@@ -117,7 +117,7 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
             $composerContent['config']['platform']['php'] = PbcPhpVersionValueResolver::PHP_VERSIONS[$phpVersion];
         }
 
-        file_put_contents($composerFilePath, json_encode($composerContent));
+        $this->composerFileModifier->write($composerContent, $context);
     }
 
     /**
@@ -128,18 +128,9 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     protected function changeDockerPhpVersion(ContextInterface $context): void
     {
         $resolvedValues = $context->getResolvedValues();
-        $pbcName = $this->getPbcName($resolvedValues);
-        $dockerDeploymentFilePath = $pbcName . DIRECTORY_SEPARATOR . 'deploy.dev.yml';
-
-        if (!file_exists($dockerDeploymentFilePath)) {
-            throw new FileNotFoundException(static::DOCKER_INITIALIZATION_ERROR);
-        }
-
-        $dockerFileContent = $this->yamlParser->parseFile($dockerDeploymentFilePath);
+        $dockerFileContent = $this->dockerFileModifier->read($context, static::DOCKER_INITIALIZATION_ERROR);
         $dockerFileContent['image']['tag'] = 'spryker/php:' . $this->getPhpVersion($resolvedValues);
-        $text = $this->yamlParser->dump($dockerFileContent);
-
-        file_put_contents($dockerFileContent, $text);
+        $this->dockerFileModifier->write($dockerFileContent, $context);
     }
 
     /**
@@ -150,15 +141,5 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     protected function getPhpVersion(array $resolvedValues): string
     {
         return $resolvedValues['%' . PbcPhpVersionValueResolver::VALUE_NAME . '%'];
-    }
-
-    /**
-     * @param array<string, mixed> $resolveValues
-     *
-     * @return string
-     */
-    protected function getPbcName(array $resolveValues): string
-    {
-        return $resolveValues['%pbc_name%'];
     }
 }

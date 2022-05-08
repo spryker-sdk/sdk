@@ -1,8 +1,15 @@
 services:
+  pbc_modify_docker_file:
+    class: SprykerSdk\Sdk\Extension\Service\PbcDockerFileModifier
+    arguments:
+      - '@yaml_parser'
+  pbc_modify_composer_file:
+    class: SprykerSdk\Sdk\Extension\Service\PbcComposerFileModifier
   generate_pbc_change_name_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand
     arguments:
-      - '@yaml_parser'
+      - '@pbc_modify_composer_file'
+      - '@pbc_modify_docker_file'
   generate_pbc_check_git_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand
   generate_pbc_command:
@@ -10,11 +17,14 @@ services:
   generate_pbc_change_php_version_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangePhpVersionCommand
     arguments:
-      - '@yaml_parser'
+      - '@pbc_modify_composer_file'
+      - '@pbc_modify_docker_file'
   generate_pbc_add_aop_sdk_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAopSdkCommand
-  generate_pbc_prepare_project_container_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\PrepareProjectContainersCommand
+    arguments:
+      - '@pbc_modify_composer_file'
+  generate_pbc_add_docker_sdk_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddDockerSdkCommand
   generate_pbc_next_steps_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\NextPbcStepsCommand
   generate_pbc:
@@ -27,7 +37,7 @@ services:
         - '@generate_pbc_change_name_command'
         - '@generate_pbc_change_php_version_command'
         - '@generate_pbc_add_aop_sdk_command'
-        - '@generate_pbc_prepare_project_container_command'
+        - '@generate_pbc_add_docker_sdk_command'
         - '@generate_pbc_next_steps_command'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver

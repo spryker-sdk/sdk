@@ -71,7 +71,7 @@ class GeneratePbcTask implements TaskInterface
                 'STATIC',
                 [
                     'name' => 'project_url',
-                    'description' => 'Input repository for new PBC',
+                    'description' => 'Input repository for new PBC (e.g.: https://github.com/<user>/<project>.git)',
                     'type' => 'string',
                 ],
             ),

@@ -9,32 +9,38 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
+use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use Symfony\Component\Yaml\Yaml;
 
 class ChangeNamesCommand implements ExecutableCommandInterface
 {
     /**
      * @var string
      */
-    protected const COMPOSER_INITIALIZATION_ERROR = 'Can not initialize composer.json in generated PBC';
+    protected const COMPOSER_INITIALIZATION_ERROR = 'Can not change name composer.json in generated PBC';
 
     /**
      * @var string
      */
-    protected const DOCKER_INITIALIZATION_ERROR = 'Can not initialize deploy.dev.yml in generated PBC';
+    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change name in deploy.dev.yml in generated PBC';
 
-    protected Yaml $yamlParser;
+    private PbcFileModifierInterface $composerFileModifier;
+
+    private PbcFileModifierInterface $dockerFileModifier;
 
     /**
-     * @param Yaml $yamlParser
+     * @param PbcFileModifierInterface $composerFileModifier
+     * @param PbcFileModifierInterface $dockerFileModifier
      */
-    public function __construct(Yaml $yamlParser)
-    {
-        $this->yamlParser = $yamlParser;
+    public function __construct(
+        PbcFileModifierInterface $composerFileModifier,
+        PbcFileModifierInterface $dockerFileModifier
+    ) {
+        $this->composerFileModifier = $composerFileModifier;
+        $this->dockerFileModifier = $dockerFileModifier;
     }
 
 
@@ -103,17 +109,14 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     protected function changeComposerNames(ContextInterface $context): void
     {
         $resolvedValues = $context->getResolvedValues();
-        $repositoryName = basename($resolvedValues['%boilerplate_url%']);
-        $newRepositoryName = basename($resolvedValues['%project_url%']);
-        $composerFilePath = $resolvedValues['%pbc_name%'] . DIRECTORY_SEPARATOR . 'composer.json';
-
-        if (!file_exists($composerFilePath)) {
-            throw new FileNotFoundException(static::COMPOSER_INITIALIZATION_ERROR);
-        }
-
-        $text = file_get_contents($composerFilePath);
-        $text = str_replace($repositoryName, $newRepositoryName, (string)$text);
-        file_put_contents($composerFilePath, $text);
+        $newRepositoryName = strtolower(
+            basename(dirname($resolvedValues['%project_url%']))
+            . '/'
+            . basename($resolvedValues['%project_url%'], '.git')
+        );
+        $composerContent = $this->composerFileModifier->read($context, static::COMPOSER_INITIALIZATION_ERROR);
+        $composerContent['name'] = $newRepositoryName;
+        $this->composerFileModifier->write($composerContent, $context);
     }
 
     /**
@@ -125,17 +128,12 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     {
         $resolvedValues = $context->getResolvedValues();
         $pbcName = $resolvedValues['%pbc_name%'];
-        $dockerDeploymentFilePath = $pbcName . DIRECTORY_SEPARATOR . 'deploy.dev.yml';
 
-        if (!file_exists($dockerDeploymentFilePath)) {
-            throw new FileNotFoundException(static::DOCKER_INITIALIZATION_ERROR);
-        }
-
-        $dockerFileContent = $this->yamlParser->parseFile($dockerDeploymentFilePath);
+        $dockerFileContent = $this->dockerFileModifier->read($context, static::DOCKER_INITIALIZATION_ERROR);
         $dockerFileContent['namespace'] = $pbcName;
-        $text = $this->yamlParser->dump($dockerFileContent);
-        $text = str_replace('spryker.local', $pbcName . '.local', $text);
-
-        file_put_contents($dockerFileContent, $text);
+        $this->dockerFileModifier->write($dockerFileContent, $context);
+        $this->dockerFileModifier->replace(function (string $content) use ($pbcName) {
+            return str_replace('spryker.local', $pbcName . '.local', $content);
+        }, $context, static::DOCKER_INITIALIZATION_ERROR);
     }
 }
