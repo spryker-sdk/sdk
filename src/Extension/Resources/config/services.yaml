@@ -23,6 +23,12 @@ services:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAopSdkCommand
     arguments:
       - '@pbc_modify_composer_file'
+  generate_pbc_allow_default_composer_plugins_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AllowDefaultComposerPluginCommand
+    arguments:
+      - '@pbc_modify_composer_file'
+  generate_pbc_update_dependencies_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\UpdateDependenciesCommand
   generate_pbc_add_docker_sdk_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddDockerSdkCommand
   generate_pbc_next_steps_command:
@@ -37,6 +43,8 @@ services:
         - '@generate_pbc_change_name_command'
         - '@generate_pbc_change_php_version_command'
         - '@generate_pbc_add_aop_sdk_command'
+        - '@generate_pbc_allow_default_composer_plugins_command'
+        - '@generate_pbc_update_dependencies_command'
         - '@generate_pbc_add_docker_sdk_command'
         - '@generate_pbc_next_steps_command'
   sdk_directory_value_resolver:

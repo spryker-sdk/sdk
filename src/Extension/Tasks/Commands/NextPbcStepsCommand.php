@@ -20,9 +20,7 @@ class NextPbcStepsCommand implements ExecutableCommandInterface
         $message = <<<MESSAGE
 
 1. go to %s
-2. Run "docker/sdk boot -s deploy.dev.yml" to spin up the local environment
-3. Run "docker/sdk up" to run the PBC locally
-4. Run "docker/sdk cli composer update -W" to ensure all dependencies are up to date
+2. Run "docker/sdk boot -s deploy.dev.yml" follow the instructions to spin up the local environment and follow the instructions
 MESSAGE;
 
         $resolvedValues = $context->getResolvedValues();
