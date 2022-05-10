@@ -4,7 +4,7 @@ short_description: "Create AOP OpenAPI file."
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/aop-sdk openapi:create %openapi-file% %api-version% %title%"
+command: "php %sdk_dir%/vendor/bin/syncapi schema:openapi:create %openapi-file% %api-version% %title% -v"
 type: local_cli_interactive
 placeholders:
   - name: "%sdk_dir%"
