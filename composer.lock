@@ -4636,12 +4636,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/aop-sdk.git",
-                "reference": "a329cd9ad1e18780a206394bcbc6916ed20d908c"
+                "reference": "00d22150e8009240b86e8ac47bd7459a3d30fc32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/aop-sdk/zipball/a329cd9ad1e18780a206394bcbc6916ed20d908c",
-                "reference": "a329cd9ad1e18780a206394bcbc6916ed20d908c",
+                "url": "https://api.github.com/repos/spryker-sdk/aop-sdk/zipball/00d22150e8009240b86e8ac47bd7459a3d30fc32",
+                "reference": "00d22150e8009240b86e8ac47bd7459a3d30fc32",
                 "shasum": ""
             },
             "require": {
@@ -4688,7 +4688,7 @@
                 "issues": "https://github.com/spryker-sdk/aop-sdk/issues",
                 "source": "https://github.com/spryker-sdk/aop-sdk/tree/master"
             },
-            "time": "2022-05-09T08:06:01+00:00"
+            "time": "2022-05-11T09:53:42+00:00"
         },
         {
             "name": "spryker-sdk/async-api",
@@ -4696,12 +4696,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/async-api.git",
-                "reference": "330be58e94c8cfcc18cba0c6c6f0b59863788407"
+                "reference": "27d282fd99028ade97817f7f9b4baa0b9bf9e207"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/330be58e94c8cfcc18cba0c6c6f0b59863788407",
-                "reference": "330be58e94c8cfcc18cba0c6c6f0b59863788407",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/27d282fd99028ade97817f7f9b4baa0b9bf9e207",
+                "reference": "27d282fd99028ade97817f7f9b4baa0b9bf9e207",
                 "shasum": ""
             },
             "require": {
@@ -4746,7 +4746,7 @@
                 "issues": "https://github.com/spryker-sdk/async-api/issues",
                 "source": "https://github.com/spryker-sdk/async-api/tree/master"
             },
-            "time": "2022-05-09T09:57:28+00:00"
+            "time": "2022-05-10T12:58:02+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -4874,12 +4874,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "69e84e4ade9d7b7d6446cf6ba5a5994f59bcf6e3"
+                "reference": "0f46853b6cb8fa59fa099e102309a2c584066c6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/69e84e4ade9d7b7d6446cf6ba5a5994f59bcf6e3",
-                "reference": "69e84e4ade9d7b7d6446cf6ba5a5994f59bcf6e3",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/0f46853b6cb8fa59fa099e102309a2c584066c6a",
+                "reference": "0f46853b6cb8fa59fa099e102309a2c584066c6a",
                 "shasum": ""
             },
             "require": {
@@ -4926,7 +4926,7 @@
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
                 "source": "https://github.com/spryker-sdk/sync-api/tree/master"
             },
-            "time": "2022-05-06T13:02:38+00:00"
+            "time": "2022-05-10T14:16:00+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",

@@ -2,6 +2,9 @@
     "behat/gherkin": {
         "version": "v4.9.0"
     },
+    "cebe/php-openapi": {
+        "version": "1.7.0"
+    },
     "chobie/jira-api-restclient": {
         "version": "2.0-dev"
     },
@@ -38,9 +41,6 @@
     "codeception/stub": {
         "version": "3.7.0"
     },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.4"
-    },
     "composer/pcre": {
         "version": "1.0.0"
     },
@@ -49,9 +49,6 @@
     },
     "composer/xdebug-handler": {
         "version": "2.0.2"
-    },
-    "container-interop/container-interop": {
-        "version": "1.2.0"
     },
     "davidrjonas/composer-lock-diff": {
         "version": "1.6.1"
@@ -142,12 +139,6 @@
     "ergebnis/json-printer": {
         "version": "3.2.0"
     },
-    "everon/collection": {
-        "version": "v1.0.3"
-    },
-    "everon/utils": {
-        "version": "v1.0.4"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -160,8 +151,14 @@
     "guzzlehttp/psr7": {
         "version": "2.1.0"
     },
+    "http-interop/http-factory-guzzle": {
+        "version": "1.2.0"
+    },
     "jetbrains/phpstorm-stubs": {
         "version": "v2019.3"
+    },
+    "justinrainbow/json-schema": {
+        "version": "5.2.12"
     },
     "knplabs/github-api": {
         "version": "3.5",
@@ -184,14 +181,11 @@
     "laminas/laminas-filter": {
         "version": "2.12.0"
     },
-    "laminas/laminas-servicemanager": {
-        "version": "3.10.0"
-    },
     "laminas/laminas-stdlib": {
         "version": "3.6.1"
     },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.4.0"
+    "m4tthumphrey/php-gitlab-api": {
+        "version": "11.8.0"
     },
     "mikey179/vfsstream": {
         "version": "v1.6.10"
@@ -300,9 +294,6 @@
             "tests/bootstrap.php"
         ]
     },
-    "propel/propel": {
-        "version": "2.0.0-beta1"
-    },
     "psr/cache": {
         "version": "2.0.0"
     },
@@ -405,17 +396,11 @@
     "spryker-sdk/spryk": {
         "version": "0.3.2"
     },
+    "spryker-sdk/sync-api": {
+        "version": "1.0.x-dev"
+    },
     "spryker-sdk/upgrader": {
         "version": "dev-master"
-    },
-    "spryker/acl-entity-extension": {
-        "version": "1.0.0"
-    },
-    "spryker/application": {
-        "version": "3.28.0"
-    },
-    "spryker/application-extension": {
-        "version": "1.0.1"
     },
     "spryker/architecture-sniffer": {
         "version": "0.5.2"
@@ -423,98 +408,8 @@
     "spryker/code-sniffer": {
         "version": "0.17.1"
     },
-    "spryker/config": {
-        "version": "3.5.2"
-    },
-    "spryker/console": {
-        "version": "4.10.2"
-    },
-    "spryker/container": {
-        "version": "1.4.5"
-    },
-    "spryker/doctrine-inflector": {
-        "version": "1.1.0"
-    },
-    "spryker/error-handler": {
-        "version": "2.7.0"
-    },
-    "spryker/error-handler-extension": {
-        "version": "1.0.0"
-    },
-    "spryker/event-dispatcher-extension": {
-        "version": "1.0.0"
-    },
-    "spryker/form-extension": {
-        "version": "1.0.0"
-    },
-    "spryker/gui": {
-        "version": "3.41.2"
-    },
-    "spryker/kernel": {
-        "version": "3.61.0"
-    },
-    "spryker/laminas": {
-        "version": "1.0.0"
-    },
-    "spryker/locale": {
-        "version": "3.8.0"
-    },
-    "spryker/locale-extension": {
-        "version": "1.0.0"
-    },
-    "spryker/log": {
-        "version": "3.11.0"
-    },
-    "spryker/monitoring": {
-        "version": "2.3.0"
-    },
-    "spryker/monitoring-extension": {
-        "version": "1.0.0"
-    },
-    "spryker/monolog": {
-        "version": "2.0.5"
-    },
-    "spryker/propel-orm": {
-        "version": "1.14.0"
-    },
-    "spryker/queue": {
-        "version": "1.9.1"
-    },
-    "spryker/quote-extension": {
-        "version": "1.7.0"
-    },
-    "spryker/store": {
-        "version": "1.15.0"
-    },
     "spryker/symfony": {
         "version": "3.7.0"
-    },
-    "spryker/twig": {
-        "version": "3.15.1"
-    },
-    "spryker/twig-extension": {
-        "version": "1.1.2"
-    },
-    "spryker/util-encoding": {
-        "version": "2.1.0"
-    },
-    "spryker/util-network": {
-        "version": "1.1.1"
-    },
-    "spryker/util-sanitize": {
-        "version": "2.3.0"
-    },
-    "spryker/util-sanitize-extension": {
-        "version": "1.0.0"
-    },
-    "spryker/util-sanitize-xss": {
-        "version": "1.0.0"
-    },
-    "spryker/util-text": {
-        "version": "1.5.0"
-    },
-    "spryker/web-profiler-extension": {
-        "version": "1.0.0"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.6",
@@ -781,16 +676,10 @@
     "twig/twig": {
         "version": "v3.3.3"
     },
-    "voku/anti-xss": {
-        "version": "4.1.33"
-    },
-    "voku/portable-ascii": {
-        "version": "1.5.6"
-    },
-    "voku/portable-utf8": {
-        "version": "5.4.51"
-    },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
     }
 }
