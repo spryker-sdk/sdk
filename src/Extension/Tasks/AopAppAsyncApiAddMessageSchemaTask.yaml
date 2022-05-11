@@ -4,7 +4,7 @@ short_description: "Create AOP AsyncAPI file."
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:message:add %channel-name% %message-name% %operation-id% %asyncapi-file% %property% %from-transfer-class% %publish% %subscribe% %add-metadata%  -v"
+command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:message:add %channel-name% %message-name% %operation-id% %asyncapi-file% %property% %from-transfer-class% %publish% %subscribe% %add-metadata% -v"
 type: local_cli_interactive
 placeholders:
   - name: "%sdk_dir%"

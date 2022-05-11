@@ -4636,12 +4636,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/aop-sdk.git",
-                "reference": "00d22150e8009240b86e8ac47bd7459a3d30fc32"
+                "reference": "8d99d216088a5d0f09241870faf3f6070dd57c29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/aop-sdk/zipball/00d22150e8009240b86e8ac47bd7459a3d30fc32",
-                "reference": "00d22150e8009240b86e8ac47bd7459a3d30fc32",
+                "url": "https://api.github.com/repos/spryker-sdk/aop-sdk/zipball/8d99d216088a5d0f09241870faf3f6070dd57c29",
+                "reference": "8d99d216088a5d0f09241870faf3f6070dd57c29",
                 "shasum": ""
             },
             "require": {
@@ -4688,7 +4688,7 @@
                 "issues": "https://github.com/spryker-sdk/aop-sdk/issues",
                 "source": "https://github.com/spryker-sdk/aop-sdk/tree/master"
             },
-            "time": "2022-05-11T09:53:42+00:00"
+            "time": "2022-05-11T13:19:04+00:00"
         },
         {
             "name": "spryker-sdk/async-api",
