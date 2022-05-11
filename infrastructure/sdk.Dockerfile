@@ -11,10 +11,7 @@ RUN apk update \
     npm \
     && npm install -g npm@8.4.1
 
-RUN usermod -a -G spryker spryker && usermod -g spryker spryker
-USER spryker
-
-COPY --chown=spryker:spryker composer.json composer.lock auth.json package.json package-lock.json ${srcRoot}/
+COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \

@@ -4,7 +4,7 @@ short_description: "Validate AOP AsyncAPI file."
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:validate %asyncapi-file% -v"
+command: "php %sdk_dir%/vendor/bin/asyncapi openapi:schema:validate %asyncapi-file% -v"
 type: local_cli_interactive
 placeholders:
   - name: "%sdk_dir%"
