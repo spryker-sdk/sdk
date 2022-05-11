@@ -143,4 +143,9 @@ framework:
           to: pbc-validated
           metadata:
             task: aop:pbc:validate
+        pbc-revalidation:
+          from: pbc-validated
+          to: pbc-validated
+          metadata:
+            task: aop:pbc:validate
 
