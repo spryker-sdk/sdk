@@ -4635,13 +4635,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spryker-sdk/aop-sdk.git",
-                "reference": "8d99d216088a5d0f09241870faf3f6070dd57c29"
+                "url": "https://github.com/spryker-sdk/acp.git",
+                "reference": "9e1bf44cc112ae282b5ebeab9b0ec8b8aa307735"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/aop-sdk/zipball/8d99d216088a5d0f09241870faf3f6070dd57c29",
-                "reference": "8d99d216088a5d0f09241870faf3f6070dd57c29",
+                "url": "https://api.github.com/repos/spryker-sdk/acp/zipball/9e1bf44cc112ae282b5ebeab9b0ec8b8aa307735",
+                "reference": "9e1bf44cc112ae282b5ebeab9b0ec8b8aa307735",
                 "shasum": ""
             },
             "require": {
@@ -4665,7 +4665,7 @@
             },
             "default-branch": true,
             "bin": [
-                "bin/aop-sdk"
+                "bin/acp"
             ],
             "type": "library",
             "extra": {
@@ -4683,12 +4683,12 @@
             "license": [
                 "proprietary"
             ],
-            "description": "SDK for AOP.",
+            "description": "SDK for ACP.",
             "support": {
-                "issues": "https://github.com/spryker-sdk/aop-sdk/issues",
-                "source": "https://github.com/spryker-sdk/aop-sdk/tree/master"
+                "issues": "https://github.com/spryker-sdk/acp/issues",
+                "source": "https://github.com/spryker-sdk/acp/tree/master"
             },
-            "time": "2022-05-11T13:19:04+00:00"
+            "time": "2022-05-12T09:32:47+00:00"
         },
         {
             "name": "spryker-sdk/async-api",
@@ -4696,12 +4696,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/async-api.git",
-                "reference": "27d282fd99028ade97817f7f9b4baa0b9bf9e207"
+                "reference": "45e765c2cb39b26eacb5ba6aeb0f7305a325fc32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/27d282fd99028ade97817f7f9b4baa0b9bf9e207",
-                "reference": "27d282fd99028ade97817f7f9b4baa0b9bf9e207",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/45e765c2cb39b26eacb5ba6aeb0f7305a325fc32",
+                "reference": "45e765c2cb39b26eacb5ba6aeb0f7305a325fc32",
                 "shasum": ""
             },
             "require": {
@@ -4746,7 +4746,7 @@
                 "issues": "https://github.com/spryker-sdk/async-api/issues",
                 "source": "https://github.com/spryker-sdk/async-api/tree/master"
             },
-            "time": "2022-05-10T12:58:02+00:00"
+            "time": "2022-05-12T11:01:58+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -4874,12 +4874,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "0f46853b6cb8fa59fa099e102309a2c584066c6a"
+                "reference": "232a8d0e3fc14c39d7d391eb470e0b8306bf622f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/0f46853b6cb8fa59fa099e102309a2c584066c6a",
-                "reference": "0f46853b6cb8fa59fa099e102309a2c584066c6a",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/232a8d0e3fc14c39d7d391eb470e0b8306bf622f",
+                "reference": "232a8d0e3fc14c39d7d391eb470e0b8306bf622f",
                 "shasum": ""
             },
             "require": {
@@ -4926,7 +4926,7 @@
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
                 "source": "https://github.com/spryker-sdk/sync-api/tree/master"
             },
-            "time": "2022-05-10T14:16:00+00:00"
+            "time": "2022-05-12T10:25:34+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",

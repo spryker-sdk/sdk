@@ -119,6 +119,9 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
                 }
 
                 $question = new Question($description, $defaultValue);
+                if ($type === 'array') {
+                    $question->setMultiline(true);
+                }
                 $question->setNormalizer(function ($value) {
                     return $value ?: '';
                 });

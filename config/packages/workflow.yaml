@@ -96,7 +96,7 @@ framework:
           metadata:
             task: aop:asyncapi:generate
         openapi-generate-code:
-          from: asyncapi-generate
+          from: ['openapi-validated', 'asyncapi-generate']
           to: pbc-validate
           metadata:
             task: aop:openapi:generate
