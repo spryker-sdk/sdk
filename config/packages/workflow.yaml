@@ -41,7 +41,7 @@ framework:
         - manifest
         - config
         - translation
-        - aop-validated
+        - acp-validated
         - openapi
         - openapi-validated
         - asyncapi
@@ -54,65 +54,65 @@ framework:
           from: start
           to: manifest
           metadata:
-            task: aop:manifest:create
+            task: acp:manifest:create
         config:
           from: manifest
           to: config
           metadata:
-            task: aop:config:create
+            task: acp:config:create
         translation:
           from: config
           to: translation
           metadata:
-            task: aop:translation:create
-        aop-validate:
+            task: acp:translation:create
+        acp-validate:
           from: translation
-          to: aop-validated
+          to: acp-validated
           metadata:
-            task: aop:app:validate
+            task: acp:app:validate
         openapi:
-          from: aop-validated
+          from: acp-validated
           to: openapi
           metadata:
-            task: aop:openapi:create
+            task: acp:openapi:create
         openapi-validate:
           from: openapi
           to: openapi-validated
           metadata:
-            task: aop:openapi:validate
+            task: acp:openapi:validate
         openapi-generate-code:
           from: openapi-validated
           to: pbc-validate
           metadata:
-            task: aop:openapi:generate
+            task: acp:openapi:generate
         asyncapi:
           from: pbc-validate
           to: asyncapi
           metadata:
-            task: aop:asyncapi:create-full
+            task: acp:asyncapi:create-full
         asyncapi-validate:
           from: asyncapi
           to: asyncapi-validated
           metadata:
-            task: aop:asyncapi:validate
+            task: acp:asyncapi:validate
         asyncapi-generate-code:
           from: asyncapi-validated
           to: asyncapi-generate
           metadata:
-            task: aop:asyncapi:generate
+            task: acp:asyncapi:generate
         pbc-validation:
           from: pbc-validate
           to: pbc-validated
           metadata:
-            task: aop:pbc:validate
+            task: acp:pbc:validate
         pbc-validation-from-async:
           from: asyncapi-generate
           to: pbc-validated
           metadata:
-            task: aop:pbc:validate
+            task: acp:pbc:validate
         pbc-revalidation:
           from: pbc-validated
           to: pbc-validated
           metadata:
-            task: aop:pbc:validate
+            task: acp:pbc:validate
 
