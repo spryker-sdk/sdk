@@ -1,6 +1,8 @@
 ARG SPRYKER_PARENT_IMAGE=spryker/php:8.0
 
 FROM ${SPRYKER_PARENT_IMAGE} AS application-production-dependencies
+ARG UID=1000
+ARG GID=1000
 
 USER root
 RUN apk update \
@@ -11,17 +13,19 @@ RUN apk update \
     npm \
     && npm install -g npm@8.4.1
 
+RUN usermod -a -G spryker spryker \
+    && usermod -g spryker spryker \
+    && usermod -u ${UID} spryker \
+    && groupmod -g ${GID} spryker \
+    && chown spryker:spryker -R ${srcRoot}
+
+USER spryker
+
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
-RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
-  --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
-    composer install --no-scripts --no-interaction ${SPRYKER_COMPOSER_MODE} -vvv
-
-RUN mkdir -p /home/spryker/.npm && chown spryker:spryker /home/spryker/.npm
-RUN --mount=type=cache,id=npm,sharing=locked,target=/home/spryker/.npm,uid=1000 \
-    --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
-    npm install
+RUN composer install --no-scripts --no-interaction ${SPRYKER_COMPOSER_MODE} -vvv
+RUN npm install
 
 FROM application-production-dependencies AS application-production-codebase
 
@@ -37,8 +41,7 @@ COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
 
-RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
-  composer dump-autoload -o
+RUN composer dump-autoload -o
 ENV APP_ENV=prod
 
 RUN bin/console sdk:init:sdk && \
