@@ -1,6 +1,6 @@
 ---
-id: "aop:translation:validate"
-short_description: "Validate AOP translation file."
+id: "acp:translation:validate"
+short_description: "Validate ACP translation file."
 help: ~
 stage: build
 version: 0.1.0

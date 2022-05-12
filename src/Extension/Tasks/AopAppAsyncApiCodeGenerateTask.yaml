@@ -1,6 +1,6 @@
 ---
-id: "aop:asyncapi:generate"
-short_description: "Generate AOP AsyncAPI code."
+id: "acp:asyncapi:generate"
+short_description: "Generate ACP AsyncAPI code."
 help: ~
 stage: build
 version: 0.1.0

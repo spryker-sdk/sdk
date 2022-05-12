@@ -1,6 +1,6 @@
 ---
-id: "aop:manifest:validate"
-short_description: "Validate AOP manifest file."
+id: "acp:manifest:validate"
+short_description: "Validate ACP manifest file."
 help: ~
 stage: build
 version: 0.1.0

@@ -1,6 +1,6 @@
 ---
-id: "aop:openapi:create"
-short_description: "Create AOP OpenAPI file."
+id: "acp:openapi:create"
+short_description: "Create ACP OpenAPI file."
 help: ~
 stage: build
 version: 0.1.0

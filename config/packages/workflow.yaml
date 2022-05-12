@@ -1,7 +1,7 @@
 framework:
   workflows:
     default:
-      type: state_machine
+      type: workflow
       marking_store:
         type: method
         property: status
@@ -101,7 +101,12 @@ framework:
           metadata:
             task: aop:asyncapi:generate
         pbc-validation:
-          from: [pbc-validate, asyncapi-generate]
+          from: pbc-validate
+          to: pbc-validated
+          metadata:
+            task: aop:pbc:validate
+        pbc-validation-from-async:
+          from: asyncapi-generate
           to: pbc-validated
           metadata:
             task: aop:pbc:validate

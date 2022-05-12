@@ -1,6 +1,6 @@
 ---
-id: "aop:translation:create"
-short_description: "Create AOP translation file."
+id: "acp:translation:create"
+short_description: "Create ACP translation file."
 help: ~
 stage: build
 version: 0.1.0

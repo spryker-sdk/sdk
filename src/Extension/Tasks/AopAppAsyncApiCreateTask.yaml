@@ -1,6 +1,6 @@
 ---
-id: "aop:asyncapi:create"
-short_description: "Create AOP AsyncAPI file."
+id: "acp:asyncapi:create"
+short_description: "Create ACP AsyncAPI file."
 help: ~
 stage: build
 version: 0.1.0

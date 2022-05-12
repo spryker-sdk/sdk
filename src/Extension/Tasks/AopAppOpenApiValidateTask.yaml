@@ -1,6 +1,6 @@
 ---
-id: "aop:openapi:validate"
-short_description: "Validate AOP OpenAPI file."
+id: "acp:openapi:validate"
+short_description: "Validate ACP OpenAPI file."
 help: ~
 stage: build
 version: 0.1.0

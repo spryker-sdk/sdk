@@ -1,6 +1,6 @@
 ---
-id: "aop:config:validate"
-short_description: "Validate AOP configuration file."
+id: "acp:config:validate"
+short_description: "Validate ACP configuration file."
 help: ~
 stage: build
 version: 0.1.0

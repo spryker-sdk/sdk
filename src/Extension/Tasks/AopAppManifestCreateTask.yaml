@@ -1,6 +1,6 @@
 ---
-id: "aop:manifest:create"
-short_description: "Create AOP manifest file."
+id: "acp:manifest:create"
+short_description: "Create ACP manifest file."
 help: ~
 stage: build
 version: 0.1.0

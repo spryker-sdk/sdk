@@ -1,6 +1,6 @@
 ---
-id: "aop:app:validate"
-short_description: "Create AOP AsyncAPI file."
+id: "acp:app:validate"
+short_description: "Create ACP AsyncAPI file."
 help: ~
 stage: build
 version: 0.1.0

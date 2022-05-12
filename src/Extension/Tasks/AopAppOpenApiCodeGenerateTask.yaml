@@ -1,6 +1,6 @@
 ---
-id: "aop:openapi:generate"
-short_description: "Generate AOP OpenAPI code."
+id: "acp:openapi:generate"
+short_description: "Generate ACP OpenAPI code."
 help: ~
 stage: build
 version: 0.1.0
