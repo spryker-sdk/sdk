@@ -4,7 +4,7 @@ short_description: "Validate AOP configuration file."
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/aop-sdk app:configuration:validate %configuration-file%"
+command: "php %sdk_dir%/vendor/bin/acp app:configuration:validate %configuration-file%"
 type: local_cli_interactive
 placeholders:
   - name: "%sdk_dir%"

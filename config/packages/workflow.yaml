@@ -1,7 +1,7 @@
 framework:
   workflows:
     default:
-      type: workflow
+      type: state_machine
       marking_store:
         type: method
         property: status
@@ -80,8 +80,13 @@ framework:
           to: openapi-validated
           metadata:
             task: aop:openapi:validate
-        asyncapi:
+        openapi-generate-code:
           from: openapi-validated
+          to: pbc-validate
+          metadata:
+            task: aop:openapi:generate
+        asyncapi:
+          from: pbc-validate
           to: asyncapi
           metadata:
             task: aop:asyncapi:create-full
@@ -95,13 +100,8 @@ framework:
           to: asyncapi-generate
           metadata:
             task: aop:asyncapi:generate
-        openapi-generate-code:
-          from: ['openapi-validated', 'asyncapi-generate']
-          to: pbc-validate
-          metadata:
-            task: aop:openapi:generate
         pbc-validation:
-          from: pbc-validate
+          from: [pbc-validate, asyncapi-generate]
           to: pbc-validated
           metadata:
             task: aop:pbc:validate

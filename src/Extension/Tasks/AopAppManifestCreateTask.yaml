@@ -4,7 +4,7 @@ short_description: "Create AOP manifest file."
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/aop-sdk app:manifest:create %manifest-path% %name% %locale%"
+command: "php %sdk_dir%/vendor/bin/acp app:manifest:create %manifest-path% %name% %locale%"
 type: local_cli_interactive
 placeholders:
   - name: "%sdk_dir%"

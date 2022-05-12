@@ -4874,12 +4874,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "232a8d0e3fc14c39d7d391eb470e0b8306bf622f"
+                "reference": "658f56376aab968e66d648be0c49ba1d868c8b1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/232a8d0e3fc14c39d7d391eb470e0b8306bf622f",
-                "reference": "232a8d0e3fc14c39d7d391eb470e0b8306bf622f",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/658f56376aab968e66d648be0c49ba1d868c8b1f",
+                "reference": "658f56376aab968e66d648be0c49ba1d868c8b1f",
                 "shasum": ""
             },
             "require": {
@@ -4926,7 +4926,7 @@
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
                 "source": "https://github.com/spryker-sdk/sync-api/tree/master"
             },
-            "time": "2022-05-12T10:25:34+00:00"
+            "time": "2022-05-12T13:37:42+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",
