@@ -5390,7 +5390,7 @@
         },
         {
             "name": "spryker-sdk/integrator",
-            "version": "dev-feature/pplus-510-integrator-as-part-of-upgrader",
+            "version": "dev-temp/PPLUS-1265-bugfix",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
@@ -5570,12 +5570,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "d08960164b739a361c4bb65dbef9775c57953bf6"
+                "reference": "37991ac974c14c827179cd2c366bfc03b372c1bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/d08960164b739a361c4bb65dbef9775c57953bf6",
-                "reference": "d08960164b739a361c4bb65dbef9775c57953bf6",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/37991ac974c14c827179cd2c366bfc03b372c1bb",
+                "reference": "37991ac974c14c827179cd2c366bfc03b372c1bb",
                 "shasum": ""
             },
             "require": {
@@ -5590,7 +5590,7 @@
                 "nikic/php-parser": "^4.13",
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.2",
-                "spryker-sdk/integrator": "dev-feature/pplus-510-integrator-as-part-of-upgrader",
+                "spryker-sdk/integrator": "dev-temp/PPLUS-1265-bugfix",
                 "spryker-sdk/sdk-contracts": "dev-master",
                 "spryker/code-sniffer": "^0.17.3",
                 "symfony/config": "^5.0",
@@ -5627,7 +5627,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/feature/pplus-724-release-group-strategy-implemented-on-upgrader"
             },
-            "time": "2022-05-12T06:57:13+00:00"
+            "time": "2022-05-13T08:42:57+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
