@@ -55,64 +55,79 @@ framework:
           to: manifest
           metadata:
             task: aop:manifest:create
+            name: BuildManifest
         config:
           from: manifest
           to: config
           metadata:
             task: aop:config:create
+            name: BuildConfiguration
         translation:
           from: config
           to: translation
           metadata:
             task: aop:translation:create
+            name: BuildTranslation
         aop-validate:
           from: translation
           to: aop-validated
           metadata:
             task: aop:app:validate
+            error: Now you need to fix manually and continue with the workflow afterwards.
+            name: ValidateACP
         openapi:
           from: aop-validated
           to: openapi
           metadata:
             task: aop:openapi:create
+            name: CreateOpenApi
         openapi-validate:
           from: openapi
           to: openapi-validated
           metadata:
             task: aop:openapi:validate
+            error: Now you need to fix manually and continue with the workflow afterwards.
+            name: ValidateOpenApi
         openapi-generate-code:
           from: openapi-validated
           to: pbc-validate
           metadata:
             task: aop:openapi:generate
-        asyncapi:
+            name: GenerateOpenApi
+        CreateAsyncapi:
           from: pbc-validate
           to: asyncapi
           metadata:
             task: aop:asyncapi:create-full
-        asyncapi-validate:
+        ValidateAsyncapi:
           from: asyncapi
           to: asyncapi-validated
           metadata:
             task: aop:asyncapi:validate
-        asyncapi-generate-code:
+            error: Now you need to fix manually and continue with the workflow afterwards.
+        GenerateAsyncapiCode:
           from: asyncapi-validated
           to: asyncapi-generate
           metadata:
             task: aop:asyncapi:generate
-        pbc-validation:
+        validatePbc:
           from: pbc-validate
           to: pbc-validated
           metadata:
             task: aop:pbc:validate
-        pbc-validation-from-async:
+            error: Now you need to fix manually and continue with the workflow afterwards.
+        ValidatePbcWithAsyncApi:
           from: asyncapi-generate
           to: pbc-validated
           metadata:
             task: aop:pbc:validate
-        pbc-revalidation:
+            error: Now you need to fix manually and continue with the workflow afterwards.
+            name: ValidatePbc
+        RevalidationPbc:
           from: pbc-validated
           to: pbc-validated
           metadata:
             task: aop:pbc:validate
+            error: Now you need to fix manually and continue with the workflow afterwards.
+            name: ValidatePbc
 

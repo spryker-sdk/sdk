@@ -14,6 +14,14 @@ services:
       - "@service.task_manager"
       - "@task_repository"
 
+  init_run_workflow_command:
+    autowire: false
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\RunWorkflowCommand
+    tags: [ "console.command" ]
+    arguments:
+      - "@project_workflow"
+      - "@cli_value_receiver"
+      - '@task_executor'
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand
