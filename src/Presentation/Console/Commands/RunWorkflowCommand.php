@@ -64,7 +64,6 @@ class RunWorkflowCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
-
         $currentTask = null;
         $context = new Context();
         while (true) {
@@ -95,7 +94,6 @@ class RunWorkflowCommand extends Command
             $output->writeln(sprintf('<info>The `%s` task successfully done.</info>', $flippedTaskIds[$currentTask]));
         }
         $this->writeFilteredMessages($output, $context);
-
 
         return static::SUCCESS;
     }
@@ -141,7 +139,7 @@ class RunWorkflowCommand extends Command
         if (count($enabledTasksIds) > 1) {
             $answer = $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
-                    "Select the next task in workflow.",
+                    'Select the next task in workflow.',
                     array_key_first($enabledTasksIds),
                     'string',
                     array_keys($enabledTasksIds),
