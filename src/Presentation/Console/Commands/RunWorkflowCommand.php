@@ -81,14 +81,18 @@ class RunWorkflowCommand extends Command
                 break;
             }
             $currentTask = $taskId;
-
+            $flippedTaskIds = array_flip($enabledTasksIds);
+            $output->writeln(sprintf('<info>Running task `%s` ...</info>', $flippedTaskIds[$currentTask]));
             $context = $this->taskExecutor->execute($currentTask, $context);
 
             if ($context->getExitCode() === 1) {
                 $this->writeFilteredMessages($output, $context);
+                $output->writeln(sprintf('<error>The `%s` task is failed, see details above.</error>', $flippedTaskIds[$currentTask]));
 
                 return static::FAILURE;
             }
+
+            $output->writeln(sprintf('<info>The `%s` task successfully done.</info>', $flippedTaskIds[$currentTask]));
         }
         $this->writeFilteredMessages($output, $context);
 

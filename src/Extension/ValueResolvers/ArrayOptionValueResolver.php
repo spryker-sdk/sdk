@@ -26,7 +26,7 @@ class ArrayOptionValueResolver extends StaticValueResolver
             return null;
         }
 
-        $values = preg_split("/\r\n|\n|\r/", $value);
+        $values = (array)preg_split("/\r\n|\n|\r/", $value);
 
         $options = array_map(
             function ($valueParam) {
