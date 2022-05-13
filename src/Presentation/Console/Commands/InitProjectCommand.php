@@ -149,7 +149,7 @@ class InitProjectCommand extends Command
             if ($settingEntity->hasInitialization()) {
                 $needsToAsk = !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
-                        sprintf('Do you need to init `%s`', $settingEntity->getPath()),
+                        sprintf('Do you need to init `%s` with custom setting', $settingEntity->getPath()),
                         false,
                         'boolean',
                     ),
