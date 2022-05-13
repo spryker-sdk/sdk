@@ -300,7 +300,7 @@ class ProjectWorkflowTest extends Unit
         $workflowMock->expects($this->once())
             ->method('getEnabledTransitions')
             ->willReturn([$this->createMock(Transition::class)]);
-        $workflowMock->expects($this->once())
+        $workflowMock
             ->method('getMetadataStore')
             ->willReturn($metadataStoreMock);
 
