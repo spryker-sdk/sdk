@@ -1,3 +1,4 @@
+#DOCKER_BUILDKIT=1 docker build -f ./infrastructure/sdk.Dockerfile --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t spryker/php-sdk:latest . && docker build -f ./infrastructure/sdk.debug.Dockerfile --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t spryker/php-sdk-debug:latest .
 ARG SPRYKER_PARENT_IMAGE=spryker/php:8.0
 
 FROM ${SPRYKER_PARENT_IMAGE} AS application-production-dependencies
