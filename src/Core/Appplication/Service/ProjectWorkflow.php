@@ -152,16 +152,18 @@ class ProjectWorkflow
                     MessageInterface::ERROR,
                 ),
             );
-            $errorMessage = $this->currentWorkflow->getMetadataStore()->getTransitionMetadata($this->currentTransition)['error'] ?? null;
+            if ($this->currentTransition) {
+                $errorMessage = $this->currentWorkflow->getMetadataStore()->getTransitionMetadata($this->currentTransition)['error'] ?? null;
 
-            if ($errorMessage) {
-                $context->addMessage(
-                    $context->getTask()->getId(),
-                    new Message(
-                        $errorMessage,
-                        MessageInterface::INFO,
-                    ),
-                );
+                if ($errorMessage) {
+                    $context->addMessage(
+                        $context->getTask()->getId(),
+                        new Message(
+                            $errorMessage,
+                            MessageInterface::INFO,
+                        ),
+                    );
+                }
             }
 
             return $context;
