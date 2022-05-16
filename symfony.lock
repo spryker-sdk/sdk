@@ -375,8 +375,8 @@
     "sllh/composer-versions-check": {
         "version": "v2.0.5"
     },
-    "spryker-sdk/aop-sdk": {
-        "version": "1.0.x-dev"
+    "spryker-sdk/acp": {
+        "version": "0.1.0"
     },
     "spryker-sdk/async-api": {
         "version": "0.1.0"

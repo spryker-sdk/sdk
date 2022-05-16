@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e223d1caa652568f026db8876add92e",
+    "content-hash": "32738067fbefb404e010cc922ac7a35d",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -4615,24 +4615,24 @@
             "time": "2022-05-06T10:58:42+00:00"
         },
         {
-            "name": "spryker-sdk/aop-sdk",
-            "version": "dev-master",
+            "name": "spryker-sdk/acp",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/acp.git",
-                "reference": "9e1bf44cc112ae282b5ebeab9b0ec8b8aa307735"
+                "reference": "b6a51eb975a587bfac751c7f63e2b29ef3fc62e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/acp/zipball/9e1bf44cc112ae282b5ebeab9b0ec8b8aa307735",
-                "reference": "9e1bf44cc112ae282b5ebeab9b0ec8b8aa307735",
+                "url": "https://api.github.com/repos/spryker-sdk/acp/zipball/b6a51eb975a587bfac751c7f63e2b29ef3fc62e0",
+                "reference": "b6a51eb975a587bfac751c7f63e2b29ef3fc62e0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
-                "spryker-sdk/async-api": "1.0.x-dev",
-                "spryker-sdk/spryk": "master",
-                "spryker-sdk/sync-api": "1.0.x-dev",
+                "spryker-sdk/async-api": "^0.2.1",
+                "spryker-sdk/spryk": "^0.4.0",
+                "spryker-sdk/sync-api": "^0.1.0",
                 "symfony/console": "^5.3",
                 "symfony/finder": "^5.3"
             },
@@ -4647,7 +4647,6 @@
                 "spryker/kernel": "^3.68",
                 "symfony/var-dumper": "*"
             },
-            "default-branch": true,
             "bin": [
                 "bin/acp"
             ],
@@ -4670,26 +4669,27 @@
             "description": "SDK for ACP.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/acp/issues",
-                "source": "https://github.com/spryker-sdk/acp/tree/master"
+                "source": "https://github.com/spryker-sdk/acp/tree/0.1.0"
             },
-            "time": "2022-05-12T09:32:47+00:00"
+            "time": "2022-05-16T09:52:11+00:00"
         },
         {
             "name": "spryker-sdk/async-api",
-            "version": "dev-master",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/async-api.git",
-                "reference": "45e765c2cb39b26eacb5ba6aeb0f7305a325fc32"
+                "reference": "9cee8860402569f41a1fd0f45fd0587b904aae88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/45e765c2cb39b26eacb5ba6aeb0f7305a325fc32",
-                "reference": "45e765c2cb39b26eacb5ba6aeb0f7305a325fc32",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/9cee8860402569f41a1fd0f45fd0587b904aae88",
+                "reference": "9cee8860402569f41a1fd0f45fd0587b904aae88",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
+                "spryker-sdk/spryk": "^0.4.0",
                 "symfony/console": "^5.3 || ^6.0",
                 "symfony/finder": "^5.3 || ^6.0",
                 "symfony/process": "^5.4",
@@ -4705,7 +4705,6 @@
                 "symfony/filesystem": "^5.3",
                 "symfony/var-dumper": "*"
             },
-            "default-branch": true,
             "bin": [
                 "bin/asyncapi"
             ],
@@ -4728,9 +4727,9 @@
             "description": "SDK for AsyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/async-api/issues",
-                "source": "https://github.com/spryker-sdk/async-api/tree/master"
+                "source": "https://github.com/spryker-sdk/async-api/tree/0.2.1"
             },
-            "time": "2022-05-12T11:01:58+00:00"
+            "time": "2022-05-16T09:16:56+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -4813,26 +4812,25 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "dev-master",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "406426acd3aecab5ac6032f2a60ca712738e1eb3"
+                "reference": "ee02ba4dbca0050e151d63977fd7cb04b971cc15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/406426acd3aecab5ac6032f2a60ca712738e1eb3",
-                "reference": "406426acd3aecab5ac6032f2a60ca712738e1eb3",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/ee02ba4dbca0050e151d63977fd7cb04b971cc15",
+                "reference": "ee02ba4dbca0050e151d63977fd7cb04b971cc15",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4"
             },
-            "default-branch": true,
             "bin": [
-                "spryk-build",
-                "spryk-dump",
-                "spryk-run",
+                "bin/spryk-build",
+                "bin/spryk-dump",
+                "bin/spryk-run",
                 "spryk.phar"
             ],
             "type": "library",
@@ -4848,29 +4846,29 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/master"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.0"
             },
-            "time": "2022-03-30T05:20:15+00:00"
+            "time": "2022-05-16T08:09:18+00:00"
         },
         {
             "name": "spryker-sdk/sync-api",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "af309b6dedda96495486fbbd72b684babab9907a"
+                "reference": "480da3d6861a6c26f676e199987b0d83ccb71234"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/af309b6dedda96495486fbbd72b684babab9907a",
-                "reference": "af309b6dedda96495486fbbd72b684babab9907a",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/480da3d6861a6c26f676e199987b0d83ccb71234",
+                "reference": "480da3d6861a6c26f676e199987b0d83ccb71234",
                 "shasum": ""
             },
             "require": {
                 "cebe/php-openapi": "^1.6",
                 "doctrine/inflector": "^2.0",
                 "php": ">=7.4",
-                "spryker-sdk/spryk": "dev-master",
+                "spryker-sdk/spryk": "^0.4.0",
                 "symfony/console": "^5.3 || ^6.0",
                 "symfony/finder": "^5.3 || ^6.0",
                 "symfony/process": "^5.4"
@@ -4885,7 +4883,6 @@
                 "symfony/filesystem": "^5.3",
                 "symfony/var-dumper": "*"
             },
-            "default-branch": true,
             "bin": [
                 "bin/syncapi"
             ],
@@ -4908,9 +4905,9 @@
             "description": "SDK for SyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
-                "source": "https://github.com/spryker-sdk/sync-api/tree/master"
+                "source": "https://github.com/spryker-sdk/sync-api/tree/0.1.0"
             },
-            "time": "2022-05-13T06:03:52+00:00"
+            "time": "2022-05-16T09:33:24+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",
@@ -12834,12 +12831,6 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/spryk",
-            "version": "9999999-dev",
-            "alias": "0.3.0",
-            "alias_normalized": "0.3.0.0"
-        },
-        {
             "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",
             "alias": "0.1.0",
@@ -12848,12 +12839,8 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "spryker-sdk/aop-sdk": 20,
-        "spryker-sdk/async-api": 20,
-        "spryker-sdk/sync-api": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/sdk-contracts": 20,
-        "spryker-sdk/spryk": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
