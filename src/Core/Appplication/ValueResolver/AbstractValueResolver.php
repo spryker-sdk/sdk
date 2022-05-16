@@ -78,7 +78,11 @@ abstract class AbstractValueResolver implements ValueResolverInterface
             return null;
         }
 
-        if (strpos(' ', trim($defaultValue)) === false) {
+        if (
+            !is_string($defaultValue) ||
+            preg_match('/\s/',$defaultValue) === false ||
+            preg_match('"/\r\n|\n|\r/"',$defaultValue)
+        ) {
             return $defaultValue;
         }
 

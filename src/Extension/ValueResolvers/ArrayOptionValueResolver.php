@@ -30,7 +30,7 @@ class ArrayOptionValueResolver extends StaticValueResolver
 
         $options = array_map(
             function ($valueParam) {
-                return sprintf('--%s=%s', $this->getAlias(), $valueParam);
+                return sprintf('--%s=\'%s\'', $this->getAlias(), $valueParam);
             },
             $values,
         );
