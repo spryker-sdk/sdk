@@ -33,21 +33,21 @@ placeholders:
       description: "The Transfer class name from which the message should be created"
       type: string
   - name: "%operation-id%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "operation-id"
       description: "Operation ID of the message. Operation ID is required for each message"
       type: string
   - name: "%message-name%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "message-name"
       description: "The message name"
       type: string
   - name: "%channel-name%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "channel-name"

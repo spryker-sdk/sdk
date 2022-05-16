@@ -20,7 +20,7 @@ placeholders:
       settingPaths: []
       type: boolean
   - name: "%priority%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "priority"
@@ -31,7 +31,7 @@ placeholders:
       settingPaths: []
       type: int
   - name: "%reportDir%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: true
     configuration:
       name: "report_dir"
