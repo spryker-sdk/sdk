@@ -93,6 +93,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
     /**
      * @param bool $realCommand
+     *
      * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function findAllIndexedCollection(bool $realCommand = true): array
@@ -144,6 +145,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      * @param bool $realCommand
+     *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     protected function changePhpCommand(TaskInterface $task, bool $realCommand = true): TaskInterface
