@@ -19,10 +19,17 @@ class StaticTextValueResolver extends StaticValueResolver
         return 'STATIC_TEXT';
     }
 
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     * @param bool $optional
+     *
+     * @return mixed
+     */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): mixed
     {
         $value = parent::getValue($context, $settingValues, $optional);
 
-        return $value ? sprintf('\'%s\'', $value): null;
+        return $value ? sprintf('\'%s\'', $value) : null;
     }
 }
