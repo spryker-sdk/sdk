@@ -5570,12 +5570,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "729cc2d4f3d3039b7d7f30bf02d4b1fce5a1b15b"
+                "reference": "b246dc12b049f814fe4599428147255382f6a5a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/729cc2d4f3d3039b7d7f30bf02d4b1fce5a1b15b",
-                "reference": "729cc2d4f3d3039b7d7f30bf02d4b1fce5a1b15b",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/b246dc12b049f814fe4599428147255382f6a5a1",
+                "reference": "b246dc12b049f814fe4599428147255382f6a5a1",
                 "shasum": ""
             },
             "require": {
@@ -5627,7 +5627,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/feature/pplus-724-release-group-strategy-implemented-on-upgrader"
             },
-            "time": "2022-05-13T13:14:17+00:00"
+            "time": "2022-05-16T18:37:18+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
