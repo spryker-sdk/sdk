@@ -74,7 +74,15 @@ abstract class AbstractValueResolver implements ValueResolverInterface
             );
         }
 
-        return $defaultValue;
+        if (!$defaultValue) {
+            return null;
+        }
+
+        if (strpos(' ', trim($defaultValue)) === false) {
+            return $defaultValue;
+        }
+
+        return sprintf('\'%s\'', $defaultValue);
     }
 
     /**

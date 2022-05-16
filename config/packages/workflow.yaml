@@ -104,7 +104,7 @@ framework:
           to: asyncapi-generate
           metadata:
             task: acp:asyncapi:generate
-        validatePbc:
+        ValidatePbc:
           from: pbc-validate
           to: pbc-validated
           metadata:
