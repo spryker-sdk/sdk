@@ -18,18 +18,24 @@ cp "${CURRENT_DIR}/docker-compose.yml" "${BUILD_DIR}/docker-compose.yml"
 mkdir -p "${BUILD_DIR}/db"
 cp -R "${CURRENT_DIR}/extension" "${BUILD_DIR}/"
 cp "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.Dockerfile"
+cp "${CURRENT_DIR}/infrastructure/sdk.local.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.local.Dockerfile"
+cp "${CURRENT_DIR}/infrastructure/sdk.debug.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.debug.Dockerfile"
+cp "${CURRENT_DIR}/infrastructure/debug/php/69-xdebug.ini" "${BUILD_DIR}/infrastructure/debug/php/69-xdebug.ini"
 cd "${BUILD_DIR}"
-tar cJf spryker-sdk.tar.gz bin/ extension/ db/ infrastructure/sdk.Dockerfile VERSION docker-compose.yml docker-compose.debug.yml docker-compose.dev.yml
+tar cJf spryker-sdk.tar.gz bin/ extension/ db/ infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile \
+    infrastructure/sdk.debug.Dockerfile infrastructure/debug/php/69-xdebug.ini VERSION docker-compose.yml \
+    docker-compose.debug.yml docker-compose.dev.yml
 cd "${CURRENT_DIR}"
 cp "${CURRENT_DIR}/infrastructure/installer.sh" "${BUILD_DIR}/installer.sh"
 cat "${BUILD_DIR}/spryker-sdk.tar.gz" >> "${BUILD_DIR}/installer.sh"
 chmod a+x "${BUILD_DIR}/installer.sh"
 
-DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build --no-cache
+DOCKER_BUILDKIT=1 docker build -f "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" -t spryker/php-sdk:${VERSION} -t spryker/php-sdk:latest "${CURRENT_DIR}"
 
 echo "Nearly done, the next steps are:"
 echo "docker login"
 echo "docker push php-sdk:${VERSION}"
+echo "docker push php-sdk:latest"
 echo "git tag ${VERSION} && git push origin ${VERSION}"
 echo "create a github release (https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release)"
 echo "upload the ${BUILD_DIR}/installer.sh to the github release"

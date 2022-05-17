@@ -16,7 +16,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
      * @var array
      */
     protected const REPOSITORIES = [
-        '\'boilerplate\'' => 'https://github.com/spryker/project-boilerplate',
+        'boilerplate' => 'https://github.com/spryker/project-boilerplate',
     ];
 
     /**
