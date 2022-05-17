@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32738067fbefb404e010cc922ac7a35d",
+    "content-hash": "4d09f1dd33ab396b346a98167dc9c29b",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -4675,16 +4675,16 @@
         },
         {
             "name": "spryker-sdk/async-api",
-            "version": "0.2.1",
+            "version": "dev-bugfix/apps-4250-fix-executable-path-in-asyncapi-sdk",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/async-api.git",
-                "reference": "9cee8860402569f41a1fd0f45fd0587b904aae88"
+                "reference": "cbebc2c3238397c5db0e4c7d5786d32a078d2143"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/9cee8860402569f41a1fd0f45fd0587b904aae88",
-                "reference": "9cee8860402569f41a1fd0f45fd0587b904aae88",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/cbebc2c3238397c5db0e4c7d5786d32a078d2143",
+                "reference": "cbebc2c3238397c5db0e4c7d5786d32a078d2143",
                 "shasum": ""
             },
             "require": {
@@ -4727,9 +4727,9 @@
             "description": "SDK for AsyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/async-api/issues",
-                "source": "https://github.com/spryker-sdk/async-api/tree/0.2.1"
+                "source": "https://github.com/spryker-sdk/async-api/tree/bugfix/apps-4250-fix-executable-path-in-asyncapi-sdk"
             },
-            "time": "2022-05-16T09:16:56+00:00"
+            "time": "2022-05-17T07:37:09+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -4852,16 +4852,16 @@
         },
         {
             "name": "spryker-sdk/sync-api",
-            "version": "0.1.0",
+            "version": "dev-bugfix/apps-4251-fix-executable-path-in-syncapi-sdk",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "480da3d6861a6c26f676e199987b0d83ccb71234"
+                "reference": "22109c0954582e149c1ef81baf21183ea3645660"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/480da3d6861a6c26f676e199987b0d83ccb71234",
-                "reference": "480da3d6861a6c26f676e199987b0d83ccb71234",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/22109c0954582e149c1ef81baf21183ea3645660",
+                "reference": "22109c0954582e149c1ef81baf21183ea3645660",
                 "shasum": ""
             },
             "require": {
@@ -4905,9 +4905,9 @@
             "description": "SDK for SyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
-                "source": "https://github.com/spryker-sdk/sync-api/tree/0.1.0"
+                "source": "https://github.com/spryker-sdk/sync-api/tree/bugfix/apps-4251-fix-executable-path-in-syncapi-sdk"
             },
-            "time": "2022-05-16T09:33:24+00:00"
+            "time": "2022-05-17T08:12:53+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",
@@ -12831,6 +12831,18 @@
     ],
     "aliases": [
         {
+            "package": "spryker-sdk/async-api",
+            "version": "dev-bugfix/apps-4250-fix-executable-path-in-asyncapi-sdk",
+            "alias": "0.2.1",
+            "alias_normalized": "0.2.1.0"
+        },
+        {
+            "package": "spryker-sdk/sync-api",
+            "version": "dev-bugfix/apps-4251-fix-executable-path-in-syncapi-sdk",
+            "alias": "0.1.0",
+            "alias_normalized": "0.1.0.0"
+        },
+        {
             "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",
             "alias": "0.1.0",
@@ -12839,8 +12851,10 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/async-api": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/sdk-contracts": 20,
+        "spryker-sdk/sync-api": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
