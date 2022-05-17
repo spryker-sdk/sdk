@@ -147,7 +147,7 @@ class InitProjectCommand extends Command
             }
             $values = $settingEntity->getValues();
 
-            if ($settingEntity->hasInitialization() === true) {
+            if (empty($options[$settingEntity->getPath()]) && $settingEntity->hasInitialization() === true) {
                 $needsToAsk = !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
                         sprintf('Do you need to init `%s` with custom setting', $settingEntity->getPath()),

@@ -74,19 +74,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
             );
         }
 
-        if (!$defaultValue) {
-            return null;
-        }
-
-        if (
-            !is_string($defaultValue) ||
-            preg_match('/\s/',$defaultValue) === false ||
-            preg_match('"/\r\n|\n|\r/"',$defaultValue)
-        ) {
-            return $defaultValue;
-        }
-
-        return sprintf('\'%s\'', $defaultValue);
+        return $defaultValue ?: null;
     }
 
     /**

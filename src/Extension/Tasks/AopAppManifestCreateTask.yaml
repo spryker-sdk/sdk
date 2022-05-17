@@ -11,14 +11,14 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%name%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "name"
-      description: "The name of the manifest"
+      description: "The name of the App"
       type: string
   - name: "%locale%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: true
     configuration:
       name: "locale"

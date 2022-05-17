@@ -11,7 +11,7 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%title%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "title"

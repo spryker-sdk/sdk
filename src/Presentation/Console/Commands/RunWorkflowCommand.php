@@ -109,7 +109,7 @@ class RunWorkflowCommand extends Command
         ContextInterface $context
     ): void {
         foreach ($context->getMessages() as $message) {
-                $output->writeln($this->formatMessage($message));
+            $output->writeln($this->formatMessage($message));
         }
     }
 
