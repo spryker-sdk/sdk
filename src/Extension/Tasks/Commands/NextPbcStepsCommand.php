@@ -23,7 +23,6 @@ class NextPbcStepsCommand implements ExecutableCommandInterface
     public function execute(ContextInterface $context): ContextInterface
     {
         $message = 'Run "docker/sdk boot -s deploy.dev.yml" and follow the instructions to spin up the local environment';
-        $resolvedValues = $context->getResolvedValues();
         $context->addMessage(static::class, new Message($message, MessageInterface::SUCCESS));
 
         return $context;
