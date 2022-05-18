@@ -5390,16 +5390,16 @@
         },
         {
             "name": "spryker-sdk/integrator",
-            "version": "dev-temp/PPLUS-1265-bugfix",
+            "version": "dev-feature/pplus-510-integrator-as-part-of-upgrader",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "7ff77e542caa8e7db2bc6aeb8deafba3c0ee6515"
+                "reference": "20c513216a34334d9100159a3b210da021f7aa88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/7ff77e542caa8e7db2bc6aeb8deafba3c0ee6515",
-                "reference": "7ff77e542caa8e7db2bc6aeb8deafba3c0ee6515",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/20c513216a34334d9100159a3b210da021f7aa88",
+                "reference": "20c513216a34334d9100159a3b210da021f7aa88",
                 "shasum": ""
             },
             "require": {
@@ -5441,7 +5441,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/feature/pplus-510-integrator-as-part-of-upgrader"
             },
-            "time": "2022-05-08T17:28:41+00:00"
+            "time": "2022-05-18T10:54:24+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -5570,12 +5570,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "b88b82a50ad3fa76c4d098a1bc5751d26d7f1c15"
+                "reference": "501fff9170f1564dd0e12b55bc53cb4fc9877d1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/b88b82a50ad3fa76c4d098a1bc5751d26d7f1c15",
-                "reference": "b88b82a50ad3fa76c4d098a1bc5751d26d7f1c15",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/501fff9170f1564dd0e12b55bc53cb4fc9877d1b",
+                "reference": "501fff9170f1564dd0e12b55bc53cb4fc9877d1b",
                 "shasum": ""
             },
             "require": {
@@ -5590,7 +5590,7 @@
                 "nikic/php-parser": "^4.13",
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.2",
-                "spryker-sdk/integrator": "dev-temp/PPLUS-1265-bugfix",
+                "spryker-sdk/integrator": "dev-feature/pplus-510-integrator-as-part-of-upgrader",
                 "spryker-sdk/sdk-contracts": "dev-master",
                 "spryker/code-sniffer": "^0.17.3",
                 "symfony/config": "^5.0",
@@ -5627,7 +5627,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/feature/pplus-724-release-group-strategy-implemented-on-upgrader"
             },
-            "time": "2022-05-17T11:18:25+00:00"
+            "time": "2022-05-18T11:05:01+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
