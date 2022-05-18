@@ -134,6 +134,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
         $this->dockerFileModifier->replace(function (string $content) use ($pbcName) {
             return str_replace('spryker.local', $pbcName . '.local', $content);
         }, $context, static::DOCKER_INITIALIZATION_ERROR);
+    }
 
     /**
      * @return string
