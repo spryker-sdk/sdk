@@ -10,22 +10,23 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
 use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
+use SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
-class ChangeNamesCommand implements ExecutableCommandInterface
+class ChangePhpVersionCommand implements ExecutableCommandInterface
 {
     /**
      * @var string
      */
-    protected const COMPOSER_INITIALIZATION_ERROR = 'Can not change name composer.json in generated PBC';
+    protected const COMPOSER_CHANGE_ERROR = 'Can not change PHP version in composer.json in generated PBC';
 
     /**
      * @var string
      */
-    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change name in deploy.dev.yml in generated PBC';
+    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change PHP version deploy.dev.yml in generated PBC';
 
     private PbcFileModifierInterface $composerFileModifier;
 
@@ -51,8 +52,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     public function execute(ContextInterface $context): ContextInterface
     {
         try {
-            $this->changeComposerNames($context);
-            $this->changeDockerNames($context);
+            $this->changeComposerPhpVersion($context);
+            $this->changeDockerPhpVersion($context);
         } catch (FileNotFoundException $exception) {
             $context->addMessage(static::class, new Message($exception->getMessage(), MessageInterface::ERROR));
         }
@@ -65,7 +66,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return static::class;
+        return '';
     }
 
     /**
@@ -105,16 +106,22 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      *
      * @return void
      */
-    protected function changeComposerNames(ContextInterface $context): void
+    protected function changeComposerPhpVersion(ContextInterface $context): void
     {
         $resolvedValues = $context->getResolvedValues();
-        $newRepositoryName = strtolower(
-            basename(dirname($resolvedValues['%project_url%']))
-            . '/'
-            . basename($resolvedValues['%project_url%'], '.git'),
-        );
-        $composerContent = $this->composerFileModifier->read($context, static::COMPOSER_INITIALIZATION_ERROR);
-        $composerContent['name'] = $newRepositoryName;
+
+        $composerContent = $this->composerFileModifier->read($context, static::COMPOSER_CHANGE_ERROR);
+
+        $phpVersion = $this->getPhpVersion($resolvedValues);
+
+        if (isset($composerContent['require']['php'])) {
+            $composerContent['require']['php'] = '>=' . $phpVersion;
+        }
+
+        if (isset($composerContent['config']['platform']['php'])) {
+            $composerContent['config']['platform']['php'] = PbcPhpVersionValueResolver::PHP_VERSIONS[$phpVersion];
+        }
+
         $this->composerFileModifier->write($composerContent, $context);
     }
 
@@ -123,17 +130,22 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      *
      * @return void
      */
-    protected function changeDockerNames(ContextInterface $context): void
+    protected function changeDockerPhpVersion(ContextInterface $context): void
     {
         $resolvedValues = $context->getResolvedValues();
-        $pbcName = $resolvedValues['%pbc_name%'];
-
         $dockerFileContent = $this->dockerFileModifier->read($context, static::DOCKER_INITIALIZATION_ERROR);
-        $dockerFileContent['namespace'] = $pbcName;
+        $dockerFileContent['image']['tag'] = 'spryker/php:' . $this->getPhpVersion($resolvedValues);
         $this->dockerFileModifier->write($dockerFileContent, $context);
-        $this->dockerFileModifier->replace(function (string $content) use ($pbcName) {
-            return str_replace('spryker.local', $pbcName . '.local', $content);
-        }, $context, static::DOCKER_INITIALIZATION_ERROR);
+    }
+
+    /**
+     * @param array<string, mixed> $resolvedValues
+     *
+     * @return string
+     */
+    protected function getPhpVersion(array $resolvedValues): string
+    {
+        return $resolvedValues['%' . PbcPhpVersionValueResolver::VALUE_NAME . '%'];
     }
 
     /**

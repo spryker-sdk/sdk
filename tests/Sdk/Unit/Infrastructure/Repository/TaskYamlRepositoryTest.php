@@ -57,7 +57,7 @@ class TaskYamlRepositoryTest extends Unit
             $this->settingRepository,
             new Finder(),
             new Yaml(),
-            [new GeneratePbcTask()],
+            [new GeneratePbcTask([])],
         );
     }
 
