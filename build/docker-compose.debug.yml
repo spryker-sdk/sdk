@@ -1,0 +1,51 @@
+version: '3'
+
+x-volumes:
+    volumes:
+      - spryker_sdk_dev_data_sync:/data
+
+services:
+  spryker-sdk:
+    image: spryker/php-sdk-debug:latest
+    build:
+      context: ./
+      dockerfile: ./infrastructure/sdk.debug.Dockerfile
+      args:
+          USER_UID: ${USER_UID}
+    environment:
+      SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+
+volumes:
+    spryker_sdk_dev_data_sync:
+
+x-mutagen:
+  sync:
+    defaults:
+      symlink:
+        mode: posix-raw
+      ignore:
+        paths:
+          - '/.git*'
+          - '.idea'
+          - '.DS_Store'
+          - '/.nvmrc'
+          - '/.scrutinizer.yml'
+          - '/.travis.yml'
+          - '/newrelic.ini'
+          - '.unison*'
+          - '.docker-sync'
+          - '/infrastructure'
+          - '/db'
+
+    spryker-sdk-dev-codebase:
+      alpha: "./"
+      beta: "volume://spryker_sdk_dev_data_sync"
+      mode: two-way-resolved
+      permissions:
+        defaultFileMode: 0666
+        defaultDirectoryMode: 0777
+      configurationBeta:
+        permissions:
+          defaultOwner: id:1000
+          defaultGroup: id:1000

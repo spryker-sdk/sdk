@@ -1,0 +1,34 @@
+{
+    "private": true,
+    "name": "spryker-sdk",
+    "description": "The Spryker SDK aims to provide a single entry point to accelerate your productivity working with Spryker.",
+    "author": {
+        "name": "Spryker Systems GmbH",
+        "email": "info@spryker.com",
+        "url": "https://spryker.com/"
+    },
+    "workspaces": [
+        "/project",
+        "/project/vendor/spryker/spryker/Bundles/*",
+        "/project/vendor/spryker/spryker/Bundles/*/assets/Zed"
+    ],
+    "scripts": {
+        "yves:stylelint": "node ./frontend/libs/stylelint",
+        "yves:stylelint:fix": "node ./frontend/libs/stylelint --fix"
+    },
+    "engines": {
+        "node": ">=12.22.0"
+    },
+    "dependencies": {
+        "@eslint/eslintrc": "^1.1.0",
+        "@spryker/frontend-config.eslint": "0.0.2",
+        "@spryker/frontend-config.stylelint": "0.0.5",
+        "@spryker/frontend-sniffer": "https://github.com/spryker-sdk/frontend-sniffer/tarball/0.2.3",
+        "@typescript-eslint/parser": "5.12.0",
+        "commander": "~4.0.1",
+        "eslint": "^8.9.0",
+        "eslint-traverser": "^1.5.2",
+        "prettier": "2.5.1",
+        "stylelint": "~13.7.1"
+    }
+}

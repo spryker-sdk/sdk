@@ -6,16 +6,21 @@ USER root
 RUN apk update \
     && apk add --no-cache \
     curl \
-    git
+    git \
+    nodejs \
+    npm \
+    && npm install -g npm@8.4.1
 
-USER spryker
-
-COPY --chown=spryker:spryker composer.json composer.lock ${srcRoot}/
+COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
     composer install --no-scripts --no-interaction ${SPRYKER_COMPOSER_MODE} -vvv
+
+RUN --mount=type=cache,id=npm,sharing=locked,target=/home/spryker/.npm,uid=1000 \
+    --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
+    npm install
 
 FROM application-production-dependencies AS application-production-codebase
 
@@ -27,16 +32,15 @@ COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db
 COPY --chown=spryker:spryker extension ${srcRoot}/extension
 COPY --chown=spryker:spryker config ${srcRoot}/config
+COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
-COPY --chown=spryker:spryker infrastructure/entrypoint.sh /
 
-RUN chmod +x /entrypoint.sh
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
 
 RUN bin/console sdk:init:sdk && \
     bin/console cache:warmup
-USER root
-ENTRYPOINT ["/entrypoint.sh"]
+
+ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]

@@ -111,7 +111,7 @@ class AutoloaderService
             return (bool)$result;
         });
 
-        if (empty($pathCandidates)) {
+        if (!$pathCandidates) {
             return null;
         }
 

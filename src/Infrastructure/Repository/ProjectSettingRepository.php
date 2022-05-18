@@ -18,10 +18,19 @@ use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
     protected SettingRepositoryInterface $coreSettingRepository;
 
+    /**
+     * @var \Symfony\Component\Yaml\Yaml
+     */
     protected Yaml $yamlParser;
 
+    /**
+     * @var string
+     */
     protected string $projectSettingFileName;
 
     /**
@@ -121,7 +130,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $entities[$key] = $this->resolvePathSetting($entity);
         }
 
-        if (empty($entities)) {
+        if (!$entities) {
             return [];
         }
 
@@ -169,7 +178,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             return [];
         }
 
-        return $this->yamlParser->parseFile($projectSettingPath);
+        return (array)$this->yamlParser->parseFile($projectSettingPath);
     }
 
     /**

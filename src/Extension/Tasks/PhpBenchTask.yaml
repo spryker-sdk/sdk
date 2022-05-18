@@ -1,0 +1,79 @@
+---
+id: "validation:php:benchmark"
+short_description: "Check your code efficiency by running a benchmark"
+help: ~
+stage: build
+version: 0.1.0
+command: "php %sdk_dir%/vendor/bin/phpbench run %tests% --bootstrap=%bootstrap% %group% %iterations% %revs% %report% %time-unit% --dump-file=%reportDir%/phpbench.benchmark.xml"
+type: local_cli
+optional: false
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%reportDir%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+  - name: "%tests%"
+    value_resolver: STATIC_TEXT
+    optional: false
+    configuration:
+      name: "tests"
+      description: "Relative path to tests directory in project"
+      type: path
+  - name: "%bootstrap%"
+    value_resolver: STATIC_TEXT
+    optional: false
+    configuration:
+      name: "bootstrap"
+      description: "Relative path to bootstrap file in project"
+      type: path
+  - name: "%group%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: "group"
+      description: "Group to run"
+      type: string
+  - name: "%iterations%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: "iterations"
+      description: "Iterations count"
+      type: string
+      defaultValue: 1
+  - name: "%revs%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: "revs"
+      description: "Revolution count"
+      type: string
+      defaultValue: 1
+  - name: "%report%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: "report"
+      description: "Report config"
+      type: string
+      defaultValue: '"\"generator\":\"expression\",\"cols\":[\"benchmark\",\"subject\",\"best\",\"mean\",\"worst\",\"stdev\",\"revs\",\"its\"]"'
+  - name: "%time-unit%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: "time-unit"
+      description: "Time unit"
+      type: string
+      defaultValue: milliseconds
+report_converter:
+  name: PhpBenchReportConverter
+  configuration:
+    input_file: phpbench.benchmark.xml
+    producer: phpbench

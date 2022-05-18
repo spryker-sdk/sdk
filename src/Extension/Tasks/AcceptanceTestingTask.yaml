@@ -1,0 +1,25 @@
+---
+id: 'tests:sdk:acceptance'
+short_description: 'Run acceptance tests'
+help: ~
+stage: build
+version: 0.1.0
+command: 'php %sdk_dir%/vendor/bin/codecept run acceptance -o "paths: output: %reportDir%" --json=codeception.report.json'
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%reportDir%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+report_converter:
+  name: CodeceptionViolationReportConverter
+  configuration:
+    input_file: codeception.report.json
+    producer: codeception

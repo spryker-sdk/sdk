@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+
+    checkGenericClassInNonGenericObjectType: false
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+
+    parallel:
+    	maximumNumberOfProcesses: 1

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 
@@ -59,5 +60,13 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     public function getViolationConverter(): ?ConverterInterface
     {
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
     }
 }

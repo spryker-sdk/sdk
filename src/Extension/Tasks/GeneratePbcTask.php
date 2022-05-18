@@ -57,7 +57,7 @@ class GeneratePbcTask implements TaskInterface
             ),
             new Placeholder(
                 '%pbc_name%',
-                'STATIC',
+                'STATIC_TEXT',
                 [
                     'name' => 'pbc_name',
                     'description' => 'Input name for new PBC',
@@ -66,7 +66,7 @@ class GeneratePbcTask implements TaskInterface
             ),
             new Placeholder(
                 '%project_url%',
-                'STATIC',
+                'STATIC_TEXT',
                 [
                     'name' => 'project_url',
                     'description' => 'Input repository for new PBC (e.g.: https://github.com/<user>/<project>.git)',
@@ -148,5 +148,13 @@ class GeneratePbcTask implements TaskInterface
             new UpdatedEventData(),
             new RemovedEventData(),
         );
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getStages(): array
+    {
+        return [];
     }
 }

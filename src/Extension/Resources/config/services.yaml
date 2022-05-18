@@ -49,7 +49,7 @@ services:
         - '@generate_pbc_next_steps_command'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
-    tags: [ 'sdk.value_resolver' ]
+    tags: ["sdk.value_resolver"]
     arguments:
       - '@value_receiver'
       - '%kernel.project_dir%'
@@ -58,8 +58,40 @@ services:
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'
+      - "@value_receiver"
+      - "%kernel.project_dir%"
   remove_report_dir:
     class: SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask
-    tags: [ 'sdk.task' ]
+    tags: ["sdk.task"]
     arguments:
-        - '@violation_report_repository'
+      - "@violation_report_repository"
+  SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer:
+    tags: ["sdk.setting_initializer"]
+    public: true
+  create_directory_initializer:
+    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer
+    public: true
+  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer:
+    tags: ["sdk.setting_initializer"]
+    public: true
+    arguments:
+      - "@project_setting_repository"
+  project_uuid_initializer:
+    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer
+    public: true
+  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer:
+    tags: ["sdk.setting_initializer"]
+    public: true
+    arguments:
+      - "@project_setting_repository"
+      - "@workflow_repository"
+      - "@project_workflow"
+  project_workflow_initializer:
+    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer
+    public: true
+
+  option_value_resolver:
+    class: SprykerSdk\Sdk\Extension\ValueResolvers\OptionValueResolver
+    arguments:
+      - '@value_receiver'
+    tags: ['sdk.value_resolver']
