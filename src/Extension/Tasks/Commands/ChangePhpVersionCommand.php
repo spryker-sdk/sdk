@@ -147,4 +147,12 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     {
         return $resolvedValues['%' . PbcPhpVersionValueResolver::VALUE_NAME . '%'];
     }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
+    }
 }

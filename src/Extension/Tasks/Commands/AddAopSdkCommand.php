@@ -99,4 +99,12 @@ class AddAopSdkCommand implements ExecutableCommandInterface
         $composerContent['require-dev'][static::AOP_SDK_REPOSITORY] = '*';
         $this->composerFileModifier->write($composerContent, $context);
     }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
+    }
 }
