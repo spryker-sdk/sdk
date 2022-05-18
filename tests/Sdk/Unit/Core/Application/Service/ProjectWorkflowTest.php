@@ -158,7 +158,7 @@ class ProjectWorkflowTest extends Unit
         $transactionMock->expects($this->once())
             ->method('getName')
             ->willReturn('test');
-        $metadataStoreMock->expects($this->once())
+        $metadataStoreMock
             ->method('getTransitionMetadata')
             ->willReturn(['task' => 'testTask']);
         $workflowMock->expects($this->once())
@@ -294,13 +294,13 @@ class ProjectWorkflowTest extends Unit
 
         $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
         $workflowMock = $this->createWorkflowMock();
-        $metadataStoreMock->expects($this->once())
+        $metadataStoreMock
             ->method('getTransitionMetadata')
             ->willReturn(['task' => 'testTask']);
         $workflowMock->expects($this->once())
             ->method('getEnabledTransitions')
             ->willReturn([$this->createMock(Transition::class)]);
-        $workflowMock->expects($this->once())
+        $workflowMock
             ->method('getMetadataStore')
             ->willReturn($metadataStoreMock);
 

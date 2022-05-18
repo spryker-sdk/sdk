@@ -63,7 +63,7 @@ class LocalCliRunner implements CommandRunnerInterface
      */
     public function canHandle(CommandInterface $command): bool
     {
-        return $command->getType() === 'local_cli';
+        return in_array($command->getType(), ['local_cli', 'local_cli_interactive'], true);
     }
 
     /**
@@ -100,6 +100,10 @@ class LocalCliRunner implements CommandRunnerInterface
         $process = Process::fromShellCommandline($assembledCommand);
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
+
+        if ($command->getType() === 'local_cli_interactive') {
+            $process->setTty(true);
+        }
 
         $process = $this->processHelper->run(
             $this->output,

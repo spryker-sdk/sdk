@@ -12,7 +12,7 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%reportDir%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: true
     configuration:
       name: "report_dir"
@@ -20,14 +20,14 @@ placeholders:
       type: string
       settingPaths: ["report_dir"]
   - name: "%tests%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "tests"
       description: "Relative path to tests directory in project"
       type: path
   - name: "%bootstrap%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "bootstrap"

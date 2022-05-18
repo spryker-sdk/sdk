@@ -71,6 +71,29 @@ class ProjectWorkflow
     }
 
     /**
+     * @return array<string>
+     */
+    public function getWorkflowTasks(): array
+    {
+        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
+        $this->currentProjectWorkflow = $this->workflowRepository->findOne($projectIdSetting->getValues());
+        if (!$this->currentProjectWorkflow) {
+            return [];
+        }
+
+        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
+        $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
+        $enabledTasksIds = [];
+        $metaWorkflow = $this->currentWorkflow->getMetadataStore();
+        foreach ($enabledTransitions as $enabledTransition) {
+            $transactionTaskId = $metaWorkflow->getTransitionMetadata($enabledTransition)['task'] ?? null;
+            $enabledTasksIds[$enabledTransition->getName()] = $transactionTaskId;
+        }
+
+        return $enabledTasksIds;
+    }
+
+    /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return bool
@@ -129,6 +152,19 @@ class ProjectWorkflow
                     MessageInterface::ERROR,
                 ),
             );
+            if ($this->currentTransition) {
+                $errorMessage = $this->currentWorkflow->getMetadataStore()->getTransitionMetadata($this->currentTransition)['error'] ?? null;
+
+                if ($errorMessage) {
+                    $context->addMessage(
+                        $context->getTask()->getId(),
+                        new Message(
+                            $errorMessage,
+                            MessageInterface::INFO,
+                        ),
+                    );
+                }
+            }
 
             return $context;
         }

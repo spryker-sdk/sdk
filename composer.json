@@ -19,31 +19,34 @@
         "ext-xml": "*",
         "composer-runtime-api": "^2.1",
         "composer/semver": "^3.2",
-        "doctrine/doctrine-bundle": "^2.4",
+        "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/migrations": "^3.3",
-        "doctrine/orm": "^2.10",
+        "doctrine/migrations": "^3.4",
+        "doctrine/orm": "^2.11",
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpbench/phpbench": "^1.2",
         "phpstan/phpstan": "^1.2",
+        "spryker-sdk/acp": "^0.1.0",
+        "spryker-sdk/async-api": "dev-bugfix/apps-4250-fix-executable-path-in-asyncapi-sdk as 0.2.1",
         "spryker-sdk/composer-replace": "dev-master",
         "spryker-sdk/sdk-contracts": "dev-master",
-        "spryker-sdk/spryk": "^0.3.2",
+        "spryker-sdk/spryk": "^0.4.0",
+        "spryker-sdk/sync-api": "dev-bugfix/apps-4251-fix-executable-path-in-syncapi-sdk as 0.1.0",
         "spryker-sdk/upgrader": "dev-master as 0.1.0",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.1",
-        "symfony/console": "5.3.*",
-        "symfony/dotenv": "5.3.*",
-        "symfony/event-dispatcher": "5.3.*",
-        "symfony/expression-language": "5.3.*",
-        "symfony/flex": "^1.3.1",
-        "symfony/framework-bundle": "5.3.*",
-        "symfony/process": "5.3.*",
-        "symfony/runtime": "5.3.*",
-        "symfony/validator": "5.3.*",
-        "symfony/workflow": "5.3.*",
-        "symfony/yaml": "5.3.*"
+        "symfony/console": "^5.0 || ^6.0",
+        "symfony/dotenv": "^5.0 || ^6.0",
+        "symfony/event-dispatcher": "^5.0 || ^6.0",
+        "symfony/expression-language": "^5.0 || ^6.0",
+        "symfony/flex": "^1.18.0",
+        "symfony/framework-bundle": "^5.0 || ^6.0",
+        "symfony/process": "^5.0 || ^6.0",
+        "symfony/runtime": "^5.0 || ^6.0",
+        "symfony/validator": "^5.0 || ^6.0",
+        "symfony/workflow": "^5.0 || ^6.0",
+        "symfony/yaml": "^5.0 || ^6.0"
     },
     "require-dev": {
         "codeception/codeception": "*",
@@ -55,8 +58,8 @@
         "sllh/composer-versions-check": "^2.0",
         "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/security-checker": "^0.1.0",
-        "symfony/filesystem": "^5.3",
-        "symfony/var-dumper": "*"
+        "symfony/filesystem": "^5.0 || ^6.0",
+        "symfony/var-dumper": "^5.0 || ^6.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -119,7 +122,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.3.*"
+            "require": "^5.0 || ^6.0"
         }
     }
 }

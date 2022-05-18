@@ -82,7 +82,7 @@ class InitProjectCommand extends Command
         $this->addOption(
             'default',
             'd',
-            InputOption::VALUE_NONE | InputOption::VALUE_REQUIRED,
+            InputOption::VALUE_NONE,
             'Use predefined settings without approve',
         );
 
@@ -146,6 +146,16 @@ class InitProjectCommand extends Command
                 continue;
             }
             $values = $settingEntity->getValues();
+
+            if (empty($options[$settingEntity->getPath()]) && $settingEntity->hasInitialization() === true) {
+                $needsToAsk = !$this->cliValueReceiver->receiveValue(
+                    new ReceiverValue(
+                        sprintf('Do you need to init `%s` with custom setting', $settingEntity->getPath()),
+                        false,
+                        'boolean',
+                    ),
+                );
+            }
 
             if (!$needsToAsk) {
                 $questionDescription = $settingEntity->getInitializationDescription();

@@ -111,7 +111,7 @@ class TaskExecutor
     protected function collectRequiredStages(ContextInterface $context): ContextInterface
     {
         $task = $context->getTask();
-        $commandsStages = array_map(fn (CommandInterface $command): string => $command->getStage(), $task->getCommands());
+        $commandsStages = array_unique(array_map(fn (CommandInterface $command): string => $command->getStage(), $task->getCommands()));
 
         if ($context->getInputStages()) {
             return $this->setContextRequiredStages($context, $context->getInputStages(), $commandsStages);

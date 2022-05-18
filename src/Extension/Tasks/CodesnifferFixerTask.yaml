@@ -18,7 +18,7 @@ placeholders:
       name: 'severity'
       description: 'Severity level'
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "path"

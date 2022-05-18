@@ -1,6 +1,7 @@
 SprykerSdk\Sdk\Infrastructure\Entity\Task:
     type: entity
     repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+    changeTrackingPolicy: DEFERRED_EXPLICIT
     table: sdk_task
     id:
         id:

@@ -92,9 +92,11 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
     }
 
     /**
+     * @param bool $realCommand
+     *
      * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
-    public function findAllIndexedCollection(): array
+    public function findAllIndexedCollection(bool $realCommand = true): array
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Task> $tasks */
         $tasks = $this->findAll();
@@ -102,7 +104,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
         $tasksMap = [];
 
         foreach ($tasks as $task) {
-            $tasksMap[$task->getId()] = $this->changePhpCommand($task);
+            $tasksMap[$task->getId()] = $this->changePhpCommand($task, $realCommand);
         }
 
         return $tasksMap;
@@ -142,10 +144,11 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
+     * @param bool $realCommand
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function changePhpCommand(TaskInterface $task): TaskInterface
+    protected function changePhpCommand(TaskInterface $task, bool $realCommand = true): TaskInterface
     {
         $existingCommands = [];
         foreach ($this->existingTasks as $existingTask) {
@@ -156,7 +159,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
 
         $commands = [];
         foreach ($task->getCommands() as $command) {
-            if ($command->getType() === 'php' && isset($existingCommands[$command->getCommand()])) {
+            if ($realCommand && $command->getType() === 'php' && isset($existingCommands[$command->getCommand()])) {
                 $commands[] = $existingCommands[$command->getCommand()];
 
                 continue;

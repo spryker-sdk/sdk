@@ -11,7 +11,7 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%reportDir%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: true
     configuration:
       name: "report_dir"
@@ -19,7 +19,7 @@ placeholders:
       type: string
       settingPaths: ["report_dir"]
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: false
     configuration:
       name: "path"
@@ -27,7 +27,7 @@ placeholders:
       type: path
       settingPaths: []
   - name: "%log_level%"
-    value_resolver: STATIC
+    value_resolver: STATIC_TEXT
     optional: true
     configuration:
       name: "log_level"

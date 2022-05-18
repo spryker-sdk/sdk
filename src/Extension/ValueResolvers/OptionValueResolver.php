@@ -22,11 +22,7 @@ class OptionValueResolver extends StaticValueResolver
     {
         $value = parent::getValue($context, $settingValues, $optional);
 
-        if ($value === null) {
-            return null;
-        }
-
-        return sprintf('--%s=%s', $this->getAlias(), $value);
+        return $value ? sprintf('--%s=\'%s\'', $this->getAlias(), $value) : null;
     }
 
     /**
