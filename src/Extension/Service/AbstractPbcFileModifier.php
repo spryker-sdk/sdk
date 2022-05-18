@@ -39,7 +39,7 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
      */
     public function write(array $content, ContextInterface $context)
     {
-        $filePath = $this->buildFilePath($context);
+        $filePath = $this->getFileName();
         file_put_contents($filePath, $this->dumpContent($content));
     }
 
@@ -53,7 +53,7 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
      */
     public function read(ContextInterface $context, ?string $errorMessage = null)
     {
-        $filePath = $this->buildFilePath($context);
+        $filePath = $this->getFileName();
 
         if (!file_exists($filePath)) {
             throw new FileNotFoundException($this->buildErrorMessage($errorMessage, $filePath));
@@ -79,7 +79,7 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
      */
     public function replace(callable $replacementFunction, ContextInterface $context, ?string $errorMessage = null)
     {
-        $filePath = $this->buildFilePath($context);
+        $filePath = $this->getFileName();
 
         if (!file_exists($filePath)) {
             throw new FileNotFoundException($this->buildErrorMessage($errorMessage, $filePath));
@@ -89,26 +89,6 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
         $content = call_user_func($replacementFunction, $content);
 
         file_put_contents($filePath, $content);
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return string
-     */
-    protected function buildFilePath(ContextInterface $context): string
-    {
-        return $this->getPbcName($context->getResolvedValues()) . DIRECTORY_SEPARATOR . $this->getFileName();
-    }
-
-    /**
-     * @param array<string, mixed> $resolveValues
-     *
-     * @return string
-     */
-    protected function getPbcName(array $resolveValues): string
-    {
-        return $resolveValues['%pbc_name%'];
     }
 
     /**

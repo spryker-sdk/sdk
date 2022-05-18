@@ -18,7 +18,7 @@ class UpdateDependenciesCommand implements CommandInterface
      */
     public function getCommand(): string
     {
-        return 'cd %pbc_name% && composer update -W';
+        return 'composer update -W';
     }
 
     /**

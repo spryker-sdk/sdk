@@ -57,7 +57,7 @@ class GeneratePbcTask implements TaskInterface
             ),
             new Placeholder(
                 '%pbc_name%',
-                'STATIC_TEXT',
+                'STATIC',
                 [
                     'name' => 'pbc_name',
                     'description' => 'Input name for new PBC',
@@ -66,7 +66,7 @@ class GeneratePbcTask implements TaskInterface
             ),
             new Placeholder(
                 '%project_url%',
-                'STATIC_TEXT',
+                'STATIC',
                 [
                     'name' => 'project_url',
                     'description' => 'Input repository for new PBC (e.g.: https://github.com/<user>/<project>.git)',
