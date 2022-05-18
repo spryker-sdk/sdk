@@ -15,7 +15,7 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
-class AddAopSdkCommand implements ExecutableCommandInterface
+class AddAcpSdkCommand implements ExecutableCommandInterface
 {
     /**
      * @var string
@@ -40,7 +40,7 @@ class AddAopSdkCommand implements ExecutableCommandInterface
     public function execute(ContextInterface $context): ContextInterface
     {
         try {
-            $this->addAopSdk($context);
+            $this->addAcpSdk($context);
         } catch (FileNotFoundException $exception) {
             $context->addMessage(static::class, new Message($exception->getMessage(), MessageInterface::ERROR));
         }
@@ -93,7 +93,7 @@ class AddAopSdkCommand implements ExecutableCommandInterface
      *
      * @return void
      */
-    protected function addAopSdk(ContextInterface $context): void
+    protected function addAcpSdk(ContextInterface $context): void
     {
         $composerContent = $this->composerFileModifier->read($context, sprintf('Can not add %s to composer.json in generated PBC', static::AOP_SDK_REPOSITORY));
         $composerContent['require-dev'][static::AOP_SDK_REPOSITORY] = '*';

@@ -20,7 +20,7 @@ services:
       - '@pbc_modify_composer_file'
       - '@pbc_modify_docker_file'
   generate_pbc_add_aop_sdk_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAopSdkCommand
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAcpSdkCommand
     arguments:
       - '@pbc_modify_composer_file'
   generate_pbc_allow_default_composer_plugins_command:
