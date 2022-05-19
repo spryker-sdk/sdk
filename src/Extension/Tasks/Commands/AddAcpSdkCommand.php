@@ -15,32 +15,21 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
-class ChangeNamesCommand implements ExecutableCommandInterface
+class AddAcpSdkCommand implements ExecutableCommandInterface
 {
     /**
      * @var string
      */
-    protected const COMPOSER_INITIALIZATION_ERROR = 'Can not change name composer.json in generated PBC';
-
-    /**
-     * @var string
-     */
-    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change name in deploy.dev.yml in generated PBC';
+    protected const AOP_SDK_REPOSITORY = 'spryker-sdk/aop-sdk';
 
     private PbcFileModifierInterface $composerFileModifier;
 
-    private PbcFileModifierInterface $dockerFileModifier;
-
     /**
      * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $dockerFileModifier
      */
-    public function __construct(
-        PbcFileModifierInterface $composerFileModifier,
-        PbcFileModifierInterface $dockerFileModifier
-    ) {
+    public function __construct(PbcFileModifierInterface $composerFileModifier)
+    {
         $this->composerFileModifier = $composerFileModifier;
-        $this->dockerFileModifier = $dockerFileModifier;
     }
 
     /**
@@ -51,8 +40,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     public function execute(ContextInterface $context): ContextInterface
     {
         try {
-            $this->changeComposerNames($context);
-            $this->changeDockerNames($context);
+            $this->addAcpSdk($context);
         } catch (FileNotFoundException $exception) {
             $context->addMessage(static::class, new Message($exception->getMessage(), MessageInterface::ERROR));
         }
@@ -65,7 +53,7 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return static::class;
+        return '';
     }
 
     /**
@@ -105,35 +93,11 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      *
      * @return void
      */
-    protected function changeComposerNames(ContextInterface $context): void
+    protected function addAcpSdk(ContextInterface $context): void
     {
-        $resolvedValues = $context->getResolvedValues();
-        $newRepositoryName = strtolower(
-            basename(dirname($resolvedValues['%project_url%']))
-            . '/'
-            . basename($resolvedValues['%project_url%'], '.git'),
-        );
-        $composerContent = $this->composerFileModifier->read($context, static::COMPOSER_INITIALIZATION_ERROR);
-        $composerContent['name'] = $newRepositoryName;
+        $composerContent = $this->composerFileModifier->read($context, sprintf('Can not add %s to composer.json in generated PBC', static::AOP_SDK_REPOSITORY));
+        $composerContent['require-dev'][static::AOP_SDK_REPOSITORY] = '*';
         $this->composerFileModifier->write($composerContent, $context);
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return void
-     */
-    protected function changeDockerNames(ContextInterface $context): void
-    {
-        $resolvedValues = $context->getResolvedValues();
-        $pbcName = $resolvedValues['%pbc_name%'];
-
-        $dockerFileContent = $this->dockerFileModifier->read($context, static::DOCKER_INITIALIZATION_ERROR);
-        $dockerFileContent['namespace'] = $pbcName;
-        $this->dockerFileModifier->write($dockerFileContent, $context);
-        $this->dockerFileModifier->replace(function (string $content) use ($pbcName) {
-            return str_replace('spryker.local', $pbcName . '.local', $content);
-        }, $context, static::DOCKER_INITIALIZATION_ERROR);
     }
 
     /**
