@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fa6fc103fe23169084828766c231844",
+    "content-hash": "266dae6f79a13a11c43610985dce9712",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -5566,16 +5566,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-feature/pplus-724-release-group-strategy-implemented-on-upgrader",
+            "version": "dev-bugfix/pplus-1287-integrator",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "550f554915a9101acbf9e0835dfdb42ffa6dc54a"
+                "reference": "69644fd7329ce077736dff3ea715ef4ec8e339da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/550f554915a9101acbf9e0835dfdb42ffa6dc54a",
-                "reference": "550f554915a9101acbf9e0835dfdb42ffa6dc54a",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/69644fd7329ce077736dff3ea715ef4ec8e339da",
+                "reference": "69644fd7329ce077736dff3ea715ef4ec8e339da",
                 "shasum": ""
             },
             "require": {
@@ -5625,9 +5625,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/pplus-724-release-group-strategy-implemented-on-upgrader"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/pplus-1287-integrator"
             },
-            "time": "2022-05-19T08:26:54+00:00"
+            "time": "2022-05-19T11:51:48+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
