@@ -99,7 +99,7 @@ class SettingSetCommand extends Command
      *
      * @return int
      */
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $path = $input->getArgument(static::ARG_SETTING_PATH);
 
