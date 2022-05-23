@@ -114,7 +114,8 @@
             "cp ./config/git/pre-commit ./.git/hooks/pre-commit"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "cp ./config/git/pre-commit ./.git/hooks/pre-commit"
         ]
     },
     "conflict": {
