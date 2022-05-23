@@ -76,7 +76,7 @@ class ProjectWorkflow
     public function getWorkflowMetadata(): array
     {
         $this->initializeWorkflow();
-        if (!$this->currentProjectWorkflow) {
+        if (!$this->currentWorkflow) {
             return [];
         }
 
@@ -89,7 +89,7 @@ class ProjectWorkflow
     public function getWorkflowTasks(): array
     {
         $this->initializeWorkflow();
-        if (!$this->currentProjectWorkflow) {
+        if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
             return [];
         }
         $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
@@ -128,7 +128,7 @@ class ProjectWorkflow
     public function initWorkflow(ContextInterface $context): bool
     {
         $this->initializeWorkflow();
-        if (!$this->currentProjectWorkflow) {
+        if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
             return true;
         }
 
