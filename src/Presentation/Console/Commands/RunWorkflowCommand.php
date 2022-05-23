@@ -66,7 +66,10 @@ class RunWorkflowCommand extends Command
     {
         $currentTask = null;
         $context = new Context();
-        while (true) {
+        $metadata = $this->projectWorkflow->getWorkflowMetadata();
+        $while = !empty($metadata['run']) && $metadata['run'] === 'single' ? false : true;
+
+        do {
             $enabledTasksIds = $this->projectWorkflow->getWorkflowTasks();
 
             if (!$enabledTasksIds) {
@@ -92,7 +95,7 @@ class RunWorkflowCommand extends Command
             }
 
             $output->writeln(sprintf('<info>The `%s` task successfully done.</info>', $flippedTaskIds[$currentTask]));
-        }
+        } while ($while);
         $this->writeFilteredMessages($output, $context);
 
         return static::SUCCESS;
