@@ -1,5 +1,5 @@
 ---
-id: 'tests:sdk:acceptance'
+id: 'tests:sdk:codecept'
 short_description: 'Run acceptance tests'
 help: ~
 stage: build
