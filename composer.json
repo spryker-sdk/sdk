@@ -110,7 +110,8 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "cp ./config/git/pre-commit ./.git/hooks/pre-commit"
         ],
         "post-update-cmd": [
             "@auto-scripts"
