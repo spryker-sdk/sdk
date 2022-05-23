@@ -108,7 +108,7 @@ class InitProjectCommand extends Command
      *
      * @return int
      */
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         if (file_exists($this->projectSettingFileName)) {
             if (
