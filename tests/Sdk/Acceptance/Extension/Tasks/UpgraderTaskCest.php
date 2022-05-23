@@ -27,7 +27,7 @@ class UpgraderTaskCest
      *
      * @return void
      */
-    public function testUpgraderFailingBecauseOfEnvs(AcceptanceTester $I): void
+    public function testUpgraderCanNotFindEnvVariables(AcceptanceTester $I): void
     {
         // Arrange
         $I->cleanReports(static::PROJECT_DIR);
@@ -39,11 +39,11 @@ class UpgraderTaskCest
         );
 
         // Assert
-        Assert::assertFalse($process->isSuccessful());
-        Assert::assertEmpty($process->getOutput());
+        Assert::assertTrue($process->isSuccessful());
+        Assert::assertEmpty($process->getErrorOutput());
         Assert::assertStringContainsString(
-            sprintf('Error thrown while running command "%s"', static::COMMAND),
-            $process->getErrorOutput(),
+            'Please check defined values of environment variables: ACCESS_TOKEN, ORGANIZATION_NAME and REPOSITORY_NAME.',
+            $process->getOutput(),
         );
     }
 }
