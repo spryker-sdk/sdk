@@ -26,6 +26,7 @@ placeholders:
       name: "path"
       description: "Relative path to module directory in project"
       type: path
+      defaultValue: "src"
   - name: "%config%"
     value_resolver: OPTION
     optional: true
