@@ -71,17 +71,27 @@ class ProjectWorkflow
     }
 
     /**
+     * @return array<string, string>
+     */
+    public function getWorkflowMetadata(): array
+    {
+        $this->initializeWorkflow();
+        if (!$this->currentWorkflow) {
+            return [];
+        }
+
+        return $this->currentWorkflow->getMetadataStore()->getWorkflowMetadata();
+    }
+
+    /**
      * @return array<string>
      */
     public function getWorkflowTasks(): array
     {
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-        $this->currentProjectWorkflow = $this->workflowRepository->findOne($projectIdSetting->getValues());
-        if (!$this->currentProjectWorkflow) {
+        $this->initializeWorkflow();
+        if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
             return [];
         }
-
-        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
         $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
         $enabledTasksIds = [];
         $metaWorkflow = $this->currentWorkflow->getMetadataStore();
@@ -94,21 +104,35 @@ class ProjectWorkflow
     }
 
     /**
+     * @return void
+     */
+    protected function initializeWorkflow(): void
+    {
+        if ($this->currentProjectWorkflow) {
+            return;
+        }
+
+        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
+        $this->currentProjectWorkflow = $this->workflowRepository->findOne($projectIdSetting->getValues());
+        if (!$this->currentProjectWorkflow) {
+            return;
+        }
+        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
+    }
+
+    /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return bool
      */
     public function initWorkflow(ContextInterface $context): bool
     {
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-        $this->currentProjectWorkflow = $this->workflowRepository->findOne($projectIdSetting->getValues());
-        if (!$this->currentProjectWorkflow) {
+        $this->initializeWorkflow();
+        if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
             return true;
         }
 
         $taskId = $context->getTask()->getId();
-
-        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
         $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
         $enabledTasksIds = [];
         $metaWorkflow = $this->currentWorkflow->getMetadataStore();

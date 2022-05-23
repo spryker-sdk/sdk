@@ -5,6 +5,8 @@ framework:
       marking_store:
         type: method
         property: status
+      metadata:
+        run: single
       supports:
         - SprykerSdk\SdkContracts\Entity\WorkflowInterface
       initial_marking: codestyle
