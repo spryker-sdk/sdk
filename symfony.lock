@@ -9,7 +9,7 @@
         "version": "2.0-dev"
     },
     "clue/stream-filter": {
-        "version": "v1.5.0"
+        "version": "v1.6.0"
     },
     "cocur/slugify": {
         "version": "v4.1.0"
@@ -51,7 +51,7 @@
         "version": "2.0.2"
     },
     "davidrjonas/composer-lock-diff": {
-        "version": "1.6.1"
+        "version": "1.7.0"
     },
     "dealerdirect/phpcodesniffer-composer-installer": {
         "version": "v0.7.1"
@@ -143,7 +143,7 @@
         "version": "v1.0.5"
     },
     "guzzlehttp/guzzle": {
-        "version": "7.4.1"
+        "version": "7.4.2"
     },
     "guzzlehttp/promises": {
         "version": "1.5.1"
@@ -161,10 +161,10 @@
         "version": "5.2.12"
     },
     "knplabs/github-api": {
-        "version": "3.5",
+        "version": "3.6",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "2.6",
             "ref": "a7d5781e4a8e84f1c238c43e4c9bb806f01d8a3f"
         },
@@ -221,10 +221,10 @@
         "version": "1.14.1"
     },
     "php-http/httplug": {
-        "version": "2.2.0"
+        "version": "2.3.0"
     },
     "php-http/message": {
-        "version": "1.12.0"
+        "version": "1.13.0"
     },
     "php-http/message-factory": {
         "version": "v1.0.2"

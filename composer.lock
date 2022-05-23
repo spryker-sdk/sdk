@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4efe28d62fc26c31d9bf0d085fbffb43",
+    "content-hash": "a2971ad7de6abb12f0f1ff0068d3896c",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -4675,25 +4675,25 @@
         },
         {
             "name": "spryker-sdk/async-api",
-            "version": "dev-bugfix/apps-4250-fix-executable-path-in-syncapi-sdk-rollback",
+            "version": "0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/async-api.git",
-                "reference": "25d8c2a6f3268874528cfee2e42293e5eb849d49"
+                "reference": "00dabd7ce09a2dd7fa1ed7a93c63f43e1930c98f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/25d8c2a6f3268874528cfee2e42293e5eb849d49",
-                "reference": "25d8c2a6f3268874528cfee2e42293e5eb849d49",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/00dabd7ce09a2dd7fa1ed7a93c63f43e1930c98f",
+                "reference": "00dabd7ce09a2dd7fa1ed7a93c63f43e1930c98f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
                 "spryker-sdk/spryk": "^0.4.0",
-                "symfony/console": "^5.3 || ^6.0",
-                "symfony/finder": "^5.3 || ^6.0",
-                "symfony/process": "^5.4",
-                "symfony/property-access": "^5.4"
+                "symfony/console": "^4.0.0 || ^5.3 || ^6.0",
+                "symfony/finder": "^4.0.0 || ^5.3 || ^6.0",
+                "symfony/process": "^4.0.0 || ^5.4",
+                "symfony/property-access": "^4.0.0 || ^5.4"
             },
             "require-dev": {
                 "codeception/codeception": "*",
@@ -4701,8 +4701,7 @@
                 "mikey179/vfsstream": "^1.6",
                 "sllh/composer-versions-check": "^2.0",
                 "spryker-sdk/architector": "0.1.x-dev",
-                "spryker/code-sniffer": "*",
-                "symfony/filesystem": "^5.3",
+                "spryker/code-sniffer": "dev-master",
                 "symfony/var-dumper": "*"
             },
             "bin": [
@@ -4727,9 +4726,9 @@
             "description": "SDK for AsyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/async-api/issues",
-                "source": "https://github.com/spryker-sdk/async-api/tree/bugfix/apps-4250-fix-executable-path-in-syncapi-sdk-rollback"
+                "source": "https://github.com/spryker-sdk/async-api/tree/0.2.3"
             },
-            "time": "2022-05-19T13:49:00+00:00"
+            "time": "2022-05-20T10:04:05+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -4852,26 +4851,26 @@
         },
         {
             "name": "spryker-sdk/sync-api",
-            "version": "dev-bugfix/apps-4251-fix-executable-path-in-syncapi-sdk-rollback",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "0fe5d6640caf9c147b76c4437526014f304a44ad"
+                "reference": "40cd87f8d1cd346fe3abba6268609735bed6f136"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/0fe5d6640caf9c147b76c4437526014f304a44ad",
-                "reference": "0fe5d6640caf9c147b76c4437526014f304a44ad",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/40cd87f8d1cd346fe3abba6268609735bed6f136",
+                "reference": "40cd87f8d1cd346fe3abba6268609735bed6f136",
                 "shasum": ""
             },
             "require": {
                 "cebe/php-openapi": "^1.6",
-                "doctrine/inflector": "^2.0",
+                "doctrine/inflector": "^1.4.0 || ^2.0",
                 "php": ">=7.4",
                 "spryker-sdk/spryk": "^0.4.0",
-                "symfony/console": "^5.3 || ^6.0",
-                "symfony/finder": "^5.3 || ^6.0",
-                "symfony/process": "^5.4"
+                "symfony/console": "^4.0.0 || ^5.3 || ^6.0",
+                "symfony/finder": "^4.0.0 || ^5.3 || ^6.0",
+                "symfony/process": "^4.0.0 || ^5.4"
             },
             "require-dev": {
                 "codeception/codeception": "*",
@@ -4879,8 +4878,8 @@
                 "mikey179/vfsstream": "^1.6",
                 "sllh/composer-versions-check": "^2.0",
                 "spryker-sdk/architector": "0.1.x-dev",
-                "spryker/code-sniffer": "*",
-                "symfony/filesystem": "^5.3",
+                "spryker/code-sniffer": "dev-master",
+                "symfony/filesystem": "^4.0 || ^5.3",
                 "symfony/var-dumper": "*"
             },
             "bin": [
@@ -4905,9 +4904,9 @@
             "description": "SDK for SyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
-                "source": "https://github.com/spryker-sdk/sync-api/tree/bugfix/apps-4251-fix-executable-path-in-syncapi-sdk-rollback"
+                "source": "https://github.com/spryker-sdk/sync-api/tree/0.1.1"
             },
-            "time": "2022-05-19T13:49:13+00:00"
+            "time": "2022-05-20T10:18:25+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",
@@ -12831,18 +12830,6 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/async-api",
-            "version": "dev-bugfix/apps-4250-fix-executable-path-in-syncapi-sdk-rollback",
-            "alias": "0.2.1",
-            "alias_normalized": "0.2.1.0"
-        },
-        {
-            "package": "spryker-sdk/sync-api",
-            "version": "dev-bugfix/apps-4251-fix-executable-path-in-syncapi-sdk-rollback",
-            "alias": "0.1.0",
-            "alias_normalized": "0.1.0.0"
-        },
-        {
             "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",
             "alias": "0.1.0",
@@ -12851,10 +12838,8 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "spryker-sdk/async-api": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/sdk-contracts": 20,
-        "spryker-sdk/sync-api": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -12875,5 +12860,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
