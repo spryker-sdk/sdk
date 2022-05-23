@@ -37,8 +37,6 @@ framework:
         property: status
       supports:
         - SprykerSdk\SdkContracts\Entity\WorkflowInterface
-      metadata:
-        run: single
       initial_marking: start
       places:
         - start
