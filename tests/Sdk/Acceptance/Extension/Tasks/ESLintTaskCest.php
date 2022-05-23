@@ -42,7 +42,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=src/success',
-                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, 'eslint'),
                 '--format=yaml',
             ],
             $I->getProjectRoot(static::PROJECT_DIR),
@@ -96,7 +96,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=notExists',
-                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, 'eslint'),
                 '--format=yaml',
             ],
             $I->getProjectRoot(static::PROJECT_DIR),
@@ -122,7 +122,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=src/success',
-                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, 'eslint'),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, 'eslint'),
                 '--format=yaml',
                 '--report_dir=notExists',
             ],
@@ -149,7 +149,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=src/failed',
-                '--config=' . $I->getPathFromProjectRoot(static::CONFIG_FILE, static::PROJECT_DIR),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, static::PROJECT_DIR),
                 '--format=yaml',
             ],
             $I->getProjectRoot(static::PROJECT_DIR),
