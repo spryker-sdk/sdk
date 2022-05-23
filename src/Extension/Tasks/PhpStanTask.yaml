@@ -11,7 +11,7 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%path%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
       name: "path"
