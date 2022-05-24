@@ -4,7 +4,7 @@ short_description: 'Run acceptance tests'
 help: ~
 stage: build
 version: 0.1.0
-command: 'php %sdk_dir%/vendor/bin/codecept run %suites% -o "paths: output: %reportDir%" --json=codeception.report.json'
+command: 'php %sdk_dir%/vendor/bin/codecept run %suites% --json=%reportDir%/codeception.report.json'
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
