@@ -8,13 +8,13 @@
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SprykerSdk\Sdk\Core\Domain\Entity\Task as DomainTask;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskMapper implements TaskMapperInterface
@@ -65,10 +65,10 @@ class TaskMapper implements TaskMapperInterface
             $task->getSuccessor(),
             $task->isDeprecated(),
             $task->isOptional(),
+            $task instanceof DomainTask ? $task->getStages() : [],
         );
 
         $entity = $this->setStage($entity, $task);
-        $entity = $this->setTags($entity, $task);
 
         $entity = $this->mapPlaceholders($task->getPlaceholders(), $entity);
         $entity = $this->mapCommands($task->getCommands(), $entity);
@@ -96,7 +96,6 @@ class TaskMapper implements TaskMapperInterface
         $taskToUpdate->setPlaceholders(new ArrayCollection());
 
         $taskToUpdate = $this->setStage($taskToUpdate, $task);
-        $taskToUpdate = $this->setTags($taskToUpdate, $task);
 
         $taskToUpdate = $this->mapPlaceholders($task->getPlaceholders(), $taskToUpdate);
         $taskToUpdate = $this->mapCommands($task->getCommands(), $taskToUpdate);
@@ -167,20 +166,5 @@ class TaskMapper implements TaskMapperInterface
         }
 
         return $taskToUpdate->setStage($task->getStage());
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $taskToUpdate
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task
-     */
-    protected function setTags(Task $taskToUpdate, TaskInterface $task): Task
-    {
-        if (!$task instanceof TaggedTaskInterface) {
-            return $taskToUpdate;
-        }
-
-        return $taskToUpdate->setTags($task->getTags());
     }
 }

@@ -28,32 +28,57 @@ class ConfigManager implements ConfigManagerInterface
     /**
      * @var string
      */
-    protected const IDEA_CONFIG_PATH = '/.idea/commandlinetools/Custom_Spryker_Sdk.xml';
+    protected const IDEA_CONFIG_FOLDER_PATH = DIRECTORY_SEPARATOR . '.idea' . DIRECTORY_SEPARATOR . 'commandlinetools' . DIRECTORY_SEPARATOR;
 
+    /**
+     * @var string
+     */
+    protected const IDEA_CONFIG_FILE_NAME = 'Custom_Spryker_Sdk.xml';
+
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface
+     */
     protected CommandXmlFormatterInterface $commandXmlFormatter;
 
+    /**
+     * @var \Symfony\Component\Serializer\Encoder\XmlEncoder
+     */
     protected XmlEncoder $xmlEncoder;
 
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface
+     */
     protected CommandLoaderInterface $commandLoader;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
     protected SettingRepositoryInterface $settingRepository;
+
+    /**
+     * @var string
+     */
+    protected string $executableFilePath;
 
     /**
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface $commandLoader
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface $commandXmlFormatter
      * @param \Symfony\Component\Serializer\Encoder\XmlEncoder $xmlEncoder
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param string $executableFilePath
      */
     public function __construct(
         CommandLoaderInterface $commandLoader,
         CommandXmlFormatterInterface $commandXmlFormatter,
         XmlEncoder $xmlEncoder,
-        SettingRepositoryInterface $settingRepository
+        SettingRepositoryInterface $settingRepository,
+        string $executableFilePath
     ) {
         $this->commandXmlFormatter = $commandXmlFormatter;
         $this->xmlEncoder = $xmlEncoder;
         $this->commandLoader = $commandLoader;
         $this->settingRepository = $settingRepository;
+        $this->executableFilePath = $executableFilePath;
     }
 
     /**
@@ -62,14 +87,23 @@ class ConfigManager implements ConfigManagerInterface
     public function createXmlFile(): bool
     {
         $ideCommands = $this->commandLoader->load();
-        $sdkDirSetting = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
+        $executableFile = $this->executableFilePath;
+        if (!$executableFile) {
+            $executableFile = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
+            $executableFile = '"$PhpExecutable$" ' . $executableFile . '/bin/console';
+        }
 
-        $arrayConfig = $this->prepareConfig($ideCommands, $sdkDirSetting);
+        $arrayConfig = $this->prepareConfig($ideCommands, $executableFile);
         $xmlConfig = $this->xmlEncoder->encode($arrayConfig, XmlEncoder::FORMAT);
 
         $projectDirSetting = (string)$this->getSetting(static::PROJECT_DIR_PATH)->getValues();
+        $ideaFolderPath = $projectDirSetting . static::IDEA_CONFIG_FOLDER_PATH;
 
-        return (bool)file_put_contents($projectDirSetting . static::IDEA_CONFIG_PATH, $xmlConfig);
+        if (!is_dir($ideaFolderPath)) {
+            mkdir($ideaFolderPath, 0777, true);
+        }
+
+        return !(file_put_contents($ideaFolderPath . static::IDEA_CONFIG_FILE_NAME, $xmlConfig) !== false);
     }
 
     /**
@@ -85,7 +119,7 @@ class ConfigManager implements ConfigManagerInterface
             '@xsi:noNamespaceSchemaLocation' => 'schemas/frameworkDescriptionVersion1.1.3.xsd',
             '@frameworkId' => 'spryker-sdk',
             '@name' => 'Spryker Sdk',
-            '@invoke' => '"$PhpExecutable$" ' . $sdkDir . '/bin/console',
+            '@invoke' => $sdkDir,
             '@alias' => 'spryker-sdk',
             '@enabled' => 'true',
             '@version' => 2,

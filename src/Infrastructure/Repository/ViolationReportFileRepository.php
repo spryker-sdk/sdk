@@ -22,6 +22,9 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      */
     protected ViolationPathReader $violationPathReader;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+     */
     protected ReportFormatterFactory $reportFormatterFactory;
 
     /**

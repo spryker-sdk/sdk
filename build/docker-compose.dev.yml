@@ -6,10 +6,12 @@ x-volumes:
 
 services:
   spryker-sdk:
-    image: spryker/php-sdk:latest
+    image: spryker/php-sdk-local:latest
     build:
       context: ./
       dockerfile: ./infrastructure/sdk.debug.Dockerfile
+      args:
+          USER_UID: ${USER_UID}
     environment:
       SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
       PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}

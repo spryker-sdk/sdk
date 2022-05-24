@@ -13,14 +13,29 @@ use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
 class StaticValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
 {
+    /**
+     * @var mixed
+     */
     protected mixed $value;
 
+    /**
+     * @var string
+     */
     protected string $alias;
 
+    /**
+     * @var string|null
+     */
     protected ?string $description;
 
+    /**
+     * @var array
+     */
     protected array $settingPaths;
 
+    /**
+     * @var array
+     */
     protected array $choiceValues;
 
     /**

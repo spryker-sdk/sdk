@@ -39,21 +39,21 @@ settings:
     type: path
     is_project: false
     values:
-        - src/Extension/Converters
+      - src/Extension/Converters
   - path: sdk_dir
     initialization_description: Where is the sdk directory?
     strategy: overwrite
     init: true
     is_project: false
     type: path
-    values: './'
+    values: "./"
   - path: project_dir
     initialization_description: Where is the project directory?
     strategy: overwrite
     init: true
     is_project: true
     type: path
-    values: './'
+    values: "./"
   - path: report_usage_statistics
     initialization_description: Do you agree to send anonymous usage reports to help improving the SDK?
     strategy: overwrite
@@ -68,10 +68,10 @@ settings:
     is_project: true
     type: string
     values:
-        - SprykerShop
-        - SprykerEco
-        - Spryker
-        - SprykerSdk
+      - SprykerShop
+      - SprykerEco
+      - Spryker
+      - SprykerSdk
   - path: projectNamespaces
     initialization_description: Do you approve project namespaces?
     strategy: merge
@@ -79,7 +79,7 @@ settings:
     is_project: true
     type: string
     values:
-        - Pyz
+      - Pyz
   - path: projectNamespace
     initialization_description: Do you approve project namespace?
     strategy: merge
@@ -93,12 +93,28 @@ settings:
     init: true
     is_project: true
     type: path
-    values: './reports/'
-    initializer: \SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer
+    values: "./reports/"
+    initializer: create_directory_initializer
   - path: context_dir
     initialization_description: Where is the context directory?
-    strategy: merge
+    strategy: overwrite
     init: true
     is_project: true
     type: path
-    values: './'
+    values: "./"
+  - path: project_key
+    initialization_description: What is the project unique key?
+    strategy: overwrite
+    init: false
+    is_project: true
+    type: uuid
+    values: ""
+    initializer: project_uuid_initializer
+  - path: workflow
+    initialization_description: What is the project workflow?
+    strategy: overwrite
+    init: true
+    is_project: true
+    type: string
+    values: ""
+    initializer: project_workflow_initializer

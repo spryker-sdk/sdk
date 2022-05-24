@@ -1,7 +1,7 @@
 namespace: SprykerSdk\Sdk\Tests
 suites:
     unit:
-        path: .
+        path: Sdk/Unit
         actor: UnitTester
         modules:
             enabled:
@@ -10,6 +10,15 @@ suites:
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\FileManagerHelper
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\PlaceholderResolverHelper
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\SettingManagerHelper
+        step_decorators: ~
+    acceptance:
+        path: Sdk/Acceptance
+        actor: AcceptanceTester
+        modules:
+            enabled:
+                - Asserts
+                - Cli
+                - Filesystem
         step_decorators: ~
 settings:
     shuffle: true

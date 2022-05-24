@@ -6,6 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
+/node_modules
 /vendor/
 /.idea
 .ssdk
@@ -29,3 +30,7 @@ VERSION
 tests/_output/
 tests/_support/_generated/
 ###< codeception ###
+
+###> frontend ###
+node_modules
+###< frontend ###

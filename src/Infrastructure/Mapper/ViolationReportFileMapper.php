@@ -7,10 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class ViolationReportFileMapper implements ViolationReportFileMapperInterface
@@ -84,7 +85,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
                 $file = [];
                 $file['path'] = $path;
                 $file['violations'] = [];
-                $violations = array_map(function (ViolationReportConverterInterface $violation) {
+                $violations = array_map(function (ViolationInterface $violation) {
                     return $this->convertViolationToArray($violation);
                 }, $fileViolations);
                 $file['violations'] = array_merge($file['violations'], $violations);
@@ -94,7 +95,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
             $violationReportStructure['packages'][] = [
                 'id' => $package->getPackage(),
                 'path' => $package->getPath(),
-                'violations' => array_map(function (ViolationReportConverterInterface $violation) {
+                'violations' => array_map(function (ViolationInterface $violation) {
                     return $this->convertViolationToArray($violation);
                 }, $package->getViolations()),
                 'files' => $files,
@@ -105,16 +106,17 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface $violation
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violation
      *
      * @return array<string, mixed>
      */
-    protected function convertViolationToArray(ViolationReportConverterInterface $violation): array
+    protected function convertViolationToArray(ViolationInterface $violation): array
     {
         $violationData = [];
 
         $violationData['id'] = $violation->getId();
         $violationData['message'] = $violation->getMessage();
+        $violationData['severity'] = $violation->getSeverity();
         $violationData['priority'] = $violation->priority();
         $violationData['class'] = $violation->getClass();
         $violationData['method'] = $violation->getMethod();
@@ -125,6 +127,12 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
         $violationData['additional_attributes'] = $violation->getAdditionalAttributes();
         $violationData['fixable'] = $violation->isFixable();
         $violationData['produced_by'] = $violation->producedBy();
+        $violationData['fix'] = $violation->getFix() ?
+        [
+            'type' => $violation->getFix()->getType(),
+            'action' => $violation->getFix()->getAction(),
+        ] :
+        null;
 
         return $violationData;
     }
@@ -132,23 +140,22 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
     /**
      * @param array $violation
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportConverterInterface
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
      */
-    protected function createViolation(array $violation): ViolationReportConverterInterface
+    protected function createViolation(array $violation): ViolationInterface
     {
-        return new ViolationReportConverter(
-            $violation['id'],
-            $violation['message'],
-            $violation['priority'] ?: null,
-            $violation['class'] ?: null,
-            $violation['method'] ?: null,
-            $violation['start_line'] ?: null,
-            $violation['end_line'] ?: null,
-            $violation['start_column'] ?: null,
-            $violation['end_column'] ?: null,
-            $violation['additional_attributes'],
-            $violation['fixable'] ?: false,
-            $violation['produced_by'] ?: '',
-        );
+        return (new Violation($violation['id'], $violation['message']))
+            ->setSeverity($violation['severity'] ?? ViolationInterface::SEVERITY_ERROR)
+            ->setPriority($violation['priority'] ?? null)
+            ->setClass($violation['class'] ?? null)
+            ->setMethod($violation['method'] ?: null)
+            ->setStartLine($violation['start_line'] ?? null)
+            ->setEndLine($violation['end_line'] ?? null)
+            ->setStartColumn($violation['start_column'] ?? null)
+            ->setEndColumn($violation['end_column'] ?? null)
+            ->setAttributes($violation['additional_attributes'])
+            ->setFixable($violation['fixable'] ?? false)
+            ->setProduced($violation['produced_by'] ?? '')
+            ->setFix(isset($violation['fix']) ? new ViolationFix($violation['fix']['type'], $violation['fix']['action']) : null);
     }
 }

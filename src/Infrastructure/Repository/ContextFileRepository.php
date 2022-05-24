@@ -72,7 +72,7 @@ class ContextFileRepository implements ContextRepositoryInterface
         $contextFileContent = file_get_contents($contextFilePath);
 
         if (!$contextFileContent) {
-            throw new MissingContextFileException(sprintf('Context file %s could not be read', $contextFilePath,));
+            throw new MissingContextFileException(sprintf('Context file %s could not be read', $contextFilePath));
         }
 
         return $this->contextSerializer->deserialize($contextFileContent);

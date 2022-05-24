@@ -7,9 +7,11 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
+use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
@@ -25,30 +27,50 @@ class InitProjectCommand extends Command
      */
     protected const NAME = 'sdk:init:project';
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     */
     protected CliValueReceiver $cliValueReceiver;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
+     */
     protected SettingManager $projectSettingManager;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
     protected SettingRepositoryInterface $settingRepository;
 
+    /**
+     * @var \Psr\Container\ContainerInterface
+     */
+    protected ContainerInterface $container;
+
+    /**
+     * @var string
+     */
     protected string $projectSettingFileName;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $projectSettingManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \Psr\Container\ContainerInterface $container
      * @param string $projectSettingFileName
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
         SettingManager $projectSettingManager,
         SettingRepositoryInterface $settingRepository,
+        ContainerInterface $container,
         string $projectSettingFileName
     ) {
         $this->projectSettingFileName = $projectSettingFileName;
         $this->settingRepository = $settingRepository;
         $this->projectSettingManager = $projectSettingManager;
         $this->cliValueReceiver = $cliValueReceiver;
+        $this->container = $container;
         parent::__construct(static::NAME);
     }
 
@@ -60,9 +82,24 @@ class InitProjectCommand extends Command
         $this->addOption(
             'default',
             'd',
-            InputOption::VALUE_NONE | InputOption::VALUE_REQUIRED,
+            InputOption::VALUE_NONE,
             'Use predefined settings without approve',
         );
+
+        $settings = $this->settingRepository->findProjectSettings();
+
+        foreach ($settings as $setting) {
+            $mode = InputOption::VALUE_REQUIRED;
+            if ($setting->getStrategy() === 'merge') {
+                $mode = $mode | InputOption::VALUE_IS_ARRAY;
+            }
+            $this->addOption(
+                $setting->getPath(),
+                null,
+                $mode,
+                (string)$setting->getInitializationDescription(),
+            );
+        }
     }
 
     /**
@@ -71,11 +108,9 @@ class InitProjectCommand extends Command
      *
      * @return int
      */
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $projectSettingPath = $this->projectSettingFileName;
-
-        if (file_exists($projectSettingPath)) {
+        if (file_exists($this->projectSettingFileName)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'boolean'),
@@ -88,31 +123,51 @@ class InitProjectCommand extends Command
         $settingEntities = $this->settingRepository->findProjectSettings();
 
         $needsToAsk = (bool)$input->getOption('default');
-        $settingEntities = $this->initializeSettingValues($settingEntities, $needsToAsk);
+        $settingEntities = $this->initializeSettingValues($input->getOptions(), $settingEntities, $needsToAsk);
         $this->writeProjectSettings($settingEntities);
 
         return static::SUCCESS;
     }
 
     /**
+     * @param array $options
      * @param array<string, \SprykerSdk\SdkContracts\Entity\SettingInterface> $settingEntities
      * @param bool $needsToAsk
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
-    protected function initializeSettingValues(array $settingEntities, bool $needsToAsk): array
+    protected function initializeSettingValues(array $options, array $settingEntities, bool $needsToAsk): array
     {
         foreach ($settingEntities as $settingEntity) {
+            if (!empty($options[$settingEntity->getPath()])) {
+                $settingEntity->setValues($options[$settingEntity->getPath()]);
+            }
             if ($settingEntity->hasInitialization() === false) {
                 continue;
             }
             $values = $settingEntity->getValues();
 
+            if (empty($options[$settingEntity->getPath()]) && $settingEntity->hasInitialization() === true) {
+                $needsToAsk = !$this->cliValueReceiver->receiveValue(
+                    new ReceiverValue(
+                        sprintf('Do you need to init `%s` with custom setting', $settingEntity->getPath()),
+                        false,
+                        'boolean',
+                    ),
+                );
+            }
+
             if (!$needsToAsk) {
                 $questionDescription = $settingEntity->getInitializationDescription();
 
-                if (empty($questionDescription)) {
+                if (!$questionDescription) {
                     $questionDescription = 'Initial value for ' . $settingEntity->getPath();
+                }
+
+                $choiceValues = [];
+                $initializer = $this->getSettingInitializer($settingEntity);
+                if ($initializer instanceof SettingChoicesProviderInterface) {
+                    $choiceValues = $initializer->getChoices($settingEntity);
                 }
 
                 $values = $this->cliValueReceiver->receiveValue(
@@ -120,6 +175,7 @@ class InitProjectCommand extends Command
                         $questionDescription,
                         $settingEntity->getValues(),
                         $settingEntity->getType(),
+                        $choiceValues,
                     ),
                 );
             }
@@ -130,16 +186,12 @@ class InitProjectCommand extends Command
                 default => (string)$values,
             };
 
-            if ($settingEntity->getStrategy() === SettingInterface::STRATEGY_MERGE) {
-                $values = array_merge((array)$settingEntity->getValues(), (array)$values);
-            }
-
             $settingEntity->setValues($values);
+        }
 
-            $initializerClassName = $settingEntity->getInitializer();
-            if ($initializerClassName && in_array(SettingInitializerInterface::class, (array)class_implements($initializerClassName))) {
-                /** @var \SprykerSdk\SdkContracts\Setting\SettingInitializerInterface $initializer */
-                $initializer = new $initializerClassName();
+        foreach ($settingEntities as $settingEntity) {
+            $initializer = $this->getSettingInitializer($settingEntity);
+            if ($initializer) {
                 $initializer->initialize($settingEntity);
             }
         }
@@ -161,5 +213,26 @@ class InitProjectCommand extends Command
         }
 
         $this->projectSettingManager->setSettings($projectValues);
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
+     *
+     * @return \SprykerSdk\SdkContracts\Setting\SettingInitializerInterface|null
+     */
+    protected function getSettingInitializer(SettingInterface $setting): ?SettingInitializerInterface
+    {
+        $initializerId = $setting->getInitializer() ?? '';
+
+        if (!$this->container->has($initializerId)) {
+            return null;
+        }
+
+        $initializer = $this->container->get($initializerId);
+        if (!$initializer instanceof SettingInitializerInterface) {
+            return null;
+        }
+
+        return $initializer;
     }
 }

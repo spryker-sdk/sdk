@@ -18,9 +18,8 @@ interface TaskRepositoryInterface
 
     /**
      * @param string $taskId
-     * @param array $tags
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
-    public function findById(string $taskId, array $tags = []): ?TaskInterface;
+    public function findById(string $taskId): ?TaskInterface;
 }

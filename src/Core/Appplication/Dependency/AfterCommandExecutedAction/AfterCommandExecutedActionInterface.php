@@ -15,9 +15,8 @@ interface AfterCommandExecutedActionInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param string $subTaskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(CommandInterface $command, ContextInterface $context, string $subTaskId): ContextInterface;
+    public function execute(CommandInterface $command, ContextInterface $context): ContextInterface;
 }

@@ -1,6 +1,7 @@
 SprykerSdk\Sdk\Infrastructure\Entity\Task:
     type: entity
     repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+    changeTrackingPolicy: DEFERRED_EXPLICIT
     table: sdk_task
     id:
         id:
@@ -29,15 +30,14 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
             unique: false
             nullable: false
             default: false
-        tags:
-            name: tags
+        stages:
             type: json
             nullable: false
             unique: false
-            default: [ ]
+            default: []
         stage:
             type: string
-            nullable: false;
+            nullable: false
             unique: false
             name: stage
         optional:
@@ -49,6 +49,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
         commandCollection:
             targetEntity: Command
             cascade: ["persist", "remove"]
+            orphanRemoval: true
             joinTable:
                 name: sdk_tasks_commands
                 joinColumns:
@@ -63,6 +64,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
         placeholderCollection:
             targetEntity: Placeholder
             cascade: ["persist", "remove"]
+            orphanRemoval: true
             joinTable:
                 name: sdk_tasks_placeholders
                 joinColumns:
@@ -77,7 +79,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Task:
     oneToOne:
         lifecycle:
             targetEntity: Lifecycle
-            cascade: [ "persist", "remove" ]
+            cascade: ["persist", "remove"]
             joinColumn:
                 name: lifecycle_id
                 referencedColumnName: id

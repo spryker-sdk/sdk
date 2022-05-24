@@ -16,11 +16,6 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class CommandExecutor implements CommandExecutorInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
-     */
-    protected PlaceholderResolver $placeholderResolver;
-
-    /**
      * @var iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
      */
     protected iterable $commandRunners;
@@ -31,16 +26,13 @@ class CommandExecutor implements CommandExecutorInterface
     protected iterable $afterCommandExecutedActions;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
      * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface> $afterCommandExecutedActions
      */
     public function __construct(
-        PlaceholderResolver $placeholderResolver,
         iterable $commandRunners,
         iterable $afterCommandExecutedActions = []
     ) {
-        $this->placeholderResolver = $placeholderResolver;
         $this->commandRunners = $commandRunners;
         $this->afterCommandExecutedActions = $afterCommandExecutedActions;
     }
@@ -48,11 +40,10 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param string $subTaskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(CommandInterface $command, ContextInterface $context, string $subTaskId): ContextInterface
+    public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
         foreach ($this->commandRunners as $commandRunner) {
             if (!$commandRunner->canHandle($command)) {
@@ -76,7 +67,7 @@ class CommandExecutor implements CommandExecutorInterface
             $context = $commandRunner->execute($command, $context);
             $context->addExitCode($command->getCommand(), $context->getExitCode());
 
-            return $this->executeAfterCommandExecutedActions($command, $context, $subTaskId);
+            return $this->executeAfterCommandExecutedActions($command, $context);
         }
 
         return $context;
@@ -85,14 +76,13 @@ class CommandExecutor implements CommandExecutorInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param string $subTaskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    protected function executeAfterCommandExecutedActions(CommandInterface $command, ContextInterface $context, string $subTaskId): ContextInterface
+    protected function executeAfterCommandExecutedActions(CommandInterface $command, ContextInterface $context): ContextInterface
     {
         foreach ($this->afterCommandExecutedActions as $afterCommandExecutedAction) {
-            $context = $afterCommandExecutedAction->execute($command, $context, $subTaskId);
+            $context = $afterCommandExecutedAction->execute($command, $context);
         }
 
         return $context;

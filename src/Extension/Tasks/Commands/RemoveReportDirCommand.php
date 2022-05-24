@@ -52,7 +52,7 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return '';
+        return static::class;
     }
 
     /**
@@ -85,5 +85,13 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     public function getViolationConverter(): ?ConverterInterface
     {
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
     }
 }

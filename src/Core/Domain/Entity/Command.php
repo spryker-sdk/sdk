@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class Command implements CommandInterface
@@ -38,24 +39,32 @@ class Command implements CommandInterface
     protected ?ConverterInterface $converter;
 
     /**
+     * @var string
+     */
+    protected string $stage = ContextInterface::DEFAULT_STAGE;
+
+    /**
      * @param string $command
      * @param string $type
      * @param bool $hasStopOnError
      * @param array<string> $tags
      * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
+     * @param string $stage
      */
     public function __construct(
         string $command,
         string $type,
         bool $hasStopOnError = false,
         array $tags = [],
-        ?ConverterInterface $converter = null
+        ?ConverterInterface $converter = null,
+        string $stage = ContextInterface::DEFAULT_STAGE
     ) {
         $this->hasStopOnError = $hasStopOnError;
         $this->type = $type;
         $this->command = $command;
         $this->tags = $tags;
         $this->converter = $converter;
+        $this->stage = $stage;
     }
 
     /**
@@ -96,5 +105,25 @@ class Command implements CommandInterface
     public function getViolationConverter(): ?ConverterInterface
     {
         return $this->converter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return $this->stage;
+    }
+
+    /**
+     * @param string $stage
+     *
+     * @return $this
+     */
+    public function setStage(string $stage)
+    {
+        $this->stage = $stage;
+
+        return $this;
     }
 }

@@ -112,7 +112,7 @@ class YourCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return '';
+        return static::class;
     }
 
     /**

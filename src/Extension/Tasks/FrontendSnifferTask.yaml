@@ -1,0 +1,36 @@
+---
+id: "validation:frontend:architecture"
+short_description: "Perform architecture checks on either core and project level frontend code"
+help: ~
+stage: build
+version: 0.1.0
+command: "npx --prefix %sdk_dir% frontend-sniffer %level_restriction% > %reportDir%/frontend.architecture.log 2>&1"
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%reportDir%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+  - name: "%level_restriction%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "level_restriction"
+      description: "Collect core or project level only (possible values: core, project)"
+      help: "Collect core or project level only (possible values: core, project)"
+      type: string
+      choiceValues:
+        - core
+        - project
+report_converter:
+  name: FrontendSnifferViolationReportConverter
+  configuration:
+    input_file: frontend.architecture.log
+    producer: frontend

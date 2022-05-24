@@ -1,8 +1,4 @@
 <?php
-/*
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
 
 /**
  * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
@@ -13,8 +9,14 @@ namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto;
 
 class Param implements ParamInterface
 {
+    /**
+     * @var string
+     */
     protected string $name;
 
+    /**
+     * @var array|string|float|int|bool|null
+     */
     protected string|bool|int|float|array|null $defaultValue;
 
     /**

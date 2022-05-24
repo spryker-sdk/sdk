@@ -11,12 +11,24 @@ use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
 
 class ReceiverValue implements ReceiverValueInterface
 {
+    /**
+     * @var string
+     */
     protected string $description;
 
+    /**
+     * @var mixed
+     */
     protected mixed $defaultValue;
 
+    /**
+     * @var string
+     */
     protected string $type;
 
+    /**
+     * @var array
+     */
     protected array $choiceValues;
 
     /**

@@ -1,0 +1,25 @@
+---
+id: "validation:php:security-check"
+short_description: "Check your code by running a static code analysis and generate report with violations"
+help: ~
+stage: build
+version: 1.0.0
+command: "php %sdk_dir%/bin/console security:check --format=json > %reportDir%/security.check.json"
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%reportDir%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+report_converter:
+  name: SecurityViolationReportConverter
+  configuration:
+    input_file: security.check.json
+    producer: security

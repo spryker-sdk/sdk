@@ -11,6 +11,9 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 
 class Setting extends DomainSetting
 {
+    /**
+     * @var int|null
+     */
     protected ?int $id;
 
     /**

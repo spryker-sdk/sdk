@@ -94,7 +94,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
         $defaultValue = $receiverValue->getDefaultValue();
         $type = $receiverValue->getType();
         $description = $receiverValue->getDescription();
-        if (!$defaultValue && $choiceValues) {
+        if ($defaultValue === null && $choiceValues) {
             $defaultValue = reset($choiceValues);
         }
 
@@ -119,6 +119,9 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
                 }
 
                 $question = new Question($description, $defaultValue);
+                if ($type === 'array') {
+                    $question->setMultiline(true);
+                }
                 $question->setNormalizer(function ($value) {
                     return $value ?: '';
                 });

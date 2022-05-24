@@ -14,8 +14,6 @@ use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
-use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaggedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command;
@@ -62,15 +60,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ContextRepositoryInterface $contextRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
-     */
-    protected TaskRepositoryInterface $taskFileRepository;
-
-    /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskFileRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
@@ -81,7 +73,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         ContainerInterface $container,
         array $commandMap,
         TaskRepositoryInterface $taskRepository,
-        TaskRepositoryInterface $taskFileRepository,
         ContextRepositoryInterface $contextRepository,
         TaskExecutor $taskExecutor,
         PlaceholderResolver $placeholderResolver,
@@ -95,7 +86,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $this->reportFormatterFactory = $reportFormatterFactory;
         $this->contextRepository = $contextRepository;
         $this->environment = $environment;
-        $this->taskFileRepository = $taskFileRepository;
     }
 
     /**
@@ -127,7 +117,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             return parent::get($name);
         }
 
-        $task = $this->taskFileRepository->findById($name);
+        $task = $this->taskRepository->findById($name);
 
         if (!$task) {
             throw new TaskMissingException('Could not find task ' . $name);
@@ -194,17 +184,10 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     {
         $tags = [];
 
-        if ($task instanceof TaggedTaskInterface) {
-            $tags = array_merge($tags, $task->getTags());
+        foreach ($task->getCommands() as $command) {
+            $tags[] = $command->getTags();
         }
-
-        if ($task instanceof TaskSetInterface) {
-            foreach ($task->getSubTasks() as $taskSetTask) {
-                if ($taskSetTask instanceof TaggedTaskInterface) {
-                    $tags = array_merge($tags, $taskSetTask->getTags());
-                }
-            }
-        }
+        $tags = array_merge(...$tags);
 
         if (count($tags) > 0) {
             $options[] = new InputOption(
@@ -227,20 +210,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected function addStageOptions(TaskInterface $task, array $options): array
     {
-        $stages = [];
-
-        if ($task instanceof StagedTaskInterface) {
-            $stages[] = $task->getStage();
-        }
-
-        if ($task instanceof TaskSetInterface) {
-            foreach ($task->getSubTasks() as $taskSetTask) {
-                if ($taskSetTask instanceof StagedTaskInterface) {
-                    $stages[] = $taskSetTask->getStage();
-                }
-            }
-        }
-
         $options[] = new InputOption(
             RunTaskWrapperCommand::OPTION_STAGES,
             substr(RunTaskWrapperCommand::OPTION_STAGES, 0, 1),

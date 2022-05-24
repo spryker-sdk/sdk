@@ -13,8 +13,14 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class CommandMapper implements CommandMapperInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\OptionMapperInterface
+     */
     protected OptionMapperInterface $optionMapper;
 
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\ParamMapperInterface
+     */
     protected ParamMapperInterface $paramMapper;
 
     /**

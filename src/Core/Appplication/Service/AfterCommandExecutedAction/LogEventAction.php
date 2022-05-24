@@ -31,18 +31,12 @@ class LogEventAction implements AfterCommandExecutedActionInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param string $subTaskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(CommandInterface $command, ContextInterface $context, string $subTaskId): ContextInterface
+    public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
-        if (!isset($context->getSubTasks()[$subTaskId])) {
-            return $context;
-        }
-
-        $task = $context->getSubTasks()[$subTaskId];
-        $this->eventLogger->logEvent(new TaskExecutedEvent($task, $command, (bool)$context->getExitCode()));
+        $this->eventLogger->logEvent(new TaskExecutedEvent($context->getTask(), $command, (bool)$context->getExitCode()));
 
         return $context;
     }

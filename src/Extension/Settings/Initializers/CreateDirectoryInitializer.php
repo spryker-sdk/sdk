@@ -22,7 +22,7 @@ class CreateDirectoryInitializer implements SettingInitializerInterface
         $reportPath = $setting->getValues();
 
         if (!is_dir($reportPath)) {
-            mkdir($reportPath, 0777);
+            mkdir($reportPath, 0777, true);
         }
     }
 }

@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Extension\Converters;
 
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Domain\Entity\Violation\ViolationReportConverter;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class CheckstyleViolationReportConverter extends AbstractViolationConverter
@@ -86,20 +86,15 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
 
             $fileViolations = [];
             foreach ($file['messages'] as $message) {
-                $fileViolations[$relatedPathToFile][] = new ViolationReportConverter(
-                    basename($relatedPathToFile, '.php'),
-                    $message['message'],
-                    null,
-                    $classNamespace,
-                    (int)$message['line'],
-                    (int)$message['line'],
-                    (int)$message['column'],
-                    (int)$message['column'],
-                    null,
-                    $message,
-                    $message['fixable'],
-                    $this->producer,
-                );
+                $fileViolations[$relatedPathToFile][] = (new Violation(basename($relatedPathToFile, '.php'), $message['message']))
+                    ->setClass($classNamespace)
+                    ->setStartLine($message['line'])
+                    ->setEndLine($message['line'])
+                    ->setStartColumn($message['column'])
+                    ->setEndColumn($message['column'])
+                    ->setAttributes($message)
+                    ->setFixable($message['fixable'])
+                    ->setProduced($this->producer);
             }
 
             $packages[] = new PackageViolationReport(

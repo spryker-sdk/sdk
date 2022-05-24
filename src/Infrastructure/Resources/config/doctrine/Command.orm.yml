@@ -27,11 +27,16 @@ SprykerSdk\Sdk\Infrastructure\Entity\Command:
             type: json
             nullable: false
             unique: false
-            default: [ ]
+            default: []
+        stage:
+            type: string
+            nullable: false
+            unique: false
+            name: stage
     oneToOne:
         converter:
             targetEntity: Converter
-            cascade: [ "persist", "remove" ]
+            cascade: ["persist", "remove"]
             joinColumn:
                 name: converter_id
                 referencedColumnName: id

@@ -124,4 +124,12 @@ class RemoveRepDirTask implements TaskInterface
             new RemovedEventData(),
         );
     }
+
+    /**
+     * @return array<string>
+     */
+    public function getStages(): array
+    {
+        return [];
+    }
 }

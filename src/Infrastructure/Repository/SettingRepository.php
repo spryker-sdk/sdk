@@ -34,6 +34,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         EntityManagerInterface $entityManager,
         PathResolver $pathResolver
     ) {
+        /** @var \Doctrine\ORM\Mapping\ClassMetadata<\SprykerSdk\SdkContracts\Entity\SettingInterface> $class */
         $class = $entityManager->getClassMetadata(InfrastructureSetting::class);
 
         parent::__construct($entityManager, $class);
@@ -118,7 +119,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     public function save(SettingInterface $setting): SettingInterface
     {
         $this->getEntityManager()->persist($setting);
-        $this->getEntityManager()->flush($setting);
+        $this->getEntityManager()->flush();
 
         return $setting;
     }
