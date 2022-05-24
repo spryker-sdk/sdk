@@ -54,7 +54,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
             return null;
         }
 
-        $testCases = json_decode($jsonReport, true);
+        $testCases = $this->extractJson($jsonReport);
 
         if (count($testCases) === 0) {
             return null;
@@ -70,6 +70,46 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
             [],
             $this->getPackages($projectDirectory->getValues(), $testCases),
         );
+    }
+
+    /**
+     * @param string $json
+     *
+     * @return array
+     */
+    protected function splitJson(string $json): array
+    {
+        $q = false;
+        $len = strlen($json);
+        $objects = [];
+        for ($l = $c = $i = 0; $i < $len; $i++) {
+            $json[$i] === '"' && ($i > 0 ? $json[$i - 1] : '') !== '\\' && $q = !$q;
+            if (!$q && in_array($json[$i], [' ', "\r", "\n", "\t"])) {
+                continue;
+            }
+            in_array($json[$i], ['{', '[']) && !$q && $l++;
+            in_array($json[$i], ['}', ']']) && !$q && $l--;
+            (isset($objects[$c]) && $objects[$c] .= $json[$i]) || $objects[$c] = $json[$i];
+            $c += ($l === 0);
+        }
+
+        return $objects;
+    }
+
+    /**
+     * @param string $jsonReport
+     *
+     * @return array
+     */
+    protected function extractJson(string $jsonReport): array
+    {
+        $arrays = [];
+        $jsons = $this->splitJson($jsonReport);
+        foreach ($jsons as $json) {
+            $arrays[] = json_decode($json, true);
+        }
+
+        return array_merge(...$arrays);
     }
 
     /**
