@@ -1,12 +1,18 @@
 ---
-id: 'tests:sdk:acceptance'
+id: 'tests:sdk:codecept'
 short_description: 'Run acceptance tests'
 help: ~
 stage: build
 version: 0.1.0
-command: 'php %sdk_dir%/vendor/bin/codecept run acceptance -o "paths: output: %reportDir%" --json=codeception.report.json'
+command: 'php %sdk_dir%/vendor/bin/codecept run %suites% -o "paths: output: %reportDir%" --json=codeception.report.json'
 type: local_cli
 placeholders:
+  - name: "%suites%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      description: "Suite name that should executed. Multiple suites can be comma-separated"
+      type: string
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true

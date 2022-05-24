@@ -62,7 +62,7 @@ class RunWorkflowCommand extends Command
      *
      * @return int
      */
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $currentTask = null;
         $context = new Context();

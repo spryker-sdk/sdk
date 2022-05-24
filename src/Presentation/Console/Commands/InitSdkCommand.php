@@ -102,7 +102,7 @@ class InitSdkCommand extends Command
      *
      * @return int
      */
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initializeSettingValues($input->getOptions(), $this->readSettingDefinitions());
         $this->taskManager->initialize($this->taskYamlRepository->findAll());

@@ -40,9 +40,9 @@ class AcceptanceTester extends Actor
      *
      * @return string
      */
-    protected function getPathFromSdkRoot(string $relativePath): string
+    public function getPathFromSdkRoot(string $relativePath): string
     {
-        return realpath(sprintf('%s/%s', dirname(__DIR__, 2), $relativePath));
+        return sprintf('%s/%s', dirname(__DIR__, 2), $relativePath);
     }
 
     /**
@@ -58,9 +58,9 @@ class AcceptanceTester extends Actor
      *
      * @return string
      */
-    protected function getPathFromTestsDataRoot(string $relativePath): string
+    public function getPathFromTestsDataRoot(string $relativePath): string
     {
-        return realpath(sprintf('%s/%s', $this->getTestsDataRoot(), $relativePath));
+        return sprintf('%s/%s', $this->getTestsDataRoot(), $relativePath);
     }
 
     /**
@@ -81,7 +81,7 @@ class AcceptanceTester extends Actor
      */
     public function getPathFromProjectRoot(string $relativePath, string $project = 'project'): string
     {
-        return realpath(sprintf('%s/%s', $this->getProjectRoot($project), $relativePath));
+        return sprintf('%s/%s', $this->getProjectRoot($project), $relativePath);
     }
 
     /**
