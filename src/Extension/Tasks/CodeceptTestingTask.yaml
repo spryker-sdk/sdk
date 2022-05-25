@@ -1,0 +1,32 @@
+---
+id: 'tests:sdk:codecept'
+short_description: 'Run acceptance tests'
+help: ~
+stage: build
+version: 0.1.0
+command: 'php %sdk_dir%/vendor/bin/codecept run %suites% --json=%reportDir%/codeception.report.json'
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%suites%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      name: "suites"
+      description: "Suite name that should executed. Multiple suites can be comma-separated"
+      type: string
+  - name: "%reportDir%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+report_converter:
+  name: CodeceptionViolationReportConverter
+  configuration:
+    input_file: codeception.report.json
+    producer: codeception

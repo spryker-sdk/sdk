@@ -1,0 +1,23 @@
+---
+id: "acp:pbc:validate"
+short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
+help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
+stage: build
+version: 0.1.0
+command: ~
+type: task_set
+tasks:
+  - id: "validation:php:codestyle-fix"
+    stop_on_error: true
+  - id: "validation:php:codestyle-check"
+    stop_on_error: true
+  - id: "validation:php:static"
+    stop_on_error: true
+  - id: "validation:php:architecture"
+    stop_on_error: true
+  - id: "tests:sdk:codecept"
+    stop_on_error: true
+  - id: "validation:php:rector"
+    stop_on_error: true
+
+placeholders: []

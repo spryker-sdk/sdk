@@ -74,7 +74,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
             );
         }
 
-        return $defaultValue;
+        return $defaultValue ?: null;
     }
 
     /**

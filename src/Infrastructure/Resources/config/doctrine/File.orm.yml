@@ -1,18 +1,18 @@
 SprykerSdk\Sdk\Infrastructure\Entity\File:
-  type: entity
-  repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\FileRepository
-  table: sdk_file
-  id:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\FileRepository
+    table: sdk_file
     id:
-      type: integer
-      generator:
-        strategy: AUTO
-  fields:
-    path:
-      type: string
-      nullable: false
-      unique: true
-    content:
-      type: string
-      nullable: false
-      unique: false
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        path:
+            type: string
+            nullable: false
+            unique: true
+        content:
+            type: string
+            nullable: false
+            unique: false

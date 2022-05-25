@@ -16,7 +16,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
     /**
      * @var array<string>
      */
-    protected const LAYERS = ['Client', 'Yves', 'Shared', 'Service', 'Zed', 'Glue'];
+    protected const LAYERS = ['Client', 'Yves', 'Shared', 'Service', 'Zed', 'Glue', 'SprykerConfig'];
 
     /**
      * @var string
@@ -73,7 +73,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
         $layers = implode('|', static::LAYERS);
         preg_match(sprintf('~(%s)/(\w+)/~', $layers), $relatedPathToFile, $matches);
 
-        return $matches[2];
+        return $matches[2] ?? 'project';
     }
 
     /**
@@ -86,7 +86,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
         $layers = implode('|', static::LAYERS);
         preg_match(sprintf('~(\w+/)+(%s)/(\w+)~', $layers), $relatedPathToFile, $matches);
 
-        return $matches[0];
+        return $matches[0] ?? './';
     }
 
     /**
@@ -100,7 +100,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
 
         preg_match(sprintf('~/(%s)/([a-zA-Z/]+)~', $layers), $relatedPathToFile, $matches);
 
-        return str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0]);
+        return str_replace(DIRECTORY_SEPARATOR, '\\', $matches[0] ?? '');
     }
 
     /**
