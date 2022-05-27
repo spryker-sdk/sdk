@@ -2,13 +2,14 @@ version: '3'
 
 services:
   spryker-sdk:
-    image: spryker/php-sdk-local:latest
+    image: spryker/php-sdk-local:${SDK_VERSION:-latest}
     network_mode: "host"
     build:
       context: ./
       dockerfile: ./infrastructure/sdk.local.Dockerfile
       args:
-          USER_UID: ${USER_UID}
+        USER_UID: ${USER_UID}
+        SDK_VERSION: ${SDK_VERSION:-latest}
     working_dir: "/project"
     environment:
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
