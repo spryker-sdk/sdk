@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,6 +25,11 @@ class RunWorkflowCommand extends Command
      * @var string
      */
     protected const NAME = 'sdk:workflow:run';
+
+    /**
+     * @var string
+     */
+    protected const ARG_WORKFLOW_NAME = 'workflow_name';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
@@ -57,6 +63,15 @@ class RunWorkflowCommand extends Command
     }
 
     /**
+     * @return void
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this->addArgument(static::ARG_WORKFLOW_NAME, InputArgument::OPTIONAL, 'Workflow name');
+    }
+
+    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -64,16 +79,42 @@ class RunWorkflowCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
+
+        $initializeWorkflows = $this->projectWorkflow->findInitializeWorkflows();
+        if (!$initializeWorkflows) {
+            $output->writeln('<error>You don\'t initialize any workflow.</error>');
+
+            return static::FAILURE;
+        }
+
+        if ($workflowName && !in_array($workflowName, $initializeWorkflows)) {
+            $output->writeln(sprintf('<error>You don\'t initialize `%s` workflow.</error>', $workflowName));
+
+            return static::FAILURE;
+        }
+
+        if (!$workflowName) {
+            $workflowName = count($initializeWorkflows) > 1 ? $this->cliValueReceiver->receiveValue(
+                new ReceiverValue(
+                    'You have more then one workflow. you have to select the one.',
+                    current(array_keys($initializeWorkflows)),
+                    'string',
+                    $initializeWorkflows,
+                ),
+            ) : current($initializeWorkflows);
+        }
+
         $currentTask = null;
         $context = new Context();
-        $metadata = $this->projectWorkflow->getWorkflowMetadata();
+        $metadata = $this->projectWorkflow->getWorkflowMetadata($workflowName);
         $while = !empty($metadata['run']) && $metadata['run'] === 'single' ? false : true;
 
         do {
-            $enabledTasksIds = $this->projectWorkflow->getWorkflowTasks();
+            $enabledTasksIds = $this->projectWorkflow->getWorkflowTasks($workflowName);
 
             if (!$enabledTasksIds) {
-                $output->writeln('<error>Error: You don\'t init workflow or don\'t have any task</error>');
+                $output->writeln('<error>You finished current workflow or this workflow is empty.</error>');
 
                 return static::FAILURE;
             }

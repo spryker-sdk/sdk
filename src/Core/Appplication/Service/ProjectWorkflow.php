@@ -56,6 +56,11 @@ class ProjectWorkflow
     protected ?WorkflowInterface $currentProjectWorkflow = null;
 
     /**
+     * @var array<\SprykerSdk\SdkContracts\Entity\WorkflowInterface>
+     */
+    protected array $initializedWorkflows = [];
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Workflow\Registry $workflows
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
@@ -71,11 +76,13 @@ class ProjectWorkflow
     }
 
     /**
+     * @param string|null $workflowName
+     *
      * @return array<string, string>
      */
-    public function getWorkflowMetadata(): array
+    public function getWorkflowMetadata(?string $workflowName = null): array
     {
-        $this->initializeWorkflow();
+        $this->initializeWorkflow($workflowName);
         if (!$this->currentWorkflow) {
             return [];
         }
@@ -84,11 +91,13 @@ class ProjectWorkflow
     }
 
     /**
+     * @param string|null $workflowName
+     *
      * @return array<string>
      */
-    public function getWorkflowTasks(): array
+    public function getWorkflowTasks(?string $workflowName = null): array
     {
-        $this->initializeWorkflow();
+        $this->initializeWorkflow($workflowName);
         if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
             return [];
         }
@@ -104,16 +113,32 @@ class ProjectWorkflow
     }
 
     /**
+     * @return array<string>
+     */
+    public function findInitializeWorkflows(): array
+    {
+        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
+
+        return array_map(function (WorkflowInterface $workflow) {
+            return $workflow->getWorkflow();
+        }, $this->workflowRepository->findWorkflows($projectIdSetting->getValues()));
+    }
+
+    /**
+     * @param string|null $workflowName
+     *
      * @return void
      */
-    protected function initializeWorkflow(): void
+    protected function initializeWorkflow(?string $workflowName = null): void
     {
         if ($this->currentProjectWorkflow) {
             return;
         }
 
         $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-        $this->currentProjectWorkflow = $this->workflowRepository->findOne($projectIdSetting->getValues());
+
+        $this->currentProjectWorkflow = $this->workflowRepository->getWorkflow($projectIdSetting->getValues(), $workflowName);
+
         if (!$this->currentProjectWorkflow) {
             return;
         }
@@ -122,12 +147,13 @@ class ProjectWorkflow
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param string|null $workflowName
      *
      * @return bool
      */
-    public function initWorkflow(ContextInterface $context): bool
+    public function initWorkflow(ContextInterface $context, ?string $workflowName = null): bool
     {
-        $this->initializeWorkflow();
+        $this->initializeWorkflow($workflowName);
         if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
             return true;
         }

@@ -47,7 +47,7 @@ class ProjectWorkflowTest extends Unit
             ->willReturn($settingMock);
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('findOne')
+            ->method('getWorkflow')
             ->willReturn(null);
 
         $projectWorkflow = new ProjectWorkflow(
@@ -175,7 +175,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('findOne')
+            ->method('getWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $projectWorkflow = new ProjectWorkflow(
@@ -311,7 +311,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('findOne')
+            ->method('getWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         return new ProjectWorkflow(

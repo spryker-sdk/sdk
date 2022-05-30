@@ -50,13 +50,32 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     /**
      * @param string $project
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
+     * @return array<\SprykerSdk\SdkContracts\Entity\WorkflowInterface>
      */
-    public function findOne(string $project): ?WorkflowInterface
+    public function findWorkflows(string $project): array
     {
         $criteria = [
             'project' => $project,
         ];
+
+        return $this->findBy($criteria);
+    }
+
+    /**
+     * @param string $project
+     * @param string|null $workflowName
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
+     */
+    public function getWorkflow(string $project, ?string $workflowName = null): ?WorkflowInterface
+    {
+        $criteria = [
+            'project' => $project,
+        ];
+
+        if ($workflowName) {
+            $criteria['workflow'] = $workflowName;
+        }
 
         return $this->findOneBy($criteria);
     }
