@@ -220,3 +220,11 @@ services:
           event: console.command,
           method: beforeConsoleCommand,
         }
+
+  app.guard_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\GuardListener
+    arguments:
+      - "@service_container"
+    tags:
+      - { name: kernel.event_listener, event: workflow.guard, method: guardWorkflow }
+      - { name: kernel.event_listener, event: sdk.task.guard, method: guardTask }
