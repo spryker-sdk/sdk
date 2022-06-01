@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
+use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\Workflow;
@@ -46,11 +47,6 @@ class ProjectWorkflow
     protected ?Workflow $currentWorkflow = null;
 
     /**
-     * @var \Symfony\Component\Workflow\Transition|null
-     */
-    protected ?Transition $currentTransition = null;
-
-    /**
      * @var \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
      */
     protected ?WorkflowInterface $currentProjectWorkflow = null;
@@ -71,14 +67,11 @@ class ProjectWorkflow
     }
 
     /**
-     * @param string|null $workflowName
-     *
      * @return array<string, string>
      */
-    public function getWorkflowMetadata(?string $workflowName = null): array
+    public function getWorkflowMetadata(): array
     {
-        $this->initializeWorkflow($workflowName);
-        if (!$this->currentWorkflow) {
+        if (!$this->currentWorkflow || !$this->currentProjectWorkflow) {
             return [];
         }
 
@@ -88,143 +81,22 @@ class ProjectWorkflow
     /**
      * @param string|null $workflowName
      *
-     * @return array<string>
-     */
-    public function getWorkflowTasks(?string $workflowName = null): array
-    {
-        $this->initializeWorkflow($workflowName);
-        if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
-            return [];
-        }
-        $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
-        $enabledTasksIds = [];
-        $metaWorkflow = $this->currentWorkflow->getMetadataStore();
-        foreach ($enabledTransitions as $enabledTransition) {
-            $transactionTaskId = $metaWorkflow->getTransitionMetadata($enabledTransition)['task'] ?? null;
-            $enabledTasksIds[$enabledTransition->getName()] = $transactionTaskId;
-        }
-
-        return $enabledTasksIds;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function findInitializeWorkflows(): array
-    {
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-
-        return array_map(function (WorkflowInterface $workflow) {
-            return $workflow->getWorkflow();
-        }, $this->workflowRepository->findWorkflows($projectIdSetting->getValues()));
-    }
-
-    /**
-     * @param string|null $workflowName
-     *
-     * @return void
-     */
-    protected function initializeWorkflow(?string $workflowName = null): void
-    {
-        if ($this->currentProjectWorkflow) {
-            return;
-        }
-
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-
-        $this->currentProjectWorkflow = $this->workflowRepository->getWorkflow($projectIdSetting->getValues(), $workflowName);
-
-        if (!$this->currentProjectWorkflow) {
-            return;
-        }
-        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param string|null $workflowName
-     *
      * @return bool
      */
-    public function initWorkflow(ContextInterface $context, ?string $workflowName = null): bool
+    public function initializeWorkflow(?string $workflowName = null): bool
     {
-        $this->initializeWorkflow($workflowName);
-        if (!$this->currentProjectWorkflow || !$this->currentWorkflow) {
+        if ($this->currentWorkflow && $this->currentProjectWorkflow) {
             return true;
         }
 
-        $taskId = $context->getTask()->getId();
-        $enabledTransitions = $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow);
-        $enabledTasksIds = [];
-        $metaWorkflow = $this->currentWorkflow->getMetadataStore();
-        foreach ($enabledTransitions as $enabledTransition) {
-            $transactionTaskId = $metaWorkflow->getTransitionMetadata($enabledTransition)['task'] ?? null;
-            if (!$transactionTaskId || $taskId === $transactionTaskId) {
-                $this->currentTransition = $enabledTransition;
-
-                return true;
-            }
-            $enabledTasksIds[] = $transactionTaskId;
+        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
+        $this->currentProjectWorkflow = $this->workflowRepository->getWorkflow($projectIdSetting->getValues(), $workflowName);
+        if (!$this->currentProjectWorkflow) {
+            return false;
         }
+        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
 
-        $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
-        $context->addMessage(
-            $taskId,
-            new Message(
-                sprintf(
-                    'Running task is not executable for project workflow. Available tasks: %s',
-                    implode(',', $enabledTasksIds),
-                ),
-                MessageInterface::ERROR,
-            ),
-        );
-
-        return false;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
-     */
-    public function applyTransaction(ContextInterface $context): ContextInterface
-    {
-        if ($this->currentWorkflow && $context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
-            $context->addMessage(
-                $context->getTask()->getId(),
-                new Message(
-                    'You cannot move to the next place in the workflow because your command failed',
-                    MessageInterface::ERROR,
-                ),
-            );
-            if ($this->currentTransition) {
-                $errorMessage = $this->currentWorkflow->getMetadataStore()->getTransitionMetadata($this->currentTransition)['error'] ?? null;
-
-                if ($errorMessage) {
-                    $context->addMessage(
-                        $context->getTask()->getId(),
-                        new Message(
-                            $errorMessage,
-                            MessageInterface::INFO,
-                        ),
-                    );
-                }
-            }
-
-            return $context;
-        }
-
-        if ($this->currentWorkflow && $this->currentTransition && $this->currentProjectWorkflow) {
-            $this->currentWorkflow->apply(
-                $this->currentProjectWorkflow,
-                $this->currentTransition->getName(),
-                ['context' => $context],
-            );
-
-            $this->workflowRepository->flush();
-        }
-
-        return $context;
+        return true;
     }
 
     /**
@@ -246,5 +118,65 @@ class ProjectWorkflow
         $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
 
         return $this->workflowRepository->hasWorkflow($projectIdSetting->getValues());
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getNextEnabledTransactions(): array
+    {
+        if (!$this->currentWorkflow || !$this->currentProjectWorkflow) {
+            return [];
+        }
+
+        return array_map(function (Transition $transition) {
+            return $transition->getName();
+        }, $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow));
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function findInitializeWorkflows(): array
+    {
+        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
+
+        return array_map(function (WorkflowInterface $workflow) {
+            return $workflow->getWorkflow();
+        }, $this->workflowRepository->findWorkflows($projectIdSetting->getValues()));
+    }
+
+    /**
+     * @param string $transitionName
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     */
+    public function applyTransaction(string $transitionName, ContextInterface $context): ContextInterface
+    {
+        if ($this->currentWorkflow && $this->currentProjectWorkflow) {
+            try {
+                $this->currentWorkflow->apply(
+                    $this->currentProjectWorkflow,
+                    $transitionName,
+                    ['context' => &$context],
+                );
+            } catch (NotEnabledTransitionException $exception) {
+                /** @var \Symfony\Component\Workflow\TransitionBlocker $transitionBlocker */
+                foreach ($exception->getTransitionBlockerList() as $transitionBlocker) {
+                    $context->addMessage(
+                        $transitionName,
+                        new Message(
+                            $transitionBlocker->getMessage(),
+                            MessageInterface::ERROR,
+                        ),
+                    );
+                }
+            }
+
+            $this->workflowRepository->flush();
+        }
+
+        return $context;
     }
 }

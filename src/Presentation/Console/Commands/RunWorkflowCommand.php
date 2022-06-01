@@ -105,37 +105,37 @@ class RunWorkflowCommand extends Command
             ) : current($initializeWorkflows);
         }
 
-        $currentTask = null;
         $context = new Context();
-        $metadata = $this->projectWorkflow->getWorkflowMetadata($workflowName);
-        $while = !empty($metadata['run']) && $metadata['run'] === 'single' ? false : true;
+        $this->projectWorkflow->initializeWorkflow($workflowName);
 
+        $metadata = $this->projectWorkflow->getWorkflowMetadata();
+        $while = !(isset($metadata['run']) && $metadata['run'] === 'single');
+
+        $previousEnabledTransaction = null;
         do {
-            $enabledTasksIds = $this->projectWorkflow->getWorkflowTasks($workflowName);
-
-            if (!$enabledTasksIds) {
-                $output->writeln('<error>You finished current workflow or this workflow is empty.</error>');
+            $nextEnabledTransaction = $this->getNextTransaction();
+            if (!$nextEnabledTransaction) {
+                $output->writeln(sprintf('<error> Workflow `%s` has been finished.</error>.</error>', $workflowName));
 
                 return static::FAILURE;
             }
 
-            $taskId = $this->getTaskId($enabledTasksIds);
-            if ($currentTask === $taskId) {
+            if ($previousEnabledTransaction === $nextEnabledTransaction) {
                 break;
             }
-            $currentTask = $taskId;
-            $flippedTaskIds = array_flip($enabledTasksIds);
-            $output->writeln(sprintf('<info>Running task `%s` ...</info>', $flippedTaskIds[$currentTask]));
-            $context = $this->taskExecutor->execute($currentTask, $context);
+            $previousEnabledTransaction = $nextEnabledTransaction;
+
+            $this->projectWorkflow->applyTransaction($nextEnabledTransaction, $context);
+            $output->writeln(sprintf('<info>Running task `%s` ...</info>', $nextEnabledTransaction));
 
             if ($context->getExitCode() === 1) {
                 $this->writeFilteredMessages($output, $context);
-                $output->writeln(sprintf('<error>The `%s` task is failed, see details above.</error>', $flippedTaskIds[$currentTask]));
+                $output->writeln(sprintf('<error>The `%s` task is failed, see details above.</error>', $nextEnabledTransaction));
 
                 return static::FAILURE;
             }
 
-            $output->writeln(sprintf('<info>The `%s` task successfully done.</info>', $flippedTaskIds[$currentTask]));
+            $output->writeln(sprintf('<info>The `%s` task successfully done.</info>', $nextEnabledTransaction));
         } while ($while);
         $this->writeFilteredMessages($output, $context);
 
@@ -174,25 +174,24 @@ class RunWorkflowCommand extends Command
     }
 
     /**
-     * @param array $enabledTasksIds
-     *
-     * @return string
+     * @return string|null
      */
-    protected function getTaskId(array $enabledTasksIds): string
+    protected function getNextTransaction(): ?string
     {
-        if (count($enabledTasksIds) > 1) {
-            $answer = $this->cliValueReceiver->receiveValue(
+        $nextEnabledTransactions = $this->projectWorkflow->getNextEnabledTransactions();
+
+        if (count($nextEnabledTransactions) > 1) {
+            return $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
-                    'Select the next task in workflow.',
-                    array_key_first($enabledTasksIds),
+                    'Select the next step in workflow.',
+                    current($nextEnabledTransactions),
                     'string',
-                    array_keys($enabledTasksIds),
+                    $nextEnabledTransactions,
                 ),
             );
-
-            return $enabledTasksIds[$answer];
         }
+        $nextEnabledTransaction = current($nextEnabledTransactions);
 
-        return current($enabledTasksIds);
+        return $nextEnabledTransaction ?: null;
     }
 }
