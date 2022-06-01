@@ -228,3 +228,6 @@ services:
     tags:
       - { name: kernel.event_listener, event: workflow.guard, method: guardWorkflow }
       - { name: kernel.event_listener, event: sdk.task.guard, method: guardTask }
+
+  workflow.marking_store.method:
+    class: SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore
