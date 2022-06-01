@@ -56,11 +56,6 @@ class ProjectWorkflow
     protected ?WorkflowInterface $currentProjectWorkflow = null;
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Entity\WorkflowInterface>
-     */
-    protected array $initializedWorkflows = [];
-
-    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Workflow\Registry $workflows
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
@@ -241,5 +236,15 @@ class ProjectWorkflow
             fn (Workflow $workflow): string => $workflow->getName(),
             $this->workflows->all(new WorkflowEntity('', [], '')),
         );
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasWorkflow(): bool
+    {
+        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
+
+        return $this->workflowRepository->hasWorkflow($projectIdSetting->getValues());
     }
 }

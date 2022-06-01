@@ -79,4 +79,18 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
 
         return $this->findOneBy($criteria);
     }
+
+    /**
+     * @param string $project
+     *
+     * @return bool
+     */
+    public function hasWorkflow(string $project): bool
+    {
+        $criteria = [
+            'project' => $project,
+        ];
+
+        return (bool)$this->findOneBy($criteria);
+    }
 }

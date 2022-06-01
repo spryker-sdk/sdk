@@ -46,11 +46,6 @@ class TaskExecutor
     protected ViolationReportGenerator $violationReportGenerator;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
-     */
-    protected ProjectWorkflow $projectWorkflow;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null
      */
     protected ?ActionApproverInterface $actionApprover;
@@ -60,7 +55,6 @@ class TaskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null $actionApprover
      */
     public function __construct(
@@ -68,14 +62,12 @@ class TaskExecutor
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
         ViolationReportGenerator $violationReportGenerator,
-        ProjectWorkflow $projectWorkflow,
         ?ActionApproverInterface $actionApprover = null
     ) {
         $this->placeholderResolver = $placeholderResolver;
         $this->taskRepository = $taskRepository;
         $this->commandExecutor = $commandExecutor;
         $this->violationReportGenerator = $violationReportGenerator;
-        $this->projectWorkflow = $projectWorkflow;
         $this->actionApprover = $actionApprover;
     }
 
@@ -88,19 +80,11 @@ class TaskExecutor
     public function execute(string $taskId, ContextInterface $context): ContextInterface
     {
         $context = $this->addBaseTask($taskId, $context);
-
-        if (!$this->projectWorkflow->initWorkflow($context)) {
-            return $context;
-        }
         $context = $this->collectRequiredStages($context);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);
 
-        $context = $this->executeTasks($context);
-
-        $this->projectWorkflow->applyTransaction($context);
-
-        return $context;
+        return $this->executeTasks($context);
     }
 
     /**
