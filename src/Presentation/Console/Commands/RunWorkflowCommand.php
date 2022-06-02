@@ -17,6 +17,7 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RunWorkflowCommand extends Command
@@ -30,6 +31,11 @@ class RunWorkflowCommand extends Command
      * @var string
      */
     protected const ARG_WORKFLOW_NAME = 'workflow_name';
+
+    /**
+     * @var string
+     */
+    protected const OPTION_FORCE = 'force';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
@@ -69,6 +75,7 @@ class RunWorkflowCommand extends Command
     {
         parent::configure();
         $this->addArgument(static::ARG_WORKFLOW_NAME, InputArgument::OPTIONAL, 'Workflow name');
+        $this->addOption(static::OPTION_FORCE, 'f', InputOption::VALUE_NONE, 'Ignore guards and force operation to run');
     }
 
     /**

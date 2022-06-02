@@ -221,13 +221,22 @@ services:
           method: beforeConsoleCommand,
         }
 
-  app.guard_listener:
-    class: SprykerSdk\Sdk\Infrastructure\Event\GuardListener
+  app.workflow.guard_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
     arguments:
       - "@service_container"
     tags:
-      - { name: kernel.event_listener, event: workflow.guard, method: guardWorkflow }
-      - { name: kernel.event_listener, event: sdk.task.guard, method: guardTask }
+      - { name: kernel.event_listener, event: console.command, method: setup }
+      - { name: kernel.event_listener, event: workflow.guard, method: handle }
+      - { name: kernel.event_listener, event: workflow.leave, method: handle }
+      - { name: kernel.event_listener, event: workflow.entered, method: handle }
+
+  app.workflow.transition_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
+    arguments:
+      - "@task_executor"
+    tags:
+      - { name: kernel.event_listener, event: workflow.transition, method: execute }
 
   workflow.marking_store.method:
     class: SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore

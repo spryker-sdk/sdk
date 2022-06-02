@@ -7,12 +7,14 @@
 
 namespace SprykerSdk\Sdk\Extension\Dependency\Events;
 
-interface GuardHandlerInterface
+use Symfony\Component\Workflow\Event\GuardEvent;
+
+interface WorkflowGuardEventHandlerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Extension\Dependency\Events\GuardEventInterface $event
+     * @param \Symfony\Component\Workflow\Event\GuardEvent $event
      *
      * @return void
      */
-    public function check(GuardEventInterface $event): void;
+    public function check(GuardEvent $event): void;
 }
