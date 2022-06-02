@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event;
+namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 
-use SprykerSdk\Sdk\Extension\Dependency\Events\GuardEventInterface;
+use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Component\Workflow\Event\Event;
 
-class GuardEvent implements GuardEventInterface
+class WorkflowEvent implements WorkflowEventInterface
 {
     /**
      * @var \Symfony\Component\Workflow\Event\Event
@@ -22,11 +22,6 @@ class GuardEvent implements GuardEventInterface
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface|null
      */
     protected ?ContextInterface $context;
-
-    /**
-     * @var array
-     */
-    protected array $blockers = [];
 
     /**
      * @param \Symfony\Component\Workflow\Event\Event $event
@@ -52,42 +47,5 @@ class GuardEvent implements GuardEventInterface
     public function getEvent(): Event
     {
         return $this->event;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBlocked(): bool
-    {
-        return count($this->blockers) !== 0;
-    }
-
-    /**
-     * @param bool $blocked
-     * @param string|null $reason
-     *
-     * @return void
-     */
-    public function setBlocked(bool $blocked, ?string $reason): void
-    {
-        if (!$blocked) {
-            $this->blockers = [];
-
-            return;
-        }
-
-        $this->blockers[] = $reason;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBlockedReason(): ?string
-    {
-        if (!$this->isBlocked()) {
-            return null;
-        }
-
-        return implode(PHP_EOL, array_filter($this->blockers));
     }
 }

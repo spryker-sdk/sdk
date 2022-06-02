@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Dependency\Events;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-interface GuardEventInterface
+interface WorkflowEventInterface
 {
     /**
      * @return \Symfony\Contracts\EventDispatcher\Event
@@ -21,22 +21,4 @@ interface GuardEventInterface
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface|null
      */
     public function getContext(): ?ContextInterface;
-
-    /**
-     * @return bool
-     */
-    public function isBlocked(): bool;
-
-    /**
-     * @param bool $blocked
-     * @param string|null $reason
-     *
-     * @return mixed
-     */
-    public function setBlocked(bool $blocked, ?string $reason);
-
-    /**
-     * @return string|null
-     */
-    public function getBlockedReason(): ?string;
 }
