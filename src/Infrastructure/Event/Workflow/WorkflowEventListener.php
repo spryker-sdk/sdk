@@ -176,7 +176,7 @@ class WorkflowEventListener
             if (!$handler instanceof WorkflowEventHandlerInterface) {
                 throw new InvalidServiceException(sprintf(
                     'Service "%s" must implement "%s"',
-                    $handler::static,
+                    $handler::class,
                     WorkflowEventHandlerInterface::class,
                 ));
             }
@@ -201,7 +201,7 @@ class WorkflowEventListener
             if (!$guard instanceof WorkflowGuardEventHandlerInterface) {
                 throw new InvalidServiceException(sprintf(
                     'Service "%s" must implement "%s"',
-                    $guard::static,
+                    $guard::class,
                     WorkflowEventHandlerInterface::class,
                 ));
             }
