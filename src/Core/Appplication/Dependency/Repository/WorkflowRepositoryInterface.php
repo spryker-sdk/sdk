@@ -14,9 +14,24 @@ interface WorkflowRepositoryInterface
     /**
      * @param string $project
      *
+     * @return array<\SprykerSdk\SdkContracts\Entity\WorkflowInterface>
+     */
+    public function findWorkflows(string $project): array;
+
+    /**
+     * @param string $project
+     * @param string|null $workflowName
+     *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
      */
-    public function findOne(string $project): ?WorkflowInterface;
+    public function getWorkflow(string $project, ?string $workflowName = null): ?WorkflowInterface;
+
+    /**
+     * @param string $project
+     *
+     * @return bool
+     */
+    public function hasWorkflow(string $project): bool;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow

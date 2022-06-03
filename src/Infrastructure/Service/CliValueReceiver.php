@@ -109,11 +109,18 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
                 break;
             default:
                 if ($choiceValues) {
+                    if ($type === 'array') {
+                        $description .= ' (Multiselect format: 0,1)';
+                    }
                     $question = new ChoiceQuestion(
                         $description,
                         $choiceValues,
                         $defaultValue,
                     );
+
+                    if ($type === 'array') {
+                        $question->setMultiselect(true);
+                    }
 
                     break;
                 }
