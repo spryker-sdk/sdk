@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface;
 use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowGuardEventHandlerInterface;
+use SprykerSdk\Sdk\Extension\Exception\InvalidServiceException;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEvent;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener;
 use stdClass;
@@ -154,6 +155,48 @@ class WorkflowEventListenerTest extends Unit
         $eventListener = new WorkflowEventListener($containerMock);
 
         // Act
+        $eventListener->handle($event);
+    }
+
+    /**
+     * @return void
+     */
+    public function testInvalidHandlerThrowsMeaningfulException(): void
+    {
+        // Arrange
+        $transition = new Transition('test', [], []);
+        $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
+        $metadataStoreMock->method('getWorkflowMetadata')
+            ->willReturn([]);
+        $metadataStoreMock->method('getTransitionMetadata')
+            ->with($transition)
+            ->willReturn(['before' => 'before_handler']);
+
+        $workflowMock = $this->createMock(Workflow::class);
+        $workflowMock->method('getMetadataStore')
+            ->willReturn($metadataStoreMock);
+
+        $event = new LeaveEvent(
+            new stdClass(),
+            new Marking(),
+            new Transition('test', [], []),
+            $workflowMock,
+            ['context' => new Context()],
+        );
+
+        $handlerMock = $this->createMock(WorkflowGuardEventHandlerInterface::class);
+
+        $containerMock = $this->createMock(ContainerInterface::class);
+        $containerMock->method('get')
+            ->with('before_handler')
+            ->willReturn($handlerMock);
+
+        $eventListener = new WorkflowEventListener($containerMock);
+
+        // Act
+        $this->expectException(InvalidServiceException::class);
+
+        // Assert
         $eventListener->handle($event);
     }
 }
