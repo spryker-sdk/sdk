@@ -112,16 +112,9 @@ settings:
     initializer: project_uuid_initializer
   - path: workflow
     initialization_description: What is the project workflow?
-    strategy: overwrite
-    init: true
-    is_project: true
-    type: string
-    values: ""
-    initializer: project_workflow_initializer
-  - path: workflows_dirs
-    initialization_description: Where can workflows be loaded from?
     strategy: merge
     init: true
-    type: path
-    is_project: false
-    values: ""
+    is_project: true
+    type: array
+    initializer: project_workflow_initializer
+    values: 0

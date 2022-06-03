@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
@@ -66,6 +67,11 @@ class RunTaskWrapperCommand extends Command
     protected TaskExecutor $taskExecutor;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     */
+    protected ProjectWorkflow $projectWorkflow;
+
+    /**
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
      */
     protected ReportFormatterFactory $reportFormatterFactory;
@@ -92,6 +98,7 @@ class RunTaskWrapperCommand extends Command
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
@@ -100,6 +107,7 @@ class RunTaskWrapperCommand extends Command
      */
     public function __construct(
         TaskExecutor $taskExecutor,
+        ProjectWorkflow $projectWorkflow,
         ContextRepositoryInterface $contextRepository,
         ReportFormatterFactory $reportFormatterFactory,
         array $taskOptions,
@@ -107,6 +115,7 @@ class RunTaskWrapperCommand extends Command
         string $name
     ) {
         $this->description = $description;
+        $this->projectWorkflow = $projectWorkflow;
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
         $this->reportFormatterFactory = $reportFormatterFactory;
@@ -146,6 +155,12 @@ class RunTaskWrapperCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        if ($this->projectWorkflow->hasWorkflow()) {
+            $output->writeln('<error>Your project has initialized workflow. Follow the workflow. See datails for `sdk:workflow:run` command.</error>');
+
+            return static::FAILURE;
+        }
+
         $context = $this->buildContext($input);
 
         $context = $this->taskExecutor->execute($this->name, $context);

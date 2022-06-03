@@ -11,7 +11,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\Workflow:
         project:
             type: string
             nullable: false
-            unique: true
+            unique: false
         workflow:
             type: string
             nullable: false
@@ -20,3 +20,8 @@ SprykerSdk\Sdk\Infrastructure\Entity\Workflow:
             type: json
             nullable: false
             unique: false
+    uniqueConstraints:
+        event_user:
+            columns:
+                - project
+                - workflow

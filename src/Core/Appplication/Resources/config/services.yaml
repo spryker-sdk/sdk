@@ -68,7 +68,6 @@ services:
       - "@task_persistence_repository"
       - "@service.command_executor"
       - "@violation_report_generator"
-      - "@project_workflow"
       - "@action_approver"
   project_setting_repository:
     abstract: true
@@ -123,6 +122,7 @@ services:
       - "@event_logger"
     tags: ["action.after_command_executed"]
   project_workflow:
+    public: true
     class: SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
     arguments:
       - "@project_setting_repository"

@@ -11,15 +11,18 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
-use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
+use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
+use Symfony\Component\Workflow\Metadata\InMemoryMetadataStore;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Transition;
+use Symfony\Component\Workflow\TransitionBlocker;
+use Symfony\Component\Workflow\TransitionBlockerList;
 use Symfony\Component\Workflow\Workflow as SymfonyWorkflow;
 
 /**
@@ -34,109 +37,46 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testInitWorkflowSuccessfulInitWithEmptyProjectKey(): void
+    public function testApplyTransactionwithBlokers(): void
     {
         // Arrange
-        $settingMock = $this->createSettingMock();
-        $settingMock->expects($this->once())
-            ->method('getValues')
-            ->willReturn('test');
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
         $projectSettingRepositoryMock->expects($this->once())
             ->method('getOneByPath')
-            ->willReturn($settingMock);
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
+        $workflowMock->expects($this->once())
+            ->method('apply')
+            ->willThrowException(
+                new NotEnabledTransitionException((object)'test', 'test', $workflowMock, new TransitionBlockerList([new TransitionBlocker('error', 'code')])),
+            );
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('findOne')
-            ->willReturn(null);
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $workflowRepositoryMock->expects($this->once())
+            ->method('flush');
 
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
-            $this->createWorkflowRegistryMock(),
+            $workflowRegistry,
             $workflowRepositoryMock,
         );
-        $context = $this->createContextMock();
+        $projectWorkflow->initializeWorkflow();
+        $context = new Context();
 
-        //Act
-        $result = $projectWorkflow->initWorkflow($context);
-
-        // Assert
-        $this->asserttrue($result);
-    }
-
-    /**
-     * @return void
-     */
-    public function testInitWorkflowSuccessfulInitWithAbsentTask(): void
-    {
-        // Arrange
-        $taskMock = $this->createMock(TaskInterface::class);
-        $taskMock->expects($this->once())
-            ->method('getId')
-            ->willReturn('test');
-        $context = $this->createContextMock();
-        $context->expects($this->once())
-            ->method('setExitCode');
-        $context->expects($this->once())
-            ->method('addMessage');
-        $context->expects($this->once())
-            ->method('getTask')
-            ->willReturn($taskMock);
-
-        //Act
-        $result = $this->createProjectWorkflow()->initWorkflow($context);
+        // Act
+        $result = $projectWorkflow->applyTransaction('', $context);
 
         // Assert
-        $this->assertFalse($result);
-    }
-
-    /**
-     * @return void
-     */
-    public function testInitWorkflowSuccessfulInit(): void
-    {
-        // Arrange
-        $taskMock = $this->createMock(TaskInterface::class);
-        $taskMock->expects($this->once())
-            ->method('getId')
-            ->willReturn('testTask');
-        $context = $this->createContextMock();
-        $context->expects($this->once())
-            ->method('getTask')
-            ->willReturn($taskMock);
-
-        //Act
-        $result = $this->createProjectWorkflow()->initWorkflow($context);
-
-        // Assert
-        $this->assertTrue($result);
-    }
-
-    /**
-     * @return void
-     */
-    public function testApplyTransactionWithError(): void
-    {
-        // Arrange
-        $projectWorkflow = $this->createProjectWorkflow();
-        $taskMock = $this->createMock(TaskInterface::class);
-        $taskMock->expects($this->exactly(2))
-            ->method('getId')
-            ->willReturn('testTask');
-        $context = $this->createContextMock();
-        $context->expects($this->exactly(2))
-            ->method('getTask')
-            ->willReturn($taskMock);
-        $context->expects($this->once())
-            ->method('addMessage');
-        $context->expects($this->once())
-            ->method('getExitCode')
-            ->willReturn(1);
-
-        $projectWorkflow->initWorkflow($context);
-
-        //Act
-        $projectWorkflow->applyTransaction($context);
+        $this->assertNotEmpty($context->getMessages());
     }
 
     /**
@@ -150,23 +90,133 @@ class ProjectWorkflowTest extends Unit
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
-        $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
         $workflowMock = $this->createWorkflowMock();
         $workflowMock->expects($this->once())
             ->method('apply');
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $workflowRepositoryMock->expects($this->once())
+            ->method('flush');
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $workflowRegistry,
+            $workflowRepositoryMock,
+        );
+        $projectWorkflow->initializeWorkflow();
+        $context = new Context();
+
+        // Act
+        $result = $projectWorkflow->applyTransaction('', $context);
+
+        // Assert
+        $this->assertSame($result, $context);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetNextEnabledTransactions(): void
+    {
+        // Arrange
         $transactionMock = $this->createMock(Transition::class);
         $transactionMock->expects($this->once())
             ->method('getName')
             ->willReturn('test');
-        $metadataStoreMock
-            ->method('getTransitionMetadata')
-            ->willReturn(['task' => 'testTask']);
+        $transactions = [$transactionMock];
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->once())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
         $workflowMock->expects($this->once())
             ->method('getEnabledTransitions')
-            ->willReturn([$transactionMock]);
+            ->willReturn($transactions);
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $workflowRegistry,
+            $workflowRepositoryMock,
+        );
+        $projectWorkflow->initializeWorkflow();
+
+        // Act
+        $result = $projectWorkflow->getNextEnabledTransactions();
+
+        // Assert
+        $this->assertSame($result, ['test']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetWorkflowMetadata(): void
+    {
+        // Arrange
+        $metadata = ['test'];
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->once())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
         $workflowMock->expects($this->once())
             ->method('getMetadataStore')
-            ->willReturn($metadataStoreMock);
+            ->willReturn((new InMemoryMetadataStore($metadata)));
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $workflowRegistry,
+            $workflowRepositoryMock,
+        );
+        $projectWorkflow->initializeWorkflow();
+
+        // Act
+        $result = $projectWorkflow->getWorkflowMetadata();
+
+        // Assert
+        $this->assertSame($result, $metadata);
+    }
+
+    /**
+     * @return void
+     */
+    public function testInitializeWorkflow(): void
+    {
+        // Arrange
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->once())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
 
         $workflowRegistry = $this->createWorkflowRegistryMock();
         $workflowRegistry->expects($this->once())
@@ -175,7 +225,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('findOne')
+            ->method('getWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $projectWorkflow = new ProjectWorkflow(
@@ -183,19 +233,72 @@ class ProjectWorkflowTest extends Unit
             $workflowRegistry,
             $workflowRepositoryMock,
         );
-        $taskMock = $this->createMock(TaskInterface::class);
-        $taskMock->expects($this->once())
-            ->method('getId')
-            ->willReturn('testTask');
-        $context = $this->createContextMock();
-        $context->expects($this->once())
-            ->method('getTask')
-            ->willReturn($taskMock);
 
-        $projectWorkflow->initWorkflow($context);
+        // Act
+        $result = $projectWorkflow->initializeWorkflow();
 
-        //Act
-        $projectWorkflow->applyTransaction($context);
+        // Assert
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasWorkflow(): void
+    {
+        // Arrange
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+        ->method('hasWorkflow')
+        ->willReturn(true);
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->once())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $this->createWorkflowRegistryMock(),
+            $workflowRepositoryMock,
+        );
+
+        // Act
+        $result = $projectWorkflow->hasWorkflow();
+
+        // Assert
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @return void
+     */
+    public function testFindInitializeWorkflows(): void
+    {
+        // Arrange
+        $workflowEntityMock = $this->createWorkflowEntityMock();
+        $workflowEntityMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn('test');
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('findWorkflows')
+            ->willReturn([$workflowEntityMock]);
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->once())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $this->createWorkflowRegistryMock(),
+            $workflowRepositoryMock,
+        );
+
+        // Act
+        $result = $projectWorkflow->findInitializeWorkflows();
+
+        // Assert
+        $this->assertSame(['test'], $result);
     }
 
     /**
@@ -246,6 +349,14 @@ class ProjectWorkflowTest extends Unit
     }
 
     /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Domain\Entity\Workflow
+     */
+    protected function createWorkflowEntityMock(): Workflow
+    {
+        return $this->createMock(Workflow::class);
+    }
+
+    /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Workflow\Workflow
      */
     protected function createWorkflowMock(): SymfonyWorkflow
@@ -280,44 +391,5 @@ class ProjectWorkflowTest extends Unit
             ->willReturn('projectKey');
 
         return $settingMock;
-    }
-
-    /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
-     */
-    protected function createProjectWorkflow(): ProjectWorkflow
-    {
-        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
-        $projectSettingRepositoryMock->expects($this->once())
-            ->method('getOneByPath')
-            ->willReturn($this->createSettingMock());
-
-        $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
-        $workflowMock = $this->createWorkflowMock();
-        $metadataStoreMock
-            ->method('getTransitionMetadata')
-            ->willReturn(['task' => 'testTask']);
-        $workflowMock->expects($this->once())
-            ->method('getEnabledTransitions')
-            ->willReturn([$this->createMock(Transition::class)]);
-        $workflowMock
-            ->method('getMetadataStore')
-            ->willReturn($metadataStoreMock);
-
-        $workflowRegistry = $this->createWorkflowRegistryMock();
-        $workflowRegistry->expects($this->once())
-            ->method('get')
-            ->willReturn($workflowMock);
-
-        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
-        $workflowRepositoryMock->expects($this->once())
-            ->method('findOne')
-            ->willReturn(new Workflow('', [], 'default'));
-
-        return new ProjectWorkflow(
-            $projectSettingRepositoryMock,
-            $workflowRegistry,
-            $workflowRepositoryMock,
-        );
     }
 }
