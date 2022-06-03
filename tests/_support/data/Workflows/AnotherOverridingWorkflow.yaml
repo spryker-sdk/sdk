@@ -1,0 +1,12 @@
+framework:
+  workflows:
+    another_workflow_test:
+      places:
+        - changed_to_a
+        - changed_to_b
+        - changed_to_another_c
+      transitions:
+        check:
+          to: changed_to_another_c
+          metadata:
+            task: changed_to_test

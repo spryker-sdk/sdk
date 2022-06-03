@@ -1,0 +1,14 @@
+framework:
+  workflows:
+    workflow_test:
+      overriden_by: AnotherOverridingWorkflow:framework:workflows:another_workflow_test
+      places:
+        - changed_to_a
+        - changed_to_b
+        - changed_to_c
+      transitions:
+        check:
+          from: changed_to_a
+          to: changed_to_c
+          metadata:
+            task: changed_to_test

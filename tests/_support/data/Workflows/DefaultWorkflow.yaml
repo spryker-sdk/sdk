@@ -1,0 +1,86 @@
+framework:
+  workflows:
+    default:
+      type: workflow
+      overriden_by: OverridingWorkflow:framework:workflows:workflow_test
+      marking_store:
+        type: method
+        property: status
+      metadata:
+        run: single
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: codestyle
+      places:
+        - codestyle
+        - phstan-check
+        - done
+      transitions:
+        check:
+          from: codestyle
+          to: phstan-check
+          metadata:
+            task: validation:php:codestyle-check
+        fix:
+          from: codestyle
+          to: phstan-check
+          metadata:
+            task: validation:php:static
+        phpstan:
+          from: phstan-check
+          to: done
+          metadata:
+            task: validation:php:static
+    pbc:
+      type: workflow
+      overriden_by: workflow_test
+      marking_store:
+        type: method
+        property: status
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: start
+      places:
+        - start
+        - pbc-skeleton
+        - manifest
+        - config
+        - translation
+        - acp-validated
+        - openapi
+        - openapi-validated
+        - asyncapi
+        - asyncapi-validated
+        - asyncapi-generate
+        - pbc-validate
+        - pbc-validated
+      transitions:
+        CreatePbcSkeleton:
+          from: start
+          to: pbc-skeleton
+          metadata:
+            task: generate:php:pbc
+        CreateManifest:
+          from: pbc-skeleton
+          to: manifest
+          metadata:
+            task: acp:manifest:create
+    workflow_test:
+      initial_marking: changed_to_manifest_test
+      places:
+        - changed_to_start_test
+        - changed_to_pbc-skeleton_test
+        - changed_to_manifest_test
+        - changed_to_config_test
+        - changed_to_translation_test
+        - changed_to_acp-validated_test
+        - changed_to_openapi_test
+        - changed_to_openapi-validated_test
+        - changed_to_asyncapi_test
+      transitions:
+        CreatePbcSkeleton:
+          from: changed_to_start_test
+          to: pbc-skeleton
+          metadata:
+            task: generate:php:pbc
+
