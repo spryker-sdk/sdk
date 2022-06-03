@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\TransitionBlocker;
@@ -52,15 +53,26 @@ class WorkflowTransitionListener
             throw $this->blockTransition(
                 $event,
                 'Context must be provided for transition associated with the task',
+                MessageInterface::ERROR,
             );
         }
 
         $context = $this->taskExecutor->execute($task, $context);
 
         if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
+            $error = $meta['error'] ?? null;
+            if ($error) {
+                throw $this->blockTransition(
+                    $event,
+                    $error,
+                    MessageInterface::INFO,
+                );
+            }
+
             throw $this->blockTransition(
                 $event,
                 'You cannot move to the next place in the workflow because your command failed',
+                MessageInterface::ERROR,
             );
         }
     }
@@ -68,17 +80,18 @@ class WorkflowTransitionListener
     /**
      * @param \Symfony\Component\Workflow\Event\TransitionEvent $event
      * @param string $message
+     * @param int $code
      *
      * @return \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
      */
-    protected function blockTransition(TransitionEvent $event, string $message): NotEnabledTransitionException
+    protected function blockTransition(TransitionEvent $event, string $message, int $code): NotEnabledTransitionException
     {
         return new NotEnabledTransitionException(
             $event->getSubject(),
             $event->getTransition() ? $event->getTransition()->getName() : '',
             $event->getWorkflow(),
             new TransitionBlockerList([
-                TransitionBlocker::createUnknown($message),
+                new TransitionBlocker($message, (string)$code),
             ]),
             $event->getContext(),
         );

@@ -168,7 +168,7 @@ class ProjectWorkflow
                         $transitionName,
                         new Message(
                             $transitionBlocker->getMessage(),
-                            MessageInterface::ERROR,
+                            (int)$transitionBlocker->getCode() ?: MessageInterface::ERROR,
                         ),
                     );
                 }
