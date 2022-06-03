@@ -88,7 +88,7 @@ class WorkflowTransitionListener
     {
         return new NotEnabledTransitionException(
             $event->getSubject(),
-            $event->getTransition() ? $event->getTransition()->getName() : '',
+            $event->getTransition() ? $event->getTransition()->getName() : 'Init workflow',
             $event->getWorkflow(),
             new TransitionBlockerList([
                 new TransitionBlocker($message, (string)$code),
