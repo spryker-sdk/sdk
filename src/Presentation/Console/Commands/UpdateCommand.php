@@ -9,13 +9,11 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
-use SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
 class UpdateCommand extends Command
 {
@@ -46,11 +44,10 @@ class UpdateCommand extends Command
     /**
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param string $sdkDirectory
      */
     public function __construct(
         ProcessHelper $processHelper,
-        LifecycleManagerInterface $lifecycleManager,
+        LifecycleManagerInterface $lifecycleManager
     ) {
         parent::__construct(static::$defaultName);
         $this->processHelper = $processHelper;
@@ -103,12 +100,13 @@ class UpdateCommand extends Command
      *
      * @return void
      */
-    protected function checkForUpdate(OutputInterface $output)
+    protected function checkForUpdate(OutputInterface $output): void
     {
         try {
             $messages = $this->lifecycleManager->checkForUpdate();
         } catch (SdkVersionNotFoundException $exception) {
             $output->writeln($exception->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
+
             return;
         }
 

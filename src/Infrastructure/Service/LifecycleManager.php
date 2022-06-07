@@ -80,6 +80,8 @@ class LifecycleManager implements LifecycleManagerInterface
     }
 
     /**
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
      */
     public function checkForUpdate(): array
@@ -115,6 +117,8 @@ class LifecycleManager implements LifecycleManagerInterface
     }
 
     /**
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException
+     *
      * @return string
      */
     protected function getLatestVersion(): string
