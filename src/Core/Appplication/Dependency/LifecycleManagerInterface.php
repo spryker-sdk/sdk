@@ -13,4 +13,9 @@ interface LifecycleManagerInterface
      * @return void
      */
     public function update(): void;
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
+     */
+    public function checkForUpdate(): array;
 }

@@ -8,6 +8,8 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
+use SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,8 +43,6 @@ class UpdateCommand extends Command
 
     protected LifecycleManagerInterface $lifecycleManager;
 
-    protected string $sdkDirectory;
-
     /**
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
@@ -51,12 +51,10 @@ class UpdateCommand extends Command
     public function __construct(
         ProcessHelper $processHelper,
         LifecycleManagerInterface $lifecycleManager,
-        string $sdkDirectory
     ) {
         parent::__construct(static::$defaultName);
         $this->processHelper = $processHelper;
         $this->lifecycleManager = $lifecycleManager;
-        $this->sdkDirectory = $sdkDirectory;
     }
 
     /**
@@ -107,72 +105,19 @@ class UpdateCommand extends Command
      */
     protected function checkForUpdate(OutputInterface $output)
     {
-        $versionFilePath = $this->sdkDirectory . '/VERSION';
-
-        if (!file_exists($versionFilePath)) {
-            $output->writeln('<error>Could not find VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
-
-            return;
-        }
-
-        $currentVersion = file_get_contents($versionFilePath);
-
-        if (!$currentVersion) {
-            $output->writeln('<error>Could not read VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
-
-            return;
-        }
-        $currentVersion = trim($currentVersion);
-        $latestVersion = $this->getLatestVersion($output);
-
-        if (version_compare($currentVersion, $latestVersion, '<')) {
-            $output->writeln(sprintf('SDK is outdated (current: %s, latest: %s)', $currentVersion, $latestVersion));
-            $output->writeln('Please update manually by downloading the installer for the newest version at https://github.com/spryker-sdk/sdk/releases');
-        }
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return string
-     */
-    protected function getLatestVersion(OutputInterface $output): string
-    {
-        $githubVersion = '0.0.0';
-        $opts = [
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP',
-                ],
-                'timeout' => 10,
-            ],
-        ];
-        $context = stream_context_create($opts);
-        $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
-
         try {
-            $content = file_get_contents($githubEndpoint, false, $context);
-
-            if (!$content) {
-                $output->writeln(sprintf('<error>Could not read from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
-
-                return $githubVersion;
-            }
-
-            $githubContent = json_decode($content, true);
-        } catch (Throwable $exception) {
-            $output->writeln('<error>' . $exception->getMessage() . '</error>', OutputInterface::VERBOSITY_VERBOSE);
-
-            return $githubVersion;
+            $messages = $this->lifecycleManager->checkForUpdate();
+        } catch (SdkVersionNotFoundException $exception) {
+            $output->writeln($exception->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
+            return;
         }
 
-        if (!$githubContent) {
-            $output->writeln(sprintf('<error>Could not read version from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
-
-            return $githubVersion;
+        if (count($messages) === 0) {
+            return;
         }
 
-        return $githubContent['tag_name'] ?? '0.0.0';
+        foreach ($messages as $message) {
+            $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
+        }
     }
 }

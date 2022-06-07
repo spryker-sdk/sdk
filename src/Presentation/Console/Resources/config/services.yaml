@@ -44,7 +44,6 @@ services:
     arguments:
       - "@process_helper"
       - "@service.lifecycle_manager"
-      - "%kernel.project_dir%"
 
   create_phpstorm_config_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\CreatePhpStormConfig

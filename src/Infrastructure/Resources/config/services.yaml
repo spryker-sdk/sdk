@@ -150,6 +150,7 @@ services:
       - "@task_repository"
       - "@task_persistence_repository"
       - !tagged_iterator sdk.update_action
+      - "%kernel.project_dir%"
 
   task_created_action:
     class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
