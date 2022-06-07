@@ -170,12 +170,16 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      */
     protected function prepareChoiceValues(array $choices): array
     {
-        $isList = !$choices || (array_keys($choices) === range(0, count($choices) - 1));
+        if (count($choices) === 0) {
+            return $choices;
+        }
+
+        $isList = array_keys($choices) === range(0, count($choices) - 1);
 
         if (!$isList) {
             return $choices;
         }
 
-        return array_combine(range(1, count($choices)), $choices) ?: $choices;
+        return array_combine(range(1, count($choices)), $choices);
     }
 }
