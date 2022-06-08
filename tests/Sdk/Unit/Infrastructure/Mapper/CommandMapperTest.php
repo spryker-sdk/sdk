@@ -53,5 +53,6 @@ class CommandMapperTest extends Unit
         $this->assertSame($command->getTags(), $result->getTags());
         $this->assertSame($command->getViolationConverter()->getName(), $result->getViolationConverter()->getName());
         $this->assertSame($command->getViolationConverter()->getConfiguration(), $result->getViolationConverter()->getConfiguration());
+        $this->assertSame($command->getErrorMessage(), $result->getErrorMessage());
     }
 }
