@@ -123,7 +123,7 @@ class ProjectWorkflow
     /**
      * @return array<string>
      */
-    public function getNextEnabledTransactions(): array
+    public function getNextEnabledTransition(): array
     {
         if (!$this->currentWorkflow || !$this->currentProjectWorkflow) {
             return [];
@@ -137,7 +137,7 @@ class ProjectWorkflow
     /**
      * @return array<string>
      */
-    public function findInitializeWorkflows(): array
+    public function findInitializedWorkflows(): array
     {
         $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
 
@@ -152,7 +152,7 @@ class ProjectWorkflow
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function applyTransaction(string $transitionName, ContextInterface $context): ContextInterface
+    public function applyTransition(string $transitionName, ContextInterface $context): ContextInterface
     {
         if ($this->currentWorkflow && $this->currentProjectWorkflow) {
             try {
