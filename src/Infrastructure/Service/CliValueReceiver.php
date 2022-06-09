@@ -90,7 +90,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      */
     public function receiveValue(ReceiverValueInterface $receiverValue): mixed
     {
-        $choiceValues = $this->prepareChoiceValues($receiverValue->getChoiceValues());
+        $choiceValues = $receiverValue->getChoiceValues() ? $this->prepareChoiceValues($receiverValue->getChoiceValues()) : [];
         $defaultValue = $receiverValue->getDefaultValue();
         $type = $receiverValue->getType();
         $description = $receiverValue->getDescription();

@@ -15,7 +15,7 @@ class CliSqliteListener
     /**
      * @var \Doctrine\Bundle\DoctrineBundle\Registry
      */
-    private $doctrine;
+    protected $doctrine;
 
     /**
      * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
