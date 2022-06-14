@@ -23,7 +23,7 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
      */
     public function getCommand(): string
     {
-        return '';
+        return static::class;
     }
 
     /**
@@ -39,7 +39,9 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
         if (in_array($system, [PCSystemValueResolver::MAC, PCSystemValueResolver::MAC_ARM])) {
             $process = Process::fromShellCommandline('mutagen version');
             $process->run();
-            $context->addMessage(static::class, new Message($process->getErrorOutput(), MessageInterface::DEBUG));
+            if ($process->getErrorOutput()) {
+                $context->addMessage(static::class, new Message($process->getErrorOutput(), MessageInterface::DEBUG));
+            }
 
             $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
         }
@@ -52,7 +54,7 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
      */
     public function getErrorMessage(): string
     {
-        return 'For using this task you should to have mutagen. More details you can find https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/docker-installation-prerequisites/installing-docker-prerequisites-on-macos.html';
+        return 'For using this task you should have a mutagen. You can find more details on https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/docker-installation-prerequisites/installing-docker-prerequisites-on-macos.html';
     }
 
     /**

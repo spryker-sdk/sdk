@@ -16,6 +16,11 @@ class PCSystemValueResolver extends AbstractValueResolver
     /**
      * @var string
      */
+    public const ID = 'PC_SYSTEM';
+
+    /**
+     * @var string
+     */
     public const ALIAS = 'pc_system';
 
     /**

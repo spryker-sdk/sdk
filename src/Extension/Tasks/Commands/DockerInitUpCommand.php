@@ -27,7 +27,7 @@ class DockerInitUpCommand implements CommandInterface, ErrorCommandInterface
      */
     public function getErrorMessage(): string
     {
-        return 'For using this task you should to have GIT. More details you can find https://git-scm.com/book/en/v2/Getting-Started-Installing-Git';
+        return 'For using this task you should have a GIT. You can find more details on https://git-scm.com/book/en/v2/Getting-Started-Installing-Git';
     }
 
     /**

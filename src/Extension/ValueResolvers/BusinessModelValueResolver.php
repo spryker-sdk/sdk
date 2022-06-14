@@ -13,6 +13,16 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class BusinessModelValueResolver extends AbstractValueResolver
 {
     /**
+     * @var string
+     */
+    public const ID = 'B2BC_TYPE';
+
+    /**
+     * @var string
+     */
+    public const ALIAS = 'business_model_url';
+
+    /**
      * @var array
      */
     protected const REPOSITORIES = [
@@ -25,7 +35,7 @@ class BusinessModelValueResolver extends AbstractValueResolver
      */
     public function getId(): string
     {
-        return 'B2BC_TYPE';
+        return static::ID;
     }
 
     /**
@@ -71,7 +81,7 @@ class BusinessModelValueResolver extends AbstractValueResolver
      */
     public function getAlias(): ?string
     {
-        return 'business_model_url';
+        return static::ALIAS;
     }
 
     /**

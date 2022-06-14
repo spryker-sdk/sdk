@@ -41,7 +41,7 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
      */
     public function getCommand(): string
     {
-        return '';
+        return static::class;
     }
 
     /**
@@ -54,7 +54,7 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
         $resolvedValues = $context->getResolvedValues();
         $system = $resolvedValues['%' . PCSystemValueResolver::ALIAS . '%'] ?? null;
         if ($system === PCSystemValueResolver::MAC_ARM) {
-            $this->editDeployConfiguration($context);
+            $this->editDeployConfiguration();
             $this->editConfiguration($context);
         }
 
@@ -68,12 +68,6 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
      */
     protected function editConfiguration(ContextInterface $context): void
     {
-        $resolvedValues = $context->getResolvedValues();
-        $system = $resolvedValues['%' . PCSystemValueResolver::ALIAS . '%'] ?? null;
-        if ($system === PCSystemValueResolver::MAC_ARM) {
-            return;
-        }
-
         $filePath = $this->getAbsolutePathToFile('config/Shared/config_default.php');
         $content = file_get_contents($filePath);
         if ($content) {
@@ -93,11 +87,9 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
      * @return void
      */
-    protected function editDeployConfiguration(ContextInterface $context): void
+    protected function editDeployConfiguration(): void
     {
         foreach (static::DEPLOY_FILES as $deployFile) {
             $filePath = $this->getAbsolutePathToFile($deployFile);

@@ -27,7 +27,7 @@ class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterfa
      */
     public function getErrorMessage(): string
     {
-        return 'For using this task you should to have docker-compose. More details you can find https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/installing-spryker-with-docker.html#prerequisites';
+        return 'For using this task you should have a docker-compose. You can find more details on https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/installing-spryker-with-docker.html#prerequisites';
     }
 
     /**

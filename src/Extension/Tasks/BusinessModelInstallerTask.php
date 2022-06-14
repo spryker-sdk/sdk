@@ -12,6 +12,8 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Extension\ValueResolvers\BusinessModelValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolvers\PCSystemValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -45,12 +47,12 @@ class BusinessModelInstallerTask implements TaskInterface
     {
         return [
             new Placeholder(
-                '%business_model_url%',
-                'B2BC_TYPE',
+                '%' . BusinessModelValueResolver::ALIAS . '%',
+                BusinessModelValueResolver::ID,
             ),
             new Placeholder(
-                '%pc_system%',
-                'PC_SYSTEM',
+                '%' . PCSystemValueResolver::ALIAS . '%',
+                PCSystemValueResolver::ID,
             ),
         ];
     }
