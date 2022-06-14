@@ -46,15 +46,15 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
     }
 
     /**
-     * @return void
+     * @return bool
      */
-    public function install(): void
+    public function install(): bool
     {
         $setting = $this->settingRepository->getOneByPath(static::SETTING_REPOSITORY);
         $repositoryValues = (array)$setting->getValues();
 
         if (!count($repositoryValues)) {
-            return;
+            return false;
         }
 
         if (file_exists($this->installationPath)) {
@@ -62,6 +62,8 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
         }
 
         $this->cloneTasks($repositoryValues);
+
+        return true;
     }
 
     /**

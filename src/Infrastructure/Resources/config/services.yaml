@@ -246,4 +246,4 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\TasksRepositoryInstaller
     arguments:
       - '@setting_repository'
-      - '%kernel.project_dir%/extension/SdkTasks'
+      - '%kernel.project_dir%/extension/SprykerSdk/SdkTasksBundle/'

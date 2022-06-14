@@ -7,17 +7,21 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use Exception;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\RepositoryInstallationFailedException;
 use SprykerSdk\Sdk\Core\Domain\Events\Event;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UpdateCommand extends Command
 {
@@ -115,7 +119,11 @@ class UpdateCommand extends Command
         }
 
         if ($input->getOption(static::OPTION_CHECK_ONLY) !== null) {
-            $this->installRepository();
+            $io = new SymfonyStyle($input, $output);
+
+            $io->comment('If you have access to https://github.com/spryker-sdk/sdk-tasks-bundle, please configure SSH connection to Github.');
+
+            $this->installRepository($io);
 
             $this->lifecycleManager->update();
         }
@@ -150,11 +158,36 @@ class UpdateCommand extends Command
     /**
      * @return void
      */
-    protected function installRepository(): void
+    protected function warmUpCache(): void
+    {
+        if ($this->getApplication() === null) {
+            return;
+        }
+
+        /** @var string $cacheClearName */
+        $cacheClearName = CacheClearCommand::getDefaultName();
+
+        $this->getApplication()
+            ->get($cacheClearName)
+            ->run(new ArrayInput([]), new NullOutput());
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Style\SymfonyStyle $io
+     *
+     * @return void
+     */
+    protected function installRepository(SymfonyStyle $io): void
     {
         try {
-            $this->tasksRepositoryInstaller->install();
-        } catch (RepositoryInstallationFailedException $exception) {
+            $isInstalled = $this->tasksRepositoryInstaller->install();
+
+            if ($isInstalled) {
+                $io->success('Repository is installed successfully.');
+
+                $this->warmUpCache();
+            }
+        } catch (Exception $exception) {
             $this->eventLogger->logEvent(new Event(
                 static::$defaultName,
                 static::class,

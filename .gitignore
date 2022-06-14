@@ -34,3 +34,7 @@ tests/_support/_generated/
 ###> frontend ###
 node_modules
 ###< frontend ###
+
+###> SDK extension ###
+extension/SprykerSdk
+###< SDK extension ###

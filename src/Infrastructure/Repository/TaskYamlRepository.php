@@ -92,8 +92,10 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $taskListData = [];
         $taskSetsData = [];
 
+        $existedDirectories = array_filter($taskDirSetting->getValues(), fn (string $dir): bool => file_exists($dir));
+
         $finder = $this->fileFinder
-            ->in(array_map(fn (string $directory): string => $directory . '/*/Tasks/', $taskDirSetting->getValues()))
+            ->in(array_map(fn (string $directory): string => $directory . '/*/Tasks/', $existedDirectories))
             ->name('*.yaml');
 
         //read task from path, parse and create Task, later use DB for querying

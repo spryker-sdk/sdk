@@ -8,6 +8,7 @@ settings:
     values:
       - src/
       - extension/
+      - extension/SprykerSdk
   - path: task_dirs
     initialization_description: Where can tasks be loaded from?
     strategy: merge

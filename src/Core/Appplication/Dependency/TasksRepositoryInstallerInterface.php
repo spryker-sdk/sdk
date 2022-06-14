@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 interface TasksRepositoryInstallerInterface
 {
     /**
-     * @return void
+     * @return bool
      */
-    public function install(): void;
+    public function install(): bool;
 }
