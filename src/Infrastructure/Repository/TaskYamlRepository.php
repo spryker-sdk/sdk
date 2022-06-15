@@ -205,6 +205,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 $data['tags'] ?? [],
                 $converter,
                 $data['stage'] ?? ContextInterface::DEFAULT_STAGE,
+                $data['error_message'] ?? '',
             );
         }
 
@@ -236,6 +237,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                     $tasksTags,
                     $converter,
                     $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
+                    $data['error_message'] ?? '',
                 );
             }
         }
