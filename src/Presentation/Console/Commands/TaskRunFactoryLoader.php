@@ -11,6 +11,7 @@ use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
@@ -66,6 +67,11 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ContextRepositoryInterface $contextRepository;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
+     */
+    private ContextStorage $contextStorage;
+
+    /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
@@ -74,6 +80,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
      * @param string $environment
      */
     public function __construct(
@@ -85,6 +92,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         PlaceholderResolver $placeholderResolver,
         ReportFormatterFactory $reportFormatterFactory,
         ProjectWorkflow $projectWorkflow,
+        ContextStorage $contextStorage,
         string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
@@ -95,6 +103,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $this->contextRepository = $contextRepository;
         $this->projectWorkflow = $projectWorkflow;
         $this->environment = $environment;
+        $this->contextStorage = $contextStorage;
     }
 
     /**
@@ -143,6 +152,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             $this->projectWorkflow,
             $this->contextRepository,
             $this->reportFormatterFactory,
+            $this->contextStorage,
             $options,
             $task->getShortDescription(),
             $task->getId(),

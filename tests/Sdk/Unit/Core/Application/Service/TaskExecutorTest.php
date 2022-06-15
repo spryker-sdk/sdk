@@ -19,6 +19,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
+use SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface;
 
 /**
  * @group Sdk
@@ -42,7 +43,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createCommandExecutorMock($context),
-            $this->createViolationConverterGeneratorMock(),
+            $this->createReportGeneratorFactoryMock(),
         );
 
         // Act
@@ -65,7 +66,7 @@ class TaskExecutorTest extends Unit
             $this->createPlaceholderResolverMock(),
             $this->createTaskRepositoryMock(),
             $this->createCommandExecutorMock($context),
-            $this->createViolationConverterGeneratorMock(),
+            $this->createReportGeneratorFactoryMock(),
         );
 
         // Act
@@ -181,5 +182,19 @@ class TaskExecutorTest extends Unit
             ->willReturn($context);
 
         return $commandExecutor;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface
+     */
+    protected function createReportGeneratorFactoryMock(): ReportGeneratorFactoryInterface
+    {
+        $reportGeneratorFactory = $this->createMock(ReportGeneratorFactoryInterface::class);
+
+        $reportGeneratorFactory
+            ->method('getReportGeneratorByContext')
+            ->willReturn($this->createViolationConverterGeneratorMock());
+
+        return $reportGeneratorFactory;
     }
 }

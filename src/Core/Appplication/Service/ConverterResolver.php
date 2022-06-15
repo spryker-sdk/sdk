@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
+namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
+use SprykerSdk\SdkContracts\Report\ReportConverterInterface;
 
-class ViolationConverterResolver
+class ConverterResolver
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
@@ -29,23 +29,24 @@ class ViolationConverterResolver
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\ReportConverterInterface|null
      */
-    public function resolve(CommandInterface $command): ?ViolationConverterInterface
+    public function resolve(CommandInterface $command): ?ReportConverterInterface
     {
-        $converter = $command->getViolationConverter();
+        $converter = $command->getConverter();
 
         if (!$converter || !$this->converterRegistry->has($converter->getName())) {
             return null;
         }
 
-        $violationConverter = $this->converterRegistry->get($converter->getName());
+        $reportConverter = $this->converterRegistry->get($converter->getName());
 
-        if (!$violationConverter) {
+        if ($reportConverter === null) {
             return null;
         }
-        $violationConverter->configure($converter->getConfiguration());
 
-        return $violationConverter;
+        $reportConverter->configure($converter->getConfiguration());
+
+        return $reportConverter;
     }
 }

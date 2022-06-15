@@ -42,7 +42,7 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
      */
     public function execute(ContextInterface $context): ContextInterface
     {
-        $this->violationReportRepository->cleanupViolationReport();
+        $this->violationReportRepository->cleanup();
 
         return $context;
     }
@@ -82,7 +82,7 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     /**
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
-    public function getViolationConverter(): ?ConverterInterface
+    public function getConverter(): ?ConverterInterface
     {
         return null;
     }

@@ -7,14 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation;
 
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
 use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
 
 class ReportFormatterFactory
 {
     /**
-     * @var string
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
      */
-    protected string $format = 'output';
+    private ContextStorage $contextStorage;
 
     /**
      * @var iterable<\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface>
@@ -22,21 +23,13 @@ class ReportFormatterFactory
     protected iterable $violationReportFormatters;
 
     /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
      * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface> $violationReportFormatters
      */
-    public function __construct(iterable $violationReportFormatters)
+    public function __construct(ContextStorage $contextStorage, iterable $violationReportFormatters)
     {
+        $this->contextStorage = $contextStorage;
         $this->violationReportFormatters = $violationReportFormatters;
-    }
-
-    /**
-     * @param string $format
-     *
-     * @return void
-     */
-    public function setFormat(string $format): void
-    {
-        $this->format = $format;
     }
 
     /**
@@ -44,8 +37,10 @@ class ReportFormatterFactory
      */
     public function getViolationReportFormatter(): ?ViolationReportFormatterInterface
     {
+        $format = $this->contextStorage->getContext()->getFormat();
+
         foreach ($this->violationReportFormatters as $violationReportFormatter) {
-            if ($violationReportFormatter->getFormat() === $this->format) {
+            if ($violationReportFormatter->getFormat() === $format) {
                 return $violationReportFormatter;
             }
         }
