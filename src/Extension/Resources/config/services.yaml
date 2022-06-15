@@ -42,8 +42,8 @@ services:
       - "%kernel.project_dir%"
   check_docker_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckDockerCommand
-  docker_init_up_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\DockerInitUpCommand
+  docker_init_up_steps_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\DockerInitUpStepsCommand
   generate_pbc:
     class: SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask
     tags: [ 'sdk.task' ]
@@ -66,12 +66,12 @@ services:
     arguments:
       $commands:
         - '@check_git_command'
-        - '@check_docker_command'
-        - '@check_mutagen_for_mac_command'
+#        - '@check_docker_command'
+#        - '@check_mutagen_for_mac_command'
         - '@clone_business_model_command'
         - '@add_docker_sdk_command'
-        - '@business_model_arm_command'
-        - '@docker_init_up_command'
+#        - '@business_model_arm_command'
+        - '@docker_init_up_steps_command'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
     tags: ["sdk.value_resolver"]

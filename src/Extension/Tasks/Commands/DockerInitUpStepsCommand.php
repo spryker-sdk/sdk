@@ -7,27 +7,38 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
-use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
-class DockerInitUpCommand implements CommandInterface, ErrorCommandInterface
+class DockerInitUpStepsCommand implements ExecutableCommandInterface
 {
     /**
      * @return string
      */
     public function getCommand(): string
     {
-        return 'docker/sdk bootstrap deploy.dev.yml && docker/sdk up --build --data --assets';
+        return static::class;
     }
 
     /**
-     * @return string
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function getErrorMessage(): string
+    public function execute(ContextInterface $context): ContextInterface
     {
-        return 'For using this task you should have a GIT. You can find more details on https://git-scm.com/book/en/v2/Getting-Started-Installing-Git';
+        $context->addMessage(
+            static::class,
+            new Message(
+                'Run "docker/sdk bootstrap deploy.dev.yml && docker/sdk up --build --data --assets" and follow the instructions to spin up the local environment',
+                MessageInterface::INFO,
+            ),
+        );
+
+        return $context;
     }
 
     /**
@@ -35,7 +46,7 @@ class DockerInitUpCommand implements CommandInterface, ErrorCommandInterface
      */
     public function getType(): string
     {
-        return 'local_cli';
+        return 'php';
     }
 
     /**
