@@ -8,11 +8,14 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowEventInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\Registry;
@@ -25,6 +28,11 @@ class ProjectWorkflow
      * @var string
      */
     public const PROJECT_KEY = 'project_key';
+
+    /**
+     * @var string
+     */
+    public const WORKFLOW = 'workflow';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
@@ -42,6 +50,11 @@ class ProjectWorkflow
     protected WorkflowRepositoryInterface $workflowRepository;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface
+     */
+    protected WorkflowEventRepositoryInterface $workflowEventRepository;
+
+    /**
      * @var \Symfony\Component\Workflow\Workflow|null
      */
     protected ?Workflow $currentWorkflow = null;
@@ -55,15 +68,34 @@ class ProjectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Workflow\Registry $workflows
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface $workflowEventRepository
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
         Registry $workflows,
-        WorkflowRepositoryInterface $workflowRepository
+        WorkflowRepositoryInterface $workflowRepository,
+        WorkflowEventRepositoryInterface $workflowEventRepository
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
         $this->workflows = $workflows;
         $this->workflowRepository = $workflowRepository;
+        $this->workflowEventRepository = $workflowEventRepository;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getProjectId(): string
+    {
+        return (string)$this->projectSettingRepository->getOneByPath(static::PROJECT_KEY)->getValues();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getProjectSettingWorkflows(): array
+    {
+        return (array)$this->projectSettingRepository->getOneByPath(static::WORKFLOW)->getValues();
     }
 
     /**
@@ -81,19 +113,36 @@ class ProjectWorkflow
     /**
      * @param string|null $workflowName
      *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
+     *
      * @return bool
      */
     public function initializeWorkflow(?string $workflowName = null): bool
     {
-        if ($this->currentWorkflow && $this->currentProjectWorkflow) {
+        if (!$this->getProjectId()) {
+            throw new ProjectWorkflowException('Project is not initialized. Run the `sdk:init:project` command.');
+        }
+
+        if (
+            $this->currentWorkflow
+            && $this->currentProjectWorkflow
+            && ($workflowName === null || $this->currentWorkflow->getName() === $workflowName)
+        ) {
             return true;
         }
 
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-        $this->currentProjectWorkflow = $this->workflowRepository->getWorkflow($projectIdSetting->getValues(), $workflowName);
+        $this->currentProjectWorkflow = $this->workflowRepository->getWorkflow($this->getProjectId(), $workflowName);
+
         if (!$this->currentProjectWorkflow) {
-            return false;
+            if (!$workflowName || $this->getProjectSettingWorkflows() || !in_array($workflowName, $this->getAll())) {
+                return false;
+            }
+
+            $this->currentProjectWorkflow = $this->workflowRepository->save(
+                new WorkflowEntity($this->getProjectId(), [], $workflowName),
+            );
         }
+
         $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
 
         return true;
@@ -115,9 +164,7 @@ class ProjectWorkflow
      */
     public function hasWorkflow(): bool
     {
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-
-        return $this->workflowRepository->hasWorkflow($projectIdSetting->getValues());
+        return $this->workflowRepository->hasWorkflow($this->getProjectId());
     }
 
     /**
@@ -139,11 +186,9 @@ class ProjectWorkflow
      */
     public function findInitializeWorkflows(): array
     {
-        $projectIdSetting = $this->projectSettingRepository->getOneByPath(static::PROJECT_KEY);
-
         return array_map(function (WorkflowInterface $workflow) {
             return $workflow->getWorkflow();
-        }, $this->workflowRepository->findWorkflows($projectIdSetting->getValues()));
+        }, $this->workflowRepository->findWorkflows($this->getProjectId()));
     }
 
     /**
@@ -178,5 +223,59 @@ class ProjectWorkflow
         }
 
         return $context;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $workflow
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
+     *
+     * @return string|null
+     */
+    public function getStartedTransition(?WorkflowInterface $workflow = null): ?string
+    {
+        $workflow = $workflow ?? $this->currentProjectWorkflow;
+
+        if (!$workflow) {
+            throw new ProjectWorkflowException('Workflow is not initialized');
+        }
+
+        $transitionEvents = $this->workflowEventRepository->searchByWorkflow($workflow, null, [
+            WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_STARTED,
+            WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_FINISHED,
+        ]);
+
+        $transitionState = [];
+        foreach ($transitionEvents as $transitionEvent) {
+            if (!isset($transitionState[$transitionEvent->getTransition()])) {
+                $transitionState[$transitionEvent->getTransition()] = 0;
+            }
+
+            $transitionState[$transitionEvent->getTransition()] += match ($transitionEvent->getEvent()) {
+                WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_STARTED => 1,
+                WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_FINISHED => - 1,
+                default => 0,
+            };
+        }
+
+        foreach ($transitionState as $transition => $state) {
+            if ($state > 0) {
+                return $transition;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
+     *
+     * @return bool
+     */
+    public function isWorkflowFinished(WorkflowInterface $workflow): bool
+    {
+        $workflowEngine = $this->workflows->get($workflow, $workflow->getWorkflow());
+
+        return count($workflowEngine->getEnabledTransitions($workflow)) === 0;
     }
 }

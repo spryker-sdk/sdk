@@ -189,6 +189,10 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
     arguments:
       - "@doctrine"
+  workflow_event_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowEventRepository
+    arguments:
+      - "@doctrine"
   violation_report_mapper:
     class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
   violation_path_reader:
@@ -235,8 +239,26 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
     arguments:
       - "@task_executor"
+      - "@workflow_runner"
+      - "@project_workflow"
+      - "@workflow_repository"
+      - "@workflow_event_repository"
     tags:
       - { name: kernel.event_listener, event: workflow.transition, method: execute }
 
+  app.workflow.started_transitions_guard_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowStartedTransitionListener
+    arguments:
+      - "@project_workflow"
+    tags:
+      - { name: kernel.event_listener, event: workflow.guard, method: guard }
+
   workflow.marking_store.method:
     class: SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore
+
+  workflow_runner:
+    class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+    arguments:
+      - "@cli_value_receiver"
+      - "@service_container"
+

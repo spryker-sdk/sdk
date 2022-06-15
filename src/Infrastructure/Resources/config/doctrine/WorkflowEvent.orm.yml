@@ -1,0 +1,36 @@
+SprykerSdk\Sdk\Infrastructure\Entity\WorkflowEvent:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\WorkflowEventRepository
+    table: sdk_workflow_event
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        status:
+            type: json
+            nullable: false
+            unique: false
+        transition:
+            type: string
+            nullable: true
+            unique: false
+        event:
+            type: string
+            nullable: false
+            unique: false
+        data:
+            type: json
+            nullable: false
+            unique: false
+        time:
+            type: datetime
+            nullable: false
+            unique: false
+            options:
+                default: CURRENT_TIMESTAMP
+    manyToOne:
+        workflow:
+            targetEntity: Workflow
+            inversedBy: events

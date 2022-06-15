@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
@@ -48,23 +48,23 @@ class RunWorkflowCommand extends Command
     protected $cliValueReceiver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
      */
-    protected $taskExecutor;
+    protected $workflowRunner;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         CliValueReceiver $cliValueReceiver,
-        TaskExecutor $taskExecutor
+        WorkflowRunner $workflowRunner
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
-        $this->taskExecutor = $taskExecutor;
+        $this->workflowRunner = $workflowRunner;
         parent::__construct(static::NAME);
     }
 
@@ -112,38 +112,8 @@ class RunWorkflowCommand extends Command
             ) : current($initializeWorkflows);
         }
 
-        $context = new Context();
-        $this->projectWorkflow->initializeWorkflow($workflowName);
+        $context = $this->workflowRunner->execute($workflowName, new Context());
 
-        $metadata = $this->projectWorkflow->getWorkflowMetadata();
-        $while = !(isset($metadata['run']) && $metadata['run'] === 'single');
-
-        $previousEnabledTransaction = null;
-        do {
-            $nextEnabledTransaction = $this->getNextTransaction();
-            if (!$nextEnabledTransaction) {
-                $output->writeln(sprintf('<error> Workflow `%s` has been finished.</error>.</error>', $workflowName));
-
-                return static::FAILURE;
-            }
-
-            if ($previousEnabledTransaction === $nextEnabledTransaction) {
-                break;
-            }
-            $previousEnabledTransaction = $nextEnabledTransaction;
-
-            $this->projectWorkflow->applyTransaction($nextEnabledTransaction, $context);
-            $output->writeln(sprintf('<info>Running task `%s` ...</info>', $nextEnabledTransaction));
-
-            if ($context->getExitCode() === 1) {
-                $this->writeFilteredMessages($output, $context);
-                $output->writeln(sprintf('<error>The `%s` task is failed, see details above.</error>', $nextEnabledTransaction));
-
-                return static::FAILURE;
-            }
-
-            $output->writeln(sprintf('<info>The `%s` task successfully done.</info>', $nextEnabledTransaction));
-        } while ($while);
         $this->writeFilteredMessages($output, $context);
 
         return static::SUCCESS;
@@ -178,27 +148,5 @@ class RunWorkflowCommand extends Command
             MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>',
             default => $message->getMessage(),
         };
-    }
-
-    /**
-     * @return string|null
-     */
-    protected function getNextTransaction(): ?string
-    {
-        $nextEnabledTransactions = $this->projectWorkflow->getNextEnabledTransactions();
-
-        if (count($nextEnabledTransactions) > 1) {
-            return $this->cliValueReceiver->receiveValue(
-                new ReceiverValue(
-                    'Select the next step in workflow.',
-                    current($nextEnabledTransactions),
-                    'string',
-                    $nextEnabledTransactions,
-                ),
-            );
-        }
-        $nextEnabledTransaction = current($nextEnabledTransactions);
-
-        return $nextEnabledTransaction ?: null;
     }
 }

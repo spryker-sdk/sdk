@@ -56,6 +56,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     {
         $criteria = [
             'project' => $project,
+            'parent' => null,
         ];
 
         return $this->findBy($criteria);
@@ -74,7 +75,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
         ];
 
         if ($workflowName) {
-            $criteria['workflow'] = $workflowName;
+            $criteria['code'] = $workflowName;
         }
 
         return $this->findOneBy($criteria);
