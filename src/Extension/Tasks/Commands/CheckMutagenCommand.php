@@ -54,7 +54,7 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
      */
     public function getErrorMessage(): string
     {
-        return 'For using this task you should have a mutagen. You can find more details on https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/docker-installation-prerequisites/installing-docker-prerequisites-on-macos.html';
+        return 'For using this task you should have Mutagen. You can find more details on https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/docker-installation-prerequisites/installing-docker-prerequisites-on-macos.html';
     }
 
     /**
