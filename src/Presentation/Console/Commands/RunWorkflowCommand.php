@@ -89,11 +89,6 @@ class RunWorkflowCommand extends Command
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
         $initializeWorkflows = $this->projectWorkflow->findInitializeWorkflows();
-        if (!$initializeWorkflows && !$workflowName) {
-            $output->writeln('<error>You don\'t initialize any workflow.</error>');
-
-            return static::FAILURE;
-        }
 
         if ($workflowName && $initializeWorkflows && !in_array($workflowName, $initializeWorkflows)) {
             $output->writeln(sprintf('<error>You don\'t initialize `%s` workflow.</error>', $workflowName));
@@ -102,14 +97,15 @@ class RunWorkflowCommand extends Command
         }
 
         if (!$workflowName) {
-            $workflowName = count($initializeWorkflows) > 1 ? $this->cliValueReceiver->receiveValue(
+            $workflows = $initializeWorkflows ?: $this->projectWorkflow->getAll();
+            $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'You have more then one workflow. you have to select the one.',
-                    current(array_keys($initializeWorkflows)),
+                    current(array_keys($workflows)),
                     'string',
-                    $initializeWorkflows,
+                    $workflows,
                 ),
-            ) : current($initializeWorkflows);
+            ) : current($workflows);
         }
 
         $context = $this->workflowRunner->execute($workflowName, new Context());

@@ -117,4 +117,4 @@ settings:
     is_project: true
     type: array
     initializer: project_workflow_initializer
-    values: 1
+    values: null

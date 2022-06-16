@@ -95,7 +95,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
         $type = $receiverValue->getType();
         $description = $receiverValue->getDescription();
         if ($defaultValue === null && $choiceValues) {
-            $defaultValue = reset($choiceValues);
+            $defaultValue = array_key_first($choiceValues);
         }
 
         if (count($choiceValues) === 1 && in_array($defaultValue, $choiceValues)) {
