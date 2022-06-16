@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 
 interface WorkflowTransitionRepositoryInterface
 {

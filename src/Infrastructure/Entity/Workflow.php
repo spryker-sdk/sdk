@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow as EntityWorkflow;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 
 class Workflow extends EntityWorkflow
 {

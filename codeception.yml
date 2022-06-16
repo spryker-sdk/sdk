@@ -21,7 +21,7 @@ suites:
                 - Filesystem
         step_decorators: ~
 settings:
-    shuffle: true
+    shuffle: false
     lint: true
 paths:
     tests: tests
