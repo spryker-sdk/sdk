@@ -1,0 +1,19 @@
+---
+id: "validation:php:all"
+short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
+help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
+stage: build
+version: 1.0.0
+command: ~
+type: task_set
+tasks:
+  - id: "validation:php:architecture"
+    tags: ["architecture"]
+    stop_on_error: false
+  - id: "validation:php:codestyle-fix"
+    tags: ["codestyle"]
+    stop_on_error: false
+  - id: "validation:php:static"
+    tags: ["static"]
+    stop_on_error: true
+placeholders: []

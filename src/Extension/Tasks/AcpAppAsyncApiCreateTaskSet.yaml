@@ -1,0 +1,14 @@
+---
+id: "acp:asyncapi:create-full"
+short_description: "Create ACP AsyncAPI file with message"
+help: ~
+stage: build
+version: 1.0.0
+command: ~
+type: task_set
+tasks:
+  - id: "acp:asyncapi:create"
+    stop_on_error: true
+  - id: "acp:asyncapi:message-add"
+    stop_on_error: false
+placeholders: []

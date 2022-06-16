@@ -1,0 +1,45 @@
+---
+id: "validation:php:architecture"
+short_description: "Check the architectural correctness of your code"
+help: ~
+stage: debug
+version: 1.0.0
+command: "%sdk_dir%/vendor/bin/phpmd ./src json %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%strict%"
+    value_resolver: FLAG
+    optional: false
+    configuration:
+      name: "strict"
+      description: "Report silent violations"
+      defaultValue: false
+      settingPaths: []
+      type: boolean
+  - name: "%priority%"
+    value_resolver: STATIC_TEXT
+    optional: false
+    configuration:
+      name: "priority"
+      description: "Minimal priority of rules to fail the validation"
+      minValue: 1
+      maxValue: 10
+      defaultValue: 2
+      settingPaths: []
+      type: int
+  - name: "%reportDir%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+report_converter:
+  name: PHPMDViolationConverter
+  configuration:
+    input_file: phpmd.static.json
+    producer: phpmd

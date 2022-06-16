@@ -1,0 +1,40 @@
+---
+id: "validation:php:codestyle-check"
+short_description: "Check your code by running a static code analysis and generate report with violations"
+help: ~
+stage: build
+version: 1.0.0
+command: "php %sdk_dir%/vendor/bin/phpcs %severity% --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml --report=json ./%path% --report-file=%reportDir%/phpcs.codestyle.json"
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%path%"
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      name: "path"
+      description: "Relative path to module directory in project"
+      type: path
+      settingPaths: []
+      defaultValue: 'src'
+  - name: "%reportDir%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+  - name: "%severity%"
+    value_resolver: OPTION
+    optional: true
+    configuration:
+      name: 'severity'
+      description: 'Severity level'
+report_converter:
+  name: CheckstyleViolationReportConverter
+  configuration:
+    input_file: phpcs.codestyle.json
+    producer: phpcs
