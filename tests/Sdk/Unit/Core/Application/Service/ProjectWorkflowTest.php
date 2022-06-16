@@ -37,7 +37,7 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testApplyTransactionwithBlokers(): void
+    public function testApplyTransitionWithBlockers(): void
     {
         // Arrange
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
@@ -73,7 +73,7 @@ class ProjectWorkflowTest extends Unit
         $context = new Context();
 
         // Act
-        $result = $projectWorkflow->applyTransaction('', $context);
+        $result = $projectWorkflow->applyTransition('', $context);
 
         // Assert
         $this->assertNotEmpty($context->getMessages());
@@ -82,7 +82,7 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testApplyTransaction(): void
+    public function testApplyTransition(): void
     {
         // Arrange
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
@@ -115,7 +115,7 @@ class ProjectWorkflowTest extends Unit
         $context = new Context();
 
         // Act
-        $result = $projectWorkflow->applyTransaction('', $context);
+        $result = $projectWorkflow->applyTransition('', $context);
 
         // Assert
         $this->assertSame($result, $context);
@@ -124,7 +124,7 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testGetNextEnabledTransactions(): void
+    public function testGetNextEnabledTransitions(): void
     {
         // Arrange
         $transactionMock = $this->createMock(Transition::class);
@@ -159,7 +159,7 @@ class ProjectWorkflowTest extends Unit
         $projectWorkflow->initializeWorkflow();
 
         // Act
-        $result = $projectWorkflow->getNextEnabledTransactions();
+        $result = $projectWorkflow->getNextEnabledTransitions();
 
         // Assert
         $this->assertSame($result, ['test']);
@@ -272,7 +272,7 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testFindInitializeWorkflows(): void
+    public function testFindInitializedWorkflows(): void
     {
         // Arrange
         $workflowEntityMock = $this->createWorkflowEntityMock();
@@ -295,7 +295,7 @@ class ProjectWorkflowTest extends Unit
         );
 
         // Act
-        $result = $projectWorkflow->findInitializeWorkflows();
+        $result = $projectWorkflow->findInitializedWorkflows();
 
         // Assert
         $this->assertSame(['test'], $result);

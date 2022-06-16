@@ -11,14 +11,14 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
-class AddDockerSdkCommand implements CommandInterface
+class CloneBusinessModelRepositoryCommand implements CommandInterface
 {
     /**
      * @return string
      */
     public function getCommand(): string
     {
-        return 'git clone https://github.com/spryker/docker-sdk.git --single-branch ./docker';
+        return 'git clone %business_model_url% -b 202204.0-p1 --single-branch ./';
     }
 
     /**
@@ -30,19 +30,19 @@ class AddDockerSdkCommand implements CommandInterface
     }
 
     /**
-     * @return array<string>
-     */
-    public function getTags(): array
-    {
-        return [];
-    }
-
-    /**
      * @return bool
      */
     public function hasStopOnError(): bool
     {
         return true;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getTags(): array
+    {
+        return [];
     }
 
     /**

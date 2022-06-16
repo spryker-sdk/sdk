@@ -88,19 +88,19 @@ class RunWorkflowCommand extends Command
     {
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
-        $initializeWorkflows = $this->projectWorkflow->findInitializeWorkflows();
+        $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
 
-        if ($workflowName && $initializeWorkflows && !in_array($workflowName, $initializeWorkflows)) {
-            $output->writeln(sprintf('<error>You don\'t initialize `%s` workflow.</error>', $workflowName));
+        if ($workflowName && $initializedWorkflows && !in_array($workflowName, $initializedWorkflows)) {
+            $output->writeln(sprintf('<error>The `%s` workflow hasn\'t been initialized.</error>', $workflowName));
 
             return static::FAILURE;
         }
 
         if (!$workflowName) {
-            $workflows = $initializeWorkflows ?: $this->projectWorkflow->getAll();
+            $workflows = $initializedWorkflows ?: $this->projectWorkflow->getAll();
             $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
-                    'You have more then one workflow. you have to select the one.',
+                    'You have more than one initialized workflow. You have to select one.',
                     current(array_keys($workflows)),
                     'string',
                     $workflows,

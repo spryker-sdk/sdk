@@ -66,12 +66,12 @@ class WorkflowRunner
         $while = !(isset($metadata['run']) && $metadata['run'] === 'single');
 
         do {
-            $nextEnabledTransaction = $this->getNextTransaction($projectWorkflow);
-            if (!$nextEnabledTransaction) {
+            $nextTransition = $this->getNextTransition($projectWorkflow);
+            if (!$nextTransition) {
                 $context->addMessage(
-                    sprintf('%s_%s_start', $workflowName, $nextEnabledTransaction),
+                    sprintf('%s_%s_start', $workflowName, $nextTransition),
                     new Message(
-                        sprintf('Workflow `%s` has been finished.', $workflowName),
+                        sprintf('The workflow `%s` has been finished.', $workflowName),
                         MessageInterface::ERROR,
                     ),
                 );
@@ -79,21 +79,21 @@ class WorkflowRunner
                 return $context;
             }
 
-            $projectWorkflow->applyTransaction($nextEnabledTransaction, $context);
+            $projectWorkflow->applyTransition($nextTransition, $context);
 
             $context->addMessage(
-                sprintf('%s_%s_apply', $workflowName, $nextEnabledTransaction),
+                sprintf('%s_%s_apply', $workflowName, $nextTransition),
                 new Message(
-                    sprintf('Running task `%s` ...', $nextEnabledTransaction),
+                    sprintf('Running task `%s` ...', $nextTransition),
                     MessageInterface::INFO,
                 ),
             );
 
             if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
                 $context->addMessage(
-                    sprintf('%s_%s_fail', $workflowName, $nextEnabledTransaction),
+                    sprintf('%s_%s_fail', $workflowName, $nextTransition),
                     new Message(
-                        sprintf('The `%s` task is failed, see details above.', $nextEnabledTransaction),
+                        sprintf('The `%s` task is failed, see details above.', $nextTransition),
                         MessageInterface::ERROR,
                     ),
                 );
@@ -102,9 +102,9 @@ class WorkflowRunner
             }
 
             $context->addMessage(
-                sprintf('%s_%s_done', $workflowName, $nextEnabledTransaction),
+                sprintf('%s_%s_done', $workflowName, $nextTransition),
                 new Message(
-                    sprintf('The `%s` task successfully done.', $nextEnabledTransaction),
+                    sprintf('The `%s` task finished successfully.', $nextTransition),
                     MessageInterface::INFO,
                 ),
             );
@@ -118,22 +118,22 @@ class WorkflowRunner
      *
      * @return string|null
      */
-    protected function getNextTransaction(ProjectWorkflow $projectWorkflow): ?string
+    protected function getNextTransition(ProjectWorkflow $projectWorkflow): ?string
     {
-        $nextEnabledTransactions = $projectWorkflow->getNextEnabledTransactions();
+        $nextEnabledTransitions = $projectWorkflow->getNextEnabledTransitions();
 
-        if (count($nextEnabledTransactions) > 1) {
+        if (count($nextEnabledTransitions) > 1) {
             return $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'Select the next step in workflow.',
-                    current($nextEnabledTransactions),
+                    current($nextEnabledTransitions),
                     'string',
-                    $nextEnabledTransactions,
+                    $nextEnabledTransitions,
                 ),
             );
         }
-        $nextEnabledTransaction = current($nextEnabledTransactions);
+        $nextEnabledTransition = current($nextEnabledTransitions);
 
-        return $nextEnabledTransaction ?: null;
+        return $nextEnabledTransition ?: null;
     }
 }
