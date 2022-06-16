@@ -13,13 +13,14 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRep
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransition;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use stdClass;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\Marking;
@@ -56,18 +57,29 @@ class WorkflowTransitionListenerTest extends Unit
             ['context' => $context],
         );
 
-        $taskExecutorMock = $this->createMock(TaskExecutor::class);
+        $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->once())
             ->method('execute')
             ->with('sdk:test:task', $context)
             ->willReturn($context);
 
+        $projectWorkflowMock = $this->createProjectWorkflowMock();
+        $projectWorkflowMock->expects($this->once())
+            ->method('getRunningTransition')
+            ->with($workflowEntity)
+            ->willReturn(null);
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->atLeastOnce())
+            ->method('save')
+            ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
+
         $eventListener = new WorkflowTransitionListener(
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
-            $this->createProjectWorkflowMock(),
+            $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
-            $this->createWorkflowTransitionRepositoryMock(),
+            $workflowTransitionRepositoryMock,
         );
 
         // Act
@@ -90,28 +102,92 @@ class WorkflowTransitionListenerTest extends Unit
         $workflowMock->method('getMetadataStore')
             ->willReturn($metadataStoreMock);
 
+        $workflowEntity = new Workflow('project', [], 'workflow');
+
         $context = new Context();
         $event = new TransitionEvent(
-            new stdClass(),
+            $workflowEntity,
             new Marking(),
             new Transition('test', [], []),
             $workflowMock,
             ['context' => $context],
         );
 
-        $taskExecutorMock = $this->createMock(TaskExecutor::class);
+        $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->never())
             ->method('execute');
+
+        $projectWorkflowMock = $this->createProjectWorkflowMock();
+        $projectWorkflowMock->expects($this->once())
+            ->method('getRunningTransition')
+            ->with($workflowEntity)
+            ->willReturn(null);
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->atLeastOnce())
+            ->method('save')
+            ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
-            $this->createProjectWorkflowMock(),
+            $projectWorkflowMock,
+            $this->createWorkflowRepositoryMock(),
+            $workflowTransitionRepositoryMock,
+        );
+
+        // Act
+        $eventListener->execute($event);
+    }
+
+    /**
+     * @return void
+     */
+    public function testTransitionWillThrowExceptionWhenAnotherOneIsRunning(): void
+    {
+        // Arrange
+        $transition = new Transition('test', [], []);
+        $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
+        $metadataStoreMock->method('getTransitionMetadata')
+            ->with($transition)
+            ->willReturn(['task' => 'sdk:test:task']);
+
+        $workflowMock = $this->createMock(SymfonyWorkflow::class);
+        $workflowMock->method('getMetadataStore')
+            ->willReturn($metadataStoreMock);
+
+        $workflowEntity = new Workflow('project', [], 'workflow');
+
+        $event = new TransitionEvent(
+            $workflowEntity,
+            new Marking(),
+            new Transition('test', [], []),
+            $workflowMock,
+        );
+
+        $taskExecutorMock = $this->createTaskExecutorMock();
+        $taskExecutorMock->expects($this->never())
+            ->method('execute');
+
+        $projectWorkflowMock = $this->createProjectWorkflowMock();
+        $projectWorkflowMock->expects($this->once())
+            ->method('getRunningTransition')
+            ->with($workflowEntity)
+            ->willReturn(new WorkflowTransition([], 'not_test', WorkflowTransitionInterface::WORKFLOW_TRANSITION_STARTED));
+
+        $eventListener = new WorkflowTransitionListener(
+            $taskExecutorMock,
+            $this->createWorkflowRunnerMock(),
+            $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $this->createWorkflowTransitionRepositoryMock(),
         );
 
         // Act
+        $this->expectException(NotEnabledTransitionException::class);
+        $this->expectExceptionMessage('is not enabled for workflow');
+
+        // Assert
         $eventListener->execute($event);
     }
 
@@ -131,23 +207,36 @@ class WorkflowTransitionListenerTest extends Unit
         $workflowMock->method('getMetadataStore')
             ->willReturn($metadataStoreMock);
 
+        $workflowEntity = new Workflow('project', [], 'workflow');
+
         $event = new TransitionEvent(
-            new stdClass(),
+            $workflowEntity,
             new Marking(),
             new Transition('test', [], []),
             $workflowMock,
         );
 
-        $taskExecutorMock = $this->createMock(TaskExecutor::class);
+        $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->never())
             ->method('execute');
+
+        $projectWorkflowMock = $this->createProjectWorkflowMock();
+        $projectWorkflowMock->expects($this->once())
+            ->method('getRunningTransition')
+            ->with($workflowEntity)
+            ->willReturn(null);
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->atLeastOnce())
+            ->method('save')
+            ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
-            $this->createProjectWorkflowMock(),
+            $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
-            $this->createWorkflowTransitionRepositoryMock(),
+            $workflowTransitionRepositoryMock,
         );
 
         // Act
@@ -174,16 +263,18 @@ class WorkflowTransitionListenerTest extends Unit
         $workflowMock->method('getMetadataStore')
             ->willReturn($metadataStoreMock);
 
+        $workflowEntity = new Workflow('project', [], 'workflow');
+
         $context = new Context();
         $event = new TransitionEvent(
-            new stdClass(),
+            $workflowEntity,
             new Marking(),
             new Transition('test', [], []),
             $workflowMock,
             ['context' => $context],
         );
 
-        $taskExecutorMock = $this->createMock(TaskExecutor::class);
+        $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->once())
             ->method('execute')
             ->with('sdk:test:task', $context)
@@ -193,12 +284,157 @@ class WorkflowTransitionListenerTest extends Unit
                 return $context;
             });
 
+        $projectWorkflowMock = $this->createProjectWorkflowMock();
+        $projectWorkflowMock->expects($this->once())
+            ->method('getRunningTransition')
+            ->with($workflowEntity)
+            ->willReturn(null);
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->atLeastOnce())
+            ->method('save')
+            ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
+
         $eventListener = new WorkflowTransitionListener(
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
-            $this->createProjectWorkflowMock(),
+            $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
-            $this->createWorkflowTransitionRepositoryMock(),
+            $workflowTransitionRepositoryMock,
+        );
+
+        // Act
+        $this->expectException(NotEnabledTransitionException::class);
+        $this->expectExceptionMessage('is not enabled');
+
+        // Assert
+        $eventListener->execute($event);
+    }
+
+    /**
+     * @return void
+     */
+    public function testNestedWorkflowExecuting(): void
+    {
+        // Arrange
+        $transition = new Transition('test', [], []);
+        $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
+        $metadataStoreMock->method('getTransitionMetadata')
+            ->with($transition)
+            ->willReturn([WorkflowTransitionListener::META_KEY_WORKFLOW_BEFORE => 'nested_workflow']);
+
+        $workflowMock = $this->createMock(SymfonyWorkflow::class);
+        $workflowMock->method('getMetadataStore')
+            ->willReturn($metadataStoreMock);
+
+        $workflowEntity = new Workflow('project', [], 'workflow');
+        $nestedWorkflowEntity = new Workflow('project', [], 'nested_workflow', 'test.workflowBefore.nested_workflow');
+
+        $context = new Context();
+        $event = new TransitionEvent(
+            $workflowEntity,
+            new Marking(),
+            new Transition('test', [], []),
+            $workflowMock,
+            ['context' => $context],
+        );
+
+        $workflowRunnerMock = $this->createWorkflowRunnerMock();
+        $workflowRunnerMock->expects($this->once())
+            ->method('execute')
+            ->with('test.workflowBefore.nested_workflow', $context);
+
+        $projectWorkflowMock = $this->createProjectWorkflowMock();
+        $projectWorkflowMock->expects($this->once())
+            ->method('getRunningTransition')
+            ->with($workflowEntity)
+            ->willReturn(null);
+        $projectWorkflowMock->expects($this->exactly(2))
+            ->method('isWorkflowFinished')
+            ->willReturnOnConsecutiveCalls(false, true);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->exactly(2))
+            ->method('getWorkflow')
+            ->with('project', 'test.workflowBefore.nested_workflow')
+            ->willReturn($nestedWorkflowEntity);
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->atLeastOnce())
+            ->method('save')
+            ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
+
+        $eventListener = new WorkflowTransitionListener(
+            $this->createTaskExecutorMock(),
+            $workflowRunnerMock,
+            $projectWorkflowMock,
+            $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
+        );
+
+        // Act
+        $eventListener->execute($event);
+    }
+
+    /**
+     * @return void
+     */
+    public function testExceptionIsThrownIfNestedWorkflowIsNotFinished(): void
+    {
+        // Arrange
+        $transition = new Transition('test', [], []);
+        $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
+        $metadataStoreMock->method('getTransitionMetadata')
+            ->with($transition)
+            ->willReturn([WorkflowTransitionListener::META_KEY_WORKFLOW_BEFORE => 'nested_workflow']);
+
+        $workflowMock = $this->createMock(SymfonyWorkflow::class);
+        $workflowMock->method('getMetadataStore')
+            ->willReturn($metadataStoreMock);
+
+        $workflowEntity = new Workflow('project', [], 'workflow');
+        $nestedWorkflowEntity = new Workflow('project', [], 'nested_workflow', 'test.workflowBefore.nested_workflow');
+
+        $context = new Context();
+        $event = new TransitionEvent(
+            $workflowEntity,
+            new Marking(),
+            new Transition('test', [], []),
+            $workflowMock,
+            ['context' => $context],
+        );
+
+        $workflowRunnerMock = $this->createWorkflowRunnerMock();
+        $workflowRunnerMock->expects($this->once())
+            ->method('execute')
+            ->with('test.workflowBefore.nested_workflow', $context);
+
+        $projectWorkflowMock = $this->createProjectWorkflowMock();
+        $projectWorkflowMock->expects($this->once())
+            ->method('getRunningTransition')
+            ->with($workflowEntity)
+            ->willReturn(null);
+        $projectWorkflowMock->expects($this->exactly(2))
+            ->method('isWorkflowFinished')
+            ->willReturnOnConsecutiveCalls(false, false);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->exactly(2))
+            ->method('getWorkflow')
+            ->with('project', 'test.workflowBefore.nested_workflow')
+            ->willReturn($nestedWorkflowEntity);
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->atLeastOnce())
+            ->method('save')
+            ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
+
+        $eventListener = new WorkflowTransitionListener(
+            $this->createTaskExecutorMock(),
+            $workflowRunnerMock,
+            $projectWorkflowMock,
+            $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
 
         // Act
