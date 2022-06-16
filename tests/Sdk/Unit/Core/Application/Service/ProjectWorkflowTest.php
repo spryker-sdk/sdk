@@ -73,7 +73,7 @@ class ProjectWorkflowTest extends Unit
         $context = new Context();
 
         // Act
-        $result = $projectWorkflow->applyTransaction('', $context);
+        $result = $projectWorkflow->applyTransition('', $context);
 
         // Assert
         $this->assertNotEmpty($context->getMessages());
@@ -115,7 +115,7 @@ class ProjectWorkflowTest extends Unit
         $context = new Context();
 
         // Act
-        $result = $projectWorkflow->applyTransaction('', $context);
+        $result = $projectWorkflow->applyTransition('', $context);
 
         // Assert
         $this->assertSame($result, $context);
@@ -159,7 +159,7 @@ class ProjectWorkflowTest extends Unit
         $projectWorkflow->initializeWorkflow();
 
         // Act
-        $result = $projectWorkflow->getNextEnabledTransactions();
+        $result = $projectWorkflow->getNextEnabledTransition();
 
         // Assert
         $this->assertSame($result, ['test']);
@@ -295,7 +295,7 @@ class ProjectWorkflowTest extends Unit
         );
 
         // Act
-        $result = $projectWorkflow->findInitializeWorkflows();
+        $result = $projectWorkflow->findInitializedWorkflows();
 
         // Assert
         $this->assertSame(['test'], $result);

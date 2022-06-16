@@ -88,28 +88,28 @@ class RunWorkflowCommand extends Command
     {
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
-        $initializeWorkflows = $this->projectWorkflow->findInitializeWorkflows();
-        if (!$initializeWorkflows) {
-            $output->writeln('<error>You don\'t initialize any workflow.</error>');
+        $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
+        if (!$initializedWorkflows) {
+            $output->writeln('<error>You haven\'t initialized any workflow.</error>');
 
             return static::FAILURE;
         }
 
-        if ($workflowName && !in_array($workflowName, $initializeWorkflows)) {
-            $output->writeln(sprintf('<error>You don\'t initialize `%s` workflow.</error>', $workflowName));
+        if ($workflowName && !in_array($workflowName, $initializedWorkflows)) {
+            $output->writeln(sprintf('<error>The `%s` workflow hasn\'t been initialized.</error>', $workflowName));
 
             return static::FAILURE;
         }
 
         if (!$workflowName) {
-            $workflowName = count($initializeWorkflows) > 1 ? $this->cliValueReceiver->receiveValue(
+            $workflowName = count($initializedWorkflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
-                    'You have more then one workflow. you have to select the one.',
-                    current(array_keys($initializeWorkflows)),
+                    'You have more than one initialized workflow. You have to select one.',
+                    current(array_keys($initializedWorkflows)),
                     'string',
-                    $initializeWorkflows,
+                    $initializedWorkflows,
                 ),
-            ) : current($initializeWorkflows);
+            ) : current($initializedWorkflows);
         }
 
         $context = new Context();
@@ -118,31 +118,31 @@ class RunWorkflowCommand extends Command
         $metadata = $this->projectWorkflow->getWorkflowMetadata();
         $while = !(isset($metadata['run']) && $metadata['run'] === 'single');
 
-        $previousEnabledTransaction = null;
+        $previousEnabledTransition = null;
         do {
-            $nextEnabledTransaction = $this->getNextTransaction();
-            if (!$nextEnabledTransaction) {
-                $output->writeln(sprintf('<error> Workflow `%s` has been finished.</error>.</error>', $workflowName));
+            $nextEnabledTransition = $this->getNextTransition();
+            if (!$nextEnabledTransition) {
+                $output->writeln(sprintf('<error> The workflow `%s` has been finished.</error>.</error>', $workflowName));
 
                 return static::FAILURE;
             }
 
-            if ($previousEnabledTransaction === $nextEnabledTransaction) {
+            if ($previousEnabledTransition === $nextEnabledTransition) {
                 break;
             }
-            $previousEnabledTransaction = $nextEnabledTransaction;
+            $previousEnabledTransition = $nextEnabledTransition;
 
-            $this->projectWorkflow->applyTransaction($nextEnabledTransaction, $context);
-            $output->writeln(sprintf('<info>Running task `%s` ...</info>', $nextEnabledTransaction));
+            $this->projectWorkflow->applyTransition($nextEnabledTransition, $context);
+            $output->writeln(sprintf('<info>Running task `%s` ...</info>', $nextEnabledTransition));
 
             if ($context->getExitCode() === 1) {
                 $this->writeFilteredMessages($output, $context);
-                $output->writeln(sprintf('<error>The `%s` task is failed, see details above.</error>', $nextEnabledTransaction));
+                $output->writeln(sprintf('<error>The `%s` task failed, see details above.</error>', $nextEnabledTransition));
 
                 return static::FAILURE;
             }
 
-            $output->writeln(sprintf('<info>The `%s` task successfully done.</info>', $nextEnabledTransaction));
+            $output->writeln(sprintf('<info>The `%s` task finished successfully.</info>', $nextEnabledTransition));
         } while ($while);
         $this->writeFilteredMessages($output, $context);
 
@@ -183,22 +183,22 @@ class RunWorkflowCommand extends Command
     /**
      * @return string|null
      */
-    protected function getNextTransaction(): ?string
+    protected function getNextTransition(): ?string
     {
-        $nextEnabledTransactions = $this->projectWorkflow->getNextEnabledTransactions();
+        $nextEnabledTransition = $this->projectWorkflow->getNextEnabledTransition();
 
-        if (count($nextEnabledTransactions) > 1) {
+        if (count($nextEnabledTransition) > 1) {
             return $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'Select the next step in workflow.',
-                    current($nextEnabledTransactions),
+                    current($nextEnabledTransition),
                     'string',
-                    $nextEnabledTransactions,
+                    $nextEnabledTransition,
                 ),
             );
         }
-        $nextEnabledTransaction = current($nextEnabledTransactions);
+        $nextEnabledTransition = current($nextEnabledTransition);
 
-        return $nextEnabledTransaction ?: null;
+        return $nextEnabledTransition ?: null;
     }
 }

@@ -17,5 +17,6 @@ services:
       - ./db:/data/db:rw
       - ./extension:/data/extension:rw
       - ./VERSION:/data/VERSION:rw
+      - ./config/packages/workflow.yaml:/data/config/packages/workflow.yaml:rw
 volumes:
   project:

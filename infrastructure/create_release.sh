@@ -15,6 +15,9 @@ cp "${CURRENT_DIR}/docker-compose.dev.yml" "${BUILD_DIR}/docker-compose.dev.yml"
 cp "${CURRENT_DIR}/docker-compose.debug.yml" "${BUILD_DIR}/docker-compose.debug.yml"
 cp "${CURRENT_DIR}/docker-compose.yml" "${BUILD_DIR}/docker-compose.yml"
 
+mkdir -p "${BUILD_DIR}/config/packages/"
+cp "${CURRENT_DIR}/config/packages/workflow.yaml" "${BUILD_DIR}/config/packages/workflow.yaml"
+
 mkdir -p "${BUILD_DIR}/db"
 cp -R "${CURRENT_DIR}/extension" "${BUILD_DIR}/"
 cp "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.Dockerfile"
@@ -22,7 +25,7 @@ cp "${CURRENT_DIR}/infrastructure/sdk.local.Dockerfile" "${BUILD_DIR}/infrastruc
 cp "${CURRENT_DIR}/infrastructure/sdk.debug.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.debug.Dockerfile"
 cp "${CURRENT_DIR}/infrastructure/debug/php/69-xdebug.ini" "${BUILD_DIR}/infrastructure/debug/php/69-xdebug.ini"
 cd "${BUILD_DIR}"
-tar cJf spryker-sdk.tar.gz bin/ extension/ db/ infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile \
+tar cJf spryker-sdk.tar.gz bin/ extension/ config/packages/workflow.yaml db/ infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile \
     infrastructure/sdk.debug.Dockerfile infrastructure/debug/php/69-xdebug.ini VERSION docker-compose.yml \
     docker-compose.debug.yml docker-compose.dev.yml
 cd "${CURRENT_DIR}"
