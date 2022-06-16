@@ -5,15 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\SdkTasksBundle\Service;
+namespace SprykerSdk\Sdk\Extension\Service;
 
 use Symfony\Component\Yaml\Yaml;
 
 class PbcDockerFileModifier extends AbstractPbcFileModifier
 {
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
     protected Yaml $yaml;
 
     /**

@@ -118,7 +118,7 @@ settings:
     is_project: true
     type: array
     initializer: project_workflow_initializer
-    values: 0
+    values: 1
   - path: repository
     initialization_description: What is private repository url?
     strategy: overwrite

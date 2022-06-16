@@ -8,22 +8,22 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
+use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use SprykerSdk\SdkTasksBundle\Exception\FileNotFoundException;
-use SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface;
 
 class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
 {
     /**
-     * @var \SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
      */
-    private PbcFileModifierInterface $composerFileModifier;
+    protected PbcFileModifierInterface $composerFileModifier;
 
     /**
-     * @param \SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
      */
     public function __construct(PbcFileModifierInterface $composerFileModifier)
     {

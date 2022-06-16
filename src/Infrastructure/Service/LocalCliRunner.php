@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -109,6 +110,17 @@ class LocalCliRunner implements CommandRunnerInterface
             $this->output,
             [$process],
         );
+
+        if (
+            $process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE &&
+            $command instanceof ErrorCommandInterface &&
+            strlen($command->getErrorMessage())
+        ) {
+            $context->addMessage(
+                $command->getCommand(),
+                new Message($command->getErrorMessage(), MessageInterface::ERROR),
+            );
+        }
 
         $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
 

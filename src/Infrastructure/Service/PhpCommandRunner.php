@@ -7,10 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 class PhpCommandRunner implements CommandRunnerInterface
 {
@@ -32,6 +35,19 @@ class PhpCommandRunner implements CommandRunnerInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
-        return $command->execute($context);
+        $context = $command->execute($context);
+
+        if (
+            $context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE &&
+            $command instanceof ErrorCommandInterface &&
+            strlen($command->getErrorMessage())
+        ) {
+            $context->addMessage(
+                $command->getCommand(),
+                new Message($command->getErrorMessage(), MessageInterface::ERROR),
+            );
+        }
+
+        return $context;
     }
 }

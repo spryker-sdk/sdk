@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\SdkTasksBundle\Service;
+namespace SprykerSdk\Sdk\Extension\Service;
 
 class PbcComposerFileModifier extends AbstractPbcFileModifier
 {

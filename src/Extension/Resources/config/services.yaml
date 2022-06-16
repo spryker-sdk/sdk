@@ -1,4 +1,77 @@
 services:
+  pbc_modify_docker_file:
+    class: SprykerSdk\Sdk\Extension\Service\PbcDockerFileModifier
+    arguments:
+      - '@yaml_parser'
+  pbc_modify_composer_file:
+    class: SprykerSdk\Sdk\Extension\Service\PbcComposerFileModifier
+  generate_pbc_change_name_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand
+    arguments:
+      - '@pbc_modify_composer_file'
+      - '@pbc_modify_docker_file'
+  check_git_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand
+  generate_pbc_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand
+  generate_pbc_change_php_version_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangePhpVersionCommand
+    arguments:
+      - '@pbc_modify_composer_file'
+      - '@pbc_modify_docker_file'
+  generate_pbc_add_aop_sdk_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAcpSdkCommand
+    arguments:
+      - '@pbc_modify_composer_file'
+  generate_pbc_allow_default_composer_plugins_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AllowDefaultComposerPluginCommand
+    arguments:
+      - '@pbc_modify_composer_file'
+  generate_pbc_update_dependencies_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\UpdateDependenciesCommand
+  add_docker_sdk_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddDockerSdkCommand
+  check_mutagen_for_mac_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckMutagenCommand
+  generate_pbc_next_steps_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\NextPbcStepsCommand
+  business_model_arm_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\BusinessModelARMCommand
+    arguments:
+      - '@yaml_parser'
+      - "%kernel.project_dir%"
+  check_docker_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckDockerCommand
+  docker_init_up_steps_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\DockerInitUpStepsCommand
+  generate_pbc:
+    class: SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask
+    tags: [ 'sdk.task' ]
+    arguments:
+      $commands:
+        - '@check_git_command'
+        - '@generate_pbc_command'
+        - '@generate_pbc_change_name_command'
+        - '@generate_pbc_change_php_version_command'
+        - '@generate_pbc_add_aop_sdk_command'
+        - '@generate_pbc_allow_default_composer_plugins_command'
+        - '@generate_pbc_update_dependencies_command'
+        - '@add_docker_sdk_command'
+        - '@generate_pbc_next_steps_command'
+  clone_business_model_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CloneBusinessModelRepositoryCommand
+  business_model_installer_task:
+    class: SprykerSdk\Sdk\Extension\Tasks\BusinessModelInstallerTask
+    tags: [ 'sdk.task' ]
+    arguments:
+      $commands:
+        - '@check_git_command'
+#        - '@check_docker_command'
+#        - '@check_mutagen_for_mac_command'
+        - '@clone_business_model_command'
+        - '@add_docker_sdk_command'
+#        - '@business_model_arm_command'
+        - '@docker_init_up_steps_command'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
     tags: ["sdk.value_resolver"]
@@ -11,7 +84,6 @@ services:
     arguments:
       - '@value_receiver'
       - "@value_receiver"
-      - "%kernel.project_dir%"
   remove_report_dir:
     class: SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask
     tags: ["sdk.task"]

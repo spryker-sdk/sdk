@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
+use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use SprykerSdk\SdkTasksBundle\Exception\FileNotFoundException;
-use SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface;
 
 class ChangeNamesCommand implements ExecutableCommandInterface
 {
@@ -28,18 +28,18 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     protected const DOCKER_INITIALIZATION_ERROR = 'Can not change name in deploy.dev.yml in generated PBC';
 
     /**
-     * @var \SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
      */
-    private PbcFileModifierInterface $composerFileModifier;
+    protected PbcFileModifierInterface $composerFileModifier;
 
     /**
-     * @var \SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
      */
-    private PbcFileModifierInterface $dockerFileModifier;
+    protected PbcFileModifierInterface $dockerFileModifier;
 
     /**
-     * @param \SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface $composerFileModifier
-     * @param \SprykerSdk\SdkTasksBundle\Service\PbcFileModifierInterface $dockerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $dockerFileModifier
      */
     public function __construct(
         PbcFileModifierInterface $composerFileModifier,

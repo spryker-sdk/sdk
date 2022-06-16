@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\SdkTasksBundle\Service;
+namespace SprykerSdk\Sdk\Extension\Service;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkTasksBundle\Exception\FileNotFoundException;
