@@ -89,13 +89,13 @@ class RunWorkflowCommand extends Command
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
         $initializeWorkflows = $this->projectWorkflow->findInitializeWorkflows();
-        if (!$initializeWorkflows) {
+        if (!$initializeWorkflows && !$workflowName) {
             $output->writeln('<error>You don\'t initialize any workflow.</error>');
 
             return static::FAILURE;
         }
 
-        if ($workflowName && !in_array($workflowName, $initializeWorkflows)) {
+        if ($workflowName && $initializeWorkflows && !in_array($workflowName, $initializeWorkflows)) {
             $output->writeln(sprintf('<error>You don\'t initialize `%s` workflow.</error>', $workflowName));
 
             return static::FAILURE;
