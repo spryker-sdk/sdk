@@ -31,7 +31,7 @@ framework:
           metadata:
             task: validation:php:static
     pbc:
-      type: workflow
+      type: state_machine
       marking_store:
         type: method
         property: status
@@ -112,23 +112,9 @@ framework:
           metadata:
             task: acp:asyncapi:generate
         ValidatePbc:
-          from: pbc-validate
+          from: [pbc-validate, pbc-validated, asyncapi-generate]
           to: pbc-validated
           metadata:
             task: acp:pbc:validate
             error: Now you need to fix manually and continue with the workflow afterwards.
-        ValidatePbcWithAsyncApi:
-          from: asyncapi-generate
-          to: pbc-validated
-          metadata:
-            task: acp:pbc:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
-            name: ValidatePbc
-        RevalidationPbc:
-          from: pbc-validated
-          to: pbc-validated
-          metadata:
-            task: acp:pbc:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
-            name: ValidatePbc
 
