@@ -3489,16 +3489,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.14.0",
+            "version": "v4.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1"
+                "reference": "210577fe3cf7badcc5814d99455df46564f3c077"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/34bea19b6e03d8153165d8f30bba4c3be86184c1",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/210577fe3cf7badcc5814d99455df46564f3c077",
+                "reference": "210577fe3cf7badcc5814d99455df46564f3c077",
                 "shasum": ""
             },
             "require": {
@@ -3539,9 +3539,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.14.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.2"
             },
-            "time": "2022-05-31T20:59:12+00:00"
+            "time": "2021-11-30T19:35:32+00:00"
         },
         {
             "name": "ondrejmirtes/better-reflection",
@@ -5570,12 +5570,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "9a17d926441f070d4b97bf9ed630720d6b83dc1e"
+                "reference": "a270285049361523f331207c58ccc80183eeb8e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/9a17d926441f070d4b97bf9ed630720d6b83dc1e",
-                "reference": "9a17d926441f070d4b97bf9ed630720d6b83dc1e",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a270285049361523f331207c58ccc80183eeb8e8",
+                "reference": "a270285049361523f331207c58ccc80183eeb8e8",
                 "shasum": ""
             },
             "require": {
@@ -5587,7 +5587,7 @@
                 "http-interop/http-factory-guzzle": "^1.0",
                 "knplabs/github-api": "^3.4",
                 "m4tthumphrey/php-gitlab-api": "^11.5",
-                "nikic/php-parser": "^4.13",
+                "nikic/php-parser": "4.13.2",
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-develop",
@@ -5627,7 +5627,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/pplus-1293-we-can-not-read-properly-methods-in-a-few-modules-on-the-client-side"
             },
-            "time": "2022-06-10T11:16:47+00:00"
+            "time": "2022-06-16T07:23:34+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
