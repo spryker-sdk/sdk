@@ -129,4 +129,4 @@ services:
       - "@project_setting_repository"
       - "@workflow.registry"
       - "@workflow_repository"
-      - "@workflow_event_repository"
+      - "@workflow_transition_repository"

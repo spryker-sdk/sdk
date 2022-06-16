@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
 use DateTime;
 use DateTimeInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowEventInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
-class WorkflowEvent implements WorkflowEventInterface
+class WorkflowTransition implements WorkflowTransitionInterface
 {
     /**
      * @var \SprykerSdk\SdkContracts\Entity\WorkflowInterface
@@ -32,7 +32,7 @@ class WorkflowEvent implements WorkflowEventInterface
     /**
      * @var string
      */
-    protected string $event;
+    protected string $state;
 
     /**
      * @var array
@@ -47,20 +47,20 @@ class WorkflowEvent implements WorkflowEventInterface
     /**
      * @param array $status
      * @param string|null $transition
-     * @param string $event
+     * @param string $state
      * @param array $data
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $workflow
      */
     public function __construct(
         array $status,
         ?string $transition,
-        string $event,
+        string $state,
         array $data = [],
         ?WorkflowInterface $workflow = null
     ) {
         $this->status = $status;
         $this->transition = $transition;
-        $this->event = $event;
+        $this->state = $state;
         $this->data = $data;
         $this->time = new DateTime();
 
@@ -96,9 +96,9 @@ class WorkflowEvent implements WorkflowEventInterface
     /**
      * @return string
      */
-    public function getEvent(): string
+    public function getState(): string
     {
-        return $this->event;
+        return $this->state;
     }
 
     /**

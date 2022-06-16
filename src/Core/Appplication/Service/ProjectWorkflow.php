@@ -8,14 +8,14 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowEventInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\Registry;
@@ -50,9 +50,9 @@ class ProjectWorkflow
     protected WorkflowRepositoryInterface $workflowRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface
      */
-    protected WorkflowEventRepositoryInterface $workflowEventRepository;
+    protected WorkflowTransitionRepositoryInterface $workflowTransitionRepository;
 
     /**
      * @var \Symfony\Component\Workflow\Workflow|null
@@ -68,18 +68,18 @@ class ProjectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Workflow\Registry $workflows
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface $workflowEventRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface $workflowTransitionRepository
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
         Registry $workflows,
         WorkflowRepositoryInterface $workflowRepository,
-        WorkflowEventRepositoryInterface $workflowEventRepository
+        WorkflowTransitionRepositoryInterface $workflowTransitionRepository
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
         $this->workflows = $workflows;
         $this->workflowRepository = $workflowRepository;
-        $this->workflowEventRepository = $workflowEventRepository;
+        $this->workflowTransitionRepository = $workflowTransitionRepository;
     }
 
     /**
@@ -93,7 +93,7 @@ class ProjectWorkflow
     /**
      * @return array
      */
-    protected function getProjectSettingWorkflows(): array
+    public function getProjectWorkflows(): array
     {
         return (array)$this->projectSettingRepository->getOneByPath(static::WORKFLOW)->getValues();
     }
@@ -134,7 +134,7 @@ class ProjectWorkflow
         $this->currentProjectWorkflow = $this->workflowRepository->getWorkflow($this->getProjectId(), $workflowName);
 
         if (!$this->currentProjectWorkflow) {
-            if (!$workflowName || $this->getProjectSettingWorkflows() || !in_array($workflowName, $this->getAll())) {
+            if (!$workflowName || $this->getProjectWorkflows() || !in_array($workflowName, $this->getAll())) {
                 return false;
             }
 
@@ -176,9 +176,10 @@ class ProjectWorkflow
             return [];
         }
 
-        return array_map(function (Transition $transition) {
-            return $transition->getName();
-        }, $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow));
+        return array_map(
+            fn (Transition $transition): string => $transition->getName(),
+            $this->currentWorkflow->getEnabledTransitions($this->currentProjectWorkflow),
+        );
     }
 
     /**
@@ -186,9 +187,10 @@ class ProjectWorkflow
      */
     public function findInitializeWorkflows(): array
     {
-        return array_map(function (WorkflowInterface $workflow) {
-            return $workflow->getWorkflow();
-        }, $this->workflowRepository->findWorkflows($this->getProjectId()));
+        return array_map(
+            fn (WorkflowInterface $workflow): string => $workflow->getWorkflow(),
+            $this->workflowRepository->findWorkflows($this->getProjectId()),
+        );
     }
 
     /**
@@ -230,9 +232,9 @@ class ProjectWorkflow
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
      *
-     * @return string|null
+     * @return ?\SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
      */
-    public function getStartedTransition(?WorkflowInterface $workflow = null): ?string
+    public function getRunningTransition(?WorkflowInterface $workflow = null): ?WorkflowTransitionInterface
     {
         $workflow = $workflow ?? $this->currentProjectWorkflow;
 
@@ -240,28 +242,14 @@ class ProjectWorkflow
             throw new ProjectWorkflowException('Workflow is not initialized');
         }
 
-        $transitionEvents = $this->workflowEventRepository->searchByWorkflow($workflow, null, [
-            WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_STARTED,
-            WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_FINISHED,
-        ]);
+        $lastTransition = $this->workflowTransitionRepository->getLast($workflow);
 
-        $transitionState = [];
-        foreach ($transitionEvents as $transitionEvent) {
-            if (!isset($transitionState[$transitionEvent->getTransition()])) {
-                $transitionState[$transitionEvent->getTransition()] = 0;
-            }
-
-            $transitionState[$transitionEvent->getTransition()] += match ($transitionEvent->getEvent()) {
-                WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_STARTED => 1,
-                WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_FINISHED => - 1,
-                default => 0,
-            };
+        if (!$lastTransition) {
+            return null;
         }
 
-        foreach ($transitionState as $transition => $state) {
-            if ($state > 0) {
-                return $transition;
-            }
+        if ($lastTransition->getState() !== WorkflowTransitionInterface::WORKFLOW_TRANSITION_FINISHED) {
+            return $lastTransition;
         }
 
         return null;

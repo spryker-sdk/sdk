@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use DateTimeInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowEvent as EntityWorkflowEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransition as EntityWorkflowTransition;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
-class WorkflowEvent extends EntityWorkflowEvent
+class WorkflowTransition extends EntityWorkflowTransition
 {
     /**
      * @var int
@@ -63,13 +63,13 @@ class WorkflowEvent extends EntityWorkflowEvent
     }
 
     /**
-     * @param string $event
+     * @param string $state
      *
      * @return $this
      */
-    public function setEvent(string $event)
+    public function setState(string $state)
     {
-        $this->event = $event;
+        $this->state = $state;
 
         return $this;
     }
@@ -94,6 +94,18 @@ class WorkflowEvent extends EntityWorkflowEvent
     public function setData(array $data)
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return $this
+     */
+    public function mergeData(array $data)
+    {
+        $this->data = array_merge($this->data, $data);
 
         return $this;
     }

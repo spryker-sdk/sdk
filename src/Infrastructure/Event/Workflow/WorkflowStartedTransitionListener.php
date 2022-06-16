@@ -34,14 +34,17 @@ class WorkflowStartedTransitionListener
     {
         /** @var \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow */
         $workflow = $event->getSubject();
-        $runningTransition = $this->projectWorkflow->getStartedTransition($workflow);
+        $runningTransition = $this->projectWorkflow->getRunningTransition($workflow);
 
         if (!$runningTransition) {
             return;
         }
 
-        if ($event->getTransition() && $event->getTransition()->getName() !== $runningTransition) {
-            $event->setBlocked(true, sprintf('Another transition (%s) is already running', $runningTransition));
+        if ($event->getTransition() && $event->getTransition()->getName() !== $runningTransition->getTransition()) {
+            $event->setBlocked(true, sprintf(
+                'Another transition (%s) is already running',
+                $runningTransition->getTransition(),
+            ));
         }
     }
 }

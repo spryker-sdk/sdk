@@ -25,7 +25,7 @@ framework:
           metadata:
             task: bye:world
     hello_php:
-      type: workflow
+      type: state_machine
       marking_store:
         type: method
         property: status

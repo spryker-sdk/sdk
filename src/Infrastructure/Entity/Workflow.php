@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow as EntityWorkflow;
-use SprykerSdk\SdkContracts\Entity\WorkflowEventInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
 class Workflow extends EntityWorkflow
@@ -26,9 +26,9 @@ class Workflow extends EntityWorkflow
     protected Collection $children;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\WorkflowEventInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface>
      */
-    protected Collection $events;
+    protected Collection $transitions;
 
     /**
      * @param string $project
@@ -45,7 +45,7 @@ class Workflow extends EntityWorkflow
         ?WorkflowInterface $parent = null
     ) {
         $this->children = new ArrayCollection();
-        $this->events = new ArrayCollection();
+        $this->transitions = new ArrayCollection();
 
         parent::__construct($project, $status, $workflow, $code, $parent);
     }
@@ -131,13 +131,13 @@ class Workflow extends EntityWorkflow
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowEventInterface $event
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $event
      *
      * @return $this
      */
-    public function addEvent(WorkflowEventInterface $event)
+    public function addTransition(WorkflowTransitionInterface $event)
     {
-        $this->events[] = $event;
+        $this->transitions[] = $event;
 
         return $this;
     }

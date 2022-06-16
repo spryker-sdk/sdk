@@ -4836,12 +4836,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "b79747677bc1b2e8fbc761f203b62faf78201fe1"
+                "reference": "ec226022e6b564cfeac7d3779d80510adfaa2c37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/b79747677bc1b2e8fbc761f203b62faf78201fe1",
-                "reference": "b79747677bc1b2e8fbc761f203b62faf78201fe1",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ec226022e6b564cfeac7d3779d80510adfaa2c37",
+                "reference": "ec226022e6b564cfeac7d3779d80510adfaa2c37",
                 "shasum": ""
             },
             "require": {
@@ -4866,7 +4866,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-514-nested-workflows"
             },
-            "time": "2022-06-15T14:38:09+00:00"
+            "time": "2022-06-16T11:34:17+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

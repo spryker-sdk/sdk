@@ -7,16 +7,18 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface;
+use DateTime;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
-use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowEvent as WorkflowEventEntity;
+use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition;
+use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition as WorkflowTransitionEntity;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowEventInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 use Symfony\Component\Workflow\Event\Event;
 use Symfony\Component\Workflow\Event\TransitionEvent;
@@ -67,29 +69,29 @@ class WorkflowTransitionListener
     protected WorkflowRepositoryInterface $workflowRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface
      */
-    protected WorkflowEventRepositoryInterface $workflowEventRepository;
+    protected WorkflowTransitionRepositoryInterface $workflowTransitionRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowEventRepositoryInterface $workflowEventRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface $workflowTransitionRepository
      */
     public function __construct(
         TaskExecutor $taskExecutor,
         WorkflowRunner $workflowRunner,
         ProjectWorkflow $projectWorkflow,
         WorkflowRepositoryInterface $workflowRepository,
-        WorkflowEventRepositoryInterface $workflowEventRepository
+        WorkflowTransitionRepositoryInterface $workflowTransitionRepository
     ) {
         $this->taskExecutor = $taskExecutor;
         $this->workflowRunner = $workflowRunner;
         $this->projectWorkflow = $projectWorkflow;
         $this->workflowRepository = $workflowRepository;
-        $this->workflowEventRepository = $workflowEventRepository;
+        $this->workflowTransitionRepository = $workflowTransitionRepository;
     }
 
     /**
@@ -99,43 +101,37 @@ class WorkflowTransitionListener
      */
     public function execute(TransitionEvent $event): void
     {
-        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Workflow $workflowEntity */
-        $workflowEntity = $event->getSubject();
-        $startedTransition = $this->projectWorkflow->getStartedTransition($workflowEntity);
-        if (!$startedTransition) {
-            $this->addWorkflowEvent($event, WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_STARTED);
-        }
+        $transitionEntity = $this->startTransition($event);
 
-        $this->tryRunWorkflow($event, static::META_KEY_WORKFLOW_BEFORE);
-        $this->tryRunTask($event);
-        $this->tryRunWorkflow($event, static::META_KEY_WORKFLOW_AFTER);
+        $this->tryRunWorkflow($event, $transitionEntity, static::META_KEY_WORKFLOW_BEFORE);
+        $this->tryRunTask($event, $transitionEntity);
+        $this->tryRunWorkflow($event, $transitionEntity, static::META_KEY_WORKFLOW_AFTER);
 
-        $this->addWorkflowEvent($event, WorkflowEventInterface::EVENT_WORKFLOW_TRANSITION_FINISHED);
+        $this->updateTransition($transitionEntity, WorkflowTransitionInterface::WORKFLOW_TRANSITION_FINISHED);
     }
 
     /**
      * @param \Symfony\Component\Workflow\Event\TransitionEvent $event
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transition
      *
      * @throws \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
      *
      * @return void
      */
-    protected function tryRunTask(TransitionEvent $event): void
+    protected function tryRunTask(TransitionEvent $event, WorkflowTransitionInterface $transition): void
     {
         $task = $this->getTransitionMeta($event, static::META_KEY_TASK);
         if (!$task) {
             return;
         }
 
-        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Workflow $workflowEntity */
-        $workflowEntity = $event->getSubject();
-        $taskExecutedEvent = $this->workflowEventRepository->searchByWorkflow(
-            $workflowEntity,
-            $event->getTransition() ? $event->getTransition()->getName() : null,
-            [WorkflowEventInterface::EVENT_WORKFLOW_TASK_SUCCEEDED],
-        );
-
-        if ($taskExecutedEvent) {
+        $shouldRunTask = in_array($transition->getState(), [
+            WorkflowTransitionInterface::WORKFLOW_TRANSITION_STARTED,
+            WorkflowTransitionInterface::NESTED_WORKFLOW_STARTED,
+            WorkflowTransitionInterface::NESTED_WORKFLOW_FINISHED,
+            WorkflowTransitionInterface::WORKFLOW_TASK_FAILED,
+        ]);
+        if (!$shouldRunTask) {
             return;
         }
 
@@ -143,7 +139,7 @@ class WorkflowTransitionListener
         $context = $this->taskExecutor->execute($task, $context);
 
         if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
-            $this->addWorkflowEvent($event, WorkflowEventInterface::EVENT_WORKFLOW_TASK_FAILED, ['task' => $task]);
+            $this->updateTransition($transition, WorkflowTransitionInterface::WORKFLOW_TASK_FAILED, ['task' => $task]);
             $error = $this->getTransitionMeta($event, static::META_KEY_ERROR);
             if ($error) {
                 throw $this->blockTransition($event, $error, MessageInterface::INFO);
@@ -156,19 +152,23 @@ class WorkflowTransitionListener
             );
         }
 
-        $this->addWorkflowEvent($event, WorkflowEventInterface::EVENT_WORKFLOW_TASK_SUCCEEDED, ['task' => $task]);
+        $this->updateTransition($transition, WorkflowTransitionInterface::WORKFLOW_TASK_SUCCEEDED, ['task' => $task]);
     }
 
     /**
      * @param \Symfony\Component\Workflow\Event\TransitionEvent $event
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transition
      * @param string $which
      *
      * @throws \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
      *
      * @return void
      */
-    protected function tryRunWorkflow(TransitionEvent $event, string $which = self::META_KEY_WORKFLOW_BEFORE): void
-    {
+    protected function tryRunWorkflow(
+        TransitionEvent $event,
+        WorkflowTransitionInterface $transition,
+        string $which = self::META_KEY_WORKFLOW_BEFORE
+    ): void {
         $transitionName = $event->getTransition() ? $event->getTransition()->getName() : '';
         $nestedWorkflowName = $this->getTransitionMeta($event, $which);
 
@@ -179,7 +179,7 @@ class WorkflowTransitionListener
         $context = $this->getContext($event);
 
         $nestedWorkflowCode = sprintf('%s.%s.%s', $transitionName, $which, $nestedWorkflowName);
-        $nestedWorkflowEntity = $this->getOrCreateNestedWorkflow($event, $which);
+        $nestedWorkflowEntity = $this->getOrCreateNestedWorkflow($event, $transition, $which);
 
         if ($this->projectWorkflow->isWorkflowFinished($nestedWorkflowEntity)) {
             return;
@@ -187,7 +187,8 @@ class WorkflowTransitionListener
 
         $this->workflowRunner->execute($nestedWorkflowCode, $context);
 
-        if (!$this->projectWorkflow->isWorkflowFinished($this->getOrCreateNestedWorkflow($event, $which))) {
+        $nestedWorkflowEntity = $this->getOrCreateNestedWorkflow($event, $transition, $which);
+        if (!$this->projectWorkflow->isWorkflowFinished($nestedWorkflowEntity)) {
             throw $this->blockTransition(
                 $event,
                 sprintf('Nested workflow `%s` has not been finished', $nestedWorkflowCode),
@@ -195,11 +196,72 @@ class WorkflowTransitionListener
             );
         }
 
-        $this->addWorkflowEvent(
-            $event,
-            WorkflowEventInterface::EVENT_NESTED_WORKFLOW_FINISHED,
-            ['code' => $nestedWorkflowCode],
-        );
+        $this->updateTransition($transition, WorkflowTransitionInterface::NESTED_WORKFLOW_FINISHED);
+    }
+
+    /**
+     * @param \Symfony\Component\Workflow\Event\TransitionEvent $event
+     *
+     * @throws \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     */
+    protected function startTransition(TransitionEvent $event): WorkflowTransitionInterface
+    {
+        /** @var \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow */
+        $workflow = $event->getSubject();
+        $currentTransition = $event->getTransition() ? $event->getTransition()->getName() : '';
+
+        $runningTransition = $this->projectWorkflow->getRunningTransition($workflow);
+
+        if ($runningTransition && $runningTransition->getTransition() !== $currentTransition) {
+            throw $this->blockTransition(
+                $event,
+                sprintf(
+                    'Can\'t start transition `%s`, another transition `%s` is already running',
+                    $currentTransition,
+                    $runningTransition->getTransition(),
+                ),
+                MessageInterface::ERROR,
+            );
+        }
+
+        if (!$runningTransition) {
+            $runningTransition = $this->workflowTransitionRepository->save(
+                new WorkflowTransitionEntity(
+                    $event->getWorkflow()->getMarking($event->getSubject())->getPlaces(),
+                    $currentTransition,
+                    WorkflowTransitionInterface::WORKFLOW_TRANSITION_STARTED,
+                    [],
+                    $workflow,
+                ),
+            );
+        }
+
+        return $runningTransition;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transitionEntity
+     * @param string $state
+     * @param array $data
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     */
+    protected function updateTransition(
+        WorkflowTransitionInterface $transitionEntity,
+        string $state,
+        array $data = []
+    ): WorkflowTransitionInterface {
+        if (!$transitionEntity instanceof WorkflowTransition) {
+            return $transitionEntity;
+        }
+
+        $transitionEntity->setState($state)
+            ->setTime(new DateTime())
+            ->mergeData($data);
+
+        return $this->workflowTransitionRepository->save($transitionEntity);
     }
 
     /**
@@ -265,12 +327,16 @@ class WorkflowTransitionListener
 
     /**
      * @param \Symfony\Component\Workflow\Event\Event $event
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transition
      * @param string $which
      *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface
      */
-    protected function getOrCreateNestedWorkflow(Event $event, string $which): WorkflowInterface
-    {
+    protected function getOrCreateNestedWorkflow(
+        Event $event,
+        WorkflowTransitionInterface $transition,
+        string $which
+    ): WorkflowInterface {
         /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Workflow $workflowEntity */
         $workflowEntity = $event->getSubject();
         $transitionName = $event->getTransition() ? $event->getTransition()->getName() : '';
@@ -297,35 +363,12 @@ class WorkflowTransitionListener
 
         $this->workflowRepository->save($nestedWorkflowEntity);
 
-        $this->addWorkflowEvent(
-            $event,
-            WorkflowEventInterface::EVENT_NESTED_WORKFLOW_STARTED,
-            ['code' => $nestedWorkflowCode],
+        $this->updateTransition(
+            $transition,
+            WorkflowTransitionInterface::NESTED_WORKFLOW_STARTED,
+            [sprintf('nested_%s_id', $which) => $nestedWorkflowEntity->getId()],
         );
 
         return $nestedWorkflowEntity;
-    }
-
-    /**
-     * @param \Symfony\Component\Workflow\Event\Event $event
-     * @param string $eventName
-     * @param array $data
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowEventInterface
-     */
-    protected function addWorkflowEvent(Event $event, string $eventName, array $data = []): WorkflowEventInterface
-    {
-        /** @var \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow */
-        $workflow = $event->getSubject();
-
-        return $this->workflowEventRepository->save(
-            new WorkflowEventEntity(
-                $event->getMarking()->getPlaces(),
-                $event->getTransition() ? $event->getTransition()->getName() : '',
-                $eventName,
-                $data,
-                $workflow,
-            ),
-        );
     }
 }

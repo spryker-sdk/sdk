@@ -189,8 +189,8 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
     arguments:
       - "@doctrine"
-  workflow_event_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowEventRepository
+  workflow_transition_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
     arguments:
       - "@doctrine"
   violation_report_mapper:
@@ -242,7 +242,7 @@ services:
       - "@workflow_runner"
       - "@project_workflow"
       - "@workflow_repository"
-      - "@workflow_event_repository"
+      - "@workflow_transition_repository"
     tags:
       - { name: kernel.event_listener, event: workflow.transition, method: execute }
 

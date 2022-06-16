@@ -20,9 +20,10 @@ final class Version20220614195816 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE sdk_workflow_event (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, workflow_id INTEGER DEFAULT NULL, status VARCHAR(255) NOT NULL, transition VARCHAR(255) DEFAULT NULL, event VARCHAR(255) NOT NULL, data CLOB NOT NULL --(DC2Type:json)
+        $this->addSql('CREATE TABLE sdk_workflow_transition (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, workflow_id INTEGER DEFAULT NULL, status CLOB NOT NULL --(DC2Type:json)
+        , transition VARCHAR(255) DEFAULT NULL, state VARCHAR(255) NOT NULL, data CLOB NOT NULL --(DC2Type:json)
         , time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL)');
-        $this->addSql('CREATE INDEX IDX_A6C872672C7C2CBA ON sdk_workflow_event (workflow_id)');
+        $this->addSql('CREATE INDEX IDX_A6C872672C7C2CBA ON sdk_workflow_transition (workflow_id)');
         $this->addSql('DROP INDEX UNIQ_4C07468E2FB3D0EE');
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_workflow AS SELECT id, project, status, workflow FROM sdk_workflow');
         $this->addSql('DROP TABLE sdk_workflow');
@@ -37,7 +38,7 @@ final class Version20220614195816 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE sdk_workflow_event');
+        $this->addSql('DROP TABLE sdk_workflow_transition');
         $this->addSql('DROP INDEX IDX_4C07468E727ACA70');
         $this->addSql('DROP INDEX event_user');
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_workflow AS SELECT id, project, workflow, status FROM sdk_workflow');

@@ -1,7 +1,7 @@
-SprykerSdk\Sdk\Infrastructure\Entity\WorkflowEvent:
+SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition:
     type: entity
-    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\WorkflowEventRepository
-    table: sdk_workflow_event
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
+    table: sdk_workflow_transition
     id:
         id:
             type: integer
@@ -16,7 +16,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\WorkflowEvent:
             type: string
             nullable: true
             unique: false
-        event:
+        state:
             type: string
             nullable: false
             unique: false
@@ -33,4 +33,4 @@ SprykerSdk\Sdk\Infrastructure\Entity\WorkflowEvent:
     manyToOne:
         workflow:
             targetEntity: Workflow
-            inversedBy: events
+            inversedBy: transitions

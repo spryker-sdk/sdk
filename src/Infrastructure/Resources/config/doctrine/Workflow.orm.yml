@@ -28,8 +28,8 @@ SprykerSdk\Sdk\Infrastructure\Entity\Workflow:
         children:
             targetEntity: Workflow
             mappedBy: parent
-        events:
-            targetEntity: WorkflowEvent
+        transitions:
+            targetEntity: WorkflowTransition
             mappedBy: workflow
     manyToOne:
         parent:
