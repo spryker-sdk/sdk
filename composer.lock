@@ -5553,12 +5553,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "474aa19f3e5f2974727b8fc21320a5015b0b71a3"
+                "reference": "fd01be694b1ead1d07efb8dd5af81e1f6360ae57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/474aa19f3e5f2974727b8fc21320a5015b0b71a3",
-                "reference": "474aa19f3e5f2974727b8fc21320a5015b0b71a3",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/fd01be694b1ead1d07efb8dd5af81e1f6360ae57",
+                "reference": "fd01be694b1ead1d07efb8dd5af81e1f6360ae57",
                 "shasum": ""
             },
             "require": {
@@ -5610,7 +5610,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/featute/evaluator-optimization"
             },
-            "time": "2022-06-16T11:16:49+00:00"
+            "time": "2022-06-16T11:21:59+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
