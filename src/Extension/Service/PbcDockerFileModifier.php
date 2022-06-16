@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class PbcDockerFileModifier extends AbstractPbcFileModifier
 {
-    private Yaml $yaml;
+    protected Yaml $yaml;
 
     /**
      * @param \Symfony\Component\Yaml\Yaml $yaml

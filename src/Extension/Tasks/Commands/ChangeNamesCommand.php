@@ -27,9 +27,15 @@ class ChangeNamesCommand implements ExecutableCommandInterface
      */
     protected const DOCKER_INITIALIZATION_ERROR = 'Can not change name in deploy.dev.yml in generated PBC';
 
-    private PbcFileModifierInterface $composerFileModifier;
+    /**
+     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     */
+    protected PbcFileModifierInterface $composerFileModifier;
 
-    private PbcFileModifierInterface $dockerFileModifier;
+    /**
+     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     */
+    protected PbcFileModifierInterface $dockerFileModifier;
 
     /**
      * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier

@@ -8,31 +8,22 @@
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
-use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
+use SprykerSdk\Sdk\Extension\ValueResolvers\PCSystemValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
+use Symfony\Component\Process\Process;
 
-class AddAcpSdkCommand implements ExecutableCommandInterface
+class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInterface
 {
     /**
-     * @var string
+     * @return string
      */
-    protected const AOP_SDK_REPOSITORY = 'spryker-sdk/aop-sdk';
-
-    /**
-     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
-     */
-    protected PbcFileModifierInterface $composerFileModifier;
-
-    /**
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
-     */
-    public function __construct(PbcFileModifierInterface $composerFileModifier)
+    public function getCommand(): string
     {
-        $this->composerFileModifier = $composerFileModifier;
+        return static::class;
     }
 
     /**
@@ -42,10 +33,17 @@ class AddAcpSdkCommand implements ExecutableCommandInterface
      */
     public function execute(ContextInterface $context): ContextInterface
     {
-        try {
-            $this->addAcpSdk($context);
-        } catch (FileNotFoundException $exception) {
-            $context->addMessage(static::class, new Message($exception->getMessage(), MessageInterface::ERROR));
+        $resolvedValues = $context->getResolvedValues();
+        $system = $resolvedValues['%' . PCSystemValueResolver::ALIAS . '%'] ?? null;
+
+        if (in_array($system, [PCSystemValueResolver::MAC, PCSystemValueResolver::MAC_ARM])) {
+            $process = Process::fromShellCommandline('mutagen version');
+            $process->run();
+            if ($process->getErrorOutput()) {
+                $context->addMessage(static::class, new Message($process->getErrorOutput(), MessageInterface::DEBUG));
+            }
+
+            $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
         }
 
         return $context;
@@ -54,9 +52,9 @@ class AddAcpSdkCommand implements ExecutableCommandInterface
     /**
      * @return string
      */
-    public function getCommand(): string
+    public function getErrorMessage(): string
     {
-        return '';
+        return 'For using this task you should have Mutagen. You can find more details on https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/docker-installation-prerequisites/installing-docker-prerequisites-on-macos.html';
     }
 
     /**
@@ -89,18 +87,6 @@ class AddAcpSdkCommand implements ExecutableCommandInterface
     public function getViolationConverter(): ?ConverterInterface
     {
         return null;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return void
-     */
-    protected function addAcpSdk(ContextInterface $context): void
-    {
-        $composerContent = $this->composerFileModifier->read($context, sprintf('Can not add %s to composer.json in generated PBC', static::AOP_SDK_REPOSITORY));
-        $composerContent['require-dev'][static::AOP_SDK_REPOSITORY] = '*';
-        $this->composerFileModifier->write($composerContent, $context);
     }
 
     /**

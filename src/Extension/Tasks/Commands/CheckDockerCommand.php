@@ -10,15 +10,24 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 
-class AddDockerSdkCommand implements CommandInterface
+class CheckDockerCommand implements CommandInterface, ErrorCommandInterface
 {
     /**
      * @return string
      */
     public function getCommand(): string
     {
-        return 'git clone https://github.com/spryker/docker-sdk.git --single-branch ./docker';
+        return 'docker -v';
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage(): string
+    {
+        return 'For using this task you should have a docker. You can find more details on https://docs.spryker.com/docs/scos/dev/setup/installing-spryker-with-docker/installing-spryker-with-docker.html#prerequisites';
     }
 
     /**
@@ -30,19 +39,19 @@ class AddDockerSdkCommand implements CommandInterface
     }
 
     /**
-     * @return array<string>
-     */
-    public function getTags(): array
-    {
-        return [];
-    }
-
-    /**
      * @return bool
      */
     public function hasStopOnError(): bool
     {
         return true;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getTags(): array
+    {
+        return [];
     }
 
     /**
