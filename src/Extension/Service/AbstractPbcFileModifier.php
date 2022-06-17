@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Service;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkTasksBundle\Exception\FileNotFoundException;
+use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
 
 abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
 {
@@ -47,7 +47,7 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param string|null $errorMessage
      *
-     * @throws \SprykerSdk\SdkTasksBundle\Exception\FileNotFoundException
+     * @throws \SprykerSdk\Sdk\Extension\Exception\FileNotFoundException
      *
      * @return array
      */
@@ -73,7 +73,7 @@ abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param string|null $errorMessage
      *
-     * @throws \SprykerSdk\SdkTasksBundle\Exception\FileNotFoundException
+     * @throws \SprykerSdk\Sdk\Extension\Exception\FileNotFoundException
      *
      * @return void
      */

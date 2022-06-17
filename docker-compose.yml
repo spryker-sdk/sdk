@@ -17,5 +17,6 @@ services:
       - ./db:/data/db:rw
       - ./extension:/data/extension:rw
       - ./VERSION:/data/VERSION:rw
+      - ~/.ssh:/home/spryker/.ssh:ro
 volumes:
   project:

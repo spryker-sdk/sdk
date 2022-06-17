@@ -27,18 +27,12 @@ FROM application-production-dependencies AS application-production-codebase
 ARG ssh_prv_key
 ARG ssh_pub_key
 
-# Authorize SSH Host
-RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh && \
-    ssh-keyscan github.com > /root/.ssh/known_hosts
-
-# Add the keys and set permissions
-RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
-    echo "$ssh_pub_key" > /root/.ssh/id_rsa.pub && \
-    chmod 600 /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa.pub
-
 RUN chown spryker:spryker ${srcRoot}
+
+# Authorize SSH Host
+RUN mkdir -p /home/spryker/.ssh && \
+    chmod 0700 /home/spryker/.ssh && \
+    ssh-keyscan github.com > /home/spryker/.ssh/known_hosts
 
 COPY --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
 COPY --chown=spryker:spryker src ${srcRoot}/src

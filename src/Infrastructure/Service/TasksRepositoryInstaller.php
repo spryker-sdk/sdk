@@ -99,7 +99,7 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
         $process->run();
 
         if ($process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
-            throw new RepositoryInstallationFailedException($process->getErrorOutput());
+            throw new RepositoryInstallationFailedException($process->getErrorOutput(), (int)$process->getExitCode());
         }
     }
 }

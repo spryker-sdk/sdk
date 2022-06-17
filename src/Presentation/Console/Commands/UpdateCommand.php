@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterfac
 use SprykerSdk\Sdk\Core\Domain\Events\Event;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
+use Symfony\Bundle\FrameworkBundle\Command\CacheWarmupCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -164,11 +164,11 @@ class UpdateCommand extends Command
             return;
         }
 
-        /** @var string $cacheClearName */
-        $cacheClearName = CacheClearCommand::getDefaultName();
+        /** @var string $cacheWarmupName */
+        $cacheWarmupName = CacheWarmupCommand::getDefaultName();
 
         $this->getApplication()
-            ->get($cacheClearName)
+            ->get($cacheWarmupName)
             ->run(new ArrayInput([]), new NullOutput());
     }
 
