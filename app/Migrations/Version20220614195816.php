@@ -21,7 +21,7 @@ final class Version20220614195816 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE sdk_workflow_transition (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, workflow_id INTEGER DEFAULT NULL, status CLOB NOT NULL --(DC2Type:json)
-        , transition VARCHAR(255) DEFAULT NULL, state VARCHAR(255) NOT NULL, data CLOB NOT NULL --(DC2Type:json)
+        , transition VARCHAR(255) NOT NULL, state VARCHAR(255) NOT NULL, data CLOB NOT NULL --(DC2Type:json)
         , time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL)');
         $this->addSql('CREATE INDEX IDX_A6C872672C7C2CBA ON sdk_workflow_transition (workflow_id)');
         $this->addSql('DROP INDEX UNIQ_4C07468E2FB3D0EE');
