@@ -1,5 +1,8 @@
 ### Workflow SDK tool
 
+One or more workflows can be initialized for a project and run via `sdk:workflow:run` command. Workflows are defined in workflow.yaml files either in `config/packages` or in the configuration of extension bundles. Project is limited to the workflows specified during initialization. If none was specified, any workflow can be started by providing it's name to the `sdk:workflow:run` command. Two identical top-level workflows can't run inside the same project.
+
+#### Relevant commands:
 ```bash
   #  Generate svg image for concrete workflow
   spryker-sdk workflow:dump {workflowName}  | dot -Tsvg -o graph.svg
@@ -7,4 +10,61 @@
   spryker-sdk init:sdk:project --workflow={workflowName}
   # Run workflow process.
   spryker-sdk sdk:workflow:run
+```
+
+#### Behavior of the workflow can be configured by providing specific keys to the metadata of the workflow:
+- `run: single`: `sdk:workflow:run` will only run single transition and exit. If omitting this setting, task will run available transitions one by one asking which one to run if multiple possible variants exist
+- `before: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface` and will be called before transition occurs
+- `after: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface` and will be called after transition occurs
+- `guard: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowGuardEventHandlerInterface` and will be called to determine if transition is available
+- `task: task_name`: task `task_name` will be executed inside the transition and transition may stop depending on it's result
+- `workflowBefore: workflow_name`: workflow `workflow_name` will run inside the transition and should end before proceeding to the task execution
+- `workflowAfter: workflow_name`: workflow `workflow_name` will run inside the transition after task is executed and should end before finishing the transition
+
+#### Example workflow definition in `workflow.yaml`:
+```yaml
+framework:
+  workflows:
+    hello_world:
+      type: workflow # (state_machine) see the docs at https://symfony.com/doc/current/workflow/workflow-and-state-machine.html
+      marking_store:
+        type: method
+        property: status
+      metadata:
+        guard: guard_service_name # checks transition availability for all transitions
+        before: handler_service_name # runs before every transition
+        run: single # sdk:workflow:run will only run single transition and exit
+        after: handler_service_name # runs after every transition
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: start
+      places:
+        - start
+        - done
+      transitions:
+        go:
+          from: start
+          to: done
+          metadata: # in order of execution
+            guard: guard_service_name # checks this transition availability
+            before: handler_service_name # runs before this transition
+            workflowBefore: hello_php # workflow starts and should end before proceeding to the task
+            task: hello:world # task is executed inside the transition
+            workflowAfter: hello_php # workflow starts and should end before finishing the transition
+            after: handler_service_name # runs after this transition
+    hello_php: # Minimal workflow definition
+      type: state_machine
+      marking_store:
+        type: method
+        property: status
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: start
+      places:
+        - start
+        - done
+      transitions:
+        go:
+          from: start
+          to: done
 ```
