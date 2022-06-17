@@ -242,7 +242,7 @@ class ProjectWorkflow
             throw new ProjectWorkflowException('Workflow is not initialized');
         }
 
-        $lastTransition = $this->workflowTransitionRepository->getLast($workflow);
+        $lastTransition = $this->workflowTransitionRepository->findLast($workflow);
 
         if (!$lastTransition) {
             return null;

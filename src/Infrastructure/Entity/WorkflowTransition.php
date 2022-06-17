@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use DateTimeInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransition as EntityWorkflowTransition;
-use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
 class WorkflowTransition extends EntityWorkflowTransition
 {
@@ -24,42 +23,6 @@ class WorkflowTransition extends EntityWorkflowTransition
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
-     *
-     * @return $this
-     */
-    public function setWorkflow(WorkflowInterface $workflow)
-    {
-        $this->workflow = $workflow;
-
-        return $this;
-    }
-
-    /**
-     * @param array $status
-     *
-     * @return $this
-     */
-    public function setStatus(array $status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @param string|null $transition
-     *
-     * @return $this
-     */
-    public function setTransition(?string $transition)
-    {
-        $this->transition = $transition;
-
-        return $this;
     }
 
     /**
@@ -82,18 +45,6 @@ class WorkflowTransition extends EntityWorkflowTransition
     public function setTime(DateTimeInterface $time)
     {
         $this->time = $time;
-
-        return $this;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return $this
-     */
-    public function setData(array $data)
-    {
-        $this->data = $data;
 
         return $this;
     }

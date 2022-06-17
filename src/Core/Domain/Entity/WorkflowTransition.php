@@ -25,9 +25,9 @@ class WorkflowTransition implements WorkflowTransitionInterface
     protected array $status = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected ?string $transition;
+    protected string $transition;
 
     /**
      * @var string
@@ -47,14 +47,14 @@ class WorkflowTransition implements WorkflowTransitionInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
      * @param array $status
-     * @param string|null $transition
+     * @param string $transition
      * @param string $state
      * @param array $data
      */
     public function __construct(
         WorkflowInterface $workflow,
         array $status,
-        ?string $transition,
+        string $transition,
         string $state,
         array $data = []
     ) {
@@ -83,9 +83,9 @@ class WorkflowTransition implements WorkflowTransitionInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getTransition(): ?string
+    public function getTransition(): string
     {
         return $this->transition;
     }

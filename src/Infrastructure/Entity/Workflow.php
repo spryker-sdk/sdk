@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow as EntityWorkflow;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 
 class Workflow extends EntityWorkflow
 {
@@ -102,42 +101,6 @@ class Workflow extends EntityWorkflow
     public function setWorkflow(string $workflow)
     {
         $this->workflow = $workflow;
-
-        return $this;
-    }
-
-    /**
-     * @param string $code
-     *
-     * @return $this
-     */
-    public function setCode(string $code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $parent
-     *
-     * @return $this
-     */
-    public function setParent(?WorkflowInterface $parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $event
-     *
-     * @return $this
-     */
-    public function addTransition(WorkflowTransitionInterface $event)
-    {
-        $this->transitions[] = $event;
 
         return $this;
     }

@@ -35,11 +35,11 @@ class WorkflowTransitionRepository extends ServiceEntityRepository implements Wo
      */
     public function getAll(WorkflowInterface $workflow): array
     {
-        $filter = [
-            'workflow' => $workflow instanceof Workflow ? $workflow->getId() : 0,
-        ];
+        if (!$workflow instanceof Workflow) {
+            return [];
+        }
 
-        return $this->findBy($filter, ['time' => 'desc', 'id' => 'desc']);
+        return $this->findBy(['workflow' => $workflow], ['time' => 'desc', 'id' => 'desc']);
     }
 
     /**
@@ -47,13 +47,13 @@ class WorkflowTransitionRepository extends ServiceEntityRepository implements Wo
      *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
      */
-    public function getLast(WorkflowInterface $workflow): ?WorkflowTransitionInterface
+    public function findLast(WorkflowInterface $workflow): ?WorkflowTransitionInterface
     {
-        $filter = [
-            'workflow' => $workflow instanceof Workflow ? $workflow->getId() : 0,
-        ];
+        if (!$workflow instanceof Workflow) {
+            return null;
+        }
 
-        return $this->findOneBy($filter, ['time' => 'desc', 'id' => 'desc']);
+        return $this->findOneBy(['workflow' => $workflow], ['time' => 'desc', 'id' => 'desc']);
     }
 
     /**
