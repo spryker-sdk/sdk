@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
@@ -48,23 +48,23 @@ class RunWorkflowCommand extends Command
     protected $cliValueReceiver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
      */
-    protected $taskExecutor;
+    protected $workflowRunner;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         CliValueReceiver $cliValueReceiver,
-        TaskExecutor $taskExecutor
+        WorkflowRunner $workflowRunner
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
-        $this->taskExecutor = $taskExecutor;
+        $this->workflowRunner = $workflowRunner;
         parent::__construct(static::NAME);
     }
 
@@ -89,61 +89,27 @@ class RunWorkflowCommand extends Command
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
         $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
-        if (!$initializedWorkflows) {
-            $output->writeln('<error>You haven\'t initialized any workflow.</error>');
 
-            return static::FAILURE;
-        }
-
-        if ($workflowName && !in_array($workflowName, $initializedWorkflows)) {
+        if ($workflowName && $initializedWorkflows && !in_array($workflowName, $initializedWorkflows)) {
             $output->writeln(sprintf('<error>The `%s` workflow hasn\'t been initialized.</error>', $workflowName));
 
             return static::FAILURE;
         }
 
         if (!$workflowName) {
-            $workflowName = count($initializedWorkflows) > 1 ? $this->cliValueReceiver->receiveValue(
+            $workflows = $initializedWorkflows && $this->projectWorkflow->getProjectWorkflows() ? $initializedWorkflows : $this->projectWorkflow->getAll();
+            $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'You have more than one initialized workflow. You have to select one.',
-                    current(array_keys($initializedWorkflows)),
+                    current(array_keys($workflows)),
                     'string',
-                    $initializedWorkflows,
+                    $workflows,
                 ),
-            ) : current($initializedWorkflows);
+            ) : current($workflows);
         }
 
-        $context = new Context();
-        $this->projectWorkflow->initializeWorkflow($workflowName);
+        $context = $this->workflowRunner->execute($workflowName, new Context());
 
-        $metadata = $this->projectWorkflow->getWorkflowMetadata();
-        $while = !(isset($metadata['run']) && $metadata['run'] === 'single');
-
-        $previousEnabledTransition = null;
-        do {
-            $nextEnabledTransition = $this->getNextTransition();
-            if (!$nextEnabledTransition) {
-                $output->writeln(sprintf('<error> The workflow `%s` has been finished.</error>.</error>', $workflowName));
-
-                return static::FAILURE;
-            }
-
-            if ($previousEnabledTransition === $nextEnabledTransition) {
-                break;
-            }
-            $previousEnabledTransition = $nextEnabledTransition;
-
-            $this->projectWorkflow->applyTransition($nextEnabledTransition, $context);
-            $output->writeln(sprintf('<info>Running task `%s` ...</info>', $nextEnabledTransition));
-
-            if ($context->getExitCode() === 1) {
-                $this->writeFilteredMessages($output, $context);
-                $output->writeln(sprintf('<error>The `%s` task failed, see details above.</error>', $nextEnabledTransition));
-
-                return static::FAILURE;
-            }
-
-            $output->writeln(sprintf('<info>The `%s` task finished successfully.</info>', $nextEnabledTransition));
-        } while ($while);
         $this->writeFilteredMessages($output, $context);
 
         return static::SUCCESS;
@@ -178,27 +144,5 @@ class RunWorkflowCommand extends Command
             MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>',
             default => $message->getMessage(),
         };
-    }
-
-    /**
-     * @return string|null
-     */
-    protected function getNextTransition(): ?string
-    {
-        $nextEnabledTransition = $this->projectWorkflow->getNextEnabledTransition();
-
-        if (count($nextEnabledTransition) > 1) {
-            return $this->cliValueReceiver->receiveValue(
-                new ReceiverValue(
-                    'Select the next step in workflow.',
-                    current($nextEnabledTransition),
-                    'string',
-                    $nextEnabledTransition,
-                ),
-            );
-        }
-        $nextEnabledTransition = current($nextEnabledTransition);
-
-        return $nextEnabledTransition ?: null;
     }
 }

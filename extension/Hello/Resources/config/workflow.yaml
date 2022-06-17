@@ -1,2 +1,49 @@
 framework:
-  workflows: null
+  workflows:
+    hello_world:
+      type: workflow
+      marking_store:
+        type: method
+        property: status
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: start
+      places:
+        - start
+        - middle
+        - done
+      transitions:
+        hello:
+          from: start
+          to: middle
+          metadata:
+            task: hello:world
+            workflowBefore: hello_php
+        bye:
+          from: middle
+          to: done
+          metadata:
+            task: bye:world
+    hello_php:
+      type: state_machine
+      marking_store:
+        type: method
+        property: status
+      metadata:
+        run: single
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: start
+      places:
+        - start
+        - middle
+        - done
+      transitions:
+        hello:
+          from: start
+          to: middle
+          metadata:
+            task: hello:php
+        bye:
+          from: middle
+          to: done
