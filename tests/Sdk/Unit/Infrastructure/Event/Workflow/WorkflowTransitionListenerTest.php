@@ -173,7 +173,12 @@ class WorkflowTransitionListenerTest extends Unit
         $projectWorkflowMock->expects($this->once())
             ->method('getRunningTransition')
             ->with($workflowEntity)
-            ->willReturn(new WorkflowTransition([], 'not_test', WorkflowTransitionInterface::WORKFLOW_TRANSITION_STARTED));
+            ->willReturn(new WorkflowTransition(
+                $workflowEntity,
+                [],
+                'not_test',
+                WorkflowTransitionInterface::WORKFLOW_TRANSITION_STARTED,
+            ));
 
         $eventListener = new WorkflowTransitionListener(
             $taskExecutorMock,

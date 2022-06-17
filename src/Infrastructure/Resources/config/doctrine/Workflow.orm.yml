@@ -27,9 +27,13 @@ SprykerSdk\Sdk\Infrastructure\Entity\Workflow:
     oneToMany:
         children:
             targetEntity: Workflow
+            cascade: [ "persist", "remove" ]
+            orphanRemoval: true
             mappedBy: parent
         transitions:
             targetEntity: WorkflowTransition
+            cascade: [ "persist", "remove" ]
+            orphanRemoval: true
             mappedBy: workflow
     manyToOne:
         parent:

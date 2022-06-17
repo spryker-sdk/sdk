@@ -45,28 +45,25 @@ class WorkflowTransition implements WorkflowTransitionInterface
     protected DateTimeInterface $time;
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
      * @param array $status
      * @param string|null $transition
      * @param string $state
      * @param array $data
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $workflow
      */
     public function __construct(
+        WorkflowInterface $workflow,
         array $status,
         ?string $transition,
         string $state,
-        array $data = [],
-        ?WorkflowInterface $workflow = null
+        array $data = []
     ) {
+        $this->workflow = $workflow;
         $this->status = $status;
         $this->transition = $transition;
         $this->state = $state;
         $this->data = $data;
         $this->time = new DateTime();
-
-        if ($workflow) {
-            $this->workflow = $workflow;
-        }
     }
 
     /**

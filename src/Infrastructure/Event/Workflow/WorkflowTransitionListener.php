@@ -229,11 +229,10 @@ class WorkflowTransitionListener
         if (!$runningTransition) {
             $runningTransition = $this->workflowTransitionRepository->save(
                 new WorkflowTransitionEntity(
+                    $workflow,
                     $workflow->getStatus(),
                     $currentTransition,
                     WorkflowTransitionInterface::WORKFLOW_TRANSITION_STARTED,
-                    [],
-                    $workflow,
                 ),
             );
         }

@@ -14,7 +14,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition:
             unique: false
         transition:
             type: string
-            nullable: true
+            nullable: false
             unique: false
         state:
             type: string
