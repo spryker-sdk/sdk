@@ -27,15 +27,34 @@ class Workflow implements WorkflowInterface
     protected string $workflow;
 
     /**
+     * @var string
+     */
+    protected string $code;
+
+    /**
+     * @var \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
+     */
+    protected ?WorkflowInterface $parent;
+
+    /**
      * @param string $project
      * @param array $status
      * @param string $workflow
+     * @param string|null $code
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $parent
      */
-    public function __construct(string $project, array $status, string $workflow)
-    {
+    public function __construct(
+        string $project,
+        array $status,
+        string $workflow,
+        ?string $code = null,
+        ?WorkflowInterface $parent = null
+    ) {
         $this->project = $project;
         $this->status = $status;
         $this->workflow = $workflow;
+        $this->code = $code ?? $workflow;
+        $this->parent = $parent;
     }
 
     /**
@@ -60,5 +79,21 @@ class Workflow implements WorkflowInterface
     public function getWorkflow(): string
     {
         return $this->workflow;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
+     */
+    public function getParent(): ?WorkflowInterface
+    {
+        return $this->parent;
     }
 }

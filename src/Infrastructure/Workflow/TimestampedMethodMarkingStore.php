@@ -61,8 +61,8 @@ final class TimestampedMethodMarkingStore implements MarkingStoreInterface
             return new TimestampedMarking();
         }
 
-        if ($this->singleState) {
-            $marking = [(string)$marking => time()];
+        if (is_string($marking)) {
+            $marking = [$marking => time()];
         }
 
         return new TimestampedMarking($marking);
@@ -82,7 +82,7 @@ final class TimestampedMethodMarkingStore implements MarkingStoreInterface
         $markingData = $marking->getPlaces();
 
         if ($this->singleState) {
-            $markingData = [key($marking) => current($marking)];
+            $markingData = array_slice($markingData, 0, 1, true);
         }
 
         $method = 'set' . ucfirst($this->property);

@@ -114,7 +114,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         $setting = $this->findOneByPath($settingPath);
 
         if (!$setting) {
-            throw new MissingSettingException(sprintf('Setting by path "%s" not found', $settingPath));
+            throw new MissingSettingException(sprintf('Setting by path "%s" not found. You need to run `sdk:init:project` commane', $settingPath));
         }
 
         return $setting;
