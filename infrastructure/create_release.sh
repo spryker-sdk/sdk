@@ -17,12 +17,13 @@ cp "${CURRENT_DIR}/docker-compose.yml" "${BUILD_DIR}/docker-compose.yml"
 
 mkdir -p "${BUILD_DIR}/db"
 cp -R "${CURRENT_DIR}/extension" "${BUILD_DIR}/"
+cp "${CURRENT_DIR}/.env.prod" "${BUILD_DIR}/.env.prod"
 cp "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.Dockerfile"
 cp "${CURRENT_DIR}/infrastructure/sdk.local.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.local.Dockerfile"
 cp "${CURRENT_DIR}/infrastructure/sdk.debug.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.debug.Dockerfile"
 cp "${CURRENT_DIR}/infrastructure/debug/php/69-xdebug.ini" "${BUILD_DIR}/infrastructure/debug/php/69-xdebug.ini"
 cd "${BUILD_DIR}"
-tar cJf spryker-sdk.tar.gz bin/ extension/ db/ infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile \
+tar cJf spryker-sdk.tar.gz .env.prod bin/ extension/ db/ infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile \
     infrastructure/sdk.debug.Dockerfile infrastructure/debug/php/69-xdebug.ini VERSION docker-compose.yml \
     docker-compose.debug.yml docker-compose.dev.yml
 cd "${CURRENT_DIR}"

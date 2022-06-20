@@ -1,3 +1,6 @@
+parameters:
+  uname_info: '%env(UNAME_INFO)%'
+
 services:
   pbc_modify_docker_file:
     class: SprykerSdk\Sdk\Extension\Service\PbcDockerFileModifier
@@ -78,12 +81,19 @@ services:
     arguments:
       - '@value_receiver'
       - '%kernel.project_dir%'
+  pc_system_value_resolver:
+    class: SprykerSdk\Sdk\Extension\ValueResolvers\PCSystemValueResolver
+    tags: [ "sdk.value_resolver" ]
+    arguments:
+      - '@value_receiver'
+      - '%uname_info%'
+
   pbc_php_version_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'
-      - "@value_receiver"
+
   remove_report_dir:
     class: SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask
     tags: ["sdk.task"]

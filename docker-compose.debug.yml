@@ -15,6 +15,8 @@ services:
     environment:
       SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
       PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+    env_file:
+        - .env.prod
 
 volumes:
     spryker_sdk_dev_data_sync:

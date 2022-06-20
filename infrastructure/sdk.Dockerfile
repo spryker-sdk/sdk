@@ -24,9 +24,6 @@ RUN --mount=type=cache,id=npm,sharing=locked,target=/home/spryker/.npm,uid=1000 
 
 FROM application-production-dependencies AS application-production-codebase
 
-ARG ssh_prv_key
-ARG ssh_pub_key
-
 RUN chown spryker:spryker ${srcRoot}
 
 # Authorize SSH Host
@@ -43,12 +40,13 @@ COPY --chown=spryker:spryker config ${srcRoot}/config
 COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
+COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
 
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
 
-RUN bin/console cache:warmup && \
+RUN --mount=type=ssh bin/console cache:warmup && \
     bin/console sdk:init:sdk && \
     bin/console sdk:update:all
 
