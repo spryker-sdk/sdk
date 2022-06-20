@@ -7,34 +7,42 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorInterface;
 
-class ReportGeneratorFactory implements ReportGeneratorFactoryInterface
+class ReportGeneratorFactory
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
+     * @var iterable<\SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface>
      */
-    private ViolationReportGenerator $violationReportGenerator;
+    protected iterable $reportGeneratorResolvers;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
+     * @param iterable<\SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface> $reportGeneratorResolvers
      */
-    public function __construct(ViolationReportGenerator $violationReportGenerator)
+    public function __construct(iterable $reportGeneratorResolvers)
     {
-        $this->violationReportGenerator = $violationReportGenerator;
+        $this->reportGeneratorResolvers = $reportGeneratorResolvers;
     }
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Report\ReportGeneratorInterface
+     * @return array<\SprykerSdk\SdkContracts\Report\ReportGeneratorInterface>
      */
-    public function getReportGeneratorByContext(ContextInterface $context): ReportGeneratorInterface
+    public function getReportGeneratorsByContext(ContextInterface $context): array
     {
-        //This is extension point for getting new generators
-        return $this->violationReportGenerator;
+        $reportGenerators = [];
+
+        foreach ($this->reportGeneratorResolvers as $reportGeneratorResolver) {
+            $reportGenerator = $reportGeneratorResolver->resolveByContext($context);
+
+            if ($reportGenerator === null) {
+                continue;
+            }
+
+            $reportGenerators[] = $reportGenerator;
+        }
+
+        return $reportGenerators;
     }
 }

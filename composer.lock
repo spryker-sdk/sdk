@@ -5415,12 +5415,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "64fb3ec8c633add2e0eb9d66c8f9b02135845b11"
+                "reference": "ae5ed90defe0d47bfc88ce88db462cc7ffdc5be4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/64fb3ec8c633add2e0eb9d66c8f9b02135845b11",
-                "reference": "64fb3ec8c633add2e0eb9d66c8f9b02135845b11",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ae5ed90defe0d47bfc88ce88db462cc7ffdc5be4",
+                "reference": "ae5ed90defe0d47bfc88ce88db462cc7ffdc5be4",
                 "shasum": ""
             },
             "require": {
@@ -5445,7 +5445,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-524/sdk-592-add-report-abstractions"
             },
-            "time": "2022-06-15T10:57:25+00:00"
+            "time": "2022-06-20T13:41:09+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

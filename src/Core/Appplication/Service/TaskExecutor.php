@@ -16,7 +16,6 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface;
 
 class TaskExecutor
 {
@@ -41,9 +40,9 @@ class TaskExecutor
     protected CommandExecutorInterface $commandExecutor;
 
     /**
-     * @var \SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory
      */
-    private ReportGeneratorFactoryInterface $reportGeneratorFactory;
+    private ReportGeneratorFactory $reportGeneratorFactory;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null
@@ -54,14 +53,14 @@ class TaskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
-     * @param \SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface $reportGeneratorFactory
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory $reportGeneratorFactory
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null $actionApprover
      */
     public function __construct(
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
-        ReportGeneratorFactoryInterface $reportGeneratorFactory,
+        ReportGeneratorFactory $reportGeneratorFactory,
         ?ActionApproverInterface $actionApprover = null
     ) {
         $this->placeholderResolver = $placeholderResolver;
@@ -228,9 +227,11 @@ class TaskExecutor
             }
         }
 
-        $reportGenerator = $this->reportGeneratorFactory->getReportGeneratorByContext($context);
+        $reportGenerators = $this->reportGeneratorFactory->getReportGeneratorsByContext($context);
 
-        $reportGenerator->collectReports($context->getTask()->getId(), $commands);
+        foreach ($reportGenerators as $reportGenerator) {
+            $reportGenerator->collectReports($context->getTask()->getId(), $commands);
+        }
 
         return $context;
     }

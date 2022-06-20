@@ -56,6 +56,11 @@ services:
       - "@violation_report_merger"
       - "@violation_report_repository"
       - "@converter_resolver"
+  violation_report_generator_resolver:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGeneratorResolver
+    tags: ["report.generator_resolver"]
+    arguments:
+      - "@violation_report_generator"
   context_serializer:
     class: SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
     arguments:
@@ -137,7 +142,7 @@ services:
   report_generator_factory:
     class: SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory
     arguments:
-      - "@violation_report_generator"
+      - !tagged_iterator report.generator_resolver
 
   violation_report_array_converter:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportArrayConverter
