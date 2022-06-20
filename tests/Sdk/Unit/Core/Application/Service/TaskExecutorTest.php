@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
@@ -19,7 +20,6 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface;
 
 /**
  * @group Sdk
@@ -185,15 +185,15 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Report\ReportGeneratorFactoryInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory
      */
-    protected function createReportGeneratorFactoryMock(): ReportGeneratorFactoryInterface
+    protected function createReportGeneratorFactoryMock(): ReportGeneratorFactory
     {
-        $reportGeneratorFactory = $this->createMock(ReportGeneratorFactoryInterface::class);
+        $reportGeneratorFactory = $this->createMock(ReportGeneratorFactory::class);
 
         $reportGeneratorFactory
-            ->method('getReportGeneratorByContext')
-            ->willReturn($this->createViolationConverterGeneratorMock());
+            ->method('getReportGeneratorsByContext')
+            ->willReturn([$this->createViolationConverterGeneratorMock()]);
 
         return $reportGeneratorFactory;
     }
