@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "407efd43508d220860afac0b25634e0f",
+    "content-hash": "ddf3a8ea4619b46b67998849b57c0ff5",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -5566,16 +5566,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-bugfix/pplus-1293-we-can-not-read-properly-methods-in-a-few-modules-on-the-client-side",
+            "version": "dev-bugfix/pplus-1354/quality-gate-warning-preg_match-unknown-modifier",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "a270285049361523f331207c58ccc80183eeb8e8"
+                "reference": "a8d7700f9362cca654eb442980035aa0c9924cd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a270285049361523f331207c58ccc80183eeb8e8",
-                "reference": "a270285049361523f331207c58ccc80183eeb8e8",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a8d7700f9362cca654eb442980035aa0c9924cd0",
+                "reference": "a8d7700f9362cca654eb442980035aa0c9924cd0",
                 "shasum": ""
             },
             "require": {
@@ -5587,7 +5587,7 @@
                 "http-interop/http-factory-guzzle": "^1.0",
                 "knplabs/github-api": "^3.4",
                 "m4tthumphrey/php-gitlab-api": "^11.5",
-                "nikic/php-parser": "4.13.2",
+                "nikic/php-parser": "4.13.*",
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-develop",
@@ -5625,9 +5625,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/pplus-1293-we-can-not-read-properly-methods-in-a-few-modules-on-the-client-side"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/pplus-1354/quality-gate-warning-preg_match-unknown-modifier"
             },
-            "time": "2022-06-16T07:23:34+00:00"
+            "time": "2022-06-20T12:19:38+00:00"
         },
         {
             "name": "spryker/acl-entity-extension",
