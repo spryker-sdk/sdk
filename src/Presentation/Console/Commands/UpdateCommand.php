@@ -146,10 +146,6 @@ class UpdateCommand extends Command
             return;
         }
 
-        if (count($messages) === 0) {
-            return;
-        }
-
         foreach ($messages as $message) {
             $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
         }

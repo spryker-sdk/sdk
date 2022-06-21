@@ -88,10 +88,12 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
      */
     protected function cloneTasks(array $repositoryValues): void
     {
+        [$repository, $branch] = $repositoryValues;
+
         $cloneCommand = sprintf(
             'git clone %s %s %s',
-            isset($repositoryValues[1]) ? '--branch ' . $repositoryValues[1] . ' --single-branch ' : '',
-            $repositoryValues[0],
+            is_string($branch) && strlen($branch) ? '--branch ' . $branch . ' --single-branch ' : '',
+            $repository,
             $this->installationPath,
         );
 
