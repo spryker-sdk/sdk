@@ -47,7 +47,8 @@
         "symfony/runtime": "^5.0 || ^6.0",
         "symfony/validator": "^5.0 || ^6.0",
         "symfony/workflow": "^5.0 || ^6.0",
-        "symfony/yaml": "^5.0 || ^6.0"
+        "symfony/yaml": "^5.0 || ^6.0",
+        "twig/twig": "^2.0"
     },
     "require-dev": {
         "codeception/codeception": "*",

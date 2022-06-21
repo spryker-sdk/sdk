@@ -18,6 +18,11 @@ class ViolationPathReader
     protected const REPORT_DIR_SETTING_NAME = 'report_dir';
 
     /**
+     * @var string
+     */
+    protected const TEMPLATE_DIR_SETTING_NAME = 'templates_dir';
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
@@ -33,12 +38,13 @@ class ViolationPathReader
 
     /**
      * @param string|null $taskId
+     * @param string $format
      *
      * @return string
      */
-    public function getViolationReportPath(?string $taskId): string
+    public function getViolationReportPath(?string $taskId, string $format = 'yaml'): string
     {
-        return $this->getViolationReportDirPath() . DIRECTORY_SEPARATOR . $taskId . '.violations.yaml';
+        return $this->getViolationReportDirPath() . DIRECTORY_SEPARATOR . $taskId . '.violations.' . $format;
     }
 
     /**
@@ -52,6 +58,22 @@ class ViolationPathReader
 
         if (!$reportDirSetting) {
             throw new MissingSettingException(sprintf('Some of setting definition for %s not found', static::REPORT_DIR_SETTING_NAME));
+        }
+
+        return $reportDirSetting->getValues();
+    }
+
+    /**
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     *
+     * @return string
+     */
+    public function getViolationTemplateDirPath(): string
+    {
+        $reportDirSetting = $this->projectSettingRepository->findOneByPath(static::TEMPLATE_DIR_SETTING_NAME);
+
+        if (!$reportDirSetting) {
+            throw new MissingSettingException(sprintf('Some of setting definition for %s not found', static::TEMPLATE_DIR_SETTING_NAME));
         }
 
         return $reportDirSetting->getValues();
