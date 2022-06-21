@@ -238,6 +238,7 @@ services:
   app.workflow.transition_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
     arguments:
+      - "@service_container"
       - "@task_executor"
       - "@workflow_runner"
       - "@project_workflow"
