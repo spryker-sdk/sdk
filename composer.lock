@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc8bb84073b4d16fc025a8605ed8806a",
+    "content-hash": "6862e141ccc7691574882ee209752e0d",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -4832,16 +4832,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-master",
+            "version": "dev-feature/sdk-514-nested-workflows",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "eb014fb4d3100f19d9b12e577c4101b144bc0b45"
+                "reference": "6360347fa3986b88a7e242a23191e1f81263f2f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/eb014fb4d3100f19d9b12e577c4101b144bc0b45",
-                "reference": "eb014fb4d3100f19d9b12e577c4101b144bc0b45",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/6360347fa3986b88a7e242a23191e1f81263f2f1",
+                "reference": "6360347fa3986b88a7e242a23191e1f81263f2f1",
                 "shasum": ""
             },
             "require": {
@@ -4851,7 +4851,6 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4865,9 +4864,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-514-nested-workflows"
             },
-            "time": "2022-06-17T11:27:16+00:00"
+            "time": "2022-06-21T13:14:23+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -12890,6 +12889,12 @@
     ],
     "aliases": [
         {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "dev-feature/sdk-514-nested-workflows",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
             "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",
             "alias": "0.1.0",
@@ -12920,5 +12925,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
