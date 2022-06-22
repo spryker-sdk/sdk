@@ -28,6 +28,7 @@ services:
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
+      - "@service_container"
       - "@setting_repository"
       - "@yaml_parser"
       - "%project_settings_file%"
