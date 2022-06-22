@@ -125,12 +125,12 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                     ->setRows($violations);
                 $table->render();
             }
+        }
 
-            $this->htmlViolationReportFormatter->format($name, $violationReport);
+        $this->htmlViolationReportFormatter->format($name, $violationReport);
 
-            if (file_exists($this->violationPathReader->getViolationReportPath($name, 'html'))) {
-                $this->output->writeln(sprintf('<href=file:///%s>The HTML report (click here)</>', $this->violationPathReader->getViolationReportPath($name, 'html')));
-            }
+        if (file_exists($this->violationPathReader->getViolationReportPath($name, 'html'))) {
+            $this->output->writeln(sprintf('<href=file:///%s>The HTML report (click here)</>', $this->violationPathReader->getViolationReportPath($name, 'html')));
         }
     }
 

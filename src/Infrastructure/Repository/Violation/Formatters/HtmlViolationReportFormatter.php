@@ -66,7 +66,13 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
      */
     public function format(string $name, ViolationReportInterface $violationReport): void
     {
+        if (count($violationReport->getViolations()) === 0 && count($violationReport->getPackages()) === 0) {
+            return;
+        }
+
         $violations = $this->violationReportFileMapper->mapViolationReportToHtml($violationReport);
+
+        dd($violations);
         $template = static::VIOLATION_TEMPLATE;
         $content = $this->templating->render($template, ['report' => $violations]);
         file_put_contents($this->violationPathReader->getViolationReportPath($name, 'html'), $content);
