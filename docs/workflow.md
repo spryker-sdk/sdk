@@ -14,7 +14,7 @@ One or more workflows can be initialized for a project and run via `sdk:workflow
 
 #### Behavior of the workflow can be configured by providing specific keys to the metadata of the workflow:
 - `transitionResolver`: `sdk:workflow:run` See example below `service` should implement `\SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface`.
-- `allowToFail: true`: `sdk:workflow:run` will set the text place if task failed.
+- `allowToFail: true`: `sdk:workflow:run` will set the next place if task failed.
 - `re-run: true`: `sdk:workflow:run` will run workflow many times when the current one has finished.
 - `run: single`: `sdk:workflow:run` will only run single transition and exit. If omitting this setting, task will run available transitions one by one asking which one to run if multiple possible variants exist.
 - `before: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface` and will be called before transition occurs.
@@ -52,8 +52,8 @@ framework:
           metadata: # in order of execution
             transitionResolver: # Resolver needs for resolve next transition
               service: transition_boolean_resolver # Resolver service id. The resolver should implement `\SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface`
-              settings:
-                  failed: bye # transition name for filed result
+              settings: # will be passed to the transition resolver as a second argument
+                  failed: bye # transition name for failed result
                   successful: world # transition name for successful result
             allowToFail: true # Can go to next place if task failed
             guard: guard_service_name # checks this transition availability
