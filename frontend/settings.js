@@ -84,7 +84,7 @@ const getAppSettingsByTheme = (namespaceConfig, theme, pathToConfig) => {
         'components/molecules/*/index.ts',
         'components/organisms/*/index.ts',
         'templates/*/index.ts',
-        'views/*/index.ts',
+        'templates/*/index.ts',
     ];
 
     // getting collection of entry points by pattern

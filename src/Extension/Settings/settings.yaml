@@ -95,6 +95,13 @@ settings:
     type: path
     values: "./reports/"
     initializer: create_directory_initializer
+  - path: templates_dir
+    initialization_description: Where is the project templates directory?
+    strategy: overwrite
+    init: true
+    is_project: true
+    type: path
+    values: "./resources/templates"
   - path: context_dir
     initialization_description: Where is the context directory?
     strategy: overwrite

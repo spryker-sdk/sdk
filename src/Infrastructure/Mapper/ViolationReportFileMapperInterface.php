@@ -19,6 +19,13 @@ interface ViolationReportFileMapperInterface
     public function mapViolationReportToYamlStructure(ViolationReportInterface $violationReport): array;
 
     /**
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     *
+     * @return array
+     */
+    public function mapViolationReportToHtml(ViolationReportInterface $violationReport): array;
+
+    /**
      * @param array $violationReport
      * @param array<string>|null $includePackages
      *

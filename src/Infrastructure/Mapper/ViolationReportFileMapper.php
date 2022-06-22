@@ -69,6 +69,47 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
      *
      * @return array
      */
+    public function mapViolationReportToHtml(ViolationReportInterface $violationReport): array
+    {
+        $violationReportStructure = [];
+        $violationReportStructure['project'] = $violationReport->getProject();
+        $violationReportStructure['path'] = $violationReport->getPath();
+        $violationReportStructure['violations'] = [];
+        foreach ($violationReport->getViolations() as $violation) {
+            $violationReportStructure['violations'][] = $this->convertViolationToArray($violation);
+        }
+        $violationReportStructure['packages'] = [];
+        foreach ($violationReport->getPackages() as $package) {
+            $files = [];
+            foreach ($package->getFileViolations() as $path => $fileViolations) {
+                $file = [];
+                $file['path'] = $path;
+                $file['violations'] = [];
+                $violations = array_map(function (ViolationInterface $violation) {
+                    return $this->convertViolationToArray($violation);
+                }, $fileViolations);
+                $file['violations'] = array_merge($file['violations'], $violations);
+                $files[] = $file;
+            }
+
+            $violationReportStructure['packages'][] = [
+                'id' => $package->getPackage(),
+                'path' => $package->getPath(),
+                'violations' => array_map(function (ViolationInterface $violation) {
+                    return $this->convertViolationToArray($violation);
+                }, $package->getViolations()),
+                'files' => $files,
+            ];
+        }
+
+        return $violationReportStructure;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     *
+     * @return array
+     */
     public function mapViolationReportToYamlStructure(ViolationReportInterface $violationReport): array
     {
         $violationReportStructure = [];
