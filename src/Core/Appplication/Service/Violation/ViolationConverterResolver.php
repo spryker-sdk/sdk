@@ -14,7 +14,7 @@ use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 class ViolationConverterResolver
 {
     /**
-     * @var \SprykerSdk\SdkContracts\Entity\CommandInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
      */
     protected ConverterRegistryInterface $converterRegistry;
 
