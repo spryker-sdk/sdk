@@ -41,6 +41,13 @@ interface WorkflowRepositoryInterface
     public function save(WorkflowInterface $workflow): WorkflowInterface;
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface
+     */
+    public function remove(WorkflowInterface $workflow): WorkflowInterface;
+
+    /**
      * @return void
      */
     public function flush(): void;
