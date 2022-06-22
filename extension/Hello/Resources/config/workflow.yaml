@@ -47,7 +47,7 @@ framework:
           metadata:
             task: hello:php
             allowToFail: true
-            transition_resolver: # Resolver needs for resolve next transition
+            transitionResolver: # Resolver needs for resolve next transition
               service: transition_boolean_resolver
               settings:
                 failed: bye # transition name for filed result

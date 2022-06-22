@@ -262,7 +262,7 @@ class ProjectWorkflow
      *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
      */
-    public function getPreviousTransition(?WorkflowInterface $workflow = null): ?WorkflowTransitionInterface
+    public function findPreviousTransition(?WorkflowInterface $workflow = null): ?WorkflowTransitionInterface
     {
         $workflow = $workflow ?? $this->currentProjectWorkflow;
 

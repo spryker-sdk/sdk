@@ -151,15 +151,17 @@ class WorkflowRunner
      */
     protected function getPreDefinedTransition(ProjectWorkflow $projectWorkflow, array $nextEnabledTransitions): ?string
     {
-        $runningTransition = $projectWorkflow->getPreviousTransition();
-        if ($runningTransition) {
-            $runningTransitionData = $runningTransition->getData();
-            if (
-                isset($runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSACTION]) &&
-                in_array($runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSACTION], $nextEnabledTransitions, true)
-            ) {
-                return $runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSACTION];
-            }
+        $runningTransition = $projectWorkflow->findPreviousTransition();
+        if (!$runningTransition) {
+            return null;
+        }
+
+        $runningTransitionData = $runningTransition->getData();
+        if (
+            isset($runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSITION]) &&
+            in_array($runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSITION], $nextEnabledTransitions, true)
+        ) {
+            return $runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSITION];
         }
 
         return null;

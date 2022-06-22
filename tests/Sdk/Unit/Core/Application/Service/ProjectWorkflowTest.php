@@ -217,7 +217,7 @@ class ProjectWorkflowTest extends Unit
         $this->expectException(ProjectWorkflowException::class);
 
         // Act
-        $projectWorkflow->getPreviousTransition();
+        $projectWorkflow->findPreviousTransition();
     }
 
     /**
@@ -261,7 +261,7 @@ class ProjectWorkflowTest extends Unit
         $projectWorkflow->initializeWorkflow();
 
         // Act
-        $workflowTransition = $projectWorkflow->getPreviousTransition();
+        $workflowTransition = $projectWorkflow->findPreviousTransition();
 
         // Assert
         $this->isNull($workflowTransition);
@@ -308,7 +308,7 @@ class ProjectWorkflowTest extends Unit
         $projectWorkflow->initializeWorkflow();
 
         // Act
-        $workflowTransition = $projectWorkflow->getPreviousTransition();
+        $workflowTransition = $projectWorkflow->findPreviousTransition();
 
         // Assert
         $this->assertSame($workflowTransitionMock, $workflowTransition);

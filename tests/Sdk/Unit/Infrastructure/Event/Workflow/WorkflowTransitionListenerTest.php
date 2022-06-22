@@ -50,7 +50,7 @@ class WorkflowTransitionListenerTest extends Unit
         $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
         $metadataStoreMock->method('getTransitionMetadata')
             ->with($transition)
-            ->willReturn(['task' => 'sdk:test:task', 'transition_resolver' => ['service' => 'mock', 'settings' => []]]);
+            ->willReturn(['task' => 'sdk:test:task', 'transitionResolver' => ['service' => 'mock', 'settings' => []]]);
 
         $workflowMock = $this->createMock(SymfonyWorkflow::class);
         $workflowMock->method('getMetadataStore')

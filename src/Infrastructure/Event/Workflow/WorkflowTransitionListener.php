@@ -33,7 +33,7 @@ class WorkflowTransitionListener
     /**
      * @var string
      */
-    public const DATA_NEXT_TRANSACTION = 'nextTransition';
+    public const DATA_NEXT_TRANSITION = 'nextTransition';
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class WorkflowTransitionListener
     /**
      * @var string
      */
-    public const META_KEY_TRANSITION_RESOLVER = 'transition_resolver';
+    public const META_KEY_TRANSITION_RESOLVER = 'transitionResolver';
 
     /**
      * @var string
@@ -169,7 +169,7 @@ class WorkflowTransitionListener
 
         $context = $this->getContext($event);
         $context = $this->taskExecutor->execute($task, $context);
-        $resolvedNextTransition = $this->resolverNextTransaction($event, $context);
+        $resolvedNextTransition = $this->resolverNextTransition($event, $context);
 
         if (!$allowToFail && !$resolvedNextTransition && $context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
             $this->updateTransition($transition, WorkflowTransitionInterface::WORKFLOW_TASK_FAILED, ['task' => $task]);
@@ -185,10 +185,10 @@ class WorkflowTransitionListener
             );
         }
 
-        $transitionData = ['task' => $task, static::DATA_STATUS => $context->getExitCode(), static::DATA_NEXT_TRANSACTION => $resolvedNextTransition];
+        $transitionData = ['task' => $task, static::DATA_STATUS => $context->getExitCode(), static::DATA_NEXT_TRANSITION => $resolvedNextTransition];
 
         if ($resolvedNextTransition) {
-            $transitionData[static::DATA_NEXT_TRANSACTION] = $resolvedNextTransition;
+            $transitionData[static::DATA_NEXT_TRANSITION] = $resolvedNextTransition;
         }
 
         $this->updateTransition(
@@ -204,7 +204,7 @@ class WorkflowTransitionListener
      *
      * @return string|null
      */
-    protected function resolverNextTransaction(TransitionEvent $event, ContextInterface $context): ?string
+    protected function resolverNextTransition(TransitionEvent $event, ContextInterface $context): ?string
     {
         $transitionResolverService = $this->getTransitionMeta($event, static::META_KEY_TRANSITION_RESOLVER);
         if ($transitionResolverService && isset($transitionResolverService['service'])) {
