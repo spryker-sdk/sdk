@@ -285,6 +285,34 @@ class ProjectWorkflow
      *
      * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
      *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
+     */
+    public function findPreviousTransition(?WorkflowInterface $workflow = null): ?WorkflowTransitionInterface
+    {
+        $workflow = $workflow ?? $this->currentProjectWorkflow;
+
+        if (!$workflow) {
+            throw new ProjectWorkflowException('Workflow is not initialized');
+        }
+
+        $lastTransition = $this->workflowTransitionRepository->findLast($workflow);
+
+        if (!$lastTransition) {
+            return null;
+        }
+
+        if ($lastTransition->getState() === WorkflowTransitionInterface::WORKFLOW_TRANSITION_FINISHED) {
+            return $lastTransition;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $workflow
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
+     *
      * @return bool
      */
     public function isWorkflowFinished(?WorkflowInterface $workflow = null): bool

@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -128,6 +129,11 @@ class WorkflowRunner
         $nextEnabledTransitions = $projectWorkflow->getNextEnabledTransitions();
 
         if (count($nextEnabledTransitions) > 1) {
+            $transition = $this->getPreDefinedTransition($projectWorkflow, $nextEnabledTransitions);
+            if ($transition) {
+                return $transition;
+            }
+
             return $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'Select the next step in workflow.',
@@ -140,5 +146,29 @@ class WorkflowRunner
         $nextEnabledTransition = current($nextEnabledTransitions);
 
         return $nextEnabledTransition ?: null;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
+     * @param array<string> $nextEnabledTransitions
+     *
+     * @return string|null
+     */
+    protected function getPreDefinedTransition(ProjectWorkflow $projectWorkflow, array $nextEnabledTransitions): ?string
+    {
+        $runningTransition = $projectWorkflow->findPreviousTransition();
+        if (!$runningTransition) {
+            return null;
+        }
+
+        $runningTransitionData = $runningTransition->getData();
+        if (
+            isset($runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSITION]) &&
+            in_array($runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSITION], $nextEnabledTransitions, true)
+        ) {
+            return $runningTransitionData[WorkflowTransitionListener::DATA_NEXT_TRANSITION];
+        }
+
+        return null;
     }
 }
