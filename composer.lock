@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37bf1b5640ee936e26df2380b6862030",
+    "content-hash": "3049af8bb1c0f2f50f8314b90da59d44",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -5549,16 +5549,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-featute/evaluator-optimization",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "6e2cf6883d5f8cdd8d7c200aa322a83eeac576fe"
+                "reference": "8f9b76982592d7b0ba2b5d241b1539279997f8d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/6e2cf6883d5f8cdd8d7c200aa322a83eeac576fe",
-                "reference": "6e2cf6883d5f8cdd8d7c200aa322a83eeac576fe",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/8f9b76982592d7b0ba2b5d241b1539279997f8d3",
+                "reference": "8f9b76982592d7b0ba2b5d241b1539279997f8d3",
                 "shasum": ""
             },
             "require": {
@@ -5608,9 +5608,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/featute/evaluator-optimization"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/develop"
             },
-            "time": "2022-06-23T09:12:17+00:00"
+            "time": "2022-06-23T10:40:53+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -13430,5 +13430,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
