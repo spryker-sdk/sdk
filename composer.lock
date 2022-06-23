@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "172bdc391ea85b04a0540f720467032b",
+    "content-hash": "cad7baa946cae9e6a0ee17afce02c5f0",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -4832,16 +4832,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-master",
+            "version": "dev-feature/sdk-621/sdk-623-implement-local-event-storage",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "eb014fb4d3100f19d9b12e577c4101b144bc0b45"
+                "reference": "36225b8e048a8a20d669c9ff3da8ca8f751af9d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/eb014fb4d3100f19d9b12e577c4101b144bc0b45",
-                "reference": "eb014fb4d3100f19d9b12e577c4101b144bc0b45",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/36225b8e048a8a20d669c9ff3da8ca8f751af9d1",
+                "reference": "36225b8e048a8a20d669c9ff3da8ca8f751af9d1",
                 "shasum": ""
             },
             "require": {
@@ -4851,7 +4851,6 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4865,9 +4864,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-621/sdk-623-implement-local-event-storage"
             },
-            "time": "2022-06-17T11:27:16+00:00"
+            "time": "2022-06-23T11:35:09+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -12966,6 +12965,12 @@
         }
     ],
     "aliases": [
+        {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "dev-feature/sdk-621/sdk-623-implement-local-event-storage",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
         {
             "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",

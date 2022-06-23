@@ -31,7 +31,7 @@
         "spryker-sdk/acp": "^0.1.0",
         "spryker-sdk/async-api": "^0.2.3",
         "spryker-sdk/composer-replace": "dev-master",
-        "spryker-sdk/sdk-contracts": "dev-master",
+        "spryker-sdk/sdk-contracts": "dev-feature/sdk-621/sdk-623-implement-local-event-storage as dev-master",
         "spryker-sdk/spryk": "^0.4.0",
         "spryker-sdk/sync-api": "^0.1.1",
         "spryker-sdk/upgrader": "dev-master as 0.1.0",
