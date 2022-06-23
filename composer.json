@@ -34,7 +34,7 @@
         "spryker-sdk/sdk-contracts": "dev-master",
         "spryker-sdk/spryk": "^0.4.0",
         "spryker-sdk/sync-api": "^0.1.1",
-        "spryker-sdk/upgrader": "dev-featute/evaluator-optimization",
+        "spryker-sdk/upgrader": "dev-develop",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.1",
         "symfony/console": "^5.0 || ^6.0",
