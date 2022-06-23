@@ -30,6 +30,15 @@ class StaticTextValueResolver extends StaticValueResolver
     {
         $value = parent::getValue($context, $settingValues, $optional);
 
+        if (is_array($value)) {
+            $items = [];
+            foreach ($value as $item) {
+                $items[] = sprintf('\'%s\'', $item);
+            }
+
+            return $items;
+        }
+
         return $value ? sprintf('\'%s\'', $value) : null;
     }
 }

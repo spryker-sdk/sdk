@@ -40,6 +40,19 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface
+     */
+    public function remove(WorkflowInterface $workflow): WorkflowInterface
+    {
+        $this->getEntityManager()->remove($workflow);
+        $this->getEntityManager()->flush();
+
+        return $workflow;
+    }
+
+    /**
      * @return void
      */
     public function flush(): void
@@ -56,6 +69,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     {
         $criteria = [
             'project' => $project,
+            'parent' => null,
         ];
 
         return $this->findBy($criteria);
@@ -74,7 +88,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
         ];
 
         if ($workflowName) {
-            $criteria['workflow'] = $workflowName;
+            $criteria['code'] = $workflowName;
         }
 
         return $this->findOneBy($criteria);

@@ -1,0 +1,36 @@
+SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
+    table: sdk_workflow_transition
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        status:
+            type: json
+            nullable: false
+            unique: false
+        transition:
+            type: string
+            nullable: false
+            unique: false
+        state:
+            type: string
+            nullable: false
+            unique: false
+        data:
+            type: json
+            nullable: false
+            unique: false
+        time:
+            type: datetime
+            nullable: false
+            unique: false
+            options:
+                default: CURRENT_TIMESTAMP
+    manyToOne:
+        workflow:
+            targetEntity: Workflow
+            inversedBy: transitions

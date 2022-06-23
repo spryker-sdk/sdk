@@ -21,7 +21,7 @@ services:
     arguments:
       - "@project_workflow"
       - "@cli_value_receiver"
-      - '@task_executor'
+      - "@workflow_runner"
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand
