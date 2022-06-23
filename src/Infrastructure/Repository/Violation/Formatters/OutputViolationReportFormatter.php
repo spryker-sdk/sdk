@@ -9,11 +9,12 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters;
 
 use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
+use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
 
 class OutputViolationReportFormatter implements ViolationReportFormatterInterface, InputOutputReceiverInterface
 {
@@ -28,9 +29,34 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     protected OutputInterface $output;
 
     /**
-     * @var \Symfony\Component\Yaml\Yaml
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface
      */
-    protected Yaml $yamlParser;
+    protected ViolationReportFileMapperInterface $violationReportFileMapper;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader
+     */
+    protected ViolationPathReader $violationPathReader;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\HtmlViolationReportFormatter
+     */
+    protected HtmlViolationReportFormatter $htmlViolationReportFormatter;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapper
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader $violationPathReader
+     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\HtmlViolationReportFormatter $htmlViolationReportFormatter
+     */
+    public function __construct(
+        ViolationReportFileMapperInterface $violationReportFileMapper,
+        ViolationPathReader $violationPathReader,
+        HtmlViolationReportFormatter $htmlViolationReportFormatter
+    ) {
+        $this->violationReportFileMapper = $violationReportFileMapper;
+        $this->violationPathReader = $violationPathReader;
+        $this->htmlViolationReportFormatter = $htmlViolationReportFormatter;
+    }
 
     /**
      * @return string
@@ -99,6 +125,12 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                     ->setRows($violations);
                 $table->render();
             }
+        }
+
+        $this->htmlViolationReportFormatter->format($name, $violationReport);
+
+        if (file_exists($this->violationPathReader->getViolationReportPath($name, 'html'))) {
+            $this->output->writeln(sprintf('<href=file:///%s>The HTML report (click here)</>', $this->violationPathReader->getViolationReportPath($name, 'html')));
         }
     }
 
