@@ -130,3 +130,19 @@ services:
       - "@workflow.registry"
       - "@workflow_repository"
       - "@workflow_transition_repository"
+
+  telemetry.command_event_listener:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\EventListener\ConsoleCommandEventListener
+    arguments:
+      - "@telemetry_event_repository"
+      - "@telemetry.command_event_synchronizer"
+    tags:
+      - { name: kernel.event_listener, event: console.terminate }
+      - { name: kernel.event_listener, event: console.error }
+
+  telemetry.command_event_synchronizer:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer
+    arguments:
+      - "@telemetry_event_repository"
+      - "@telemetry.file_sender"
+      - "@lock_factory"

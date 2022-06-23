@@ -47,6 +47,11 @@ services:
     arguments:
       - "@context_serializer"
       - "@setting_repository"
+  telemetry_event_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - "@mapper.telemetry_event"
 
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
@@ -130,6 +135,9 @@ services:
 
   mapper.file_mapper:
     class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
+
+  mapper.telemetry_event:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\TelemetryEventMapper
 
   task_persistence_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
@@ -262,3 +270,18 @@ services:
       - "@cli_value_receiver"
       - "@service_container"
 
+  telemetry.file_sender:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\FileTelemetrySender
+    arguments:
+      - "%kernel.logs_dir%"
+
+  lock_data_store:
+    class: Symfony\Component\Lock\Store\DoctrineDbalStore
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - db_table: '%lock.db_name%'
+
+  lock_factory:
+    class: Symfony\Component\Lock\LockFactory
+    arguments:
+      - '@lock_data_store'

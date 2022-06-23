@@ -1,0 +1,33 @@
+SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
+    table: sdk_telemetry_event
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            nullable: false
+        payload:
+            type: object
+            nullable: false
+        synchronizationAttemptsCount:
+            name: synchronization_attempts_count
+            type: smallint
+            nullable: false
+        lastSynchronisationTimestamp:
+            name: last_synchronisation_time
+            type: integer
+            nullable: true
+            options:
+                unsigned: true
+        version:
+            type: smallint
+            nullable: false
+        createdAt:
+            name: created_at
+            type: datetime_immutable
+            nullable: false
