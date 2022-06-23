@@ -141,7 +141,7 @@ class Context implements ContextInterface
      *
      * @return void
      */
-    public function addResolvedValues(string $key, mixed $value): void
+    public function addResolvedValues(string $key, $value): void
     {
         $this->resolvedValues[$key] = $value;
     }

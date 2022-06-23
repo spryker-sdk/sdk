@@ -28,6 +28,8 @@ class AnalyzerTaskCest
     protected const FAIL_PROJECT_DIR = 'upgrader_failing_project';
 
     /**
+     * @skip
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -48,6 +50,8 @@ class AnalyzerTaskCest
     }
 
     /**
+     * @skip
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -70,6 +74,8 @@ class AnalyzerTaskCest
     }
 
     /**
+     * @skip
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void

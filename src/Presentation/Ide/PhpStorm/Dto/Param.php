@@ -17,13 +17,13 @@ class Param implements ParamInterface
     /**
      * @var array|string|float|int|bool|null
      */
-    protected string|bool|int|float|array|null $defaultValue;
+    protected $defaultValue;
 
     /**
      * @param string $name
-     * @param array|string|float|int|bool $defaultValue
+     * @param array|string|float|int|bool|null $defaultValue
      */
-    public function __construct(string $name, float|int|bool|array|string|null $defaultValue)
+    public function __construct(string $name, $defaultValue)
     {
         $this->name = $name;
         $this->defaultValue = $defaultValue;
@@ -40,7 +40,7 @@ class Param implements ParamInterface
     /**
      * @return array|string|float|int|bool|null
      */
-    public function getDefaultValue(): float|int|bool|array|string|null
+    public function getDefaultValue()
     {
         return $this->defaultValue;
     }

@@ -16,7 +16,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     /**
      * @var mixed
      */
-    protected mixed $value;
+    protected $value;
 
     /**
      * @var string
@@ -119,7 +119,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
      *
      * @return mixed
      */
-    protected function getValueFromSettings(array $settingValues): mixed
+    protected function getValueFromSettings(array $settingValues)
     {
         if (!isset($settingValues[$this->getAlias()])) {
             throw new MissingValueException();
@@ -131,7 +131,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     /**
      * @return mixed
      */
-    public function getDefaultValue(): mixed
+    public function getDefaultValue()
     {
         return $this->value;
     }

@@ -69,7 +69,7 @@ class PlaceholderResolverTest extends Unit
      * @return void
      */
     public function testResolvePlaceholderWithoutSettings(
-        mixed $expectedValue,
+        $expectedValue,
         array $expectedSettings,
         bool $optionalPlaceholder
     ): void {
@@ -117,7 +117,7 @@ class PlaceholderResolverTest extends Unit
             ->willReturn(array_keys($expectedSettings));
         $valueResolverMock->expects($this->once())
             ->method('getValue')
-            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey): mixed {
+            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey) {
                 $this->assertArrayHasKey($expectedSettingKey, $context->getResolvedValues());
 
                 return $context->getResolvedValues()[$expectedSettingKey];
@@ -230,7 +230,7 @@ class PlaceholderResolverTest extends Unit
             ->willReturn(array_keys($expectedSettings));
         $valueResolverMock->expects($this->once())
             ->method('getValue')
-            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey): mixed {
+            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey) {
                 $this->assertArrayHasKey($expectedSettingKey, $context->getResolvedValues());
 
                 return $context->getResolvedValues()[$expectedSettingKey];
@@ -303,7 +303,7 @@ class PlaceholderResolverTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface
      */
-    protected function createValueResolverMock(array $expectedSettings, mixed $expectedValue): ValueResolverInterface
+    protected function createValueResolverMock(array $expectedSettings, $expectedValue): ValueResolverInterface
     {
         $valueResolverMock = $this->createMock(ValueResolverInterface::class);
         $valueResolverMock->expects($this->once())
@@ -321,7 +321,7 @@ class PlaceholderResolverTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface
      */
-    protected function createRegistryMock(mixed $valueResolverMock): ValueResolverRegistryInterface
+    protected function createRegistryMock($valueResolverMock): ValueResolverRegistryInterface
     {
         $registryMock = $this->createMock(ValueResolverRegistryInterface::class);
         $registryMock->expects($this->once())

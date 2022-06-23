@@ -206,7 +206,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         $valueResolver = new $loadableClassName($this->valueReceiver);
 
         if (!$valueResolver instanceof ValueResolverInterface) {
-            throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', $valueResolver::class, ValueResolverInterface::class));
+            throw new InvalidTypeException(sprintf('Value resolver (%s) must implement %s', get_class($valueResolver), ValueResolverInterface::class));
         }
 
         $this->valueResolvers[$valueResolver->getId()] = $valueResolver;

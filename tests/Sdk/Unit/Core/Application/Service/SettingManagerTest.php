@@ -154,7 +154,7 @@ class SettingManagerTest extends Unit
      *
      * @return void
      */
-    public function testProjectSetSetting(string $path, mixed $value): void
+    public function testProjectSetSetting(string $path, $value): void
     {
         // Arrange
         $this->projectSettingRepositoryMock
@@ -187,7 +187,7 @@ class SettingManagerTest extends Unit
      *
      * @return void
      */
-    public function testSetSettingWithStrategyReplace(string $path, mixed $value): void
+    public function testSetSettingWithStrategyReplace(string $path, $value): void
     {
         // Arrange
         $this->projectSettingRepositoryMock
@@ -219,7 +219,7 @@ class SettingManagerTest extends Unit
      *
      * @return void
      */
-    public function testSetSettingWithStrategyMerge(string $path, mixed $value): void
+    public function testSetSettingWithStrategyMerge(string $path, $value): void
     {
         // Arrange
         $this->projectSettingRepositoryMock
@@ -252,7 +252,7 @@ class SettingManagerTest extends Unit
      *
      * @return void
      */
-    public function testSetSettingShouldThrowExceptionWhenSettingNotFound(string $path, mixed $value): void
+    public function testSetSettingShouldThrowExceptionWhenSettingNotFound(string $path, $value): void
     {
         // Arrange
         $this->projectSettingRepositoryMock

@@ -180,11 +180,13 @@ class InitProjectCommand extends Command
                 );
             }
 
-            $values = match ($settingEntity->getType()) {
-                'boolean' => (bool)$values,
-                'array' => (array)$values,
-                default => (string)$values,
-            };
+            if ($settingEntity->getType() === 'boolean') {
+                $values = (bool)$values;
+            } elseif ($settingEntity->getType() === 'array') {
+                $values = (array)$values;
+            } else {
+                $values = (string)$values;
+            }
 
             $settingEntity->setValues($values);
         }

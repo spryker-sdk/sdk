@@ -77,15 +77,16 @@ class LocalCliRunner implements CommandRunnerInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
-        $placeholders = array_map(function (mixed $placeholder): string {
+        $placeholders = array_map(function ($placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';
         }, array_keys($context->getResolvedValues()));
 
-        $values = array_map(function (mixed $value): string {
-            return match (gettype($value)) {
-                'array' => implode(',', $value),
-                default => (string)$value,
-            };
+        $values = array_map(function ($value): string {
+            if (is_array($value)) {
+                return implode(',', $value);
+            }
+
+            return (string)$value;
         }, array_values($context->getResolvedValues()));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());

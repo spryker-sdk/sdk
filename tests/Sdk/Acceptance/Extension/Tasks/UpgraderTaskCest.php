@@ -23,6 +23,8 @@ class UpgraderTaskCest
     protected const PROJECT_DIR = 'upgrader_failing_project';
 
     /**
+     * @skip
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void

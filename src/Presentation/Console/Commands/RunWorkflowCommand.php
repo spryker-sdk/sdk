@@ -137,12 +137,18 @@ class RunWorkflowCommand extends Command
      */
     protected function formatMessage(MessageInterface $message): string
     {
-        return match ($message->getVerbosity()) {
-            MessageInterface::INFO => '<info>Info: ' . $message->getMessage() . '</info>',
-            MessageInterface::ERROR => '<error>Error: ' . $message->getMessage() . '</error>',
-            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>',
-            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>',
-            default => $message->getMessage(),
-        };
+        $formatted = $message->getMessage();
+
+        if ($message->getVerbosity() === MessageInterface::INFO) {
+            $formatted = '<info>Info: ' . $message->getMessage() . '</info>';
+        } elseif ($message->getVerbosity() === MessageInterface::ERROR) {
+            $formatted = '<error>Error: ' . $message->getMessage() . '</error>';
+        } elseif ($message->getVerbosity() === MessageInterface::SUCCESS) {
+            $formatted = '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>';
+        } elseif ($message->getVerbosity() === MessageInterface::DEBUG) {
+            $formatted = '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>';
+        }
+
+        return $formatted;
     }
 }

@@ -61,11 +61,6 @@ class DtoClassTest extends Unit
             private bool $privateBoolean;
 
             /**
-             * @var mixed
-             */
-            public mixed $publicMixed;
-
-            /**
              * @var array<string, string>
              */
             protected array $protectedArrayOfStrings;
@@ -103,7 +98,6 @@ class DtoClassTest extends Unit
             'protectedInt',
             'protectedNullableFloat',
             'publicString',
-            'publicMixed',
             'protectedArrayOfStrings',
         ]);
     }

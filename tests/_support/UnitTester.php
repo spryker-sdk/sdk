@@ -226,7 +226,7 @@ class UnitTester extends Actor
      *
      * @return \Symfony\Component\Console\Input\InputOption
      */
-    public function createSymfonyInputOption(string $name, string|array|null $shortcut, string $description): InputOption
+    public function createSymfonyInputOption(string $name, $shortcut, string $description): InputOption
     {
         return new InputOption($name, $shortcut, null, $description);
     }
@@ -237,7 +237,7 @@ class UnitTester extends Actor
      *
      * @return \Symfony\Component\Console\Input\InputArgument
      */
-    public function createSymfonyInputArgument(string $name, string|bool|int|float|array|null $default): InputArgument
+    public function createSymfonyInputArgument(string $name, $default): InputArgument
     {
         return new InputArgument($name, null, '', $default);
     }
@@ -261,7 +261,7 @@ class UnitTester extends Actor
      *
      * @return \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Param
      */
-    public function createPhpStormParam(string $name, float|int|bool|array|string|null $defaultValue): Param
+    public function createPhpStormParam(string $name, $defaultValue): Param
     {
         return new Param($name, $defaultValue);
     }

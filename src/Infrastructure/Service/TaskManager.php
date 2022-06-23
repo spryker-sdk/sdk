@@ -7,9 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryReadWriteInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent;
@@ -25,17 +23,17 @@ class TaskManager implements TaskManagerInterface
     protected EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryReadWriteInterface
      */
-    protected TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository;
+    protected TaskRepositoryReadWriteInterface $taskRepository;
 
     /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryReadWriteInterface $taskRepository
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository
+        TaskRepositoryReadWriteInterface $taskRepository
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;

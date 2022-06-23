@@ -18,7 +18,7 @@ class OptionValueResolver extends StaticValueResolver
      *
      * @return mixed
      */
-    public function getValue(ContextInterface $context, array $settingValues, bool $optional = true): mixed
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = true)
     {
         $value = parent::getValue($context, $settingValues, $optional);
 

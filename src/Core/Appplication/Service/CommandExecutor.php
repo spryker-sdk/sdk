@@ -54,8 +54,8 @@ class CommandExecutor implements CommandExecutorInterface
                 $message = new Message(sprintf(
                     'Run: %s (class: %s, command runner: %s, will stop on error: %s)',
                     $command->getCommand(),
-                    $command::class,
-                    $commandRunner::class,
+                    get_class($command),
+                    get_class($commandRunner),
                     $command->hasStopOnError() ? 'yes' : 'no',
                 ), MessageInterface::DEBUG);
 

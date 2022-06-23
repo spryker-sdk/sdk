@@ -17,5 +17,5 @@ interface ParamInterface
     /**
      * @return array|string|float|int|bool|null
      */
-    public function getDefaultValue(): string|bool|int|float|array|null;
+    public function getDefaultValue();
 }
