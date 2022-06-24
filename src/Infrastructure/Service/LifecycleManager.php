@@ -151,10 +151,6 @@ class LifecycleManager implements LifecycleManagerInterface
             throw new SdkVersionNotFoundException($exception->getMessage());
         }
 
-        if (!$githubContent) {
-            throw new SdkVersionNotFoundException(sprintf('Could not read from %s', static::GITHUB_ENDPOINT));
-        }
-
         return $githubContent['tag_name'] ?? static::GITHUB_VERSION;
     }
 }
