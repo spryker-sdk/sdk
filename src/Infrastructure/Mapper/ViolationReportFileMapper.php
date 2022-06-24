@@ -72,34 +72,49 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
     public function mapViolationReportToHtml(ViolationReportInterface $violationReport): array
     {
         $violationReportStructure = [];
-        $violationReportStructure['project'] = $violationReport->getProject();
-        $violationReportStructure['path'] = $violationReport->getPath();
-        $violationReportStructure['violations'] = [];
-        foreach ($violationReport->getViolations() as $violation) {
-            $violationReportStructure['violations'][] = $this->convertViolationToArray($violation);
-        }
+        $violationReportStructure['project'] = ['title' => sprintf('Found violations on the project "%s" level', $violationReport->getProject())];
+        $violationReportStructure['project']['name'] = $violationReport->getProject();
+        $violationReportStructure['project']['path'] = $violationReport->getPath();
+        $violationReportStructure['project']['violations'] = [];
         $violationReportStructure['packages'] = [];
+
+        foreach ($violationReport->getViolations() as $violation) {
+            $violation = $this->convertViolationToArray($violation);
+            $violation['path'] = $violationReport->getPath();
+            $violationReportStructure['project']['violations'][] = $violation;
+        }
+
         foreach ($violationReport->getPackages() as $package) {
-            $files = [];
+            $path = $package->getPath();
+            $violationReportStructure['packages'][] = [
+                'title' => sprintf('Found violations on the package "%s" level', $package->getPackage()),
+                'project' => $violationReport->getProject(),
+                'id' => $package->getPackage(),
+                'path' => $path,
+                'violations' => array_map(function (ViolationInterface $violation) use ($path) {
+                    $violation = $this->convertViolationToArray($violation);
+                    $violation['path'] = $path;
+
+                    return $violation;
+                }, $package->getViolations()),
+            ];
+
             foreach ($package->getFileViolations() as $path => $fileViolations) {
                 $file = [];
                 $file['path'] = $path;
+                $file['package'] = $package->getPackage();
+                $file['project'] = $violationReport->getProject();
+                $file['title'] = sprintf('Found violations in the file "%s"', $path);
                 $file['violations'] = [];
-                $violations = array_map(function (ViolationInterface $violation) {
-                    return $this->convertViolationToArray($violation);
+                $violations = array_map(function (ViolationInterface $violation) use ($path) {
+                    $violation = $this->convertViolationToArray($violation);
+                    $violation['path'] = $path;
+
+                    return $violation;
                 }, $fileViolations);
                 $file['violations'] = array_merge($file['violations'], $violations);
-                $files[] = $file;
+                $violationReportStructure['files'][] = $file;
             }
-
-            $violationReportStructure['packages'][] = [
-                'id' => $package->getPackage(),
-                'path' => $package->getPath(),
-                'violations' => array_map(function (ViolationInterface $violation) {
-                    return $this->convertViolationToArray($violation);
-                }, $package->getViolations()),
-                'files' => $files,
-            ];
         }
 
         return $violationReportStructure;
