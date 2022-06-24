@@ -19,6 +19,7 @@ mkdir -p "${BUILD_DIR}/config/packages/"
 cp "${CURRENT_DIR}/config/packages/workflow.yaml" "${BUILD_DIR}/config/packages/workflow.yaml"
 
 mkdir -p "${BUILD_DIR}/db"
+mkdir -p "${BUILD_DIR}/var"
 cp -R "${CURRENT_DIR}/extension" "${BUILD_DIR}/"
 cp "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.Dockerfile"
 cp "${CURRENT_DIR}/infrastructure/sdk.local.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.local.Dockerfile"

@@ -42,7 +42,6 @@ ENV APP_ENV=prod
 
 RUN bin/console cache:warmup && \
     bin/console sdk:init:sdk && \
-    bin/console sdk:update:all && \
-    bin/console cache:clear
+    bin/console sdk:update:all
 
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]
