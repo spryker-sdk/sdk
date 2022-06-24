@@ -88,18 +88,22 @@ class LifecycleManager implements LifecycleManagerInterface
     {
         $versionFilePath = $this->sdkDirectory . '/VERSION';
 
-        if (!file_exists($versionFilePath)) {
-            throw new SdkVersionNotFoundException('Could not find VERSION file, skip updatable check');
+        if (!is_file($versionFilePath)) {
+            throw new SdkVersionNotFoundException(
+                sprintf('Could not find %s file, skip updatable check', $versionFilePath),
+            );
         }
 
-        $currentVersion = file_get_contents($versionFilePath);
+        $currentVersion = (string)file_get_contents($versionFilePath);
+        $currentVersion = trim($currentVersion);
 
         if (!$currentVersion) {
-            throw new SdkVersionNotFoundException('Could not find VERSION file, skip updatable check');
+            throw new SdkVersionNotFoundException(
+                sprintf('Could not find version in the file "%s". File is empty.', $versionFilePath),
+            );
         }
 
         $messages = [];
-        $currentVersion = trim($currentVersion);
 
         try {
             $latestVersion = $this->getLatestVersion();
@@ -139,10 +143,10 @@ class LifecycleManager implements LifecycleManagerInterface
             $content = file_get_contents(static::GITHUB_ENDPOINT, false, $context);
 
             if (!$content) {
-                throw new SdkVersionNotFoundException(sprintf('Could not read from %s', static::GITHUB_ENDPOINT));
+                throw new SdkVersionNotFoundException(sprintf('Could not read from %s, error: %s', static::GITHUB_ENDPOINT, error_get_last()['message'] ?? ''));
             }
 
-            $githubContent = json_decode($content, true);
+            $githubContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         } catch (Throwable $exception) {
             throw new SdkVersionNotFoundException($exception->getMessage());
         }

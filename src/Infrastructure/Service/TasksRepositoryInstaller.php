@@ -13,7 +13,6 @@ use RecursiveIteratorIterator;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\RepositoryInstallationFailedException;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Component\Process\Process;
 
 class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
@@ -57,7 +56,7 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
             return false;
         }
 
-        if (file_exists($this->installationPath)) {
+        if (is_file($this->installationPath)) {
             $this->cleanTasks();
         }
 
@@ -100,7 +99,7 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
         $process = Process::fromShellCommandline($cloneCommand);
         $process->run();
 
-        if ($process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
+        if (!$process->isSuccessful()) {
             throw new RepositoryInstallationFailedException($process->getErrorOutput(), (int)$process->getExitCode());
         }
     }

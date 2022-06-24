@@ -72,15 +72,15 @@ class InstallPrivateSdkCommand extends Command
      */
     protected function warmUpCache(OutputInterface $output): void
     {
-        if (!$application = $this->getApplication()) {
+        if (!$this->getApplication()) {
             return;
         }
 
-        /** @var string $cacheWarmupName */
-        $cacheWarmupName = CacheClearCommand::getDefaultName();
+        /** @var string $cacheCommandName */
+        $cacheCommandName = CacheClearCommand::getDefaultName();
 
-        $application
-            ->get($cacheWarmupName)
+        $this->getApplication()
+            ->get($cacheCommandName)
             ->run(new ArrayInput([]), $output);
     }
 
