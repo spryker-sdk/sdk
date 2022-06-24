@@ -1,99 +1,61 @@
 <html>
 <title>Violation report</title>
 <body>
-<h2>Violation report for the project - {{ report.project }}</h2>
-{% if report.violations is not empty %}
-    <table>
-        <caption>Found violations in the project {{ report.project }}:</caption>
-        {% for violations in report.violations %}
-            {% for key, value in violations %}
-                <tr>
-                    <td>{{ key }}</td>
-                    {% if value is iterable %}
-                        <td>
-                            {% for key2, value2 in value %}
-                                {{ key2 }}: {{ value2|string }}
-                            {% endfor %}
-                        </td>
-                    {% else %}
-                        <td>{{ value|string }}</td>
-                    {% endif %}
-                </tr>
+<h2>{{ report.title }}</h2>
+
+<table>
+    <caption>Found violations in:</caption>
+    <tr>
+        <td width="10%">Project:</td>
+        <td width="10%">{{ statistics.project }}</td>
+        <td width="80%">
+            {% for link in links.project %}
+                <div><a href="{{ link.link }}">{{ link.name }}</a></div>
             {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td width="10%">Packages:</td>
+        <td width="10%">{{ statistics.packages }}</td>
+        <td width="80%">
+            {% for link in links.packages %}
+                <div><a href="{{ link.link }}">{{ link.name }}</a></div>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td width="10%">Files:</td>
+        <td width="10%">{{ statistics.files }}</td>
+        <td width="80%">
+            {% for link in links.files %}
+                <div><a href="{{ link.link }}">{{ link.name }}</a></div>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+
+<br>
+<hr>
+<br>
+
+<table>
+        <caption>{{ violation.id }}</caption>
+        {% for key, value in violation %}
             <tr>
-                <td><br></td>
-                <td><br></td>
-            </tr>
-            <tr>
-                <td><br></td>
-                <td><br></td>
+                <td>{{ key }}</td>
+                {% if value is iterable %}
+                    <td>
+                        {% for key2, value2 in value %}
+                            {{ key2 }}: {{ value2|string }}
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td>{{ value|string }}</td>
+                {% endif %}
             </tr>
         {% endfor %}
-    </table>
-    <br><br>
-{% endif %}
 
-<hr>
-<hr>
-
-{% if report.packages is not empty %}
-    {% for package in report.packages %}
-        {% if package.violations is not empty %}
-            {% for violations in package.violations %}
-                <table>
-                    <caption>Found violations in the package {{ package.id }}:</caption>
-                    {% for key, value in violations %}
-                        <tr>
-                            <td>{{ key }}</td>
-                            {% if value is iterable %}
-                                <td>
-                                    {% for key2, value2 in value %}
-                                        {{ key2 }}: {{ value2|string }}
-                                    {% endfor %}
-                                </td>
-                            {% else %}
-                                <td>{{ value|string }}</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% endfor %}
-        {% endif %}
-        <hr>
-        <hr>
-        {% if package.files is not empty %}
-            {% for file in package.files %}
-                <table>
-                    <caption>Found violations in the file {{ file.path }}:</caption>
-                    {% for violations in file.violations %}
-                        {% for key, value in violations %}
-                            <tr>
-                                <td>{{ key }}</td>
-                                {% if value is iterable %}
-                                    <td>
-                                        {% for key2, value2 in value %}
-                                            {{ key2 }}: {{ value2|string }}
-                                        {% endfor %}
-                                    </td>
-                                {% else %}
-                                    <td>{{ value|string }}</td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
-                        <tr>
-                            <td><br></td>
-                            <td><br></td>
-                        </tr>
-                        <tr>
-                            <td><br></td>
-                            <td><br></td>
-                        </tr>
-                    {% endfor %}
-                </table>
-                <br><br><br>
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
+</table>
+<br><br>
 </body>
 </html>
