@@ -1,5 +1,6 @@
 parameters:
-  uname_info: '%env(UNAME_INFO)%'
+  env(UNAME_INFO): ''
+  uname_info: '%env(uname:UNAME_INFO)%'
 
 services:
   pbc_modify_docker_file:
@@ -129,3 +130,7 @@ services:
     arguments:
       - '@value_receiver'
     tags: ['sdk.value_resolver']
+
+  uname_env_var_processor:
+    class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor
+    tags: ['container.env_var_processor']

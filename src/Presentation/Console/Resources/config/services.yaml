@@ -42,8 +42,12 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateCommand
     tags: ["console.command"]
     arguments:
-      - "@process_helper"
       - "@service.lifecycle_manager"
+
+  install_private_sdk_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\InstallPrivateSdkCommand
+    tags: [ "console.command" ]
+    arguments:
       - "@service.tasks_repository_installer"
       - "@event_logger"
 

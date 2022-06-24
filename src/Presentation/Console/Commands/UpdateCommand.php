@@ -7,21 +7,12 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use Exception;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface;
-use SprykerSdk\Sdk\Core\Domain\Events\Event;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Command\CacheWarmupCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProcessHelper;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UpdateCommand extends Command
 {
@@ -46,42 +37,17 @@ class UpdateCommand extends Command
     protected static $defaultDescription = 'Update Spryker SDK to latest version.';
 
     /**
-     * @var \Symfony\Component\Console\Helper\ProcessHelper
-     */
-    protected ProcessHelper $processHelper;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
      */
     protected LifecycleManagerInterface $lifecycleManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface
-     */
-    protected TasksRepositoryInstallerInterface $tasksRepositoryInstaller;
-
-    /**
-     * @var \SprykerSdk\SdkContracts\Logger\EventLoggerInterface
-     */
-    protected EventLoggerInterface $eventLogger;
-
-    /**
-     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface $tasksRepositoryInstaller
-     * @param \SprykerSdk\SdkContracts\Logger\EventLoggerInterface $eventLogger
      */
-    public function __construct(
-        ProcessHelper $processHelper,
-        LifecycleManagerInterface $lifecycleManager,
-        TasksRepositoryInstallerInterface $tasksRepositoryInstaller,
-        EventLoggerInterface $eventLogger
-    ) {
+    public function __construct(LifecycleManagerInterface $lifecycleManager)
+    {
         parent::__construct(static::$defaultName);
-        $this->processHelper = $processHelper;
         $this->lifecycleManager = $lifecycleManager;
-        $this->tasksRepositoryInstaller = $tasksRepositoryInstaller;
-        $this->eventLogger = $eventLogger;
     }
 
     /**
@@ -119,12 +85,6 @@ class UpdateCommand extends Command
         }
 
         if ($input->getOption(static::OPTION_CHECK_ONLY) !== null) {
-            $io = new SymfonyStyle($input, $output);
-
-            $io->comment('If you have access to https://github.com/spryker-sdk/sdk-tasks-bundle, please configure SSH connection to Github.');
-
-            $this->installRepository($io);
-
             $this->lifecycleManager->update();
         }
 
@@ -148,50 +108,6 @@ class UpdateCommand extends Command
 
         foreach ($messages as $message) {
             $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
-        }
-    }
-
-    /**
-     * @return void
-     */
-    protected function warmUpCache(): void
-    {
-        if ($this->getApplication() === null) {
-            return;
-        }
-
-        /** @var string $cacheWarmupName */
-        $cacheWarmupName = CacheWarmupCommand::getDefaultName();
-
-        $this->getApplication()
-            ->get($cacheWarmupName)
-            ->run(new ArrayInput([]), new NullOutput());
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Style\SymfonyStyle $io
-     *
-     * @return void
-     */
-    protected function installRepository(SymfonyStyle $io): void
-    {
-        try {
-            $isInstalled = $this->tasksRepositoryInstaller->install();
-
-            if ($isInstalled) {
-                $io->success('Repository is installed successfully.');
-
-                $this->warmUpCache();
-            }
-        } catch (Exception $exception) {
-            $this->eventLogger->logEvent(new Event(
-                static::$defaultName,
-                static::class,
-                static::$defaultName,
-                false,
-                'user',
-                $exception->getMessage(),
-            ));
         }
     }
 }
