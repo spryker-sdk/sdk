@@ -84,15 +84,15 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
-            $this->checkForUpdate($output);
-        }
+        $this->clearCache($output);
+
+//        if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
+//            $this->checkForUpdate($output);
+//        }
 
         if ($input->getOption(static::OPTION_CHECK_ONLY) !== null) {
             $this->lifecycleManager->update();
         }
-
-        $this->clearCache($output);
 
         return static::SUCCESS;
     }
@@ -186,6 +186,7 @@ class UpdateCommand extends Command
             return;
         }
 
+        $app->setAutoExit(false);
         $app->run(new ArrayInput(['command' => 'cache:clear']), $output);
     }
 }

@@ -104,9 +104,9 @@ class InitSdkCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->clearCache($output);
         $this->initializeSettingValues($input->getOptions(), $this->readSettingDefinitions());
         $this->taskManager->initialize($this->taskYamlRepository->findAll());
-        $this->clearCache($output);
 
         return static::SUCCESS;
     }
@@ -251,6 +251,7 @@ class InitSdkCommand extends Command
             return;
         }
 
+        $app->setAutoExit(false);
         $app->run(new ArrayInput(['command' => 'cache:clear']), $output);
     }
 }
