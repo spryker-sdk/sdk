@@ -1,4 +1,4 @@
-ARG SPRYKER_PARENT_IMAGE=spryker/php:7.4
+ARG SPRYKER_PARENT_IMAGE=spryker/php:8.0
 
 FROM ${SPRYKER_PARENT_IMAGE} AS application-production-dependencies
 

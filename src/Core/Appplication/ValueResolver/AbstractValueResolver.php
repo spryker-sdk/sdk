@@ -58,7 +58,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         if ($defaultValue === null) {
             try {
                 $defaultValue = $this->getValueFromSettings($settingValues);
-            } catch (MissingValueException $_) {
+            } catch (MissingValueException $exception) {
                 $defaultValue = null;
             }
         }

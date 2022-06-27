@@ -17,7 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [
-            '7.4'
+            '7.4',
+            '8.0',
+            '8.1'
         ]
 
     steps:
@@ -50,7 +52,12 @@ jobs:
         run: composer --version
 
       - name: Composer install
+        if: ${{ matrix.php-version != '7.4' }}
         run: composer install
+
+      - name: Composer install
+        if: ${{ matrix.php-version == '7.4' }}
+        run: composer update --prefer-lowest
 
       - name: Run PHPStan
         run: composer stan
@@ -59,12 +66,15 @@ jobs:
         run: composer cs-check
 
       - name: Codecept tests with coverage
+        if: ${{ matrix.php-version == '8.1' }}
         run: composer test
 
       - name: Codecept tests with coverage
+        if: ${{ matrix.php-version == '8.0' }}
         run: composer test-cover
 
       - name: Upload coverage results to Coveralls
+        if: ${{ matrix.php-version == '8.0' }}
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
