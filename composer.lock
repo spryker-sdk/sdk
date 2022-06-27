@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e93ab1f13a1b9f40e723762ae5b1d89d",
+    "content-hash": "46e14512395fd7b0beaa93f6c3a26299",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -3418,12 +3418,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "d59cce73234da53f9bc053259964cfffe8dd6494"
+                "reference": "78d06254076e303982d4c9fe214e370d39e426aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/d59cce73234da53f9bc053259964cfffe8dd6494",
-                "reference": "d59cce73234da53f9bc053259964cfffe8dd6494",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/78d06254076e303982d4c9fe214e370d39e426aa",
+                "reference": "78d06254076e303982d4c9fe214e370d39e426aa",
                 "shasum": ""
             },
             "require": {
@@ -3448,7 +3448,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-635/dev-php74-compatibility"
             },
-            "time": "2022-06-23T08:56:29+00:00"
+            "time": "2022-06-28T08:29:00+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

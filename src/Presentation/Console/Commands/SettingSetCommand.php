@@ -101,10 +101,14 @@ class SettingSetCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string $path */
         $path = $input->getArgument(static::ARG_SETTING_PATH);
 
+        /** @var string $settingValue */
+        $settingValue = $input->getArgument(static::ARG_SETTING_VALUE);
+
         try {
-            $this->settingManager->setSetting($path, $input->getArgument(static::ARG_SETTING_VALUE));
+            $this->settingManager->setSetting($path, $settingValue);
         } catch (MissingSettingException $exception) {
             $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
 

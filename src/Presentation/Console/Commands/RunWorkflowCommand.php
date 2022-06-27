@@ -86,6 +86,7 @@ class RunWorkflowCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string|null $workflowName */
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
         $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
@@ -137,18 +138,13 @@ class RunWorkflowCommand extends Command
      */
     protected function formatMessage(MessageInterface $message): string
     {
-        $formatted = $message->getMessage();
+        $template = [
+            MessageInterface::INFO => '<info>Info: %s</info>',
+            MessageInterface::ERROR => '<error>Error: %s</error>',
+            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
+            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
+        ][$message->getVerbosity()] ?? '%s';
 
-        if ($message->getVerbosity() === MessageInterface::INFO) {
-            $formatted = '<info>Info: ' . $message->getMessage() . '</info>';
-        } elseif ($message->getVerbosity() === MessageInterface::ERROR) {
-            $formatted = '<error>Error: ' . $message->getMessage() . '</error>';
-        } elseif ($message->getVerbosity() === MessageInterface::SUCCESS) {
-            $formatted = '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>';
-        } elseif ($message->getVerbosity() === MessageInterface::DEBUG) {
-            $formatted = '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>';
-        }
-
-        return $formatted;
+        return sprintf($template, $message->getMessage());
     }
 }

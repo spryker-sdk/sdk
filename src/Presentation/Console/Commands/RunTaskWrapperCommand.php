@@ -196,19 +196,14 @@ class RunTaskWrapperCommand extends Command
      */
     protected function formatMessage(MessageInterface $message): string
     {
-        $formatted = $message->getMessage();
+        $template = [
+            MessageInterface::INFO => '<info>Info: %s</info>',
+            MessageInterface::ERROR => '<error>Error: %s</error>',
+            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
+            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
+        ][$message->getVerbosity()] ?? '%s';
 
-        if ($message->getVerbosity() === MessageInterface::INFO) {
-            $formatted = '<info>Info: ' . $message->getMessage() . '</info>';
-        } elseif ($message->getVerbosity() === MessageInterface::ERROR) {
-            $formatted = '<error>Error: ' . $message->getMessage() . '</error>';
-        } elseif ($message->getVerbosity() === MessageInterface::SUCCESS) {
-            $formatted = '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>';
-        } elseif ($message->getVerbosity() === MessageInterface::DEBUG) {
-            $formatted = '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>';
-        }
-
-        return $formatted;
+        return sprintf($template, $message->getMessage());
     }
 
     /**
@@ -246,19 +241,29 @@ class RunTaskWrapperCommand extends Command
             $context->setIsDryRun((bool)$input->getOption(static::OPTION_DRY_RUN));
         }
 
-        if ($input->hasOption(static::OPTION_TAGS)) {
+        if ($input->hasOption(static::OPTION_TAGS) && is_array($input->getOption(static::OPTION_TAGS))) {
             $context->setTags($input->getOption(static::OPTION_TAGS));
         }
 
-        if ($input->hasOption(static::OPTION_STAGES)) {
+        if (
+            $input->hasOption(static::OPTION_STAGES)
+            && is_array($input->getOption(static::OPTION_STAGES))
+        ) {
             $context->setInputStages($input->getOption(static::OPTION_STAGES));
         }
 
-        if ($input->hasOption(static::OPTION_OVERWRITES) && !empty($input->getOption(static::OPTION_OVERWRITES))) {
+        if (
+            $input->hasOption(static::OPTION_OVERWRITES)
+            && is_array($input->getOption(static::OPTION_OVERWRITES))
+            && $input->getOption(static::OPTION_OVERWRITES)
+        ) {
             $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
         }
 
-        if ($input->hasOption(static::OPTION_FORMAT) && $input->getOption(static::OPTION_FORMAT)) {
+        if (
+            $input->hasOption(static::OPTION_FORMAT)
+            && is_string($input->getOption(static::OPTION_FORMAT))
+        ) {
             $this->reportFormatterFactory->setFormat($input->getOption(static::OPTION_FORMAT));
         }
 
@@ -279,6 +284,7 @@ class RunTaskWrapperCommand extends Command
             && $input->hasOption(static::OPTION_WRITE_CONTEXT_TO)
             && $input->getOption(static::OPTION_WRITE_CONTEXT_TO)
         ) {
+            /** @var string $contextFilePath */
             $contextFilePath = $input->getOption(static::OPTION_WRITE_CONTEXT_TO);
             $context->setName($contextFilePath);
             $this->contextRepository->saveContext($context);
@@ -299,6 +305,7 @@ class RunTaskWrapperCommand extends Command
             return new Context();
         }
 
+        /** @var string $contextFilePath */
         $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
 
         return $this->contextRepository->findByName($contextFilePath) ?: new Context();
