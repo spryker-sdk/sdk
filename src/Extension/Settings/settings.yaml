@@ -96,13 +96,6 @@ settings:
     type: path
     values: "./reports/"
     initializer: create_directory_initializer
-  - path: context_dir
-    initialization_description: Where is the context directory?
-    strategy: overwrite
-    init: true
-    is_project: true
-    type: path
-    values: "./"
   - path: project_key
     initialization_description: What is the project unique key?
     strategy: overwrite

@@ -13,10 +13,10 @@ use SprykerSdk\Sdk\Core\Domain\Events\Event;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
 
 class InstallPrivateSdkCommand extends Command
 {
@@ -31,20 +31,28 @@ class InstallPrivateSdkCommand extends Command
     protected TasksRepositoryInstallerInterface $tasksRepositoryInstaller;
 
     /**
+     * @var string
+     */
+    protected string $sdkBasePath;
+
+    /**
      * @var \SprykerSdk\SdkContracts\Logger\EventLoggerInterface
      */
     protected EventLoggerInterface $eventLogger;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface $tasksRepositoryInstaller
+     * @param string $sdkBasePath
      * @param \SprykerSdk\SdkContracts\Logger\EventLoggerInterface $eventLogger
      */
     public function __construct(
         TasksRepositoryInstallerInterface $tasksRepositoryInstaller,
+        string $sdkBasePath,
         EventLoggerInterface $eventLogger
     ) {
         parent::__construct(static::$defaultName);
         $this->tasksRepositoryInstaller = $tasksRepositoryInstaller;
+        $this->sdkBasePath = $sdkBasePath;
         $this->eventLogger = $eventLogger;
     }
 
@@ -79,9 +87,8 @@ class InstallPrivateSdkCommand extends Command
         /** @var string $cacheCommandName */
         $cacheCommandName = CacheClearCommand::getDefaultName();
 
-        $this->getApplication()
-            ->get($cacheCommandName)
-            ->run(new ArrayInput([]), $output);
+        $process = Process::fromShellCommandline($this->sdkBasePath . '/bin/console ' . $cacheCommandName);
+        $process->run();
     }
 
     /**
