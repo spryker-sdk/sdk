@@ -124,12 +124,16 @@ services:
   project_workflow_initializer:
     alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer
     public: true
-
   option_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\OptionValueResolver
     arguments:
       - '@value_receiver'
     tags: ['sdk.value_resolver']
+
+  # Transition resolvers
+  transition_boolean_resolver:
+    class: SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver
+    public: true
 
   uname_env_var_processor:
     class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor

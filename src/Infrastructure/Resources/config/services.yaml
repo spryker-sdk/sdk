@@ -28,6 +28,7 @@ services:
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
+      - "@service_container"
       - "@setting_repository"
       - "@yaml_parser"
       - "%project_settings_file%"
@@ -239,6 +240,7 @@ services:
   app.workflow.transition_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
     arguments:
+      - "@service_container"
       - "@task_executor"
       - "@workflow_runner"
       - "@project_workflow"
