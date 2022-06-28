@@ -81,6 +81,7 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
         }
 
         $violations = $this->violationReportFileMapper->mapViolationReportToHtml($violationReport);
+        $violations = $this->groupViolations($violations);
         $this->createReports($name, $violations);
     }
 
@@ -116,8 +117,9 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
 
         if ($statistics['project'] > 0) {
             $projectDirPath = $reportDirPath . $commandName . DIRECTORY_SEPARATOR;
-            foreach ($violations['project']['violations'] as $violation) {
-                $this->createFile($violation, $statistics, $links, $projectDirPath, $projectDirPath . $violation['id'] . static::HTML_EXT);
+
+            foreach ($violations['project']['violations'] as $id => $violation) {
+                $this->createFile($violation, $statistics, $links, $projectDirPath, $projectDirPath . $id . static::HTML_EXT);
             }
         }
 
@@ -125,8 +127,8 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
             $packagesReportDirPath = $reportDirPath . $commandName . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR;
 
             foreach ($violations['packages'] as $package) {
-                foreach ($package['violations'] as $violation) {
-                    $this->createFile($violation, $statistics, $links, $packagesReportDirPath, $packagesReportDirPath . $violation['id'] . static::HTML_EXT);
+                foreach ($package['violations'] as $id => $violation) {
+                    $this->createFile($violation, $statistics, $links, $packagesReportDirPath, $packagesReportDirPath . $id . static::HTML_EXT);
                 }
             }
         }
@@ -135,8 +137,8 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
             $filesReportDirPath = $reportDirPath . $commandName . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR;
 
             foreach ($violations['files'] as $file) {
-                foreach ($file['violations'] as $violation) {
-                    $this->createFile($violation, $statistics, $links, $filesReportDirPath, $filesReportDirPath . $violation['id'] . static::HTML_EXT);
+                foreach ($file['violations'] as $id => $violation) {
+                    $this->createFile($violation, $statistics, $links, $filesReportDirPath, $filesReportDirPath . $id . static::HTML_EXT);
                 }
             }
         }
@@ -163,7 +165,7 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
 
         $content = $this->templating->render(
             static::VIOLATION_TEMPLATE,
-            ['violation' => $violations, 'statistics' => $statistics, 'links' => $links],
+            ['violations' => $violations, 'statistics' => $statistics, 'links' => $links],
         );
 
         file_put_contents($fileName, $content);
@@ -186,13 +188,9 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
                     continue;
                 }
 
-                foreach ($package['violations'] as $violation) {
-                    $links['packages'][] =
-                        [
-                            'link' => static::URI_SCHEME . $reportDirPath . $commandName
-                                . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . $violation['id'] . static::HTML_EXT,
-                            'name' => $violation['id'],
-                        ];
+                foreach ($package['violations'] as $id => $violation) {
+                    $links['packages'][$id] = static::URI_SCHEME . $reportDirPath . $commandName
+                        . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . $id . static::HTML_EXT;
                 }
             }
         }
@@ -203,28 +201,58 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
                     continue;
                 }
 
-                foreach ($file['violations'] as $violation) {
-                    $links['files'][] =
-                        [
-                            'link' => static::URI_SCHEME . $reportDirPath . $commandName . DIRECTORY_SEPARATOR
-                                . 'files' . DIRECTORY_SEPARATOR . $violation['id'] . static::HTML_EXT,
-                            'name' => $violation['id'],
-                        ];
+                foreach ($file['violations'] as $id => $violation) {
+                    $links['files'][$id] = static::URI_SCHEME . $reportDirPath . $commandName . DIRECTORY_SEPARATOR
+                                . 'files' . DIRECTORY_SEPARATOR . $id . static::HTML_EXT;
                 }
             }
         }
 
         if (count($violations['project']['violations']) > 0) {
-            foreach ($violations['project']['violations'] as $projectViolation) {
-                $links['project'][] =
-                    [
-                        'link' => static::URI_SCHEME . $reportDirPath . $commandName . DIRECTORY_SEPARATOR
-                            . $projectViolation['id'] . static::HTML_EXT,
-                        'name' => $projectViolation['id'],
-                    ];
+            foreach ($violations['project']['violations'] as $id => $violation) {
+                $links['project'][$id] = static::URI_SCHEME . $reportDirPath . $commandName . DIRECTORY_SEPARATOR
+                    . $id . static::HTML_EXT;
             }
         }
 
         return $links;
+    }
+
+    /**
+     * @param array $violations
+     *
+     * @return array
+     */
+    private function groupViolations(array $violations): array
+    {
+        $violationsNew = [];
+
+        foreach ($violations['project']['violations'] as $violation) {
+            $violationsNew['project']['violations'][$violation['id']][] = $violation;
+        }
+
+        $violations['project']['violations'] = $violationsNew['project']['violations'] ?? [];
+
+        foreach ($violations['packages'] as $key => $violationP) {
+            $violationsNew = [];
+
+            foreach ($violationP['violations'] as $violation) {
+                $violationsNew['packages'][$violation['id']][] = $violation;
+            }
+
+            $violations['packages'][$key]['violations'] = $violationsNew['packages'] ?? [];
+        }
+
+        foreach ($violations['files'] as $key => $violationP) {
+            $violationsNew = [];
+
+            foreach ($violationP['violations'] as $violation) {
+                $violationsNew['files'][$violation['id']][] = $violation;
+            }
+
+            $violations['files'][$key]['violations'] = $violationsNew['files'] ?? [];
+        }
+
+        return $violations;
     }
 }
