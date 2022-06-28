@@ -9,8 +9,8 @@
         <td width="10%">Project:</td>
         <td width="10%">{{ statistics.project }}</td>
         <td width="80%">
-            {% for link in links.project %}
-                <div><a href="{{ link.link }}">{{ link.name }}</a></div>
+            {% for id, link in links.project %}
+                <div><a href="{{ link }}">{{ id }}</a></div>
             {% endfor %}
         </td>
     </tr>
@@ -18,8 +18,8 @@
         <td width="10%">Packages:</td>
         <td width="10%">{{ statistics.packages }}</td>
         <td width="80%">
-            {% for link in links.packages %}
-                <div><a href="{{ link.link }}">{{ link.name }}</a></div>
+            {% for id, link in links.packages %}
+                <div><a href="{{ link }}">{{ id }}</a></div>
             {% endfor %}
         </td>
     </tr>
@@ -27,8 +27,8 @@
         <td width="10%">Files:</td>
         <td width="10%">{{ statistics.files }}</td>
         <td width="80%">
-            {% for link in links.files %}
-                <div><a href="{{ link.link }}">{{ link.name }}</a></div>
+            {% for id, link in links.files %}
+                <div><a href="{{ link }}">{{ id }}</a></div>
             {% endfor %}
         </td>
     </tr>
@@ -38,24 +38,25 @@
 <hr>
 <br>
 
-<table>
-        <caption>{{ violation.id }}</caption>
-        {% for key, value in violation %}
-            <tr>
-                <td>{{ key }}</td>
-                {% if value is iterable %}
-                    <td>
-                        {% for key2, value2 in value %}
-                            {{ key2 }}: {{ value2|string }}
-                        {% endfor %}
-                    </td>
-                {% else %}
-                    <td>{{ value|string }}</td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-
-</table>
+{% for violation in violations %}
+    <table>
+            {% for key, value in violation %}
+                <tr>
+                    <td>{{ key }}</td>
+                    {% if value is iterable %}
+                        <td>
+                            {% for key2, value2 in value %}
+                                {{ key2 }}: {{ value2|string }}
+                            {% endfor %}
+                        </td>
+                    {% else %}
+                        <td>{{ value|string }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+    </table>
+    <br><br>
+{% endfor %}
 <br><br>
 </body>
 </html>
