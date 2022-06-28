@@ -210,8 +210,8 @@ class HtmlViolationReportFormatter implements ViolationReportFormatterInterface
 
         if (count($violations['project']['violations']) > 0) {
             foreach ($violations['project']['violations'] as $id => $violation) {
-                $links['project'][$id] = static::URI_SCHEME . $reportDirPath . $commandName . DIRECTORY_SEPARATOR
-                    . $id . static::HTML_EXT;
+                $links['project'][$id] = static::URI_SCHEME . $reportDirPath . $commandName
+                    . DIRECTORY_SEPARATOR . $id . static::HTML_EXT;
             }
         }
 
