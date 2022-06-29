@@ -56,7 +56,7 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
             return false;
         }
 
-        if (is_file($this->installationPath)) {
+        if (file_exists($this->installationPath)) {
             $this->cleanTasks();
         }
 
