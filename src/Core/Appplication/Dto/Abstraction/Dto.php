@@ -136,7 +136,7 @@ class Dto implements FromArrayToArrayInterface
         $array = [];
         array_shift($keyStack);
         foreach ($arrayValue as $key => $value) {
-            $value = (bool)$keyStack
+            $value = $keyStack
                 ? $this->toNestedArrayValue($keyStack, $value, $type)
                 : $this->toSingularValue($value, $type);
 
@@ -338,7 +338,20 @@ class Dto implements FromArrayToArrayInterface
     {
         $typeName = strtolower($typeName);
 
-        return ['boolean' => 'bool', 'double' => 'float', 'integer' => 'int'][$typeName] ?? $typeName;
+        switch ($typeName) {
+            case 'boolean':
+                $typeName = 'bool';
+
+                break;
+            case 'double':
+                $typeName = 'float';
+
+                break;
+            case 'integer':
+                $typeName = 'int';
+        }
+
+        return $typeName;
     }
 
     /**

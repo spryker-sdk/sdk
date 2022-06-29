@@ -103,12 +103,21 @@ class SettingManager
      */
     protected function buildPathValue(SettingInterface $settingDefinition, $value): SettingInterface
     {
-        if (is_array($value) || $settingDefinition->getType() === 'array') {
+        if (is_array($value)) {
             $typedValue = (array)$value;
-        } elseif ($settingDefinition->getType() === 'boolean') {
-            $typedValue = (bool)$value;
         } else {
-            $typedValue = (string)$value;
+            switch ($settingDefinition->getType()) {
+                case 'array':
+                    $typedValue = (array)$value;
+
+                    break;
+                case 'boolean':
+                    $typedValue = (bool)$value;
+
+                    break;
+                default:
+                    $typedValue = (string)$value;
+            }
         }
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {

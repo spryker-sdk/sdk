@@ -181,10 +181,13 @@ class DtoProperty
 
         $this->parseDocType($property);
 
-        if ($this->type === 'self') {
-            $this->type = $property->getDeclaringClass()->getName();
-        } elseif ($this->type === 'static') {
-            $this->type = $this->reflectionClass->getName();
+        switch ($this->type) {
+            case 'self':
+                $this->type = $property->getDeclaringClass()->getName();
+
+                break;
+            case 'static':
+                $this->type = $this->reflectionClass->getName();
         }
     }
 

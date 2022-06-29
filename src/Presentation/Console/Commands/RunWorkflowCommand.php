@@ -138,12 +138,26 @@ class RunWorkflowCommand extends Command
      */
     protected function formatMessage(MessageInterface $message): string
     {
-        $template = [
-            MessageInterface::INFO => '<info>Info: %s</info>',
-            MessageInterface::ERROR => '<error>Error: %s</error>',
-            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
-            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
-        ][$message->getVerbosity()] ?? '%s';
+        switch ($message->getVerbosity()) {
+            case MessageInterface::INFO:
+                $template = '<info>Info: %s</info>';
+
+                break;
+            case MessageInterface::ERROR:
+                $template = '<error>Error: %s</error>';
+
+                break;
+            case MessageInterface::SUCCESS:
+                $template = '<fg=black;bg=green>Success: %s</>';
+
+                break;
+            case MessageInterface::DEBUG:
+                $template = '<fg=black;bg=yellow>Debug: %s</>';
+
+                break;
+            default:
+                $template = '%s';
+        }
 
         return sprintf($template, $message->getMessage());
     }
