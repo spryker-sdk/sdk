@@ -14,7 +14,7 @@ services:
       - "@service.task_manager"
       - "@task_repository"
 
-  init_run_workflow_command:
+  run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\RunWorkflowCommand
     tags: [ "console.command" ]
@@ -22,6 +22,17 @@ services:
       - "@project_workflow"
       - "@cli_value_receiver"
       - "@workflow_runner"
+  list_workflow_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\ListWorkflowCommand
+    tags: ["console.command"]
+    arguments:
+      - "@project_workflow"
+  show_workflow_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\ShowWorkflowCommand
+    tags: [ "console.command" ]
+    arguments:
+      - "@project_workflow"
+      - "@cli_value_receiver"
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand
@@ -97,3 +108,4 @@ services:
   brancho_branch_builder_command:
     class: SprykerSdk\Sdk\Extension\Commands\BranchBuilderCommand
     tags: ["console.command"]
+
