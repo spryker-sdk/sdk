@@ -142,6 +142,15 @@
     "justinrainbow/json-schema": {
         "version": "5.2.12"
     },
+    "knplabs/github-api": {
+        "version": "3.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.6",
+            "ref": "a7d5781e4a8e84f1c238c43e4c9bb806f01d8a3f"
+        }
+    },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
@@ -341,6 +350,9 @@
     },
     "spryker-sdk/sync-api": {
         "version": "1.0.x-dev"
+    },
+    "spryker-sdk/upgrader": {
+        "version": "dev-feature/stand-alone-plus-php74"
     },
     "spryker/architecture-sniffer": {
         "version": "0.5.2"
