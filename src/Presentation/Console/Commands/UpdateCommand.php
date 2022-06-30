@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use GuzzleHttp\Client;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -85,7 +86,7 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->clearCache($output);
-
+        $latestVersion = $this->getLatestVersion($output);
 //        if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
 //            $this->checkForUpdate($output);
 //        }
@@ -136,21 +137,12 @@ class UpdateCommand extends Command
     protected function getLatestVersion(OutputInterface $output): string
     {
         $githubVersion = '0.0.0';
-        $opts = [
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP',
-                ],
-                'timeout' => 10,
-            ],
-        ];
-        $context = stream_context_create($opts);
         $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
 
+        $httpClient = new Client();
         try {
-            $content = file_get_contents($githubEndpoint, false, $context);
-
+            $response = $httpClient->request('GET', $githubEndpoint);
+            $content = $response->getBody()->getContents();
             if (!$content) {
                 $output->writeln(sprintf('<error>Could not read from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
 

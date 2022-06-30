@@ -138,6 +138,7 @@ class InitProjectCommand extends Command
      */
     protected function initializeSettingValues(array $options, array $settingEntities, bool $needsToAsk): array
     {
+        $settingEntitiesToSave = [];
         foreach ($settingEntities as $settingEntity) {
             if (!empty($options[$settingEntity->getPath()])) {
                 $settingEntity->setValues($options[$settingEntity->getPath()]);
@@ -187,16 +188,21 @@ class InitProjectCommand extends Command
             };
 
             $settingEntity->setValues($values);
+
+            if ($settingEntity->getType() !== 'array' && $values === $settingEntity->getValues()) {
+                continue;
+            }
+            $settingEntitiesToSave[] = $settingEntity;
         }
 
-        foreach ($settingEntities as $settingEntity) {
+        foreach ($settingEntity as $settingEntity) {
             $initializer = $this->getSettingInitializer($settingEntity);
             if ($initializer) {
                 $initializer->initialize($settingEntity);
             }
         }
 
-        return $settingEntities;
+        return $settingEntitiesToSave;
     }
 
     /**

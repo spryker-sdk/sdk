@@ -91,13 +91,14 @@ class RunWorkflowCommand extends Command
         $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
 
         if ($workflowName && $initializedWorkflows && !in_array($workflowName, $initializedWorkflows)) {
-            $output->writeln(sprintf('<error>The `%s` workflow hasn\'t been initialized.</error>', $workflowName));
+            $output->writeln('<error>You haven\'t initialized a workflow with "sdk:workflow:init"' .
+                ' or you don\'t have any open tasks defined</error>');
 
             return static::FAILURE;
         }
 
         if (!$workflowName) {
-            $workflows = $initializedWorkflows && $this->projectWorkflow->getProjectWorkflows() ? $initializedWorkflows : $this->projectWorkflow->getAll();
+            $workflows = $initializedWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
             $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'You have more than one initialized workflow. You have to select one.',
