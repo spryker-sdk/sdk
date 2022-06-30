@@ -132,7 +132,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     protected function changeDockerNames(ContextInterface $context): void
     {
         $resolvedValues = $context->getResolvedValues();
-        $pbcName = $resolvedValues['%pbc_name%'];
+        $pbcName = strtolower($resolvedValues['%pbc_name%']);
+        $pbcName = preg_replace('/[\s]/', '-', $pbcName);
 
         $dockerFileContent = $this->dockerFileModifier->read($context, static::DOCKER_INITIALIZATION_ERROR);
         $dockerFileContent['namespace'] = $pbcName;
