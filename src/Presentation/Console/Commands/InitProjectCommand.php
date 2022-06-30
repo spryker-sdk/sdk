@@ -195,7 +195,7 @@ class InitProjectCommand extends Command
             $settingEntitiesToSave[] = $settingEntity;
         }
 
-        foreach ($settingEntity as $settingEntity) {
+        foreach ($settingEntities as $settingEntity) {
             $initializer = $this->getSettingInitializer($settingEntity);
             if ($initializer) {
                 $initializer->initialize($settingEntity);
