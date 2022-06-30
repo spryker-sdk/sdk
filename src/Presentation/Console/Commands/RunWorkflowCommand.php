@@ -97,7 +97,7 @@ class RunWorkflowCommand extends Command
         }
 
         if (!$workflowName) {
-            $workflows = $initializedWorkflows && $this->projectWorkflow->getProjectWorkflows() ? $initializedWorkflows : $this->projectWorkflow->getAll();
+            $workflows = $initializedWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
             $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'You have more than one initialized workflow. You have to select one.',
