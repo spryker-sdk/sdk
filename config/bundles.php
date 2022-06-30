@@ -8,5 +8,4 @@ return [
     SprykerSdk\Sdk\Extension\SprykerSdkExtensionBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
-    \Upgrader\UpgraderBundle::class => ['all' => true],
 ];
