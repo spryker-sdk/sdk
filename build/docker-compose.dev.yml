@@ -6,7 +6,7 @@ x-volumes:
 
 services:
   spryker-sdk:
-    image: spryker/php-sdk:latest
+    image: spryker/php-sdk:0.1.2
     build:
       context: ./
       dockerfile: ./infrastructure/sdk.debug.Dockerfile
