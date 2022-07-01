@@ -88,7 +88,7 @@ class ShowWorkflowCommand extends Command
         $path = getenv('HOST_PWD') ?: $this->sdkDirectory;
         try {
             $dotWorkflow = $this->dumpWorkflow($workflowName);
-            $fileName = $this->renderWorkflow($dotWorkflow);
+            $fileName = $this->renderWorkflow($workflowName, $dotWorkflow);
             $io->text(sprintf('file://%s/%s', $path, $fileName));
         } catch (Throwable $e) {
             $io->error($e->getMessage());
@@ -155,21 +155,23 @@ class ShowWorkflowCommand extends Command
     }
 
     /**
+     * @param string $workflowName
      * @param string $dotWorkflow
      *
      * @throws \RuntimeException
      *
      * @return string
      */
-    protected function renderWorkflow(string $dotWorkflow): string
+    protected function renderWorkflow(string $workflowName, string $dotWorkflow): string
     {
-        $dot = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-oworkflow.svg'], null, null, $dotWorkflow);
+        $workflowFileName = $workflowName . '.svg';
+        $dot = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-o' . $workflowFileName], null, null, $dotWorkflow);
         $result = $dot->run();
 
         if ($result !== static::SUCCESS) {
             throw new RuntimeException('Error occurred in `dot` command');
         }
 
-        return 'workflow.svg';
+        return $workflowFileName;
     }
 }
