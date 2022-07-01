@@ -13430,12 +13430,6 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-514-nested-workflows",
-            "alias": "dev-master",
-            "alias_normalized": "dev-master"
-        },
-        {
             "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",
             "alias": "0.1.0",
