@@ -38,8 +38,14 @@ class UpdateCommand extends Command
      */
     protected static $defaultDescription = 'Update Spryker SDK to latest version.';
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
+     */
     protected LifecycleManagerInterface $lifecycleManager;
 
+    /**
+     * @var string
+     */
     protected string $sdkDirectory;
 
     /**

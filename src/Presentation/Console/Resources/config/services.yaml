@@ -33,6 +33,7 @@ services:
     arguments:
       - "@project_workflow"
       - "@cli_value_receiver"
+      - "%kernel.project_dir%"
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand

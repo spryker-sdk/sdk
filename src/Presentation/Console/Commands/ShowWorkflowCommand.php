@@ -36,23 +36,31 @@ class ShowWorkflowCommand extends Command
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
      */
-    protected $projectWorkflow;
+    protected ProjectWorkflow $projectWorkflow;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
      */
-    protected $cliValueReceiver;
+    protected CliValueReceiver $cliValueReceiver;
+
+    /**
+     * @var string
+     */
+    protected string $sdkDirectory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param string $sdkDirectory
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
-        CliValueReceiver $cliValueReceiver
+        CliValueReceiver $cliValueReceiver,
+        string $sdkDirectory
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
+        $this->sdkDirectory = $sdkDirectory;
         parent::__construct(static::NAME);
     }
 
@@ -77,10 +85,11 @@ class ShowWorkflowCommand extends Command
 
         $workflowName = $this->getWorkflowName($input);
 
+        $path = getenv('HOST_PWD') ?: $this->sdkDirectory;
         try {
             $dotWorkflow = $this->dumpWorkflow($workflowName);
             $fileName = $this->renderWorkflow($dotWorkflow);
-            $io->text(sprintf('file://%s/%s', getenv('HOST_PWD'), $fileName));
+            $io->text(sprintf('file://%s/%s', $path, $fileName));
         } catch (Throwable $e) {
             $io->error($e->getMessage());
 
