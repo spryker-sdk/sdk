@@ -57,7 +57,7 @@ settings:
   - path: report_usage_statistics
     initialization_description: Do you agree to send anonymous usage reports to help improving the SDK?
     strategy: overwrite
-    init: false
+    init: true
     is_project: true
     type: boolean
     values: false
@@ -93,7 +93,7 @@ settings:
     init: false
     is_project: true
     type: path
-    values: "./reports/"
+    values: "./.ssdk/reports/"
     initializer: create_directory_initializer
   - path: context_dir
     initialization_description: Where is the context directory?
@@ -101,7 +101,7 @@ settings:
     init: false
     is_project: true
     type: path
-    values: "./"
+    values: "./.ssdk/"
   - path: project_key
     initialization_description: What is the project unique key?
     strategy: overwrite

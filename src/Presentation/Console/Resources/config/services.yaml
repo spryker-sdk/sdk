@@ -33,6 +33,7 @@ services:
     arguments:
       - "@project_workflow"
       - "@cli_value_receiver"
+      - "%project_settings_file%"
       - "%kernel.project_dir%"
   init_project_command:
     autowire: false

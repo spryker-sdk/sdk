@@ -46,20 +46,28 @@ class ShowWorkflowCommand extends Command
     /**
      * @var string
      */
+    protected string $projectSettingsFile;
+
+    /**
+     * @var string
+     */
     protected string $sdkDirectory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param string $projectSettingsFile
      * @param string $sdkDirectory
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         CliValueReceiver $cliValueReceiver,
+        string $projectSettingsFile,
         string $sdkDirectory
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
+        $this->projectSettingsFile = $projectSettingsFile;
         $this->sdkDirectory = $sdkDirectory;
         parent::__construct(static::NAME);
     }
@@ -85,11 +93,10 @@ class ShowWorkflowCommand extends Command
 
         $workflowName = $this->getWorkflowName($input);
 
-        $path = getenv('HOST_PWD') ?: $this->sdkDirectory;
         try {
             $dotWorkflow = $this->dumpWorkflow($workflowName);
-            $fileName = $this->renderWorkflow($workflowName, $dotWorkflow);
-            $io->text(sprintf('file://%s/%s', $path, $fileName));
+            $filePath = $this->renderWorkflow($workflowName, $dotWorkflow);
+            $io->text(sprintf('file://%s', $filePath));
         } catch (Throwable $e) {
             $io->error($e->getMessage());
 
@@ -164,14 +171,18 @@ class ShowWorkflowCommand extends Command
      */
     protected function renderWorkflow(string $workflowName, string $dotWorkflow): string
     {
-        $workflowFileName = $workflowName . '.svg';
-        $dot = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-o' . $workflowFileName], null, null, $dotWorkflow);
+        $settingsDir = preg_replace('/^(([\/\\])|([.](?!\w)))+/u', '', dirname($this->projectSettingsFile));
+        $relativePath = sprintf('%s/%s.svg', $settingsDir, $workflowName);
+
+        $dot = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-o' . $relativePath], null, null, $dotWorkflow);
         $result = $dot->run();
 
         if ($result !== static::SUCCESS) {
             throw new RuntimeException('Error occurred in `dot` command');
         }
 
-        return $workflowFileName;
+        $path = getenv('HOST_PWD') ?: $this->sdkDirectory;
+
+        return sprintf('%s/%s', $path, $relativePath);
     }
 }

@@ -113,7 +113,7 @@ class InitProjectCommand extends Command
         if (file_exists($this->projectSettingFileName)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
-                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'boolean'),
+                    new ReceiverValue('Project settings file already exists, should it be overwritten?', false, 'boolean'),
                 )
             ) {
                 return static::SUCCESS;
@@ -125,6 +125,7 @@ class InitProjectCommand extends Command
         $needsToAsk = (bool)$input->getOption('default');
         $settingEntities = $this->initializeSettingValues($input->getOptions(), $settingEntities, $needsToAsk);
         $this->writeProjectSettings($settingEntities);
+        $this->createGitignore();
 
         return static::SUCCESS;
     }
@@ -151,7 +152,7 @@ class InitProjectCommand extends Command
             if (empty($options[$settingEntity->getPath()])) {
                 $needsToAsk = !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
-                        sprintf('Do you need to init `%s` with custom setting', $settingEntity->getPath()),
+                        sprintf('Would you like to change the default value for `%s` setting?', $settingEntity->getPath()),
                         false,
                         'boolean',
                     ),
@@ -239,5 +240,17 @@ class InitProjectCommand extends Command
         }
 
         return $initializer;
+    }
+
+    /**
+     * @return void
+     */
+    protected function createGitignore(): void
+    {
+        $settingsDir = dirname($this->projectSettingFileName);
+
+        if (realpath($settingsDir) !== realpath('.')) {
+            file_put_contents(sprintf('%s/.gitignore', $settingsDir), '*');
+        }
     }
 }
