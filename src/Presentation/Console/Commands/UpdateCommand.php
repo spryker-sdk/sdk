@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -80,8 +80,9 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->clearCache($output);
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
-            $this->checkForUpdate($output);
+            $this->lifecycleManager->checkForUpdate();
         }
 
         if ($input->getOption(static::OPTION_CHECK_ONLY) !== null) {
@@ -96,18 +97,15 @@ class UpdateCommand extends Command
      *
      * @return void
      */
-    protected function checkForUpdate(OutputInterface $output): void
+    protected function clearCache(OutputInterface $output): void
     {
-        try {
-            $messages = $this->lifecycleManager->checkForUpdate();
-        } catch (SdkVersionNotFoundException $exception) {
-            $output->writeln($exception->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
+        $app = $this->getApplication();
 
+        if (!$app) {
             return;
         }
 
-        foreach ($messages as $message) {
-            $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
-        }
+        $app->setAutoExit(false);
+        $app->run(new ArrayInput(['command' => 'cache:clear']), $output);
     }
 }
