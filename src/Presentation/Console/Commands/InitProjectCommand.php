@@ -140,15 +140,15 @@ class InitProjectCommand extends Command
     {
         $settingEntitiesToSave = [];
         foreach ($settingEntities as $settingEntity) {
-            if (!empty($options[$settingEntity->getPath()])) {
-                $settingEntity->setValues($options[$settingEntity->getPath()]);
-            }
-            if ($settingEntity->hasInitialization() === false) {
+            if (
+                (empty($options[$settingEntity->getPath()]) && $settingEntity->hasInitialization() === false) ||
+                ($settingEntity->getInitializer() && in_array($settingEntity->getType(), ['uuid']))
+            ) {
                 continue;
             }
-            $values = $settingEntity->getValues();
+            $values = $options[$settingEntity->getPath()] ?? $settingEntity->getValues();
 
-            if (empty($options[$settingEntity->getPath()]) && $settingEntity->hasInitialization() === true) {
+            if (empty($options[$settingEntity->getPath()])) {
                 $needsToAsk = !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
                         sprintf('Do you need to init `%s` with custom setting', $settingEntity->getPath()),
@@ -158,7 +158,7 @@ class InitProjectCommand extends Command
                 );
             }
 
-            if (!$needsToAsk) {
+            if (!$needsToAsk && !$options[$settingEntity->getPath()]) {
                 $questionDescription = $settingEntity->getInitializationDescription();
 
                 if (!$questionDescription) {
@@ -174,7 +174,7 @@ class InitProjectCommand extends Command
                 $values = $this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
                         $questionDescription,
-                        $settingEntity->getValues(),
+                        is_array($values) ? array_key_first($values) : $values,
                         $settingEntity->getType(),
                         $choiceValues,
                     ),
@@ -187,11 +187,10 @@ class InitProjectCommand extends Command
                 default => (string)$values,
             };
 
-            $settingEntity->setValues($values);
-
             if ($settingEntity->getType() !== 'array' && $values === $settingEntity->getValues()) {
                 continue;
             }
+            $settingEntity->setValues($values);
             $settingEntitiesToSave[] = $settingEntity;
         }
 
