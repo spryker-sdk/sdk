@@ -5,6 +5,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
     arguments:
       - "@project_setting_repository"
+      - "%project_settings_file%"
   event_logger:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
     factory: ["@event_logger_factory", "createEventLogger"]

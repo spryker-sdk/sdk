@@ -90,7 +90,7 @@ class AnalyzerTaskCest
 
         // Assert
         Assert::assertFileExists(
-            $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::FAIL_PROJECT_DIR),
+            $I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::FAIL_PROJECT_DIR),
         );
     }
 }
