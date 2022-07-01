@@ -17,6 +17,9 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     public const SETTING_SDK_DIR = 'sdk_dir';
 
+    /**
+     * @var string
+     */
     protected string $sdkBasePath;
 
     /**

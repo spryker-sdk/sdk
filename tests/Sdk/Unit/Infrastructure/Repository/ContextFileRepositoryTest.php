@@ -64,12 +64,12 @@ class ContextFileRepositoryTest extends Unit
         // Arrange
         $context = $this->tester->createContext();
         $jsonContext = json_encode($this->tester->createArrayContext());
-        $setting = $this->tester->createSetting('context_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
 
         $this->settingRepository
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('context_dir')
+            ->with('project_dir')
             ->willReturn($setting);
 
         $this->contextSerializer
@@ -103,12 +103,12 @@ class ContextFileRepositoryTest extends Unit
         $vfsFile = $this->tester->createVfsStreamFile($fileName, $jsonContext);
         $this->vfsStream->addChild($vfsFile);
 
-        $setting = $this->tester->createSetting('context_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
 
         $this->settingRepository
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('context_dir')
+            ->with('project_dir')
             ->willReturn($setting);
 
         // Act
@@ -131,12 +131,12 @@ class ContextFileRepositoryTest extends Unit
         $vfsFile = $this->tester->createVfsStreamFile($fileName, $jsonContext);
         $this->vfsStream->addChild($vfsFile);
 
-        $setting = $this->tester->createSetting('context_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
 
         $this->settingRepository
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('context_dir')
+            ->with('project_dir')
             ->willReturn($setting);
 
         $this->contextSerializer
@@ -163,12 +163,12 @@ class ContextFileRepositoryTest extends Unit
         $vfsFile = $this->tester->createVfsStreamFile($fileName, '');
         $this->vfsStream->addChild($vfsFile);
 
-        $setting = $this->tester->createSetting('context_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
 
         $this->settingRepository
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('context_dir')
+            ->with('project_dir')
             ->willReturn($setting);
 
         $this->expectException(MissingContextFileException::class);
@@ -185,12 +185,12 @@ class ContextFileRepositoryTest extends Unit
         // Arrange
         $context = $this->tester->createContext();
 
-        $setting = $this->tester->createSetting('context_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
 
         $this->settingRepository
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('context_dir')
+            ->with('project_dir')
             ->willReturn($setting);
 
         $this->expectException(MissingContextFileException::class);

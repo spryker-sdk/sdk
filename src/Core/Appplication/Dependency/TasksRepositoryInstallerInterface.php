@@ -7,15 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-interface LifecycleManagerInterface
+interface TasksRepositoryInstallerInterface
 {
     /**
-     * @return void
+     * @return bool
      */
-    public function update(): void;
-
-    /**
-     * @return array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
-     */
-    public function checkForUpdate(): array;
+    public function install(): bool;
 }

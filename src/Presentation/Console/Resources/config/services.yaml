@@ -43,7 +43,14 @@ services:
     tags: ["console.command"]
     arguments:
       - "@service.lifecycle_manager"
-      - "%kernel.project_dir%"
+
+  install_private_sdk_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\InstallPrivateSdkCommand
+    tags: [ "console.command" ]
+    arguments:
+      - "@service.tasks_repository_installer"
+      - '%kernel.project_dir%'
+      - "@event_logger"
 
   create_phpstorm_config_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\CreatePhpStormConfig

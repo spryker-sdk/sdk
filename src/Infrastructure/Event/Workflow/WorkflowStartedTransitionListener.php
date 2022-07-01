@@ -40,7 +40,7 @@ class WorkflowStartedTransitionListener
             return;
         }
 
-        if ($event->getTransition() && $event->getTransition()->getName() !== $runningTransition->getTransition()) {
+        if ($event->getTransition()->getName() !== $runningTransition->getTransition()) {
             $event->setBlocked(true, sprintf(
                 'Another transition (%s) is already running',
                 $runningTransition->getTransition(),
