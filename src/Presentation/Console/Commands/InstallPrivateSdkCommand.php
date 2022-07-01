@@ -99,13 +99,17 @@ class InstallPrivateSdkCommand extends Command
     protected function installRepository(SymfonyStyle $io): void
     {
         try {
-            $isInstalled = $this->tasksRepositoryInstaller->install();
+            $installedModules = $this->tasksRepositoryInstaller->install();
 
-            if ($isInstalled) {
-                $io->success('Repository is installed successfully.');
-
-                $this->warmUpCache($io);
+            if (!count($installedModules)) {
+                $io->info('Modules were not installed. Please request access to https://github.com/spryker-sdk/sdk-tasks-bundle, if you need to have private sdk.');
             }
+
+            foreach ($installedModules as $module) {
+                $io->success(sprintf('Module "%s" is installed successfully.', $module));
+            }
+
+            $this->warmUpCache($io);
         } catch (Exception $exception) {
             $io->error([
                 'Repository installation failed.',

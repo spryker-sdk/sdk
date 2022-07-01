@@ -7,100 +7,55 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use FilesystemIterator;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\RepositoryInstallationFailedException;
 use Symfony\Component\Process\Process;
 
 class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
 {
     /**
-     * @var string
+     * @return array<string>
      */
-    protected const SETTING_REPOSITORY = 'repository';
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-     */
-    protected SettingRepositoryInterface $settingRepository;
-
-    /**
-     * @var string
-     */
-    protected string $installationPath;
-
-    /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param string $installationPath
-     */
-    public function __construct(
-        SettingRepositoryInterface $settingRepository,
-        string $installationPath
-    ) {
-        $this->settingRepository = $settingRepository;
-        $this->installationPath = $installationPath;
-    }
-
-    /**
-     * @return bool
-     */
-    public function install(): bool
+    public function install(): array
     {
-        $setting = $this->settingRepository->getOneByPath(static::SETTING_REPOSITORY);
-        $repositoryValues = (array)$setting->getValues();
+        $this->runProcess('git submodule init');
+        $process = $this->runProcess('git submodule');
 
-        if (!count($repositoryValues)) {
-            return false;
-        }
+        $output = $process->getOutput();
 
-        if (file_exists($this->installationPath)) {
-            $this->cleanTasks();
-        }
+        preg_match_all('~(?:\S+) (\S+)~sm', $output, $matches);
 
-        $this->cloneTasks($repositoryValues);
-
-        return true;
+        return $this->updateModules($matches[1]);
     }
 
     /**
-     * @return void
-     */
-    protected function cleanTasks(): void
-    {
-        $directoryIterator = new RecursiveDirectoryIterator($this->installationPath, FilesystemIterator::SKIP_DOTS);
-        $recursiveIterator = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
-
-        foreach ($recursiveIterator as $file) {
-            $file->isDir() ? rmdir($file) : unlink($file);
-        }
-    }
-
-    /**
-     * @param array<string> $repositoryValues
+     * @param array $modules
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\RepositoryInstallationFailedException
-     *
-     * @return void
+     * @return array
      */
-    protected function cloneTasks(array $repositoryValues): void
+    protected function updateModules(array $modules): array
     {
-        [$repository, $branch] = $repositoryValues;
+        $installedModules = [];
+        foreach ($modules as $module) {
+            $process = $this->runProcess(sprintf('git submodule update --init --force --remote %s', $module));
 
-        $cloneCommand = sprintf(
-            'git clone %s %s %s',
-            is_string($branch) && strlen($branch) ? '--branch ' . $branch . ' --single-branch ' : '',
-            $repository,
-            $this->installationPath,
-        );
+            if ($process->isSuccessful()) {
+                $installedModules[] = $module;
+            }
+        }
 
-        $process = Process::fromShellCommandline($cloneCommand);
+        return $installedModules;
+    }
+
+    /**
+     * @param string $command
+     *
+     * @return \Symfony\Component\Process\Process
+     */
+    protected function runProcess(string $command): Process
+    {
+        $process = Process::fromShellCommandline($command);
         $process->run();
 
-        if (!$process->isSuccessful()) {
-            throw new RepositoryInstallationFailedException($process->getErrorOutput(), (int)$process->getExitCode());
-        }
+        return $process;
     }
 }

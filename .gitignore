@@ -36,5 +36,5 @@ node_modules
 ###< frontend ###
 
 ###> SDK extension ###
-extension/SprykerSdk
+#extension/SprykerSdk
 ###< SDK extension ###
