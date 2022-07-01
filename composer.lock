@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1cd4eddabd463797ee2db4c11aed5b9",
+    "content-hash": "170e7d53f365be33411dff67bb886599",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -219,16 +219,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.3.7",
+            "version": "2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "10cd375cf85dede2ff417ceab517ef9a0dc55407"
+                "reference": "f69e63262dadd02b3b6edade339c7badda2939c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/10cd375cf85dede2ff417ceab517ef9a0dc55407",
-                "reference": "10cd375cf85dede2ff417ceab517ef9a0dc55407",
+                "url": "https://api.github.com/repos/composer/composer/zipball/f69e63262dadd02b3b6edade339c7badda2939c2",
+                "reference": "f69e63262dadd02b3b6edade339c7badda2939c2",
                 "shasum": ""
             },
             "require": {
@@ -309,7 +309,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.3.7"
+                "source": "https://github.com/composer/composer/tree/2.3.8"
             },
             "funding": [
                 {
@@ -325,7 +325,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-06T14:43:28+00:00"
+            "time": "2022-07-01T10:10:47+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -5772,16 +5772,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-feature/stand-alone-plus-php74",
+            "version": "dev-feature/master-standalone",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "1934564defb84d51689cdb3ba21986550333585d"
+                "reference": "57c95367999f10b00bbda99ad1b833572d48a489"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/1934564defb84d51689cdb3ba21986550333585d",
-                "reference": "1934564defb84d51689cdb3ba21986550333585d",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/57c95367999f10b00bbda99ad1b833572d48a489",
+                "reference": "57c95367999f10b00bbda99ad1b833572d48a489",
                 "shasum": ""
             },
             "require": {
@@ -5833,9 +5833,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/stand-alone-plus-php74"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/master-standalone"
             },
-            "time": "2022-06-30T06:46:23+00:00"
+            "time": "2022-07-01T13:22:22+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
