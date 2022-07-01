@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use GuzzleHttp\Client;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
@@ -127,26 +128,17 @@ class LifecycleManager implements LifecycleManagerInterface
      */
     protected function getLatestVersion(): string
     {
-        $opts = [
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP',
-                ],
-                'timeout' => 10,
-            ],
-        ];
+        $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
 
-        $context = stream_context_create($opts);
-
+        $httpClient = new Client();
         try {
-            $content = file_get_contents(static::GITHUB_ENDPOINT, false, $context);
-
+            $response = $httpClient->request('GET', $githubEndpoint);
+            $content = $response->getBody()->getContents();
             if (!$content) {
                 throw new SdkVersionNotFoundException(sprintf('Could not read from %s, error: %s', static::GITHUB_ENDPOINT, error_get_last()['message'] ?? ''));
             }
 
-            $githubContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+            $githubContent = json_decode($content, true);
         } catch (Throwable $exception) {
             throw new SdkVersionNotFoundException($exception->getMessage());
         }

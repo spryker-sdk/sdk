@@ -2,7 +2,3 @@
 	path = extension/SprykerSdk/SdkTasksBundle
 	url = git@github.com:spryker-sdk/sdk-tasks-bundle.git
 	branch = develop
-
-[submodule "extension/SdkRepository"]
-	path = extension/SdkRepository
-	url = https://github.com/spryker-sdk/sdk.git
