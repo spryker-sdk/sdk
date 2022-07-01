@@ -66,6 +66,11 @@ class WorkflowRunner
         $metadata = $projectWorkflow->getWorkflowMetadata();
         $while = !(isset($metadata['run']) && $metadata['run'] === 'single');
 
+        $canRerun = isset($metadata['re-run']) && $metadata['re-run'];
+        if ($canRerun && $projectWorkflow->isWorkflowFinished()) {
+            $projectWorkflow->restartWorkflow();
+        }
+
         do {
             $nextTransition = $this->getNextTransition($projectWorkflow);
             if (!$nextTransition) {
