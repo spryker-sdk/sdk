@@ -12,6 +12,8 @@ services:
     working_dir: "/project"
     environment:
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
+    env_file:
+      - .env.prod
     volumes:
       - $PWD:/project:rw
       - ./db:/data/db:rw
@@ -19,5 +21,6 @@ services:
       - ./extension:/data/extension:rw
       - ./VERSION:/data/VERSION:rw
       - ./config/packages/workflow.yaml:/data/config/packages/workflow.yaml:rw
+      - ~/.ssh:/home/spryker/.ssh:ro
 volumes:
   project:
