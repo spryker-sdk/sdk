@@ -149,6 +149,31 @@ class ProjectWorkflow
     }
 
     /**
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
+     *
+     * @return bool
+     */
+    public function restartWorkflow(): bool
+    {
+        if (!$this->currentWorkflow || !$this->currentProjectWorkflow) {
+            throw new ProjectWorkflowException('Workflow is not initialized');
+        }
+
+        if ($this->currentProjectWorkflow->getParent()) {
+            throw new ProjectWorkflowException('Restarting children workflows is not permitted');
+        }
+
+        $removedWorkflow = $this->workflowRepository->remove($this->currentProjectWorkflow);
+        $this->currentProjectWorkflow = $this->workflowRepository->save(
+            new WorkflowEntity($removedWorkflow->getProject(), [], $removedWorkflow->getWorkflow()),
+        );
+
+        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
+
+        return true;
+    }
+
+    /**
      * @return array<string>
      */
     public function getAll(): array
@@ -256,12 +281,48 @@ class ProjectWorkflow
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $workflow
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
+     */
+    public function findPreviousTransition(?WorkflowInterface $workflow = null): ?WorkflowTransitionInterface
+    {
+        $workflow = $workflow ?? $this->currentProjectWorkflow;
+
+        if (!$workflow) {
+            throw new ProjectWorkflowException('Workflow is not initialized');
+        }
+
+        $lastTransition = $this->workflowTransitionRepository->findLast($workflow);
+
+        if (!$lastTransition) {
+            return null;
+        }
+
+        if ($lastTransition->getState() === WorkflowTransitionInterface::WORKFLOW_TRANSITION_FINISHED) {
+            return $lastTransition;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null $workflow
+     *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException
      *
      * @return bool
      */
-    public function isWorkflowFinished(WorkflowInterface $workflow): bool
+    public function isWorkflowFinished(?WorkflowInterface $workflow = null): bool
     {
+        $workflow = $workflow ?? $this->currentProjectWorkflow;
+
+        if (!$workflow) {
+            throw new ProjectWorkflowException('Workflow is not initialized');
+        }
+
         $workflowEngine = $this->workflows->get($workflow, $workflow->getWorkflow());
 
         return count($workflowEngine->getEnabledTransitions($workflow)) === 0;

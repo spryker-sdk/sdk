@@ -17,10 +17,16 @@ use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepositoryTest extends Unit
 {
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected ContainerInterface $container;
+
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
      */
@@ -62,12 +68,14 @@ class ProjectSettingRepositoryTest extends Unit
     protected function setUp(): void
     {
         parent::setUp();
+        $this->container = $this->createMock(ContainerInterface::class);
         $this->coreSettingRepository = $this->createMock(SettingRepositoryInterface::class);
         $this->yamlParser = $this->createMock(Yaml::class);
         $this->pathResolver = $this->createMock(PathResolver::class);
         $this->vfsStream = vfsStream::setup();
 
         $this->projectSettingRepository = new ProjectSettingRepository(
+            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
@@ -234,6 +242,7 @@ class ProjectSettingRepositoryTest extends Unit
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings.yml';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
+            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
@@ -264,6 +273,7 @@ class ProjectSettingRepositoryTest extends Unit
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings.yml';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
+            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
@@ -398,6 +408,7 @@ YAML,
         $this->projectSettingFileName = $settingsFile->url();
 
         $this->projectSettingRepository = new ProjectSettingRepository(
+            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,

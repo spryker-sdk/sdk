@@ -42,7 +42,6 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateCommand
     tags: ["console.command"]
     arguments:
-      - "@process_helper"
       - "@service.lifecycle_manager"
       - "%kernel.project_dir%"
 

@@ -104,6 +104,7 @@ class InitSdkCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->clearCache($output);
         $this->initializeSettingValues($input->getOptions(), $this->readSettingDefinitions());
         $this->taskManager->initialize($this->taskYamlRepository->findAll());
 
@@ -235,5 +236,22 @@ class InitSdkCommand extends Command
         $migrationInput = new ArrayInput(['allow-no-migration']);
         $migrationInput->setInteractive(false);
         $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     */
+    protected function clearCache(OutputInterface $output): void
+    {
+        $app = $this->getApplication();
+
+        if (!$app) {
+            return;
+        }
+
+        $app->setAutoExit(false);
+        $app->run(new ArrayInput(['command' => 'cache:clear']), $output);
     }
 }

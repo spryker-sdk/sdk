@@ -17,6 +17,7 @@ framework:
           from: start
           to: middle
           metadata:
+            allowToFail: true
             task: hello:world
             workflowBefore: hello_php
         bye:
@@ -31,12 +32,14 @@ framework:
         property: status
       metadata:
         run: single
+        re-run: true
       supports:
         - SprykerSdk\SdkContracts\Entity\WorkflowInterface
       initial_marking: start
       places:
         - start
         - middle
+        - end
         - done
       transitions:
         hello:
@@ -44,6 +47,15 @@ framework:
           to: middle
           metadata:
             task: hello:php
+            allowToFail: true
+            transitionResolver: # Resolver needs for resolve next transition
+              service: transition_boolean_resolver
+              settings:
+                failed: bye # transition name for filed result
+                successful: world # transition name for successful result
+        world:
+          from: middle
+          to: end
         bye:
           from: middle
           to: done

@@ -40,6 +40,19 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface
+     */
+    public function remove(WorkflowInterface $workflow): WorkflowInterface
+    {
+        $this->getEntityManager()->remove($workflow);
+        $this->getEntityManager()->flush();
+
+        return $workflow;
+    }
+
+    /**
      * @return void
      */
     public function flush(): void
