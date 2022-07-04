@@ -13,32 +13,29 @@ use Symfony\Component\Process\Process;
 class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
 {
     /**
-     * @return array<string>
+     * @var string
+     */
+    protected const GIT_MODULES = '.gitmodules';
+
+    /**
+     * @return array<string|int, bool>
      */
     public function install(): array
     {
-        $this->runProcess('git submodule init');
-        $process = $this->runProcess('git submodule');
+        $gitModules = parse_ini_file(static::GIT_MODULES, true);
 
-        $output = $process->getOutput();
+        if (!$gitModules) {
+            return [];
+        }
 
-        preg_match_all('~(?:\S+) (\S+)~sm', $output, $matches);
-
-        return $this->updateModules($matches[1]);
-    }
-
-    /**
-     * @param array $modules
-     *
-     * @return array
-     */
-    protected function updateModules(array $modules): array
-    {
         $installationModules = [];
-        foreach ($modules as $module) {
-            $process = $this->runProcess(sprintf('git submodule update --init --force --remote %s', $module));
+        foreach ($gitModules as $processSection => $module) {
+            $url = $module['url'];
+            $path = $module['path'];
+            $branch = $module['branch'] ? sprintf('-b %s', $module['branch']) : '';
+            $process = $this->runProcess(sprintf('git submodule add %s --force %s %s && git submodule update --init --force --remote %s', $branch, $url, $path, $path));
 
-            $installationModules[$module] = $process->isSuccessful();
+            $installationModules[$processSection] = $process->isSuccessful();
         }
 
         return $installationModules;

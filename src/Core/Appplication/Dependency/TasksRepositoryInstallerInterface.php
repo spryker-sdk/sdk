@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 interface TasksRepositoryInstallerInterface
 {
     /**
-     * @return array<string>
+     * @return array<string|int, bool>
      */
     public function install(): array;
 }
