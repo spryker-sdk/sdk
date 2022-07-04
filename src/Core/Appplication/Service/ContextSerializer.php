@@ -19,7 +19,7 @@ class ContextSerializer
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ReportArrayConverterFactory
      */
-    private ReportArrayConverterFactory $reportArrayConverterFactory;
+    protected ReportArrayConverterFactory $reportArrayConverterFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ReportArrayConverterFactory $reportArrayConverterFactory
