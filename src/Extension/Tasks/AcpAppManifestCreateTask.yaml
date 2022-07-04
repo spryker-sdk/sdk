@@ -19,7 +19,7 @@ placeholders:
       type: string
   - name: "%locale%"
     value_resolver: STATIC_TEXT
-    optional: true
+    optional: false
     configuration:
       name: "locale"
       description: "A valid locale e.g.: en_US"
