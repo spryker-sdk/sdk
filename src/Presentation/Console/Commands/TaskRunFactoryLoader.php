@@ -69,7 +69,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
      */
-    private ContextStorage $contextStorage;
+    protected ContextStorage $contextStorage;
 
     /**
      * @param \Psr\Container\ContainerInterface $container
