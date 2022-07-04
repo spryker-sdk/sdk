@@ -18,12 +18,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 
-class InstallPrivateSdkCommand extends Command
+class InstallSdkBundlesCommand extends Command
 {
     /**
      * @var string
      */
-    protected static $defaultName = 'sdk:update:private';
+    protected static $defaultName = 'sdk:update:bundles';
+
+    /**
+     * @var string|null The default command description
+     */
+    protected static $defaultDescription = 'The command updates submodules. Please configure SSH connection to Github.';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface
@@ -65,9 +70,6 @@ class InstallPrivateSdkCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $io->comment('If you have access to https://github.com/spryker-sdk/sdk-tasks-bundle, please configure SSH connection to Github.');
-
         $this->installRepository($io);
 
         return static::SUCCESS;
@@ -99,14 +101,11 @@ class InstallPrivateSdkCommand extends Command
     protected function installRepository(SymfonyStyle $io): void
     {
         try {
-            $installedModules = $this->tasksRepositoryInstaller->install();
+            $installationModules = $this->tasksRepositoryInstaller->install();
 
-            if (!count($installedModules)) {
-                $io->info('Modules were not installed. Please request access to https://github.com/spryker-sdk/sdk-tasks-bundle, if you need to have private sdk.');
-            }
-
-            foreach ($installedModules as $module) {
-                $io->success(sprintf('Module "%s" is installed successfully.', $module));
+            foreach ($installationModules as $module => $result) {
+                $result ? $io->success(sprintf('Module "%s" is installed successfully.', $module)) :
+                    $io->info(sprintf('Module "%s" was not installed successfully. Please check permission to repository.', $module));
             }
 
             $this->warmUpCache($io);

@@ -34,16 +34,14 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
      */
     protected function updateModules(array $modules): array
     {
-        $installedModules = [];
+        $installationModules = [];
         foreach ($modules as $module) {
             $process = $this->runProcess(sprintf('git submodule update --init --force --remote %s', $module));
 
-            if ($process->isSuccessful()) {
-                $installedModules[] = $module;
-            }
+            $installationModules[$module] = $process->isSuccessful();
         }
 
-        return $installedModules;
+        return $installationModules;
     }
 
     /**
