@@ -42,7 +42,7 @@ class TaskExecutor
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory
      */
-    private ReportGeneratorFactory $reportGeneratorFactory;
+    protected ReportGeneratorFactory $reportGeneratorFactory;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null

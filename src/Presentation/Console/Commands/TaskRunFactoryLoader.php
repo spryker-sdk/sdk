@@ -59,7 +59,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     /**
      * @var string
      */
-    private string $environment;
+    protected string $environment;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface

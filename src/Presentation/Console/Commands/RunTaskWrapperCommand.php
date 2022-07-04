@@ -100,7 +100,7 @@ class RunTaskWrapperCommand extends Command
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
      */
-    private ContextStorage $contextStorage;
+    protected ContextStorage $contextStorage;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor

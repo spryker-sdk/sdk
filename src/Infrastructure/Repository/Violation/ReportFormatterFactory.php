@@ -15,7 +15,7 @@ class ReportFormatterFactory
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
      */
-    private ContextStorage $contextStorage;
+    protected ContextStorage $contextStorage;
 
     /**
      * @var iterable<\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface>

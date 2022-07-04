@@ -16,7 +16,7 @@ class ReportArrayConverterFactory
     /**
      * @param iterable<\SprykerSdk\SdkContracts\Report\ReportArrayConverterInterface> $reportArrayConverters
      */
-    private iterable $reportArrayConverters;
+    protected iterable $reportArrayConverters;
 
     /**
      * @param iterable<\SprykerSdk\SdkContracts\Report\ReportArrayConverterInterface> $reportArrayConverters
