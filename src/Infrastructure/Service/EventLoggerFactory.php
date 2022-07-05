@@ -14,7 +14,6 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 use Throwable;
 
@@ -36,7 +35,7 @@ class EventLoggerFactory
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
-        string $projectSettingsFile,
+        string $projectSettingsFile
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
         $this->projectSettingsFile = $projectSettingsFile;
