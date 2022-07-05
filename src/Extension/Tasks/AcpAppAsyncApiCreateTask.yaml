@@ -22,12 +22,12 @@ placeholders:
     optional: true
     configuration:
       name: "asyncapi-file"
-      description: "Path to save AsyncAPI file to"
+      description: "Path to save AsyncAPI file to [default: '/data/config/api/asyncapi/asyncapi.yml']"
       type: string
   - name: "%api-version%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "api-version"
-      description: "Version number of the AsyncAPI schema"
+      description: "Version number of the AsyncAPI schema [default: '0.1.0']"
       type: string

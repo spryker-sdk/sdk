@@ -30,5 +30,5 @@ placeholders:
     optional: true
     configuration:
       name: "manifest-path"
-      description: "Path to save manifest file to"
+      description: "Path to save manifest file to [default: 'config/app/manifest/']"
       type: string

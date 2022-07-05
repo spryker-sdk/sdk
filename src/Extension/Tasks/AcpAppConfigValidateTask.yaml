@@ -15,5 +15,5 @@ placeholders:
     optional: true
     configuration:
       name: "configuration-file"
-      description: "Path to configuration file"
+      description: "Path to configuration file [default: 'config/app/configuration/configuration.json']"
       type: string
