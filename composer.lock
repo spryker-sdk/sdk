@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79404ed5e3d0daae5b1fde91903cd373",
+    "content-hash": "fc8bb84073b4d16fc025a8605ed8806a",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -5411,16 +5411,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-524/sdk-592-add-report-abstractions",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "ae5ed90defe0d47bfc88ce88db462cc7ffdc5be4"
+                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ae5ed90defe0d47bfc88ce88db462cc7ffdc5be4",
-                "reference": "ae5ed90defe0d47bfc88ce88db462cc7ffdc5be4",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
+                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
                 "shasum": ""
             },
             "require": {
@@ -5430,6 +5430,7 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -5443,9 +5444,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-524/sdk-592-add-report-abstractions"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
             },
-            "time": "2022-06-20T13:41:09+00:00"
+            "time": "2022-07-05T11:23:00+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -5548,16 +5549,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-feature/sdk-524/sdk-592-add-report-abstractions",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "648ee20a6984baa6cbde26ea3f0b53a40823f282"
+                "reference": "609fdf0dd0dab9eff51a13294a1568473b2354f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/648ee20a6984baa6cbde26ea3f0b53a40823f282",
-                "reference": "648ee20a6984baa6cbde26ea3f0b53a40823f282",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/609fdf0dd0dab9eff51a13294a1568473b2354f7",
+                "reference": "609fdf0dd0dab9eff51a13294a1568473b2354f7",
                 "shasum": ""
             },
             "require": {
@@ -5573,7 +5574,7 @@
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-develop",
-                "spryker-sdk/sdk-contracts": "dev-feature/sdk-524/sdk-592-add-report-abstractions",
+                "spryker-sdk/sdk-contracts": "dev-master",
                 "spryker/code-sniffer": "^0.17.3",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
@@ -5588,6 +5589,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -5607,9 +5609,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/sdk-524/sdk-592-add-report-abstractions"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2022-06-28T10:05:46+00:00"
+            "time": "2022-06-24T18:46:01+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -13407,7 +13409,7 @@
     "aliases": [
         {
             "package": "spryker-sdk/upgrader",
-            "version": "dev-feature/sdk-524/sdk-592-add-report-abstractions",
+            "version": "9999999-dev",
             "alias": "0.1.0",
             "alias_normalized": "0.1.0.0"
         }
