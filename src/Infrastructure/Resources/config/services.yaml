@@ -261,9 +261,6 @@ services:
 
   service.tasks_repository_installer:
     class: SprykerSdk\Sdk\Infrastructure\Service\TasksRepositoryInstaller
-    arguments:
-      - '@setting_repository'
-      - '%kernel.project_dir%/extension/SprykerSdk/SdkTasksBundle/'
 
   workflow_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner

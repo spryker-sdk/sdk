@@ -7,12 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use FilesystemIterator;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\RepositoryInstallationFailedException;
 use Symfony\Component\Process\Process;
 
 class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
@@ -20,87 +15,42 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
     /**
      * @var string
      */
-    protected const SETTING_REPOSITORY = 'repository';
+    protected const GIT_MODULES = '.gitmodules';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+     * @return array<string|int, bool>
      */
-    protected SettingRepositoryInterface $settingRepository;
-
-    /**
-     * @var string
-     */
-    protected string $installationPath;
-
-    /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param string $installationPath
-     */
-    public function __construct(
-        SettingRepositoryInterface $settingRepository,
-        string $installationPath
-    ) {
-        $this->settingRepository = $settingRepository;
-        $this->installationPath = $installationPath;
-    }
-
-    /**
-     * @return bool
-     */
-    public function install(): bool
+    public function install(): array
     {
-        $setting = $this->settingRepository->getOneByPath(static::SETTING_REPOSITORY);
-        $repositoryValues = (array)$setting->getValues();
+        $gitModules = parse_ini_file(static::GIT_MODULES, true);
 
-        if (!count($repositoryValues)) {
-            return false;
+        if (!$gitModules) {
+            return [];
         }
 
-        if (file_exists($this->installationPath)) {
-            $this->cleanTasks();
+        $installationModules = [];
+        foreach ($gitModules as $processSection => $module) {
+            $url = $module['url'];
+            $path = $module['path'];
+            $branch = $module['branch'] ? sprintf('-b %s', $module['branch']) : '';
+            $process = $this->runProcess(sprintf('git submodule add %s --force %s %s && git submodule update --init --force --remote %s', $branch, $url, $path, $path));
+
+            $installationModules[$processSection] = $process->isSuccessful();
         }
 
-        $this->cloneTasks($repositoryValues);
-
-        return true;
+        return $installationModules;
     }
 
     /**
-     * @return void
-     */
-    protected function cleanTasks(): void
-    {
-        $directoryIterator = new RecursiveDirectoryIterator($this->installationPath, FilesystemIterator::SKIP_DOTS);
-        $recursiveIterator = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
-
-        foreach ($recursiveIterator as $file) {
-            $file->isDir() ? rmdir($file) : unlink($file);
-        }
-    }
-
-    /**
-     * @param array<string> $repositoryValues
+     * @param string $command
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\RepositoryInstallationFailedException
-     *
-     * @return void
+     * @return \Symfony\Component\Process\Process
      */
-    protected function cloneTasks(array $repositoryValues): void
+    protected function runProcess(string $command): Process
     {
-        [$repository, $branch] = $repositoryValues;
-
-        $cloneCommand = sprintf(
-            'git clone %s %s %s',
-            is_string($branch) && strlen($branch) ? '--branch ' . $branch . ' --single-branch ' : '',
-            $repository,
-            $this->installationPath,
-        );
-
-        $process = Process::fromShellCommandline($cloneCommand);
+        $process = Process::fromShellCommandline($command);
         $process->run();
 
-        if (!$process->isSuccessful()) {
-            throw new RepositoryInstallationFailedException($process->getErrorOutput(), (int)$process->getExitCode());
-        }
+        return $process;
     }
 }

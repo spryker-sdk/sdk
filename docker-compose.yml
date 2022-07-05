@@ -23,5 +23,6 @@ services:
       - ./VERSION:/data/VERSION:rw
       - ./config/packages/workflow.yaml:/data/config/packages/workflow.yaml:rw
       - ~/.ssh:/home/spryker/.ssh:ro
+      - ./.gitmodules:/data/.gitmodules:rw
 volumes:
   project:
