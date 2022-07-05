@@ -2,9 +2,27 @@
 
 #Usage: create_release.sh 1.0.0
 
+function version_compare () { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"; }
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+
 CURRENT_DIR=$(pwd)
 BUILD_DIR="${CURRENT_DIR}/build"
+
+if (( $# != 1 )); then
+    echo -e "${RED}Illegal number of parameters${NC}"
+    exit 1
+fi
 VERSION=$1
+CURRENT_VERSION="$(<$CURRENT_DIR/VERSION)"
+
+if version_compare $VERSION $CURRENT_VERSION; then
+   echo -e "${RED}SDK ${YELLOW}v$VERSION ${RED}must be higher then ${YELLOW}v$CURRENT_VERSION${NC}"
+   exit 1
+fi
 
 mkdir -p "${BUILD_DIR}/bin/"
 cp "${CURRENT_DIR}/bin/spryker-sdk.sh" "${BUILD_DIR}/bin/"
@@ -37,10 +55,9 @@ chmod a+x "${BUILD_DIR}/installer.sh"
 
 DOCKER_BUILDKIT=1 docker build -f "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" -t spryker/php-sdk:${VERSION} -t spryker/php-sdk:latest "${CURRENT_DIR}"
 
-echo "Nearly done, the next steps are:"
-echo "docker login"
-echo "docker push php-sdk:${VERSION}"
-echo "docker push php-sdk:latest"
-echo "git tag ${VERSION} && git push origin ${VERSION}"
-echo "create a github release (https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release)"
-echo "upload the ${BUILD_DIR}/installer.sh to the github release"
+echo -e "${GREEN}Nearly done, the next steps are:"
+echo -e "${BLUE}docker login"
+echo -e "docker push php-sdk:${VERSION}"
+echo -e "git tag ${VERSION} && git push origin ${VERSION}"
+echo -e "${YELLOW}create a github release (https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release)"
+echo -e "upload the ${BUILD_DIR}/installer.sh to the github release${NC}"
