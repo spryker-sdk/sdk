@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
 class UpdateCommand extends Command
 {
@@ -37,26 +37,18 @@ class UpdateCommand extends Command
      */
     protected static $defaultDescription = 'Update Spryker SDK to latest version.';
 
-    protected ProcessHelper $processHelper;
-
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
+     */
     protected LifecycleManagerInterface $lifecycleManager;
 
-    protected string $sdkDirectory;
-
     /**
-     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param string $sdkDirectory
      */
-    public function __construct(
-        ProcessHelper $processHelper,
-        LifecycleManagerInterface $lifecycleManager,
-        string $sdkDirectory
-    ) {
+    public function __construct(LifecycleManagerInterface $lifecycleManager)
+    {
         parent::__construct(static::$defaultName);
-        $this->processHelper = $processHelper;
         $this->lifecycleManager = $lifecycleManager;
-        $this->sdkDirectory = $sdkDirectory;
     }
 
     /**
@@ -89,6 +81,7 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->clearCache($output);
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);
         }
@@ -105,74 +98,35 @@ class UpdateCommand extends Command
      *
      * @return void
      */
-    protected function checkForUpdate(OutputInterface $output)
+    protected function clearCache(OutputInterface $output): void
     {
-        $versionFilePath = $this->sdkDirectory . '/VERSION';
+        $app = $this->getApplication();
 
-        if (!file_exists($versionFilePath)) {
-            $output->writeln('<error>Could not find VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
-
+        if (!$app) {
             return;
         }
 
-        $currentVersion = file_get_contents($versionFilePath);
-
-        if (!$currentVersion) {
-            $output->writeln('<error>Could not read VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
-
-            return;
-        }
-        $currentVersion = trim($currentVersion);
-        $latestVersion = $this->getLatestVersion($output);
-
-        if (version_compare($currentVersion, $latestVersion, '<')) {
-            $output->writeln(sprintf('SDK is outdated (current: %s, latest: %s)', $currentVersion, $latestVersion));
-            $output->writeln('Please update manually by downloading the installer for the newest version at https://github.com/spryker-sdk/sdk/releases');
-        }
+        $app->setAutoExit(false);
+        $app->run(new ArrayInput(['command' => 'cache:clear']), $output);
     }
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return string
+     * @return void
      */
-    protected function getLatestVersion(OutputInterface $output): string
+    protected function checkForUpdate(OutputInterface $output): void
     {
-        $githubVersion = '0.0.0';
-        $opts = [
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP',
-                ],
-                'timeout' => 10,
-            ],
-        ];
-        $context = stream_context_create($opts);
-        $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
-
         try {
-            $content = file_get_contents($githubEndpoint, false, $context);
+            $messages = $this->lifecycleManager->checkForUpdate();
+        } catch (SdkVersionNotFoundException $exception) {
+            $output->writeln($exception->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
 
-            if (!$content) {
-                $output->writeln(sprintf('<error>Could not read from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
-
-                return $githubVersion;
-            }
-
-            $githubContent = json_decode($content, true);
-        } catch (Throwable $exception) {
-            $output->writeln('<error>' . $exception->getMessage() . '</error>', OutputInterface::VERBOSITY_VERBOSE);
-
-            return $githubVersion;
+            return;
         }
 
-        if (!$githubContent) {
-            $output->writeln(sprintf('<error>Could not read version from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
-
-            return $githubVersion;
+        foreach ($messages as $message) {
+            $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
         }
-
-        return $githubContent['tag_name'] ?? '0.0.0';
     }
 }

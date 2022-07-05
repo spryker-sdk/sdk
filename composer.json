@@ -23,6 +23,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/migrations": "^3.4",
         "doctrine/orm": "^2.11",
+        "guzzlehttp/guzzle": "^7.4",
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpbench/phpbench": "^1.2",
@@ -77,6 +78,9 @@
         }
     },
     "autoload": {
+        "files": [
+            "bootstrap.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "SprykerSdk\\Sdk\\": "src/"

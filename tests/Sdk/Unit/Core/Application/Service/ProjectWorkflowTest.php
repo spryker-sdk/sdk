@@ -10,13 +10,17 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
+use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\Metadata\InMemoryMetadataStore;
 use Symfony\Component\Workflow\Registry;
@@ -37,11 +41,11 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testApplyTransactionwithBlokers(): void
+    public function testApplyTransitionWithBlockers(): void
     {
         // Arrange
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
-        $projectSettingRepositoryMock->expects($this->once())
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
@@ -64,16 +68,19 @@ class ProjectWorkflowTest extends Unit
         $workflowRepositoryMock->expects($this->once())
             ->method('flush');
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
             $workflowRegistry,
             $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
         $projectWorkflow->initializeWorkflow();
         $context = new Context();
 
         // Act
-        $result = $projectWorkflow->applyTransaction('', $context);
+        $result = $projectWorkflow->applyTransition('', $context);
 
         // Assert
         $this->assertNotEmpty($context->getMessages());
@@ -82,11 +89,239 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testApplyTransaction(): void
+    public function testRunningTransitionThrowException(): void
+    {
+        // Arrange
+        $projectWorkflow = new ProjectWorkflow(
+            $this->createProjectSettingRepositoryMock(),
+            $this->createWorkflowRegistryMock(),
+            $this->createWorkflowRepositoryMock(),
+            $this->createWorkflowTransitionRepositoryMock(),
+        );
+
+        // Assert
+        $this->expectException(ProjectWorkflowException::class);
+
+        // Act
+        $projectWorkflow->getRunningTransition();
+    }
+
+    /**
+     * @return void
+     */
+    public function testRunningTransitionFinished(): void
     {
         // Arrange
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
-        $projectSettingRepositoryMock->expects($this->once())
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $workflowTransitionMock = $this->createWorkflowTransitionMock();
+        $workflowTransitionMock->expects($this->once())
+            ->method('getState')
+            ->willReturn('transition_finished');
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->once())
+            ->method('findLast')
+            ->willReturn($workflowTransitionMock);
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $workflowRegistry,
+            $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
+        );
+        $projectWorkflow->initializeWorkflow();
+
+        // Act
+        $workflowTransition = $projectWorkflow->getRunningTransition();
+
+        // Assert
+        $this->isNull($workflowTransition);
+    }
+
+    /**
+     * @return void
+     */
+    public function testRunningTransition(): void
+    {
+        // Arrange
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $workflowTransitionMock = $this->createWorkflowTransitionMock();
+        $workflowTransitionMock->expects($this->once())
+            ->method('getState')
+            ->willReturn('transition_finished1');
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->once())
+            ->method('findLast')
+            ->willReturn($workflowTransitionMock);
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $workflowRegistry,
+            $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
+        );
+        $projectWorkflow->initializeWorkflow();
+
+        // Act
+        $workflowTransition = $projectWorkflow->getRunningTransition();
+
+        // Assert
+        $this->assertSame($workflowTransitionMock, $workflowTransition);
+    }
+
+    /**
+     * @return void
+     */
+    public function testPreviousTransitionThrowException(): void
+    {
+        // Arrange
+        $projectWorkflow = new ProjectWorkflow(
+            $this->createProjectSettingRepositoryMock(),
+            $this->createWorkflowRegistryMock(),
+            $this->createWorkflowRepositoryMock(),
+            $this->createWorkflowTransitionRepositoryMock(),
+        );
+
+        // Assert
+        $this->expectException(ProjectWorkflowException::class);
+
+        // Act
+        $projectWorkflow->findPreviousTransition();
+    }
+
+    /**
+     * @return void
+     */
+    public function testPreviousTransitionFinished(): void
+    {
+        // Arrange
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $workflowTransitionMock = $this->createWorkflowTransitionMock();
+        $workflowTransitionMock->expects($this->once())
+            ->method('getState')
+            ->willReturn('transition');
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->once())
+            ->method('findLast')
+            ->willReturn($workflowTransitionMock);
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $workflowRegistry,
+            $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
+        );
+        $projectWorkflow->initializeWorkflow();
+
+        // Act
+        $workflowTransition = $projectWorkflow->findPreviousTransition();
+
+        // Assert
+        $this->isNull($workflowTransition);
+    }
+
+    /**
+     * @return void
+     */
+    public function testPreviousTransition(): void
+    {
+        // Arrange
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
+            ->method('getOneByPath')
+            ->willReturn($this->createSettingMock());
+
+        $workflowMock = $this->createWorkflowMock();
+        $workflowRegistry = $this->createWorkflowRegistryMock();
+        $workflowRegistry->expects($this->once())
+            ->method('get')
+            ->willReturn($workflowMock);
+
+        $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
+        $workflowRepositoryMock->expects($this->once())
+            ->method('getWorkflow')
+            ->willReturn(new Workflow('', [], 'default'));
+
+        $workflowTransitionMock = $this->createWorkflowTransitionMock();
+        $workflowTransitionMock->expects($this->once())
+            ->method('getState')
+            ->willReturn('transition_finished');
+
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+        $workflowTransitionRepositoryMock->expects($this->once())
+            ->method('findLast')
+            ->willReturn($workflowTransitionMock);
+
+        $projectWorkflow = new ProjectWorkflow(
+            $projectSettingRepositoryMock,
+            $workflowRegistry,
+            $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
+        );
+        $projectWorkflow->initializeWorkflow();
+
+        // Act
+        $workflowTransition = $projectWorkflow->findPreviousTransition();
+
+        // Assert
+        $this->assertSame($workflowTransitionMock, $workflowTransition);
+    }
+
+    /**
+     * @return void
+     */
+    public function testApplyTransition(): void
+    {
+        // Arrange
+        $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
@@ -106,16 +341,19 @@ class ProjectWorkflowTest extends Unit
         $workflowRepositoryMock->expects($this->once())
             ->method('flush');
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
             $workflowRegistry,
             $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
         $projectWorkflow->initializeWorkflow();
         $context = new Context();
 
         // Act
-        $result = $projectWorkflow->applyTransaction('', $context);
+        $result = $projectWorkflow->applyTransition('', $context);
 
         // Assert
         $this->assertSame($result, $context);
@@ -124,7 +362,7 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testGetNextEnabledTransactions(): void
+    public function testGetNextEnabledTransitions(): void
     {
         // Arrange
         $transactionMock = $this->createMock(Transition::class);
@@ -133,7 +371,7 @@ class ProjectWorkflowTest extends Unit
             ->willReturn('test');
         $transactions = [$transactionMock];
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
-        $projectSettingRepositoryMock->expects($this->once())
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
@@ -151,15 +389,18 @@ class ProjectWorkflowTest extends Unit
             ->method('getWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
             $workflowRegistry,
             $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
         $projectWorkflow->initializeWorkflow();
 
         // Act
-        $result = $projectWorkflow->getNextEnabledTransactions();
+        $result = $projectWorkflow->getNextEnabledTransitions();
 
         // Assert
         $this->assertSame($result, ['test']);
@@ -173,7 +414,7 @@ class ProjectWorkflowTest extends Unit
         // Arrange
         $metadata = ['test'];
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
-        $projectSettingRepositoryMock->expects($this->once())
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
@@ -191,10 +432,13 @@ class ProjectWorkflowTest extends Unit
             ->method('getWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
             $workflowRegistry,
             $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
         $projectWorkflow->initializeWorkflow();
 
@@ -212,7 +456,7 @@ class ProjectWorkflowTest extends Unit
     {
         // Arrange
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
-        $projectSettingRepositoryMock->expects($this->once())
+        $projectSettingRepositoryMock->expects($this->atLeastOnce())
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
@@ -228,10 +472,13 @@ class ProjectWorkflowTest extends Unit
             ->method('getWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
             $workflowRegistry,
             $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
 
         // Act
@@ -256,10 +503,13 @@ class ProjectWorkflowTest extends Unit
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
             $this->createWorkflowRegistryMock(),
             $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
 
         // Act
@@ -272,7 +522,7 @@ class ProjectWorkflowTest extends Unit
     /**
      * @return void
      */
-    public function testFindInitializeWorkflows(): void
+    public function testFindInitializedWorkflows(): void
     {
         // Arrange
         $workflowEntityMock = $this->createWorkflowEntityMock();
@@ -288,14 +538,17 @@ class ProjectWorkflowTest extends Unit
             ->method('getOneByPath')
             ->willReturn($this->createSettingMock());
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $projectSettingRepositoryMock,
             $this->createWorkflowRegistryMock(),
             $workflowRepositoryMock,
+            $workflowTransitionRepositoryMock,
         );
 
         // Act
-        $result = $projectWorkflow->findInitializeWorkflows();
+        $result = $projectWorkflow->findInitializedWorkflows();
 
         // Assert
         $this->assertSame(['test'], $result);
@@ -318,10 +571,13 @@ class ProjectWorkflowTest extends Unit
                 $workflow,
             ]);
 
+        $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
+
         $projectWorkflow = new ProjectWorkflow(
             $this->createProjectSettingRepositoryMock(),
             $workflowRegistry,
             $this->createWorkflowRepositoryMock(),
+            $workflowTransitionRepositoryMock,
         );
 
         // Act
@@ -373,6 +629,14 @@ class ProjectWorkflowTest extends Unit
     }
 
     /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface
+     */
+    protected function createWorkflowTransitionRepositoryMock(): WorkflowTransitionRepositoryInterface
+    {
+        return $this->createMock(WorkflowTransitionRepository::class);
+    }
+
+    /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface
      */
     protected function createContextMock(): ContextInterface
@@ -381,12 +645,20 @@ class ProjectWorkflowTest extends Unit
     }
 
     /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     */
+    protected function createWorkflowTransitionMock(): WorkflowTransitionInterface
+    {
+        return $this->createMock(WorkflowTransitionInterface::class);
+    }
+
+    /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     protected function createSettingMock(): SettingInterface
     {
         $settingMock = $this->createMock(SettingInterface::class);
-        $settingMock->expects($this->once())
+        $settingMock->expects($this->atLeastOnce())
             ->method('getValues')
             ->willReturn('projectKey');
 

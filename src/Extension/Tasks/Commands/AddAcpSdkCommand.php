@@ -22,7 +22,10 @@ class AddAcpSdkCommand implements ExecutableCommandInterface
      */
     protected const AOP_SDK_REPOSITORY = 'spryker-sdk/aop-sdk';
 
-    private PbcFileModifierInterface $composerFileModifier;
+    /**
+     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     */
+    protected PbcFileModifierInterface $composerFileModifier;
 
     /**
      * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier

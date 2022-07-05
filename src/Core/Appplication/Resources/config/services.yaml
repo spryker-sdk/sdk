@@ -130,11 +130,13 @@ services:
     tags: ["action.after_command_executed"]
   project_workflow:
     public: true
+    shared: false
     class: SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
     arguments:
       - "@project_setting_repository"
       - "@workflow.registry"
       - "@workflow_repository"
+      - "@workflow_transition_repository"
 
   context_storage:
     class: SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage

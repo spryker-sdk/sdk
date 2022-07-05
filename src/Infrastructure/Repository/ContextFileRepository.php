@@ -18,7 +18,7 @@ class ContextFileRepository implements ContextRepositoryInterface
     /**
      * @var string
      */
-    protected const CONTEXT_DIR_PATH = 'context_dir';
+    protected const PROJECT_DIR_PATH = 'project_dir';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
@@ -104,7 +104,7 @@ class ContextFileRepository implements ContextRepositoryInterface
         }
 
         if (preg_match('/^\//', $filePath) != 1) {
-            $contextDir = (string)$this->settingRepository->getOneByPath(static::CONTEXT_DIR_PATH)->getValues();
+            $contextDir = (string)$this->settingRepository->getOneByPath(static::PROJECT_DIR_PATH)->getValues();
 
             $filePath = $contextDir . DIRECTORY_SEPARATOR . $filePath;
         }

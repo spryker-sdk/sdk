@@ -17,7 +17,10 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
 {
-    private PbcFileModifierInterface $composerFileModifier;
+    /**
+     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     */
+    protected PbcFileModifierInterface $composerFileModifier;
 
     /**
      * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier

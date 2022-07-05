@@ -18,7 +18,7 @@ class AddDockerSdkCommand implements CommandInterface
      */
     public function getCommand(): string
     {
-        return 'git clone https://github.com/spryker/docker-sdk.git ./docker';
+        return 'git clone https://github.com/spryker/docker-sdk.git --single-branch ./docker';
     }
 
     /**
