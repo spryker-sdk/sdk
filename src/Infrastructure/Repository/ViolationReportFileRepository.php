@@ -12,8 +12,10 @@ use RecursiveIteratorIterator;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
+use SprykerSdk\SdkContracts\Report\ReportInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
+use Symfony\Component\Translation\Exception\InvalidResourceException;
 
 class ViolationReportFileRepository implements ViolationReportRepositoryInterface
 {
@@ -43,10 +45,16 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      * @param string $taskId
      * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
      *
+     * @throws \Symfony\Component\Translation\Exception\InvalidResourceException
+     *
      * @return void
      */
-    public function save(string $taskId, ViolationReportInterface $violationReport): void
+    public function save(string $taskId, ReportInterface $violationReport): void
     {
+        if (!($violationReport instanceof ViolationReportInterface)) {
+            throw new InvalidResourceException(sprintf('Invalid report type "%s"', $violationReport::class));
+        }
+
         if ($this->reportFormatterFactory->getViolationReportFormatter()) {
             $this->reportFormatterFactory->getViolationReportFormatter()->format($taskId, $violationReport);
         }
@@ -71,7 +79,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      *
      * @return void
      */
-    public function cleanupViolationReport(): void
+    public function cleanup(): void
     {
         $dirname = $this->violationPathReader->getViolationReportDirPath();
 

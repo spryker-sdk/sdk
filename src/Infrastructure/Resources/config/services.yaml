@@ -28,6 +28,7 @@ services:
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
+      - "@service_container"
       - "@setting_repository"
       - "@yaml_parser"
       - "%project_settings_file%"
@@ -158,6 +159,7 @@ services:
       - "@task_repository"
       - "@task_persistence_repository"
       - !tagged_iterator sdk.update_action
+      - "%kernel.project_dir%"
 
   task_created_action:
     class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
@@ -210,6 +212,7 @@ services:
   report_formatter_factory:
     class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
     arguments:
+      - "@context_storage"
       - !tagged_iterator sdk.violation_formatter
   violation_report_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
@@ -246,6 +249,7 @@ services:
   app.workflow.transition_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
     arguments:
+      - "@service_container"
       - "@task_executor"
       - "@workflow_runner"
       - "@project_workflow"
@@ -263,6 +267,9 @@ services:
 
   workflow.marking_store.method:
     class: SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore
+
+  service.tasks_repository_installer:
+    class: SprykerSdk\Sdk\Infrastructure\Service\TasksRepositoryInstaller
 
   workflow_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner

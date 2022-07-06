@@ -1,3 +1,7 @@
+parameters:
+  env(UNAME_INFO): ''
+  uname_info: '%env(uname:UNAME_INFO)%'
+
 services:
   pbc_modify_docker_file:
     class: SprykerSdk\Sdk\Extension\Service\PbcDockerFileModifier
@@ -70,7 +74,7 @@ services:
 #        - '@check_mutagen_for_mac_command'
         - '@clone_business_model_command'
         - '@add_docker_sdk_command'
-#        - '@business_model_arm_command'
+        - '@business_model_arm_command'
         - '@docker_init_up_steps_command'
   sdk_directory_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
@@ -78,12 +82,19 @@ services:
     arguments:
       - '@value_receiver'
       - '%kernel.project_dir%'
+  pc_system_value_resolver:
+    class: SprykerSdk\Sdk\Extension\ValueResolvers\PCSystemValueResolver
+    tags: [ "sdk.value_resolver" ]
+    arguments:
+      - '@value_receiver'
+      - '%uname_info%'
+
   pbc_php_version_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'
-      - "@value_receiver"
+
   remove_report_dir:
     class: SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask
     tags: ["sdk.task"]
@@ -113,9 +124,17 @@ services:
   project_workflow_initializer:
     alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer
     public: true
-
   option_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolvers\OptionValueResolver
     arguments:
       - '@value_receiver'
     tags: ['sdk.value_resolver']
+
+  # Transition resolvers
+  transition_boolean_resolver:
+    class: SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver
+    public: true
+
+  uname_env_var_processor:
+    class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor
+    tags: ['container.env_var_processor']

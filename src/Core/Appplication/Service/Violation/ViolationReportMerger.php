@@ -9,10 +9,11 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
+use SprykerSdk\SdkContracts\Report\ReportMergerInterface;
 use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
-class ViolationReportMerger
+class ViolationReportMerger implements ReportMergerInterface
 {
     /**
      * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface> $violationReports

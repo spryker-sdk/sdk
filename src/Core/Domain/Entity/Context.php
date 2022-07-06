@@ -11,7 +11,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\ReportInterface;
 
 class Context implements ContextInterface
 {
@@ -41,9 +41,9 @@ class Context implements ContextInterface
     protected array $requiredStages = [];
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface>
+     * @var array<\SprykerSdk\SdkContracts\Report\ReportInterface>
      */
-    protected array $violationReports = [];
+    protected array $reports = [];
 
     /**
      * @var int
@@ -84,6 +84,11 @@ class Context implements ContextInterface
      * @var array<string, int>
      */
     protected array $exitCodeMap = [];
+
+    /**
+     * @var string
+     */
+    protected string $format = 'output';
 
     /**
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
@@ -176,21 +181,21 @@ class Context implements ContextInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\ReportInterface>
      */
-    public function getViolationReports(): array
+    public function getReports(): array
     {
-        return $this->violationReports;
+        return $this->reports;
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\ReportInterface $report
      *
      * @return void
      */
-    public function addViolationReport(ViolationReportInterface $violationReport): void
+    public function addReport(ReportInterface $report): void
     {
-        $this->violationReports[] = $violationReport;
+        $this->reports[] = $report;
     }
 
     /**
@@ -365,5 +370,23 @@ class Context implements ContextInterface
     public function addExitCode(string $id, int $code): void
     {
         $this->exitCodeMap[$id] = $code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+
+    /**
+     * @param string $format
+     *
+     * @return void
+     */
+    public function setFormat(string $format): void
+    {
+        $this->format = $format;
     }
 }

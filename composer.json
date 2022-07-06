@@ -23,6 +23,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/migrations": "^3.4",
         "doctrine/orm": "^2.11",
+        "guzzlehttp/guzzle": "^7.4",
         "monolog/monolog": "^2.3",
         "ondrejmirtes/better-reflection": "^4.3.81",
         "phpbench/phpbench": "^1.2",
@@ -34,7 +35,7 @@
         "spryker-sdk/sdk-contracts": "dev-feature/sdk-621/sdk-623-implement-local-event-storage as dev-master",
         "spryker-sdk/spryk": "^0.4.0",
         "spryker-sdk/sync-api": "^0.1.1",
-        "spryker-sdk/upgrader": "dev-master as 0.1.0",
+        "spryker-sdk/upgrader": "dev-develop as 0.1.0",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.1",
         "symfony/console": "^5.0 || ^6.0",
@@ -78,6 +79,9 @@
         }
     },
     "autoload": {
+        "files": [
+            "bootstrap.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "SprykerSdk\\Sdk\\": "src/"
@@ -86,7 +90,7 @@
     "autoload-dev": {
         "psr-4": {
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
-            "Hello\\": "extension"
+            "Hello\\": "extension/Hello/"
         }
     },
     "replace": {

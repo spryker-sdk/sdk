@@ -26,6 +26,11 @@ FROM application-production-dependencies AS application-production-codebase
 
 RUN chown spryker:spryker ${srcRoot}
 
+# Authorize SSH Host
+RUN mkdir -p /home/spryker/.ssh && \
+    chmod 0700 /home/spryker/.ssh && \
+    ssh-keyscan github.com > /home/spryker/.ssh/known_hosts
+
 COPY --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
 COPY --chown=spryker:spryker src ${srcRoot}/src
 COPY --chown=spryker:spryker app ${srcRoot}/app
@@ -35,12 +40,13 @@ COPY --chown=spryker:spryker config ${srcRoot}/config
 COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
+COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
 
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 ENV APP_ENV=prod
 
-RUN bin/console cache:warmup && \
+RUN --mount=type=ssh bin/console cache:warmup && \
     bin/console sdk:init:sdk && \
     bin/console sdk:update:all
 
