@@ -4,7 +4,16 @@ services:
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitSdkCommand
-    tags: ["console.command"]
+    tags: [ "console.command" ]
+    arguments:
+      - "%kernel.project_dir%"
+      - "@process_helper"
+      - "@yaml_parser"
+      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+  init_command:
+    autowire: false
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\InitCommand
+    tags: [ "console.command" ]
     arguments:
       - "@cli_value_receiver"
       - "@setting_repository"
@@ -13,7 +22,6 @@ services:
       - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
       - "@service.task_manager"
       - "@task_repository"
-
   init_run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\RunWorkflowCommand
@@ -43,7 +51,12 @@ services:
     tags: ["console.command"]
     arguments:
       - "@service.lifecycle_manager"
-
+  update_sdk_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateSdkCommand
+    tags: ["console.command"]
+    arguments:
+      - "%kernel.project_dir%"
+      - "@process_helper"
   install_private_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InstallSdkBundlesCommand
     tags: [ "console.command" ]
@@ -51,7 +64,6 @@ services:
       - "@service.tasks_repository_installer"
       - '%kernel.project_dir%'
       - "@event_logger"
-
   create_phpstorm_config_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\CreatePhpStormConfig
     tags: ["console.command"]

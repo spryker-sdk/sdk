@@ -7,14 +7,15 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
-class UpdateCommand extends Command
+class UpdateSdkCommand extends Command
 {
     /**
      * @var string
@@ -29,7 +30,12 @@ class UpdateCommand extends Command
     /**
      * @var string
      */
-    public static $defaultName = 'sdk:update:hidden-all';
+    protected static $defaultName = 'sdk:update:all';
+
+    /**
+     * @var string
+     */
+    protected string $sdkBasePath;
 
     /**
      * @var string
@@ -37,17 +43,20 @@ class UpdateCommand extends Command
     protected static $defaultDescription = 'Update Spryker SDK to latest version.';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
+     * @var \Symfony\Component\Console\Helper\ProcessHelper
      */
-    protected LifecycleManagerInterface $lifecycleManager;
+    protected ProcessHelper $processHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @param string $sdkBasePath
+     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
      */
-    public function __construct(LifecycleManagerInterface $lifecycleManager)
+    public function __construct(string $sdkBasePath, ProcessHelper $processHelper)
     {
+        $this->sdkBasePath = $sdkBasePath;
+        $this->processHelper = $processHelper;
+
         parent::__construct(static::$defaultName);
-        $this->lifecycleManager = $lifecycleManager;
     }
 
     /**
@@ -73,41 +82,33 @@ class UpdateCommand extends Command
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Input\ArgvInput $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
-            $this->checkForUpdate($output);
-        }
+        $application = $this->getApplication();
 
-        if ($input->getOption(static::OPTION_CHECK_ONLY) !== null) {
-            $this->lifecycleManager->update();
+        if (!$application) {
+            return static::FAILURE;
         }
+        $application->setAutoExit(false);
+        $application->run(new ArrayInput([InstallSdkBundlesCommand::getDefaultName()]), $output);
+
+        $process = Process::fromShellCommandline(
+            $this->sdkBasePath .
+            '/bin/console ' .
+            InitCommand::NAME .
+            str_replace('\'' . static::$defaultName . '\'', '', (string)$input),
+        )->setTty(true);
+
+        $this->processHelper->run(
+            $output,
+            [$process],
+        );
 
         return static::SUCCESS;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
-    protected function checkForUpdate(OutputInterface $output): void
-    {
-        try {
-            $messages = $this->lifecycleManager->checkForUpdate();
-        } catch (SdkVersionNotFoundException $exception) {
-            $output->writeln($exception->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
-
-            return;
-        }
-
-        foreach ($messages as $message) {
-            $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
-        }
     }
 }
