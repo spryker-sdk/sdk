@@ -58,7 +58,7 @@ services:
       - "@service.lifecycle_manager"
 
   install_private_sdk_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\InstallPrivateSdkCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\InstallSdkBundlesCommand
     tags: [ "console.command" ]
     arguments:
       - "@service.tasks_repository_installer"

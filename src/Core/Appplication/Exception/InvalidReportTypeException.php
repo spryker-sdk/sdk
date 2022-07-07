@@ -5,12 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
+namespace SprykerSdk\Sdk\Core\Appplication\Exception;
 
-interface TasksRepositoryInstallerInterface
+use InvalidArgumentException;
+
+class InvalidReportTypeException extends InvalidArgumentException
 {
-    /**
-     * @return array<string|int, bool>
-     */
-    public function install(): array;
 }
