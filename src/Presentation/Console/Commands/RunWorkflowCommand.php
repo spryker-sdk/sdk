@@ -76,6 +76,11 @@ class RunWorkflowCommand extends Command
         parent::configure();
         $this->addArgument(static::ARG_WORKFLOW_NAME, InputArgument::OPTIONAL, 'Workflow name');
         $this->addOption(static::OPTION_FORCE, 'f', InputOption::VALUE_NONE, 'Ignore guards and force operation to run');
+        $this->setHelp(
+            <<<EOT
+Documentation on workflows is available at https://github.com/spryker-sdk/sdk/blob/develop/docs/workflow.md
+EOT,
+        );
     }
 
     /**

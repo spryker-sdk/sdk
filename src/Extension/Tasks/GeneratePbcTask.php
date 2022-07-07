@@ -59,7 +59,7 @@ class GeneratePbcTask implements TaskInterface
                 '%pbc_name%',
                 'STATIC',
                 [
-                    'name' => 'pbc_name',
+                    'name' => 'pbc-name',
                     'description' => 'Input name for new PBC',
                     'type' => 'string',
                 ],
