@@ -14,20 +14,16 @@ use Symfony\Component\Console\Event\ConsoleErrorEvent;
 
 class ErrorCommandListener implements ErrorCommandListenerInterface
 {
- /**
-  * @param \Symfony\Component\Console\Event\ConsoleErrorEvent $event
-  *
-  * @return void
-  */
+    /**
+     * @param \Symfony\Component\Console\Event\ConsoleErrorEvent $event
+     *
+     * @return void
+     */
     public function handle(ConsoleErrorEvent $event): void
     {
-        $exception = $event->getError();
-
-        if ($exception instanceof TableNotFoundException) {
-            if (!$event->getOutput()->isDebug()) {
-                $event->setError(new ProjectWorkflowException(sprintf('You need to init or update the SDK. you need to run \'sdk:init:sdk\' or \'sdk:update:all\' command.'), 0, $event->getError()));
-                $event->setExitCode(0);
-            }
+        if ($event->getError() instanceof TableNotFoundException && !$event->getOutput()->isDebug()) {
+            $event->setError(new ProjectWorkflowException('You need to init or update the SDK. you need to run \'sdk:init:sdk\' or \'sdk:update:all\' command.', 0, $event->getError()));
+            $event->setExitCode(0);
         }
     }
 }
