@@ -59,7 +59,7 @@ class PCSystemValueResolver extends AbstractValueResolver
     public function __construct(ValueReceiverInterface $valueReceiver, string $unameInfo)
     {
         parent::__construct($valueReceiver);
-        $this->unameInfo = $unameInfo ?: php_uname();
+        $this->unameInfo = $unameInfo;
     }
 
     /**
