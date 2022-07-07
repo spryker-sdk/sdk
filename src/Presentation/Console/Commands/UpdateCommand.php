@@ -7,11 +7,14 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends Command
@@ -42,12 +45,19 @@ class UpdateCommand extends Command
     protected LifecycleManagerInterface $lifecycleManager;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand
      */
-    public function __construct(LifecycleManagerInterface $lifecycleManager)
+    protected MigrateCommand $doctrineMigrationCommand;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
+     */
+    public function __construct(LifecycleManagerInterface $lifecycleManager, MigrateCommand $doctrineMigrationCommand)
     {
         parent::__construct(static::$defaultName);
         $this->lifecycleManager = $lifecycleManager;
+        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
     }
 
     /**
@@ -80,6 +90,8 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->createDatabase();
+
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);
         }
@@ -109,5 +121,15 @@ class UpdateCommand extends Command
         foreach ($messages as $message) {
             $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
         }
+    }
+
+    /**
+     * @return void
+     */
+    protected function createDatabase(): void
+    {
+        $migrationInput = new ArrayInput(['allow-no-migration']);
+        $migrationInput->setInteractive(false);
+        $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }
 }

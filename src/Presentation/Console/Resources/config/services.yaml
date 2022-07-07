@@ -1,3 +1,6 @@
+parameters:
+  env(EXECUTABLE_FILE_PATH): ''
+  executable_file_path: '%env(uname:EXECUTABLE_FILE_PATH)%'
 services:
   question_helper:
     class: Symfony\Component\Console\Helper\SymfonyQuestionHelper
@@ -51,6 +54,7 @@ services:
     tags: ["console.command"]
     arguments:
       - "@service.lifecycle_manager"
+      - "@doctrine_migrations.migrate_command"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateSdkCommand
     tags: ["console.command"]
@@ -88,7 +92,7 @@ services:
       - "@ide.command_xml_formatter"
       - "@xml_encoder"
       - "@setting_repository"
-      - "%env(EXECUTABLE_FILE_PATH)%"
+      - "%executable_file_path%"
 
   ide.command_loader:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader

@@ -101,20 +101,19 @@ class InitCommand extends Command
     protected function configure()
     {
         parent::configure();
-        $this->createDatabase();
 
-        $settings = $this->readSettingDefinitions();
+        $settings = $this->yamlParser->parseFile($this->settingsPath)['settings'];
 
-        foreach ($settings as $setting) {
+        foreach ($settings as $settingData) {
             $mode = InputOption::VALUE_REQUIRED;
-            if ($setting->getStrategy() === 'merge') {
+            if ($settingData['strategy'] === 'merge') {
                 $mode |= InputOption::VALUE_IS_ARRAY;
             }
             $this->addOption(
-                $setting->getPath(),
+                $settingData['path'],
                 null,
                 $mode,
-                $setting->getInitializationDescription() ?? '',
+                $settingData['initialization_description'],
             );
         }
     }
@@ -127,6 +126,8 @@ class InitCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->createDatabase();
+
         $this->initializeSettingValues($input->getOptions(), $this->readSettingDefinitions());
         $this->taskManager->initialize($this->taskYamlRepository->findAll());
 

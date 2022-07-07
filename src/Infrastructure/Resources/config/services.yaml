@@ -20,6 +20,14 @@ services:
           event: console.command,
           method: initProgressBar,
         }
+  command_error:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
+    tags:
+      - {
+        name: kernel.event_listener,
+        event: console.error,
+        method: handle,
+      }
   setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
