@@ -73,17 +73,6 @@ services:
     tags: ["console.command"]
     arguments:
       - "@ide.config_manager"
-  ide.command_mapper:
-    class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapper
-    arguments:
-      - "@ide.option_mapper"
-      - "@ide.param_mapper"
-
-  ide.option_mapper:
-    class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\OptionMapper
-
-  ide.param_mapper:
-    class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\ParamMapper
 
   ide.config_manager:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\ConfigManager
@@ -97,9 +86,7 @@ services:
   ide.command_loader:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader
     arguments:
-      - "@console.command_loader"
-      - "@ide.command_mapper"
-      - "@task_repository"
+      - !tagged_iterator console.command
 
   ide.command_xml_formatter:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatter

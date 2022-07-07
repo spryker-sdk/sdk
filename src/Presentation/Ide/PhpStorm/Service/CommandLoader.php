@@ -7,37 +7,21 @@
 
 namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
-use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface;
+use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Command;
 
 class CommandLoader implements CommandLoaderInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader
+     * @var iterable<\Symfony\Component\Console\Command\Command>
      */
-    protected TaskRunFactoryLoader $commandContainer;
+    protected iterable $commands;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface
+     * @param iterable<\Symfony\Component\Console\Command\Command> $commands
      */
-    protected CommandMapperInterface $commandMapper;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
-     */
-    protected TaskRepositoryInterface $taskRepository;
-
-    /**
-     * @param \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader $commandContainer
-     * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface $commandMapper
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
-     */
-    public function __construct(TaskRunFactoryLoader $commandContainer, CommandMapperInterface $commandMapper, TaskRepositoryInterface $taskRepository)
+    public function __construct(iterable $commands)
     {
-        $this->commandContainer = $commandContainer;
-        $this->commandMapper = $commandMapper;
-        $this->taskRepository = $taskRepository;
+        $this->commands = $commands;
     }
 
     /**
@@ -45,24 +29,18 @@ class CommandLoader implements CommandLoaderInterface
      */
     public function load(): array
     {
-        $tasks = $this->taskRepository->findAll();
-
-        return $this->mapTasks($tasks);
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     *
-     * @return array<\SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface>
-     */
-    protected function mapTasks(array $tasks): array
-    {
         $commands = [];
 
-        foreach ($tasks as $task) {
-            $command = $this->commandContainer->get($task->getId());
-
-            $commands[] = $this->commandMapper->mapToIdeCommand($command);
+        foreach ($this->commands as $command) {
+            if ($command->isHidden()) {
+                continue;
+            }
+            $commands[] = new Command(
+                (string)$command->getName(),
+                [],
+                [],
+                $command->getHelp(),
+            );
         }
 
         return $commands;
