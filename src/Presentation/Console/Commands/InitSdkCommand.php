@@ -7,19 +7,17 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 
-class InitSdkCommand extends Command
+class InitSdkCommand extends AbstractInitCommand
 {
     /**
-     * @var string|null The default command name
+     * @var string
      */
     protected static $defaultName = 'sdk:init:sdk';
 
@@ -27,16 +25,6 @@ class InitSdkCommand extends Command
      * @var string
      */
     protected string $sdkBasePath;
-
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
-
-    /**
-     * @var string
-     */
-    protected string $settingsPath;
 
     /**
      * @var \Symfony\Component\Console\Helper\ProcessHelper
@@ -57,32 +45,8 @@ class InitSdkCommand extends Command
     ) {
         $this->sdkBasePath = $sdkBasePath;
         $this->processHelper = $processHelper;
-        $this->settingsPath = $settingsPath;
         $this->yamlParser = $yamlParser;
-        parent::__construct();
-    }
-
-    /**
-     * @return void
-     */
-    protected function configure()
-    {
-        parent::configure();
-
-        $settings = $this->yamlParser->parseFile($this->settingsPath)['settings'];
-
-        foreach ($settings as $settingData) {
-            $mode = InputOption::VALUE_REQUIRED;
-            if ($settingData['strategy'] === 'merge') {
-                $mode |= InputOption::VALUE_IS_ARRAY;
-            }
-            $this->addOption(
-                $settingData['path'],
-                null,
-                $mode,
-                $settingData['initialization_description'],
-            );
-        }
+        parent::__construct($yamlParser, $settingsPath);
     }
 
     /**
@@ -93,25 +57,45 @@ class InitSdkCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        return (int)!($this->runInstallBundles($output) || $this->runInit($input, $output));
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
+    protected function runInstallBundles(OutputInterface $output): int
+    {
         $application = $this->getApplication();
 
         if (!$application) {
             return static::FAILURE;
         }
         $application->setAutoExit(false);
-        $application->run(new ArrayInput([InstallSdkBundlesCommand::getDefaultName()]), $output);
 
+        return $application->run(new ArrayInput([InstallSdkBundlesCommand::getDefaultName()]), $output);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\ArgvInput $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
+    protected function runInit(InputInterface $input, OutputInterface $output): int
+    {
         $process = Process::fromShellCommandline(
             $this->sdkBasePath .
             '/bin/console ' .
             InitCommand::NAME .
             str_replace('\'' . static::$defaultName . '\'', '', (string)$input),
         )->setTty(true);
-        $this->processHelper->run(
+        $result = $this->processHelper->run(
             $output,
             [$process],
         );
 
-        return static::SUCCESS;
+        return (int)$result->getExitCode();
     }
 }

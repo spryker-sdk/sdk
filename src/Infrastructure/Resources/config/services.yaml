@@ -56,7 +56,15 @@ services:
     arguments:
       - "@context_serializer"
       - "@setting_repository"
-
+  setting_service:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Setting
+    arguments:
+      - "@cli_value_receiver"
+      - "@setting_repository"
+      - "@yaml_parser"
+      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+      - "@service.task_manager"
+      - "@task_repository"
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
 

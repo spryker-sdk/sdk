@@ -10,34 +10,17 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCommand extends Command
+class UpdateCommand extends AbstractUpdateCommand
 {
     /**
      * @var string
      */
-    public const OPTION_CHECK_ONLY = 'check-only';
-
-    /**
-     * @var string
-     */
-    public const OPTION_NO_CHECK = 'no-check';
-
-    /**
-     * @var string
-     */
     public static $defaultName = 'sdk:update:hidden-all';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Update Spryker SDK to latest version.';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
@@ -61,28 +44,6 @@ class UpdateCommand extends Command
     }
 
     /**
-     * @return void
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this->addOption(
-            static::OPTION_CHECK_ONLY,
-            'c',
-            InputOption::VALUE_OPTIONAL,
-            'Only checks if the current version is up-to-date',
-            false,
-        );
-        $this->addOption(
-            static::OPTION_NO_CHECK,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Only checks if the current version is up-to-date',
-            false,
-        );
-    }
-
-    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -90,7 +51,7 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->createDatabase();
+        $this->runMigration();
 
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);
@@ -126,7 +87,7 @@ class UpdateCommand extends Command
     /**
      * @return void
      */
-    protected function createDatabase(): void
+    protected function runMigration(): void
     {
         $migrationInput = new ArrayInput(['allow-no-migration']);
         $migrationInput->setInteractive(false);

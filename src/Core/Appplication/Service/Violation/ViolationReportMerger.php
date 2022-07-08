@@ -35,12 +35,12 @@ class ViolationReportMerger
             }
             $packages = $this->mergePackages($packages, $violationReport->getPackages());
         }
-        $packageEntities = [];
+        $packageViolationReports = [];
         foreach ($packages as $package) {
-            $packageEntities[] = new PackageViolationReport($package['id'], $package['path'], $package['violations'], $package['files']);
+            $packageViolationReports[] = new PackageViolationReport($package['id'], $package['path'], $package['violations'], $package['files']);
         }
 
-        return new ViolationReport($project['project'], $project['path'], $project['violations'], $packageEntities);
+        return new ViolationReport($project['project'], $project['path'], $project['violations'], $packageViolationReports);
     }
 
     /**

@@ -18,13 +18,10 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitCommand
     tags: [ "console.command" ]
     arguments:
-      - "@cli_value_receiver"
-      - "@setting_repository"
+      - "@setting_service"
       - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
       - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
-      - "@service.task_manager"
-      - "@task_repository"
   init_run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\RunWorkflowCommand
@@ -87,7 +84,8 @@ services:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader
     arguments:
       - !tagged_iterator console.command
-
+      - "@console.command_loader"
+      - "@task_repository"
   ide.command_xml_formatter:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatter
 

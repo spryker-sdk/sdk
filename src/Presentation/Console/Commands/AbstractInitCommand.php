@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdk\Sdk\Presentation\Console\Commands;
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Yaml\Yaml;
+
+class AbstractInitCommand extends Command
+{
+    /**
+     * @var \Symfony\Component\Yaml\Yaml
+     */
+    protected Yaml $yamlParser;
+
+    /**
+     * @var string
+     */
+    protected string $settingsPath;
+
+    /**
+     * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param string $settingsPath
+     * @param string|null $commandName
+     */
+    public function __construct(Yaml $yamlParser, string $settingsPath, ?string $commandName = null)
+    {
+        $this->yamlParser = $yamlParser;
+        $this->settingsPath = $settingsPath;
+        parent::__construct($commandName);
+    }
+
+    /**
+     * @return void
+     */
+    protected function configure()
+    {
+        parent::configure();
+
+        $settings = $this->yamlParser->parseFile($this->settingsPath)['settings'];
+
+        foreach ($settings as $settingData) {
+            $mode = InputOption::VALUE_REQUIRED;
+            if ($settingData['strategy'] === 'merge') {
+                $mode |= InputOption::VALUE_IS_ARRAY;
+            }
+            $this->addOption(
+                $settingData['path'],
+                null,
+                $mode,
+                $settingData['initialization_description'],
+            );
+        }
+    }
+}
