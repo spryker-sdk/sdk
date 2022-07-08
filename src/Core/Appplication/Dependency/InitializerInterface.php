@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
-interface SettingInterface
+interface InitializerInterface
 {
     /**
-     * @param array $settings
+     * @param array<string, mixed> $settings
      *
      * @return void
      */

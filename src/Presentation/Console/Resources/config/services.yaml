@@ -18,7 +18,7 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitCommand
     tags: [ "console.command" ]
     arguments:
-      - "@setting_service"
+      - "@initializer_service"
       - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
       - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"

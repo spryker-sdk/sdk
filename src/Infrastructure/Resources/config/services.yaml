@@ -33,6 +33,8 @@ services:
     arguments:
       - "@doctrine.orm.entity_manager"
       - "@path_resolver"
+      - "@yaml_parser"
+      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
@@ -56,13 +58,11 @@ services:
     arguments:
       - "@context_serializer"
       - "@setting_repository"
-  setting_service:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Setting
+  initializer_service:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
     arguments:
       - "@cli_value_receiver"
       - "@setting_repository"
-      - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
       - "@service.task_manager"
       - "@task_repository"
   process_helper:

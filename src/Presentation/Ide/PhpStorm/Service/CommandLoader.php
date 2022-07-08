@@ -29,7 +29,9 @@ class CommandLoader implements CommandLoaderInterface
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @param iterable<\Symfony\Component\Console\Command\Command> $commands
+     * @param iterable $commands
+     * @param \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader $commandContainer
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
     public function __construct(iterable $commands, TaskRunFactoryLoader $commandContainer, TaskRepositoryInterface $taskRepository)
     {

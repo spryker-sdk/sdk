@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting;
+use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
@@ -24,9 +24,9 @@ class InitCommand extends AbstractInitCommand
     public const NAME = 'sdk:init:hidden-sdk';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
      */
-    protected Setting $settingService;
+    protected Initializer $initializerService;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
@@ -39,18 +39,18 @@ class InitCommand extends AbstractInitCommand
     protected MigrateCommand $doctrineMigrationCommand;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting $settingService
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\Initializer $initializerService
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
      */
     public function __construct(
-        Setting $settingService,
+        Initializer $initializerService,
         MigrateCommand $doctrineMigrationCommand,
         Yaml $yamlParser,
         string $settingsPath
     ) {
-        $this->settingService = $settingService;
+        $this->initializerService = $initializerService;
         $this->doctrineMigrationCommand = $doctrineMigrationCommand;
         parent::__construct($yamlParser, $settingsPath, static::NAME);
 
@@ -67,7 +67,7 @@ class InitCommand extends AbstractInitCommand
     {
         $this->runMigration();
 
-        $this->settingService->initialize($input->getOptions());
+        $this->initializerService->initialize($input->getOptions());
 
         return static::SUCCESS;
     }

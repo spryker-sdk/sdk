@@ -12,9 +12,12 @@ use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
+use SprykerSdk\Sdk\Infrastructure\Entity\Setting as EntitySetting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * @extends \Doctrine\ORM\EntityRepository<\SprykerSdk\SdkContracts\Entity\SettingInterface>
@@ -22,23 +25,39 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 class SettingRepository extends EntityRepository implements SettingRepositoryInterface
 {
     /**
+     * @var \Symfony\Component\Yaml\Yaml
+     */
+    protected Yaml $yamlParser;
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
      */
     protected PathResolver $pathResolver;
 
     /**
+     * @var string
+     */
+    protected string $settingsPath;
+
+    /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver $pathResolver
+     * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param string $settingsPath
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        PathResolver $pathResolver
+        PathResolver $pathResolver,
+        Yaml $yamlParser,
+        string $settingsPath
     ) {
         /** @var \Doctrine\ORM\Mapping\ClassMetadata<\SprykerSdk\SdkContracts\Entity\SettingInterface> $class */
         $class = $entityManager->getClassMetadata(InfrastructureSetting::class);
 
         parent::__construct($entityManager, $class);
         $this->pathResolver = $pathResolver;
+        $this->yamlParser = $yamlParser;
+        $this->settingsPath = $settingsPath;
     }
 
     /**
@@ -169,5 +188,70 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         }
 
         return $settings;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSettingDefinition(): array
+    {
+        $settings = $this->yamlParser::parseFile($this->settingsPath)['settings'] ?? [];
+        $settingEntities = [];
+
+        foreach ($settings as $setting) {
+            $settingEntities[] = $this->createSettingEntity($setting);
+        }
+
+        return $settingEntities;
+    }
+
+    /**
+     * @param array $setting
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
+     */
+    protected function createSettingEntity(array $setting): EntitySettingInterface
+    {
+        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Setting|null $settingEntity */
+        $settingEntity = $this->findOneByPath($setting['path']);
+        if ($settingEntity) {
+            return $settingEntity;
+        }
+
+        $settingData = $this->prepereSettingData($setting);
+        $settingEntity = new EntitySetting(
+            null,
+            $settingData['path'],
+            $settingData['values'],
+            $settingData['strategy'],
+            $settingData['type'],
+            $settingData['is_project'],
+            $settingData['init'],
+            $settingData['initialization_description'],
+            $settingData['initializer'],
+        );
+
+        $this->save($settingEntity);
+
+        return $settingEntity;
+    }
+
+    /**
+     * @param array $setting
+     *
+     * @return array
+     */
+    protected function prepereSettingData(array $setting): array
+    {
+        return [
+            'path' => $setting['path'],
+            'type' => $setting['type'] ?? 'string',
+            'is_project' => $setting['is_project'] ?? true,
+            'initialization_description' => $setting['initialization_description'] ?? null,
+            'strategy' => $setting['strategy'] ?? 'overwrite',
+            'init' => $setting['init'] ?? false,
+            'values' => $setting['values'],
+            'initializer' => $setting['initializer'] ?? null,
+        ];
     }
 }
