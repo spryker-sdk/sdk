@@ -266,6 +266,7 @@ services:
 
   workflow_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+    tags: [ "sdk.cli_receiver_setup" ]
     arguments:
       - "@cli_value_receiver"
       - "@service_container"

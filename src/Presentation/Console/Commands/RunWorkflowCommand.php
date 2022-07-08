@@ -38,6 +38,11 @@ class RunWorkflowCommand extends Command
     protected const OPTION_FORCE = 'force';
 
     /**
+     * @var string|null The default command description
+     */
+    protected static $defaultDescription = 'Run one of available workflows.';
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
      */
     protected $projectWorkflow;

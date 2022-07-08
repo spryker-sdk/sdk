@@ -22,7 +22,7 @@ placeholders:
     optional: false
     configuration:
       name: "locale"
-      description: "A valid locale e.g.: en_US"
+      description: "A valid locale for the PBC you want to build"
       type: string
       defaultValue: "en_US"
   - name: "%manifest-path%"

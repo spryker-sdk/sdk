@@ -27,6 +27,11 @@ class ListWorkflowCommand extends Command
     protected const OPTION_PROJECT = 'project';
 
     /**
+     * @var string|null The default command description
+     */
+    protected static $defaultDescription = 'List available workflows.';
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
      */
     protected $projectWorkflow;

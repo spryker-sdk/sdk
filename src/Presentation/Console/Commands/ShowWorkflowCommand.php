@@ -34,6 +34,11 @@ class ShowWorkflowCommand extends Command
     protected const ARG_WORKFLOW_NAME = 'workflow_name';
 
     /**
+     * @var string|null The default command description
+     */
+    protected static $defaultDescription = 'Render workflow as SVG.';
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
