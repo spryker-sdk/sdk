@@ -20,11 +20,21 @@ services:
           event: console.command,
           method: initProgressBar,
         }
+  command_error:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
+    tags:
+      - {
+        name: kernel.event_listener,
+        event: console.error,
+        method: handle,
+      }
   setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
       - "@doctrine.orm.entity_manager"
       - "@path_resolver"
+      - "@yaml_parser"
+      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
@@ -48,7 +58,13 @@ services:
     arguments:
       - "@context_serializer"
       - "@setting_repository"
-
+  initializer_service:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
+    arguments:
+      - "@cli_value_receiver"
+      - "@setting_repository"
+      - "@service.task_manager"
+      - "@task_repository"
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
 
