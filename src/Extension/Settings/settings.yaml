@@ -1,18 +1,4 @@
 settings:
-  - path: developer_email
-    initialization_description: What is your email?
-    strategy: overwrite
-    init: true
-    is_project: false
-    type: string
-    values: ~
-  - path: developer_github_account
-    initialization_description: What is your github account if you have the one?
-    strategy: overwrite
-    init: true
-    is_project: false
-    type: string
-    values: ~
   - path: extension_dirs
     initialization_description: Where can extensions be loaded from?
     strategy: merge
