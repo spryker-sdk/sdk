@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,12 +21,17 @@ class UpdateCommand extends AbstractUpdateCommand
     /**
      * @var string
      */
-    public static $defaultName = 'sdk:update:hidden-all';
+    public const NAME = 'sdk:update:hidden-all';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
      */
     protected LifecycleManagerInterface $lifecycleManager;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
+    protected SettingRepositoryInterface $settingRepository;
 
     /**
      * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand
@@ -34,12 +40,17 @@ class UpdateCommand extends AbstractUpdateCommand
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      */
-    public function __construct(LifecycleManagerInterface $lifecycleManager, MigrateCommand $doctrineMigrationCommand)
-    {
-        parent::__construct(static::$defaultName);
+    public function __construct(
+        LifecycleManagerInterface $lifecycleManager,
+        SettingRepositoryInterface $settingRepository,
+        MigrateCommand $doctrineMigrationCommand
+    ) {
+        parent::__construct(static::NAME);
         $this->lifecycleManager = $lifecycleManager;
+        $this->settingRepository = $settingRepository;
         $this->doctrineMigrationCommand = $doctrineMigrationCommand;
     }
 
@@ -52,6 +63,8 @@ class UpdateCommand extends AbstractUpdateCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->runMigration();
+
+        $this->settingRepository->initSettingDefinition();
 
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);

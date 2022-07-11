@@ -191,15 +191,15 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
-     * @return array
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
-    public function getSettingDefinition(): array
+    public function initSettingDefinition(): array
     {
         $settings = $this->yamlParser::parseFile($this->settingsPath)['settings'] ?? [];
         $settingEntities = [];
 
         foreach ($settings as $setting) {
-            $settingEntities[] = $this->createSettingEntity($setting);
+            $settingEntities[] = $this->getSettingEntityOrNew($setting);
         }
 
         return $settingEntities;
@@ -210,7 +210,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
-    protected function createSettingEntity(array $setting): EntitySettingInterface
+    protected function getSettingEntityOrNew(array $setting): EntitySettingInterface
     {
         /** @var \SprykerSdk\Sdk\Infrastructure\Entity\Setting|null $settingEntity */
         $settingEntity = $this->findOneByPath($setting['path']);

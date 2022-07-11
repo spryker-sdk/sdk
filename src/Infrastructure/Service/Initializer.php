@@ -8,10 +8,11 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\InitializerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
+use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
 class Initializer implements InitializerInterface
@@ -22,9 +23,9 @@ class Initializer implements InitializerInterface
     protected CliValueReceiver $cliValueReceiver;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
      */
-    protected SettingRepository $settingRepository;
+    protected SettingRepositoryInterface $settingRepository;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
@@ -38,13 +39,13 @@ class Initializer implements InitializerInterface
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskYamlRepository
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
-        SettingRepository $settingRepository,
+        SettingRepositoryInterface $settingRepository,
         TaskManagerInterface $taskManager,
         TaskRepositoryInterface $taskYamlRepository
     ) {
@@ -61,7 +62,7 @@ class Initializer implements InitializerInterface
      */
     public function initialize(array $settings): void
     {
-        $this->initializeSettingValues($settings, $this->settingRepository->getSettingDefinition());
+        $this->initializeSettingValues($settings, $this->settingRepository->initSettingDefinition());
         $this->taskManager->initialize($this->taskYamlRepository->findAll());
     }
 
@@ -79,34 +80,54 @@ class Initializer implements InitializerInterface
         });
 
         foreach ($coreEntities as $settingEntity) {
-            if (!empty($settings[$settingEntity->getPath()])) {
-                $settingEntity->setValues($settings[$settingEntity->getPath()]);
-                $this->settingRepository->save($settingEntity);
-
-                continue;
-            }
-
-            if ($settingEntity->hasInitialization() === false) {
-                continue;
-            }
-
-            if ($settingEntity->getValues() === null) {
-                $values = $this->cliValueReceiver->receiveValue(
-                    new ReceiverValue(
-                        $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
-                        $settingEntity->getValues(),
-                        $settingEntity->getType(),
-                    ),
-                );
-                $values = is_scalar($values) ? $values : json_encode($values);
-                $settingEntity->setValues($values);
-
-                if ($values !== $settingEntity->getValues()) {
-                    $this->settingRepository->save($settingEntity);
-                }
-            }
+            $this->initializeSettingValue($settingEntity, $settings);
         }
 
         return $coreEntities;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     * @param array<string, mixed> $settings
+     *
+     * @return void
+     */
+    protected function initializeSettingValue(SettingInterface $settingEntity, array $settings): void
+    {
+        if (!empty($settings[$settingEntity->getPath()])) {
+            $settingEntity->setValues($settings[$settingEntity->getPath()]);
+            $this->settingRepository->save($settingEntity);
+
+            return;
+        }
+
+        if ($settingEntity->hasInitialization() === false || $settingEntity->getValues() !== null) {
+            return;
+        }
+
+        $value = $this->receiveValue($settingEntity);
+        $settingEntity->setValues($value);
+
+        if ($value !== $settingEntity->getValues()) {
+            $this->settingRepository->save($settingEntity);
+        }
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     *
+     * @return mixed
+     */
+    protected function receiveValue(SettingInterface $settingEntity): mixed
+    {
+        $value = $this->cliValueReceiver->receiveValue(
+            new ReceiverValue(
+                $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
+                $settingEntity->getValues(),
+                $settingEntity->getType(),
+            ),
+        );
+
+        return is_scalar($value) ? $value : json_encode($value);
     }
 }

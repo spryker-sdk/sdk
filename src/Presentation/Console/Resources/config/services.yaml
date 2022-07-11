@@ -51,6 +51,7 @@ services:
     tags: ["console.command"]
     arguments:
       - "@service.lifecycle_manager"
+      - "@setting_repository"
       - "@doctrine_migrations.migrate_command"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateSdkCommand

@@ -105,7 +105,7 @@ class SettingTest extends Unit
             ->expects($this->exactly(count($settings)))
             ->method('save');
         $this->settingRepository->expects($this->once())
-            ->method('getSettingDefinition')
+            ->method('initSettingDefinition')
             ->willReturn($settings);
 
         // Act
@@ -139,7 +139,7 @@ class SettingTest extends Unit
             ->expects($this->never())
             ->method('save');
         $this->settingRepository->expects($this->once())
-            ->method('getSettingDefinition')
+            ->method('initSettingDefinition')
             ->willReturn($settings);
 
         // Act
@@ -173,7 +173,7 @@ class SettingTest extends Unit
             ->expects($this->never())
             ->method('save');
         $this->settingRepository->expects($this->once())
-            ->method('getSettingDefinition')
+            ->method('initSettingDefinition')
             ->willReturn($settings);
         $this->cliValueReceiver
             ->expects($this->exactly(count($settings)))
@@ -211,7 +211,7 @@ class SettingTest extends Unit
             ->expects($this->never())
             ->method('save');
         $this->settingRepository->expects($this->once())
-            ->method('getSettingDefinition')
+            ->method('initSettingDefinition')
             ->willReturn($settings);
         $this->cliValueReceiver
             ->expects($this->never())

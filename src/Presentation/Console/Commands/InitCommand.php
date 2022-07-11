@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
-use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,11 +26,6 @@ class InitCommand extends AbstractInitCommand
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
      */
     protected Initializer $initializerService;
-
-    /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
-     */
-    protected SettingRepository $settingRepository;
 
     /**
      * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand

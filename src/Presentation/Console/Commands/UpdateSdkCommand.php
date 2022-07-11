@@ -18,7 +18,7 @@ class UpdateSdkCommand extends AbstractUpdateCommand
     /**
      * @var string
      */
-    protected static $defaultName = 'sdk:update:all';
+    protected const NAME = 'sdk:update:all';
 
     /**
      * @var string
@@ -39,7 +39,7 @@ class UpdateSdkCommand extends AbstractUpdateCommand
         $this->sdkBasePath = $sdkBasePath;
         $this->processHelper = $processHelper;
 
-        parent::__construct(static::$defaultName);
+        parent::__construct(static::NAME);
     }
 
     /**
@@ -67,7 +67,7 @@ class UpdateSdkCommand extends AbstractUpdateCommand
         }
         $application->setAutoExit(false);
 
-        return $application->run(new ArrayInput([InstallSdkBundlesCommand::getDefaultName()]), $output);
+        return $application->run(new ArrayInput([InstallSdkBundlesCommand::NAME]), $output);
     }
 
     /**
@@ -81,8 +81,8 @@ class UpdateSdkCommand extends AbstractUpdateCommand
         $process = Process::fromShellCommandline(
             $this->sdkBasePath .
             '/bin/console ' .
-            UpdateCommand::getDefaultName() .
-            str_replace('\'' . static::$defaultName . '\'', '', (string)$input),
+            UpdateCommand::NAME .
+            str_replace('\'' . static::NAME . '\'', '', (string)$input),
         )->setTty(true);
 
         $result = $this->processHelper->run(

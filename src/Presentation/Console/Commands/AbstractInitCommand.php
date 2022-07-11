@@ -11,7 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
-class AbstractInitCommand extends Command
+abstract class AbstractInitCommand extends Command
 {
     /**
      * @var \Symfony\Component\Yaml\Yaml
@@ -42,17 +42,13 @@ class AbstractInitCommand extends Command
     {
         parent::configure();
 
-        $settings = $this->yamlParser->parseFile($this->settingsPath)['settings'];
+        $settings = $this->yamlParser::parseFile($this->settingsPath)['settings'] ?? [];
 
         foreach ($settings as $settingData) {
-            $mode = InputOption::VALUE_REQUIRED;
-            if ($settingData['strategy'] === 'merge') {
-                $mode |= InputOption::VALUE_IS_ARRAY;
-            }
             $this->addOption(
                 $settingData['path'],
                 null,
-                $mode,
+                $settingData['strategy'] === 'merge' ? InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY : InputOption::VALUE_REQUIRED,
                 $settingData['initialization_description'],
             );
         }

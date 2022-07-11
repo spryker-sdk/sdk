@@ -19,7 +19,7 @@ class InitSdkCommand extends AbstractInitCommand
     /**
      * @var string
      */
-    protected static $defaultName = 'sdk:init:sdk';
+    protected const NAME = 'sdk:init:sdk';
 
     /**
      * @var string
@@ -46,7 +46,7 @@ class InitSdkCommand extends AbstractInitCommand
         $this->sdkBasePath = $sdkBasePath;
         $this->processHelper = $processHelper;
         $this->yamlParser = $yamlParser;
-        parent::__construct($yamlParser, $settingsPath);
+        parent::__construct($yamlParser, $settingsPath, static::NAME);
     }
 
     /**
@@ -74,7 +74,7 @@ class InitSdkCommand extends AbstractInitCommand
         }
         $application->setAutoExit(false);
 
-        return $application->run(new ArrayInput([InstallSdkBundlesCommand::getDefaultName()]), $output);
+        return $application->run(new ArrayInput([InstallSdkBundlesCommand::NAME]), $output);
     }
 
     /**
@@ -89,7 +89,7 @@ class InitSdkCommand extends AbstractInitCommand
             $this->sdkBasePath .
             '/bin/console ' .
             InitCommand::NAME .
-            str_replace('\'' . static::$defaultName . '\'', '', (string)$input),
+            str_replace('\'' . static::NAME . '\'', '', (string)$input),
         )->setTty(true);
         $result = $this->processHelper->run(
             $output,

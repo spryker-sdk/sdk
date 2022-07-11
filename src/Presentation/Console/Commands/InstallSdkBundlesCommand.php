@@ -23,7 +23,7 @@ class InstallSdkBundlesCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'sdk:update:bundles';
+    public const NAME = 'sdk:update:bundles';
 
     /**
      * @var string|null The default command description
@@ -55,7 +55,7 @@ class InstallSdkBundlesCommand extends Command
         string $sdkBasePath,
         EventLoggerInterface $eventLogger
     ) {
-        parent::__construct(static::$defaultName);
+        parent::__construct(static::NAME);
         $this->tasksRepositoryInstaller = $tasksRepositoryInstaller;
         $this->sdkBasePath = $sdkBasePath;
         $this->eventLogger = $eventLogger;
@@ -116,9 +116,9 @@ class InstallSdkBundlesCommand extends Command
             ]);
 
             $this->eventLogger->logEvent(new Event(
-                static::$defaultName,
+                static::NAME,
                 static::class,
-                static::$defaultName,
+                static::NAME,
                 false,
                 'user',
                 $exception->getMessage(),

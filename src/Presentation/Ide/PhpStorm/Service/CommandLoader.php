@@ -10,6 +10,8 @@ namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Command;
+use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class CommandLoader implements CommandLoaderInterface
 {
@@ -29,7 +31,7 @@ class CommandLoader implements CommandLoaderInterface
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @param iterable $commands
+     * @param iterable<\Symfony\Component\Console\Command\Command> $commands
      * @param \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader $commandContainer
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
@@ -50,26 +52,31 @@ class CommandLoader implements CommandLoaderInterface
         foreach ($this->taskRepository->findAll() as $task) {
             $command = $this->commandContainer->get($task->getId());
 
-            $commands[] = new Command(
-                (string)$command->getName(),
-                [],
-                [],
-                $command->getHelp(),
-            );
+            $commands[] = $this->createCommand($command);
         }
 
         foreach ($this->commands as $command) {
             if ($command->isHidden()) {
                 continue;
             }
-            $commands[] = new Command(
-                (string)$command->getName(),
-                [],
-                [],
-                $command->getHelp(),
-            );
+            $commands[] = $this->createCommand($command);
         }
 
         return $commands;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Command\Command $command
+     *
+     * @return \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface
+     */
+    protected function createCommand(SymfonyCommand $command): CommandInterface
+    {
+        return new Command(
+            (string)$command->getName(),
+            [],
+            [],
+            $command->getHelp(),
+        );
     }
 }
