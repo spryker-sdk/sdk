@@ -1,0 +1,25 @@
+---
+id: "validation:php:deprecations-check"
+short_description: "Check your code by running a static code analysis and generate report with deprecations"
+help: ~
+stage: build
+version: 1.0.0
+command: "php %sdk_dir%/vendor/bin/psalm --config=%sdk_dir%/psalm.xml --no-progress --output-format=json --report=%reportDir%/psalm.deprecations_report.json 1> /dev/null"
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%reportDir%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "report_dir"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+report_converter:
+  name: DeprecationsReportConverter
+  configuration:
+    input_file: psalm.deprecations_report.json
+    producer: psalm

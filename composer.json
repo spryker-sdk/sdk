@@ -48,7 +48,8 @@
         "symfony/runtime": "^5.0 || ^6.0",
         "symfony/validator": "^5.0 || ^6.0",
         "symfony/workflow": "^5.0 || ^6.0",
-        "symfony/yaml": "^5.0 || ^6.0"
+        "symfony/yaml": "^5.0 || ^6.0",
+        "vimeo/psalm": "^4.24"
     },
     "require-dev": {
         "codeception/codeception": "*",
