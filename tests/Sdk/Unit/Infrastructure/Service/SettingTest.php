@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
@@ -41,7 +42,7 @@ class SettingTest extends Unit
     /**
      * @var string
      */
-    protected string $settingsPath;
+    protected string $optionSettingsPath;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
@@ -81,12 +82,143 @@ class SettingTest extends Unit
     /**
      * @return void
      */
-    public function test(): void
+    public function testIfSettingComing(): void
     {
         // Arrange
-//        $settings = [];
+        $optionSettings = ['testKey' => 'value'];
+        $settings = [
+            new Setting(
+                'testKey',
+                'testValue',
+                'overwrite',
+                'string',
+                false,
+            ),
+        ];
+            $this->taskManager->expects($this->once())
+            ->method('initialize');
+        $this->taskYamlRepository
+            ->expects($this->once())
+            ->method('findAll')
+            ->willReturn([]);
+        $this->settingRepository
+            ->expects($this->exactly(count($settings)))
+            ->method('save');
+        $this->settingRepository->expects($this->once())
+            ->method('getSettingDefinition')
+            ->willReturn($settings);
 
         // Act
-//        $this->initializerService->initialize($settings);
+        $this->initializerService->initialize($optionSettings);
+    }
+
+    /**
+     * @return void
+     */
+    public function testDoesNotHasInitialization(): void
+    {
+        // Arrange
+        $optionSettings = [];
+        $settings = [
+            new Setting(
+                'testKey',
+                'testValue',
+                'overwrite',
+                'string',
+                false,
+                false,
+            ),
+        ];
+        $this->taskManager->expects($this->once())
+            ->method('initialize');
+        $this->taskYamlRepository
+            ->expects($this->once())
+            ->method('findAll')
+            ->willReturn([]);
+        $this->settingRepository
+            ->expects($this->never())
+            ->method('save');
+        $this->settingRepository->expects($this->once())
+            ->method('getSettingDefinition')
+            ->willReturn($settings);
+
+        // Act
+        $this->initializerService->initialize($optionSettings);
+    }
+
+    /**
+     * @return void
+     */
+    public function testValueNotInit(): void
+    {
+        // Arrange
+        $optionSettings = [];
+        $settings = [
+            new Setting(
+                'testKey',
+                null,
+                'overwrite',
+                'string',
+                false,
+                true,
+            ),
+        ];
+        $this->taskManager->expects($this->once())
+            ->method('initialize');
+        $this->taskYamlRepository
+            ->expects($this->once())
+            ->method('findAll')
+            ->willReturn([]);
+        $this->settingRepository
+            ->expects($this->never())
+            ->method('save');
+        $this->settingRepository->expects($this->once())
+            ->method('getSettingDefinition')
+            ->willReturn($settings);
+        $this->cliValueReceiver
+            ->expects($this->exactly(count($settings)))
+            ->method('receiveValue')
+            ->willReturn(null);
+
+        // Act
+        $this->initializerService->initialize($optionSettings);
+    }
+
+    /**
+     * @return void
+     */
+    public function testWithProjectSetting(): void
+    {
+        // Arrange
+        $optionSettings = [];
+        $settings = [
+            new Setting(
+                'testKey',
+                null,
+                'overwrite',
+                'string',
+                true,
+                true,
+            ),
+        ];
+        $this->taskManager->expects($this->once())
+            ->method('initialize');
+        $this->taskYamlRepository
+            ->expects($this->once())
+            ->method('findAll')
+            ->willReturn([]);
+        $this->settingRepository
+            ->expects($this->never())
+            ->method('save');
+        $this->settingRepository->expects($this->once())
+            ->method('getSettingDefinition')
+            ->willReturn($settings);
+        $this->cliValueReceiver
+            ->expects($this->never())
+            ->method('receiveValue')
+            ->willReturn(null);
+
+        // Act
+        $this->initializerService->initialize($optionSettings);
     }
 }

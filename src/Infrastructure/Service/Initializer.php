@@ -99,10 +99,9 @@ class Initializer implements InitializerInterface
                     ),
                 );
                 $values = is_scalar($values) ? $values : json_encode($values);
-                $previousSettingValues = $settingEntity->getValues();
                 $settingEntity->setValues($values);
 
-                if ($values !== $previousSettingValues) {
+                if ($values !== $settingEntity->getValues()) {
                     $this->settingRepository->save($settingEntity);
                 }
             }
