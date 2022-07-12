@@ -28,15 +28,23 @@ class ConsoleCommandEventListener
     protected TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory;
 
     /**
+     * @var bool
+     */
+    protected bool $isTelemetryEnabled;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
+     * @param bool $isTelemetryEnabled
      */
     public function __construct(
         TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer,
-        TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
+        TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory,
+        bool $isTelemetryEnabled
     ) {
         $this->telemetryEventsSynchronizer = $telemetryEventsSynchronizer;
         $this->telemetryEventMetadataFactory = $telemetryEventMetadataFactory;
+        $this->isTelemetryEnabled = $isTelemetryEnabled;
     }
 
     /**
@@ -46,6 +54,10 @@ class ConsoleCommandEventListener
      */
     public function onConsoleTerminate(ConsoleTerminateEvent $event): void
     {
+        if (!$this->isTelemetryEnabled) {
+            return;
+        }
+
         $this->addSuccessfulCommandEvent($event);
 
         $this->synchronizeEvents($event);
@@ -58,6 +70,10 @@ class ConsoleCommandEventListener
      */
     public function onConsoleError(ConsoleErrorEvent $event): void
     {
+        if (!$this->isTelemetryEnabled) {
+            return;
+        }
+
         $this->addFailedCommandEvent($event);
     }
 

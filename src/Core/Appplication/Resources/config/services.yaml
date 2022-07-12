@@ -166,6 +166,7 @@ services:
     arguments:
       - "@telemetry.command_event_synchronizer"
       - "@telemetry.event_metadata_factory"
+      - "%env(bool:TELEMETRY_ENABLED)%"
     tags:
       - { name: kernel.event_listener, event: console.terminate }
       - { name: kernel.event_listener, event: console.error }
