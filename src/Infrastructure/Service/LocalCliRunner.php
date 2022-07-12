@@ -21,10 +21,19 @@ use Symfony\Component\Process\Process;
 
 class LocalCliRunner implements CommandRunnerInterface
 {
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
     protected OutputInterface $output;
 
+    /**
+     * @var \Symfony\Component\Console\Helper\ProcessHelper
+     */
     protected ProcessHelper $processHelper;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
+     */
     protected ProgressBar $progressBar;
 
     /**
