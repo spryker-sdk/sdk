@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff47afa9ae8d53dfd10eae5911b66fd7",
+    "content-hash": "276e789067469e3649a93c61aba5cbde",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -5434,12 +5434,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f"
+                "reference": "99dafa63c5f77e0c5e1974b1c92557973d9e4c4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
-                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/99dafa63c5f77e0c5e1974b1c92557973d9e4c4f",
+                "reference": "99dafa63c5f77e0c5e1974b1c92557973d9e4c4f",
                 "shasum": ""
             },
             "require": {
@@ -5464,7 +5464,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-621/sdk-623-implement-local-event-storage"
             },
-            "time": "2022-07-05T11:23:00+00:00"
+            "time": "2022-07-12T14:40:58+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

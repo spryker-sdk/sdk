@@ -113,6 +113,8 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException
+     *
      * @return void
      */
     protected function synchronizeTelemetryEvents(): void
@@ -127,6 +129,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
                 if ($this->isDebug) {
                     throw $e;
                 }
+
                 return;
             } catch (Throwable $e) {
                 $this->failTelemetryEventsSynchronization($telemetryEvents);
