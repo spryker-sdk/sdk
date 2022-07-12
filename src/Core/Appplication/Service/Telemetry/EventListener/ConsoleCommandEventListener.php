@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\EventListener;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
@@ -19,11 +18,6 @@ use Throwable;
 class ConsoleCommandEventListener
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface
-     */
-    protected TelemetryEventRepositoryInterface $telemetryEventRepository;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface
      */
     protected TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer;
@@ -34,16 +28,13 @@ class ConsoleCommandEventListener
     protected TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface $telemetryEventRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
      */
     public function __construct(
-        TelemetryEventRepositoryInterface $telemetryEventRepository,
         TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer,
         TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
     ) {
-        $this->telemetryEventRepository = $telemetryEventRepository;
         $this->telemetryEventsSynchronizer = $telemetryEventsSynchronizer;
         $this->telemetryEventMetadataFactory = $telemetryEventMetadataFactory;
     }
@@ -83,7 +74,7 @@ class ConsoleCommandEventListener
             $event->getInput()->getOptions(),
         ), $this->telemetryEventMetadataFactory->createTelemetryEventMetadata());
 
-        $this->telemetryEventRepository->save($telemetryEvent);
+        $this->telemetryEventsSynchronizer->persist($telemetryEvent);
     }
 
     /**
@@ -101,7 +92,7 @@ class ConsoleCommandEventListener
             $event->getExitCode(),
         ), $this->telemetryEventMetadataFactory->createTelemetryEventMetadata());
 
-        $this->telemetryEventRepository->save($telemetryEvent);
+        $this->telemetryEventsSynchronizer->persist($telemetryEvent);
     }
 
     /**

@@ -64,21 +64,43 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     protected bool $isDebug;
 
     /**
+     * @var bool
+     */
+    protected bool $isTelemetryEnabled;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface $telemetryEventRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface $telemetryEventSender
      * @param \Symfony\Component\Lock\LockFactory $lockFactory
      * @param bool $isDebug
+     * @param bool $isTelemetryEnabled
      */
     public function __construct(
         TelemetryEventRepositoryInterface $telemetryEventRepository,
         TelemetryEventSenderInterface $telemetryEventSender,
         LockFactory $lockFactory,
-        bool $isDebug = false
+        bool $isDebug,
+        bool $isTelemetryEnabled
     ) {
         $this->telemetryEventRepository = $telemetryEventRepository;
         $this->telemetryEventSender = $telemetryEventSender;
         $this->lockFactory = $lockFactory;
         $this->isDebug = $isDebug;
+        $this->isTelemetryEnabled = $isTelemetryEnabled;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     *
+     * @return void
+     */
+    public function persist(TelemetryEventInterface $telemetryEvent): void
+    {
+        if (!$this->isTelemetryEnabled) {
+            return;
+        }
+
+        $this->telemetryEventRepository->save($telemetryEvent);
     }
 
     /**
@@ -86,6 +108,10 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
      */
     public function synchronize(): void
     {
+        if (!$this->isTelemetryEnabled) {
+            return;
+        }
+
         $this->cleanTelemetryEvents();
 
         $lock = $this->lockFactory->createLock(static::LOCK_KEY, static::LOCK_TTL_SEC);
