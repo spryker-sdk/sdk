@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "170e7d53f365be33411dff67bb886599",
+    "content-hash": "843fd607b0c8c8921a026f860c2835a5",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -5772,16 +5772,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-feature/master-standalone",
+            "version": "dev-feature/pplus-1387-change-the-check-for-unique-names-of-sub-entities",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "744fbe89acdeb55c41010dc04d18673a61b5f703"
+                "reference": "a1bcbe0918653950f9ccb58455e316307ac6d663"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/744fbe89acdeb55c41010dc04d18673a61b5f703",
-                "reference": "744fbe89acdeb55c41010dc04d18673a61b5f703",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a1bcbe0918653950f9ccb58455e316307ac6d663",
+                "reference": "a1bcbe0918653950f9ccb58455e316307ac6d663",
                 "shasum": ""
             },
             "require": {
@@ -5833,9 +5833,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/master-standalone"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/pplus-1387-change-the-check-for-unique-names-of-sub-entities"
             },
-            "time": "2022-07-05T13:33:12+00:00"
+            "time": "2022-07-07T08:43:03+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
