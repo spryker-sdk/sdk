@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Unit\Presentation\Ide\PhpStorm\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
-use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
@@ -20,11 +19,6 @@ class CommandLoaderTest extends Unit
      * @var \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader
      */
     protected TaskRunFactoryLoader $commandContainer;
-
-    /**
-     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface
-     */
-    protected CommandMapperInterface $commandMapper;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
@@ -47,12 +41,11 @@ class CommandLoaderTest extends Unit
     protected function setUp(): void
     {
         parent::setUp();
-        $this->commandMapper = $this->createMock(CommandMapperInterface::class);
         $this->taskRepository = $this->createMock(TaskRepositoryInterface::class);
         $this->commandContainer = $this->createMock(TaskRunFactoryLoader::class);
         $this->commandLoader = new CommandLoader(
+            [],
             $this->commandContainer,
-            $this->commandMapper,
             $this->taskRepository,
         );
     }
@@ -81,16 +74,10 @@ class CommandLoaderTest extends Unit
 
         $phpStormCommand = $this->tester->createPhpStormCommand($task->getId(), [], [], $task->getHelp());
 
-        $this->commandMapper
-            ->expects($this->exactly(count($tasks)))
-            ->method('mapToIdeCommand')
-            ->with($symfonyCommand)
-            ->willReturn($phpStormCommand);
-
         // Act
         $result = $this->commandLoader->load();
 
         // Assert
-        $this->assertSame([$phpStormCommand], $result);
+        $this->assertEquals([$phpStormCommand], $result);
     }
 }

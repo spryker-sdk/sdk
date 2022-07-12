@@ -7,35 +7,21 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCommand extends Command
+class UpdateCommand extends AbstractUpdateCommand
 {
     /**
      * @var string
      */
-    public const OPTION_CHECK_ONLY = 'check-only';
-
-    /**
-     * @var string
-     */
-    public const OPTION_NO_CHECK = 'no-check';
-
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'sdk:update:all';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Update Spryker SDK to latest version.';
+    public const NAME = 'sdk:update:hidden-all';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
@@ -43,34 +29,29 @@ class UpdateCommand extends Command
     protected LifecycleManagerInterface $lifecycleManager;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
      */
-    public function __construct(LifecycleManagerInterface $lifecycleManager)
-    {
-        parent::__construct(static::$defaultName);
-        $this->lifecycleManager = $lifecycleManager;
-    }
+    protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @return void
+     * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand
      */
-    protected function configure()
-    {
-        parent::configure();
-        $this->addOption(
-            static::OPTION_CHECK_ONLY,
-            'c',
-            InputOption::VALUE_OPTIONAL,
-            'Only checks if the current version is up-to-date',
-            false,
-        );
-        $this->addOption(
-            static::OPTION_NO_CHECK,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Only checks if the current version is up-to-date',
-            false,
-        );
+    protected MigrateCommand $doctrineMigrationCommand;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
+     */
+    public function __construct(
+        LifecycleManagerInterface $lifecycleManager,
+        SettingRepositoryInterface $settingRepository,
+        MigrateCommand $doctrineMigrationCommand
+    ) {
+        parent::__construct(static::NAME);
+        $this->lifecycleManager = $lifecycleManager;
+        $this->settingRepository = $settingRepository;
+        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
     }
 
     /**
@@ -81,7 +62,10 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->clearCache($output);
+        $this->runMigration();
+
+        $this->settingRepository->initSettingDefinition();
+
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);
         }
@@ -91,23 +75,6 @@ class UpdateCommand extends Command
         }
 
         return static::SUCCESS;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
-    protected function clearCache(OutputInterface $output): void
-    {
-        $app = $this->getApplication();
-
-        if (!$app) {
-            return;
-        }
-
-        $app->setAutoExit(false);
-        $app->run(new ArrayInput(['command' => 'cache:clear']), $output);
     }
 
     /**
@@ -128,5 +95,15 @@ class UpdateCommand extends Command
         foreach ($messages as $message) {
             $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
         }
+    }
+
+    /**
+     * @return void
+     */
+    protected function runMigration(): void
+    {
+        $migrationInput = new ArrayInput(['allow-no-migration']);
+        $migrationInput->setInteractive(false);
+        $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }
 }

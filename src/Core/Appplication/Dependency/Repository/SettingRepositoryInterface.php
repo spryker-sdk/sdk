@@ -57,4 +57,9 @@ interface SettingRepositoryInterface
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     public function saveMultiple(array $settings): array;
+
+    /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
+     */
+    public function initSettingDefinition(): array;
 }

@@ -18,11 +18,6 @@ class ConfigManager implements ConfigManagerInterface
     /**
      * @var string
      */
-    protected const SDK_DIR_PATH = 'sdk_dir';
-
-    /**
-     * @var string
-     */
     protected const PROJECT_DIR_PATH = 'project_dir';
 
     /**
@@ -88,10 +83,6 @@ class ConfigManager implements ConfigManagerInterface
     {
         $ideCommands = $this->commandLoader->load();
         $executableFile = $this->executableFilePath;
-        if (!$executableFile) {
-            $executableFile = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
-            $executableFile = '"$PhpExecutable$" ' . $executableFile . '/bin/console';
-        }
 
         $arrayConfig = $this->prepareConfig($ideCommands, $executableFile);
         $xmlConfig = $this->xmlEncoder->encode($arrayConfig, XmlEncoder::FORMAT);

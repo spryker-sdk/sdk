@@ -12,14 +12,13 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Yaml\Yaml;
 
-class InitSdkCommand extends AbstractInitCommand
+class UpdateSdkCommand extends AbstractUpdateCommand
 {
     /**
      * @var string
      */
-    protected const NAME = 'sdk:init:sdk';
+    protected const NAME = 'sdk:update:all';
 
     /**
      * @var string
@@ -34,19 +33,13 @@ class InitSdkCommand extends AbstractInitCommand
     /**
      * @param string $sdkBasePath
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
-     * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param string $settingsPath
      */
-    public function __construct(
-        string $sdkBasePath,
-        ProcessHelper $processHelper,
-        Yaml $yamlParser,
-        string $settingsPath
-    ) {
+    public function __construct(string $sdkBasePath, ProcessHelper $processHelper)
+    {
         $this->sdkBasePath = $sdkBasePath;
         $this->processHelper = $processHelper;
-        $this->yamlParser = $yamlParser;
-        parent::__construct($yamlParser, $settingsPath, static::NAME);
+
+        parent::__construct(static::NAME);
     }
 
     /**
@@ -57,7 +50,7 @@ class InitSdkCommand extends AbstractInitCommand
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        return (int)!($this->runInstallBundles($output) || $this->runInit($input, $output));
+        return (int)!($this->runInstallBundles($output) || $this->runUpdate($input, $output));
     }
 
     /**
@@ -83,14 +76,15 @@ class InitSdkCommand extends AbstractInitCommand
      *
      * @return int
      */
-    protected function runInit(InputInterface $input, OutputInterface $output): int
+    protected function runUpdate(InputInterface $input, OutputInterface $output): int
     {
         $process = Process::fromShellCommandline(
             $this->sdkBasePath .
             '/bin/console ' .
-            InitCommand::NAME .
+            UpdateCommand::NAME .
             str_replace('\'' . static::NAME . '\'', '', (string)$input),
         )->setTty(true);
+
         $result = $this->processHelper->run(
             $output,
             [$process],

@@ -9,19 +9,21 @@ namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
-use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface;
+use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Command;
+use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class CommandLoader implements CommandLoaderInterface
 {
     /**
+     * @var iterable<\Symfony\Component\Console\Command\Command>
+     */
+    protected iterable $commands;
+
+    /**
      * @var \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader
      */
     protected TaskRunFactoryLoader $commandContainer;
-
-    /**
-     * @var \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface
-     */
-    protected CommandMapperInterface $commandMapper;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
@@ -29,14 +31,14 @@ class CommandLoader implements CommandLoaderInterface
     protected TaskRepositoryInterface $taskRepository;
 
     /**
+     * @param iterable<\Symfony\Component\Console\Command\Command> $commands
      * @param \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader $commandContainer
-     * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Mapper\CommandMapperInterface $commandMapper
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
-    public function __construct(TaskRunFactoryLoader $commandContainer, CommandMapperInterface $commandMapper, TaskRepositoryInterface $taskRepository)
+    public function __construct(iterable $commands, TaskRunFactoryLoader $commandContainer, TaskRepositoryInterface $taskRepository)
     {
+        $this->commands = $commands;
         $this->commandContainer = $commandContainer;
-        $this->commandMapper = $commandMapper;
         $this->taskRepository = $taskRepository;
     }
 
@@ -45,26 +47,36 @@ class CommandLoader implements CommandLoaderInterface
      */
     public function load(): array
     {
-        $tasks = $this->taskRepository->findAll();
-
-        return $this->mapTasks($tasks);
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     *
-     * @return array<\SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface>
-     */
-    protected function mapTasks(array $tasks): array
-    {
         $commands = [];
 
-        foreach ($tasks as $task) {
+        foreach ($this->taskRepository->findAll() as $task) {
             $command = $this->commandContainer->get($task->getId());
 
-            $commands[] = $this->commandMapper->mapToIdeCommand($command);
+            $commands[] = $this->createCommand($command);
+        }
+
+        foreach ($this->commands as $command) {
+            if ($command->isHidden()) {
+                continue;
+            }
+            $commands[] = $this->createCommand($command);
         }
 
         return $commands;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Command\Command $command
+     *
+     * @return \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface
+     */
+    protected function createCommand(SymfonyCommand $command): CommandInterface
+    {
+        return new Command(
+            (string)$command->getName(),
+            [],
+            [],
+            $command->getHelp(),
+        );
     }
 }
