@@ -31,6 +31,6 @@ final class Version20220705135927 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE sdk_telemetry_event');
-        $this->addSql('DROP TABLE lock_keys');
+        $this->addSql('DROP TABLE sdk_lock');
     }
 }
