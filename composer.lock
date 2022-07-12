@@ -5776,12 +5776,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "744fbe89acdeb55c41010dc04d18673a61b5f703"
+                "reference": "ae8b0cf23b9e03336991e8ecf390f5b8d3f4bddf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/744fbe89acdeb55c41010dc04d18673a61b5f703",
-                "reference": "744fbe89acdeb55c41010dc04d18673a61b5f703",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/ae8b0cf23b9e03336991e8ecf390f5b8d3f4bddf",
+                "reference": "ae8b0cf23b9e03336991e8ecf390f5b8d3f4bddf",
                 "shasum": ""
             },
             "require": {
@@ -5835,7 +5835,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/feature/master-standalone"
             },
-            "time": "2022-07-05T13:33:12+00:00"
+            "time": "2022-07-12T08:39:42+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
