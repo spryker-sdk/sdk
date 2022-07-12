@@ -177,3 +177,4 @@ services:
       - "@telemetry_event_repository"
       - "@telemetry.telemetry_events_sender"
       - "@lock_factory"
+      - "%kernel.debug%"

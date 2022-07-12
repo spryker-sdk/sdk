@@ -59,18 +59,26 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     protected LockFactory $lockFactory;
 
     /**
+     * @var bool
+     */
+    protected bool $isDebug;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface $telemetryEventRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface $telemetryEventSender
      * @param \Symfony\Component\Lock\LockFactory $lockFactory
+     * @param bool $isDebug
      */
     public function __construct(
         TelemetryEventRepositoryInterface $telemetryEventRepository,
         TelemetryEventSenderInterface $telemetryEventSender,
-        LockFactory $lockFactory
+        LockFactory $lockFactory,
+        bool $isDebug = false
     ) {
         $this->telemetryEventRepository = $telemetryEventRepository;
         $this->telemetryEventSender = $telemetryEventSender;
         $this->lockFactory = $lockFactory;
+        $this->isDebug = $isDebug;
     }
 
     /**
@@ -116,7 +124,9 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
                 $this->telemetryEventSender->send($telemetryEvents);
                 $this->telemetryEventRepository->removeBatch($telemetryEvents);
             } catch (TelemetryServerUnreachableException $e) {
-                /* no connection */
+                if ($this->isDebug) {
+                    throw $e;
+                }
                 return;
             } catch (Throwable $e) {
                 $this->failTelemetryEventsSynchronization($telemetryEvents);
