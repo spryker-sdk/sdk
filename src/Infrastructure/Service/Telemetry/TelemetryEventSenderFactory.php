@@ -27,14 +27,21 @@ class TelemetryEventSenderFactory
     protected iterable $telemetryEventSenders;
 
     /**
+     * @var bool
+     */
+    protected bool $isTelemetryEnabled;
+
+    /**
      * @param bool $isDebug
      * @param string $dataLakeUrl
+     * @param bool $isTelemetryEnabled
      * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface> $telemetryEventSenders
      */
-    public function __construct(bool $isDebug, string $dataLakeUrl, iterable $telemetryEventSenders)
+    public function __construct(bool $isDebug, string $dataLakeUrl, bool $isTelemetryEnabled, iterable $telemetryEventSenders)
     {
         $this->isDebug = $isDebug;
         $this->dataLakeUrl = trim($dataLakeUrl);
+        $this->isTelemetryEnabled = $isTelemetryEnabled;
         $this->telemetryEventSenders = $telemetryEventSenders;
     }
 
@@ -43,6 +50,10 @@ class TelemetryEventSenderFactory
      */
     public function getTelemetryEventSender(): TelemetryEventSenderInterface
     {
+        if (!$this->isTelemetryEnabled) {
+            return $this->createNullSender();
+        }
+
         if ($this->isDebug) {
             return $this->getTelemetryEventSenderByClassName(ReportTelemetryEventSender::class);
         }

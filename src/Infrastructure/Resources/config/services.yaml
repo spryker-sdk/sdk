@@ -316,6 +316,7 @@ services:
     arguments:
       - "%kernel.debug%"
       - "%env(string:DATA_LAKE_TELEMETRY_ENDPOINT_URL)%"
+      - "%env(bool:TELEMETRY_ENABLED)%"
       - !tagged_iterator telemetry.data_sender
 
   telemetry.telemetry_events_sender:
