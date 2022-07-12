@@ -40,6 +40,7 @@ class TelemetryEventSenderCest
                 static::COMMAND,
             ],
             $I->getProjectRoot(static::PROJECT_DIR),
+            ['APP_DEBUG' => true, 'TELEMETRY_ENABLED' => true],
         );
 
         // Assert

@@ -14,7 +14,7 @@ jobs:
     name: "CS, PHPStan, Security"
     runs-on: ubuntu-18.04
     env:
-        TELEMETRY_ENABLED: 0
+        TELEMETRY_ENABLED: false
     strategy:
       fail-fast: false
       matrix:

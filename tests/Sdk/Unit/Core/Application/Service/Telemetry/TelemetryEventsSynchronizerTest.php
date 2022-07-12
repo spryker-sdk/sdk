@@ -39,6 +39,8 @@ class TelemetryEventsSynchronizerTest extends Unit
             $this->createTelemetryEventRepositoryMock($this->createTelemetryEvent()),
             $this->createSenderMockThatExpectsNoCall(),
             $this->createLockFactoryMock(false),
+            false,
+            true,
         );
 
         // Act
@@ -57,6 +59,8 @@ class TelemetryEventsSynchronizerTest extends Unit
             $this->createTelemetryEventRepositoryMock($this->createTelemetryEvent()),
             $this->createSenderMockThatExpectsOneCall(),
             $this->createLockFactoryMock(true),
+            false,
+            true,
         );
 
         // Act
@@ -75,6 +79,8 @@ class TelemetryEventsSynchronizerTest extends Unit
             $this->createTelemetryEventRepositoryMock($this->createTelemetryEventWithExpectedFailedCall()),
             $this->createSenderMockWithErrorException(),
             $this->createLockFactoryMock(true),
+            false,
+            true,
         );
 
         // Act

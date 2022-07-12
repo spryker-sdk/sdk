@@ -97,10 +97,11 @@ class AcceptanceTester extends Actor
     /**
      * @param array<string> $command
      * @param string|null $cwd
+     * @param array|null $env
      *
      * @return \Symfony\Component\Process\Process
      */
-    public function runSdkCommand(array $command, ?string $cwd = null): Process
+    public function runSdkCommand(array $command, ?string $cwd = null, ?array $env = null): Process
     {
         $process = new Process(
             array_merge(
@@ -108,6 +109,7 @@ class AcceptanceTester extends Actor
                 $command,
             ),
             $cwd ?? $this->getProjectRoot(),
+            $env,
         );
 
         $process->run();
