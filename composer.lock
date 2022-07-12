@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77d6db228ffc9ccd832e1f62b874499e",
+    "content-hash": "bd66d0cbfda035ee974c773f1ae90c70",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -5219,23 +5219,24 @@
         },
         {
             "name": "spryker-sdk/acp",
-            "version": "0.1.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/acp.git",
-                "reference": "bde54328fff35e68f7aa655d0477879426660449"
+                "reference": "991e7f3aca7c5cb55e0c14157f8075a38f3c28db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/acp/zipball/bde54328fff35e68f7aa655d0477879426660449",
-                "reference": "bde54328fff35e68f7aa655d0477879426660449",
+                "url": "https://api.github.com/repos/spryker-sdk/acp/zipball/991e7f3aca7c5cb55e0c14157f8075a38f3c28db",
+                "reference": "991e7f3aca7c5cb55e0c14157f8075a38f3c28db",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": ">=7.4",
-                "spryker-sdk/async-api": "^0.2.1",
+                "spryker-sdk/async-api": "^0.2.3",
                 "spryker-sdk/spryk": "^0.4.0",
-                "spryker-sdk/sync-api": "^0.1.0",
+                "spryker-sdk/sync-api": "^0.1.1",
                 "symfony/console": "^5.3",
                 "symfony/finder": "^5.3"
             },
@@ -5272,22 +5273,22 @@
             "description": "SDK for ACP.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/acp/issues",
-                "source": "https://github.com/spryker-sdk/acp/tree/0.1.1"
+                "source": "https://github.com/spryker-sdk/acp/tree/0.2.2"
             },
-            "time": "2022-06-01T12:43:07+00:00"
+            "time": "2022-07-12T10:46:42+00:00"
         },
         {
             "name": "spryker-sdk/async-api",
-            "version": "0.2.3",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/async-api.git",
-                "reference": "00dabd7ce09a2dd7fa1ed7a93c63f43e1930c98f"
+                "reference": "69c14f1d35151d2068c4162ce69b4126d7574f5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/00dabd7ce09a2dd7fa1ed7a93c63f43e1930c98f",
-                "reference": "00dabd7ce09a2dd7fa1ed7a93c63f43e1930c98f",
+                "url": "https://api.github.com/repos/spryker-sdk/async-api/zipball/69c14f1d35151d2068c4162ce69b4126d7574f5c",
+                "reference": "69c14f1d35151d2068c4162ce69b4126d7574f5c",
                 "shasum": ""
             },
             "require": {
@@ -5329,9 +5330,9 @@
             "description": "SDK for AsyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/async-api/issues",
-                "source": "https://github.com/spryker-sdk/async-api/tree/0.2.3"
+                "source": "https://github.com/spryker-sdk/async-api/tree/0.2.5"
             },
-            "time": "2022-05-20T10:04:05+00:00"
+            "time": "2022-07-08T07:28:44+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -5469,16 +5470,16 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "0.4.1",
+            "version": "0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "d2820a04e05c59e00906be741abebc1fa907bf93"
+                "reference": "1372d01fe0af2373f749c12ce78a3fba7f38a2d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/d2820a04e05c59e00906be741abebc1fa907bf93",
-                "reference": "d2820a04e05c59e00906be741abebc1fa907bf93",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/1372d01fe0af2373f749c12ce78a3fba7f38a2d8",
+                "reference": "1372d01fe0af2373f749c12ce78a3fba7f38a2d8",
                 "shasum": ""
             },
             "require": {
@@ -5503,22 +5504,22 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.1"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.2"
             },
-            "time": "2022-06-22T09:17:24+00:00"
+            "time": "2022-07-12T08:56:13+00:00"
         },
         {
             "name": "spryker-sdk/sync-api",
-            "version": "0.1.1",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "40cd87f8d1cd346fe3abba6268609735bed6f136"
+                "reference": "db4a9d6a9282ea0333cec7640b23c7f7c2a06f94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/40cd87f8d1cd346fe3abba6268609735bed6f136",
-                "reference": "40cd87f8d1cd346fe3abba6268609735bed6f136",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/db4a9d6a9282ea0333cec7640b23c7f7c2a06f94",
+                "reference": "db4a9d6a9282ea0333cec7640b23c7f7c2a06f94",
                 "shasum": ""
             },
             "require": {
@@ -5562,9 +5563,9 @@
             "description": "SDK for SyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
-                "source": "https://github.com/spryker-sdk/sync-api/tree/0.1.1"
+                "source": "https://github.com/spryker-sdk/sync-api/tree/0.1.4"
             },
-            "time": "2022-05-20T10:18:25+00:00"
+            "time": "2022-07-12T07:57:55+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",
@@ -13459,5 +13460,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.1.0"
 }

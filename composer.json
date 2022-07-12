@@ -29,7 +29,7 @@
         "phpbench/phpbench": "^1.2",
         "phpstan/phpstan": "^1.2",
         "rector/rector": "^0.13.0",
-        "spryker-sdk/acp": "^0.1.0",
+        "spryker-sdk/acp": "^0.2.0",
         "spryker-sdk/async-api": "^0.2.3",
         "spryker-sdk/composer-replace": "dev-master",
         "spryker-sdk/sdk-contracts": "dev-master",
