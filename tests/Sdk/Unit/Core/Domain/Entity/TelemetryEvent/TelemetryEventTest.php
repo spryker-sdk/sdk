@@ -25,13 +25,14 @@ class TelemetryEventTest extends Unit
     {
         // Arrange
         $payload = $this->tester->createTelemetryEventPayload();
+        $metadata = $this->tester->createTelemetryEventMetadata();
 
         // Act
-        $telemetryEvent = new TelemetryEvent($payload);
+        $telemetryEvent = new TelemetryEvent($payload, $metadata);
 
         // Assert
         $this->assertSame($payload::getEventName(), $telemetryEvent->getName());
-        $this->assertSame($payload::getLatestVersion(), $telemetryEvent->getVersion());
+        $this->assertSame($payload::getEventVersion(), $telemetryEvent->getVersion());
         $this->assertSame($payload, $telemetryEvent->getPayload());
     }
 
@@ -42,7 +43,8 @@ class TelemetryEventTest extends Unit
     {
         // Arrange
         $payload = $this->tester->createTelemetryEventPayload();
-        $telemetryEvent = new TelemetryEvent($payload);
+        $metadata = $this->tester->createTelemetryEventMetadata();
+        $telemetryEvent = new TelemetryEvent($payload, $metadata);
 
         // Act
         $telemetryEvent->synchronizeFailed();

@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\EventListener;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer;
-use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandFailedExecutionPayload;
-use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandSuccessfulExecutionPayload;
+use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
@@ -24,20 +24,28 @@ class ConsoleCommandEventListener
     protected TelemetryEventRepositoryInterface $telemetryEventRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface
      */
-    private TelemetryEventsSynchronizer $telemetryEventsSynchronizer;
+    protected TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface
+     */
+    protected TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface $telemetryEventRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer $telemetryEventsSynchronizer
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
      */
     public function __construct(
         TelemetryEventRepositoryInterface $telemetryEventRepository,
-        TelemetryEventsSynchronizer $telemetryEventsSynchronizer
+        TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer,
+        TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
     ) {
         $this->telemetryEventRepository = $telemetryEventRepository;
         $this->telemetryEventsSynchronizer = $telemetryEventsSynchronizer;
+        $this->telemetryEventMetadataFactory = $telemetryEventMetadataFactory;
     }
 
     /**
@@ -69,11 +77,11 @@ class ConsoleCommandEventListener
      */
     protected function addSuccessfulCommandEvent(ConsoleTerminateEvent $event): void
     {
-        $telemetryEvent = new TelemetryEvent(new CommandSuccessfulExecutionPayload(
+        $telemetryEvent = new TelemetryEvent(new CommandExecutionPayload(
             (string)($event->getCommand() !== null ? $event->getCommand()->getName() : ''),
             $event->getInput()->getArguments(),
             $event->getInput()->getOptions(),
-        ));
+        ), $this->telemetryEventMetadataFactory->createTelemetryEventMetadata());
 
         $this->telemetryEventRepository->save($telemetryEvent);
     }
@@ -85,13 +93,13 @@ class ConsoleCommandEventListener
      */
     protected function addFailedCommandEvent(ConsoleErrorEvent $event): void
     {
-        $telemetryEvent = new TelemetryEvent(new CommandFailedExecutionPayload(
+        $telemetryEvent = new TelemetryEvent(new CommandExecutionPayload(
             (string)($event->getCommand() !== null ? $event->getCommand()->getName() : ''),
             $event->getInput()->getArguments(),
             $event->getInput()->getOptions(),
             $event->getError()->getMessage(),
             $event->getExitCode(),
-        ));
+        ), $this->telemetryEventMetadataFactory->createTelemetryEventMetadata());
 
         $this->telemetryEventRepository->save($telemetryEvent);
     }
@@ -103,7 +111,9 @@ class ConsoleCommandEventListener
      */
     protected function synchronizeEvents(ConsoleTerminateEvent $event): void
     {
-        $event->getOutput()->writeln('<info>Telemetry events synchronization...</info>');
+        if ($event->getOutput()->isDebug()) {
+            $event->getOutput()->writeln('<info>Telemetry events synchronization...</info>');
+        }
 
         try {
             $this->telemetryEventsSynchronizer->synchronize();
@@ -111,6 +121,8 @@ class ConsoleCommandEventListener
             $event->getOutput()->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }
 
-        $event->getOutput()->writeln('<info>Telemetry events synchronization...</info>');
+        if ($event->getOutput()->isDebug()) {
+            $event->getOutput()->writeln('<info>Telemetry events synchronization finished</info>');
+        }
     }
 }

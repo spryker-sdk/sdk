@@ -20,7 +20,7 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
      */
     public function mapToInfrastructureTelemetryEvent(TelemetryEventInterface $telemetryEvent): InfrastructureTelemetryEvent
     {
-        $infrastructureTelemetryEvent = new InfrastructureTelemetryEvent($telemetryEvent->getPayload());
+        $infrastructureTelemetryEvent = new InfrastructureTelemetryEvent($telemetryEvent->getPayload(), $telemetryEvent->getMetadata());
 
         $this->mapTelemetryEvents($telemetryEvent, $infrastructureTelemetryEvent);
 
@@ -34,7 +34,7 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
      */
     public function mapToDomainTelemetryEvent(TelemetryEventInterface $telemetryEvent): DomainTelemetryEvent
     {
-        $domainTelemetryEvent = new DomainTelemetryEvent($telemetryEvent->getPayload());
+        $domainTelemetryEvent = new DomainTelemetryEvent($telemetryEvent->getPayload(), $telemetryEvent->getMetadata());
 
         $this->mapTelemetryEvents($telemetryEvent, $domainTelemetryEvent);
 
@@ -51,10 +51,12 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
     {
         $toTelemetryEvent->setId($fromTelemetryEvent->getId());
         $toTelemetryEvent->setName($fromTelemetryEvent->getName());
-        $toTelemetryEvent->setCreatedAt($fromTelemetryEvent->getCreatedAt());
+        $toTelemetryEvent->setTriggeredAt($fromTelemetryEvent->getTriggeredAt());
         $toTelemetryEvent->setPayload($fromTelemetryEvent->getPayload());
+        $toTelemetryEvent->setMetadata($fromTelemetryEvent->getMetadata());
         $toTelemetryEvent->setSynchronizationAttemptsCount($fromTelemetryEvent->getSynchronizationAttemptsCount());
         $toTelemetryEvent->setLastSynchronisationTimestamp($fromTelemetryEvent->getLastSynchronisationTimestamp());
         $toTelemetryEvent->setVersion($fromTelemetryEvent->getVersion());
+        $toTelemetryEvent->setScope($fromTelemetryEvent->getScope());
     }
 }

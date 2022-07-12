@@ -34,6 +34,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -309,7 +310,7 @@ class UnitTester extends Actor
      */
     public function createInfrastructureTelemetryEvent(): InfrastructureTelemetryEvent
     {
-        $telemetryEvent = new InfrastructureTelemetryEvent($this->createTelemetryEventPayload());
+        $telemetryEvent = new InfrastructureTelemetryEvent($this->createTelemetryEventPayload(), $this->createTelemetryEventMetadata());
         $telemetryEvent->setId(1);
         $telemetryEvent->setSynchronizationAttemptsCount(1);
         $telemetryEvent->setLastSynchronisationTimestamp((int)(new DateTimeImmutableDateTimeImmutable())->format('Uu'));
@@ -322,7 +323,7 @@ class UnitTester extends Actor
      */
     public function createDomainTelemetryEvent(): DomainTelemetryEvent
     {
-        $telemetryEvent = new DomainTelemetryEvent($this->createTelemetryEventPayload());
+        $telemetryEvent = new DomainTelemetryEvent($this->createTelemetryEventPayload(), $this->createTelemetryEventMetadata());
         $telemetryEvent->setId(2);
         $telemetryEvent->setSynchronizationAttemptsCount(2);
         $telemetryEvent->setLastSynchronisationTimestamp((int)(new DateTimeImmutableDateTimeImmutable())->format('Uu'));
@@ -337,8 +338,6 @@ class UnitTester extends Actor
     {
         return new class () implements TelemetryEventPayloadInterface
         {
-            private string $data = 'data';
-
             /**
              * @return string
              */
@@ -348,19 +347,52 @@ class UnitTester extends Actor
             }
 
             /**
-             * @return int
+             * @return string
              */
-            public static function getLatestVersion(): int
+            public static function getEventScope(): string
             {
-                return 1;
+                return 'SDK';
             }
 
             /**
-             * @return string
+             * @return int
              */
-            public function getData(): string
+            public static function getEventVersion(): int
             {
-                return $this->data;
+                return 1;
+            }
+        };
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface
+     */
+    public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface
+    {
+        return new class () implements TelemetryEventMetadataInterface
+        {
+            /**
+             * @return string|null
+             */
+            public function getDeveloperEmail(): ?string
+            {
+                return 'test-dev@example.com';
+            }
+
+            /**
+             * @return string|null
+             */
+            public function getDeveloperGithubAccount(): ?string
+            {
+                return bin2hex(random_bytes(6));
+            }
+
+            /**
+             * @return string|null
+             */
+            public function getProjectName(): ?string
+            {
+                return 'spryker/test';
             }
         };
     }

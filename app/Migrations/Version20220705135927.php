@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220622174128 extends AbstractMigration
+final class Version20220705135927 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,8 +20,9 @@ final class Version20220622174128 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE sdk_telemetry_event (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL, payload CLOB NOT NULL --(DC2Type:object)
-        , synchronization_attempts_count SMALLINT NOT NULL, last_synchronisation_timestamp INTEGER UNSIGNED DEFAULT NULL, version SMALLINT NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
+        $this->addSql('CREATE TABLE sdk_telemetry_event (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(100) NOT NULL, version SMALLINT NOT NULL, scope VARCHAR(64) NOT NULL, payload CLOB NOT NULL --(DC2Type:object)
+        , metadata CLOB NOT NULL --(DC2Type:object)
+        , synchronization_attempts_count SMALLINT NOT NULL, last_synchronisation_timestamp INTEGER UNSIGNED DEFAULT NULL, triggered_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         )');
         $this->addSql('CREATE TABLE sdk_lock (key_id VARCHAR(64) NOT NULL COLLATE BINARY, key_token VARCHAR(44) NOT NULL COLLATE BINARY, key_expiration INTEGER UNSIGNED NOT NULL, PRIMARY KEY(key_id))');
     }

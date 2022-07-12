@@ -10,12 +10,13 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service\Telemetry;
 use DateInterval;
 use DateTimeImmutable;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Exception\TelemetrySenderException;
+use SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException;
 use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
 use Symfony\Component\Lock\LockFactory;
+use Throwable;
 
-class TelemetryEventsSynchronizer
+class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterface
 {
     /**
      * @var int
@@ -45,17 +46,17 @@ class TelemetryEventsSynchronizer
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface
      */
-    private TelemetryEventRepositoryInterface $telemetryEventRepository;
+    protected TelemetryEventRepositoryInterface $telemetryEventRepository;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
      */
-    private TelemetryEventSenderInterface $telemetryEventSender;
+    protected TelemetryEventSenderInterface $telemetryEventSender;
 
     /**
      * @var \Symfony\Component\Lock\LockFactory
      */
-    private LockFactory $lockFactory;
+    protected LockFactory $lockFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface $telemetryEventRepository
@@ -79,10 +80,6 @@ class TelemetryEventsSynchronizer
     {
         $this->cleanTelemetryEvents();
 
-        if (!$this->telemetryEventSender->pingConnection()) {
-            return;
-        }
-
         $lock = $this->lockFactory->createLock(static::LOCK_KEY, static::LOCK_TTL_SEC);
 
         if (!$lock->acquire()) {
@@ -90,7 +87,7 @@ class TelemetryEventsSynchronizer
         }
 
         try {
-            $this->sendTelemetryEvents();
+            $this->synchronizeTelemetryEvents();
         } finally {
             $lock->release();
         }
@@ -110,37 +107,44 @@ class TelemetryEventsSynchronizer
     /**
      * @return void
      */
-    protected function sendTelemetryEvents(): void
+    protected function synchronizeTelemetryEvents(): void
     {
         $syncTimestamp = (int)(new DateTimeImmutable())->format('Uu');
 
-        do {
-            $telemetryEvents = $this->telemetryEventRepository->getTelemetryEvents(static::MAX_SYNCHRONIZATION_ATTEMPTS, static::BATCH_SIZE, $syncTimestamp);
-
-            foreach ($telemetryEvents as $telemetryEvent) {
-                $this->sendTelemetryEvent($telemetryEvent);
+        while (count($telemetryEvents = $this->getTelemetryEvents($syncTimestamp)) > 0) {
+            try {
+                $this->telemetryEventSender->send($telemetryEvents);
+                $this->telemetryEventRepository->removeBatch($telemetryEvents);
+            } catch (TelemetryServerUnreachableException $e) {
+                /* no connection */
+                return;
+            } catch (Throwable $e) {
+                $this->failTelemetryEventsSynchronization($telemetryEvents);
             }
 
-            $telemetryEventsCount = count($telemetryEvents);
-
             $this->telemetryEventRepository->flushAndClear();
-        } while ($telemetryEventsCount > 0);
+        }
     }
 
     /**
-     * @thorws TelemetrySenderException
+     * @param int $syncTimestamp
      *
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @return array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface>
+     */
+    protected function getTelemetryEvents(int $syncTimestamp): array
+    {
+        return $this->telemetryEventRepository->getTelemetryEvents(static::MAX_SYNCHRONIZATION_ATTEMPTS, static::BATCH_SIZE, $syncTimestamp);
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
      *
      * @return void
      */
-    protected function sendTelemetryEvent(TelemetryEventInterface $telemetryEvent): void
+    protected function failTelemetryEventsSynchronization(array $telemetryEvents): void
     {
-        try {
-            $this->telemetryEventSender->send($telemetryEvent);
-            $this->telemetryEventRepository->remove($telemetryEvent, false);
-        } catch (TelemetrySenderException $e) {
-            $this->failSynchronization($telemetryEvent);
+        foreach ($telemetryEvents as $telemetryEvent) {
+            $this->failTelemetryEventSynchronization($telemetryEvent);
         }
     }
 
@@ -149,7 +153,7 @@ class TelemetryEventsSynchronizer
      *
      * @return void
      */
-    protected function failSynchronization(TelemetryEventInterface $telemetryEvent): void
+    protected function failTelemetryEventSynchronization(TelemetryEventInterface $telemetryEvent): void
     {
         $telemetryEvent->synchronizeFailed();
 

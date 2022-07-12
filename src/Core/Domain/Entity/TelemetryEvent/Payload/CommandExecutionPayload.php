@@ -9,12 +9,22 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload;
 
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface;
 
-class CommandSuccessfulExecutionPayload implements TelemetryEventPayloadInterface
+class CommandExecutionPayload implements TelemetryEventPayloadInterface
 {
+    /**
+     * @var int
+     */
+    protected const COMMAND_SUCCESS_EXECUTION = 0;
+
     /**
      * @var string
      */
-    protected const EVENT_NAME = 'command_success_execution';
+    protected const DEFAULT_SCOPE = 'SDK';
+
+    /**
+     * @var string
+     */
+    protected const EVENT_NAME = 'command_execution';
 
     /**
      * @var int
@@ -37,15 +47,34 @@ class CommandSuccessfulExecutionPayload implements TelemetryEventPayloadInterfac
     protected array $inputOptions;
 
     /**
+     * @var string
+     */
+    protected string $errorMessage;
+
+    /**
+     * @var int
+     */
+    protected int $exitCode;
+
+    /**
      * @param string $commandName
      * @param array $inputArguments
      * @param array $inputOptions
+     * @param string $errorMessage
+     * @param int $exitCode
      */
-    public function __construct(string $commandName, array $inputArguments, array $inputOptions)
-    {
+    public function __construct(
+        string $commandName,
+        array $inputArguments,
+        array $inputOptions,
+        string $errorMessage = '',
+        int $exitCode = self::COMMAND_SUCCESS_EXECUTION
+    ) {
         $this->commandName = $commandName;
         $this->inputArguments = $inputArguments;
         $this->inputOptions = $inputOptions;
+        $this->errorMessage = $errorMessage;
+        $this->exitCode = $exitCode;
     }
 
     /**
@@ -75,15 +104,39 @@ class CommandSuccessfulExecutionPayload implements TelemetryEventPayloadInterfac
     /**
      * @return string
      */
+    public function getErrorMessage(): string
+    {
+        return $this->errorMessage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExitCode(): int
+    {
+        return $this->exitCode;
+    }
+
+    /**
+     * @return string
+     */
     public static function getEventName(): string
     {
         return static::EVENT_NAME;
     }
 
     /**
+     * @return string
+     */
+    public static function getEventScope(): string
+    {
+        return static::DEFAULT_SCOPE;
+    }
+
+    /**
      * @return int
      */
-    public static function getLatestVersion(): int
+    public static function getEventVersion(): int
     {
         return static::EVENT_VERSION;
     }

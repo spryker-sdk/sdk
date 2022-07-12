@@ -7,21 +7,14 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
 
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
-
 interface TelemetryEventSenderInterface
 {
     /**
-     * @return bool
-     */
-    public function pingConnection(): bool;
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
      *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\TelemetrySenderException
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException
      *
      * @return void
      */
-    public function send(TelemetryEventInterface $telemetryEvent): void;
+    public function send(array $telemetryEvents): void;
 }

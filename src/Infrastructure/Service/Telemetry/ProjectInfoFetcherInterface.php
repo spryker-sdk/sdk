@@ -5,10 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Exception;
+namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
 
-use Exception;
-
-class TelemetrySenderException extends Exception
+interface ProjectInfoFetcherInterface
 {
+    /**
+     * @return string|null
+     */
+    public function getProjectName(): ?string;
 }

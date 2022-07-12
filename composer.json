@@ -47,6 +47,7 @@
         "symfony/lock": "^5.0 || ^6.0",
         "symfony/process": "^5.0 || ^6.0",
         "symfony/runtime": "^5.0 || ^6.0",
+        "symfony/serializer": "^5.0 || ^6.0",
         "symfony/validator": "^5.0 || ^6.0",
         "symfony/workflow": "^5.0 || ^6.0",
         "symfony/yaml": "^5.0 || ^6.0"

@@ -10,8 +10,19 @@ SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent:
     fields:
         name:
             type: string
+            length: 100
+            nullable: false
+        version:
+            type: smallint
+            nullable: false
+        scope:
+            type: string
+            length: 64
             nullable: false
         payload:
+            type: object
+            nullable: false
+        metadata:
             type: object
             nullable: false
         synchronizationAttemptsCount:
@@ -24,10 +35,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent:
             nullable: true
             options:
                 unsigned: true
-        version:
-            type: smallint
-            nullable: false
-        createdAt:
+        triggeredAt:
             name: created_at
             type: datetime_immutable
             nullable: false

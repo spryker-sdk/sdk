@@ -51,7 +51,9 @@ class TelemetryEventMapperTest extends Unit
         $this->assertSame($domainTelemetryEvent->getVersion(), $infrastructureTelemetryEvent->getVersion());
         $this->assertSame($domainTelemetryEvent->getName(), $infrastructureTelemetryEvent->getName());
         $this->assertSame($domainTelemetryEvent->getPayload(), $infrastructureTelemetryEvent->getPayload());
-        $this->assertSame($domainTelemetryEvent->getCreatedAt(), $infrastructureTelemetryEvent->getCreatedAt());
+        $this->assertSame($domainTelemetryEvent->getTriggeredAt(), $infrastructureTelemetryEvent->getTriggeredAt());
+        $this->assertSame($domainTelemetryEvent->getPayload(), $infrastructureTelemetryEvent->getPayload());
+        $this->assertSame($domainTelemetryEvent->getMetadata(), $infrastructureTelemetryEvent->getMetadata());
     }
 
     /**
@@ -72,7 +74,9 @@ class TelemetryEventMapperTest extends Unit
         $this->assertSame($infrastructureTelemetryEvent->getVersion(), $domainTelemetryEvent->getVersion());
         $this->assertSame($infrastructureTelemetryEvent->getName(), $domainTelemetryEvent->getName());
         $this->assertSame($infrastructureTelemetryEvent->getPayload(), $domainTelemetryEvent->getPayload());
-        $this->assertSame($infrastructureTelemetryEvent->getCreatedAt(), $domainTelemetryEvent->getCreatedAt());
+        $this->assertSame($infrastructureTelemetryEvent->getTriggeredAt(), $domainTelemetryEvent->getTriggeredAt());
+        $this->assertSame($infrastructureTelemetryEvent->getPayload(), $domainTelemetryEvent->getPayload());
+        $this->assertSame($infrastructureTelemetryEvent->getMetadata(), $domainTelemetryEvent->getMetadata());
     }
 
     /**
@@ -94,6 +98,7 @@ class TelemetryEventMapperTest extends Unit
         $this->assertSame($infrastructureTelemetryEvent->getVersion(), $domainTelemetryEvent->getVersion());
         $this->assertSame($infrastructureTelemetryEvent->getName(), $domainTelemetryEvent->getName());
         $this->assertSame($infrastructureTelemetryEvent->getPayload(), $domainTelemetryEvent->getPayload());
-        $this->assertSame($infrastructureTelemetryEvent->getCreatedAt(), $domainTelemetryEvent->getCreatedAt());
+        $this->assertSame($infrastructureTelemetryEvent->getMetadata(), $domainTelemetryEvent->getMetadata());
+        $this->assertSame($infrastructureTelemetryEvent->getTriggeredAt(), $domainTelemetryEvent->getTriggeredAt());
     }
 }

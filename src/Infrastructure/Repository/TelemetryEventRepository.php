@@ -19,7 +19,7 @@ use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
 
 class TelemetryEventRepository extends EntityRepository implements TelemetryEventRepositoryInterface
 {
-    private TelemetryEventMapperInterface $telemetryEventMapper;
+    protected TelemetryEventMapperInterface $telemetryEventMapper;
 
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
@@ -142,6 +142,26 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
+     *
+     * @return void
+     */
+    public function removeBatch(array $telemetryEvents): void
+    {
+        $telemetryEventIds = array_map(static function (TelemetryEventInterface $telemetryEvent): int {
+             return (int)$telemetryEvent->getId();
+        }, $telemetryEvents);
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->delete(TelemetryEvent::class, 'te')
+            ->where($qb->expr()->in('te.id', ':telemetryEventIds'))
+            ->setParameters(['telemetryEventIds' => $telemetryEventIds])
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
      * @param int $maxAttemptsCount
      * @param \DateInterval $telemetryEventTtl
      *
@@ -153,10 +173,10 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
 
         $qb->delete(TelemetryEvent::class, 'te')
             ->where($qb->expr()->gte('te.synchronizationAttemptsCount', ':maxAttemptsCount'))
-            ->orWhere($qb->expr()->lt('te.createdAt', ':maxCreatedTime'))
+            ->orWhere($qb->expr()->lt('te.triggeredAt', ':maxTriggeredTime'))
             ->setParameters([
                 'maxAttemptsCount' => $maxAttemptsCount,
-                'maxCreatedTime' => (new DateTimeImmutable())->sub($telemetryEventTtl),
+                'maxTriggeredTime' => (new DateTimeImmutable())->sub($telemetryEventTtl),
             ])
             ->getQuery()
             ->execute();

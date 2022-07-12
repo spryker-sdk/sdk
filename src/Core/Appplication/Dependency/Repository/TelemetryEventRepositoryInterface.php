@@ -46,6 +46,13 @@ interface TelemetryEventRepositoryInterface
     public function remove(TelemetryEventInterface $telemetryEvent, bool $flush = true): void;
 
     /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
+     *
+     * @return void
+     */
+    public function removeBatch(array $telemetryEvents): void;
+
+    /**
      * @param int $maxAttemptsCount
      * @param \DateInterval $telemetryEventTtl
      *

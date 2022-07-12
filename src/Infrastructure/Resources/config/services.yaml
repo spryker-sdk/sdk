@@ -277,10 +277,33 @@ services:
       - "@cli_value_receiver"
       - "@service_container"
 
-  telemetry.file_sender:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\FileTelemetrySender
+  telemetry.data_lake_sender:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\DataLakeTelemetryEventSender
     arguments:
-      - "%kernel.logs_dir%"
+      - "@guzzle.http_client"
+      - "@telemetry.serializer"
+      - "%env(string:DATA_LAKE_TELEMETRY_ENDPOINT_URL)%"
+    tags:
+      - { name: telemetry.data_sender }
+
+  telemetry.report_sender:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\ReportTelemetryEventSender
+    arguments:
+      - "@project_setting_repository"
+      - "@telemetry.serializer"
+    tags:
+      - { name: telemetry.data_sender }
+
+  telemetry.data_sender_factory:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderFactory
+    arguments:
+      - "%kernel.debug%"
+      - "%env(string:DATA_LAKE_TELEMETRY_ENDPOINT_URL)%"
+      - !tagged_iterator telemetry.data_sender
+
+  telemetry.telemetry_events_sender:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+    factory: ["@telemetry.data_sender_factory", "getTelemetryEventSender"]
 
   lock_data_store:
     class: Symfony\Component\Lock\Store\DoctrineDbalStore
@@ -291,4 +314,35 @@ services:
   lock_factory:
     class: Symfony\Component\Lock\LockFactory
     arguments:
-      - '@lock_data_store'
+      - "@lock_data_store"
+
+  project_info_fetcher:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\ProjectInfoFetcher
+    arguments:
+      - "@project_setting_repository"
+
+  guzzle.http_client:
+    class: GuzzleHttp\Client
+
+  serializer.json_encoder:
+    class: Symfony\Component\Serializer\Encoder\JsonEncoder
+
+  telemetry.serializer:
+    class: Symfony\Component\Serializer\Serializer
+    arguments:
+      - ["@telemetry.serializer.event_normalizer"]
+      - ["@serializer.json_encoder"]
+
+  telemetry.serializer.event_normalizer:
+    class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\TelemetryEventNormalizer
+    arguments:
+      - !tagged_iterator telemetry.payload_normalizer
+      - "@telemetry.serializer.metadata_normalizer"
+
+  telemetry.serializer.metadata_normalizer:
+    class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\TelemetryEventMetadataNormalizer
+
+  telemetry.serializer.command_execution_payload_normalizer:
+    class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\Payload\CommandExecutionPayloadNormalizer
+    tags:
+      - { name: telemetry.payload_normalizer }

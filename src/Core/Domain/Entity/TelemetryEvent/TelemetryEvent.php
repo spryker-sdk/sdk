@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent;
 
 use DateTimeImmutable;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
+use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface;
 
 class TelemetryEvent implements TelemetryEventInterface
@@ -24,9 +25,24 @@ class TelemetryEvent implements TelemetryEventInterface
     protected string $name;
 
     /**
+     * @var int
+     */
+    protected int $version;
+
+    /**
+     * @var string
+     */
+    protected string $scope;
+
+    /**
      * @var \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface
      */
     protected TelemetryEventPayloadInterface $payload;
+
+    /**
+     * @var \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface
+     */
+    protected TelemetryEventMetadataInterface $metadata;
 
     /**
      * @var int
@@ -41,22 +57,20 @@ class TelemetryEvent implements TelemetryEventInterface
     /**
      * @var \DateTimeImmutable
      */
-    protected DateTimeImmutable $createdAt;
-
-    /**
-     * @var int
-     */
-    protected int $version;
+    protected DateTimeImmutable $triggeredAt;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface $payload
+     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface $metadata
      */
-    public function __construct(TelemetryEventPayloadInterface $payload)
+    public function __construct(TelemetryEventPayloadInterface $payload, TelemetryEventMetadataInterface $metadata)
     {
         $this->name = $payload::getEventName();
-        $this->version = $payload::getLatestVersion();
+        $this->version = $payload::getEventVersion();
+        $this->scope = $payload::getEventScope();
         $this->payload = $payload;
-        $this->createdAt = new DateTimeImmutable();
+        $this->metadata = $metadata;
+        $this->triggeredAt = new DateTimeImmutable();
     }
 
     /**
@@ -123,6 +137,24 @@ class TelemetryEvent implements TelemetryEventInterface
     }
 
     /**
+     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface
+     */
+    public function getMetadata(): TelemetryEventMetadataInterface
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface $metadata
+     *
+     * @return void
+     */
+    public function setMetadata(TelemetryEventMetadataInterface $metadata): void
+    {
+        $this->metadata = $metadata;
+    }
+
+    /**
      * @return int
      */
     public function getSynchronizationAttemptsCount(): int
@@ -161,19 +193,19 @@ class TelemetryEvent implements TelemetryEventInterface
     /**
      * @return \DateTimeImmutable
      */
-    public function getCreatedAt(): DateTimeImmutable
+    public function getTriggeredAt(): DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->triggeredAt;
     }
 
     /**
-     * @param \DateTimeImmutable $createdAt
+     * @param \DateTimeImmutable $triggeredAt
      *
      * @return void
      */
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    public function setTriggeredAt(DateTimeImmutable $triggeredAt): void
     {
-        $this->createdAt = $createdAt;
+        $this->triggeredAt = $triggeredAt;
     }
 
     /**
@@ -192,5 +224,23 @@ class TelemetryEvent implements TelemetryEventInterface
     public function setVersion(int $version): void
     {
         $this->version = $version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScope(): string
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @param string $scope
+     *
+     * @return void
+     */
+    public function setScope(string $scope): void
+    {
+        $this->scope = $scope;
     }
 }

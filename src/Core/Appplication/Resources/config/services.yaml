@@ -155,12 +155,18 @@ services:
     arguments:
       - !tagged_iterator report.array_converter
 
+  telemetry.event_metadata_factory:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactory
+    arguments:
+      - "@project_info_fetcher"
+      - "@project_setting_repository"
 
   telemetry.command_event_listener:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\EventListener\ConsoleCommandEventListener
     arguments:
       - "@telemetry_event_repository"
       - "@telemetry.command_event_synchronizer"
+      - "@telemetry.event_metadata_factory"
     tags:
       - { name: kernel.event_listener, event: console.terminate }
       - { name: kernel.event_listener, event: console.error }
@@ -169,5 +175,5 @@ services:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer
     arguments:
       - "@telemetry_event_repository"
-      - "@telemetry.file_sender"
+      - "@telemetry.telemetry_events_sender"
       - "@lock_factory"
