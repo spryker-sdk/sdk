@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Converters;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
+use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class DeprecationsReportConverter extends AbstractViolationConverter
@@ -31,8 +32,8 @@ class DeprecationsReportConverter extends AbstractViolationConverter
      */
     public function configure(array $configuration): void
     {
-        $this->fileName = $configuration['input_file'];
-        $this->producer = $configuration['producer'];
+        $this->fileName = (string)$configuration['input_file'];
+        $this->producer = (string)$configuration['producer'];
     }
 
     /**
@@ -86,17 +87,22 @@ class DeprecationsReportConverter extends AbstractViolationConverter
      */
     protected function formatDeprecations(array $issues): array
     {
-        $deprecations = [];
-        foreach ($issues as $issue) {
-            $deprecations[] = (new Violation($issue['file_name'], $issue['message']))
-                ->setStartLine($issue['line_from'])
-                ->setEndLine($issue['line_to'])
-                ->setStartColumn($issue['column_from'])
-                ->setEndColumn($issue['column_to'])
-                ->setAttributes($issue)
-                ->setProduced($this->producer);
-        }
+        return array_map([static::class, 'createDeprecation'], $issues);
+    }
 
-        return $deprecations;
+    /**
+     * @param array $issue
+     *
+     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
+     */
+    protected function createDeprecation(array $issue): ViolationInterface
+    {
+        return (new Violation($issue['file_name'], $issue['message']))
+            ->setStartLine($issue['line_from'])
+            ->setEndLine($issue['line_to'])
+            ->setStartColumn($issue['column_from'])
+            ->setEndColumn($issue['column_to'])
+            ->setAttributes($issue)
+            ->setProduced($this->producer);
     }
 }
