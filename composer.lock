@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77d6db228ffc9ccd832e1f62b874499e",
+    "content-hash": "033f3f26d067f428cf31b677c748b800",
     "packages": [
         {
             "name": "cebe/php-openapi",
@@ -219,16 +219,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.3.8",
+            "version": "2.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "f69e63262dadd02b3b6edade339c7badda2939c2"
+                "reference": "015f524c9969255a29cdea8890cbd4fec240ee47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/f69e63262dadd02b3b6edade339c7badda2939c2",
-                "reference": "f69e63262dadd02b3b6edade339c7badda2939c2",
+                "url": "https://api.github.com/repos/composer/composer/zipball/015f524c9969255a29cdea8890cbd4fec240ee47",
+                "reference": "015f524c9969255a29cdea8890cbd4fec240ee47",
                 "shasum": ""
             },
             "require": {
@@ -309,7 +309,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.3.8"
+                "source": "https://github.com/composer/composer/tree/2.3.9"
             },
             "funding": [
                 {
@@ -325,7 +325,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-01T10:10:47+00:00"
+            "time": "2022-07-05T14:52:11+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -3047,19 +3047,20 @@
         },
         {
             "name": "laminas/laminas-filter",
-            "version": "2.14.0",
+            "version": "2.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-filter.git",
-                "reference": "98a126b8cd069a446054680c9be5f37a61f6dc17"
+                "reference": "f5a3736cb49f06a3ba8941803bf84559bed4c3fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-filter/zipball/98a126b8cd069a446054680c9be5f37a61f6dc17",
-                "reference": "98a126b8cd069a446054680c9be5f37a61f6dc17",
+                "url": "https://api.github.com/repos/laminas/laminas-filter/zipball/f5a3736cb49f06a3ba8941803bf84559bed4c3fa",
+                "reference": "f5a3736cb49f06a3ba8941803bf84559bed4c3fa",
                 "shasum": ""
             },
             "require": {
+                "laminas/laminas-servicemanager": "^3.14.0",
                 "laminas/laminas-stdlib": "^3.6.1",
                 "php": "^7.4 || ~8.0.0 || ~8.1.0"
             },
@@ -3070,7 +3071,6 @@
             "require-dev": {
                 "laminas/laminas-coding-standard": "^2.3.0",
                 "laminas/laminas-crypt": "^3.5.1",
-                "laminas/laminas-servicemanager": "^3.7.0",
                 "laminas/laminas-uri": "^2.9.1",
                 "pear/archive_tar": "^1.4.14",
                 "phpspec/prophecy-phpunit": "^2.0.1",
@@ -3122,7 +3122,98 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-02-22T23:09:15+00:00"
+            "time": "2022-07-12T14:35:14+00:00"
+        },
+        {
+            "name": "laminas/laminas-servicemanager",
+            "version": "3.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-servicemanager.git",
+                "reference": "918de970b2c3d42acebff3d431d76db52b6a32a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/918de970b2c3d42acebff3d431d76db52b6a32a2",
+                "reference": "918de970b2c3d42acebff3d431d76db52b6a32a2",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-stdlib": "^3.2.1",
+                "php": "~7.4.0 || ~8.0.0 || ~8.1.0",
+                "psr/container": "^1.0"
+            },
+            "conflict": {
+                "ext-psr": "*",
+                "laminas/laminas-code": "<3.3.1",
+                "zendframework/zend-code": "<3.3.1",
+                "zendframework/zend-servicemanager": "*"
+            },
+            "provide": {
+                "psr/container-implementation": "^1.0"
+            },
+            "replace": {
+                "container-interop/container-interop": "^1.2.0"
+            },
+            "require-dev": {
+                "composer/package-versions-deprecated": "^1.0",
+                "laminas/laminas-coding-standard": "~2.3.0",
+                "laminas/laminas-container-config-test": "^0.6",
+                "laminas/laminas-dependency-plugin": "^2.1.2",
+                "mikey179/vfsstream": "^1.6.10@alpha",
+                "ocramius/proxy-manager": "^2.11",
+                "phpbench/phpbench": "^1.1",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.5.5",
+                "psalm/plugin-phpunit": "^0.17.0",
+                "vimeo/psalm": "^4.8"
+            },
+            "suggest": {
+                "ocramius/proxy-manager": "ProxyManager ^2.1.1 to handle lazy initialization of services"
+            },
+            "bin": [
+                "bin/generate-deps-for-config-factory",
+                "bin/generate-factory-for-class"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Laminas\\ServiceManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Factory-Driven Dependency Injection Container",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "PSR-11",
+                "dependency-injection",
+                "di",
+                "dic",
+                "laminas",
+                "service-manager",
+                "servicemanager"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-servicemanager/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-servicemanager/issues",
+                "rss": "https://github.com/laminas/laminas-servicemanager/releases.atom",
+                "source": "https://github.com/laminas/laminas-servicemanager"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2022-07-07T16:13:26+00:00"
         },
         {
             "name": "laminas/laminas-stdlib",
@@ -3690,16 +3781,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.14.2",
+            "version": "1.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "c8d48852fbc052454af42f6de27635ddd916b959"
+                "reference": "31d8ee46d0215108df16a8527c7438e96a4d7735"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/c8d48852fbc052454af42f6de27635ddd916b959",
-                "reference": "c8d48852fbc052454af42f6de27635ddd916b959",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/31d8ee46d0215108df16a8527c7438e96a4d7735",
+                "reference": "31d8ee46d0215108df16a8527c7438e96a4d7735",
                 "shasum": ""
             },
             "require": {
@@ -3751,9 +3842,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.14.2"
+                "source": "https://github.com/php-http/discovery/tree/1.14.3"
             },
-            "time": "2022-05-25T07:26:05+00:00"
+            "time": "2022-07-11T14:04:40+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -4384,16 +4475,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b7648d4ee9321665acaf112e49da9fd93df8fbd5"
+                "reference": "8dbba631fa32f4b289404469c2afd6122fd61d67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b7648d4ee9321665acaf112e49da9fd93df8fbd5",
-                "reference": "b7648d4ee9321665acaf112e49da9fd93df8fbd5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8dbba631fa32f4b289404469c2afd6122fd61d67",
+                "reference": "8dbba631fa32f4b289404469c2afd6122fd61d67",
                 "shasum": ""
             },
             "require": {
@@ -4419,7 +4510,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.0"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.1"
             },
             "funding": [
                 {
@@ -4439,7 +4530,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-29T08:53:31+00:00"
+            "time": "2022-07-12T16:08:06+00:00"
         },
         {
             "name": "psr/cache",
@@ -5375,16 +5466,16 @@
         },
         {
             "name": "spryker-sdk/integrator",
-            "version": "dev-develop",
+            "version": "dev-feature/pplus-1399-revert-to-php74",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "df9dd4e141e628a7728febd21a859d78821b5cdc"
+                "reference": "1a44e7564306bd959bf1ae598fd7b54cf37f235d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/df9dd4e141e628a7728febd21a859d78821b5cdc",
-                "reference": "df9dd4e141e628a7728febd21a859d78821b5cdc",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/1a44e7564306bd959bf1ae598fd7b54cf37f235d",
+                "reference": "1a44e7564306bd959bf1ae598fd7b54cf37f235d",
                 "shasum": ""
             },
             "require": {
@@ -5392,7 +5483,7 @@
                 "composer/composer": "^2.1.0",
                 "laminas/laminas-filter": "^2.14.0",
                 "nikic/php-parser": "^4.3.0",
-                "php": ">=8.0",
+                "php": ">=7.4",
                 "sebastian/diff": "^4.0.0",
                 "symfony/console": "^5.3.0",
                 "symfony/finder": "^5.3.0"
@@ -5424,9 +5515,9 @@
             "description": "Integrator module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
-                "source": "https://github.com/spryker-sdk/integrator/tree/develop"
+                "source": "https://github.com/spryker-sdk/integrator/tree/feature/pplus-1399-revert-to-php74"
             },
-            "time": "2022-05-31T11:16:44+00:00"
+            "time": "2022-06-30T06:29:21+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -5568,16 +5659,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-develop",
+            "version": "dev-feature/master-standalone-php80",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "c432b9a0385b734ed1c6ce3e0a20b67243f92142"
+                "reference": "66226aad75826a3acb7021489feb025f2000beb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/c432b9a0385b734ed1c6ce3e0a20b67243f92142",
-                "reference": "c432b9a0385b734ed1c6ce3e0a20b67243f92142",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/66226aad75826a3acb7021489feb025f2000beb9",
+                "reference": "66226aad75826a3acb7021489feb025f2000beb9",
                 "shasum": ""
             },
             "require": {
@@ -5592,7 +5683,7 @@
                 "nikic/php-parser": "4.13.*",
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.2",
-                "spryker-sdk/integrator": "dev-develop",
+                "spryker-sdk/integrator": "dev-feature/pplus-1399-revert-to-php74",
                 "spryker-sdk/sdk-contracts": "dev-master",
                 "spryker/code-sniffer": "^0.17.3",
                 "symfony/config": "^5.0",
@@ -5602,7 +5693,8 @@
                 "symfony/finder": "^5.3",
                 "symfony/framework-bundle": "5.3.*",
                 "symfony/http-kernel": "^5.0",
-                "symfony/process": "^5.0",
+                "symfony/process": "^5.0 || ^6.0",
+                "symfony/runtime": "^5.0 || ^6.0",
                 "symfony/yaml": "^5.3"
             },
             "require-dev": {
@@ -5611,6 +5703,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
+                    "App\\": "app/",
                     "Core\\": "src/Core/",
                     "Upgrade\\": "src/Upgrade/",
                     "Codebase\\": "src/Codebase/",
@@ -5627,9 +5720,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/develop"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/master-standalone-php80"
             },
-            "time": "2022-07-05T11:34:35+00:00"
+            "time": "2022-07-13T06:00:19+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -13427,14 +13520,7 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "spryker-sdk/upgrader",
-            "version": "dev-develop",
-            "alias": "0.1.0",
-            "alias_normalized": "0.1.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
