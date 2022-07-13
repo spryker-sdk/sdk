@@ -23,6 +23,8 @@ class AnalyzerReportTaskCest
     protected const PROJECT_DIR = 'upgrader_success_project';
 
     /**
+     * @skip incomplete
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void

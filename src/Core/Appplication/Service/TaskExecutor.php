@@ -11,7 +11,6 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -41,9 +40,9 @@ class TaskExecutor
     protected CommandExecutorInterface $commandExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory
      */
-    protected ViolationReportGenerator $violationReportGenerator;
+    protected ReportGeneratorFactory $reportGeneratorFactory;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null
@@ -54,20 +53,20 @@ class TaskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator $violationReportGenerator
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory $reportGeneratorFactory
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface|null $actionApprover
      */
     public function __construct(
         PlaceholderResolver $placeholderResolver,
         TaskRepositoryInterface $taskRepository,
         CommandExecutorInterface $commandExecutor,
-        ViolationReportGenerator $violationReportGenerator,
+        ReportGeneratorFactory $reportGeneratorFactory,
         ?ActionApproverInterface $actionApprover = null
     ) {
         $this->placeholderResolver = $placeholderResolver;
         $this->taskRepository = $taskRepository;
         $this->commandExecutor = $commandExecutor;
-        $this->violationReportGenerator = $violationReportGenerator;
+        $this->reportGeneratorFactory = $reportGeneratorFactory;
         $this->actionApprover = $actionApprover;
     }
 
@@ -228,7 +227,11 @@ class TaskExecutor
             }
         }
 
-        $this->violationReportGenerator->collectViolations($context->getTask()->getId(), $commands);
+        $reportGenerators = $this->reportGeneratorFactory->getReportGeneratorsByContext($context);
+
+        foreach ($reportGenerators as $reportGenerator) {
+            $reportGenerator->collectReports($context->getTask()->getId(), $commands);
+        }
 
         return $context;
     }

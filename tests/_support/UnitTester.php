@@ -32,8 +32,6 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Inherited Methods
@@ -211,35 +209,7 @@ class UnitTester extends Actor
      */
     public function createSymfonyCommand(string $name, string $help): SymfonyCommand
     {
-        $command = (new SymfonyCommand($name))->setHelp($help);
-
-        $command->addArgument('argument1');
-        $command->addOption('option1');
-
-        return $command;
-    }
-
-    /**
-     * @param string $name
-     * @param array|string $shortcut
-     * @param string $description
-     *
-     * @return \Symfony\Component\Console\Input\InputOption
-     */
-    public function createSymfonyInputOption(string $name, string|array|null $shortcut, string $description): InputOption
-    {
-        return new InputOption($name, $shortcut, null, $description);
-    }
-
-    /**
-     * @param string $name
-     * @param array|string|float|int|bool $default
-     *
-     * @return \Symfony\Component\Console\Input\InputArgument
-     */
-    public function createSymfonyInputArgument(string $name, string|bool|int|float|array|null $default): InputArgument
-    {
-        return new InputArgument($name, null, '', $default);
+        return (new SymfonyCommand($name))->setHelp($help);
     }
 
     /**

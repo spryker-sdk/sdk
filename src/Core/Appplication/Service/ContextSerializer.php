@@ -7,20 +7,28 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Appplication\Exception\InvalidReportTypeException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\ReportInterface;
 
 class ContextSerializer
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ReportArrayConverterFactory
+     */
+    protected ReportArrayConverterFactory $reportArrayConverterFactory;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ReportArrayConverterFactory $reportArrayConverterFactory
+     */
+    public function __construct(ReportArrayConverterFactory $reportArrayConverterFactory)
+    {
+        $this->reportArrayConverterFactory = $reportArrayConverterFactory;
+    }
+
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
@@ -32,14 +40,7 @@ class ContextSerializer
             'tags' => $context->getTags(),
             'resolved_values' => $context->getResolvedValues(),
             'messages' => $this->convertMessagesToArray($context->getMessages()),
-            'violation_reports' => array_map(function (ViolationReportInterface $report): array {
-                return [
-                    'path' => $report->getPath(),
-                    'project' => $report->getProject(),
-                    'violations' => $this->convertViolationsToArray($report->getViolations()),
-                    'packages' => $this->convertPackagesToArray($report->getPackages()),
-                ];
-            }, $context->getViolationReports()),
+            'reports' => array_map([$this, 'convertReportToArray'], $context->getReports()),
         ];
 
         return json_encode($data, JSON_THROW_ON_ERROR);
@@ -76,11 +77,11 @@ class ContextSerializer
             }
         }
 
-        if (array_key_exists('violation_reports', $data) && is_array($data['violation_reports'])) {
-            foreach ($data['violation_reports'] as $violationReportData) {
-                $context->addViolationReport(
-                    $this->createViolationReport($violationReportData),
-                );
+        if (array_key_exists('reports', $data) && is_array($data['reports'])) {
+            foreach ($data['reports'] as $reportData) {
+                $report = $this->getReportFromArray($reportData);
+
+                $context->addReport($report);
             }
         }
 
@@ -106,133 +107,30 @@ class ContextSerializer
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Report\ReportInterface $report
+     *
+     * @return array
+     */
+    protected function convertReportToArray(ReportInterface $report): array
+    {
+        $reportArrayConverter = $this->reportArrayConverterFactory->getArrayConverterByReport($report);
+
+        return $reportArrayConverter->toArray($report);
+    }
+
+    /**
      * @param array $reportData
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
-     */
-    protected function convertArrayToViolationReportConverter(array $reportData): ViolationInterface
-    {
-        return (new Violation($reportData['id'], $reportData['message']))
-            ->setSeverity($reportData['severity'])
-            ->setPriority($reportData['priority'])
-            ->setClass($reportData['class'])
-            ->setStartLine($reportData['start_line'])
-            ->setEndLine($reportData['end_line'])
-            ->setStartColumn($reportData['start_column'])
-            ->setEndColumn($reportData['end_column'])
-            ->setMethod($reportData['method'])
-            ->setAttributes($reportData['additional_attributes'])
-            ->setFixable($reportData['is_fixable'])
-            ->setProduced($reportData['produced_by'])
-            ->setFix($reportData['fix'] ? new ViolationFix($reportData['fix']['type'], $reportData['fix']['action']) : null);
-    }
-
-    /**
-     * @param array $violationReportData
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\InvalidReportTypeException
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\ReportInterface
      */
-    protected function createViolationReport(array $violationReportData): ViolationReportInterface
+    protected function getReportFromArray(array $reportData): ReportInterface
     {
-        $violations = array_map([$this, 'convertArrayToViolationReportConverter'], $violationReportData['violations']);
-        $packages = array_map([$this, 'convertArrayToPackageViolationReport'], $violationReportData['packages']);
-
-        return new ViolationReport(
-            $violationReportData['project'],
-            $violationReportData['path'],
-            $violations,
-            $packages,
-        );
-    }
-
-    /**
-     * @param array $report
-     *
-     * @return \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface
-     */
-    protected function convertArrayToPackageViolationReport(array $report): PackageViolationReportInterface
-    {
-        $fileViolations = [];
-
-        foreach ($report['file_violations'] as $key => $reports) {
-            $fileViolations[(string)$key] = array_map([$this, 'convertArrayToViolationReportConverter'], $reports);
+        if (!isset($reportData['type'])) {
+            throw new InvalidReportTypeException(sprintf('Unable to find report data type in "%s"', json_encode($reportData, JSON_THROW_ON_ERROR)));
         }
 
-        return new PackageViolationReport(
-            $report['package'],
-            $report['path'],
-            array_map([$this, 'convertArrayToViolationReportConverter'], $report['violations']),
-            $fileViolations,
-        );
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violationReportConverter
-     *
-     * @return array
-     */
-    protected function convertViolationToArray(ViolationInterface $violationReportConverter): array
-    {
-        return [
-            'id' => $violationReportConverter->getId(),
-            'message' => $violationReportConverter->getMessage(),
-            'severity' => $violationReportConverter->getSeverity(),
-            'additional_attributes' => $violationReportConverter->getAdditionalAttributes(),
-            'class' => $violationReportConverter->getClass(),
-            'method' => $violationReportConverter->getMethod(),
-            'start_column' => $violationReportConverter->getStartColumn(),
-            'end_column' => $violationReportConverter->getEndColumn(),
-            'start_line' => $violationReportConverter->getStartLine(),
-            'end_line' => $violationReportConverter->getEndLine(),
-            'is_fixable' => $violationReportConverter->isFixable(),
-            'priority' => $violationReportConverter->priority(),
-            'produced_by' => $violationReportConverter->producedBy(),
-            'fix' => $violationReportConverter->getFix() ?
-                [
-                    'type' => $violationReportConverter->getFix()->getType(),
-                    'action' => $violationReportConverter->getFix()->getAction(),
-                ] :
-                null,
-        ];
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface $packageViolationReport
-     *
-     * @return array
-     */
-    protected function convertPackageToArray(PackageViolationReportInterface $packageViolationReport): array
-    {
-        $fileViolations = [];
-        foreach ($packageViolationReport->getFileViolations() as $key => $reports) {
-            $fileViolations[$key] = $this->convertViolationsToArray($reports);
-        }
-
-        return [
-            'violations' => $this->convertViolationsToArray($packageViolationReport->getViolations()),
-            'path' => $packageViolationReport->getPath(),
-            'package' => $packageViolationReport->getPackage(),
-            'file_violations' => $fileViolations,
-        ];
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $reports
-     *
-     * @return array
-     */
-    protected function convertViolationsToArray(array $reports): array
-    {
-        return array_map([$this, 'convertViolationToArray'], $reports);
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface> $reports
-     *
-     * @return array
-     */
-    protected function convertPackagesToArray(array $reports): array
-    {
-        return array_map([$this, 'convertPackageToArray'], $reports);
+        return $this->reportArrayConverterFactory->getArrayConverterByType($reportData['type'])->fromArray($reportData);
     }
 }
