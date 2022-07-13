@@ -84,7 +84,7 @@ services:
   ide.command_loader:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader
     arguments:
-      - !tagged_iterator console.command
+      - !tagged_iterator telemetry.observable_command
       - "@console.command_loader"
       - "@task_repository"
   ide.command_xml_formatter:
