@@ -8,6 +8,8 @@
 namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 
 use PHPUnit\Framework\Assert;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
+use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\ReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 class PhpStanTaskCest
@@ -35,6 +37,12 @@ class PhpStanTaskCest
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
+
+        $I->assertTelemetryEventReport(
+            static::COMMAND,
+            CommandExecutionPayload::getEventName(),
+            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME),
+        );
     }
 
     /**
@@ -57,6 +65,12 @@ class PhpStanTaskCest
         Assert::assertFalse($process->isSuccessful());
         Assert::assertNotEmpty($process->getOutput());
         Assert::assertStringContainsString('Violations found in files', $process->getOutput());
+
+        $I->assertTelemetryEventReport(
+            static::COMMAND,
+            CommandExecutionPayload::getEventName(),
+            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME),
+        );
     }
 
     /**
@@ -78,5 +92,11 @@ class PhpStanTaskCest
 
         // Assert
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml'));
+
+        $I->assertTelemetryEventReport(
+            static::COMMAND,
+            CommandExecutionPayload::getEventName(),
+            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME),
+        );
     }
 }

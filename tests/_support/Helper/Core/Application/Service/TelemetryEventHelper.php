@@ -20,6 +20,8 @@ class TelemetryEventHelper extends Module
      */
     public function assertTelemetryEventReport(string $command, string $eventName, string $fileName): void
     {
+        $this->assertFileExists($fileName);
+
         $reportContent = file_get_contents($fileName);
         $reportJson = json_decode($reportContent, true, 512, \JSON_THROW_ON_ERROR);
         $reportJsonItem = $reportJson[0];

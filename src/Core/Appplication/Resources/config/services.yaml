@@ -161,16 +161,6 @@ services:
       - "@project_info_fetcher"
       - "@project_setting_repository"
 
-  telemetry.command_event_listener:
-    class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\EventListener\ConsoleCommandEventListener
-    arguments:
-      - "@telemetry.command_event_synchronizer"
-      - "@telemetry.event_metadata_factory"
-      - "%env(bool:TELEMETRY_ENABLED)%"
-    tags:
-      - { name: kernel.event_listener, event: console.terminate }
-      - { name: kernel.event_listener, event: console.error }
-
   telemetry.command_event_synchronizer:
     class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer
     arguments:
@@ -178,4 +168,4 @@ services:
       - "@telemetry.telemetry_events_sender"
       - "@lock_factory"
       - "%kernel.debug%"
-      - "%env(bool:TELEMETRY_ENABLED)%"
+      - "%telemetry_enabled%"

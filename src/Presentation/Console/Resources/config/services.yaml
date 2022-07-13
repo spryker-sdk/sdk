@@ -7,7 +7,7 @@ services:
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitSdkCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -25,7 +25,7 @@ services:
   init_run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\RunWorkflowCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@project_workflow"
       - "@cli_value_receiver"
@@ -33,7 +33,7 @@ services:
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "@cli_value_receiver"
       - "@project_setting_manager"
@@ -55,20 +55,20 @@ services:
       - "@doctrine_migrations.migrate_command"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateSdkCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
   install_private_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InstallSdkBundlesCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command"]
     arguments:
       - "@service.tasks_repository_installer"
       - '%kernel.project_dir%'
       - "@event_logger"
   create_phpstorm_config_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\CreatePhpStormConfig
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "@ide.config_manager"
 
@@ -96,13 +96,13 @@ services:
       - { xml_format_output: true, xml_root_node_name: framework }
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
   composer_replace_command:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command"]
   brancho_commit_command:
     class: SprykerSdk\Sdk\Extension\Commands\CommitCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
   brancho_branch_builder_command:
     class: SprykerSdk\Sdk\Extension\Commands\BranchBuilderCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]

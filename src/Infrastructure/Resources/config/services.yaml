@@ -299,7 +299,7 @@ services:
     arguments:
       - "@guzzle.http_client"
       - "@telemetry.serializer"
-      - "%env(string:DATA_LAKE_TELEMETRY_ENDPOINT_URL)%"
+      - "%telemetry_data_lake_endpoint_url%"
     tags:
       - { name: telemetry.data_sender }
 
@@ -315,8 +315,8 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderFactory
     arguments:
       - "%kernel.debug%"
-      - "%env(string:DATA_LAKE_TELEMETRY_ENDPOINT_URL)%"
-      - "%env(bool:TELEMETRY_ENABLED)%"
+      - "%telemetry_data_lake_endpoint_url%"
+      - "%telemetry_enabled%"
       - !tagged_iterator telemetry.data_sender
 
   telemetry.telemetry_events_sender:
@@ -364,3 +364,19 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\Payload\CommandExecutionPayloadNormalizer
     tags:
       - { name: telemetry.payload_normalizer }
+
+  telemetry.command_event_validator:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidator
+    arguments:
+      - !tagged_iterator telemetry.observable_command
+
+  telemetry.command_event_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventListener
+    arguments:
+      - "@telemetry.command_event_synchronizer"
+      - "@telemetry.event_metadata_factory"
+      - "@telemetry.command_event_validator"
+      - "%telemetry_enabled%"
+    tags:
+      - { name: kernel.event_listener, event: console.terminate }
+      - { name: kernel.event_listener, event: console.error }

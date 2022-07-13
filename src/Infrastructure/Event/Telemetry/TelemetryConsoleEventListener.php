@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\EventListener;
+namespace SprykerSdk\Sdk\Infrastructure\Event\Telemetry;
 
 use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Throwable;
 
-class ConsoleCommandEventListener
+class TelemetryConsoleEventListener
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface
@@ -33,17 +33,25 @@ class ConsoleCommandEventListener
     protected bool $isTelemetryEnabled;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidatorInterface
+     */
+    protected TelemetryConsoleEventValidatorInterface $telemetryConsoleEventValidator;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidatorInterface $telemetryConsoleEventValidator
      * @param bool $isTelemetryEnabled
      */
     public function __construct(
         TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer,
         TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory,
+        TelemetryConsoleEventValidatorInterface $telemetryConsoleEventValidator,
         bool $isTelemetryEnabled
     ) {
         $this->telemetryEventsSynchronizer = $telemetryEventsSynchronizer;
         $this->telemetryEventMetadataFactory = $telemetryEventMetadataFactory;
+        $this->telemetryConsoleEventValidator = $telemetryConsoleEventValidator;
         $this->isTelemetryEnabled = $isTelemetryEnabled;
     }
 
@@ -54,7 +62,7 @@ class ConsoleCommandEventListener
      */
     public function onConsoleTerminate(ConsoleTerminateEvent $event): void
     {
-        if (!$this->isTelemetryEnabled) {
+        if (!$this->isTelemetryEnabled || !$this->telemetryConsoleEventValidator->isValid($event)) {
             return;
         }
 
@@ -70,7 +78,7 @@ class ConsoleCommandEventListener
      */
     public function onConsoleError(ConsoleErrorEvent $event): void
     {
-        if (!$this->isTelemetryEnabled) {
+        if (!$this->isTelemetryEnabled || !$this->telemetryConsoleEventValidator->isValid($event)) {
             return;
         }
 
@@ -88,6 +96,8 @@ class ConsoleCommandEventListener
             (string)($event->getCommand() !== null ? $event->getCommand()->getName() : ''),
             $event->getInput()->getArguments(),
             $event->getInput()->getOptions(),
+            '',
+            $event->getExitCode(),
         ), $this->telemetryEventMetadataFactory->createTelemetryEventMetadata());
 
         $this->telemetryEventsSynchronizer->persist($telemetryEvent);
