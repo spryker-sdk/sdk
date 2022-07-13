@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -69,5 +70,176 @@ class WorkflowRunnerTest extends Unit
         $this->assertSame('workflowName_init', $messageKey);
         $this->assertSame('Workflow `workflowName` can not be initialized.', $message->getMessage());
         $this->assertSame(MessageInterface::ERROR, $message->getVerbosity());
+    }
+
+    /**
+     * @return void
+     */
+    public function testExecuteWithMetadataAndFinished(): void
+    {
+        // Arrange
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('initializeWorkflow')
+            ->willReturn(true);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('getWorkflowMetadata')
+            ->willReturn(['run' => 'single', 're-run' => true]);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('isWorkflowFinished')
+            ->willReturn(true);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('restartWorkflow');
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->projectWorkflow);
+
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+
+        // Act
+        $messages = $workflowRunner->execute('workflowName')->getMessages();
+
+        // Assert
+        $message = current($messages);
+        $messageKey = array_key_first($messages);
+        $this->assertSame('workflowName__start', $messageKey);
+        $this->assertSame('The workflow `workflowName` has been finished.', $message->getMessage());
+        $this->assertSame(MessageInterface::ERROR, $message->getVerbosity());
+    }
+
+    /**
+     * @return void
+     */
+    public function testExecuteWithMetadata(): void
+    {
+        // Arrange
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('initializeWorkflow')
+            ->willReturn(true);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('getNextEnabledTransitions')
+            ->willReturn(['test'], ['test']);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('applyTransition');
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('getWorkflowMetadata')
+            ->willReturn(['run' => 'single']);
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->projectWorkflow);
+
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+
+        // Act
+        $messages = $workflowRunner->execute('workflowName')->getMessages();
+
+        // Assert
+        $this->assertSame(
+            [
+                'workflowName_test_apply' => 'Running task `test` ...',
+                'workflowName_test_done' => 'The `test` task finished successfully.',
+            ],
+            array_map(function ($message) {
+                return $message->getMessage();
+            }, $messages),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testExecute(): void
+    {
+        // Arrange
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('initializeWorkflow')
+            ->willReturn(true);
+        $this->projectWorkflow
+            ->expects($this->exactly(3))
+            ->method('getNextEnabledTransitions')
+            ->willReturn(['test'], ['test'], []);
+        $this->projectWorkflow
+            ->expects($this->exactly(2))
+            ->method('applyTransition');
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('getWorkflowMetadata')
+            ->willReturn([]);
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->projectWorkflow);
+
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+
+        // Act
+        $messages = $workflowRunner->execute('workflowName')->getMessages();
+
+        // Assert
+        $this->assertSame(
+            [
+                'workflowName_test_apply' => 'Running task `test` ...',
+                'workflowName_test_done' => 'The `test` task finished successfully.',
+                'workflowName__start' => 'The workflow `workflowName` has been finished.',
+            ],
+            array_map(function ($message) {
+                return $message->getMessage();
+            }, $messages),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testExecuteWithErrorCode(): void
+    {
+        // Arrange
+        $context = new Context();
+        $context->setExitCode(1);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('initializeWorkflow')
+            ->willReturn(true);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('getNextEnabledTransitions')
+            ->willReturn(['test'], ['test'], []);
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('applyTransition');
+        $this->projectWorkflow
+            ->expects($this->once())
+            ->method('getWorkflowMetadata')
+            ->willReturn([]);
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->projectWorkflow);
+
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+
+        // Act
+        $messages = $workflowRunner->execute('workflowName', $context)->getMessages();
+
+        // Assert
+        $this->assertSame(
+            [
+                'workflowName_test_apply' => 'Running task `test` ...',
+                'workflowName_test_fail' => 'The `test` task is failed, see details above.',
+            ],
+            array_map(function ($message) {
+                return $message->getMessage();
+            }, $messages),
+        );
     }
 }
