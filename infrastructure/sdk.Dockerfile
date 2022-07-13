@@ -46,8 +46,4 @@ RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer
   composer dump-autoload -o
 ENV APP_ENV=prod
 
-RUN --mount=type=ssh bin/console cache:warmup && \
-    bin/console sdk:init:sdk && \
-    bin/console sdk:update:all
-
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]
