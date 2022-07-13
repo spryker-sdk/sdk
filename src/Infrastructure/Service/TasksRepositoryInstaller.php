@@ -15,14 +15,22 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
     /**
      * @var string
      */
-    protected const GIT_MODULES = '.gitmodules';
+    protected string $gitModulesPath;
+
+    /**
+     * @param string $gitModulesPath
+     */
+    public function __construct(string $gitModulesPath)
+    {
+        $this->gitModulesPath = $gitModulesPath;
+    }
 
     /**
      * @return array<string|int, bool>
      */
     public function install(): array
     {
-        $gitModules = parse_ini_file(static::GIT_MODULES, true);
+        $gitModules = parse_ini_file($this->gitModulesPath, true);
 
         if (!$gitModules) {
             return [];

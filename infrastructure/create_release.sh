@@ -37,7 +37,7 @@ mkdir -p "${BUILD_DIR}/config/packages/"
 cp "${CURRENT_DIR}/config/packages/workflow.yaml" "${BUILD_DIR}/config/packages/workflow.yaml"
 
 mkdir -p "${BUILD_DIR}/db"
-mkdir -p "${BUILD_DIR}/var"
+mkdir -p "${BUILD_DIR}/var/cache"
 cp -R "${CURRENT_DIR}/extension" "${BUILD_DIR}/"
 cp "${CURRENT_DIR}/.env.prod" "${BUILD_DIR}/.env.prod"
 cp "${CURRENT_DIR}/.gitmodules" "${BUILD_DIR}/.gitmodules"
@@ -46,9 +46,9 @@ cp "${CURRENT_DIR}/infrastructure/sdk.local.Dockerfile" "${BUILD_DIR}/infrastruc
 cp "${CURRENT_DIR}/infrastructure/sdk.debug.Dockerfile" "${BUILD_DIR}/infrastructure/sdk.debug.Dockerfile"
 cp "${CURRENT_DIR}/infrastructure/debug/php/69-xdebug.ini" "${BUILD_DIR}/infrastructure/debug/php/69-xdebug.ini"
 cd "${BUILD_DIR}"
-tar cJf spryker-sdk.tar.gz .gitmodules .env.prod bin/ extension/ config/packages/workflow.yaml db/ infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile \
-    infrastructure/sdk.debug.Dockerfile infrastructure/debug/php/69-xdebug.ini VERSION docker-compose.yml \
-    docker-compose.debug.yml docker-compose.dev.yml
+tar cJf spryker-sdk.tar.gz .gitmodules .env.prod bin/ var/ extension/ config/packages/workflow.yaml db/ \
+    infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile infrastructure/sdk.debug.Dockerfile \
+    infrastructure/debug/php/69-xdebug.ini VERSION docker-compose.yml docker-compose.debug.yml docker-compose.dev.yml
 cd "${CURRENT_DIR}"
 cp "${CURRENT_DIR}/infrastructure/installer.sh" "${BUILD_DIR}/installer.sh"
 cat "${BUILD_DIR}/spryker-sdk.tar.gz" >> "${BUILD_DIR}/installer.sh"

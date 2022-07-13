@@ -67,12 +67,16 @@ class Kernel extends BaseKernel
             }
         }
 
-        $extensionDirectory = $this->getProjectDir() . '/extension/*/';
-        $extensionWithVendorDirectory = $this->getProjectDir() . '/extension/*/*/';
+        $projectDir = $this->getProjectDir();
+        $extensionDirectories = [
+            sprintf('%s/extension/*/', $projectDir),
+            sprintf('%s/extension/*/*/', $projectDir),
+            sprintf('%s/extension/*/*/src/*/', $projectDir),
+        ];
 
         $autoloader = new AutoloaderService($this->getProjectDir());
         $autoloader->loadClassesFromDirectory(
-            [$extensionDirectory, $extensionWithVendorDirectory],
+            $extensionDirectories,
             '*Bundle.php',
             function (string $loadableClassName) use (&$bundles): void {
                 $bundles[$loadableClassName] = new $loadableClassName();
