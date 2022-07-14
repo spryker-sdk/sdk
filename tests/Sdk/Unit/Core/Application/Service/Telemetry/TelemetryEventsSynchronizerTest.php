@@ -45,8 +45,6 @@ class TelemetryEventsSynchronizerTest extends Unit
 
         // Act
         $synchronizer->synchronize();
-
-        //Assert in mock
     }
 
     /**
@@ -65,8 +63,6 @@ class TelemetryEventsSynchronizerTest extends Unit
 
         // Act
         $synchronizer->synchronize();
-
-        //Assert in mock
     }
 
     /**
@@ -85,8 +81,6 @@ class TelemetryEventsSynchronizerTest extends Unit
 
         // Act
         $synchronizer->synchronize();
-
-        //Assert in mock
     }
 
     /**
