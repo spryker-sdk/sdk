@@ -76,7 +76,7 @@ class DeprecationsReportConverter extends AbstractViolationConverter
     protected function filterDeprecations(array $report): array
     {
         return array_filter($report, function (array $issue): bool {
-            return strpos($issue['type'] ?? '', 'Deprecated') === 0;
+            return isset($issue['type']) && strpos($issue['type'], 'Deprecated') !== false;
         });
     }
 
