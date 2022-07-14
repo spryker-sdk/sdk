@@ -90,7 +90,7 @@ class InitSdkCommand extends AbstractInitCommand
             '/bin/console ' .
             InitCommand::NAME .
             str_replace('\'' . static::NAME . '\'', '', (string)$input),
-        )->setTty(true);
+        )->setTty(true)->setTimeout(null);
         $result = $this->processHelper->run(
             $output,
             [$process],
