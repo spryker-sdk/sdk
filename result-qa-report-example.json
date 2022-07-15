@@ -1,0 +1,53 @@
+{
+    "qa-report": {
+        "code-style": {
+            "status": "failed",
+            "errors": [
+                {
+                    "file": "",
+                    "line": "",
+                    "details": ""
+                }
+            ],
+            "summary": {
+                "key": "value"
+            }
+        },
+        "phpstan": {
+            "status": "failed",
+            "errors": [
+                {
+                    "file": "",
+                    "line": "",
+                    "details": ""
+                }
+            ],
+            "summary": {
+                "key": "value"
+            }
+        },
+        "unit-tests": {
+            "status": "failed",
+            "errors": [
+                {
+                    "test-class": "",
+                    "test-path": "",
+                    "message": "",
+                    "details": ""
+                }
+            ],
+            "summary": {
+                "key": "value",
+                "coverage": {
+                    "report-format": "xml",
+                    "file-path": "./coverage.xml",
+                    "summary": {
+                        "classes": "",
+                        "methods": "",
+                        "lines": ""
+                    }
+                }
+            }
+        }
+    }
+}

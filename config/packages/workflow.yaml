@@ -117,4 +117,38 @@ framework:
           metadata:
             task: acp:pbc:validate
             error: Now you need to fix manually and continue with the workflow afterwards.
-
+    qa:
+      type: workflow
+      marking_store:
+        type: method
+        property: status
+      supports:
+        - SprykerSdk\SdkContracts\Entity\WorkflowInterface
+      initial_marking: start
+      places:
+        - start
+        - security-checked
+        - unit-tested
+        - acceptance-tested
+        - done
+      transitions:
+        to-security-check-success:
+          from: start
+          to: security-checked
+          metadata:
+            task: validation:php:security-check
+        to-unit-testing-done:
+          from: security-checked
+          to: unit-tested
+          metadata:
+            task: tests:sdk:codecept
+        to-acceptance-testing-done:
+          from: unit-tested
+          to: acceptance-tested
+          metadata:
+            task: tests:sdk:codecept
+        to-done:
+          from: [security-checked, unit-tested, acceptance-tested]
+          to: done
+          metadata:
+            task: hello:php
