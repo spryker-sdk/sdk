@@ -210,6 +210,14 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
+     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
+     */
+    public function initSettingDefinition(): array
+    {
+        return $this->coreSettingRepository->initSettingDefinition();
+    }
+
+    /**
      * @param array<string> $paths
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>

@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
@@ -85,8 +86,13 @@ class InitProjectCommand extends Command
             InputOption::VALUE_NONE,
             'Use predefined settings without approve',
         );
+        try {
+            $settings = $this->settingRepository->findProjectSettings();
+        } catch (TableNotFoundException $e) {
+            $this->setHidden(true);
 
-        $settings = $this->settingRepository->findProjectSettings();
+            return;
+        }
 
         foreach ($settings as $setting) {
             $mode = InputOption::VALUE_REQUIRED;

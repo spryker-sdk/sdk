@@ -112,13 +112,4 @@ settings:
     type: array
     initializer: project_workflow_initializer
     values: []
-  - path: repository
-    initialization_description: What is private repository url?
-    strategy: overwrite
-    init: false
-    is_project: false
-    type: array
-    values:
-      - git@github.com:spryker-sdk/sdk-tasks-bundle.git
-      - feature/sdk-581-init-bundle
 
