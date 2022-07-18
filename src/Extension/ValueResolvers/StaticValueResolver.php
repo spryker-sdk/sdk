@@ -81,7 +81,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getHelp(): ?string
     {
