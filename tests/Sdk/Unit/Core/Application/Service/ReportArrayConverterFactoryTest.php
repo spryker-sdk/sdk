@@ -34,7 +34,7 @@ class ReportArrayConverterFactoryTest extends Unit
 
         //Act
         $this->expectException(InvalidReportTypeException::class);
-        $reportArrayConverterFactory->getArrayConverterByType('InvalidType');
+        $reportArrayConverterFactory->getArrayConverterByType('invalidType');
     }
 
     /**
