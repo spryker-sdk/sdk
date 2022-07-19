@@ -33,3 +33,7 @@ coverage:
     enabled: true
     include:
         - src/*
+    exclude:
+        - src/Core/Domain/Entity/*
+        - Core/Appplication/Dto/*
+        - src/Infrastructure/Entity/*
