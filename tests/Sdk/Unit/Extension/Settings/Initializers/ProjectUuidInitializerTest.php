@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Extension\Settings\Initializers;
+namespace SprykerSdk\Sdk\Unit\Extension\Settings\Initializers;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
