@@ -35,3 +35,24 @@ No conventions yet
 - name __MUST__ start and end with `%` (e.g.: `%some_placeholder%`)
 - __MUST__ define `optional: true/false` to indicate if the placeholders needs to be resolved to run the task
 - __MUST__ use the `id` or full qualified class name of an existing `ValueResolver` for the field `valueResolver`
+
+## Naming
+
+### Folder naming
+
+- Folder's name `MUST` be plural. Event instead of Events.
+- Folder's name `MUST` have a StudlyCaps(PascalCase) format.
+
+### Class naming
+
+- The name of the class `MUST` be plural. `AcmeTask` instead of `AcmeTasks`.
+- Class's name `MUST` have a StudlyCaps(PascalCase) format.
+- In case a class represents a list of the other object `Collection` suffix `SHOULD` be used. Example: `SettingCollection` instead of `Settings`.
+
+### Method naming
+
+- [Core convention](https://spryker.atlassian.net/wiki/spaces/CORE/pages/497156313/Common+Conventions#CommonConventions-Namingofmethods) `MUST` be followed.
+
+### Variable naming
+
+- [Core convention](https://spryker.atlassian.net/wiki/spaces/CORE/pages/497156313/Common+Conventions#CommonConventions-Namingofvariables) `MUST` be followed.
