@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Extension\Settings\Initializers;
+namespace SprykerSdk\Sdk\Unit\Extension\Settings\Initializers;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
@@ -69,7 +69,7 @@ class ProjectUuidInitializerTest extends Unit
     /**
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface|null $returnSetting
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface|\Sdk\Unit\Extension\Settings\Initializers\MockObject
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createProjectSettingRepositoryMock(?SettingInterface $returnSetting): ProjectSettingRepositoryInterface
     {
@@ -82,7 +82,7 @@ class ProjectUuidInitializerTest extends Unit
     /**
      * @param string|null $returnValue
      *
-     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|\Sdk\Unit\Extension\Settings\Initializers\MockObject
+     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createSettingMock(?string $returnValue): SettingInterface
     {
