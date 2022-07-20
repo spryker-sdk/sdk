@@ -9,8 +9,9 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask;
+use SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -57,7 +58,7 @@ class TaskYamlRepositoryTest extends Unit
             $this->settingRepository,
             new Finder(),
             new Yaml(),
-            [new GeneratePbcTask([])],
+            [new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))],
         );
     }
 

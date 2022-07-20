@@ -7,78 +7,51 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProcessHelper;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
-class UpdateCommand extends Command
+class UpdateCommand extends AbstractUpdateCommand
 {
     /**
      * @var string
      */
-    public const OPTION_CHECK_ONLY = 'check-only';
+    public const NAME = 'sdk:update:hidden-all';
 
     /**
-     * @var string
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
      */
-    public const OPTION_NO_CHECK = 'no-check';
-
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'sdk:update:all';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Update Spryker SDK to latest version.';
-
-    protected ProcessHelper $processHelper;
-
     protected LifecycleManagerInterface $lifecycleManager;
 
-    protected string $sdkDirectory;
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     */
+    protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
+     * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand
+     */
+    protected MigrateCommand $doctrineMigrationCommand;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param string $sdkDirectory
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      */
     public function __construct(
-        ProcessHelper $processHelper,
         LifecycleManagerInterface $lifecycleManager,
-        string $sdkDirectory
+        SettingRepositoryInterface $settingRepository,
+        MigrateCommand $doctrineMigrationCommand
     ) {
-        parent::__construct(static::$defaultName);
-        $this->processHelper = $processHelper;
+        parent::__construct(static::NAME);
         $this->lifecycleManager = $lifecycleManager;
-        $this->sdkDirectory = $sdkDirectory;
-    }
-
-    /**
-     * @return void
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this->addOption(
-            static::OPTION_CHECK_ONLY,
-            'c',
-            InputOption::VALUE_OPTIONAL,
-            'Only checks if the current version is up-to-date',
-            false,
-        );
-        $this->addOption(
-            static::OPTION_NO_CHECK,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Only checks if the current version is up-to-date',
-            false,
-        );
+        $this->settingRepository = $settingRepository;
+        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
     }
 
     /**
@@ -89,6 +62,10 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->runMigration();
+
+        $this->settingRepository->initSettingDefinition();
+
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);
         }
@@ -105,74 +82,28 @@ class UpdateCommand extends Command
      *
      * @return void
      */
-    protected function checkForUpdate(OutputInterface $output)
+    protected function checkForUpdate(OutputInterface $output): void
     {
-        $versionFilePath = $this->sdkDirectory . '/VERSION';
-
-        if (!file_exists($versionFilePath)) {
-            $output->writeln('<error>Could not find VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
-
-            return;
-        }
-
-        $currentVersion = file_get_contents($versionFilePath);
-
-        if (!$currentVersion) {
-            $output->writeln('<error>Could not read VERSION file, skip updatable check</error>', OutputInterface::VERBOSITY_VERBOSE);
+        try {
+            $messages = $this->lifecycleManager->checkForUpdate();
+        } catch (SdkVersionNotFoundException $exception) {
+            $output->writeln($exception->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
 
             return;
         }
-        $currentVersion = trim($currentVersion);
-        $latestVersion = $this->getLatestVersion($output);
 
-        if (version_compare($currentVersion, $latestVersion, '<')) {
-            $output->writeln(sprintf('SDK is outdated (current: %s, latest: %s)', $currentVersion, $latestVersion));
-            $output->writeln('Please update manually by downloading the installer for the newest version at https://github.com/spryker-sdk/sdk/releases');
+        foreach ($messages as $message) {
+            $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
         }
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return string
+     * @return void
      */
-    protected function getLatestVersion(OutputInterface $output): string
+    protected function runMigration(): void
     {
-        $githubVersion = '0.0.0';
-        $opts = [
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP',
-                ],
-                'timeout' => 10,
-            ],
-        ];
-        $context = stream_context_create($opts);
-        $githubEndpoint = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
-
-        try {
-            $content = file_get_contents($githubEndpoint, false, $context);
-
-            if (!$content) {
-                $output->writeln(sprintf('<error>Could not read from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
-
-                return $githubVersion;
-            }
-
-            $githubContent = json_decode($content, true);
-        } catch (Throwable $exception) {
-            $output->writeln('<error>' . $exception->getMessage() . '</error>', OutputInterface::VERBOSITY_VERBOSE);
-
-            return $githubVersion;
-        }
-
-        if (!$githubContent) {
-            $output->writeln(sprintf('<error>Could not read version from %s</error>', $githubEndpoint), OutputInterface::VERBOSITY_VERBOSE);
-
-            return $githubVersion;
-        }
-
-        return $githubContent['tag_name'] ?? '0.0.0';
+        $migrationInput = new ArrayInput(['allow-no-migration']);
+        $migrationInput->setInteractive(false);
+        $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }
 }

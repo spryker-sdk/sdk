@@ -8,10 +8,13 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver;
+use SprykerSdk\SdkContracts\Report\ReportGeneratorInterface;
+use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportableInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
-class ViolationReportGenerator
+class ViolationReportGenerator implements ReportGeneratorInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger
@@ -24,19 +27,19 @@ class ViolationReportGenerator
     protected ViolationReportRepositoryInterface $violationReportRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver
      */
-    protected ViolationConverterResolver $violationConverterResolver;
+    protected ConverterResolver $violationConverterResolver;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger $violationReportMerger
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface $violationReportRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver $violationConverterResolver
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver $violationConverterResolver
      */
     public function __construct(
         ViolationReportMerger $violationReportMerger,
         ViolationReportRepositoryInterface $violationReportRepository,
-        ViolationConverterResolver $violationConverterResolver
+        ConverterResolver $violationConverterResolver
     ) {
         $this->violationReportMerger = $violationReportMerger;
         $this->violationReportRepository = $violationReportRepository;
@@ -49,13 +52,13 @@ class ViolationReportGenerator
      *
      * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
      */
-    public function collectViolations(string $taskId, array $commands): ?ViolationReportInterface
+    public function collectReports(string $taskId, array $commands): ?ViolationReportInterface
     {
         /** @var array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface> $violationReports */
         $violationReports = [];
         foreach ($commands as $command) {
             if ($command instanceof ViolationReportableInterface) {
-                $violationReport = $command->getViolationReport();
+                $violationReport = $command->getReport();
                 if ($violationReport) {
                     $violationReports[] = $violationReport;
                 }
@@ -64,7 +67,7 @@ class ViolationReportGenerator
             }
 
             $violationConverter = $this->violationConverterResolver->resolve($command);
-            if ($violationConverter) {
+            if ($violationConverter instanceof ViolationConverterInterface) {
                 $violationReports[] = $violationConverter->convert();
             }
         }
@@ -74,7 +77,7 @@ class ViolationReportGenerator
             return null;
         }
 
-        $violationReport = $this->violationReportMerger->merge(array_filter($violationReports));
+        $violationReport = $this->violationReportMerger->merge($violationReports);
 
         $this->violationReportRepository->save($taskId, $violationReport);
 

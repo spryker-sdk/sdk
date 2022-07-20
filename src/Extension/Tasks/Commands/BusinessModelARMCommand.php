@@ -148,7 +148,7 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     /**
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
-    public function getViolationConverter(): ?ConverterInterface
+    public function getConverter(): ?ConverterInterface
     {
         return null;
     }

@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use Symfony\Component\Process\Process;
+use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 class PCSystemValueResolver extends AbstractValueResolver
 {
@@ -39,13 +39,28 @@ class PCSystemValueResolver extends AbstractValueResolver
     public const MAC_ARM = 'mac_arm';
 
     /**
+     * @var string
+     */
+    protected string $unameInfo;
+
+    /**
      * @var array
      */
     protected const SYSTEMS_REGEX = [
         'linux' => '/(?<system>Linux)/',
-        'mac_arm' => '((?<system>(?<os>Linux).*(?<arch>ARM64))',
-        'mac' => '(?<system>Darwin)',
+        'mac_arm' => '/(?<system>(?<os>Linux).*(?<arch>ARM64))/',
+        'mac' => '/(?<system>Darwin)/',
     ];
+
+    /**
+     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param string $unameInfo
+     */
+    public function __construct(ValueReceiverInterface $valueReceiver, string $unameInfo)
+    {
+        parent::__construct($valueReceiver);
+        $this->unameInfo = $unameInfo;
+    }
 
     /**
      * @return string
@@ -64,11 +79,8 @@ class PCSystemValueResolver extends AbstractValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
-        $process = Process::fromShellCommandline('uname -a');
-        $process->run();
-        $output = $process->getOutput();
         foreach (static::SYSTEMS_REGEX as $system => $regex) {
-            preg_match($regex, $output, $matches);
+            preg_match($regex, $this->unameInfo, $matches);
             if (isset($matches['system'])) {
                 return $system;
             }

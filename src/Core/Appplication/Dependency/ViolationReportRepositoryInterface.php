@@ -7,9 +7,11 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
+use SprykerSdk\SdkContracts\Report\ReportInterface;
+use SprykerSdk\SdkContracts\Report\ReportRepositoryInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
-interface ViolationReportRepositoryInterface
+interface ViolationReportRepositoryInterface extends ReportRepositoryInterface
 {
     /**
      * @param string $taskId
@@ -17,7 +19,7 @@ interface ViolationReportRepositoryInterface
      *
      * @return void
      */
-    public function save(string $taskId, ViolationReportInterface $violationReport): void;
+    public function save(string $taskId, ReportInterface $violationReport): void;
 
     /**
      * @param string $taskId
@@ -31,5 +33,5 @@ interface ViolationReportRepositoryInterface
      *
      * @return void
      */
-    public function cleanupViolationReport(): void;
+    public function cleanup(): void;
 }

@@ -17,7 +17,7 @@ class CreatePhpStormConfig extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'sdk:php:create-phpstorm-config';
+    protected const NAME = 'sdk:php:create-phpstorm-config';
 
     /**
      * @var string
@@ -31,7 +31,7 @@ class CreatePhpStormConfig extends Command
      */
     public function __construct(ConfigManagerInterface $configManager)
     {
-        parent::__construct(static::$defaultName);
+        parent::__construct(static::NAME);
         $this->configManager = $configManager;
     }
 

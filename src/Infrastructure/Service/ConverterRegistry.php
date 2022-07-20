@@ -15,7 +15,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInte
 use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConverterException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
-use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
+use SprykerSdk\SdkContracts\Report\ReportConverterInterface;
 use Symfony\Component\Finder\Finder;
 
 class ConverterRegistry implements ConverterRegistryInterface
@@ -26,7 +26,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     protected bool $isInitialized = false;
 
     /**
-     * @var array<string, \SprykerSdk\SdkContracts\Violation\ViolationConverterInterface>
+     * @var array<string, \SprykerSdk\SdkContracts\Report\ReportConverterInterface>
      */
     protected array $converterClasses = [];
 
@@ -74,9 +74,9 @@ class ConverterRegistry implements ConverterRegistryInterface
     /**
      * @param string $class
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationConverterInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\ReportConverterInterface|null
      */
-    public function get(string $class): ?ViolationConverterInterface
+    public function get(string $class): ?ReportConverterInterface
     {
         $this->loadConverters();
 
@@ -192,8 +192,8 @@ class ConverterRegistry implements ConverterRegistryInterface
             }
             $converterFile = new $fullClassName($this->settingRepository);
 
-            if (!$converterFile instanceof ViolationConverterInterface) {
-                throw new InvalidTypeException(sprintf('Converter (%s) must implement %s', get_class($converterFile), ViolationConverterInterface::class));
+            if (!$converterFile instanceof ReportConverterInterface) {
+                throw new InvalidTypeException(sprintf('Converter (%s) must implement %s', get_class($converterFile), ReportConverterInterface::class));
             }
 
             $this->converterClasses[(new ReflectionClass($converterFile))->getShortName()] = $converterFile;

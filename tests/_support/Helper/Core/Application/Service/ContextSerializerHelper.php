@@ -44,7 +44,7 @@ class ContextSerializerHelper extends Module
         }
 
         foreach ($violationReports as $violationReport) {
-            $context->addViolationReport($this->createViolationReport($violationReport));
+            $context->addReport($this->createViolationReport($violationReport));
         }
 
         return $context;
@@ -125,8 +125,9 @@ class ContextSerializerHelper extends Module
                 'key' => 'resolved value',
             ],
             'messages' => $messages ?? $defaultMessages,
-            'violation_reports' => [
+            'reports' => [
                 [
+                    'type' => 'violation_report',
                     'path' => '/path/to/file',
                     'project' => 'b2c',
                     'violations' => [

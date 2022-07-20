@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
@@ -97,10 +98,16 @@ class RunTaskWrapperCommand extends Command
     protected ContextRepositoryInterface $contextRepository;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
+     */
+    protected ContextStorage $contextStorage;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name
@@ -110,6 +117,7 @@ class RunTaskWrapperCommand extends Command
         ProjectWorkflow $projectWorkflow,
         ContextRepositoryInterface $contextRepository,
         ReportFormatterFactory $reportFormatterFactory,
+        ContextStorage $contextStorage,
         array $taskOptions,
         string $description,
         string $name
@@ -119,6 +127,7 @@ class RunTaskWrapperCommand extends Command
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
         $this->reportFormatterFactory = $reportFormatterFactory;
+        $this->contextStorage = $contextStorage;
         $this->name = $name;
         $this->contextRepository = $contextRepository;
         parent::__construct($name);
@@ -279,8 +288,10 @@ class RunTaskWrapperCommand extends Command
             && is_string($input->getOption(static::OPTION_FORMAT))
             && $input->getOption(static::OPTION_FORMAT)
         ) {
-            $this->reportFormatterFactory->setFormat($input->getOption(static::OPTION_FORMAT));
+            $context->setFormat($input->getOption(static::OPTION_FORMAT));
         }
+
+        $this->contextStorage->setContext($context);
 
         return $context;
     }

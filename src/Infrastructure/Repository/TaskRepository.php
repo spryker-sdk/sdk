@@ -77,7 +77,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryRe
             throw new InvalidTypeException(sprintf('$taskToUpdate must be instance of %s', Task::class));
         }
 
-        return $this->getEntityManager()->transactional(function () use ($task, $taskToUpdate): Task {
+        return $this->getEntityManager()->wrapInTransaction(function () use ($task, $taskToUpdate): Task {
             $this->getEntityManager()->remove($taskToUpdate->getLifecycle());
 
             $entity = $this->taskMapper->updateInfrastructureEntity($task, $taskToUpdate);

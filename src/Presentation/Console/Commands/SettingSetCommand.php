@@ -20,7 +20,7 @@ class SettingSetCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'sdk:setting:set';
+    protected const NAME = 'sdk:setting:set';
 
     /**
      * @var string
@@ -32,8 +32,14 @@ class SettingSetCommand extends Command
      */
     protected const ARG_SETTING_VALUE = 'value';
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     */
     protected ProjectSettingRepositoryInterface $settingRepository;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
+     */
     protected SettingManager $settingManager;
 
     /**
@@ -46,7 +52,7 @@ class SettingSetCommand extends Command
     ) {
         $this->settingManager = $settingManager;
         $this->settingRepository = $settingRepository;
-        parent::__construct(static::$defaultName);
+        parent::__construct(static::NAME);
     }
 
     /**

@@ -32,8 +32,6 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Inherited Methods
