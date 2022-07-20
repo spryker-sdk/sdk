@@ -40,14 +40,11 @@ No conventions yet
 
 ### Folder naming
 
-- Folder's name __MUST__ be plural. Event instead of Events.
-- Folder's name __MUST__ have a StudlyCaps(PascalCase) format.
+- Folder's name __MUST__ be singular. Event instead of Events.
 
 ### Class naming
 
-- The name of the class __MUST__ be plural. `AcmeTask` instead of `AcmeTasks`.
-- Class's name __MUST__ have a StudlyCaps(PascalCase) format.
-- In case a class represents a list of the other object `Collection` suffix __SHOULD__ be used. Example: `SettingCollection` instead of `Settings`.
+- The name of the class __MUST__ be singular. `AcmeTask` instead of `AcmeTasks`.
 
 ### Method naming
 
@@ -63,7 +60,7 @@ No conventions yet
 - Console command __SHOULD__ have no business logic.
 - Only basic input validation and output formatting __SHOULD__ present in the console command.
 - `protected static $defaultName` __SHOULD NOT__ be used because of performance reasons and future deprecation in Symfony 6.1 version.
-  Instead `protcted const NAME` __MUST__ be provided and passed to the parent constructor as a parameter.
+  Instead `protcted const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
 
 
 ## TODO
