@@ -47,6 +47,10 @@ class PCSystemValueResolverTest extends Unit
 
         // Assert
         $this->assertSame(PCSystemValueResolver::LINUX, $value);
+        $this->assertNull($valueResolver->getDefaultValue());
+        $this->assertSame([], $valueResolver->getSettingPaths());
+        $this->assertSame('string', $valueResolver->getType());
+        $this->assertSame('Check system.', $valueResolver->getDescription());
     }
 
     /**

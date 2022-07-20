@@ -37,3 +37,4 @@ coverage:
         - src/Core/Domain/Entity/*
         - Core/Appplication/Dto/*
         - src/Infrastructure/Entity/*
+        - src/Extension/Tasks/*
