@@ -4,7 +4,7 @@ short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
 version: 1.0.0
-command: "%sdk_dir%/vendor/bin/phpmd ./src json %sdk_dir%/vendor/spryker/architecture-sniffer/src/ruleset.xml %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
+command: "%sdk_dir%/vendor/bin/phpmd ./src json %config% %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
@@ -19,6 +19,13 @@ placeholders:
       defaultValue: false
       settingPaths: []
       type: boolean
+  - name: "%config%"
+    value_resolver: CONFIG_PATH
+    optional: true
+    configuration:
+      name: "config"
+      description: "Config file"
+      defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
   - name: "%priority%"
     value_resolver: STATIC_TEXT
     optional: false
