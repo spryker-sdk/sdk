@@ -118,7 +118,7 @@ class Initializer implements InitializerInterface
      *
      * @return mixed
      */
-    protected function receiveValue(SettingInterface $settingEntity): mixed
+    protected function receiveValue(SettingInterface $settingEntity)
     {
         $value = $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
