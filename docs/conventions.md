@@ -40,7 +40,7 @@ No conventions yet
 
 ### Folder naming
 
-- Folder's name __MUST__ be singular. Event instead of Events.
+- Folder's name __MUST__ be singular. `Event` instead of `Events`.
 
 ### Class naming
 
