@@ -17,7 +17,7 @@ use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
-class SettingTest extends Unit
+class InitializerTest extends Unit
 {
     /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester

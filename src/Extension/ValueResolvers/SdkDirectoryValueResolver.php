@@ -105,10 +105,10 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDefaultValue(): string
+    public function getDefaultValue(): ?string
     {
-        return $this->sdkBasePath;
+        return null;
     }
 }
