@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Dto\Abstraction;
 
 use Codeception\Test\Unit;
+use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty;
 use stdClass;
@@ -25,7 +26,51 @@ class DtoTest extends Unit
     /**
      * @return void
      */
-    public function testDtoCreate(): void
+    public function testDtoGetPropertyInvalidArgumentException(): void
+    {
+        // Arrange
+        $dto = new class extends Dto {
+            /**
+             * @var int
+             */
+            protected int $integer;
+        };
+
+        // Assert
+        $this->expectException(InvalidArgumentException::class);
+
+        // Act
+        $dto::create(['string' => 'text']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testDtoCreateInvalidArgumentException(): void
+    {
+        // Arrange
+        $dto = new class extends Dto {
+            /**
+             * @var int
+             */
+            protected int $integer;
+        };
+
+        // Assert
+        $this->expectException(InvalidArgumentException::class);
+
+        // Act
+        $dto::create(['integer' => 'text']);
+    }
+
+    /**
+     * @dataProvider createDtoDataDataProvider
+     *
+     * @param array $dtoData
+     *
+     * @return void
+     */
+    public function testDtoCreate(array $dtoData): void
     {
         // Arrange
         $dto = new class extends Dto {
@@ -107,21 +152,6 @@ class DtoTest extends Unit
                 return $this->dto;
             }
         };
-        $dtoData = [
-            'integer' => 1,
-            'double' => 1.0,
-            'boolean' => true,
-            'anything' => new stdClass(),
-            'arr' => ['key' => 'value', 'key1' => 'value1'],
-            'dto' => [
-                'integer' => 2,
-                'double' => 2.0,
-                'boolean' => true,
-                'anything' => new stdClass(),
-                'arr' => ['key2' => 'value2', 'key3' => 'value3'],
-                'dto' => null,
-            ],
-        ];
 
         // Act
         $dto = $dto::create($dtoData);
@@ -136,9 +166,37 @@ class DtoTest extends Unit
     }
 
     /**
+     * @return array<array<string, mixed>>
+     */
+    public function createDtoDataDataProvider(): array
+    {
+        return [
+            [[
+                'integer' => 1,
+                'double' => 1.0,
+                'boolean' => true,
+                'anything' => new stdClass(),
+                'arr' => ['key' => 'value', 'key1' => 'value1'],
+                'dto' => [
+                    'integer' => 2,
+                    'double' => 2.0,
+                    'boolean' => true,
+                    'anything' => new stdClass(),
+                    'arr' => ['key2' => 'value2', 'key3' => 'value3'],
+                    'dto' => null,
+                ],
+            ]],
+        ];
+    }
+
+    /**
+     * @dataProvider createDtoDataDataProvider
+     *
+     * @param array $dtoData
+     *
      * @return void
      */
-    public function testDtoCreationFromArray(): void
+    public function testDtoCreationFromArray(array $dtoData): void
     {
         // Arrange
         $dto = new class extends Dto {
@@ -220,21 +278,6 @@ class DtoTest extends Unit
                 return $this->dto;
             }
         };
-        $dtoData = [
-            'integer' => 1,
-            'double' => 1.0,
-            'boolean' => true,
-            'anything' => new stdClass(),
-            'arr' => ['key' => 'value', 'key1' => 'value1'],
-            'dto' => [
-                'integer' => 2,
-                'double' => 2.0,
-                'boolean' => true,
-                'anything' => new stdClass(),
-                'arr' => ['key2' => 'value2', 'key3' => 'value3'],
-                'dto' => null,
-            ],
-        ];
 
         // Act
         $dto = $dto::fromArray($dtoData);

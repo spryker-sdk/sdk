@@ -9,11 +9,33 @@ namespace SprykerSdk\Sdk\Unit\Extension\Settings\Initializers;
 
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class CreateDirectoryInitializerTest extends Unit
 {
+    /**
+     * @return void
+     */
+    public function testCreateDir(): void
+    {
+        //Arrange
+        $vfsStream = vfsStream::setup('baseDir');
+        $vfsStream->addChild(new vfsStreamDirectory('settingDir'));
+
+        $pathDirPath = vfsStream::url('baseDir') . '/settingDir';
+
+        $createDirectoryInitializer = new CreateDirectoryInitializer();
+        $setting = $this->createSettingInterfaceMock($pathDirPath);
+
+        //Act
+        $createDirectoryInitializer->initialize($setting);
+
+        //Assert
+        $this->assertTrue($vfsStream->hasChild('settingDir'));
+    }
+
     /**
      * @return void
      */

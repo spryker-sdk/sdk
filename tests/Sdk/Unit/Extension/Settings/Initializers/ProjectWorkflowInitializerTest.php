@@ -22,7 +22,7 @@ class ProjectWorkflowInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnWhenWorkflowNotFound(): void
+    public function testInitializeWhenWorkflowNotFound(): void
     {
         //Arrange
         $setting = $this->createSettingsMock([]);
@@ -40,7 +40,7 @@ class ProjectWorkflowInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnWhenProjectSettingsNotFound(): void
+    public function testInitializeWhenProjectSettingsNotFound(): void
     {
         //Arrange
         $setting = $this->createSettingsMock(['test_workflow']);
@@ -58,7 +58,7 @@ class ProjectWorkflowInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testCreateAndSaveWhenNoExistingWorkflows(): void
+    public function testInitializeWhenNoExistingWorkflows(): void
     {
         //Arrange
         $setting = $this->createSettingsMock(['test_workflow']);
@@ -76,7 +76,7 @@ class ProjectWorkflowInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnWorkflowWhenExistingWorkflowEqualsToSettingWorkflow(): void
+    public function testInitializeWhenExistingWorkflowEqualsToSettingWorkflow(): void
     {
         //Arrange
         $setting = $this->createSettingsMock(['test_workflow']);
@@ -94,7 +94,7 @@ class ProjectWorkflowInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testCreateAndSaveWorkflowWhenExistingWorkflowDifferFromSettingWorkflow(): void
+    public function testInitializeWhenExistingWorkflowDifferFromSettingWorkflow(): void
     {
         //Arrange
         $setting = $this->createSettingsMock(['test_workflow']);

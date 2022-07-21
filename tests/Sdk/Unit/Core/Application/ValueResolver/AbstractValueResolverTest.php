@@ -46,7 +46,7 @@ class AbstractValueResolverTest extends Unit
     /**
      * @return void
      */
-    public function testGetValueWithOption(): void
+    public function testGetValueWithProvidedOption(): void
     {
         // Arrange
         $valueResolver = $this->createValueResolver();
@@ -70,7 +70,7 @@ class AbstractValueResolverTest extends Unit
     /**
      * @return void
      */
-    public function testGetValueException(): void
+    public function testGetValueWithMissingSettingException(): void
     {
         // Arrange
         $valueResolver = $this->createValueResolver();

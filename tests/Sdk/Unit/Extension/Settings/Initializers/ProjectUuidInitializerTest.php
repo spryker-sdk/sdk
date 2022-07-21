@@ -17,7 +17,7 @@ class ProjectUuidInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testSetUuidWhenSettingNotFound(): void
+    public function testInitializeWhenSettingNotFound(): void
     {
         //Arrange
         $setting = $this->createSettingMock('');
@@ -35,7 +35,7 @@ class ProjectUuidInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testSetUuidWhenSettingValueIsEmpty(): void
+    public function testInitializeWhenSettingValueIsEmpty(): void
     {
         //Arrange
         $setting = $this->createSettingMock('');
@@ -53,7 +53,7 @@ class ProjectUuidInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testSetValueWhenSettingValueNotEmpty(): void
+    public function testInitializeWhenSettingExist(): void
     {
         //Arrange
         $setting = $this->createSettingMock('someValue');
