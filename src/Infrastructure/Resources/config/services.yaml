@@ -294,6 +294,8 @@ services:
 
   service.tasks_repository_installer:
     class: SprykerSdk\Sdk\Infrastructure\Service\TasksRepositoryInstaller
+    arguments:
+      - "%kernel.project_dir%/.gitmodules"
 
   workflow_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner

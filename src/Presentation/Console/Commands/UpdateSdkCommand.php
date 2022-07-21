@@ -83,7 +83,7 @@ class UpdateSdkCommand extends AbstractUpdateCommand
             '/bin/console ' .
             UpdateCommand::NAME .
             str_replace('\'' . static::NAME . '\'', '', (string)$input),
-        )->setTty(true);
+        )->setTty(true)->setTimeout(null);
 
         $result = $this->processHelper->run(
             $output,
