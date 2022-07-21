@@ -32,6 +32,8 @@ jobs:
           extensions: mbstring, ctype, iconv
           tools: composer:v2
 
+      - uses: bahmutov/npm-install@v1
+
       - name: Composer get cache directory
         id: composer-cache
         run: |
