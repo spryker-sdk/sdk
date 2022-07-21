@@ -34,7 +34,7 @@ jobs:
 
       - uses: bahmutov/npm-install@v1
         with:
-          node-version: 14.x
+          useLockFile: false
       - name: Composer get cache directory
         id: composer-cache
         run: |
