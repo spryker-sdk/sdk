@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo;
 
 class ProjectInfoFetcher implements ProjectInfoFetcherInterface
 {
@@ -34,9 +34,9 @@ class ProjectInfoFetcher implements ProjectInfoFetcherInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo|null
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo|null
      */
-    public function fetchProjectInfo(): ?ProjectInfoInterface
+    public function fetchProjectInfo(): ?ProjectInfo
     {
         foreach ($this->projectInfoFetcherStrategies as $projectInfoFetcherStrategy) {
             try {

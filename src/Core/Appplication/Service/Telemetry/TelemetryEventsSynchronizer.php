@@ -20,29 +20,9 @@ use Throwable;
 class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterface
 {
     /**
-     * @var int
-     */
-    protected const BATCH_SIZE = 200;
-
-    /**
-     * @var int
-     */
-    protected const MAX_SYNCHRONIZATION_ATTEMPTS = 3;
-
-    /**
-     * @var int
-     */
-    protected const MAX_EVENT_TTL_DAYS = 90;
-
-    /**
      * @var string
      */
     protected const LOCK_KEY = 'telemetry_events_sync';
-
-    /**
-     * @var int
-     */
-    protected const LOCK_TTL_SEC = 5 * 60;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface

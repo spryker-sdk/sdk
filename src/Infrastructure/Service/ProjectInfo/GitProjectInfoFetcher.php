@@ -7,21 +7,21 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo;
 use Symfony\Component\Process\Process;
 use Throwable;
 
 class GitProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo|null
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo|null
      */
-    protected ?ProjectInfoInterface $projectInfo = null;
+    protected ?ProjectInfo $projectInfo = null;
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
      */
-    public function fetchProjectInfo(): ProjectInfoInterface
+    public function fetchProjectInfo(): ProjectInfo
     {
         if ($this->projectInfo === null) {
             $this->projectInfo = $this->getProjectInfo();
@@ -33,9 +33,9 @@ class GitProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     /**
      * @throws \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\FetchDataException
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
      */
-    protected function getProjectInfo(): ProjectInfoInterface
+    protected function getProjectInfo(): ProjectInfo
     {
         $process = new Process(['git', 'remote', 'get-url', '--push', 'origin']);
 

@@ -5,11 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
+namespace SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface;
-
-class ProjectInfo implements ProjectInfoInterface
+class ProjectInfo
 {
     /**
      * @var string

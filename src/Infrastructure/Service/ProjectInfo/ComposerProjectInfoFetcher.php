@@ -8,24 +8,20 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo;
+use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
 
 class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
 {
     /**
      * @var string
      */
-    protected const PROJECT_DIR_KEY = 'project_dir';
-
-    /**
-     * @var string
-     */
     protected const COMPOSER_FILE_NAME = 'composer.json';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo|null
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo|null
      */
-    protected ?ProjectInfoInterface $projectInfo = null;
+    protected ?ProjectInfo $projectInfo = null;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
@@ -41,9 +37,9 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
      */
-    public function fetchProjectInfo(): ProjectInfoInterface
+    public function fetchProjectInfo(): ProjectInfo
     {
         if ($this->projectInfo === null) {
             $this->projectInfo = $this->getProjectInfo();
@@ -55,14 +51,14 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     /**
      * @throws \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\FetchDataException
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
      */
-    protected function getProjectInfo(): ProjectInfoInterface
+    protected function getProjectInfo(): ProjectInfo
     {
-        $projectDirectory = $this->settingRepository->findOneByPath(static::PROJECT_DIR_KEY);
+        $projectDirectory = $this->settingRepository->findOneByPath(SettingPath::PROJECT_DIR);
 
         if ($projectDirectory === null) {
-            throw new FetchDataException(sprintf('%s setting not found', static::PROJECT_DIR_KEY));
+            throw new FetchDataException(sprintf('%s setting not found', SettingPath::PROJECT_DIR));
         }
 
         $projectDirectory = rtrim($projectDirectory->getValues(), DIRECTORY_SEPARATOR);

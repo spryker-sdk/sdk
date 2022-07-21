@@ -7,10 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo;
 
+use SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo;
+
 interface ProjectInfoFetcherInterface
 {
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface|null
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo|null
      */
-    public function fetchProjectInfo(): ?ProjectInfoInterface;
+    public function fetchProjectInfo(): ?ProjectInfo;
 }
