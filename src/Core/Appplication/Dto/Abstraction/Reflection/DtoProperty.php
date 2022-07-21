@@ -180,14 +180,24 @@ class DtoProperty
         $this->isRequired = !$type->allowsNull() && !isset($class->getDefaultProperties()[$property->getName()]);
 
         $this->parseDocType($property);
+        $this->resolveType($property);
+    }
 
-        switch ($this->type) {
-            case 'self':
-                $this->type = $property->getDeclaringClass()->getName();
+    /**
+     * @param \ReflectionProperty $property
+     *
+     * @return void
+     */
+    protected function resolveType(ReflectionProperty $property): void
+    {
+        if ($this->type === 'self') {
+            $this->type = $property->getDeclaringClass()->getName();
 
-                break;
-            case 'static':
-                $this->type = $this->reflectionClass->getName();
+            return;
+        }
+
+        if ($this->type === 'static') {
+            $this->type = $this->reflectionClass->getName();
         }
     }
 

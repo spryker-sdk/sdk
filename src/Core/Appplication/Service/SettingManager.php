@@ -103,22 +103,9 @@ class SettingManager
      */
     protected function buildPathValue(SettingInterface $settingDefinition, $value): SettingInterface
     {
-        if (is_array($value)) {
-            $typedValue = (array)$value;
-        } else {
-            switch ($settingDefinition->getType()) {
-                case 'array':
-                    $typedValue = (array)$value;
-
-                    break;
-                case 'boolean':
-                    $typedValue = (bool)$value;
-
-                    break;
-                default:
-                    $typedValue = (string)$value;
-            }
-        }
+        $typedValue = is_array($value) ?
+            (array)$value :
+            ['array' => (array)$value, 'boolean' => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
             $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);

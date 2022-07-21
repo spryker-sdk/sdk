@@ -376,7 +376,7 @@
         "version": "1.0.x-dev"
     },
     "spryker-sdk/upgrader": {
-        "version": "dev-feature/stand-alone-plus-php74"
+        "version": "dev-master"
     },
     "spryker/architecture-sniffer": {
         "version": "0.5.2"

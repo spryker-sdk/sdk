@@ -91,16 +91,7 @@ class LocalCliRunner implements CommandRunnerInterface
         }, array_keys($context->getResolvedValues()));
 
         $values = array_map(function ($value): string {
-            switch (gettype($value)) {
-                case 'array':
-                    $value = implode(',', $value);
-
-                    break;
-                default:
-                    $value = (string)$value;
-            }
-
-            return $value;
+            return is_array($value) ? implode(',', $value) : (string)$value;
         }, array_values($context->getResolvedValues()));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());

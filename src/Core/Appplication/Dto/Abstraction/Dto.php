@@ -14,6 +14,15 @@ use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty;
 class Dto implements FromArrayToArrayInterface
 {
     /**
+     * @var array<string, string>
+     */
+    protected const TYPE_NAME_MAP = [
+        'boolean' => 'bool',
+        'double' => 'float',
+        'integer' => 'int',
+    ];
+
+    /**
      * @var array<string>
      */
     protected const EXPECTED_TYPES = ['bool', 'int', 'string', 'float', 'mixed'];
@@ -338,20 +347,7 @@ class Dto implements FromArrayToArrayInterface
     {
         $typeName = strtolower($typeName);
 
-        switch ($typeName) {
-            case 'boolean':
-                $typeName = 'bool';
-
-                break;
-            case 'double':
-                $typeName = 'float';
-
-                break;
-            case 'integer':
-                $typeName = 'int';
-        }
-
-        return $typeName;
+        return static::TYPE_NAME_MAP[$typeName] ?? $typeName;
     }
 
     /**

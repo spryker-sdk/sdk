@@ -76,16 +76,16 @@ class WorkflowEventListener
      */
     public function handle(Event $event): void
     {
-        switch (get_class($event)) {
-            case GuardEvent::class:
+        switch (true) {
+            case $event instanceof GuardEvent:
                 $this->guard($event);
 
                 break;
-            case LeaveEvent::class:
+            case $event instanceof LeaveEvent:
                 $this->event($event, static::WORKFLOW_BEFORE);
 
                 break;
-            case EnteredEvent::class:
+            case $event instanceof EnteredEvent:
                 $this->event($event, static::WORKFLOW_AFTER);
         }
     }

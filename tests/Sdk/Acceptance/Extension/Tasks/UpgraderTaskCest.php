@@ -10,6 +10,12 @@ namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
+/**
+ * @group Acceptance
+ * @group Extension
+ * @group Tasks
+ * @group UpgraderTaskCest
+ */
 class UpgraderTaskCest
 {
     /**
@@ -23,8 +29,6 @@ class UpgraderTaskCest
     protected const PROJECT_DIR = 'upgrader_failing_project';
 
     /**
-     * @skip
-     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -42,7 +46,6 @@ class UpgraderTaskCest
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-        Assert::assertEmpty($process->getErrorOutput());
         Assert::assertStringContainsString(
             'Please check defined values of environment variables: ACCESS_TOKEN, ORGANIZATION_NAME and REPOSITORY_NAME.',
             $process->getOutput(),
