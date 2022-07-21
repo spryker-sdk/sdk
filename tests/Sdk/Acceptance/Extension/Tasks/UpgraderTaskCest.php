@@ -8,8 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 
 use PHPUnit\Framework\Assert;
-use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
-use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\ReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 class UpgraderTaskCest
@@ -46,12 +44,6 @@ class UpgraderTaskCest
         Assert::assertStringContainsString(
             'Please check defined values of environment variables: ACCESS_TOKEN, ORGANIZATION_NAME and REPOSITORY_NAME.',
             $process->getOutput(),
-        );
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
         );
     }
 }

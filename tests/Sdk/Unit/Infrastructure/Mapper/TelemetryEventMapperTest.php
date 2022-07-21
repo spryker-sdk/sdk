@@ -89,7 +89,7 @@ class TelemetryEventMapperTest extends Unit
         $domainTelemetryEvent = $this->tester->createDomainTelemetryEvent();
 
         // Act
-        $this->mapper->mapTelemetryEvents($infrastructureTelemetryEvent, $domainTelemetryEvent);
+        $this->mapper->mapIncomingTelemetryEventToExistingTelemetryEvent($infrastructureTelemetryEvent, $domainTelemetryEvent);
 
         // Assert
         $this->assertSame($infrastructureTelemetryEvent->getId(), $domainTelemetryEvent->getId());

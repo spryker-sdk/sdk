@@ -54,12 +54,12 @@ class TelemetryEventSenderFactory
             return $this->createNullSender();
         }
 
-        if ($this->isDebug) {
-            return $this->getTelemetryEventSenderByClassName(ReportTelemetryEventSender::class);
-        }
+        foreach ($this->telemetryEventSenders as $telemetryEventSender) {
+            if (!$telemetryEventSender->isApplicable()) {
+                continue;
+            }
 
-        if ($this->dataLakeUrl !== '') {
-            return $this->getTelemetryEventSenderByClassName(DataLakeTelemetryEventSender::class);
+            return $telemetryEventSender;
         }
 
         return $this->createNullSender();
@@ -97,6 +97,14 @@ class TelemetryEventSenderFactory
              */
             public function send(array $telemetryEvents): void
             {
+            }
+
+            /**
+             * @return bool
+             */
+            public function isApplicable(): bool
+            {
+                return true;
             }
         };
     }

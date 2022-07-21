@@ -23,7 +23,7 @@ class TelemetryEventHelper extends Module
         $this->assertFileExists($fileName);
 
         $reportContent = file_get_contents($fileName);
-        $reportJson = json_decode($reportContent, true, 512, \JSON_THROW_ON_ERROR);
+        $reportJson = json_decode($reportContent, true, 512, JSON_THROW_ON_ERROR);
         $reportJsonItem = $reportJson[0];
 
         $this->assertArrayHasKey('name', $reportJsonItem);
@@ -37,5 +37,7 @@ class TelemetryEventHelper extends Module
 
         $this->assertSame($eventName, $reportJsonItem['name']);
         $this->assertSame($command, $reportJsonItem['payload']['command_name']);
+
+        $this->assertSame('spryker-sdk/sdk-test', $reportJsonItem['metadata']['project_name']);
     }
 }

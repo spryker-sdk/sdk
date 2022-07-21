@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service\Telemetry;
 use DateInterval;
 use DateTimeImmutable;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria;
 use SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException;
 use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
@@ -59,6 +60,26 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     protected LockFactory $lockFactory;
 
     /**
+     * @var int
+     */
+    protected int $batchSize;
+
+    /**
+     * @var int
+     */
+    protected int $maxSynchronizationAttempts;
+
+    /**
+     * @var int
+     */
+    protected int $maxEventTtlDays;
+
+    /**
+     * @var int
+     */
+    protected int $lockTtlSec;
+
+    /**
      * @var bool
      */
     protected bool $isDebug;
@@ -72,6 +93,10 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface $telemetryEventRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface $telemetryEventSender
      * @param \Symfony\Component\Lock\LockFactory $lockFactory
+     * @param int $batchSize
+     * @param int $maxSynchronizationAttempts
+     * @param int $maxEventTtlDays
+     * @param int $lockTtlSec
      * @param bool $isDebug
      * @param bool $isTelemetryEnabled
      */
@@ -79,14 +104,22 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
         TelemetryEventRepositoryInterface $telemetryEventRepository,
         TelemetryEventSenderInterface $telemetryEventSender,
         LockFactory $lockFactory,
-        bool $isDebug,
-        bool $isTelemetryEnabled
+        int $batchSize,
+        int $maxSynchronizationAttempts,
+        int $maxEventTtlDays,
+        int $lockTtlSec,
+        bool $isDebug = false,
+        bool $isTelemetryEnabled = true
     ) {
         $this->telemetryEventRepository = $telemetryEventRepository;
         $this->telemetryEventSender = $telemetryEventSender;
         $this->lockFactory = $lockFactory;
         $this->isDebug = $isDebug;
         $this->isTelemetryEnabled = $isTelemetryEnabled;
+        $this->batchSize = $batchSize;
+        $this->maxSynchronizationAttempts = $maxSynchronizationAttempts;
+        $this->maxEventTtlDays = $maxEventTtlDays;
+        $this->lockTtlSec = $lockTtlSec;
     }
 
     /**
@@ -114,7 +147,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
 
         $this->cleanTelemetryEvents();
 
-        $lock = $this->lockFactory->createLock(static::LOCK_KEY, static::LOCK_TTL_SEC);
+        $lock = $this->lockFactory->createLock(static::LOCK_KEY, $this->lockTtlSec);
 
         if (!$lock->acquire()) {
             return;
@@ -133,8 +166,8 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     protected function cleanTelemetryEvents(): void
     {
         $this->telemetryEventRepository->removeAbandonedTelemetryEvents(
-            static::MAX_SYNCHRONIZATION_ATTEMPTS,
-            new DateInterval(sprintf('P%dD', static::MAX_EVENT_TTL_DAYS)),
+            $this->maxSynchronizationAttempts,
+            new DateInterval(sprintf('P%dD', $this->maxEventTtlDays)),
         );
     }
 
@@ -150,7 +183,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
         while (count($telemetryEvents = $this->getTelemetryEvents($syncTimestamp)) > 0) {
             try {
                 $this->telemetryEventSender->send($telemetryEvents);
-                $this->telemetryEventRepository->removeBatch($telemetryEvents);
+                $this->telemetryEventRepository->removeTelemetryEvents($telemetryEvents);
             } catch (TelemetryServerUnreachableException $e) {
                 if ($this->isDebug) {
                     throw $e;
@@ -172,7 +205,12 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
      */
     protected function getTelemetryEvents(int $syncTimestamp): array
     {
-        return $this->telemetryEventRepository->getTelemetryEvents(static::MAX_SYNCHRONIZATION_ATTEMPTS, static::BATCH_SIZE, $syncTimestamp);
+        $criteria = new TelemetryEventsQueryCriteria();
+        $criteria->setMaxAttemptsCount($this->maxSynchronizationAttempts);
+        $criteria->setMaxSyncTimestamp($syncTimestamp);
+        $criteria->setLimit($this->batchSize);
+
+        return $this->telemetryEventRepository->getTelemetryEvents($criteria);
     }
 
     /**
@@ -194,9 +232,9 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
      */
     protected function failTelemetryEventSynchronization(TelemetryEventInterface $telemetryEvent): void
     {
-        $telemetryEvent->synchronizeFailed();
+        $telemetryEvent->markSynchronizeFailed();
 
-        if ($telemetryEvent->getSynchronizationAttemptsCount() >= static::MAX_SYNCHRONIZATION_ATTEMPTS) {
+        if ($telemetryEvent->getSynchronizationAttemptsCount() >= $this->maxSynchronizationAttempts) {
             $this->telemetryEventRepository->remove($telemetryEvent, false);
 
             return;

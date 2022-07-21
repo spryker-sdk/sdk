@@ -76,7 +76,7 @@ class TelemetryEvent implements TelemetryEventInterface
     /**
      * @return void
      */
-    public function synchronizeFailed(): void
+    public function markSynchronizeFailed(): void
     {
         $this->lastSynchronisationTimestamp = (int)(new DateTimeImmutable())->format('Uu');
         ++$this->synchronizationAttemptsCount;

@@ -8,8 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 
 use PHPUnit\Framework\Assert;
-use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
-use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\ReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 class AnalyzerTaskCest
@@ -49,12 +47,6 @@ class AnalyzerTaskCest
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::SUCCESS_PROJECT_DIR),
-        );
     }
 
     /**
@@ -77,12 +69,6 @@ class AnalyzerTaskCest
         Assert::assertFalse($process->isSuccessful());
         Assert::assertNotEmpty($process->getOutput());
         Assert::assertStringContainsString('Violations found on project level', $process->getOutput());
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::FAIL_PROJECT_DIR),
-        );
     }
 
     /**
@@ -107,12 +93,6 @@ class AnalyzerTaskCest
         // Assert
         Assert::assertFileExists(
             $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::FAIL_PROJECT_DIR),
-        );
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::FAIL_PROJECT_DIR),
         );
     }
 }

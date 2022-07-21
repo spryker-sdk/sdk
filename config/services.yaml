@@ -4,10 +4,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    lock.db_name: 'sdk_lock'
-    telemetry_enabled: "%env(default:telemetry_enabled_default:bool:TELEMETRY_ENABLED)%"
-    telemetry_enabled_default: true
-    telemetry_data_lake_endpoint_url: "%env(string:TELEMETRY_DATA_LAKE_ENDPOINT_URL)%"
 services:
     # default configuration for services in *this* file
     _defaults:

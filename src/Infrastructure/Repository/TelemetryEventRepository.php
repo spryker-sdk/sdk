@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria;
 use SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TelemetryEventMapperInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
@@ -69,13 +70,13 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
         }
 
         /** @var \SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent|null $infrastructureEntity */
-        $infrastructureEntity = $this->find($telemetryEvent->getId());
+        $infrastructureEntity = $this->find($id);
 
         if ($infrastructureEntity === null) {
             throw new RuntimeException('Unable to find telemetry event with id %s', $id);
         }
 
-        $this->telemetryEventMapper->mapTelemetryEvents($telemetryEvent, $infrastructureEntity);
+        $this->telemetryEventMapper->mapIncomingTelemetryEventToExistingTelemetryEvent($telemetryEvent, $infrastructureEntity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
@@ -83,31 +84,36 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param int $maxAttemptsCount
-     * @param int $limit
-     * @param int $maxSyncTimestamp
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria $criteria
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface>
+     * @return array
      */
-    public function getTelemetryEvents(int $maxAttemptsCount, int $limit, int $maxSyncTimestamp): array
+    public function getTelemetryEvents(TelemetryEventsQueryCriteria $criteria): array
     {
         $expr = $this->getEntityManager()->getExpressionBuilder();
 
-        $telemetryEvents = $this->createQueryBuilder('te')
-            ->where($expr->lt('te.synchronizationAttemptsCount', ':maxAttemptsCount'))
-            ->andWhere(
+        $qb = $this->createQueryBuilder('te');
+
+        if ($criteria->getMaxAttemptsCount() !== null) {
+            $qb->andWhere($expr->lt('te.synchronizationAttemptsCount', ':maxAttemptsCount'));
+            $qb->setParameter('maxAttemptsCount', $criteria->getMaxAttemptsCount());
+        }
+
+        if ($criteria->getMaxSyncTimestamp() !== null) {
+            $qb->andWhere(
                 $expr->orX(
                     $expr->lt('te.lastSynchronisationTimestamp', ':maxSyncTimestamp'),
                     $expr->isNull('te.lastSynchronisationTimestamp'),
                 ),
-            )
-            ->setMaxResults($limit)
-            ->setParameters([
-                'maxAttemptsCount' => $maxAttemptsCount,
-                'maxSyncTimestamp' => $maxSyncTimestamp,
-            ])
-            ->getQuery()
-            ->getResult();
+            );
+            $qb->setParameter('maxSyncTimestamp', $criteria->getMaxSyncTimestamp());
+        }
+
+        if ($criteria->getLimit() !== null) {
+            $qb->setMaxResults($criteria->getLimit());
+        }
+
+        $telemetryEvents = $qb->getQuery()->getResult();
 
         return array_map([$this->telemetryEventMapper, 'mapToDomainTelemetryEvent'], $telemetryEvents);
     }
@@ -146,7 +152,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
      *
      * @return void
      */
-    public function removeBatch(array $telemetryEvents): void
+    public function removeTelemetryEvents(array $telemetryEvents): void
     {
         $telemetryEventIds = array_map(static function (TelemetryEventInterface $telemetryEvent): int {
              return (int)$telemetryEvent->getId();

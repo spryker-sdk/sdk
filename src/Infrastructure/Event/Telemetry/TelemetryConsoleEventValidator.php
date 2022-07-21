@@ -38,6 +38,10 @@ class TelemetryConsoleEventValidator implements TelemetryConsoleEventValidatorIn
             return false;
         }
 
+        if ($targetCommand->getName() === null) {
+            return false;
+        }
+
         if ($targetCommand instanceof RunTaskWrapperCommand) {
             return true;
         }

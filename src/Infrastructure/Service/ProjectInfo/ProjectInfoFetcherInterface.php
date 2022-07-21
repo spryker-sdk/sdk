@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
+namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
 interface ProjectInfoFetcherInterface
 {
     /**
-     * @return string|null
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo|null
      */
-    public function getProjectName(): ?string;
+    public function fetchProjectInfo(): ?ProjectInfo;
 }

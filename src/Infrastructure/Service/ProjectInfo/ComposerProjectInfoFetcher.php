@@ -5,13 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
+namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
-class ProjectInfoFetcher implements ProjectInfoFetcherInterface
+class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
 {
     /**
      * @var string
@@ -22,6 +20,11 @@ class ProjectInfoFetcher implements ProjectInfoFetcherInterface
      * @var string
      */
     protected const COMPOSER_FILE_NAME = 'composer.json';
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo|null
+     */
+    protected ?ProjectInfo $projectInfo = null;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
@@ -37,51 +40,45 @@ class ProjectInfoFetcher implements ProjectInfoFetcherInterface
     }
 
     /**
-     * @return string|null
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
      */
-    public function getProjectName(): ?string
+    public function fetchProjectInfo(): ProjectInfo
+    {
+        if ($this->projectInfo === null) {
+            $this->projectInfo = $this->getProjectInfo();
+        }
+
+        return $this->projectInfo;
+    }
+
+    /**
+     * @throws \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\FetchDataException
+     *
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
+     */
+    protected function getProjectInfo(): ProjectInfo
     {
         $projectDirectory = $this->settingRepository->findOneByPath(static::PROJECT_DIR_KEY);
 
         if ($projectDirectory === null) {
-            return $this->getProjectRemoteUrlFromGit();
+            throw new FetchDataException(sprintf('%s setting not found', static::PROJECT_DIR_KEY));
         }
 
         $projectDirectory = rtrim($projectDirectory->getValues(), DIRECTORY_SEPARATOR);
         $composerFile = $projectDirectory . DIRECTORY_SEPARATOR . static::COMPOSER_FILE_NAME;
 
-        if (!is_file($composerFile)) {
-            return $this->getProjectRemoteUrlFromGit();
-        }
-
-        $composerJsonContent = file_get_contents($composerFile);
-
+        // phpcs:ignore
+        $composerJsonContent = @file_get_contents($composerFile);
         if ($composerJsonContent === false) {
-            return $this->getProjectRemoteUrlFromGit();
+            throw new FetchDataException(sprintf('Unable to read the file %s: %s', $composerFile, error_get_last()['message'] ?? ''));
         }
 
         $composerJson = json_decode($composerJsonContent, true, 512, \JSON_THROW_ON_ERROR);
 
         if (!isset($composerJson['name'])) {
-            return $this->getProjectRemoteUrlFromGit();
+            throw new FetchDataException(sprintf('%s has no name key', $composerFile));
         }
 
-        return $composerJson['name'];
-    }
-
-    /**
-     * @return string|null
-     */
-    protected function getProjectRemoteUrlFromGit(): ?string
-    {
-        $process = new Process(['git', 'remote', 'get-url', '--push', 'origin']);
-
-        try {
-            $process->mustRun();
-
-            return trim($process->getOutput());
-        } catch (ProcessFailedException $e) {
-            return null;
-        }
+        return new ProjectInfo($composerJson['name']);
     }
 }

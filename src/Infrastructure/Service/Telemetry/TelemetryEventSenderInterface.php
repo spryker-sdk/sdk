@@ -17,4 +17,9 @@ interface TelemetryEventSenderInterface
      * @return void
      */
     public function send(array $telemetryEvents): void;
+
+    /**
+     * @return bool
+     */
+    public function isApplicable(): bool;
 }

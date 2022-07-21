@@ -1,2 +1,5 @@
 framework:
     lock: ~
+
+parameters:
+  lock.db_name: 'sdk_lock'

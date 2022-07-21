@@ -33,5 +33,8 @@ interface TelemetryEventMapperInterface
      *
      * @return void
      */
-    public function mapTelemetryEvents(TelemetryEventInterface $fromTelemetryEvent, TelemetryEventInterface $toTelemetryEvent): void;
+    public function mapIncomingTelemetryEventToExistingTelemetryEvent(
+        TelemetryEventInterface $fromTelemetryEvent,
+        TelemetryEventInterface $toTelemetryEvent
+    ): void;
 }

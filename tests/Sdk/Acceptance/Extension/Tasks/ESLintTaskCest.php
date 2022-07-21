@@ -8,8 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 
 use PHPUnit\Framework\Assert;
-use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
-use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\ReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 /**
@@ -61,12 +59,6 @@ class ESLintTaskCest
         Assert::assertFileExists(
             $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR),
         );
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
-        );
     }
 
     /**
@@ -93,12 +85,6 @@ class ESLintTaskCest
         // Assert
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
-        );
     }
 
     /**
@@ -125,12 +111,6 @@ class ESLintTaskCest
         // Assert
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
-        );
     }
 
     /**
@@ -158,12 +138,6 @@ class ESLintTaskCest
         // Assert
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
-        );
     }
 
     /**
@@ -190,11 +164,5 @@ class ESLintTaskCest
         // Assert
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
-        );
     }
 }

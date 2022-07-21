@@ -8,8 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 
 use PHPUnit\Framework\Assert;
-use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
-use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\ReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 class ArchitectureSnifferTaskCest
@@ -46,12 +44,6 @@ class ArchitectureSnifferTaskCest
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
-        );
     }
 
     /**
@@ -76,11 +68,5 @@ class ArchitectureSnifferTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-
-        $I->assertTelemetryEventReport(
-            static::COMMAND,
-            CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . ReportTelemetryEventSender::REPORT_FILENAME, static::PROJECT_DIR),
-        );
     }
 }

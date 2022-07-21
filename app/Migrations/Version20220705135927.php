@@ -14,7 +14,7 @@ final class Version20220705135927 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Creates sdk_telemetry_event and sdk_lock tables.';
     }
 
     public function up(Schema $schema): void

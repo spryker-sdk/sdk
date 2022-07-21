@@ -47,7 +47,7 @@ class TelemetryEventTest extends Unit
         $telemetryEvent = new TelemetryEvent($payload, $metadata);
 
         // Act
-        $telemetryEvent->synchronizeFailed();
+        $telemetryEvent->markSynchronizeFailed();
 
         // Assert
         $this->assertSame(1, $telemetryEvent->getSynchronizationAttemptsCount());

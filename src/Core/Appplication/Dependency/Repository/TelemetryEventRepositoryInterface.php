@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
 use DateInterval;
+use SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
 
 interface TelemetryEventRepositoryInterface
@@ -29,13 +30,11 @@ interface TelemetryEventRepositoryInterface
     public function update(TelemetryEventInterface $telemetryEvent, bool $flush = true): void;
 
     /**
-     * @param int $maxAttemptsCount
-     * @param int $limit
-     * @param int $maxSyncTimestamp
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria $criteria
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface>
+     * @return array
      */
-    public function getTelemetryEvents(int $maxAttemptsCount, int $limit, int $maxSyncTimestamp): array;
+    public function getTelemetryEvents(TelemetryEventsQueryCriteria $criteria): array;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
@@ -50,7 +49,7 @@ interface TelemetryEventRepositoryInterface
      *
      * @return void
      */
-    public function removeBatch(array $telemetryEvents): void;
+    public function removeTelemetryEvents(array $telemetryEvents): void;
 
     /**
      * @param int $maxAttemptsCount

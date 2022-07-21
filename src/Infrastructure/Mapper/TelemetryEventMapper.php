@@ -22,7 +22,7 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
     {
         $infrastructureTelemetryEvent = new InfrastructureTelemetryEvent($telemetryEvent->getPayload(), $telemetryEvent->getMetadata());
 
-        $this->mapTelemetryEvents($telemetryEvent, $infrastructureTelemetryEvent);
+        $this->mapIncomingTelemetryEventToExistingTelemetryEvent($telemetryEvent, $infrastructureTelemetryEvent);
 
         return $infrastructureTelemetryEvent;
     }
@@ -36,7 +36,7 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
     {
         $domainTelemetryEvent = new DomainTelemetryEvent($telemetryEvent->getPayload(), $telemetryEvent->getMetadata());
 
-        $this->mapTelemetryEvents($telemetryEvent, $domainTelemetryEvent);
+        $this->mapIncomingTelemetryEventToExistingTelemetryEvent($telemetryEvent, $domainTelemetryEvent);
 
         return $domainTelemetryEvent;
     }
@@ -47,8 +47,10 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
      *
      * @return void
      */
-    public function mapTelemetryEvents(TelemetryEventInterface $fromTelemetryEvent, TelemetryEventInterface $toTelemetryEvent): void
-    {
+    public function mapIncomingTelemetryEventToExistingTelemetryEvent(
+        TelemetryEventInterface $fromTelemetryEvent,
+        TelemetryEventInterface $toTelemetryEvent
+    ): void {
         $toTelemetryEvent->setId($fromTelemetryEvent->getId());
         $toTelemetryEvent->setName($fromTelemetryEvent->getName());
         $toTelemetryEvent->setTriggeredAt($fromTelemetryEvent->getTriggeredAt());

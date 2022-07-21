@@ -159,7 +159,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     protected function createTelemetryEventWithExpectedFailedCall(): TelemetryEventInterface
     {
         $eventMock = $this->createMock(TelemetryEventInterface::class);
-        $eventMock->expects($this->once())->method('synchronizeFailed');
+        $eventMock->expects($this->once())->method('markSynchronizeFailed');
 
         return $eventMock;
     }
