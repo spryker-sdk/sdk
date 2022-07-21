@@ -34,3 +34,8 @@ coverage:
     enabled: true
     include:
         - src/*
+    exclude:
+        - src/Core/Domain/Entity/*
+        - src/Core/Appplication/Dto/*
+        - src/Infrastructure/Entity/*
+        - src/Extension/Tasks/*

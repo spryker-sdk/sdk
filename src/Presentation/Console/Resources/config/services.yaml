@@ -94,6 +94,7 @@ services:
     class: Symfony\Component\Serializer\Encoder\XmlEncoder
     arguments:
       - { xml_format_output: true, xml_root_node_name: framework }
+  # Integrations
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
     tags: ["console.command", "telemetry.observable_command"]
