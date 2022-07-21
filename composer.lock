@@ -6075,12 +6075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "99dafa63c5f77e0c5e1974b1c92557973d9e4c4f"
+                "reference": "c1354cd8f3e45120953487a0907ee5d375f3afab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/99dafa63c5f77e0c5e1974b1c92557973d9e4c4f",
-                "reference": "99dafa63c5f77e0c5e1974b1c92557973d9e4c4f",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/c1354cd8f3e45120953487a0907ee5d375f3afab",
+                "reference": "c1354cd8f3e45120953487a0907ee5d375f3afab",
                 "shasum": ""
             },
             "require": {
@@ -6105,7 +6105,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-621/sdk-623-implement-local-event-storage"
             },
-            "time": "2022-07-12T14:40:58+00:00"
+            "time": "2022-07-21T09:10:47+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
