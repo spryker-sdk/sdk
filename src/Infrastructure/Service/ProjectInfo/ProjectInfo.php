@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
-class ProjectInfo
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface;
+
+class ProjectInfo implements ProjectInfoInterface
 {
     /**
      * @var string

@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
+namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo;
 
 interface ProjectInfoFetcherInterface
 {
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo|null
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface|null
      */
-    public function fetchProjectInfo(): ?ProjectInfo;
+    public function fetchProjectInfo(): ?ProjectInfoInterface;
 }

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface;
 
 class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
 {
@@ -24,7 +25,7 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo|null
      */
-    protected ?ProjectInfo $projectInfo = null;
+    protected ?ProjectInfoInterface $projectInfo = null;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
@@ -42,7 +43,7 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     /**
      * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
      */
-    public function fetchProjectInfo(): ProjectInfo
+    public function fetchProjectInfo(): ProjectInfoInterface
     {
         if ($this->projectInfo === null) {
             $this->projectInfo = $this->getProjectInfo();
@@ -56,7 +57,7 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
      */
-    protected function getProjectInfo(): ProjectInfo
+    protected function getProjectInfo(): ProjectInfoInterface
     {
         $projectDirectory = $this->settingRepository->findOneByPath(static::PROJECT_DIR_KEY);
 

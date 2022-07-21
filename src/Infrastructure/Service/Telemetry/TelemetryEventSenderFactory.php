@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
 
 use InvalidArgumentException;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
 
 class TelemetryEventSenderFactory
 {
@@ -22,7 +23,7 @@ class TelemetryEventSenderFactory
     protected string $dataLakeUrl;
 
     /**
-     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface>
+     * @var iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface>
      */
     protected iterable $telemetryEventSenders;
 
@@ -35,7 +36,7 @@ class TelemetryEventSenderFactory
      * @param bool $isDebug
      * @param string $dataLakeUrl
      * @param bool $isTelemetryEnabled
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface> $telemetryEventSenders
+     * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface> $telemetryEventSenders
      */
     public function __construct(bool $isDebug, string $dataLakeUrl, bool $isTelemetryEnabled, iterable $telemetryEventSenders)
     {
@@ -46,7 +47,7 @@ class TelemetryEventSenderFactory
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     public function getTelemetryEventSender(): TelemetryEventSenderInterface
     {
@@ -70,7 +71,7 @@ class TelemetryEventSenderFactory
      *
      * @throws \InvalidArgumentException
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function getTelemetryEventSenderByClassName(string $senderClassName): TelemetryEventSenderInterface
     {
@@ -84,7 +85,7 @@ class TelemetryEventSenderFactory
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function createNullSender(): TelemetryEventSenderInterface
     {

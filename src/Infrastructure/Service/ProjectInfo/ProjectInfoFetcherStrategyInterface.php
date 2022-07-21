@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoInterface;
+
 interface ProjectInfoFetcherStrategyInterface
 {
     /**
@@ -14,5 +16,5 @@ interface ProjectInfoFetcherStrategyInterface
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfo
      */
-    public function fetchProjectInfo(): ProjectInfo;
+    public function fetchProjectInfo(): ProjectInfoInterface;
 }

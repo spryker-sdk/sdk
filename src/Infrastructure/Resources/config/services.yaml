@@ -335,7 +335,7 @@ services:
       - !tagged_iterator telemetry.data_sender
 
   telemetry.telemetry_events_sender:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+    class: SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
     factory: ["@telemetry.data_sender_factory", "getTelemetryEventSender"]
 
   lock_data_store:

@@ -63,7 +63,9 @@ class CodeSnifferTaskFixerCest
         $reportFilename = $I->getPathFromProjectRoot('reports/' . FileReportTelemetryEventSender::REPORT_FILENAME);
         $errorLogFile = $I->getPathFromProjectRoot('.ssdk.log');
 
-        unlink($errorLogFile);
+        if (is_file($errorLogFile)) {
+            unlink($errorLogFile);
+        }
         touch($reportFilename);
         chmod($reportFilename, 0444);
 

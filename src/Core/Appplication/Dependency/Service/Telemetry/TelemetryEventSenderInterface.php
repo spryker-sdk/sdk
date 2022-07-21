@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
+namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry;
 
 interface TelemetryEventSenderInterface
 {
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
      *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TelemetryServerUnreachableException
      *
      * @return void
      */

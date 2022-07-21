@@ -10,9 +10,9 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service\Telemetry;
 use DateInterval;
 use DateTimeImmutable;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria;
-use SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException;
-use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\TelemetryServerUnreachableException;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
 use Symfony\Component\Lock\LockFactory;
 use Throwable;
@@ -50,7 +50,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     protected TelemetryEventRepositoryInterface $telemetryEventRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected TelemetryEventSenderInterface $telemetryEventSender;
 
@@ -91,7 +91,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface $telemetryEventRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface $telemetryEventSender
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface $telemetryEventSender
      * @param \Symfony\Component\Lock\LockFactory $lockFactory
      * @param int $batchSize
      * @param int $maxSynchronizationAttempts
@@ -172,7 +172,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TelemetryServerUnreachableException
      *
      * @return void
      */

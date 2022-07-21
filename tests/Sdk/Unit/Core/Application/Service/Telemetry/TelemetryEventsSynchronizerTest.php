@@ -10,11 +10,11 @@ namespace Sdk\Unit\Core\Application\Service\Telemetry;
 use Codeception\Test\Unit;
 use Exception;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
-use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface;
@@ -121,7 +121,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function createSenderMockThatExpectsOneCall(): TelemetryEventSenderInterface
     {
@@ -132,7 +132,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function createSenderMockThatExpectsNoCall(): TelemetryEventSenderInterface
     {
@@ -143,7 +143,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function createSenderMockWithErrorException(): TelemetryEventSenderInterface
     {

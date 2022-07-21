@@ -8,8 +8,9 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
+use SprykerSdk\Sdk\Core\Appplication\Exception\TelemetryServerUnreachableException;
 use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
-use SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
@@ -68,7 +69,7 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
      *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\TelemetryServerUnreachableException
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TelemetryServerUnreachableException
      *
      * @return void
      */

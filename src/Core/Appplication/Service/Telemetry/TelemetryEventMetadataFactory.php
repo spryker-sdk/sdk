@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Telemetry;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
-use SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcherInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
 
 class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInterface
@@ -25,7 +25,7 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
     protected const DEVELOPER_GITHUB_ACCOUNT_KEY = 'developer_github_account';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcherInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface
      */
     protected ProjectInfoFetcherInterface $projectInfoFetcher;
 
@@ -35,7 +35,7 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcherInterface $projectInfoFetcher
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface $projectInfoFetcher
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      */
     public function __construct(ProjectInfoFetcherInterface $projectInfoFetcher, SettingRepositoryInterface $settingRepository)
