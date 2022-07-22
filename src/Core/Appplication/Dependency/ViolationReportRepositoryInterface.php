@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Core\Appplication\Dependency;
 
 use SprykerSdk\SdkContracts\Report\ReportInterface;
-use SprykerSdk\SdkContracts\Report\ReportRepositoryInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 interface ViolationReportRepositoryInterface extends ReportRepositoryInterface

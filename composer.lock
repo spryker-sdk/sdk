@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bff9aa95710693907010be259b279d5",
+    "content-hash": "6b52a5dfe8279e8d56f43a478789b048",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6071,26 +6071,25 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-master",
+            "version": "dev-feature/sdk-768/sdk-770-move-contracts",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f"
+                "reference": "d7093c0d5c92f15a43c7c85cbc079b6d4ad03c9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
-                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/d7093c0d5c92f15a43c7c85cbc079b6d4ad03c9c",
+                "reference": "d7093c0d5c92f15a43c7c85cbc079b6d4ad03c9c",
                 "shasum": ""
             },
             "require": {
-                "php": ">= 8.0"
+                "php": ">= 7.4"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6104,9 +6103,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-768/sdk-770-move-contracts"
             },
-            "time": "2022-07-05T11:23:00+00:00"
+            "time": "2022-07-22T09:57:29+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14017,6 +14016,12 @@
     ],
     "aliases": [
         {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "dev-feature/sdk-768/sdk-770-move-contracts",
+            "alias": "master",
+            "alias_normalized": "dev-master"
+        },
+        {
             "package": "spryker-sdk/upgrader",
             "version": "dev-develop",
             "alias": "0.1.0",
@@ -14047,5 +14052,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
