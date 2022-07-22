@@ -55,6 +55,7 @@ class ESLintTaskCest
         );
 
         // Assert
+        Assert::assertSame($process->getErrorOutput(), $process->getOutput());
         Assert::assertTrue($process->isSuccessful());
         Assert::assertFileExists(
             $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR),
