@@ -75,7 +75,7 @@ jobs:
         run: composer test
 
       - name: Codecept tests with coverage
-        run: bin/console sdk:init:sdk
+        run: bin/console sdk:init:hidden-sdk
 
       - name: Codecept tests with coverage
         run: composer test-qa
