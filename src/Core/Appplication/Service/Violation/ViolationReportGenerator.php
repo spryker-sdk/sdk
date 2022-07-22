@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\Report\ReportGeneratorInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportableInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;

@@ -6075,12 +6075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "d7093c0d5c92f15a43c7c85cbc079b6d4ad03c9c"
+                "reference": "c23320db537f3e9bedd7dd1ae0239b5a85ee5d5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/d7093c0d5c92f15a43c7c85cbc079b6d4ad03c9c",
-                "reference": "d7093c0d5c92f15a43c7c85cbc079b6d4ad03c9c",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/c23320db537f3e9bedd7dd1ae0239b5a85ee5d5d",
+                "reference": "c23320db537f3e9bedd7dd1ae0239b5a85ee5d5d",
                 "shasum": ""
             },
             "require": {
@@ -6105,7 +6105,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-768/sdk-770-move-contracts"
             },
-            "time": "2022-07-22T09:57:29+00:00"
+            "time": "2022-07-22T16:09:28+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
