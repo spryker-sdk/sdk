@@ -55,6 +55,7 @@ class ESLintTaskCest
         );
 
         // Assert
+        Assert::assertTrue($process->getErrorOutput(), $process->getOutput());
         Assert::assertTrue($process->isSuccessful());
         Assert::assertFileExists(
             $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR),
@@ -109,6 +110,7 @@ class ESLintTaskCest
         );
 
         // Assert
+        Assert::assertTrue($process->getErrorOutput(), $process->getOutput());
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
@@ -136,6 +138,7 @@ class ESLintTaskCest
         );
 
         // Assert
+        Assert::assertTrue($process->getErrorOutput(), $process->getOutput());
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
@@ -162,6 +165,7 @@ class ESLintTaskCest
         );
 
         // Assert
+        Assert::assertTrue($process->getErrorOutput(), $process->getOutput());
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }

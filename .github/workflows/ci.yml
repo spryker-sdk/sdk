@@ -71,13 +71,13 @@ jobs:
       - name: Run CodeStyle checks
         run: composer cs-check
 
-      - name: Codecept tests with coverage
+      - name: Codecept unit tests
         run: composer test
 
-      - name: Codecept tests with coverage
+      - name: Install SDK
         run: bin/console sdk:init:hidden-sdk
 
-      - name: Codecept tests with coverage
+      - name: Codecept acceptance tests
         run: composer test-qa
 
       - name: Codecept tests with coverage
