@@ -83,6 +83,14 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     /**
      * @return string|null
      */
+    public function getHelp(): ?string
+    {
+        return $this->help;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getAlias(): ?string
     {
         return $this->alias;

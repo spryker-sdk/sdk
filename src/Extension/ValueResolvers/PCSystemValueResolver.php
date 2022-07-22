@@ -48,7 +48,7 @@ class PCSystemValueResolver extends AbstractValueResolver
      */
     protected const SYSTEMS_REGEX = [
         'linux' => '/(?<system>Linux)/',
-        'mac_arm' => '/(?<system>(?<os>Linux).*(?<arch>ARM64))/',
+        'mac_arm' => '/(?<system>(?<os>Darwin).*(?<arch>ARM64))/',
         'mac' => '/(?<system>Darwin)/',
     ];
 

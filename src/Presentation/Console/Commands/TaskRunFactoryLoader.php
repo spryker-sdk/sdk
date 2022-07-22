@@ -21,16 +21,10 @@ use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 use Throwable;
 
 class TaskRunFactoryLoader extends ContainerCommandLoader
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected SymfonyContainerInterface $symfonyContainer;
-
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */

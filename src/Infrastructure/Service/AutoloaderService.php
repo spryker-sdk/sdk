@@ -14,8 +14,14 @@ use Symfony\Component\Finder\Finder;
 
 class AutoloaderService
 {
+    /**
+     * @var \Composer\Autoload\ClassLoader
+     */
     protected ClassLoader $classLoader;
 
+    /**
+     * @var string
+     */
     protected string $baseDirectory;
 
     /**

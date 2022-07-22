@@ -31,7 +31,9 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, ctype, iconv
           tools: composer:v2
-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
       - uses: bahmutov/npm-install@v1
         with:
           useLockFile: false

@@ -20,6 +20,9 @@ use Throwable;
 
 class EventLoggerFactory
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
