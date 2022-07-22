@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
@@ -50,9 +50,9 @@ class InitializerTest extends Unit
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface
      */
-    protected TaskRepositoryInterface $taskYamlRepository;
+    protected TaskYamlRepositoryInterface $taskYamlRepository;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
@@ -66,7 +66,7 @@ class InitializerTest extends Unit
     {
         parent::setUp();
 
-        $this->taskYamlRepository = $this->createMock(TaskRepositoryInterface::class);
+        $this->taskYamlRepository = $this->createMock(TaskYamlRepositoryInterface::class);
         $this->cliValueReceiver = $this->createMock(CliValueReceiver::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
