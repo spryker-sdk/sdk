@@ -57,7 +57,6 @@ class CodeSnifferTaskSetCest
         ]);
 
         // Assert
-        Assert::assertSame($process->getErrorOutput(), $process->getOutput());
         Assert::assertFalse($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml'));
     }
