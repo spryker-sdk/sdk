@@ -86,7 +86,7 @@ services:
     arguments:
       - !tagged_iterator console.command
       - "@console.command_loader"
-      - "@task_repository"
+      - "@task_persistence_repository"
   ide.command_xml_formatter:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatter
 

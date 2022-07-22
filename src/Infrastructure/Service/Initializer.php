@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -33,21 +33,21 @@ class Initializer implements InitializerInterface
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface
      */
-    protected TaskRepositoryInterface $taskYamlRepository;
+    protected TaskYamlRepositoryInterface $taskYamlRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface $taskYamlRepository
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
         SettingRepositoryInterface $settingRepository,
         TaskManagerInterface $taskManager,
-        TaskRepositoryInterface $taskYamlRepository
+        TaskYamlRepositoryInterface $taskYamlRepository
     ) {
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
