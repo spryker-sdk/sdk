@@ -8,9 +8,9 @@
         "url": "https://spryker.com/"
     },
     "workspaces": [
-        "/project",
-        "/project/vendor/spryker/spryker/Bundles/*",
-        "/project/vendor/spryker/spryker/Bundles/*/assets/Zed"
+        "./",
+        "./vendor/spryker/spryker/Bundles/*",
+        "./vendor/spryker/spryker/Bundles/*/assets/Zed"
     ],
     "scripts": {
         "yves:stylelint": "node ./frontend/libs/stylelint",
