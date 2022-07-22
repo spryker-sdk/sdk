@@ -53,6 +53,7 @@
     },
     "require-dev": {
         "codeception/codeception": "*",
+        "phpunit/phpunit": "^9.2",
         "codeception/module-asserts": "*",
         "codeception/module-cli": "*",
         "codeception/module-filesystem": "*",
