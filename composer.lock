@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71d49496a2e4bdcc2fc6e13184fa9897",
+    "content-hash": "80da474ca727c5383bffdefe17baa61d",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3088,12 +3088,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/JetBrains/phpstorm-stubs.git",
-                "reference": "1867d2956298aaceccec0d54a95004495029653d"
+                "reference": "fcd660e2dbdcb04aa32a635a5d1fedb172d12db9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/1867d2956298aaceccec0d54a95004495029653d",
-                "reference": "1867d2956298aaceccec0d54a95004495029653d",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/fcd660e2dbdcb04aa32a635a5d1fedb172d12db9",
+                "reference": "fcd660e2dbdcb04aa32a635a5d1fedb172d12db9",
                 "shasum": ""
             },
             "require-dev": {
@@ -3129,7 +3129,7 @@
             "support": {
                 "source": "https://github.com/JetBrains/phpstorm-stubs/tree/master"
             },
-            "time": "2022-07-18T19:10:23+00:00"
+            "time": "2022-07-21T13:17:52+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
