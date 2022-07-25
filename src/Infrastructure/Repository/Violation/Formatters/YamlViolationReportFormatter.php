@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters;
 
-use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
+use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;

@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
-use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
+use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
 class StaticValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
@@ -123,7 +123,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     /**
      * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingValueException
      *
      * @return mixed
      */

@@ -11,7 +11,7 @@ use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 abstract class ReportConverterTest extends Unit
@@ -87,7 +87,7 @@ abstract class ReportConverterTest extends Unit
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface|null $projectDirectory
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface|null $reportDirectory
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected function createSettingRepositoryMock(
         ?SettingInterface $projectDirectory = null,

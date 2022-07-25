@@ -12,7 +12,7 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
@@ -21,12 +21,12 @@ use Throwable;
 class EventLoggerFactory
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository

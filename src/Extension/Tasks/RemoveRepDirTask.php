@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
@@ -26,12 +26,12 @@ class RemoveRepDirTask implements TaskInterface
     protected const REPORT_DIR_SETTING_NAME = 'reportDir';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface
      */
     protected ViolationReportRepositoryInterface $violationReportRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface $violationReportRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface $violationReportRepository
      */
     public function __construct(
         ViolationReportRepositoryInterface $violationReportRepository

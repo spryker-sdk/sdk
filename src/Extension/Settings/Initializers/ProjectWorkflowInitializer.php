@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\Settings\Initializers;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -23,24 +23,24 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
     protected const PROJECT_KEY_SETTING = 'project_key';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface
      */
     protected WorkflowRepositoryInterface $workflowRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,

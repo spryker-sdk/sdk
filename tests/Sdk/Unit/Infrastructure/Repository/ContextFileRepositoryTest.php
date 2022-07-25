@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -24,12 +24,12 @@ class ContextFileRepositoryTest extends Unit
     protected ContextFileRepository $contextFileRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
      */
     protected ContextSerializer $contextSerializer;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 

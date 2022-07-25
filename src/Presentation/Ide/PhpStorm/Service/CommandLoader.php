@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Command;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface;
@@ -26,14 +26,14 @@ class CommandLoader implements CommandLoaderInterface
     protected TaskRunFactoryLoader $commandContainer;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 
     /**
      * @param iterable<\Symfony\Component\Console\Command\Command> $commands
      * @param \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader $commandContainer
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
     public function __construct(iterable $commands, TaskRunFactoryLoader $commandContainer, TaskRepositoryInterface $taskRepository)
     {

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters;
 
-use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
+use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Helper\Table;

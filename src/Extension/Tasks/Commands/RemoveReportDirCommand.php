@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -22,12 +22,12 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     protected const REPORT_DIR_SETTING_NAME = 'reportDir';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface
      */
     protected ViolationReportRepositoryInterface $violationReportRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface $violationReportRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface $violationReportRepository
      */
     public function __construct(
         ViolationReportRepositoryInterface $violationReportRepository

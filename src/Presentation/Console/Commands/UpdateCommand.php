@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,12 +24,12 @@ class UpdateCommand extends AbstractUpdateCommand
     public const NAME = 'sdk:update:hidden-all';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface
      */
     protected LifecycleManagerInterface $lifecycleManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
@@ -39,8 +39,8 @@ class UpdateCommand extends AbstractUpdateCommand
     protected MigrateCommand $doctrineMigrationCommand;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface $lifecycleManager
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      */
     public function __construct(

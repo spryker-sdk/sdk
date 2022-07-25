@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolvers;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;

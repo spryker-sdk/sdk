@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Extension\Converters;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
-use SprykerSdk\Sdk\Core\Appplication\Violation\AbstractViolationConverter;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 
 class PHPMDViolationConverter extends AbstractViolationConverter

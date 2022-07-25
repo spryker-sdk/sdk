@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;

@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
@@ -38,7 +38,7 @@ class RunWorkflowCommand extends Command
     protected const OPTION_FORCE = 'force';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected $projectWorkflow;
 
@@ -53,7 +53,7 @@ class RunWorkflowCommand extends Command
     protected $workflowRunner;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
      */

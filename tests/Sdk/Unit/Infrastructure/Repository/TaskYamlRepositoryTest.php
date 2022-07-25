@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository;
@@ -26,7 +26,7 @@ class TaskYamlRepositoryTest extends Unit
     protected TaskYamlRepository $taskYamlRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 

@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Exception;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TasksRepositoryInstallerInterface;
 use SprykerSdk\Sdk\Core\Domain\Events\Event;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
@@ -31,7 +31,7 @@ class InstallSdkBundlesCommand extends Command
     protected static $defaultDescription = 'The command updates submodules. Please configure SSH connection to Github.';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TasksRepositoryInstallerInterface
      */
     protected TasksRepositoryInstallerInterface $tasksRepositoryInstaller;
 
@@ -46,7 +46,7 @@ class InstallSdkBundlesCommand extends Command
     protected EventLoggerInterface $eventLogger;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface $tasksRepositoryInstaller
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TasksRepositoryInstallerInterface $tasksRepositoryInstaller
      * @param string $sdkBasePath
      * @param \SprykerSdk\SdkContracts\Logger\EventLoggerInterface $eventLogger
      */

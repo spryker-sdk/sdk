@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
-use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\UnresolvablePlaceholderException;
+use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -279,7 +279,7 @@ class PlaceholderResolverTest extends Unit
     /**
      * @param array $expectedSettings
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected function createSettingRepositoryMock(array $expectedSettings): ProjectSettingRepositoryInterface
     {
@@ -319,7 +319,7 @@ class PlaceholderResolverTest extends Unit
     /**
      * @param mixed $valueResolverMock
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface
      */
     protected function createRegistryMock($valueResolverMock): ValueResolverRegistryInterface
     {

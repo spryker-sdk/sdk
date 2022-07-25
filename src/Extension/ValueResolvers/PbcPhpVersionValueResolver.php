@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
-use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 
 class PbcPhpVersionValueResolver extends AbstractValueResolver
 {

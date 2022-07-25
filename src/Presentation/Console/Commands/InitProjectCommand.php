@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Container\ContainerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -34,12 +34,12 @@ class InitProjectCommand extends Command
     protected CliValueReceiver $cliValueReceiver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
+     * @var \SprykerSdk\Sdk\Core\Application\Service\SettingManager
      */
     protected SettingManager $projectSettingManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
@@ -55,8 +55,8 @@ class InitProjectCommand extends Command
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $projectSettingManager
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Service\SettingManager $projectSettingManager
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Psr\Container\ContainerInterface $container
      * @param string $projectSettingFileName
      */

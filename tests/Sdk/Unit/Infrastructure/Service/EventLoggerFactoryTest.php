@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\EventLogger;
 use SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -16,7 +16,7 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 class EventLoggerFactoryTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 

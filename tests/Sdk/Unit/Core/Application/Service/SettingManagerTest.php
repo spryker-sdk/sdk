@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
@@ -45,17 +45,17 @@ class SettingManagerTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
+     * @var \SprykerSdk\Sdk\Core\Application\Service\SettingManager
      */
     protected SettingManager $settingManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepositoryMock;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected SettingRepositoryInterface $settingRepositoryMock;
 

@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ContextStorage;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -63,12 +63,12 @@ class RunTaskWrapperCommand extends Command
     public const OPTION_FORMAT = 'format';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor
      */
     protected TaskExecutor $taskExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
@@ -93,21 +93,21 @@ class RunTaskWrapperCommand extends Command
     protected string $name;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface
      */
     protected ContextRepositoryInterface $contextRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextStorage
      */
     protected ContextStorage $contextStorage;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextStorage $contextStorage
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name

@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Unit\Extension\Settings\Initializers;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -123,7 +123,7 @@ class ProjectWorkflowInitializerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @return \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected function createProjectWorkflow(): ProjectWorkflow
     {
@@ -133,7 +133,7 @@ class ProjectWorkflowInitializerTest extends Unit
     /**
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface|null $setting
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected function createProjectSettingRepositoryMock(?SettingInterface $setting = null): ProjectSettingRepositoryInterface
     {
@@ -159,7 +159,7 @@ class ProjectWorkflowInitializerTest extends Unit
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\WorkflowInterface> $existingWorkflows
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createWorkflowRepositoryMock(array $existingWorkflows): WorkflowRepositoryInterface
     {

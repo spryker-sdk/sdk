@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Extension\Settings\Initializers;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
@@ -69,7 +69,7 @@ class ProjectUuidInitializerTest extends Unit
     /**
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface|null $returnSetting
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createProjectSettingRepositoryMock(?SettingInterface $returnSetting): ProjectSettingRepositoryInterface
     {

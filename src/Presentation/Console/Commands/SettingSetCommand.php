@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\SettingManager;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,18 +33,18 @@ class SettingSetCommand extends Command
     protected const ARG_SETTING_VALUE = 'value';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $settingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager
+     * @var \SprykerSdk\Sdk\Core\Application\Service\SettingManager
      */
     protected SettingManager $settingManager;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\SettingManager $settingManager
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Service\SettingManager $settingManager
      */
     public function __construct(
         ProjectSettingRepositoryInterface $settingRepository,

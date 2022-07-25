@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Presentation\Ide\PhpStorm\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -21,7 +21,7 @@ class CommandLoaderTest extends Unit
     protected TaskRunFactoryLoader $commandContainer;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 

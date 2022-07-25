@@ -8,13 +8,13 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Psr\Container\ContainerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
-use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException;
+use SprykerSdk\Sdk\Core\Application\Service\ContextStorage;
+use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
@@ -26,17 +26,17 @@ use Throwable;
 class TaskRunFactoryLoader extends ContainerCommandLoader
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor
      */
     protected TaskExecutor $taskExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
      */
     protected PlaceholderResolver $placeholderResolver;
 
@@ -46,7 +46,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ReportFormatterFactory $reportFormatterFactory;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
@@ -56,25 +56,25 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected string $environment;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface
      */
     protected ContextRepositoryInterface $contextRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextStorage
      */
     protected ContextStorage $contextStorage;
 
     /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextStorage $contextStorage
      * @param string $environment
      */
     public function __construct(
@@ -119,7 +119,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     /**
      * @param string $name
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException
      *
      * @return \Symfony\Component\Console\Command\Command
      */

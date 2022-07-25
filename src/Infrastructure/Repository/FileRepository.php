@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\FileRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\FileRepositoryInterface;
 
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\File>

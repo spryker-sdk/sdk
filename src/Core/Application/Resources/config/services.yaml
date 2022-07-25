@@ -1,0 +1,157 @@
+parameters:
+  project_settings_file: ".ssdk"
+services:
+  path_resolver:
+    class: SprykerSdk\Sdk\Core\Application\Service\PathResolver
+    arguments:
+      - "%kernel.project_dir%"
+      - "@sdk_filesystem"
+  sdk_filesystem:
+    class: SprykerSdk\Sdk\Core\Application\Service\Filesystem
+
+  value_receiver:
+    abstract: true
+    synthetic: true
+  abstract_value_resolver:
+    abstract: true
+    synthetic: true
+    arguments:
+      - "@value_receiver"
+  task_yaml_repository:
+    synthetic: true
+  event_logger:
+    abstract: true
+    synthetic: true
+  progress_bar:
+    abstract: true
+    synthetic: true
+  action_approver:
+    abstract: true
+    synthetic: true
+  setting_repository:
+    abstract: true
+    synthetic: true
+  value_resolver_registry:
+    abstract: true
+    synthetic: true
+  converter_registry:
+    abstract: true
+    synthetic: true
+  placeholder_resolver:
+    public: true
+    class: SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
+    arguments:
+      - "@project_setting_repository"
+      - "@value_resolver_registry"
+  converter_resolver:
+    public: true
+    class: SprykerSdk\Sdk\Core\Application\Service\ConverterResolver
+    arguments:
+      - "@converter_registry"
+  violation_report_merger:
+    class: SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportMerger
+  violation_report_generator:
+    class: SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGenerator
+    arguments:
+      - "@violation_report_merger"
+      - "@violation_report_repository"
+      - "@converter_resolver"
+  violation_report_generator_resolver:
+    class: SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGeneratorResolver
+    tags: ["report.generator_resolver"]
+    arguments:
+      - "@violation_report_generator"
+  context_serializer:
+    class: SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
+    arguments:
+      - "@report_array_converter_factory"
+  context_repository:
+    synthetic: true
+  task_executor:
+    public: true
+    class: SprykerSdk\Sdk\Core\Application\Service\TaskExecutor
+    arguments:
+      - "@placeholder_resolver"
+      - "@task_persistence_repository"
+      - "@service.command_executor"
+      - "@report_generator_factory"
+      - "@action_approver"
+  project_setting_repository:
+    abstract: true
+    synthetic: true
+  project_setting_manager:
+    class: SprykerSdk\Sdk\Core\Application\Service\SettingManager
+    arguments:
+      - "@project_setting_repository"
+      - "@setting_repository"
+
+  service.file_manager:
+    class: SprykerSdk\Sdk\Core\Application\Service\FileManager
+
+  lifecycle.initialized_subscriber:
+    class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\InitializedEventSubscriber
+    tags: ["kernel.event_subscriber"]
+    arguments:
+      - "@service.file_manager"
+      - "@placeholder_resolver"
+      - "@service.lifecycle_command_executor"
+
+  lifecycle.removed_subscriber:
+    class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\UpdatedEventSubscriber
+    tags: ["kernel.event_subscriber"]
+    arguments:
+      - "@service.file_manager"
+      - "@placeholder_resolver"
+      - "@service.lifecycle_command_executor"
+
+  lifecycle.updated_subscriber:
+    class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber
+    tags: ["kernel.event_subscriber"]
+    arguments:
+      - "@service.file_manager"
+      - "@placeholder_resolver"
+      - "@service.lifecycle_command_executor"
+
+  service.command_executor:
+    class: SprykerSdk\Sdk\Core\Application\Service\CommandExecutor
+    arguments:
+      - !tagged_iterator command.runner
+      - !tagged_iterator action.after_command_executed
+
+  service.lifecycle_command_executor:
+    class: SprykerSdk\Sdk\Core\Application\Service\CommandExecutor
+    arguments:
+      - !tagged_iterator command.runner
+
+  log_event_action_after_command_executed:
+    class: SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction\LogEventAction
+    arguments:
+      - "@event_logger"
+    tags: ["action.after_command_executed"]
+  project_workflow:
+    public: true
+    shared: false
+    class: SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+    arguments:
+      - "@project_setting_repository"
+      - "@workflow.registry"
+      - "@workflow_repository"
+      - "@workflow_transition_repository"
+
+  context_storage:
+    class: SprykerSdk\Sdk\Core\Application\Service\ContextStorage
+
+  report_generator_factory:
+    class: SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory
+    arguments:
+      - !tagged_iterator report.generator_resolver
+
+  violation_report_array_converter:
+    class: SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter
+    tags: ["report.array_converter"]
+
+  report_array_converter_factory:
+    class: SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory
+    arguments:
+      - !tagged_iterator report.array_converter
+
