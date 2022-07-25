@@ -109,7 +109,7 @@ class AcceptanceTester extends Actor
             ),
             $cwd ?? $this->getProjectRoot(),
         );
-
+        $process->setTimeout(null);
         $process->run();
 
         return $process;

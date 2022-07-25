@@ -9,12 +9,17 @@ namespace SprykerSdk\Sdk\Core\Appplication\Dependency\Repository;
 
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-interface TaskRemoveRepositoryInterface
+interface TaskYamlRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     *
-     * @return void
+     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
-    public function remove(TaskInterface $task): void;
+    public function findAll();
+
+    /**
+     * @param string $taskId
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
+     */
+    public function findById(string $taskId): ?TaskInterface;
 }

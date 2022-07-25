@@ -145,8 +145,8 @@ class WorkflowRunnerTest extends Unit
         // Assert
         $this->assertSame(
             [
-                'workflowName_test_apply' => 'Running task `test` ...',
-                'workflowName_test_done' => 'The `test` task finished successfully.',
+                'workflowName_test_apply' => 'Running transition `workflowName:test` ...',
+                'workflowName_test_done' => 'The `workflowName:test` transition finished successfully.',
             ],
             array_map(function ($message) {
                 return $message->getMessage();
@@ -188,8 +188,8 @@ class WorkflowRunnerTest extends Unit
         // Assert
         $this->assertSame(
             [
-                'workflowName_test_apply' => 'Running task `test` ...',
-                'workflowName_test_done' => 'The `test` task finished successfully.',
+                'workflowName_test_apply' => 'Running transition `workflowName:test` ...',
+                'workflowName_test_done' => 'The `workflowName:test` transition finished successfully.',
                 'workflowName__start' => 'The workflow `workflowName` has been finished.',
             ],
             array_map(function ($message) {
@@ -234,8 +234,8 @@ class WorkflowRunnerTest extends Unit
         // Assert
         $this->assertSame(
             [
-                'workflowName_test_apply' => 'Running task `test` ...',
-                'workflowName_test_fail' => 'The `test` task is failed, see details above.',
+                'workflowName_test_apply' => 'Running transition `workflowName:test` ...',
+                'workflowName_test_fail' => 'The `workflowName:test` transition is failed, see details above.',
             ],
             array_map(function ($message) {
                 return $message->getMessage();

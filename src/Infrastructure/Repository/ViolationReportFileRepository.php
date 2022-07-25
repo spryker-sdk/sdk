@@ -52,7 +52,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     public function save(string $taskId, ReportInterface $violationReport): void
     {
         if (!($violationReport instanceof ViolationReportInterface)) {
-            throw new InvalidResourceException(sprintf('Invalid report type "%s"', $violationReport::class));
+            throw new InvalidResourceException(sprintf('Invalid report type "%s"', get_class($violationReport)));
         }
 
         if ($this->reportFormatterFactory->getViolationReportFormatter()) {

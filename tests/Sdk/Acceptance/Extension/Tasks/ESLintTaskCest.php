@@ -48,7 +48,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=src/success',
-                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, 'eslint'),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
                 '--format=yaml',
             ],
             $I->getProjectRoot(static::PROJECT_DIR),
@@ -84,7 +84,6 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -102,7 +101,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=notExists',
-                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, 'eslint'),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
                 '--format=yaml',
             ],
             $I->getProjectRoot(static::PROJECT_DIR),
@@ -110,7 +109,6 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -128,7 +126,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=src/success',
-                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, 'eslint'),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
                 '--format=yaml',
                 '--report_dir=notExists',
             ],
@@ -137,7 +135,6 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -155,7 +152,7 @@ class ESLintTaskCest
             [
                 static::COMMAND,
                 '--file=src/failed',
-                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE, static::PROJECT_DIR),
+                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
                 '--format=yaml',
             ],
             $I->getProjectRoot(static::PROJECT_DIR),

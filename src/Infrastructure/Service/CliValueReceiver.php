@@ -78,7 +78,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      *
      * @return mixed
      */
-    public function get(string $key): mixed
+    public function get(string $key)
     {
         return $this->input->getOption($key);
     }
@@ -88,7 +88,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      *
      * @return mixed
      */
-    public function receiveValue(ReceiverValueInterface $receiverValue): mixed
+    public function receiveValue(ReceiverValueInterface $receiverValue)
     {
         $choiceValues = $receiverValue->getChoiceValues() ? $this->prepareChoiceValues($receiverValue->getChoiceValues()) : [];
         $defaultValue = $receiverValue->getDefaultValue();
@@ -180,6 +180,6 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
             return $choices;
         }
 
-        return array_combine(range(1, count($choices)), $choices);
+        return array_combine(range(1, count($choices)), $choices) ?: [];
     }
 }

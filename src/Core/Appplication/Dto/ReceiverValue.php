@@ -19,7 +19,7 @@ class ReceiverValue implements ReceiverValueInterface
     /**
      * @var mixed
      */
-    protected mixed $defaultValue;
+    protected $defaultValue;
 
     /**
      * @var string
@@ -37,7 +37,7 @@ class ReceiverValue implements ReceiverValueInterface
      * @param string $type
      * @param array $choiceValues
      */
-    public function __construct(string $description, mixed $defaultValue, string $type, array $choiceValues = [])
+    public function __construct(string $description, $defaultValue, string $type, array $choiceValues = [])
     {
         $this->description = $description;
         $this->defaultValue = $defaultValue;
@@ -56,7 +56,7 @@ class ReceiverValue implements ReceiverValueInterface
     /**
      * @return mixed
      */
-    public function getDefaultValue(): mixed
+    public function getDefaultValue()
     {
         return $this->defaultValue;
     }

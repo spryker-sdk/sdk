@@ -85,21 +85,21 @@ class WorkflowRunner
                 return $context;
             }
 
-            $projectWorkflow->applyTransition($nextTransition, $context);
-
             $context->addMessage(
                 sprintf('%s_%s_apply', $workflowName, $nextTransition),
                 new Message(
-                    sprintf('Running task `%s` ...', $nextTransition),
+                    sprintf('Running transition `%s:%s` ...', $workflowName, $nextTransition),
                     MessageInterface::INFO,
                 ),
             );
+
+            $projectWorkflow->applyTransition($nextTransition, $context);
 
             if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
                 $context->addMessage(
                     sprintf('%s_%s_fail', $workflowName, $nextTransition),
                     new Message(
-                        sprintf('The `%s` task is failed, see details above.', $nextTransition),
+                        sprintf('The `%s:%s` transition is failed, see details above.', $workflowName, $nextTransition),
                         MessageInterface::ERROR,
                     ),
                 );
@@ -110,7 +110,7 @@ class WorkflowRunner
             $context->addMessage(
                 sprintf('%s_%s_done', $workflowName, $nextTransition),
                 new Message(
-                    sprintf('The `%s` task finished successfully.', $nextTransition),
+                    sprintf('The `%s:%s` transition finished successfully.', $workflowName, $nextTransition),
                     MessageInterface::INFO,
                 ),
             );

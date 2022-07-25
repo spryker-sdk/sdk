@@ -9,19 +9,14 @@ namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
 
-class NamespaceValueResolver extends AbstractValueResolver
+class ModuleValueResolver extends AbstractValueResolver
 {
-    /**
-     * @var string
-     */
-    public const ALIAS = 'namespace';
-
     /**
      * @return string
      */
     public function getId(): string
     {
-        return 'NAMESPACE';
+        return 'MODULE';
     }
 
     /**
@@ -29,7 +24,7 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getAlias(): string
     {
-        return static::ALIAS;
+        return 'module';
     }
 
     /**
@@ -37,7 +32,7 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getDescription(): string
     {
-        return 'Namespace name';
+        return 'Module name in camelcase format';
     }
 
     /**
@@ -53,7 +48,7 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getDefaultValue()
     {
-        return 'Pyz';
+        return null;
     }
 
     /**
@@ -64,7 +59,7 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
-        return array_merge($settingValues['projectNamespaces'], $settingValues['coreNamespaces']);
+        return [];
     }
 
     /**
@@ -90,6 +85,6 @@ class NamespaceValueResolver extends AbstractValueResolver
      */
     public function getSettingPaths(): array
     {
-        return ['projectNamespaces', 'coreNamespaces'];
+        return [];
     }
 }

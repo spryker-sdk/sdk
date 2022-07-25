@@ -20,13 +20,3 @@ then
         return 1
     fi
 fi
-if [ -f ./vendor/bin/codecept ]
-then
-    ./vendor/bin/codecept build && ./vendor/bin/codecept run unit
-    if [ $? -ne 0 ]
-    then
-        printf "\n\t\033[1;31m[Codecept] Aborted\033[0m\n\n"
-
-        return 1
-    fi
-fi
