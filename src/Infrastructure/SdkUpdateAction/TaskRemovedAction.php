@@ -12,6 +12,9 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
 
 class TaskRemovedAction implements SdkUpdateActionInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
+     */
     protected TaskManagerInterface $taskManager;
 
     /**

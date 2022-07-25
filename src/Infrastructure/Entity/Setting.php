@@ -30,7 +30,7 @@ class Setting extends DomainSetting
     public function __construct(
         ?int $id,
         string $path,
-        mixed $values,
+        $values,
         string $strategy,
         string $type = 'string',
         bool $isProject = true,

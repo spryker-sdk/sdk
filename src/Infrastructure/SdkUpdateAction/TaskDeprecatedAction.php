@@ -13,8 +13,14 @@ use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 
 class TaskDeprecatedAction implements SdkUpdateActionInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+     */
     protected TaskRepository $taskRepository;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
+     */
     protected TaskManagerInterface $taskManager;
 
     /**

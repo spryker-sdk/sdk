@@ -24,7 +24,7 @@ class OptionValueResolver extends StaticValueResolver
      *
      * @return mixed
      */
-    public function getValue(ContextInterface $context, array $settingValues, bool $optional = true): mixed
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = true)
     {
         if ($optional && !$this->hasDefaultValue) {
             $optional = !$this->valueReceiver->receiveValue(

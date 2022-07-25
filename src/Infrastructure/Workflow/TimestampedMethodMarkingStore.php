@@ -50,7 +50,7 @@ final class TimestampedMethodMarkingStore implements MarkingStoreInterface
         if (!method_exists($subject, $method)) {
             throw new LogicException(sprintf(
                 'The method "%s::%s()" does not exist.',
-                $subject::class,
+                get_class($subject),
                 $method,
             ));
         }
@@ -90,7 +90,7 @@ final class TimestampedMethodMarkingStore implements MarkingStoreInterface
         if (!method_exists($subject, $method)) {
             throw new LogicException(sprintf(
                 'The method "%s::%s()" does not exist.',
-                $subject::class,
+                get_class($subject),
                 $method,
             ));
         }

@@ -96,6 +96,7 @@ EOT,
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string|null $workflowName */
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
         $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
@@ -148,12 +149,13 @@ EOT,
      */
     protected function formatMessage(MessageInterface $message): string
     {
-        return match ($message->getVerbosity()) {
-            MessageInterface::INFO => '<info>Info: ' . $message->getMessage() . '</info>',
-            MessageInterface::ERROR => '<error>Error: ' . $message->getMessage() . '</error>',
-            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>',
-            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>',
-            default => $message->getMessage(),
-        };
+        $template = [
+                MessageInterface::INFO => '<info>Info: %s</info>',
+                MessageInterface::ERROR => '<error>Error: %s</error>',
+                MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
+                MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
+            ][$message->getVerbosity()] ?? '%s';
+
+        return sprintf($template, $message->getMessage());
     }
 }

@@ -84,7 +84,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
     /**
      * @return mixed
      */
-    public function getDefaultValue(): mixed
+    public function getDefaultValue()
     {
         return array_key_first(static::REPOSITORIES);
     }
@@ -94,7 +94,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
      *
      * @return mixed
      */
-    protected function getValueFromSettings(array $settingValues): mixed
+    protected function getValueFromSettings(array $settingValues)
     {
         return [];
     }

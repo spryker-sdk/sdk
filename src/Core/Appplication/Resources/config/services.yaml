@@ -17,7 +17,7 @@ services:
     synthetic: true
     arguments:
       - "@value_receiver"
-  task_repository:
+  task_yaml_repository:
     synthetic: true
   event_logger:
     abstract: true

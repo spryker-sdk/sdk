@@ -26,7 +26,7 @@ class StaticTextValueResolver extends StaticValueResolver
      *
      * @return mixed
      */
-    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): mixed
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
     {
         $value = parent::getValue($context, $settingValues, $optional);
 
