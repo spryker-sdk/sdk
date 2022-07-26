@@ -41,7 +41,7 @@ class ESLintTaskCest
     public function testFilesDontContainViolations(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports();
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
@@ -71,7 +71,7 @@ class ESLintTaskCest
     public function testConfigNotFound(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports();
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
@@ -86,7 +86,7 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
+        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -97,7 +97,7 @@ class ESLintTaskCest
     public function testPathNotFound(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports();
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
@@ -112,7 +112,7 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
+        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -123,7 +123,7 @@ class ESLintTaskCest
     public function testReportDirNotFound(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports();
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
@@ -139,7 +139,7 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
+        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -150,7 +150,7 @@ class ESLintTaskCest
     public function testFilesContainViolations(AcceptanceTester $I): void
     {
         // Arrange
-        $I->cleanReports();
+        $I->cleanReports(static::PROJECT_DIR);
 
         // Act
         $process = $I->runSdkCommand(
