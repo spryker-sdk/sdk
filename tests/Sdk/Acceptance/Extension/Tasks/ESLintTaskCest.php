@@ -62,6 +62,8 @@ class ESLintTaskCest
     }
 
     /**
+     * @group testConfigNotFound
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -110,7 +112,7 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
+        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
