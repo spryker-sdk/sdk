@@ -86,7 +86,7 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
+        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -112,7 +112,7 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
+        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
@@ -139,7 +139,7 @@ class ESLintTaskCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
+        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
     /**
