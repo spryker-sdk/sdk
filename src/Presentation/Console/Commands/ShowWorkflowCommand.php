@@ -121,7 +121,7 @@ class ShowWorkflowCommand extends Command
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
         if ($workflowName) {
-            return $workflowName;
+            return is_array($workflowName) ? current($workflowName) : $workflowName;
         }
 
         $workflows = $this->projectWorkflow->getAll();
