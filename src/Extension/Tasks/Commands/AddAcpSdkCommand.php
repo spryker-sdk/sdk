@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
-use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
+use SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -23,14 +23,14 @@ class AddAcpSdkCommand implements ExecutableCommandInterface
     protected const AOP_SDK_REPOSITORY = 'spryker-sdk/aop-sdk';
 
     /**
-     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface
      */
-    protected PbcFileModifierInterface $composerFileModifier;
+    protected AppFileModifierInterface $composerFileModifier;
 
     /**
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface $composerFileModifier
      */
-    public function __construct(PbcFileModifierInterface $composerFileModifier)
+    public function __construct(AppFileModifierInterface $composerFileModifier)
     {
         $this->composerFileModifier = $composerFileModifier;
     }
@@ -98,7 +98,7 @@ class AddAcpSdkCommand implements ExecutableCommandInterface
      */
     protected function addAcpSdk(ContextInterface $context): void
     {
-        $composerContent = $this->composerFileModifier->read($context, sprintf('Can not add %s to composer.json in generated PBC', static::AOP_SDK_REPOSITORY));
+        $composerContent = $this->composerFileModifier->read($context, sprintf('Can not add %s to composer.json in generated App', static::AOP_SDK_REPOSITORY));
         $composerContent['require-dev'][static::AOP_SDK_REPOSITORY] = '*';
         $this->composerFileModifier->write($composerContent, $context);
     }

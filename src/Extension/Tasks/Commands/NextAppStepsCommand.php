@@ -7,18 +7,33 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
-class GeneratePbcCommand implements CommandInterface
+class NextAppStepsCommand implements ExecutableCommandInterface
 {
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     */
+    public function execute(ContextInterface $context): ContextInterface
+    {
+        $message = 'Run "docker/sdk boot -s deploy.dev.yml" and follow the instructions to spin up the local environment';
+        $context->addMessage(static::class, new Message($message, MessageInterface::SUCCESS));
+
+        return $context;
+    }
+
     /**
      * @return string
      */
     public function getCommand(): string
     {
-        return 'git init && git remote add origin %boilerplate_url% && git pull origin master && git init . && git remote set-url origin %project_url%';
+        return '';
     }
 
     /**
@@ -26,7 +41,7 @@ class GeneratePbcCommand implements CommandInterface
      */
     public function getType(): string
     {
-        return 'local_cli';
+        return 'php';
     }
 
     /**
@@ -34,7 +49,7 @@ class GeneratePbcCommand implements CommandInterface
      */
     public function hasStopOnError(): bool
     {
-        return true;
+        return false;
     }
 
     /**

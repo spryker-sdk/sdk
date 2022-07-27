@@ -4,17 +4,17 @@ short_description: "Create ACP manifest file."
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/acp app:manifest:create %manifest-path% %pbc_name% %locale%"
+command: "php %sdk_dir%/vendor/bin/acp app:manifest:create %manifest-path% %app_name% %locale%"
 type: local_cli_interactive
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
-  - name: "%pbc_name%"
+  - name: "%app_name%"
     value_resolver: STATIC_TEXT
     optional: false
     configuration:
-      name: "pbc-name"
+      name: "app-name"
       description: "The name of the App"
       type: string
   - name: "%locale%"
@@ -22,7 +22,7 @@ placeholders:
     optional: false
     configuration:
       name: "locale"
-      description: "A valid locale for the PBC you want to build"
+      description: "A valid locale for the App you want to build"
       type: string
       defaultValue: "en_US"
   - name: "%manifest-path%"

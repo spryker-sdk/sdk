@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Service;
 
 use Symfony\Component\Yaml\Yaml;
 
-class PbcDockerFileModifier extends AbstractPbcFileModifier
+class AppDockerFileModifier extends AbstractAppFileModifier
 {
     protected Yaml $yaml;
 

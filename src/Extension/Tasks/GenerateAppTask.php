@@ -12,11 +12,11 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolvers\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class GeneratePbcTask implements TaskInterface
+class GenerateAppTask implements TaskInterface
 {
     /**
      * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
@@ -36,7 +36,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getShortDescription(): string
     {
-        return 'Generate a new PBC project';
+        return 'Generate a new App project';
     }
 
     /**
@@ -53,14 +53,14 @@ class GeneratePbcTask implements TaskInterface
             ),
             new Placeholder(
                 '%boilerplate_url%',
-                'PBC_TYPE',
+                'APP_TYPE',
             ),
             new Placeholder(
-                '%pbc_name%',
+                '%app_name%',
                 'STATIC',
                 [
-                    'name' => 'pbc-name',
-                    'description' => 'Input name for new PBC',
+                    'name' => 'app-name',
+                    'description' => 'Input name for new App',
                     'type' => 'string',
                 ],
             ),
@@ -69,13 +69,13 @@ class GeneratePbcTask implements TaskInterface
                 'STATIC',
                 [
                     'name' => 'project_url',
-                    'description' => 'Input repository for new PBC (e.g.: https://github.com/<user>/<project>.git)',
+                    'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
                     'type' => 'string',
                 ],
             ),
             new Placeholder(
-                '%' . PbcPhpVersionValueResolver::VALUE_NAME . '%',
-                PbcPhpVersionValueResolver::VALUE_RESOLVER_NAME,
+                '%' . AppPhpVersionValueResolver::VALUE_NAME . '%',
+                AppPhpVersionValueResolver::VALUE_RESOLVER_NAME,
                 [],
                 true,
             ),
@@ -95,7 +95,7 @@ class GeneratePbcTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'generate:php:pbc';
+        return 'generate:php:app';
     }
 
     /**
