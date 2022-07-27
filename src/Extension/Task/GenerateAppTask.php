@@ -5,24 +5,38 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Hello\Task;
+namespace SprykerSdk\Sdk\Extension\Task;
 
-use Hello\Task\Command\HelloPhpCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class HelloPhpTask implements TaskInterface
+class GenerateAppTask implements TaskInterface
 {
+    /**
+     * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected array $commands = [];
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     */
+    public function __construct(array $commands)
+    {
+        $this->commands = $commands;
+    }
+
     /**
      * @return string
      */
     public function getShortDescription(): string
     {
-        return 'will greet php';
+        return 'Generate a new App project';
     }
 
     /**
@@ -30,7 +44,42 @@ class HelloPhpTask implements TaskInterface
      */
     public function getPlaceholders(): array
     {
-        return [];
+        return [
+            new Placeholder(
+                '%sdk_dir%',
+                'SDK_DIR',
+                [],
+                true,
+            ),
+            new Placeholder(
+                '%boilerplate_url%',
+                'APP_TYPE',
+            ),
+            new Placeholder(
+                '%app_name%',
+                'STATIC',
+                [
+                    'name' => 'app-name',
+                    'description' => 'Input name for new App',
+                    'type' => 'string',
+                ],
+            ),
+            new Placeholder(
+                '%project_url%',
+                'STATIC',
+                [
+                    'name' => 'project_url',
+                    'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
+                    'type' => 'string',
+                ],
+            ),
+            new Placeholder(
+                '%' . AppPhpVersionValueResolver::VALUE_NAME . '%',
+                AppPhpVersionValueResolver::VALUE_RESOLVER_NAME,
+                [],
+                true,
+            ),
+        ];
     }
 
     /**
@@ -46,7 +95,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'hello:php';
+        return 'generate:php:app';
     }
 
     /**
@@ -54,9 +103,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getCommands(): array
     {
-        return [
-            new HelloPhpCommand(),
-        ];
+        return $this->commands;
     }
 
     /**
@@ -64,7 +111,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getVersion(): string
     {
-        return '1.0.0';
+        return '0.1.0';
     }
 
     /**
@@ -88,7 +135,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getSuccessor(): ?string
     {
-        return '/bin/echo "hello %world% %somebody%"';
+        return null;
     }
 
     /**

@@ -5,16 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Hello\Task\Command;
+namespace SprykerSdk\Sdk\Tests\Helper\Command;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
-use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
-class GreeterCommand implements ExecutableCommandInterface
+class ExecutableErrorCommand implements ExecutableCommandInterface, ErrorCommandInterface
 {
     protected string $message;
 
@@ -24,6 +22,14 @@ class GreeterCommand implements ExecutableCommandInterface
     public function __construct(string $message)
     {
         $this->message = $message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage(): string
+    {
+        return 'error';
     }
 
     /**
@@ -61,35 +67,10 @@ class GreeterCommand implements ExecutableCommandInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
-     *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
     public function execute(ContextInterface $context): ContextInterface
     {
-        $message = $this->message;
-
-        $placeholders = array_map(function (mixed $placeholder): string {
-            return '/' . preg_quote((string)$placeholder, '/') . '/';
-        }, array_keys($context->getResolvedValues()));
-
-        $values = array_map(function (mixed $value): string {
-            return (string)$value;
-        }, array_values($context->getResolvedValues()));
-
-        $message = preg_replace($placeholders, $values, $message);
-
-        if (!is_string($message)) {
-            throw new CommandRunnerException(sprintf(
-                'Could not assemble command %s with keys %s',
-                $this->getCommand(),
-                implode(', ', array_keys($values)),
-            ));
-        }
-
-        $context->setExitCode(0);
-        $context->addMessage($this->getCommand(), new Message($message, MessageInterface::SUCCESS));
-
         return $context;
     }
 

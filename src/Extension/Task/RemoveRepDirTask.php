@@ -5,24 +5,46 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Hello\Task;
+namespace SprykerSdk\Sdk\Extension\Task;
 
-use Hello\Task\Command\HelloPhpCommand;
+use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
+use SprykerSdk\Sdk\Extension\Task\Command\RemoveReportDirCommand;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class HelloPhpTask implements TaskInterface
+class RemoveRepDirTask implements TaskInterface
 {
+    /**
+     * @uses \SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
+     *
+     * @var string
+     */
+    protected const REPORT_DIR_SETTING_NAME = 'reportDir';
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface
+     */
+    protected ViolationReportRepositoryInterface $violationReportRepository;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface $violationReportRepository
+     */
+    public function __construct(
+        ViolationReportRepositoryInterface $violationReportRepository
+    ) {
+        $this->violationReportRepository = $violationReportRepository;
+    }
+
     /**
      * @return string
      */
     public function getShortDescription(): string
     {
-        return 'will greet php';
+        return 'This command cleanup report directory';
     }
 
     /**
@@ -46,7 +68,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'hello:php';
+        return 'violation:php:clean-report-dir';
     }
 
     /**
@@ -55,7 +77,7 @@ class HelloPhpTask implements TaskInterface
     public function getCommands(): array
     {
         return [
-            new HelloPhpCommand(),
+            new RemoveReportDirCommand($this->violationReportRepository),
         ];
     }
 
@@ -64,7 +86,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getVersion(): string
     {
-        return '1.0.0';
+        return '0.1.0';
     }
 
     /**
@@ -76,19 +98,19 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
-     * @return bool
-     */
-    public function isOptional(): bool
-    {
-        return false;
-    }
-
-    /**
      * @return string|null
      */
     public function getSuccessor(): ?string
     {
-        return '/bin/echo "hello %world% %somebody%"';
+        return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOptional(): bool
+    {
+        return true;
     }
 
     /**

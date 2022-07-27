@@ -42,8 +42,14 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
+    /**
+     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     */
     protected ValueReceiverInterface $valueReceiver;
 
+    /**
+     * @var string
+     */
     protected string $sdkBasePath;
 
     /**

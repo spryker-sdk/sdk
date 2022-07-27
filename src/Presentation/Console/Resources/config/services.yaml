@@ -115,8 +115,8 @@ services:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
     tags: [ "console.command" ]
   brancho_commit_command:
-    class: SprykerSdk\Sdk\Extension\Commands\CommitCommand
+    class: SprykerSdk\Sdk\Extension\Command\CommitCommand
     tags: ["console.command"]
   brancho_branch_builder_command:
-    class: SprykerSdk\Sdk\Extension\Commands\BranchBuilderCommand
+    class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
     tags: ["console.command"]

@@ -5,24 +5,39 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Hello\Task;
+namespace SprykerSdk\Sdk\Extension\Task;
 
-use Hello\Task\Command\HelloPhpCommand;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
+use SprykerSdk\Sdk\Extension\ValueResolver\BusinessModelValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolver\PCSystemValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class HelloPhpTask implements TaskInterface
+class BusinessModelInstallerTask implements TaskInterface
 {
+    /**
+     * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected array $commands = [];
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     */
+    public function __construct(array $commands)
+    {
+        $this->commands = $commands;
+    }
+
     /**
      * @return string
      */
     public function getShortDescription(): string
     {
-        return 'will greet php';
+        return 'Install business model B2B or B2C';
     }
 
     /**
@@ -30,7 +45,16 @@ class HelloPhpTask implements TaskInterface
      */
     public function getPlaceholders(): array
     {
-        return [];
+        return [
+            new Placeholder(
+                '%' . BusinessModelValueResolver::ALIAS . '%',
+                BusinessModelValueResolver::ID,
+            ),
+            new Placeholder(
+                '%' . PCSystemValueResolver::ALIAS . '%',
+                PCSystemValueResolver::ID,
+            ),
+        ];
     }
 
     /**
@@ -46,7 +70,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'hello:php';
+        return 'install:project:business-model';
     }
 
     /**
@@ -54,9 +78,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getCommands(): array
     {
-        return [
-            new HelloPhpCommand(),
-        ];
+        return $this->commands;
     }
 
     /**
@@ -64,7 +86,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getVersion(): string
     {
-        return '1.0.0';
+        return '0.1.0';
     }
 
     /**
@@ -88,7 +110,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getSuccessor(): ?string
     {
-        return '/bin/echo "hello %world% %somebody%"';
+        return null;
     }
 
     /**
