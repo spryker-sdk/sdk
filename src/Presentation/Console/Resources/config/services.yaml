@@ -12,7 +12,7 @@ services:
       - "%kernel.project_dir%"
       - "@process_helper"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
   init_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitCommand
@@ -21,7 +21,7 @@ services:
       - "@initializer_service"
       - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
   run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\RunWorkflowCommand

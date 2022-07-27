@@ -35,7 +35,7 @@ services:
       - "@doctrine.orm.entity_manager"
       - "@path_resolver"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
