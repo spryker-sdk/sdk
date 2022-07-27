@@ -25,7 +25,7 @@ class EventLogger implements EventLoggerInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Events\Event $event
+     * @param \SprykerSdk\Sdk\Core\Domain\Event\Event $event
      *
      * @return void
      */

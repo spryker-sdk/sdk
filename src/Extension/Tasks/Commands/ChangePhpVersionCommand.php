@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
 use SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface;
-use SprykerSdk\Sdk\Extension\ValueResolvers\AppPhpVersionValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;

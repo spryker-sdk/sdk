@@ -150,7 +150,7 @@ class YourCommand implements ExecutableCommandInterface
 #### Implement Placeholders
 
 Placeholders will be resolved at runtime by using a specified __ValueResolver__.
-A __Placeholder__ need to have a specific name that is not used anywhere in the Commands the __Placeholder__ is used for.
+A __Placeholder__ need to have a specific name that is not used anywhere in the Command the __Placeholder__ is used for.
 For example `%` can be appended and suffixed for this purpose and will make the __Placeholder__ easier to recognize in a __Command__.
 The used __ValueResolver__ can be referenced by his id or by his full qualified class name (FQCN), where the FQCN should be preferred.
 
@@ -159,7 +159,7 @@ namespace <YourNamespace>\Tasks;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use <YourNamespace>\ValueResolvers\YourValueResolver;
+use <YourNamespace>\ValueResolver\YourValueResolver;
 
 class YourTask implements TaskInterface
 {
@@ -202,7 +202,7 @@ that turns a placeholder into a resolved value.
 The purpose is to unify __ValueResolvers__ and always use the same name for a value.
 
 ```php
-namespace <YourNamespace>\ValueResolvers;
+namespace <YourNamespace>\ValueResolver;
 
 use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 
@@ -272,7 +272,7 @@ When the __ValueResolver__ is not defined as a service it will be instantiated b
 ```yaml
 services:
   your_value_resolver:
-    class: <YourNamespace>\ValueResolvers\YourValueResolver
+    class: <YourNamespace>\ValueResolver\YourValueResolver
     tags: ['sdk.value_resolver']
 ```
 

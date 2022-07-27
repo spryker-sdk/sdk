@@ -160,7 +160,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         }
 
         return array_map(function (string $directory) {
-            return $directory . '/*/ValueResolvers/';
+            return $directory . '/*/ValueResolver/';
         }, $paths->getValues());
     }
 

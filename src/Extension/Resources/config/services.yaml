@@ -90,7 +90,7 @@ services:
       - '%uname_info%'
 
   app_php_version_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolvers\AppPhpVersionValueResolver
+    class: SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'
@@ -100,21 +100,21 @@ services:
     tags: ["sdk.task"]
     arguments:
       - "@violation_report_repository"
-  SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
   create_directory_initializer:
-    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
     public: true
-  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
     arguments:
       - "@project_setting_repository"
   project_uuid_initializer:
-    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer
     public: true
-  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
     arguments:
@@ -122,10 +122,10 @@ services:
       - "@workflow_repository"
       - "@project_workflow"
   project_workflow_initializer:
-    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer
     public: true
   option_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolvers\OptionValueResolver
+    class: SprykerSdk\Sdk\Extension\ValueResolver\OptionValueResolver
     arguments:
       - '@value_receiver'
     tags: ['sdk.value_resolver']

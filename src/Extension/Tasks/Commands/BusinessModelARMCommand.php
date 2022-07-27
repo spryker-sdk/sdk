@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
-use SprykerSdk\Sdk\Extension\ValueResolvers\PCSystemValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolver\PCSystemValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;

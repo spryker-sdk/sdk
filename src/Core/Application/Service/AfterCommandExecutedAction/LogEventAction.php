@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
-use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
+use SprykerSdk\Sdk\Core\Domain\Event\TaskExecutedEvent;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
