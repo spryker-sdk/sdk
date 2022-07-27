@@ -15,5 +15,5 @@ placeholders:
     optional: true
     configuration:
       name: "translation-file"
-      description: "Path to save translation file to"
+      description: "Path to save translation file to [default: 'config/app/translation/translation.json']"
       type: string

@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
-use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
+use SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -20,30 +20,30 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     /**
      * @var string
      */
-    protected const COMPOSER_INITIALIZATION_ERROR = 'Can not change name composer.json in generated PBC';
+    protected const COMPOSER_INITIALIZATION_ERROR = 'Can not change name composer.json in generated App';
 
     /**
      * @var string
      */
-    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change name in deploy.dev.yml in generated PBC';
+    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change name in deploy.dev.yml in generated App';
 
     /**
-     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface
      */
-    protected PbcFileModifierInterface $composerFileModifier;
+    protected AppFileModifierInterface $composerFileModifier;
 
     /**
-     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface
      */
-    protected PbcFileModifierInterface $dockerFileModifier;
+    protected AppFileModifierInterface $dockerFileModifier;
 
     /**
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $dockerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface $dockerFileModifier
      */
     public function __construct(
-        PbcFileModifierInterface $composerFileModifier,
-        PbcFileModifierInterface $dockerFileModifier
+        AppFileModifierInterface $composerFileModifier,
+        AppFileModifierInterface $dockerFileModifier
     ) {
         $this->composerFileModifier = $composerFileModifier;
         $this->dockerFileModifier = $dockerFileModifier;
@@ -132,13 +132,14 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     protected function changeDockerNames(ContextInterface $context): void
     {
         $resolvedValues = $context->getResolvedValues();
-        $pbcName = $resolvedValues['%pbc_name%'];
+        $appName = strtolower($resolvedValues['%app_name%']);
+        $appName = preg_replace('/[\s]/', '-', $appName);
 
         $dockerFileContent = $this->dockerFileModifier->read($context, static::DOCKER_INITIALIZATION_ERROR);
-        $dockerFileContent['namespace'] = $pbcName;
+        $dockerFileContent['namespace'] = $appName;
         $this->dockerFileModifier->write($dockerFileContent, $context);
-        $this->dockerFileModifier->replace(function (string $content) use ($pbcName) {
-            return str_replace('spryker.local', $pbcName . '.local', $content);
+        $this->dockerFileModifier->replace(function (string $content) use ($appName) {
+            return str_replace('spryker.local', $appName . '.local', $content);
         }, $context, static::DOCKER_INITIALIZATION_ERROR);
     }
 

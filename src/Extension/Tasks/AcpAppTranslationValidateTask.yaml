@@ -15,19 +15,19 @@ placeholders:
     optional: true
     configuration:
       name: "translation-file"
-      description: "Path to translation file"
+      description: "Path to translation file [default: 'config/app/translation/translation.json']"
       type: string
   - name: "%manifest-path%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "manifest-path"
-      description: "Path to manifest file"
+      description: "Path to manifest file [default: 'config/app/manifest/']"
       type: string
   - name: "%configuration-file%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "configuration-file"
-      description: "Path to configuration file"
+      description: "Path to configuration file [default: 'config/app/configuration/configuration.json']"
       type: string

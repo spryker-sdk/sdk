@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Service;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-interface PbcFileModifierInterface
+interface AppFileModifierInterface
 {
     /**
      * @param array $content

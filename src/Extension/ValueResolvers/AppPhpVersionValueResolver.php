@@ -9,17 +9,17 @@ namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 
-class PbcPhpVersionValueResolver extends AbstractValueResolver
+class AppPhpVersionValueResolver extends AbstractValueResolver
 {
     /**
      * @var string
      */
-    public const VALUE_NAME = 'pbc_php_version';
+    public const VALUE_NAME = 'app_php_version';
 
     /**
      * @var string
      */
-    public const VALUE_RESOLVER_NAME = 'PBC_PHP_VERSION';
+    public const VALUE_RESOLVER_NAME = 'APP_PHP_VERSION';
 
     /**
      * Information need to map to https://hub.docker.com/r/spryker/php
@@ -62,7 +62,7 @@ class PbcPhpVersionValueResolver extends AbstractValueResolver
      */
     public function getDescription(): string
     {
-        return 'PHP version to use for the PBC';
+        return 'PHP version to use for the App';
     }
 
     /**

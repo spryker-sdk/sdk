@@ -40,7 +40,7 @@ class PathResolver
             return $path;
         }
 
-        $path = preg_replace('/^\P{L}+/u', '', $path);
+        $path = preg_replace('/^(([\/\\])|([.](?!\w)))+/u', '', $path);
 
         $path = $this->sdkBasePath . DIRECTORY_SEPARATOR . $path;
 
@@ -58,7 +58,7 @@ class PathResolver
             return $path;
         }
 
-        $path = preg_replace('/^\P{L}+/u', '', $path);
+        $path = preg_replace('/^(([\/\\])|([.](?!\w)))+/u', '', $path);
 
         $path = $this->filesystem->getcwd() . DIRECTORY_SEPARATOR . $path;
 

@@ -9,11 +9,11 @@ namespace SprykerSdk\Sdk\Unit\Extension\ValueResolvers;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Extension\ValueResolvers\PbcTypeValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolvers\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
-class PbcTypeValueResolverTest extends Unit
+class AppPhpVersionValueResolverTest extends Unit
 {
     /**
      * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
@@ -39,30 +39,22 @@ class PbcTypeValueResolverTest extends Unit
     /**
      * @return void
      */
-    public function testGetValueIfEmpty(): void
+    public function testGetValue(): void
     {
         // Arrange
-        $repositories = [
-            'boilerplate' => 'https://github.com/spryker/project-boilerplate',
-        ];
         $receiverValue = new ReceiverValue(
-            'PBC template to use for creation',
-            array_key_first($repositories),
+            'PHP version to use for the App',
+            array_key_first(AppPhpVersionValueResolver::PHP_VERSIONS),
             'string',
-            array_keys($repositories),
+            array_keys(AppPhpVersionValueResolver::PHP_VERSIONS),
         );
         $this->valueReceiver
             ->expects($this->once())
             ->method('receiveValue')
-            ->with($receiverValue)
-            ->willReturn('boilerplate');
-
-        $valueResolver = new PbcTypeValueResolver($this->valueReceiver);
+            ->with($receiverValue);
+        $valueResolver = new AppPhpVersionValueResolver($this->valueReceiver);
 
         // Act
-        $value = $valueResolver->getValue($this->context, []);
-
-        // Assert
-        $this->assertSame('https://github.com/spryker/project-boilerplate', $value);
+        $valueResolver->getValue($this->context, []);
     }
 }

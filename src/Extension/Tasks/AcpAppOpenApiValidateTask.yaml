@@ -15,5 +15,5 @@ placeholders:
     optional: true
     configuration:
       name: "openapi-file"
-      description: "Path to OpenAPI file"
+      description: "Path to OpenAPI file [default: 'config/api/openapi/openapi.yml']"
       type: string
