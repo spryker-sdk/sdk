@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Service;
 
-class PbcComposerFileModifier extends AbstractPbcFileModifier
+class AppComposerFileModifier extends AbstractAppFileModifier
 {
     /**
      * @return string

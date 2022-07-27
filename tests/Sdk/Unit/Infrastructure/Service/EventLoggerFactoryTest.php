@@ -16,6 +16,11 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 class EventLoggerFactoryTest extends Unit
 {
     /**
+     * @var string
+     */
+    protected const PROJECT_SETTINGS_FILE = '.ssdk';
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
@@ -37,10 +42,10 @@ class EventLoggerFactoryTest extends Unit
     {
         // Arrange
         $this->projectSettingRepository
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('findOneByPath')
             ->willReturn($this->createMock(SettingInterface::class));
-        $eventLogger = new EventLoggerFactory($this->projectSettingRepository);
+        $eventLogger = new EventLoggerFactory($this->projectSettingRepository, static::PROJECT_SETTINGS_FILE);
 
         // Act
         $logger = $eventLogger->createEventLogger();

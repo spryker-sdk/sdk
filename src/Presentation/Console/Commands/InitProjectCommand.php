@@ -119,7 +119,7 @@ class InitProjectCommand extends Command
         if (file_exists($this->projectSettingFileName)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
-                    new ReceiverValue('.ssdk file already exists, should it be overwritten? [n]', false, 'boolean'),
+                    new ReceiverValue('Project settings file already exists, should it be overwritten?', false, 'boolean'),
                 )
             ) {
                 return static::SUCCESS;
@@ -131,6 +131,7 @@ class InitProjectCommand extends Command
         $needsToAsk = (bool)$input->getOption('default');
         $settingEntities = $this->initializeSettingValues($input->getOptions(), $settingEntities, $needsToAsk);
         $this->writeProjectSettings($settingEntities);
+        $this->createGitignore();
 
         return static::SUCCESS;
     }
@@ -144,26 +145,27 @@ class InitProjectCommand extends Command
      */
     protected function initializeSettingValues(array $options, array $settingEntities, bool $needsToAsk): array
     {
+        $settingEntitiesToSave = [];
         foreach ($settingEntities as $settingEntity) {
-            if (!empty($options[$settingEntity->getPath()])) {
-                $settingEntity->setValues($options[$settingEntity->getPath()]);
-            }
-            if ($settingEntity->hasInitialization() === false) {
+            if (
+                (empty($options[$settingEntity->getPath()]) && $settingEntity->hasInitialization() === false) ||
+                ($settingEntity->getInitializer() && in_array($settingEntity->getType(), ['uuid']))
+            ) {
                 continue;
             }
-            $values = $settingEntity->getValues();
+            $values = $options[$settingEntity->getPath()] ?? $settingEntity->getValues();
 
-            if (empty($options[$settingEntity->getPath()]) && $settingEntity->hasInitialization() === true) {
+            if (empty($options[$settingEntity->getPath()])) {
                 $needsToAsk = !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
-                        sprintf('Do you need to init `%s` with custom setting', $settingEntity->getPath()),
+                        sprintf('Would you like to change the default value for `%s` setting?', $settingEntity->getPath()),
                         false,
                         'boolean',
                     ),
                 );
             }
 
-            if (!$needsToAsk) {
+            if (!$needsToAsk && !$options[$settingEntity->getPath()]) {
                 $questionDescription = $settingEntity->getInitializationDescription();
 
                 if (!$questionDescription) {
@@ -179,14 +181,18 @@ class InitProjectCommand extends Command
                 $values = $this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
                         $questionDescription,
-                        $settingEntity->getValues(),
+                        is_array($values) ? array_key_first($values) : $values,
                         $settingEntity->getType(),
                         $choiceValues,
                     ),
                 );
             }
             $values = ['boolean' => (bool)$values, 'array' => (array)$values][$settingEntity->getType()] ?? (string)$values;
+            if ($settingEntity->getType() !== 'array' && $values === $settingEntity->getValues()) {
+                continue;
+            }
             $settingEntity->setValues($values);
+            $settingEntitiesToSave[] = $settingEntity;
         }
 
         foreach ($settingEntities as $settingEntity) {
@@ -196,7 +202,7 @@ class InitProjectCommand extends Command
             }
         }
 
-        return $settingEntities;
+        return $settingEntitiesToSave;
     }
 
     /**
@@ -234,5 +240,17 @@ class InitProjectCommand extends Command
         }
 
         return $initializer;
+    }
+
+    /**
+     * @return void
+     */
+    protected function createGitignore(): void
+    {
+        $settingsDir = dirname($this->projectSettingFileName);
+
+        if (realpath($settingsDir) !== realpath('.')) {
+            file_put_contents(sprintf('%s/.gitignore', $settingsDir), '*');
+        }
     }
 }

@@ -5,6 +5,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
     arguments:
       - "@project_setting_repository"
+      - "%project_settings_file%"
   event_logger:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
     factory: ["@event_logger_factory", "createEventLogger"]
@@ -283,6 +284,7 @@ services:
 
   workflow_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+    tags: [ "sdk.cli_receiver_setup" ]
     arguments:
       - "@cli_value_receiver"
       - "@service_container"

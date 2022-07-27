@@ -7,6 +7,7 @@ RUN apk update \
     && apk add --no-cache \
     curl \
     git \
+    graphviz \
     nodejs \
     npm \
     && npm install -g npm@8.4.1

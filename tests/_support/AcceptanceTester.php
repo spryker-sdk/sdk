@@ -91,7 +91,7 @@ class AcceptanceTester extends Actor
      */
     public function cleanReports(string $project = 'project'): void
     {
-        $this->cleanDir($this->getPathFromProjectRoot('reports', $project));
+        $this->cleanDir($this->getPathFromProjectRoot('.ssdk/reports', $project));
     }
 
     /**
