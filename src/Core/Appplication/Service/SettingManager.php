@@ -51,7 +51,7 @@ class SettingManager
             if (isset($pathValues[$settingDefinition->getPath()])) {
                 $setting = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
 
-                if ($settingDefinition->isProject()) {
+                if ($settingDefinition->getSettingType() !== SettingRepositoryInterface::SDK_SETTING_TYPE) {
                     $modifiedProjectSettings[] = $setting;
                 } else {
                     $modifiedCoreSettings[] = $setting;
@@ -88,7 +88,7 @@ class SettingManager
 
         $this->buildPathValue($settingDefinition, $value);
 
-        if ($settingDefinition->isProject()) {
+        if ($settingDefinition->getSettingType() !== SettingRepositoryInterface::SDK_SETTING_TYPE) {
             return $this->projectSettingRepository->save($settingDefinition);
         }
 

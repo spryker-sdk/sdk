@@ -16,6 +16,11 @@ use Symfony\Component\Yaml\Yaml;
 class YamlViolationReportFormatter implements ViolationReportFormatterInterface
 {
     /**
+     * @var string
+     */
+    public const FORMAT = 'yaml';
+
+    /**
      * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface
      */
     protected ViolationReportFileMapperInterface $violationReportFileMapper;
@@ -50,7 +55,7 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
      */
     public function getFormat(): string
     {
-        return 'yaml';
+        return static::FORMAT;
     }
 
     /**

@@ -32,9 +32,9 @@ class Setting implements SettingInterface
     protected string $type = 'string';
 
     /**
-     * @var bool
+     * @var string
      */
-    protected bool $isProject = true;
+    protected string $settingType = 'local';
 
     /**
      * @var bool
@@ -56,7 +56,7 @@ class Setting implements SettingInterface
      * @param mixed $values
      * @param string $strategy
      * @param string $type
-     * @param bool $isProject
+     * @param string $settingType
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
      * @param string|null $initializer
@@ -66,14 +66,14 @@ class Setting implements SettingInterface
         $values,
         string $strategy,
         string $type = 'string',
-        bool $isProject = true,
+        string $settingType = 'local',
         bool $hasInitialization = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
     ) {
         $this->initializationDescription = $initializationDescription;
         $this->hasInitialization = $hasInitialization;
-        $this->isProject = $isProject;
+        $this->settingType = $settingType;
         $this->type = $type;
         $this->strategy = $strategy;
         $this->values = $values;
@@ -124,11 +124,11 @@ class Setting implements SettingInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isProject(): bool
+    public function getSettingType(): string
     {
-        return $this->isProject;
+        return $this->settingType;
     }
 
     /**

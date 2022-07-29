@@ -126,7 +126,7 @@ class SettingManagerTest extends Unit
             ->willReturnCallback(function (array $settingKeys) use ($pathValues): array {
                 $settings = [];
                 foreach (array_intersect_key($pathValues, array_flip($settingKeys)) as $path => $value) {
-                    $settings[] = $this->tester->createSetting($path, $value, SettingInterface::STRATEGY_REPLACE, false);
+                    $settings[] = $this->tester->createSetting($path, $value, SettingInterface::STRATEGY_REPLACE, 'sdk');
                 }
 
                 return $settings;
@@ -194,7 +194,7 @@ class SettingManagerTest extends Unit
             ->expects($this->once())
             ->method('findOneByPath')
             ->willReturnCallback(function (string $settingPath) use ($value): SettingInterface {
-                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_REPLACE, false);
+                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_REPLACE, 'sdk');
             });
 
         $this->settingRepositoryMock->expects($this->once())
@@ -227,7 +227,7 @@ class SettingManagerTest extends Unit
             ->method('findOneByPath')
             ->with($path)
             ->willReturnCallback(function (string $settingPath) use ($value): SettingInterface {
-                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_MERGE, false);
+                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_MERGE, 'sdk');
             });
 
         $this->settingRepositoryMock->expects($this->once())

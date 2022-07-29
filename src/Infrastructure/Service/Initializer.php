@@ -76,7 +76,7 @@ class Initializer implements InitializerInterface
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
         $coreEntities = array_filter($settingEntities, function (EntitySettingInterface $setting): bool {
-            return !$setting->isProject();
+            return $setting->getSettingType() === SettingRepositoryInterface::SDK_SETTING_TYPE;
         });
 
         foreach ($coreEntities as $settingEntity) {

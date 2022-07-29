@@ -88,7 +88,7 @@ class Context implements ContextInterface
     /**
      * @var string
      */
-    protected string $format = 'output';
+    protected string $format;
 
     /**
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>

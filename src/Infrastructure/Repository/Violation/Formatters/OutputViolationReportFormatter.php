@@ -18,6 +18,11 @@ use Symfony\Component\Yaml\Yaml;
 class OutputViolationReportFormatter implements ViolationReportFormatterInterface, InputOutputReceiverInterface
 {
     /**
+     * @var string
+     */
+    public const FORMAT = 'output';
+
+    /**
      * @var \Symfony\Component\Console\Input\InputInterface
      */
     protected InputInterface $input;
@@ -37,7 +42,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
      */
     public function getFormat(): string
     {
-        return 'output';
+        return static::FORMAT;
     }
 
     /**

@@ -9,13 +9,13 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command;
@@ -41,9 +41,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
-    protected ReportFormatterFactory $reportFormatterFactory;
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
@@ -72,7 +72,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
-     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
      * @param string $environment
@@ -84,7 +84,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         ContextRepositoryInterface $contextRepository,
         TaskExecutor $taskExecutor,
         PlaceholderResolver $placeholderResolver,
-        ReportFormatterFactory $reportFormatterFactory,
+        ProjectSettingRepositoryInterface $projectSettingRepository,
         ProjectWorkflow $projectWorkflow,
         ContextStorage $contextStorage,
         string $environment = 'prod'
@@ -93,7 +93,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
         $this->placeholderResolver = $placeholderResolver;
-        $this->reportFormatterFactory = $reportFormatterFactory;
+        $this->projectSettingRepository = $projectSettingRepository;
         $this->contextRepository = $contextRepository;
         $this->projectWorkflow = $projectWorkflow;
         $this->environment = $environment;
@@ -145,7 +145,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             $this->taskExecutor,
             $this->projectWorkflow,
             $this->contextRepository,
-            $this->reportFormatterFactory,
+            $this->projectSettingRepository,
             $this->contextStorage,
             $options,
             $task->getShortDescription(),
