@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Acceptance\Extension\Telemetry;
+namespace SprykerSdk\Sdk\Acceptance\Telemetry;
 
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
