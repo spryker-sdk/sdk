@@ -6075,16 +6075,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f"
+                "reference": "fe58248bd35dda6ce861c695a46c9fefce1fdc72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
-                "reference": "5c121b4e0bd9dfdcbc32a65e91788a2a9af8de0f",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/fe58248bd35dda6ce861c695a46c9fefce1fdc72",
+                "reference": "fe58248bd35dda6ce861c695a46c9fefce1fdc72",
                 "shasum": ""
             },
             "require": {
-                "php": ">= 8.0"
+                "php": ">= 7.4"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.2",
@@ -6106,7 +6106,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
             },
-            "time": "2022-07-05T11:23:00+00:00"
+            "time": "2022-07-13T15:36:51+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14047,5 +14047,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }

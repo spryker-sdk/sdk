@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Appplication\Service\Violation;
 
+use SprykerSdk\Sdk\Core\Appplication\Service\Report\ReportGeneratorInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\Report\ReportGeneratorResolverInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface;
 
 class ViolationReportGeneratorResolver implements ReportGeneratorResolverInterface
 {
@@ -26,7 +26,7 @@ class ViolationReportGeneratorResolver implements ReportGeneratorResolverInterfa
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Report\ReportGeneratorInterface|null
+     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Report\ReportGeneratorInterface|null
      */
     public function resolveByContext(ContextInterface $context): ?ReportGeneratorInterface
     {
