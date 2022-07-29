@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
-use SprykerSdk\SdkContracts\Events\EventInterface;
+use SprykerSdk\SdkContracts\Event\EventInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 class EventLogger implements EventLoggerInterface

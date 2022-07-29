@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Extension\Dependency\Events;
+namespace SprykerSdk\Sdk\Extension\Dependency\Event;
 
 use Symfony\Component\Workflow\Event\GuardEvent;
 

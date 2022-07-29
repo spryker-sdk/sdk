@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Extension\Dependency\Events;
+namespace SprykerSdk\Sdk\Extension\Dependency\Event;
 
 interface WorkflowEventHandlerInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventInterface $event
+     * @param \SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventInterface $event
      *
      * @return void
      */

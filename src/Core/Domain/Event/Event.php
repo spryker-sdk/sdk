@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Event;
 
-use SprykerSdk\SdkContracts\Events\EventInterface;
+use SprykerSdk\SdkContracts\Event\EventInterface;
 
 class Event implements EventInterface
 {
