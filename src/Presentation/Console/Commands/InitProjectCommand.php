@@ -276,7 +276,7 @@ class InitProjectCommand extends Command
         $settingsDir = dirname($this->projectSettingFileName);
 
         if (realpath($settingsDir) !== realpath('.')) {
-            file_put_contents(sprintf('%s/.gitignore', $settingsDir), "*\n\r!setting");
+            file_put_contents(sprintf('%s/.gitignore', $settingsDir), "*\n!setting");
         }
     }
 }
