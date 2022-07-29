@@ -14,6 +14,8 @@ interface SettingRepositoryInterface
     /**
      * @param string $settingPath
      *
+     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\SettingsNotInitializedException
+     *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface;

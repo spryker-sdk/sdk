@@ -1,0 +1,6 @@
+{
+    "name": "spryker-sdk/sdk-test",
+    "description": "Test project description.",
+    "type": "project",
+    "license": "proprietary"
+}

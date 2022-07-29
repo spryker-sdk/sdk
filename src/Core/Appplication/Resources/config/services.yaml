@@ -155,3 +155,21 @@ services:
     arguments:
       - !tagged_iterator report.array_converter
 
+  telemetry.event_metadata_factory:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventMetadataFactory
+    arguments:
+      - "@project_info_fetcher"
+      - "@project_setting_repository"
+
+  telemetry.command_event_synchronizer:
+    class: SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer
+    arguments:
+      - "@telemetry_event_repository"
+      - "@telemetry.telemetry_events_sender"
+      - "@lock_factory"
+      - "%telemetry_synchronizer_batch_size%"
+      - "%telemetry_synchronizer_max_sync_attempts%"
+      - "%telemetry_synchronizer_max_event_ttl_days%"
+      - "%telemetry_synchronizer_lock_ttl_sec%"
+      - "%kernel.debug%"
+      - "%telemetry_enabled%"
