@@ -36,7 +36,7 @@ class CodeSnifferTaskSetCest
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml'));
+        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml'));
     }
 
     /**
@@ -58,6 +58,6 @@ class CodeSnifferTaskSetCest
 
         // Assert
         Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileExists($I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml'));
+        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml'));
     }
 }

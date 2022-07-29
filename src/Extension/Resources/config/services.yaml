@@ -3,42 +3,42 @@ parameters:
   uname_info: '%env(uname:UNAME_INFO)%'
 
 services:
-  pbc_modify_docker_file:
-    class: SprykerSdk\Sdk\Extension\Service\PbcDockerFileModifier
+  app_modify_docker_file:
+    class: SprykerSdk\Sdk\Extension\Service\AppDockerFileModifier
     arguments:
       - '@yaml_parser'
-  pbc_modify_composer_file:
-    class: SprykerSdk\Sdk\Extension\Service\PbcComposerFileModifier
-  generate_pbc_change_name_command:
+  app_modify_composer_file:
+    class: SprykerSdk\Sdk\Extension\Service\AppComposerFileModifier
+  generate_app_change_name_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand
     arguments:
-      - '@pbc_modify_composer_file'
-      - '@pbc_modify_docker_file'
+      - '@app_modify_composer_file'
+      - '@app_modify_docker_file'
   check_git_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand
-  generate_pbc_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\GeneratePbcCommand
-  generate_pbc_change_php_version_command:
+  generate_app_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\GenerateAppCommand
+  generate_app_change_php_version_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangePhpVersionCommand
     arguments:
-      - '@pbc_modify_composer_file'
-      - '@pbc_modify_docker_file'
-  generate_pbc_add_aop_sdk_command:
+      - '@app_modify_composer_file'
+      - '@app_modify_docker_file'
+  generate_app_add_aop_sdk_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAcpSdkCommand
     arguments:
-      - '@pbc_modify_composer_file'
-  generate_pbc_allow_default_composer_plugins_command:
+      - '@app_modify_composer_file'
+  generate_app_allow_default_composer_plugins_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\AllowDefaultComposerPluginCommand
     arguments:
-      - '@pbc_modify_composer_file'
-  generate_pbc_update_dependencies_command:
+      - '@app_modify_composer_file'
+  generate_app_update_dependencies_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\UpdateDependenciesCommand
   add_docker_sdk_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddDockerSdkCommand
   check_mutagen_for_mac_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckMutagenCommand
-  generate_pbc_next_steps_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\NextPbcStepsCommand
+  generate_app_next_steps_command:
+    class: SprykerSdk\Sdk\Extension\Tasks\Commands\NextAppStepsCommand
   business_model_arm_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\BusinessModelARMCommand
     arguments:
@@ -48,20 +48,20 @@ services:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckDockerCommand
   docker_init_up_steps_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\DockerInitUpStepsCommand
-  generate_pbc:
-    class: SprykerSdk\Sdk\Extension\Tasks\GeneratePbcTask
+  generate_app:
+    class: SprykerSdk\Sdk\Extension\Tasks\GenerateAppTask
     tags: [ 'sdk.task' ]
     arguments:
       $commands:
         - '@check_git_command'
-        - '@generate_pbc_command'
-        - '@generate_pbc_change_name_command'
-        - '@generate_pbc_change_php_version_command'
-        - '@generate_pbc_add_aop_sdk_command'
-        - '@generate_pbc_allow_default_composer_plugins_command'
-        - '@generate_pbc_update_dependencies_command'
+        - '@generate_app_command'
+        - '@generate_app_change_name_command'
+        - '@generate_app_change_php_version_command'
+        - '@generate_app_add_aop_sdk_command'
+        - '@generate_app_allow_default_composer_plugins_command'
+        - '@generate_app_update_dependencies_command'
         - '@add_docker_sdk_command'
-        - '@generate_pbc_next_steps_command'
+        - '@generate_app_next_steps_command'
   clone_business_model_command:
     class: SprykerSdk\Sdk\Extension\Tasks\Commands\CloneBusinessModelRepositoryCommand
   business_model_installer_task:
@@ -89,8 +89,8 @@ services:
       - '@value_receiver'
       - '%uname_info%'
 
-  pbc_php_version_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver
+  app_php_version_value_resolver:
+    class: SprykerSdk\Sdk\Extension\ValueResolvers\AppPhpVersionValueResolver
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'

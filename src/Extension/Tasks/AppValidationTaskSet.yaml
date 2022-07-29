@@ -1,5 +1,5 @@
 ---
-id: "acp:pbc:validate"
+id: "acp:app:validate"
 short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 stage: build

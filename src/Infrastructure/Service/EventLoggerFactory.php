@@ -14,7 +14,6 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 use Throwable;
 
@@ -26,12 +25,20 @@ class EventLoggerFactory
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
+     * @var string
+     */
+    protected string $projectSettingsFile;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param string $projectSettingsFile
      */
     public function __construct(
-        ProjectSettingRepositoryInterface $projectSettingRepository
+        ProjectSettingRepositoryInterface $projectSettingRepository,
+        string $projectSettingsFile
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
+        $this->projectSettingsFile = $projectSettingsFile;
     }
 
     /**
@@ -55,10 +62,9 @@ class EventLoggerFactory
             if ($reportUsageStatisticsSetting) {
                 $reportUsageStatistics = (bool)$reportUsageStatisticsSetting->getValues();
             }
-            $projectDirSetting = $this->projectSettingRepository->findOneByPath('project_dir');
 
-            if ($reportUsageStatistics && $projectDirSetting) {
-                return $this->createFileLogger($projectDirSetting);
+            if ($reportUsageStatistics) {
+                return $this->createFileLogger();
             }
 
             return $this->createNullLogger();
@@ -77,14 +83,12 @@ class EventLoggerFactory
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $projectDirSetting
-     *
      * @return \Psr\Log\LoggerInterface
      */
-    protected function createFileLogger(SettingInterface $projectDirSetting): LoggerInterface
+    protected function createFileLogger(): LoggerInterface
     {
         $logger = new Logger('event_logger');
-        $logger->pushHandler($this->createFileHandler($projectDirSetting));
+        $logger->pushHandler($this->createFileHandler());
 
         return $logger;
     }
@@ -101,13 +105,11 @@ class EventLoggerFactory
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $projectDirSetting
-     *
      * @return \Monolog\Handler\HandlerInterface
      */
-    protected function createFileHandler(SettingInterface $projectDirSetting): HandlerInterface
+    protected function createFileHandler(): HandlerInterface
     {
-        $handler = new StreamHandler($projectDirSetting->getValues() . '/.ssdk.log');
+        $handler = new StreamHandler(dirname($this->projectSettingsFile) . '/.ssdk.log');
         $handler->setFormatter($this->createJsonFormatter());
 
         return $handler;

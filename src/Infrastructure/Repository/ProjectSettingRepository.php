@@ -100,8 +100,14 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $localProjectValues[$setting->getPath()] = $setting->getValues();
         }
 
+        $projectSettingDir = dirname($this->projectSettingFileName);
+
+        if (!is_dir($projectSettingDir)) {
+            mkdir($projectSettingDir, 0777, true);
+        }
+
         if ($localProjectValues) {
-            file_put_contents($this->projectSettingFileName, $this->yamlParser::dump($localProjectValues));
+            file_put_contents($this->projectSettingFileName . '.' . static::LOCAL_PREFIX, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {

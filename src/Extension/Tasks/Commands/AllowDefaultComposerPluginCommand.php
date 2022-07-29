@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
-use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
+use SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -18,14 +18,14 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface
      */
-    protected PbcFileModifierInterface $composerFileModifier;
+    protected AppFileModifierInterface $composerFileModifier;
 
     /**
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface $composerFileModifier
      */
-    public function __construct(PbcFileModifierInterface $composerFileModifier)
+    public function __construct(AppFileModifierInterface $composerFileModifier)
     {
         $this->composerFileModifier = $composerFileModifier;
     }

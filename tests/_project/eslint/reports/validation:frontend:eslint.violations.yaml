@@ -1,0 +1,4 @@
+project: eslint
+path: ./
+violations: {  }
+packages: {  }
