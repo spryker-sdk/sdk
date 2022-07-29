@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
@@ -101,9 +102,13 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function findProjectSettings(): array
     {
-        $settings = $this->findBy([
-            'isProject' => true,
-        ]);
+        $settings = $this->matching(
+            (new Criteria())
+                ->where(
+                    Criteria::expr()
+                        ->neq('settingType', 'sdk'),
+                ),
+        )->toArray();
 
         return array_map([$this, 'resolvePathSetting'], $settings);
     }
@@ -114,7 +119,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     public function findCoreSettings(): array
     {
         return $this->findBy([
-            'isProject' => false,
+            'settingType' => static::SDK_SETTING_TYPE,
         ]);
     }
 
@@ -159,13 +164,13 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             $values = $setting->getValues();
             if (is_array($values)) {
                 foreach ($values as $key => $value) {
-                    $values[$key] = !$setting->isProject() ?
+                    $values[$key] = $setting->getSettingType() === static::SDK_SETTING_TYPE ?
                         $this->pathResolver->getResolveRelativePath($value) :
                         $this->pathResolver->getResolveProjectRelativePath($value);
                 }
             }
             if (is_string($values)) {
-                $values = !$setting->isProject() ?
+                $values = $setting->getSettingType() === static::SDK_SETTING_TYPE ?
                     $this->pathResolver->getResolveRelativePath($values) :
                     $this->pathResolver->getResolveProjectRelativePath($values);
             }
@@ -225,7 +230,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             $settingData['values'],
             $settingData['strategy'],
             $settingData['type'],
-            $settingData['is_project'],
+            $settingData['setting_type'],
             $settingData['init'],
             $settingData['initialization_description'],
             $settingData['initializer'],
@@ -246,7 +251,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         return [
             'path' => $setting['path'],
             'type' => $setting['type'] ?? 'string',
-            'is_project' => $setting['is_project'] ?? true,
+            'setting_type' => $setting['setting_type'] ?? 'local',
             'initialization_description' => $setting['initialization_description'] ?? null,
             'strategy' => $setting['strategy'] ?? 'overwrite',
             'init' => $setting['init'] ?? false,

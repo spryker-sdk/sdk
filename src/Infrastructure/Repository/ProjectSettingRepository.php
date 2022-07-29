@@ -21,6 +21,11 @@ use Symfony\Component\Yaml\Yaml;
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
     /**
+     * @var string
+     */
+    protected const LOCAL_PREFIX = 'local';
+
+    /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected ContainerInterface $container;
@@ -83,14 +88,25 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     public function saveMultiple(array $settings): array
     {
-        $projectValues = $this->getProjectValues();
-        $projectSettingPath = $this->projectSettingFileName;
+        $localProjectValues = $this->getLocalProjectValues();
+        $sharedProjectValues = $this->getSharedProjectValues();
 
         foreach ($settings as $setting) {
-            $projectValues[$setting->getPath()] = $setting->getValues();
+            if ($setting->getSettingType() === static::SHARED_SETTING_TYPE) {
+                $sharedProjectValues[$setting->getPath()] = $setting->getValues();
+
+                continue;
+            }
+            $localProjectValues[$setting->getPath()] = $setting->getValues();
         }
 
-        file_put_contents($projectSettingPath, $this->yamlParser->dump($projectValues));
+        if ($localProjectValues) {
+            file_put_contents($this->projectSettingFileName, $this->yamlParser::dump($localProjectValues));
+        }
+
+        if ($sharedProjectValues) {
+            file_put_contents($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
+        }
 
         return $settings;
     }
@@ -170,7 +186,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         $projectValues = $this->getProjectValues();
 
         foreach ($entities as $entity) {
-            if (!$entity->isProject()) {
+            if ($entity->getSettingType() === static::SDK_SETTING_TYPE) {
                 continue;
             }
 
@@ -187,13 +203,35 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     protected function getProjectValues(): array
     {
-        $projectSettingPath = $this->projectSettingFileName;
+        return array_merge($this->getSharedProjectValues(), $this->getLocalProjectValues());
+    }
 
-        if (!is_readable($projectSettingPath)) {
+    /**
+     * @return array
+     */
+    protected function getLocalProjectValues(): array
+    {
+        $localProjectSettingPath = $this->projectSettingFileName . '.' . static::LOCAL_PREFIX;
+
+        if (!is_readable($localProjectSettingPath)) {
             return [];
         }
 
-        return (array)$this->yamlParser->parseFile($projectSettingPath);
+        return (array)$this->yamlParser::parseFile($localProjectSettingPath);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSharedProjectValues(): array
+    {
+        $sharedProjectSettingPath = $this->projectSettingFileName;
+
+        if (!is_readable($sharedProjectSettingPath)) {
+            return [];
+        }
+
+        return (array)$this->yamlParser::parseFile($sharedProjectSettingPath);
     }
 
     /**

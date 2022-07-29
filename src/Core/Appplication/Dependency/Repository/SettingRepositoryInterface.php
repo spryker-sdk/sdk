@@ -12,6 +12,13 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 interface SettingRepositoryInterface
 {
     /**
+     * Type for sdk settings in repository.
+     *
+     * @var string
+     */
+    public const SDK_SETTING_TYPE = 'sdk';
+
+    /**
      * @param string $settingPath
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null

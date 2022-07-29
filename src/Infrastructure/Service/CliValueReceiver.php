@@ -110,7 +110,10 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
             default:
                 if ($choiceValues) {
                     if ($type === 'array') {
-                        $description .= ' (Multiselect format: 0,1)';
+                        $description .= ' (Multiselect format: 1,2,3)';
+                        if (is_array($defaultValue)) {
+                            $defaultValue = implode(',', array_keys(array_intersect($choiceValues, $defaultValue)));
+                        }
                     }
                     $question = new ChoiceQuestion(
                         $description,
@@ -156,11 +159,17 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
             });
         }
 
-        return $this->questionHelper->ask(
+        $value = $this->questionHelper->ask(
             $this->input,
             $this->output,
             $question,
         );
+
+        if ($question->isMultiline()) {
+            return (array)preg_split("/\r\n|\n|\r/", $value);
+        }
+
+        return $value;
     }
 
     /**

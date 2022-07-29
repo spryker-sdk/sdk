@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
@@ -98,6 +99,11 @@ class RunTaskWrapperCommand extends Command
     protected ContextRepositoryInterface $contextRepository;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     */
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
      */
     protected ContextStorage $contextStorage;
@@ -106,7 +112,7 @@ class RunTaskWrapperCommand extends Command
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
@@ -116,17 +122,17 @@ class RunTaskWrapperCommand extends Command
         TaskExecutor $taskExecutor,
         ProjectWorkflow $projectWorkflow,
         ContextRepositoryInterface $contextRepository,
-        ReportFormatterFactory $reportFormatterFactory,
+        ProjectSettingRepositoryInterface $projectSettingRepository,
         ContextStorage $contextStorage,
         array $taskOptions,
         string $description,
         string $name
     ) {
+        $this->projectSettingRepository = $projectSettingRepository;
         $this->description = $description;
         $this->projectWorkflow = $projectWorkflow;
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
-        $this->reportFormatterFactory = $reportFormatterFactory;
         $this->contextStorage = $contextStorage;
         $this->name = $name;
         $this->contextRepository = $contextRepository;
@@ -269,17 +275,28 @@ class RunTaskWrapperCommand extends Command
             $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
         }
 
+        $context->setFormat($this->getReportFormat($input));
+        $this->contextStorage->setContext($context);
+
+        return $context;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string
+     */
+    protected function getReportFormat(InputInterface $input): string
+    {
         if (
             $input->hasOption(static::OPTION_FORMAT)
             && is_string($input->getOption(static::OPTION_FORMAT))
             && $input->getOption(static::OPTION_FORMAT)
         ) {
-            $context->setFormat($input->getOption(static::OPTION_FORMAT));
+            return $input->getOption(static::OPTION_FORMAT);
         }
 
-        $this->contextStorage->setContext($context);
-
-        return $context;
+        return $this->projectSettingRepository->getOneByPath('default_violation_output_format')->getValues();
     }
 
     /**

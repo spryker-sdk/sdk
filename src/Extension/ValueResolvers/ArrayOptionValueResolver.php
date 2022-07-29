@@ -20,13 +20,11 @@ class ArrayOptionValueResolver extends StaticValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = true)
     {
-        $value = parent::getValue($context, $settingValues, $optional);
+        $values = parent::getValue($context, $settingValues, $optional);
 
-        if ($value === null) {
+        if ($values === null) {
             return null;
         }
-
-        $values = (array)preg_split("/\r\n|\n|\r/", $value);
 
         $options = array_map(
             function ($valueParam) {

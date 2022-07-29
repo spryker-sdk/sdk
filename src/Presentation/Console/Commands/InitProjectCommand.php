@@ -171,9 +171,9 @@ class InitProjectCommand extends Command
                 }
 
                 $choiceValues = [];
-                $initializer = $this->getSettingInitializer($settingEntity);
-                if ($initializer instanceof SettingChoicesProviderInterface) {
-                    $choiceValues = $initializer->getChoices($settingEntity);
+                $initializerChoice = $this->getSettingChoiceInitializer($settingEntity);
+                if ($initializerChoice instanceof SettingChoicesProviderInterface) {
+                    $choiceValues = $initializerChoice->getChoices($settingEntity);
                 }
 
                 $values = $this->cliValueReceiver->receiveValue(
@@ -230,6 +230,27 @@ class InitProjectCommand extends Command
 
         $initializer = $this->container->get($initializerId);
         if (!$initializer instanceof SettingInitializerInterface) {
+            return null;
+        }
+
+        return $initializer;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
+     *
+     * @return \SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface|null
+     */
+    protected function getSettingChoiceInitializer(SettingInterface $setting): ?SettingChoicesProviderInterface
+    {
+        $initializerId = $setting->getInitializer() ?? '';
+
+        if (!$this->container->has($initializerId)) {
+            return null;
+        }
+
+        $initializer = $this->container->get($initializerId);
+        if (!$initializer instanceof SettingChoicesProviderInterface) {
             return null;
         }
 

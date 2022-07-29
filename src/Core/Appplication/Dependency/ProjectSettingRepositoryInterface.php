@@ -12,6 +12,20 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInte
 interface ProjectSettingRepositoryInterface extends SettingRepositoryInterface
 {
     /**
+     * Type for shared settings in repository.
+     *
+     * @var string
+     */
+    public const SHARED_SETTING_TYPE = 'shared';
+
+    /**
+     * Type for local settings.
+     *
+     * @var string
+     */
+    public const LOCAL_SETTING_TYPE = 'shared';
+
+    /**
      * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
