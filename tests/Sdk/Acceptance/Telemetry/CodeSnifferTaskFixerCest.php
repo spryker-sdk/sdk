@@ -47,7 +47,7 @@ class CodeSnifferTaskFixerCest
         $I->assertTelemetryEventReport(
             static::COMMAND,
             CommandExecutionPayload::getEventName(),
-            $I->getPathFromProjectRoot('reports/' . FileReportTelemetryEventSender::REPORT_FILENAME),
+            $I->getPathFromProjectRoot('.ssdk/reports/' . FileReportTelemetryEventSender::REPORT_FILENAME),
         );
     }
 
@@ -60,7 +60,7 @@ class CodeSnifferTaskFixerCest
     {
         // Arrange
         $I->cleanReports();
-        $reportFilename = $I->getPathFromProjectRoot('reports/' . FileReportTelemetryEventSender::REPORT_FILENAME);
+        $reportFilename = $I->getPathFromProjectRoot('.ssdk/reports/' . FileReportTelemetryEventSender::REPORT_FILENAME);
         $errorLogFile = $I->getPathFromProjectRoot('.ssdk.log');
 
         if (is_file($errorLogFile)) {
