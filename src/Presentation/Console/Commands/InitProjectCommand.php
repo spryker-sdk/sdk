@@ -277,13 +277,13 @@ class InitProjectCommand extends Command
         $ignoreRules = [
             '*',
             '!.gitignore',
-            '!' . basename($this->projectSettingFileName)
+            '!' . basename($this->projectSettingFileName),
         ];
 
         if (realpath($settingsDir) !== realpath('.')) {
             file_put_contents(
                 sprintf('%s/.gitignore', $settingsDir),
-                implode("\n", $ignoreRules)
+                implode("\n", $ignoreRules),
             );
         }
     }
