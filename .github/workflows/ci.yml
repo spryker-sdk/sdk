@@ -77,7 +77,7 @@ jobs:
         run: composer test
 
       - name: Install SDK
-        run: bin/console sdk:init:hidden-sdk
+        run: bin/console sdk:init:hidden-sdk -n
 
       - name: Codecept acceptance tests
         run: composer test-qa
