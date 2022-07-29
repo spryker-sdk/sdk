@@ -4,7 +4,7 @@ short_description: "Check your code by running a static code analysis"
 help: ~
 stage: build
 version: 1.0.0
-command: "php %sdk_dir%/vendor/bin/phpcbf %severity% --standard=%sdk_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml ./%path%"
+command: "php %sdk_dir%/vendor/bin/phpcbf %severity% --standard=%config% ./%path%"
 type: local_cli
 optional: true
 placeholders:
@@ -17,6 +17,13 @@ placeholders:
     configuration:
       name: 'severity'
       description: 'Severity level'
+  - name: "%config%"
+    value_resolver: CONFIG_PATH
+    optional: true
+    configuration:
+      name: "config"
+      description: "Config file"
+      defaultValue: "vendor/spryker/code-sniffer/Spryker/ruleset.xml"
   - name: "%path%"
     value_resolver: STATIC
     optional: false
