@@ -5,6 +5,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
     arguments:
       - "@project_setting_repository"
+      - "%project_settings_file%"
   event_logger:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
     factory: ["@event_logger_factory", "createEventLogger"]
@@ -45,7 +46,7 @@ services:
       - "@path_resolver"
   yaml_parser:
     class: Symfony\Component\Yaml\Yaml
-  task_repository:
+  task_yaml_repository:
     public: true
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
     arguments:
@@ -64,7 +65,7 @@ services:
       - "@cli_value_receiver"
       - "@setting_repository"
       - "@service.task_manager"
-      - "@task_repository"
+      - "@task_yaml_repository"
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
 
@@ -164,7 +165,7 @@ services:
   service.lifecycle_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
     arguments:
-      - "@task_repository"
+      - "@task_yaml_repository"
       - "@task_persistence_repository"
       - !tagged_iterator sdk.update_action
       - "%kernel.project_dir%"
@@ -283,6 +284,7 @@ services:
 
   workflow_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+    tags: [ "sdk.cli_receiver_setup" ]
     arguments:
       - "@cli_value_receiver"
       - "@service_container"

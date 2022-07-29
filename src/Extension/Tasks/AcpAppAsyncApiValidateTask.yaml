@@ -14,6 +14,6 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-        name: "asyncapi-file"
-        description: "Path to AsyncAPI file"
-        type: string
+      name: "asyncapi-file"
+      description: "Path to AsyncAPI file [default: 'config/api/asyncapi/asyncapi.yml']"
+      type: string

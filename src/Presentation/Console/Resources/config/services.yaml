@@ -22,7 +22,7 @@ services:
       - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
       - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
-  init_run_workflow_command:
+  run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\RunWorkflowCommand
     tags: [ "console.command" ]
@@ -30,6 +30,19 @@ services:
       - "@project_workflow"
       - "@cli_value_receiver"
       - "@workflow_runner"
+  list_workflow_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\ListWorkflowCommand
+    tags: ["console.command"]
+    arguments:
+      - "@project_workflow"
+  show_workflow_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Commands\ShowWorkflowCommand
+    tags: [ "console.command" ]
+    arguments:
+      - "@project_workflow"
+      - "@cli_value_receiver"
+      - "%project_settings_file%"
+      - "%kernel.project_dir%"
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand
@@ -86,7 +99,7 @@ services:
     arguments:
       - !tagged_iterator console.command
       - "@console.command_loader"
-      - "@task_repository"
+      - "@task_persistence_repository"
   ide.command_xml_formatter:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatter
 
@@ -94,6 +107,7 @@ services:
     class: Symfony\Component\Serializer\Encoder\XmlEncoder
     arguments:
       - { xml_format_output: true, xml_root_node_name: framework }
+  # Integrations
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
     tags: ["console.command"]

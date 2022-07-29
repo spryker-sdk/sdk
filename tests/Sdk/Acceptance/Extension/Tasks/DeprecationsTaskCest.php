@@ -10,6 +10,12 @@ namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
+/**
+ * @group Acceptance
+ * @group Extension
+ * @group Tasks
+ * @group DeprecationsTaskCest
+ */
 class DeprecationsTaskCest
 {
     /**
@@ -43,7 +49,6 @@ class DeprecationsTaskCest
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-        Assert::assertEmpty($process->getErrorOutput());
         Assert::assertStringContainsString('Violations found', $process->getOutput());
     }
 }

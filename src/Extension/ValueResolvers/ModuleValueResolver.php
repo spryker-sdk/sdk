@@ -46,7 +46,7 @@ class ModuleValueResolver extends AbstractValueResolver
     /**
      * @return mixed
      */
-    public function getDefaultValue(): mixed
+    public function getDefaultValue()
     {
         return null;
     }
@@ -75,7 +75,7 @@ class ModuleValueResolver extends AbstractValueResolver
      *
      * @return mixed
      */
-    protected function getValueFromSettings(array $settingValues): mixed
+    protected function getValueFromSettings(array $settingValues)
     {
         return null;
     }

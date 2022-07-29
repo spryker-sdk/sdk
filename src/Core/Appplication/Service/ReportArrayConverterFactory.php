@@ -60,6 +60,6 @@ class ReportArrayConverterFactory
             }
         }
 
-        throw new InvalidReportTypeException(sprintf('Invalid report type %s', $report::class));
+        throw new InvalidReportTypeException(sprintf('Invalid report type %s', get_class($report)));
     }
 }

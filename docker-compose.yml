@@ -12,6 +12,7 @@ services:
         SDK_VERSION: ${SDK_VERSION:-latest}
     working_dir: "/project"
     environment:
+      HOST_PWD: ${HOST_PWD}
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
     env_file:
       - .env.prod

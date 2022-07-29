@@ -193,7 +193,7 @@ class ConverterRegistry implements ConverterRegistryInterface
             $converterFile = new $fullClassName($this->settingRepository);
 
             if (!$converterFile instanceof ReportConverterInterface) {
-                throw new InvalidTypeException(sprintf('Converter (%s) must implement %s', $converterFile::class, ReportConverterInterface::class));
+                throw new InvalidTypeException(sprintf('Converter (%s) must implement %s', get_class($converterFile), ReportConverterInterface::class));
             }
 
             $this->converterClasses[(new ReflectionClass($converterFile))->getShortName()] = $converterFile;

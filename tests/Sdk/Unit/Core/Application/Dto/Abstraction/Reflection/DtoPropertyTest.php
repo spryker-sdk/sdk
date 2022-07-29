@@ -55,20 +55,13 @@ class DtoPropertyTest extends Unit
              * @var int|null
              */
             public ?int $nullableIntProperty;
-
-            /**
-             * @var mixed
-             */
-            public mixed $mixedProperty;
         };
         $dtoClass = new DtoClass($dto);
 
         // Act
-        $mixedProperty = $dtoClass->getProperty('mixedProperty');
         $nullableIntProperty = $dtoClass->getProperty('nullableIntProperty');
 
         // Assert
-        $this->assertFalse($mixedProperty->isRequired());
         $this->assertFalse($nullableIntProperty->isRequired());
     }
 

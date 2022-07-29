@@ -38,6 +38,11 @@ class RunWorkflowCommand extends Command
     protected const OPTION_FORCE = 'force';
 
     /**
+     * @var string|null The default command description
+     */
+    protected static $defaultDescription = 'Run one of available workflows.';
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
      */
     protected $projectWorkflow;
@@ -76,6 +81,11 @@ class RunWorkflowCommand extends Command
         parent::configure();
         $this->addArgument(static::ARG_WORKFLOW_NAME, InputArgument::OPTIONAL, 'Workflow name');
         $this->addOption(static::OPTION_FORCE, 'f', InputOption::VALUE_NONE, 'Ignore guards and force operation to run');
+        $this->setHelp(
+            <<<EOT
+Documentation on workflows is available at https://github.com/spryker-sdk/sdk/blob/develop/docs/workflow.md
+EOT,
+        );
     }
 
     /**
@@ -86,18 +96,20 @@ class RunWorkflowCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string|null $workflowName */
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
 
         $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
 
         if ($workflowName && $initializedWorkflows && !in_array($workflowName, $initializedWorkflows)) {
-            $output->writeln(sprintf('<error>The `%s` workflow hasn\'t been initialized.</error>', $workflowName));
+            $output->writeln('<error>You haven\'t initialized a workflow with "sdk:workflow:init"' .
+                ' or you don\'t have any open tasks defined</error>');
 
             return static::FAILURE;
         }
 
         if (!$workflowName) {
-            $workflows = $initializedWorkflows && $this->projectWorkflow->getProjectWorkflows() ? $initializedWorkflows : $this->projectWorkflow->getAll();
+            $workflows = $initializedWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
             $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'You have more than one initialized workflow. You have to select one.',
@@ -137,12 +149,13 @@ class RunWorkflowCommand extends Command
      */
     protected function formatMessage(MessageInterface $message): string
     {
-        return match ($message->getVerbosity()) {
-            MessageInterface::INFO => '<info>Info: ' . $message->getMessage() . '</info>',
-            MessageInterface::ERROR => '<error>Error: ' . $message->getMessage() . '</error>',
-            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: ' . $message->getMessage() . '</>',
-            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: ' . $message->getMessage() . '</>',
-            default => $message->getMessage(),
-        };
+        $template = [
+                MessageInterface::INFO => '<info>Info: %s</info>',
+                MessageInterface::ERROR => '<error>Error: %s</error>',
+                MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
+                MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
+            ][$message->getVerbosity()] ?? '%s';
+
+        return sprintf($template, $message->getMessage());
     }
 }
