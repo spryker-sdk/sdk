@@ -274,9 +274,17 @@ class InitProjectCommand extends Command
     protected function createGitignore(): void
     {
         $settingsDir = dirname($this->projectSettingFileName);
+        $ignoreRules = [
+            '*',
+            '!.gitignore',
+            '!' . basename($this->projectSettingFileName)
+        ];
 
         if (realpath($settingsDir) !== realpath('.')) {
-            file_put_contents(sprintf('%s/.gitignore', $settingsDir), "*\n!setting");
+            file_put_contents(
+                sprintf('%s/.gitignore', $settingsDir),
+                implode("\n", $ignoreRules)
+            );
         }
     }
 }
