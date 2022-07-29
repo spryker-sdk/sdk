@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Lifecycle\Event;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**

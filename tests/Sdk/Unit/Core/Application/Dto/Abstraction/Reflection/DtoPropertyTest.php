@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Dto\Abstraction\Reflection;
 
 use Codeception\Test\Unit;
 use LogicException;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoClass;
+use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Dto;
+use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoClass;
 
 /**
  * @group Sdk

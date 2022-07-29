@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Service\Filesystem;
-use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
+use SprykerSdk\Sdk\Core\Application\Service\Filesystem;
+use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 
 /**
  * @group Sdk
@@ -31,12 +31,12 @@ class PathResolverTest extends Unit
     public const PROJECT_DIRECTORY = '/project/dir';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
      */
     protected PathResolver $pathResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Core\Application\Service\Filesystem
      */
     protected Filesystem $filesystem;
 

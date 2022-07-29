@@ -8,8 +8,8 @@
 namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ConverterResolver;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Report\ReportConverterInterface;
@@ -106,7 +106,7 @@ class ConverterResolverTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface|\Sdk\Unit\Core\Application\Service\MockObject
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface|\Sdk\Unit\Core\Application\Service\MockObject
      */
     protected function createConverterRegistryMock(): ConverterRegistryInterface
     {

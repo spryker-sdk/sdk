@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ActionApproverInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Application\Dependency\ActionApproverInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 
 class ActionApprover implements ActionApproverInterface
 {

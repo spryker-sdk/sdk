@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
@@ -45,12 +45,12 @@ class InitializerTest extends Unit
     protected string $optionSettingsPath;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface
      */
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface
      */
     protected TaskYamlRepositoryInterface $taskYamlRepository;
 

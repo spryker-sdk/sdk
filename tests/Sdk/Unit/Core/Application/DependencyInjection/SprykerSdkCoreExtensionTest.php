@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\DependencyInjection;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension;
+use SprykerSdk\Sdk\Core\Application\DependencyInjection\SprykerSdkCoreExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class SprykerSdkCoreExtensionTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension
+     * @var \SprykerSdk\Sdk\Core\Application\DependencyInjection\SprykerSdkCoreExtension
      */
     protected SprykerSdkCoreExtension $sprykerSdkCoreExtension;
 

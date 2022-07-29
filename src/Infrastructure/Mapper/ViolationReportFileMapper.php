@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationFix;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\SdkContracts\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 

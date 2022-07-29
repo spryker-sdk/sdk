@@ -8,7 +8,7 @@
 namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory;
+use SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Report\ReportGeneratorInterface;
 use SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface;

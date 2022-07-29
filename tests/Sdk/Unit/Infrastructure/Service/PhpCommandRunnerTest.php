@@ -11,7 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner;
-use SprykerSdk\Sdk\Tests\Helper\Commands\ExecutableErrorCommand;
+use SprykerSdk\Sdk\Tests\Helper\Command\ExecutableErrorCommand;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;

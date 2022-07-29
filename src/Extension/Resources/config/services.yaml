@@ -10,46 +10,46 @@ services:
   app_modify_composer_file:
     class: SprykerSdk\Sdk\Extension\Service\AppComposerFileModifier
   generate_app_change_name_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangeNamesCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\ChangeNamesCommand
     arguments:
       - '@app_modify_composer_file'
       - '@app_modify_docker_file'
   check_git_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckGitCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\CheckGitCommand
   generate_app_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\GenerateAppCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\GenerateAppCommand
   generate_app_change_php_version_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\ChangePhpVersionCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\ChangePhpVersionCommand
     arguments:
       - '@app_modify_composer_file'
       - '@app_modify_docker_file'
   generate_app_add_aop_sdk_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddAcpSdkCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\AddAcpSdkCommand
     arguments:
       - '@app_modify_composer_file'
   generate_app_allow_default_composer_plugins_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AllowDefaultComposerPluginCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\AllowDefaultComposerPluginCommand
     arguments:
       - '@app_modify_composer_file'
   generate_app_update_dependencies_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\UpdateDependenciesCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\UpdateDependenciesCommand
   add_docker_sdk_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\AddDockerSdkCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\AddDockerSdkCommand
   check_mutagen_for_mac_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckMutagenCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\CheckMutagenCommand
   generate_app_next_steps_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\NextAppStepsCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\NextAppStepsCommand
   business_model_arm_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\BusinessModelARMCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\BusinessModelARMCommand
     arguments:
       - '@yaml_parser'
       - "%kernel.project_dir%"
   check_docker_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CheckDockerCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\CheckDockerCommand
   docker_init_up_steps_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\DockerInitUpStepsCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\DockerInitUpStepsCommand
   generate_app:
-    class: SprykerSdk\Sdk\Extension\Tasks\GenerateAppTask
+    class: SprykerSdk\Sdk\Extension\Task\GenerateAppTask
     tags: [ 'sdk.task' ]
     arguments:
       $commands:
@@ -63,9 +63,9 @@ services:
         - '@add_docker_sdk_command'
         - '@generate_app_next_steps_command'
   clone_business_model_command:
-    class: SprykerSdk\Sdk\Extension\Tasks\Commands\CloneBusinessModelRepositoryCommand
+    class: SprykerSdk\Sdk\Extension\Task\Command\CloneBusinessModelRepositoryCommand
   business_model_installer_task:
-    class: SprykerSdk\Sdk\Extension\Tasks\BusinessModelInstallerTask
+    class: SprykerSdk\Sdk\Extension\Task\BusinessModelInstallerTask
     tags: [ 'sdk.task' ]
     arguments:
       $commands:
@@ -77,44 +77,44 @@ services:
         - '@business_model_arm_command'
         - '@docker_init_up_steps_command'
   sdk_directory_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolvers\SdkDirectoryValueResolver
+    class: SprykerSdk\Sdk\Extension\ValueResolver\SdkDirectoryValueResolver
     tags: ["sdk.value_resolver"]
     arguments:
       - '@value_receiver'
       - '%kernel.project_dir%'
   pc_system_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolvers\PCSystemValueResolver
+    class: SprykerSdk\Sdk\Extension\ValueResolver\PCSystemValueResolver
     tags: [ "sdk.value_resolver" ]
     arguments:
       - '@value_receiver'
       - '%uname_info%'
 
   app_php_version_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolvers\AppPhpVersionValueResolver
+    class: SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver
     tags: [ 'sdk.value_resolver' ]
     arguments:
       - '@value_receiver'
 
   remove_report_dir:
-    class: SprykerSdk\Sdk\Extension\Tasks\RemoveRepDirTask
+    class: SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask
     tags: ["sdk.task"]
     arguments:
       - "@violation_report_repository"
-  SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
   create_directory_initializer:
-    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\CreateDirectoryInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
     public: true
-  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
     arguments:
       - "@project_setting_repository"
   project_uuid_initializer:
-    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectUuidInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer
     public: true
-  SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
     arguments:
@@ -122,10 +122,10 @@ services:
       - "@workflow_repository"
       - "@project_workflow"
   project_workflow_initializer:
-    alias: SprykerSdk\Sdk\Extension\Settings\Initializers\ProjectWorkflowInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer
     public: true
   option_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolvers\OptionValueResolver
+    class: SprykerSdk\Sdk\Extension\ValueResolver\OptionValueResolver
     arguments:
       - '@value_receiver'
     tags: ['sdk.value_resolver']

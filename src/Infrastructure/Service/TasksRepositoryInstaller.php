@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TasksRepositoryInstallerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TasksRepositoryInstallerInterface;
 use Symfony\Component\Process\Process;
 
 class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface

@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Command;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
@@ -21,19 +21,19 @@ class CommandLoader implements CommandLoaderInterface
     protected iterable $commands;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader
+     * @var \SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader
      */
     protected TaskRunFactoryLoader $commandContainer;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
 
     /**
      * @param iterable<\Symfony\Component\Console\Command\Command> $commands
-     * @param \SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader $commandContainer
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader $commandContainer
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
     public function __construct(iterable $commands, TaskRunFactoryLoader $commandContainer, TaskRepositoryInterface $taskRepository)
     {

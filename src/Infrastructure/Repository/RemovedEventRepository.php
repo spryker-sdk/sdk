@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\RemovedEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\RemovedEventRepositoryInterface;
 
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent>

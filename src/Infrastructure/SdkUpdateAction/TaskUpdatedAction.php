@@ -8,18 +8,18 @@
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
 use Composer\Semver\Comparator;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 
 class TaskUpdatedAction implements SdkUpdateActionInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface
      */
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
      */
     public function __construct(TaskManagerInterface $taskManager)
     {

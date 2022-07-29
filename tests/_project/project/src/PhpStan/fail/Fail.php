@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks\PhpStan;
+namespace SprykerSdk\Sdk\Acceptance\Extension\Task\PhpStan;
 
 class Fail
 {

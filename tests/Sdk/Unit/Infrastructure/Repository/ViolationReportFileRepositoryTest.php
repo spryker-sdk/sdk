@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
+use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
 use SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository;

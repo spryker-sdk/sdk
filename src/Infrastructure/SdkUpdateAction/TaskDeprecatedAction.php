@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 
 class TaskDeprecatedAction implements SdkUpdateActionInterface
@@ -19,13 +19,13 @@ class TaskDeprecatedAction implements SdkUpdateActionInterface
     protected TaskRepository $taskRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface
      */
     protected TaskManagerInterface $taskManager;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository $taskRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
      */
     public function __construct(
         TaskRepository $taskRepository,

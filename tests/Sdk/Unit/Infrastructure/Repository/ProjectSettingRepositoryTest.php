@@ -10,9 +10,9 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -28,7 +28,7 @@ class ProjectSettingRepositoryTest extends Unit
     protected ContainerInterface $container;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $coreSettingRepository;
 
@@ -38,7 +38,7 @@ class ProjectSettingRepositoryTest extends Unit
     protected Yaml $yamlParser;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
      */
     protected PathResolver $pathResolver;
 

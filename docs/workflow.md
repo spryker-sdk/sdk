@@ -17,9 +17,9 @@ One or more workflows can be initialized for a project and run via `sdk:workflow
 - `allowToFail: true`: `sdk:workflow:run` will set the next place if task failed.
 - `re-run: true`: `sdk:workflow:run` will run workflow many times when the current one has finished.
 - `run: single`: `sdk:workflow:run` will only run single transition and exit. If omitting this setting, task will run available transitions one by one asking which one to run if multiple possible variants exist.
-- `before: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface` and will be called before transition occurs.
-- `after: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface` and will be called after transition occurs.
-- `guard: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowGuardEventHandlerInterface` and will be called to determine if transition is available.
+- `before: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface` and will be called before transition occurs.
+- `after: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface` and will be called after transition occurs.
+- `guard: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface` and will be called to determine if transition is available.
 - `task: task_name`: task `task_name` will be executed inside the transition and transition may stop depending on it's result.
 - `workflowBefore: workflow_name`: workflow `workflow_name` will run inside the transition and should end before proceeding to the task execution.
 - `workflowAfter: workflow_name`: workflow `workflow_name` will run inside the transition after task is executed and should end before finishing the transition.

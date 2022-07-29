@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Event\Workflow;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface;
-use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowGuardEventHandlerInterface;
+use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface;
+use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface;
 use SprykerSdk\Sdk\Extension\Exception\InvalidServiceException;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEvent;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener;

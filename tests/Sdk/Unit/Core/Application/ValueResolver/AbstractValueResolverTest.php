@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\ValueResolver;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
@@ -112,7 +112,7 @@ class AbstractValueResolverTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver
+     * @return \SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver
      */
     protected function createValueResolver(): AbstractValueResolver
     {

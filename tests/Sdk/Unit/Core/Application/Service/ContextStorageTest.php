@@ -9,7 +9,7 @@ namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use LogicException;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
+use SprykerSdk\Sdk\Core\Application\Service\ContextStorage;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**

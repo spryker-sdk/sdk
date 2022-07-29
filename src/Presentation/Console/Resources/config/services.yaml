@@ -6,37 +6,37 @@ services:
     class: Symfony\Component\Console\Helper\SymfonyQuestionHelper
   init_sdk_command:
     autowire: false
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\InitSdkCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
     tags: [ "console.command" ]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
   init_command:
     autowire: false
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\InitCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\InitCommand
     tags: [ "console.command" ]
     arguments:
       - "@initializer_service"
       - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
   run_workflow_command:
     autowire: false
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\RunWorkflowCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\RunWorkflowCommand
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
       - "@cli_value_receiver"
       - "@workflow_runner"
   list_workflow_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\ListWorkflowCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\ListWorkflowCommand
     tags: ["console.command"]
     arguments:
       - "@project_workflow"
   show_workflow_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\ShowWorkflowCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\ShowWorkflowCommand
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
@@ -45,7 +45,7 @@ services:
       - "%kernel.project_dir%"
   init_project_command:
     autowire: false
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\InitProjectCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand
     tags: ["console.command"]
     arguments:
       - "@cli_value_receiver"
@@ -54,33 +54,33 @@ services:
       - "@service_container"
       - "%project_settings_file%"
   setting_set_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\SettingSetCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\SettingSetCommand
     tags: ["console.command"]
     arguments:
       - "@project_setting_repository"
       - "@project_setting_manager"
   update_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateCommand
     tags: ["console.command"]
     arguments:
       - "@service.lifecycle_manager"
       - "@setting_repository"
       - "@doctrine_migrations.migrate_command"
   update_sdk_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\UpdateSdkCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
     tags: ["console.command"]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
   install_private_sdk_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\InstallSdkBundlesCommand
+    class: SprykerSdk\Sdk\Presentation\Console\Command\InstallSdkBundlesCommand
     tags: [ "console.command" ]
     arguments:
       - "@service.tasks_repository_installer"
       - '%kernel.project_dir%'
       - "@event_logger"
   create_phpstorm_config_command:
-    class: SprykerSdk\Sdk\Presentation\Console\Commands\CreatePhpStormConfig
+    class: SprykerSdk\Sdk\Presentation\Console\Command\CreatePhpStormConfig
     tags: ["console.command"]
     arguments:
       - "@ide.config_manager"
@@ -115,8 +115,8 @@ services:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
     tags: [ "console.command" ]
   brancho_commit_command:
-    class: SprykerSdk\Sdk\Extension\Commands\CommitCommand
+    class: SprykerSdk\Sdk\Extension\Command\CommitCommand
     tags: ["console.command"]
   brancho_branch_builder_command:
-    class: SprykerSdk\Sdk\Extension\Commands\BranchBuilderCommand
+    class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
     tags: ["console.command"]

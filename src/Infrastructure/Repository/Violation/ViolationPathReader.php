@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 
 class ViolationPathReader
 {
@@ -18,12 +18,12 @@ class ViolationPathReader
     protected const REPORT_DIR_SETTING_NAME = 'report_dir';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository
@@ -42,7 +42,7 @@ class ViolationPathReader
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return string
      */

@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use SprykerSdk\Sdk\Core\Appplication\Service\FileManager;
+use SprykerSdk\Sdk\Core\Application\Service\FileManager;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -23,7 +23,7 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 class FileManagerTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\FileManager
+     * @var \SprykerSdk\Sdk\Core\Application\Service\FileManager
      */
     protected FileManager $fileManager;
 

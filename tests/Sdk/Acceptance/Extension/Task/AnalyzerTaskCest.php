@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdk\Sdk\Acceptance\Extension\Task;
+
+use PHPUnit\Framework\Assert;
+use SprykerSdk\Sdk\Tests\AcceptanceTester;
+
+/**
+ * @group Acceptance
+ * @group Extension
+ * @group Task
+ * @group AnalyzerTaskCest
+ */
+class AnalyzerTaskCest
+{
+    /**
+     * @var string
+     */
+    protected const COMMAND = 'analyze:php:code-compliance';
+
+    /**
+     * @var string
+     */
+    protected const SUCCESS_PROJECT_DIR = 'upgrader_success_project';
+
+    /**
+     * @var string
+     */
+    protected const FAIL_PROJECT_DIR = 'upgrader_failing_project';
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
+    public function testAnalyzerRunsSuccessfully(AcceptanceTester $I): void
+    {
+        // Arrange
+        $I->cleanReports(static::SUCCESS_PROJECT_DIR);
+
+        // Act
+        $process = $I->runSdkCommand(
+            [static::COMMAND],
+            $I->getProjectRoot(static::SUCCESS_PROJECT_DIR),
+        );
+
+        // Assert
+        Assert::assertTrue($process->isSuccessful());
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
+    public function testAnalyzerGeneratingFileReport(AcceptanceTester $I): void
+    {
+        // Arrange
+        $I->cleanReports(static::FAIL_PROJECT_DIR);
+
+        // Act
+        $I->runSdkCommand(
+            [
+                static::COMMAND,
+            ],
+            $I->getProjectRoot(static::FAIL_PROJECT_DIR),
+        );
+
+        // Assert
+        Assert::assertFileExists(
+            $I->getPathFromProjectRoot('reports/' . static::COMMAND . '.violations.yaml', static::FAIL_PROJECT_DIR),
+        );
+    }
+}

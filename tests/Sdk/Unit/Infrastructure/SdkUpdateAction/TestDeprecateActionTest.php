@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\SdkUpdateAction;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -16,7 +16,7 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class TestDeprecateActionTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface
      */
     protected TaskManagerInterface $taskManager;
 

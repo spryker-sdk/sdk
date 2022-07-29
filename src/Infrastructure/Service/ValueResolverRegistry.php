@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Composer\Autoload\ClassLoader;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
@@ -35,15 +35,21 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected ClassLoader $classLoader;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
      * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param string $sdkBasePath
      */
     protected SettingRepositoryInterface $settingRepository;
 
+    /**
+     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     */
     protected ValueReceiverInterface $valueReceiver;
 
+    /**
+     * @var string
+     */
     protected string $sdkBasePath;
 
     /**
@@ -57,7 +63,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected AutoloaderService $autoloaderService;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
      * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param \SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService $autoloaderService
@@ -147,7 +153,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return array<string>
      */
@@ -160,7 +166,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         }
 
         return array_map(function (string $directory) {
-            return $directory . '/*/ValueResolvers/';
+            return $directory . '/*/ValueResolver/';
         }, $paths->getValues());
     }
 

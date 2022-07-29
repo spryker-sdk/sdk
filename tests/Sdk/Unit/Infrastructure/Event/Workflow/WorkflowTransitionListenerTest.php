@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Event\Workflow;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransition;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
@@ -596,7 +596,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Service\TaskExecutor
      */
     protected function createTaskExecutorMock(): TaskExecutor
     {
@@ -628,7 +628,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected function createProjectWorkflowMock(): ProjectWorkflow
     {
@@ -636,7 +636,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface
      */
     protected function createWorkflowRepositoryMock(): WorkflowRepositoryInterface
     {
@@ -644,7 +644,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface
      */
     protected function createWorkflowTransitionRepositoryMock(): WorkflowTransitionRepositoryInterface
     {

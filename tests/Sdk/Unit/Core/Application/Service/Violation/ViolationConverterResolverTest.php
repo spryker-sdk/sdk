@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ConverterResolver;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
@@ -68,7 +68,7 @@ class ViolationConverterResolverTest extends Unit
     /**
      * @param bool $hasConvertor
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ConverterRegistryInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface
      */
     protected function createConverterRegistryMock(bool $hasConvertor = true): ConverterRegistryInterface
     {

@@ -12,7 +12,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
             targetEntity: Command
             cascade: ["persist", "remove"]
             joinTable:
-                name: sdk_removed_events_commands
+                name: sdk_removed_event_command
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
@@ -26,7 +26,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
             targetEntity: Placeholder
             cascade: ["persist", "remove"]
             joinTable:
-                name: sdk_removed_events_placeholders
+                name: sdk_removed_event_placeholder
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id
@@ -40,7 +40,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent:
             targetEntity: File
             cascade: ["persist", "remove"]
             joinTable:
-                name: sdk_removed_events_files
+                name: sdk_removed_event_file
                 joinColumns:
                     removed_event_id:
                         referencedColumnName: id

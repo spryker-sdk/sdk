@@ -9,11 +9,11 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Lifecycle\Subscriber;
 
 use Codeception\Test\Unit;
 use Doctrine\Common\Collections\ArrayCollection;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent as SubscriberRemovedEvent;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\RemovedEventSubscriber;
-use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent as SubscriberRemovedEvent;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber;
+use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
@@ -30,22 +30,22 @@ class RemovedEventSubscriberTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\RemovedEventSubscriber
+     * @var \SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber
      */
     protected RemovedEventSubscriber $subscriber;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface
      */
     protected FileManagerInterface $fileManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
      */
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface
      */
     protected CommandExecutorInterface $commandExecutor;
 

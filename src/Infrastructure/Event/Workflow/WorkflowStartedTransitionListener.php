@@ -7,18 +7,18 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use Symfony\Component\Workflow\Event\GuardEvent;
 
 class WorkflowStartedTransitionListener
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      */
     public function __construct(ProjectWorkflow $projectWorkflow)
     {

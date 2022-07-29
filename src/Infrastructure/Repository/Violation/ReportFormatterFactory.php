@@ -7,24 +7,24 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation;
 
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
-use SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ContextStorage;
+use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 
 class ReportFormatterFactory
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextStorage
      */
     protected ContextStorage $contextStorage;
 
     /**
-     * @var iterable<\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface>
+     * @var iterable<\SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface>
      */
     protected iterable $violationReportFormatters;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
-     * @param iterable<\SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface> $violationReportFormatters
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextStorage $contextStorage
+     * @param iterable<\SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface> $violationReportFormatters
      */
     public function __construct(ContextStorage $contextStorage, iterable $violationReportFormatters)
     {
@@ -33,7 +33,7 @@ class ReportFormatterFactory
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Violation\ViolationReportFormatterInterface|null
+     * @return \SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface|null
      */
     public function getViolationReportFormatter(): ?ViolationReportFormatterInterface
     {
