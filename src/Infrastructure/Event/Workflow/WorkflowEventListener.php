@@ -76,12 +76,18 @@ class WorkflowEventListener
      */
     public function handle(Event $event): void
     {
-        match ($event::class) {
-            GuardEvent::class => $this->guard($event),
-            LeaveEvent::class => $this->event($event, static::WORKFLOW_BEFORE),
-            EnteredEvent::class => $this->event($event, static::WORKFLOW_AFTER),
-            default => false,
-        };
+        switch (true) {
+            case $event instanceof GuardEvent:
+                $this->guard($event);
+
+                break;
+            case $event instanceof LeaveEvent:
+                $this->event($event, static::WORKFLOW_BEFORE);
+
+                break;
+            case $event instanceof EnteredEvent:
+                $this->event($event, static::WORKFLOW_AFTER);
+        }
     }
 
     /**
@@ -176,7 +182,7 @@ class WorkflowEventListener
             if (!$handler instanceof WorkflowEventHandlerInterface) {
                 throw new InvalidServiceException(sprintf(
                     'Service "%s" must implement "%s"',
-                    $handler::class,
+                    get_class($handler),
                     WorkflowEventHandlerInterface::class,
                 ));
             }
@@ -201,7 +207,7 @@ class WorkflowEventListener
             if (!$guard instanceof WorkflowGuardEventHandlerInterface) {
                 throw new InvalidServiceException(sprintf(
                     'Service "%s" must implement "%s"',
-                    $guard::class,
+                    get_class($guard),
                     WorkflowEventHandlerInterface::class,
                 ));
             }

@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolvers;
 use SprykerSdk\Sdk\Core\Appplication\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class PbcTypeValueResolver extends AbstractValueResolver
+class AppTypeValueResolver extends AbstractValueResolver
 {
     /**
      * @var array
@@ -24,7 +24,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
      */
     public function getId(): string
     {
-        return 'PBC_TYPE';
+        return 'APP_TYPE';
     }
 
     /**
@@ -46,7 +46,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
      */
     public function getDescription(): string
     {
-        return 'PBC template to use for creation';
+        return 'App template to use for creation';
     }
 
     /**
@@ -84,7 +84,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
     /**
      * @return mixed
      */
-    public function getDefaultValue(): mixed
+    public function getDefaultValue()
     {
         return array_key_first(static::REPOSITORIES);
     }
@@ -94,7 +94,7 @@ class PbcTypeValueResolver extends AbstractValueResolver
      *
      * @return mixed
      */
-    protected function getValueFromSettings(array $settingValues): mixed
+    protected function getValueFromSettings(array $settingValues)
     {
         return [];
     }

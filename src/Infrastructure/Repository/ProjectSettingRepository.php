@@ -90,6 +90,11 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $projectValues[$setting->getPath()] = $setting->getValues();
         }
 
+        $projectSettingDir = dirname($projectSettingPath);
+        if (!is_dir($projectSettingDir)) {
+            mkdir($projectSettingDir, 0777, true);
+        }
+
         file_put_contents($projectSettingPath, $this->yamlParser->dump($projectValues));
 
         return $settings;

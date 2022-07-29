@@ -53,7 +53,7 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
     public function toArray(ReportInterface $report): array
     {
         if (!($report instanceof ViolationReportInterface)) {
-            throw new InvalidArgumentException(sprintf('Invalid incoming report type %s', $report::class));
+            throw new InvalidArgumentException(sprintf('Invalid incoming report type %s', get_class($report)));
         }
 
         return [

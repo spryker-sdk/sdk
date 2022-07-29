@@ -65,7 +65,7 @@ settings:
   - path: project_dir
     initialization_description: Where is the project directory?
     strategy: overwrite
-    init: true
+    init: false
     is_project: true
     type: path
     values: "./"
@@ -105,15 +105,15 @@ settings:
   - path: report_dir
     initialization_description: Where is the project report directory?
     strategy: overwrite
-    init: true
+    init: false
     is_project: true
     type: path
-    values: "./reports/"
+    values: "./.ssdk/reports/"
     initializer: create_directory_initializer
   - path: project_key
     initialization_description: What is the project unique key?
     strategy: overwrite
-    init: false
+    init: true
     is_project: true
     type: uuid
     values: ""

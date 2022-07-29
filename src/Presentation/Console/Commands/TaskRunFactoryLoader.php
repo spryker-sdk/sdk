@@ -181,7 +181,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             return array_merge($symfonyCommands, array_map(function (TaskInterface $task) {
                 return $task->getId();
             }, $this->taskRepository->findAll()));
-        } catch (Throwable) {
+        } catch (Throwable $throwable) {
             //When the SDK is not initialized tasks can't be loaded from the DB but the symfony console still
             //need to be executable to make the init:sdk command available
             return parent::getNames();

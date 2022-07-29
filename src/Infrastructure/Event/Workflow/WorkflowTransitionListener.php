@@ -354,7 +354,7 @@ class WorkflowTransitionListener
      *
      * @return mixed
      */
-    protected function getTransitionMeta(Event $event, string $metaName): mixed
+    protected function getTransitionMeta(Event $event, string $metaName)
     {
         $transition = $event->getTransition();
 

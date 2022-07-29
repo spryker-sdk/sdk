@@ -214,7 +214,35 @@ class UnitTester extends Actor
      */
     public function createSymfonyCommand(string $name, string $help): SymfonyCommand
     {
-        return (new SymfonyCommand($name))->setHelp($help);
+        $command = (new SymfonyCommand($name))->setHelp($help);
+
+        $command->addArgument('argument1');
+        $command->addOption('option1');
+
+        return $command;
+    }
+
+    /**
+     * @param string $name
+     * @param array|string $shortcut
+     * @param string $description
+     *
+     * @return \Symfony\Component\Console\Input\InputOption
+     */
+    public function createSymfonyInputOption(string $name, $shortcut, string $description): InputOption
+    {
+        return new InputOption($name, $shortcut, null, $description);
+    }
+
+    /**
+     * @param string $name
+     * @param array|string|float|int|bool $default
+     *
+     * @return \Symfony\Component\Console\Input\InputArgument
+     */
+    public function createSymfonyInputArgument(string $name, $default): InputArgument
+    {
+        return new InputArgument($name, null, '', $default);
     }
 
     /**
@@ -236,7 +264,7 @@ class UnitTester extends Actor
      *
      * @return \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Param
      */
-    public function createPhpStormParam(string $name, float|int|bool|array|string|null $defaultValue): Param
+    public function createPhpStormParam(string $name, $defaultValue): Param
     {
         return new Param($name, $defaultValue);
     }

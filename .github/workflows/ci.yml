@@ -19,6 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [
+            '7.4',
             '8.0',
             '8.1'
         ]
@@ -32,6 +33,12 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, ctype, iconv
           tools: composer:v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: false
 
       - name: Composer get cache directory
         id: composer-cache
@@ -53,7 +60,12 @@ jobs:
         run: composer --version
 
       - name: Composer install
+        if: ${{ matrix.php-version != '7.4' }}
         run: composer install
+
+      - name: Composer install
+        if: ${{ matrix.php-version == '7.4' }}
+        run: composer update --prefer-lowest
 
       - name: Run PHPStan
         run: composer stan
@@ -61,9 +73,14 @@ jobs:
       - name: Run CodeStyle checks
         run: composer cs-check
 
-      - name: Codecept tests with coverage
-        if: ${{ matrix.php-version == '8.1' }}
+      - name: Codecept unit tests
         run: composer test
+
+      - name: Install SDK
+        run: bin/console sdk:init:hidden-sdk
+
+      - name: Codecept acceptance tests
+        run: composer test-qa
 
       - name: Codecept tests with coverage
         if: ${{ matrix.php-version == '8.0' }}

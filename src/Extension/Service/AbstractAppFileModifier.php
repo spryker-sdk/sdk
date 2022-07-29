@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Service;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-abstract class AbstractPbcFileModifier implements PbcFileModifierInterface
+abstract class AbstractAppFileModifier implements AppFileModifierInterface
 {
     /**
      * @return string

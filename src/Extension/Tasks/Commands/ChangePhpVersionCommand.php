@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Extension\Tasks\Commands;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Extension\Exception\FileNotFoundException;
-use SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface;
-use SprykerSdk\Sdk\Extension\ValueResolvers\PbcPhpVersionValueResolver;
+use SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface;
+use SprykerSdk\Sdk\Extension\ValueResolvers\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -21,30 +21,30 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     /**
      * @var string
      */
-    protected const COMPOSER_CHANGE_ERROR = 'Can not change PHP version in composer.json in generated PBC';
+    protected const COMPOSER_CHANGE_ERROR = 'Can not change PHP version in composer.json in generated App';
 
     /**
      * @var string
      */
-    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change PHP version deploy.dev.yml in generated PBC';
+    protected const DOCKER_INITIALIZATION_ERROR = 'Can not change PHP version deploy.dev.yml in generated App';
 
     /**
-     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface
      */
-    protected PbcFileModifierInterface $composerFileModifier;
+    protected AppFileModifierInterface $composerFileModifier;
 
     /**
-     * @var \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface
+     * @var \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface
      */
-    protected PbcFileModifierInterface $dockerFileModifier;
+    protected AppFileModifierInterface $dockerFileModifier;
 
     /**
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $composerFileModifier
-     * @param \SprykerSdk\Sdk\Extension\Service\PbcFileModifierInterface $dockerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface $composerFileModifier
+     * @param \SprykerSdk\Sdk\Extension\Service\AppFileModifierInterface $dockerFileModifier
      */
     public function __construct(
-        PbcFileModifierInterface $composerFileModifier,
-        PbcFileModifierInterface $dockerFileModifier
+        AppFileModifierInterface $composerFileModifier,
+        AppFileModifierInterface $dockerFileModifier
     ) {
         $this->composerFileModifier = $composerFileModifier;
         $this->dockerFileModifier = $dockerFileModifier;
@@ -125,7 +125,7 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
         }
 
         if (isset($composerContent['config']['platform']['php'])) {
-            $composerContent['config']['platform']['php'] = PbcPhpVersionValueResolver::PHP_VERSIONS[$phpVersion];
+            $composerContent['config']['platform']['php'] = AppPhpVersionValueResolver::PHP_VERSIONS[$phpVersion];
         }
 
         $this->composerFileModifier->write($composerContent, $context);
@@ -151,7 +151,7 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
      */
     protected function getPhpVersion(array $resolvedValues): string
     {
-        return $resolvedValues['%' . PbcPhpVersionValueResolver::VALUE_NAME . '%'];
+        return $resolvedValues['%' . AppPhpVersionValueResolver::VALUE_NAME . '%'];
     }
 
     /**

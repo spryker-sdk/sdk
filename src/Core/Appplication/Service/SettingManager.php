@@ -78,7 +78,7 @@ class SettingManager
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
-    public function setSetting(string $path, mixed $value): SettingInterface
+    public function setSetting(string $path, $value): SettingInterface
     {
         $settingDefinition = $this->projectSettingRepository->findOneByPath($path);
 
@@ -101,13 +101,11 @@ class SettingManager
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
-    protected function buildPathValue(SettingInterface $settingDefinition, mixed $value): SettingInterface
+    protected function buildPathValue(SettingInterface $settingDefinition, $value): SettingInterface
     {
-        $typedValue = (is_array($value)) ? (array)$value : match ($settingDefinition->getType()) {
-            'array' => (array)$value,
-            'boolean' => (bool)$value,
-            default => (string)$value,
-        };
+        $typedValue = is_array($value) ?
+            (array)$value :
+            ['array' => (array)$value, 'boolean' => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
             $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);

@@ -11,7 +11,6 @@ use Codeception\Test\Unit;
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto;
 use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty;
-use stdClass;
 
 /**
  * @group Sdk
@@ -90,11 +89,6 @@ class DtoTest extends Unit
             protected bool $boolean;
 
             /**
-             * @var mixed
-             */
-            protected mixed $anything;
-
-            /**
              * @var array<string, string>
              */
             protected array $arr;
@@ -129,14 +123,6 @@ class DtoTest extends Unit
             }
 
             /**
-             * @return mixed
-             */
-            public function getAnything(): mixed
-            {
-                return $this->anything;
-            }
-
-            /**
              * @return array<string, string>
              */
             public function getArr(): array
@@ -160,7 +146,6 @@ class DtoTest extends Unit
         $this->assertSame($dtoData['integer'], $dto->getInteger());
         $this->assertSame($dtoData['double'], $dto->getDouble());
         $this->assertSame($dtoData['boolean'], $dto->isBoolean());
-        $this->assertSame($dtoData['anything'], $dto->getAnything());
         $this->assertSame($dtoData['arr'], $dto->getArr());
         $this->assertInstanceOf(Dto::class, $dto->getDto());
     }
@@ -175,13 +160,11 @@ class DtoTest extends Unit
                 'integer' => 1,
                 'double' => 1.0,
                 'boolean' => true,
-                'anything' => new stdClass(),
                 'arr' => ['key' => 'value', 'key1' => 'value1'],
                 'dto' => [
                     'integer' => 2,
                     'double' => 2.0,
                     'boolean' => true,
-                    'anything' => new stdClass(),
                     'arr' => ['key2' => 'value2', 'key3' => 'value3'],
                     'dto' => null,
                 ],
@@ -216,11 +199,6 @@ class DtoTest extends Unit
             protected bool $boolean;
 
             /**
-             * @var mixed
-             */
-            protected mixed $anything;
-
-            /**
              * @var array<string, string>
              */
             protected array $arr;
@@ -255,14 +233,6 @@ class DtoTest extends Unit
             }
 
             /**
-             * @return mixed
-             */
-            public function getAnything(): mixed
-            {
-                return $this->anything;
-            }
-
-            /**
              * @return array<string, string>
              */
             public function getArr(): array
@@ -286,7 +256,6 @@ class DtoTest extends Unit
         $this->assertSame($dtoData['integer'], $dto->getInteger());
         $this->assertSame($dtoData['double'], $dto->getDouble());
         $this->assertSame($dtoData['boolean'], $dto->isBoolean());
-        $this->assertSame($dtoData['anything'], $dto->getAnything());
         $this->assertSame($dtoData['arr'], $dto->getArr());
         $this->assertInstanceOf(Dto::class, $dto->getDto());
     }
@@ -307,11 +276,6 @@ class DtoTest extends Unit
              * @var string
              */
             protected string $string;
-
-            /**
-             * @var mixed
-             */
-            protected mixed $anything;
 
             /**
              * @var array<string, string>
@@ -340,14 +304,6 @@ class DtoTest extends Unit
             }
 
             /**
-             * @return mixed
-             */
-            public function getAnything(): mixed
-            {
-                return $this->anything;
-            }
-
-            /**
              * @return array<string, string>
              */
             public function getArr(): array
@@ -366,12 +322,10 @@ class DtoTest extends Unit
         $dtoData = [
             'integer' => 1,
             'string' => 'string1',
-            'anything' => new stdClass(),
             'arr' => ['key' => 'value', 'key1' => 'value1'],
             'dto' => [
                 'integer' => 2,
                 'string' => 'string2',
-                'anything' => new stdClass(),
                 'arr' => ['key2' => 'value2', 'key3' => 'value3'],
                 'dto' => null,
             ],

@@ -10,6 +10,12 @@ namespace SprykerSdk\Sdk\Acceptance\Extension\Tasks;
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
+/**
+ * @group Acceptance
+ * @group Extension
+ * @group Tasks
+ * @group AnalyzerTaskCest
+ */
 class AnalyzerTaskCest
 {
     /**
@@ -28,8 +34,6 @@ class AnalyzerTaskCest
     protected const FAIL_PROJECT_DIR = 'upgrader_failing_project';
 
     /**
-     * @skip incomplete
-     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -54,28 +58,6 @@ class AnalyzerTaskCest
      *
      * @return void
      */
-    public function testAnalyzerFindingViolations(AcceptanceTester $I): void
-    {
-        // Arrange
-        $I->cleanReports(static::FAIL_PROJECT_DIR);
-
-        // Act
-        $process = $I->runSdkCommand(
-            [static::COMMAND],
-            $I->getProjectRoot(static::FAIL_PROJECT_DIR),
-        );
-
-        // Assert
-        Assert::assertFalse($process->isSuccessful());
-        Assert::assertNotEmpty($process->getOutput());
-        Assert::assertStringContainsString('Violations found on project level', $process->getOutput());
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
-     *
-     * @return void
-     */
     public function testAnalyzerGeneratingFileReport(AcceptanceTester $I): void
     {
         // Arrange
@@ -85,7 +67,6 @@ class AnalyzerTaskCest
         $I->runSdkCommand(
             [
                 static::COMMAND,
-                '--format=yaml',
             ],
             $I->getProjectRoot(static::FAIL_PROJECT_DIR),
         );

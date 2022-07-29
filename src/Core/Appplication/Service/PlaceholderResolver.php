@@ -45,7 +45,7 @@ class PlaceholderResolver
      *
      * @return mixed
      */
-    public function resolve(PlaceholderInterface $placeholder, ContextInterface $context): mixed
+    public function resolve(PlaceholderInterface $placeholder, ContextInterface $context)
     {
         $valueResolverInstance = $this->getValueResolver($placeholder);
         $settingValues = [];

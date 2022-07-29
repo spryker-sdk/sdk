@@ -38,7 +38,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      *
      * @return mixed
      */
-    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): mixed
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
     {
         if ($this->valueReceiver->has($this->getValueName())) {
             return $this->valueReceiver->get($this->getValueName());
@@ -58,7 +58,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         if ($defaultValue === null) {
             try {
                 $defaultValue = $this->getValueFromSettings($settingValues);
-            } catch (MissingValueException) {
+            } catch (MissingValueException $exception) {
                 $defaultValue = null;
             }
         }
@@ -112,5 +112,5 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      *
      * @return mixed
      */
-    abstract protected function getValueFromSettings(array $settingValues): mixed;
+    abstract protected function getValueFromSettings(array $settingValues);
 }

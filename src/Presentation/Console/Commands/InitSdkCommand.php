@@ -90,11 +90,22 @@ class InitSdkCommand extends AbstractInitCommand
             '/bin/console ' .
             InitCommand::NAME .
             str_replace('\'' . static::NAME . '\'', '', (string)$input),
-        )->setTty(true)->setTimeout(null);
+        )->setTimeout(null);
+
+        $isTty = Process::isTtySupported();
+
+        if ($isTty) {
+            $process->setTty(true);
+        }
         $result = $this->processHelper->run(
             $output,
             [$process],
         );
+
+        if ($isTty && $result->getErrorOutput()) {
+            $output->writeln(sprintf('<error>%s</error>', $result->getErrorOutput()));
+            $output->writeln('<info>Tty mode doesn\'t support. You can try to send required params in options.</info>');
+        }
 
         return (int)$result->getExitCode();
     }
