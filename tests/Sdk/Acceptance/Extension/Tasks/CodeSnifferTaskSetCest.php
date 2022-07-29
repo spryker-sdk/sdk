@@ -38,8 +38,6 @@ class CodeSnifferTaskSetCest
         // Assert
         Assert::assertTrue($process->isSuccessful());
         Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml'));
-
-        $I->assertTelemetryEventReport(static::COMMAND, CommandExecutionPayload::getEventName(), $I->getPathFromProjectRoot('.ssdk/reports/telemetry_events.json'));
     }
 
     /**
