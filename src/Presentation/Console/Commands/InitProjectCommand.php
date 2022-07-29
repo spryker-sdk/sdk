@@ -169,7 +169,7 @@ class InitProjectCommand extends Command
                 continue;
             }
 
-            if (!$needsToAsk && !$options[$settingEntity->getPath()]) {
+            if (!$options[$settingEntity->getPath()]) {
                 $questionDescription = $settingEntity->getInitializationDescription();
 
                 if (!$questionDescription) {
