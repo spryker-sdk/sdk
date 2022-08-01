@@ -8,9 +8,9 @@
 namespace Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskManager;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;

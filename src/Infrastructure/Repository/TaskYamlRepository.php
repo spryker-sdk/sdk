@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskYamlRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
@@ -34,7 +34,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected const TASK_SET_TYPE = 'task_set';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
@@ -54,7 +54,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected array $existingTasks = [];
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
@@ -76,7 +76,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $tags
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return array
      */
@@ -95,7 +95,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $existedDirectories = $this->findExistedDirectories($taskDirSetting->getValues());
 
         $finder = $this->fileFinder
-            ->in(array_map(fn (string $directory): string => $directory . '/*/Tasks/', $existedDirectories))
+            ->in(array_map(fn (string $directory): string => $directory . '/*/Task/', $existedDirectories))
             ->name('*.yaml');
 
         //read task from path, parse and create Task, later use DB for querying
@@ -147,7 +147,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected function findExistedDirectories(array $directorySettings): array
     {
         return array_filter($directorySettings, function (string $dir): bool {
-            $found = glob($dir . '/*/Tasks');
+            $found = glob($dir . '/*/Task');
 
             if ($found === false) {
                 return false;

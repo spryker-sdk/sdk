@@ -4,8 +4,8 @@ The SDK offers different extension points to enable 3rd parties to contribute to
 
 From simple to complex the SDK can be extended by:
 
-1. providing additional tasks or settings via YAML definition placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Tasks/<taskname>.yaml`. Those tasks can't introduce additional dependencies and therefore are best suited to integrate existing tools that come with a standalone executable.
-2. providing additional tasks, value resolvers or settings via PHP implementation, placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Tasks/<taskname>.php`. Those tasks need to implement the [TaskInterface](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/Entity/TaskInterface.php) and need to be exposed by providing a Symfony bundle to the Spryker SDK (e.g.: `<path/to/spryker/sdk>/extension/<YourBundleName>/<YourBundleName>Bundle.php`), following the conventions of a [Symfony bundle](https://symfony.com/doc/current/bundles.html#creating-a-bundle). This possibility is best suited for more complex tasks that do not require additional dependencies (e.g.: validating the content of a yaml file by using Symphony validators)
+1. providing additional tasks or settings via YAML definition placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Task/<taskname>.yaml`. Those tasks can't introduce additional dependencies and therefore are best suited to integrate existing tools that come with a standalone executable.
+2. providing additional tasks, value resolvers or settings via PHP implementation, placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Task/<taskname>.php`. Those tasks need to implement the [TaskInterface](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/Entity/TaskInterface.php) and need to be exposed by providing a Symfony bundle to the Spryker SDK (e.g.: `<path/to/spryker/sdk>/extension/<YourBundleName>/<YourBundleName>Bundle.php`), following the conventions of a [Symfony bundle](https://symfony.com/doc/current/bundles.html#creating-a-bundle). This possibility is best suited for more complex tasks that do not require additional dependencies (e.g.: validating the content of a yaml file by using Symphony validators)
 3. Providing additional tasks, value resolver or settings that come with additional dependencies follows the same guideline as 2. but requires to build your own [SDK docker image](./build.md) that includes those dependencies.
 
 ## Implementing a new task
@@ -24,7 +24,7 @@ section. Each placeholder need to map to one value resolver.
 
 #### Definition
 
-Add a definition for your task `<path>/Tasks/<name>.yaml`.
+Add a definition for your task `<path>/Task/<name>.yaml`.
 
 ````yaml
 ---
@@ -42,7 +42,7 @@ placeholders:
 
 #### Adding a tasks to the SDK
 
-Tasks that located in `extension/<your extension name>/Tasks` can be added to the SDK by executing `spryker-sdk sdk:update:all`
+Tasks that located in `extension/<your extension name>/Task` can be added to the SDK by executing `spryker-sdk sdk:update:all`
 
 ### via PHP implementation
 
@@ -57,10 +57,10 @@ Your bundle needs to use the https://github.com/spryker-sdk/sdk-contracts via co
 #### Implement __Task__
 
 ```php
-namespace <YourNamespace>\Tasks;
+namespace <YourNamespace>\Task;
 
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use <YourNamespace>\Tasks\Commands\YourCommand;
+use <YourNamespace>\Task\Command\YourCommand;
 
 class YourTask implements TaskInterface
 {
@@ -101,7 +101,7 @@ While a __Task__ definition serves as general description of the __Task__ and ma
 a __Command__ serves as function that is executed along with the resolved __Placeholders__.
 
 ```php
-namespace <YourNamespace>\Tasks\Commands;
+namespace <YourNamespace>\\Command;
 
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 
@@ -150,16 +150,16 @@ class YourCommand implements ExecutableCommandInterface
 #### Implement Placeholders
 
 Placeholders will be resolved at runtime by using a specified __ValueResolver__.
-A __Placeholder__ need to have a specific name that is not used anywhere in the Commands the __Placeholder__ is used for.
+A __Placeholder__ need to have a specific name that is not used anywhere in the Command the __Placeholder__ is used for.
 For example `%` can be appended and suffixed for this purpose and will make the __Placeholder__ easier to recognize in a __Command__.
 The used __ValueResolver__ can be referenced by his id or by his full qualified class name (FQCN), where the FQCN should be preferred.
 
 ```php
-namespace <YourNamespace>\Tasks;
+namespace <YourNamespace>\Task;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Contracts\Entity\TaskInterface;
-use <YourNamespace>\ValueResolvers\YourValueResolver;
+use <YourNamespace>\ValueResolver\YourValueResolver;
 
 class YourTask implements TaskInterface
 {
@@ -183,7 +183,7 @@ You can find a more extensive documentation on registering a Symfony service at 
 ```yaml
 services:
   your_task:
-    class: <YourNamespace>\Tasks\YourTask
+    class: <YourNamespace>\Task\YourTask
     tags: ['sdk.task']
 ```
 
@@ -202,7 +202,7 @@ that turns a placeholder into a resolved value.
 The purpose is to unify __ValueResolvers__ and always use the same name for a value.
 
 ```php
-namespace <YourNamespace>\ValueResolvers;
+namespace <YourNamespace>\ValueResolver;
 
 use SprykerSdk\Sdk\Contracts\ValueResolver\ValueResolverInterface;
 
@@ -272,7 +272,7 @@ When the __ValueResolver__ is not defined as a service it will be instantiated b
 ```yaml
 services:
   your_value_resolver:
-    class: <YourNamespace>\ValueResolvers\YourValueResolver
+    class: <YourNamespace>\ValueResolver\YourValueResolver
     tags: ['sdk.value_resolver']
 ```
 

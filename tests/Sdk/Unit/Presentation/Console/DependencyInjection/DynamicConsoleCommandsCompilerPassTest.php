@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Presentation\Console\DependencyInjection;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
+use SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\DynamicConsoleCommandsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
