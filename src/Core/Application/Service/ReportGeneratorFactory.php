@@ -12,12 +12,12 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class ReportGeneratorFactory
 {
     /**
-     * @var iterable<\SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface>
+     * @var iterable<\SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorResolverInterface>
      */
     protected iterable $reportGeneratorResolvers;
 
     /**
-     * @param iterable<\SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface> $reportGeneratorResolvers
+     * @param iterable<\SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorResolverInterface> $reportGeneratorResolvers
      */
     public function __construct(iterable $reportGeneratorResolvers)
     {
@@ -27,7 +27,7 @@ class ReportGeneratorFactory
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return array<\SprykerSdk\SdkContracts\Report\ReportGeneratorInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorInterface>
      */
     public function getReportGeneratorsByContext(ContextInterface $context): array
     {

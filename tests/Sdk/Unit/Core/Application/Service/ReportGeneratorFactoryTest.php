@@ -8,10 +8,10 @@
 namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorInterface;
+use SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorResolverInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorInterface;
-use SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface;
 
 /**
  * @group Sdk
@@ -42,9 +42,9 @@ class ReportGeneratorFactoryTest extends Unit
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Report\ReportGeneratorInterface|null $reportGenerator
+     * @param \SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorInterface|null $reportGenerator
      *
-     * @return \SprykerSdk\SdkContracts\Report\ReportGeneratorResolverInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorResolverInterface
      */
     protected function createReportResolverMock(?ReportGeneratorInterface $reportGenerator): ReportGeneratorResolverInterface
     {
@@ -58,7 +58,7 @@ class ReportGeneratorFactoryTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Report\ReportGeneratorInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorInterface
      */
     protected function createReportGeneratorMock(): ReportGeneratorInterface
     {
