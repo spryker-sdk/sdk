@@ -145,6 +145,12 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.4.2"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.1"
+    },
     "guzzlehttp/psr7": {
         "version": "2.1.0"
     },
@@ -156,6 +162,7 @@
     },
     "knplabs/github-api": {
         "version": "3.7",
+        "version": "3.6",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",

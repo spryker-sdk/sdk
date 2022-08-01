@@ -14,15 +14,6 @@ use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoProperty;
 class Dto implements FromArrayToArrayInterface
 {
     /**
-     * @var array<string, string>
-     */
-    protected const TYPE_NAME_MAP = [
-        'boolean' => 'bool',
-        'double' => 'float',
-        'integer' => 'int',
-    ];
-
-    /**
      * @var array<string>
      */
     protected const EXPECTED_TYPES = ['bool', 'int', 'string', 'float', 'mixed'];
@@ -47,7 +38,7 @@ class Dto implements FromArrayToArrayInterface
      *
      * @return static
      */
-    public static function create(?array $data = null, bool $ignoreMissing = false)
+    public static function create(?array $data = null, bool $ignoreMissing = false): static
     {
         /** @var static $instance */
         $instance = static::getMetadata()->createInstance();
@@ -68,7 +59,7 @@ class Dto implements FromArrayToArrayInterface
      *
      * @return static
      */
-    public static function fromArray(array $data, bool $ignoreMissing = false)
+    public static function fromArray(array $data, bool $ignoreMissing = false): static
     {
         return static::create($data, $ignoreMissing);
     }
@@ -145,7 +136,7 @@ class Dto implements FromArrayToArrayInterface
         $array = [];
         array_shift($keyStack);
         foreach ($arrayValue as $key => $value) {
-            $value = $keyStack
+            $value = (bool)$keyStack
                 ? $this->toNestedArrayValue($keyStack, $value, $type)
                 : $this->toSingularValue($value, $type);
 
@@ -347,7 +338,12 @@ class Dto implements FromArrayToArrayInterface
     {
         $typeName = strtolower($typeName);
 
-        return static::TYPE_NAME_MAP[$typeName] ?? $typeName;
+        return match ($typeName) {
+            'boolean' => 'bool',
+            'double' => 'float',
+            'integer' => 'int',
+            default => $typeName,
+        };
     }
 
     /**

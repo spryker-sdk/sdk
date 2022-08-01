@@ -33,7 +33,7 @@ class NextAppStepsCommand implements ExecutableCommandInterface
      */
     public function getCommand(): string
     {
-        return '';
+        return static::class;
     }
 
     /**

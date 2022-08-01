@@ -73,7 +73,7 @@ class DtoProperty
     /**
      * @var mixed
      */
-    protected $defaultValue;
+    protected mixed $defaultValue;
 
     /**
      * @var string
@@ -99,7 +99,7 @@ class DtoProperty
         $this->reflectionClass = $reflectionClass;
         $this->reflectionProperty = $reflectionProperty;
 
-        $this->initialize($reflectionClass, $reflectionProperty);
+        $this->initialize($reflectionProperty);
     }
 
     /**
@@ -113,7 +113,7 @@ class DtoProperty
     /**
      * @return mixed
      */
-    public function getDefaultValue()
+    public function getDefaultValue(): mixed
     {
         return $this->defaultValue;
     }
@@ -143,28 +143,26 @@ class DtoProperty
     }
 
     /**
-     * @param \ReflectionClass $class
      * @param \ReflectionProperty $property
      *
      * @return void
      */
-    protected function initialize(ReflectionClass $class, ReflectionProperty $property): void
+    protected function initialize(ReflectionProperty $property): void
     {
         $this->name = $property->getName();
-        $this->defaultValue = $class->getDefaultProperties()[$property->getName()] ?? null;
+        $this->defaultValue = $property->getDefaultValue();
 
-        $this->parseType($class, $property);
+        $this->parseType($property);
     }
 
     /**
-     * @param \ReflectionClass $class
      * @param \ReflectionProperty $property
      *
      * @throws \LogicException
      *
      * @return void
      */
-    protected function parseType(ReflectionClass $class, ReflectionProperty $property): void
+    protected function parseType(ReflectionProperty $property): void
     {
         $type = $property->getType();
         if (!$type instanceof ReflectionNamedType) {
@@ -177,28 +175,15 @@ class DtoProperty
 
         $this->type = $type->getName();
         $this->isArray = $type->getName() === 'array';
-        $this->isRequired = !$type->allowsNull() && !isset($class->getDefaultProperties()[$property->getName()]);
+        $this->isRequired = !$type->allowsNull() && $property->getDefaultValue() === null;
 
         $this->parseDocType($property);
-        $this->resolveType($property);
-    }
 
-    /**
-     * @param \ReflectionProperty $property
-     *
-     * @return void
-     */
-    protected function resolveType(ReflectionProperty $property): void
-    {
-        if ($this->type === 'self') {
-            $this->type = $property->getDeclaringClass()->getName();
-
-            return;
-        }
-
-        if ($this->type === 'static') {
-            $this->type = $this->reflectionClass->getName();
-        }
+        $this->type = match ($this->type) {
+            'self' => $property->getDeclaringClass()->getName(),
+            'static' => $this->reflectionClass->getName(),
+            default => $this->type,
+        };
     }
 
     /**
@@ -264,10 +249,6 @@ class DtoProperty
             ];
         }
 
-        if (!isset($this->altNames[$type])) {
-            throw new InvalidArgumentException(sprintf('Invalid type `%s`', $type));
-        }
-
-        return $this->altNames[$type];
+        return $this->altNames[$type] ?? throw new InvalidArgumentException(sprintf('Invalid type `%s`', $type));
     }
 }

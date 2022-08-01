@@ -58,7 +58,7 @@ placeholders:
     optional: true
     configuration:
       name: "asyncapi-file"
-      description: "Path to save AsyncAPI file to [default: 'config/api/asyncapi/asyncapi.yml']"
+      description: "Path to save AsyncAPI file to"
       type: string
   - name: "%property%"
     value_resolver: ARRAY_OPTION

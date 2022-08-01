@@ -22,19 +22,19 @@ placeholders:
     optional: true
     configuration:
       name: "openapi-file"
-      description: "Path to AsyncAPI file [default: 'config/api/openapi/openapi.yml']"
+      description: "Namespace that should be used for the code builder. When set to Spryker code will be generated in the core modules"
       type: string
   - name: "%organization%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "organization"
-      description: "Namespace that should be used for the code builder. When set to Spryker code will be generated in the core modules. [default: 'App']"
+      description: "Path to AsyncAPI file"
       type: string
   - name: "%application-type%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "application-type"
-      description: "Application type [default: 'backend']"
+      description: "Application type"
       type: string

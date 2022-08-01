@@ -15,7 +15,7 @@ interface FromArrayToArrayInterface
      *
      * @return static
      */
-    public static function fromArray(array $data, bool $ignoreMissing = false);
+    public static function fromArray(array $data, bool $ignoreMissing = false): static;
 
     /**
      * @return array
