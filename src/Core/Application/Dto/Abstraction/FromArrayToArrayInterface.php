@@ -15,10 +15,10 @@ interface FromArrayToArrayInterface
      *
      * @return static
      */
-    public static function fromArray(array $data, bool $ignoreMissing = false): static;
+    public static function fromArray(array $data, bool $ignoreMissing = false);
 
     /**
      * @return array
      */
-    public function toArray(): array;
+    public function toArray();
 }

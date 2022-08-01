@@ -38,7 +38,7 @@ class Dto implements FromArrayToArrayInterface
      *
      * @return static
      */
-    public static function create(?array $data = null, bool $ignoreMissing = false): static
+    public static function create(?array $data = null, bool $ignoreMissing = false)
     {
         /** @var static $instance */
         $instance = static::getMetadata()->createInstance();
@@ -59,7 +59,7 @@ class Dto implements FromArrayToArrayInterface
      *
      * @return static
      */
-    public static function fromArray(array $data, bool $ignoreMissing = false): static
+    public static function fromArray(array $data, bool $ignoreMissing = false)
     {
         return static::create($data, $ignoreMissing);
     }
