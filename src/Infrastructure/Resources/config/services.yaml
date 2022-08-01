@@ -221,7 +221,7 @@ services:
   report_formatter_factory:
     class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
     arguments:
-      - "@context_storage"
+      - "@context_factory"
       - !tagged_iterator sdk.violation_formatter
   violation_report_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
@@ -288,4 +288,5 @@ services:
     arguments:
       - "@cli_value_receiver"
       - "@service_container"
+      - "@context_factory"
 

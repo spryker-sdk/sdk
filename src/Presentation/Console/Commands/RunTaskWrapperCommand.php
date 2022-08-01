@@ -9,11 +9,9 @@ namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
@@ -74,11 +72,6 @@ class RunTaskWrapperCommand extends Command
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
-     */
-    protected ReportFormatterFactory $reportFormatterFactory;
-
-    /**
      * @var array<\Symfony\Component\Console\Input\InputOption>
      */
     protected array $taskOptions;
@@ -104,16 +97,16 @@ class RunTaskWrapperCommand extends Command
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
      */
-    protected ContextStorage $contextStorage;
+    protected ContextFactory $contextFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory $contextFactory
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name
@@ -123,7 +116,7 @@ class RunTaskWrapperCommand extends Command
         ProjectWorkflow $projectWorkflow,
         ContextRepositoryInterface $contextRepository,
         ProjectSettingRepositoryInterface $projectSettingRepository,
-        ContextStorage $contextStorage,
+        ContextFactory $contextFactory,
         array $taskOptions,
         string $description,
         string $name
@@ -133,7 +126,7 @@ class RunTaskWrapperCommand extends Command
         $this->projectWorkflow = $projectWorkflow;
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
-        $this->contextStorage = $contextStorage;
+        $this->contextFactory = $contextFactory;
         $this->name = $name;
         $this->contextRepository = $contextRepository;
         parent::__construct($name);
@@ -276,7 +269,6 @@ class RunTaskWrapperCommand extends Command
         }
 
         $context->setFormat($this->getReportFormat($input));
-        $this->contextStorage->setContext($context);
 
         return $context;
     }
@@ -327,16 +319,15 @@ class RunTaskWrapperCommand extends Command
      */
     protected function createContext(InputInterface $input): ContextInterface
     {
+        $contextFilePath = null;
         if (
-            !$input->hasOption(static::OPTION_READ_CONTEXT_FROM)
-            || !$input->getOption(static::OPTION_READ_CONTEXT_FROM)
+            $input->hasOption(static::OPTION_READ_CONTEXT_FROM)
+            && $input->getOption(static::OPTION_READ_CONTEXT_FROM)
         ) {
-            return new Context();
+            /** @var string $contextFilePath */
+            $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
         }
 
-        /** @var string $contextFilePath */
-        $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
-
-        return $this->contextRepository->findByName($contextFilePath) ?: new Context();
+        return $this->contextFactory->getContext($contextFilePath);
     }
 }

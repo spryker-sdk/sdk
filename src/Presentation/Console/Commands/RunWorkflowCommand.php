@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Commands;
 
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -45,31 +45,39 @@ class RunWorkflowCommand extends Command
     /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
      */
-    protected $projectWorkflow;
+    protected ProjectWorkflow $projectWorkflow;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
      */
-    protected $cliValueReceiver;
+    protected CliValueReceiver $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
      */
-    protected $workflowRunner;
+    protected WorkflowRunner $workflowRunner;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
+     */
+    protected ContextFactory $contextFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory $contextFactory
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         CliValueReceiver $cliValueReceiver,
-        WorkflowRunner $workflowRunner
+        WorkflowRunner $workflowRunner,
+        ContextFactory $contextFactory
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->workflowRunner = $workflowRunner;
+        $this->contextFactory = $contextFactory;
         parent::__construct(static::NAME);
     }
 
@@ -119,8 +127,9 @@ EOT,
                 ),
             ) : current($workflows);
         }
+        $context = $this->contextFactory->getContext();
 
-        $context = $this->workflowRunner->execute($workflowName, new Context());
+        $context = $this->workflowRunner->execute($workflowName, $context);
 
         $this->writeFilteredMessages($output, $context);
 

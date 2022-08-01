@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber\InitializedEventSubscriber;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
@@ -49,6 +50,11 @@ class InitializedEventSubscriberTest extends Unit
     protected CommandExecutorInterface $commandExecutor;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
+     */
+    protected ContextFactory $contextFactory;
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -58,11 +64,13 @@ class InitializedEventSubscriberTest extends Unit
         $this->fileManager = $this->createMock(FileManagerInterface::class);
         $this->placeholderResolver = $this->createMock(PlaceholderResolver::class);
         $this->commandExecutor = $this->createMock(CommandExecutorInterface::class);
+        $this->contextFactory = $this->createMock(ContextFactory::class);
 
         $this->subscriber = new InitializedEventSubscriber(
             $this->fileManager,
             $this->placeholderResolver,
             $this->commandExecutor,
+            $this->contextFactory,
         );
     }
 

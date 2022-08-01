@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -40,13 +40,23 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected ContainerInterface $container;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
+     */
+    protected ContextFactory $contextFactory;
+
+    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory $contextFactory
      */
-    public function __construct(CliValueReceiver $cliValueReceiver, ContainerInterface $container)
-    {
+    public function __construct(
+        CliValueReceiver $cliValueReceiver,
+        ContainerInterface $container,
+        ContextFactory $contextFactory
+    ) {
         $this->cliValueReceiver = $cliValueReceiver;
         $this->container = $container;
+        $this->contextFactory = $contextFactory;
     }
 
     /**
@@ -77,7 +87,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
      */
     public function execute(string $workflowName, ?ContextInterface $context = null): ContextInterface
     {
-        $context = $context ?? new Context();
+        $context = $context ?? $this->contextFactory->getContext();
 
         /** @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow */
         $projectWorkflow = $this->container->get('project_workflow');

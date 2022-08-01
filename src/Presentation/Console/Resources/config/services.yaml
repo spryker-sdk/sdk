@@ -30,6 +30,7 @@ services:
       - "@project_workflow"
       - "@cli_value_receiver"
       - "@workflow_runner"
+      - "@context_factory"
   list_workflow_command:
     class: SprykerSdk\Sdk\Presentation\Console\Commands\ListWorkflowCommand
     tags: ["console.command"]

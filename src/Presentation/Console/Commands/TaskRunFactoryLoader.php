@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Appplication\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
@@ -61,9 +61,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ContextRepositoryInterface $contextRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
      */
-    protected ContextStorage $contextStorage;
+    protected ContextFactory $contextFactory;
 
     /**
      * @param \Psr\Container\ContainerInterface $container
@@ -74,7 +74,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextStorage $contextStorage
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory $contextFactory
      * @param string $environment
      */
     public function __construct(
@@ -86,7 +86,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         PlaceholderResolver $placeholderResolver,
         ProjectSettingRepositoryInterface $projectSettingRepository,
         ProjectWorkflow $projectWorkflow,
-        ContextStorage $contextStorage,
+        ContextFactory $contextFactory,
         string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
@@ -97,7 +97,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $this->contextRepository = $contextRepository;
         $this->projectWorkflow = $projectWorkflow;
         $this->environment = $environment;
-        $this->contextStorage = $contextStorage;
+        $this->contextFactory = $contextFactory;
     }
 
     /**
@@ -146,7 +146,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             $this->projectWorkflow,
             $this->contextRepository,
             $this->projectSettingRepository,
-            $this->contextStorage,
+            $this->contextFactory,
             $options,
             $task->getShortDescription(),
             $task->getId(),

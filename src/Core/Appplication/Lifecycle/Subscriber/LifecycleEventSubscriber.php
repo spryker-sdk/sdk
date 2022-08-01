@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Core\Appplication\Lifecycle\Subscriber;
 
 use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface;
+use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\FileInterface;
@@ -35,18 +35,26 @@ abstract class LifecycleEventSubscriber
     protected CommandExecutorInterface $commandExecutor;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
+     */
+    protected ContextFactory $contextFactory;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\FileManagerInterface $fileManager
      * @param \SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface $commandExecutor
+     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory $contextFactory
      */
     public function __construct(
         FileManagerInterface $fileManager,
         PlaceholderResolver $placeholderResolver,
-        CommandExecutorInterface $commandExecutor
+        CommandExecutorInterface $commandExecutor,
+        ContextFactory $contextFactory
     ) {
         $this->fileManager = $fileManager;
         $this->placeholderResolver = $placeholderResolver;
         $this->commandExecutor = $commandExecutor;
+        $this->contextFactory = $contextFactory;
     }
 
     /**
@@ -98,7 +106,7 @@ abstract class LifecycleEventSubscriber
      */
     protected function createContext(LifecycleEventDataInterface $eventData, TaskInterface $task): ContextInterface
     {
-        $context = new Context();
+        $context = $this->contextFactory->getContext();
         $context->setTask($task);
         $resolvedValues = $this->placeholderResolver->resolvePlaceholders($eventData->getPlaceholders(), $context);
 
