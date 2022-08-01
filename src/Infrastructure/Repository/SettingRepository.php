@@ -10,10 +10,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Appplication\Exception\SettingsNotInitializedException;
-use SprykerSdk\Sdk\Core\Appplication\Service\PathResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
+use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as EntitySetting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
@@ -32,7 +32,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     protected Yaml $yamlParser;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
      */
     protected PathResolver $pathResolver;
 
@@ -43,7 +43,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
 
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\PathResolver $pathResolver
+     * @param \SprykerSdk\Sdk\Core\Application\Service\PathResolver $pathResolver
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
      */
@@ -65,7 +65,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\SettingsNotInitializedException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
      */
@@ -89,7 +89,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */

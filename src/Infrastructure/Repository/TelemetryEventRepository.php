@@ -12,8 +12,8 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use RuntimeException;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TelemetryEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\Telemetry\TelemetryEventsQueryCriteria;
 use SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TelemetryEventMapperInterface;
 use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
@@ -84,7 +84,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dto\Telemetry\TelemetryEventsQueryCriteria $criteria
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\Telemetry\TelemetryEventsQueryCriteria $criteria
      *
      * @return array
      */

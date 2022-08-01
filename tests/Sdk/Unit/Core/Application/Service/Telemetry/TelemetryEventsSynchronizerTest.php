@@ -9,9 +9,9 @@ namespace Sdk\Unit\Core\Application\Service\Telemetry;
 
 use Codeception\Test\Unit;
 use Exception;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\Telemetry\TelemetryEventsSynchronizer;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TelemetryEventRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
+use SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizer;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
@@ -98,7 +98,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     /**
      * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TelemetryEventRepositoryInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TelemetryEventRepositoryInterface
      */
     protected function createTelemetryEventRepositoryMock(TelemetryEventInterface $telemetryEvent): TelemetryEventRepositoryInterface
     {
@@ -133,7 +133,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function createSenderMockThatExpectsOneCall(): TelemetryEventSenderInterface
     {
@@ -144,7 +144,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function createSenderMockThatExpectsNoCall(): TelemetryEventSenderInterface
     {
@@ -155,7 +155,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface
      */
     protected function createSenderMockWithErrorException(): TelemetryEventSenderInterface
     {

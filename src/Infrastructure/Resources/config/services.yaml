@@ -42,7 +42,7 @@ services:
       - "@doctrine.orm.entity_manager"
       - "@path_resolver"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Settings/settings.yaml"
+      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
@@ -211,10 +211,10 @@ services:
     arguments:
       - "@service.task_manager"
   output_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\OutputViolationReportFormatter
+    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\OutputViolationReportFormatter
     tags: ["sdk.violation_formatter", "sdk.cli_receiver_setup"]
   yaml_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\YamlViolationReportFormatter
+    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\YamlViolationReportFormatter
     tags: ["sdk.violation_formatter"]
     arguments:
       - "@violation_report_mapper"
@@ -337,7 +337,7 @@ services:
       - !tagged_iterator telemetry.data_sender
 
   telemetry.telemetry_events_sender:
-    class: SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface
+    class: SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface
     factory: ["@telemetry.data_sender_factory", "getTelemetryEventSender"]
 
   lock_data_store:

@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo;
+use SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo;
 
 interface ProjectInfoFetcherStrategyInterface
 {
     /**
      * @throws \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\FetchDataException
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo
      */
     public function fetchProjectInfo(): ProjectInfo;
 }

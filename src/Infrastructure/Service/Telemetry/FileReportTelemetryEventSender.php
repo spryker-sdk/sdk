@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\TelemetryServerUnreachableException;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException;
 use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -21,7 +21,7 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     public const REPORT_FILENAME = 'telemetry_events.json';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
@@ -46,7 +46,7 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     protected bool $isDebug;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Serializer\SerializerInterface $serializer
      * @param string $reportFileName
      * @param string $format
@@ -69,7 +69,7 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\TelemetryServerUnreachableException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException
      *
      * @return void
      */

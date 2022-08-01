@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Dto;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 
 /**
  * @group Sdk

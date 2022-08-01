@@ -11,7 +11,7 @@ type: local_cli
 tags: ['hello', 'world']
 placeholders:
   - name: '%world%'
-    value_resolver: SprykerSdk\Sdk\Extension\ValueResolvers\StaticValueResolver
+    value_resolver: SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver
     optional: false
     configuration:
       name: 'world'

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Workflow;
+namespace SprykerSdk\Sdk\Unit\Extension\Workflow;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver;

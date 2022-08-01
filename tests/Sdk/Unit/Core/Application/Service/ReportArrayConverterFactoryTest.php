@@ -8,8 +8,8 @@
 namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Exception\InvalidReportTypeException;
-use SprykerSdk\Sdk\Core\Appplication\Service\ReportArrayConverterFactory;
+use SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException;
+use SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory;
 use SprykerSdk\SdkContracts\Report\ReportArrayConverterInterface;
 use SprykerSdk\SdkContracts\Report\ReportInterface;
 use stdClass;

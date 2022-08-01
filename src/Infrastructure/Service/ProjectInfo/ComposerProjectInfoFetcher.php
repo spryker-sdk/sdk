@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo;
 use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
 
 class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
@@ -19,17 +19,17 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     protected const COMPOSER_FILE_NAME = 'composer.json';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo|null
+     * @var \SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo|null
      */
     protected ?ProjectInfo $projectInfo = null;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      */
     public function __construct(SettingRepositoryInterface $settingRepository)
     {
@@ -37,7 +37,7 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo
      */
     public function fetchProjectInfo(): ProjectInfo
     {
@@ -51,7 +51,7 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     /**
      * @throws \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\FetchDataException
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo
      */
     protected function getProjectInfo(): ProjectInfo
     {

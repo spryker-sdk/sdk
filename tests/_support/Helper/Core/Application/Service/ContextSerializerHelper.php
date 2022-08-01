@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Tests\Helper\Core\Application\Service;
 
 use Codeception\Module;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationFix;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;

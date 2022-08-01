@@ -1,0 +1,15 @@
+project_key: ae20eec4-02a4-dbbd-882b-7229d2717243
+context_dir: .
+coreNamespaces:
+    - SprykerShop
+    - SprykerEco
+    - Spryker
+    - SprykerSdk
+projectNamespace:
+    - Pyz
+projectNamespaces:
+    - Pyz
+project_dir: .
+report_dir: ./reports
+report_usage_statistics: false
+workflow: ''

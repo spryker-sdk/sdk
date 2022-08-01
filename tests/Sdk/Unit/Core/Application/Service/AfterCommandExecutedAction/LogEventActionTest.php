@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service\AfterCommandExecutedActio
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
-use SprykerSdk\Sdk\Core\Appplication\Service\AfterCommandExecutedAction\LogEventAction;
+use SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction\LogEventAction;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;

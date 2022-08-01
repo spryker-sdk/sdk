@@ -7,19 +7,19 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo;
+use SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo;
 use Symfony\Component\Process\Process;
 use Throwable;
 
 class GitProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo|null
+     * @var \SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo|null
      */
     protected ?ProjectInfo $projectInfo = null;
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo
      */
     public function fetchProjectInfo(): ProjectInfo
     {
@@ -33,7 +33,7 @@ class GitProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
     /**
      * @throws \SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\FetchDataException
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dto\ProjectInfo\ProjectInfo
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo
      */
     protected function getProjectInfo(): ProjectInfo
     {

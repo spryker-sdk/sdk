@@ -36,6 +36,6 @@ coverage:
         - src/*
     exclude:
         - src/Core/Domain/Entity/*
-        - src/Core/Appplication/Dto/*
+        - src/Core/Application/Dto/*
         - src/Infrastructure/Entity/*
-        - src/Extension/Tasks/*
+        - src/Extension/Task/*

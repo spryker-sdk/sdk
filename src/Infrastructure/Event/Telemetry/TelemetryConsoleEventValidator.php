@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event\Telemetry;
 
-use SprykerSdk\Sdk\Presentation\Console\Commands\RunTaskWrapperCommand;
+use SprykerSdk\Sdk\Presentation\Console\Command\RunTaskWrapperCommand;
 use Symfony\Component\Console\Event\ConsoleEvent;
 
 class TelemetryConsoleEventValidator implements TelemetryConsoleEventValidatorInterface
