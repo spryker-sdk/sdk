@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\CommandExecutor;
+use SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
+use SprykerSdk\Sdk\Core\Application\Service\CommandExecutor;
 use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -128,7 +128,7 @@ class CommandExecutorTest extends Unit
      * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder $invocationRule
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface
      */
     protected function createAfterCommandExecutedActionMock(ContextInterface $context, InvocationOrder $invocationRule): AfterCommandExecutedActionInterface
     {

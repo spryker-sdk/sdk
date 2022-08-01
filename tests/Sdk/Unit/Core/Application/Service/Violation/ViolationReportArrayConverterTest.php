@@ -9,9 +9,9 @@ namespace Sdk\Unit\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Core\Appplication\Exception\InvalidReportTypeException;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportArrayConverter;
+use SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter;
 use SprykerSdk\SdkContracts\Report\ReportInterface;
 
 /**

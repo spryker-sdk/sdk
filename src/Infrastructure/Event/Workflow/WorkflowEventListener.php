@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 
-use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventHandlerInterface;
-use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventInterface;
-use SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowGuardEventHandlerInterface;
+use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface;
+use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventInterface;
+use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface;
 use SprykerSdk\Sdk\Extension\Exception\InvalidServiceException;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -169,12 +169,12 @@ class WorkflowEventListener
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventInterface $event
+     * @param \SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventInterface $event
      * @param array $handlers
      *
      * @throws \SprykerSdk\Sdk\Extension\Exception\InvalidServiceException
      *
-     * @return \SprykerSdk\Sdk\Extension\Dependency\Events\WorkflowEventInterface
+     * @return \SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventInterface
      */
     protected function executeHandlers(WorkflowEventInterface $event, array $handlers): WorkflowEventInterface
     {

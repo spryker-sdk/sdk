@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Dto\Abstraction;
 
 use Codeception\Test\Unit;
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoProperty;
+use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Dto;
+use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoProperty;
 
 /**
  * @group Sdk
@@ -361,7 +361,7 @@ class DtoTest extends Unit
             },
         ]]) extends Dto {
             /**
-             * @var array<array<string, \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto>>
+             * @var array<array<string, \SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Dto>>
              */
             protected array $dtoArray;
 

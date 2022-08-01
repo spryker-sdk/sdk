@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ErrorCommandListenerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException;
+use SprykerSdk\Sdk\Core\Application\Dependency\ErrorCommandListenerInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 
 class ErrorCommandListener implements ErrorCommandListenerInterface

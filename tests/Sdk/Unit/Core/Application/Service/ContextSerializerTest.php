@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer;
-use SprykerSdk\Sdk\Core\Appplication\Service\ReportArrayConverterFactory;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportArrayConverter;
+use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -25,7 +25,7 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class ContextSerializerTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
      */
     protected ContextSerializer $contextSerializer;
 
