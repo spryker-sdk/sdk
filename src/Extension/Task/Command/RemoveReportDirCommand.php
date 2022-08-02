@@ -42,7 +42,7 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
      */
     public function execute(ContextInterface $context): ContextInterface
     {
-        $this->violationReportRepository->cleanup();
+        $this->violationReportRepository->cleanUp();
 
         return $context;
     }

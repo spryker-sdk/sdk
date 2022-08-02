@@ -75,11 +75,15 @@ class DtoClass
     {
         $nameNormalized = $this->getPropertyNameNormalized($name);
 
-        return $this->getProperties()[$nameNormalized] ?? throw new InvalidArgumentException(sprintf(
-            'Missing field `%s` in `%s`',
-            $name,
-            $this->reflectionClass->getName(),
-        ));
+        if (!isset($this->getProperties()[$nameNormalized])) {
+            throw new InvalidArgumentException(sprintf(
+                'Missing field `%s` in `%s`',
+                $name,
+                $this->reflectionClass->getName(),
+            ));
+        }
+
+        return $this->getProperties()[$nameNormalized];
     }
 
     /**

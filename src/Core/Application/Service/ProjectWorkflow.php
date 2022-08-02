@@ -131,7 +131,7 @@ class ProjectWorkflow
             return true;
         }
 
-        $this->currentProjectWorkflow = $this->workflowRepository->getWorkflow($this->getProjectId(), $workflowName);
+        $this->currentProjectWorkflow = $this->workflowRepository->findWorkflow($this->getProjectId(), $workflowName);
 
         if (!$this->currentProjectWorkflow) {
             if (!$workflowName || $this->getProjectWorkflows() || !in_array($workflowName, $this->getAll())) {
@@ -214,7 +214,7 @@ class ProjectWorkflow
     {
         return array_map(
             fn (WorkflowInterface $workflow): string => $workflow->getWorkflow(),
-            $this->workflowRepository->findWorkflows($this->getProjectId()),
+            $this->workflowRepository->getWorkflows($this->getProjectId()),
         );
     }
 

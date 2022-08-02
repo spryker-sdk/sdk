@@ -503,7 +503,7 @@ class WorkflowTransitionListenerTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->exactly(2))
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->with('project', 'test.workflowBefore.nested_workflow')
             ->willReturn($nestedWorkflowEntity);
 
@@ -569,7 +569,7 @@ class WorkflowTransitionListenerTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->exactly(2))
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->with('project', 'test.workflowBefore.nested_workflow')
             ->willReturn($nestedWorkflowEntity);
 

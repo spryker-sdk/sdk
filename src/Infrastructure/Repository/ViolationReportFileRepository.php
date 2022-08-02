@@ -79,7 +79,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      *
      * @return void
      */
-    public function cleanup(): void
+    public function cleanUp(): void
     {
         $dirname = $this->violationPathReader->getViolationReportDirPath();
 
