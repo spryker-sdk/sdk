@@ -254,6 +254,10 @@ class DtoProperty
             ];
         }
 
-        return $this->altNames[$type] ?? throw new InvalidArgumentException(sprintf('Invalid type `%s`', $type));
+        if (!isset($this->altNames[$type])) {
+            throw new InvalidArgumentException(sprintf('Invalid type `%s`', $type));
+        }
+
+        return $this->altNames[$type];
     }
 }
