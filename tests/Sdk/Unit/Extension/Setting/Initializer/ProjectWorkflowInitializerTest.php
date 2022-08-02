@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Extension\Settings\Initializers;
+namespace SprykerSdk\Sdk\Unit\Extension\Setting\Initializer;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -164,7 +164,7 @@ class ProjectWorkflowInitializerTest extends Unit
     protected function createWorkflowRepositoryMock(array $existingWorkflows): WorkflowRepositoryInterface
     {
         $workflowRepositoryMock = $this->createMock(WorkflowRepositoryInterface::class);
-        $workflowRepositoryMock->method('findWorkflows')->willReturn($existingWorkflows);
+        $workflowRepositoryMock->method('getWorkflows')->willReturn($existingWorkflows);
 
         return $workflowRepositoryMock;
     }
