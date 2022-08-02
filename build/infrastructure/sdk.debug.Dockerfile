@@ -1,4 +1,5 @@
-FROM spryker/php-sdk:latest
+ARG SDK_VERSION=latest
+FROM spryker/php-sdk:${SDK_VERSION}
 
 USER root
 
