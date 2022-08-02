@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Core;
 
-use SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension;
+use SprykerSdk\Sdk\Core\Application\DependencyInjection\SprykerSdkCoreExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SprykerSdkCoreBundle extends Bundle
 {
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension
+     * @return \SprykerSdk\Sdk\Core\Application\DependencyInjection\SprykerSdkCoreExtension
      */
     protected function createContainerExtension(): SprykerSdkCoreExtension
     {

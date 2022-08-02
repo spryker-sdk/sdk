@@ -19,7 +19,7 @@ class Setting implements SettingInterface
     /**
      * @var mixed
      */
-    protected mixed $values;
+    protected $values;
 
     /**
      * @var string
@@ -63,7 +63,7 @@ class Setting implements SettingInterface
      */
     public function __construct(
         string $path,
-        mixed $values,
+        $values,
         string $strategy,
         string $type = 'string',
         bool $isProject = true,
@@ -92,7 +92,7 @@ class Setting implements SettingInterface
     /**
      * @return mixed
      */
-    public function getValues(): mixed
+    public function getValues()
     {
         return $this->values;
     }
@@ -102,7 +102,7 @@ class Setting implements SettingInterface
      *
      * @return void
      */
-    public function setValues(mixed $values): void
+    public function setValues($values): void
     {
         $this->values = $values;
     }

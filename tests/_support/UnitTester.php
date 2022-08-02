@@ -27,13 +27,11 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Task as InfrastructureTask;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Command as IdeCommand;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Option;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Param;
-use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Inherited Methods
@@ -82,9 +80,9 @@ class UnitTester extends Actor
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
      *
-     * @return \SprykerSdk\SdkContracts\Entity\CommandInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Command
      */
-    public function createCommand(?ConverterInterface $converter = null): CommandInterface
+    public function createCommand(?ConverterInterface $converter = null): Command
     {
         return new Command(
             'unit:tester:command',
@@ -92,6 +90,8 @@ class UnitTester extends Actor
             true,
             [],
             $converter,
+            ContextInterface::DEFAULT_STAGE,
+            'Error message',
         );
     }
 
@@ -224,7 +224,7 @@ class UnitTester extends Actor
      *
      * @return \Symfony\Component\Console\Input\InputOption
      */
-    public function createSymfonyInputOption(string $name, string|array|null $shortcut, string $description): InputOption
+    public function createSymfonyInputOption(string $name, $shortcut, string $description): InputOption
     {
         return new InputOption($name, $shortcut, null, $description);
     }
@@ -235,7 +235,7 @@ class UnitTester extends Actor
      *
      * @return \Symfony\Component\Console\Input\InputArgument
      */
-    public function createSymfonyInputArgument(string $name, string|bool|int|float|array|null $default): InputArgument
+    public function createSymfonyInputArgument(string $name, $default): InputArgument
     {
         return new InputArgument($name, null, '', $default);
     }
@@ -259,7 +259,7 @@ class UnitTester extends Actor
      *
      * @return \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Param
      */
-    public function createPhpStormParam(string $name, float|int|bool|array|string|null $defaultValue): Param
+    public function createPhpStormParam(string $name, $defaultValue): Param
     {
         return new Param($name, $defaultValue);
     }

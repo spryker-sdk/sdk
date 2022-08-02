@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger;
+use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ConverterResolver;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGenerator;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportMerger;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportableInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
@@ -39,7 +39,7 @@ class ViolationReportGeneratorTest extends Unit
         );
 
         // Act
-        $violationReport = $violationReportGenerator->collectViolations(
+        $violationReport = $violationReportGenerator->collectReports(
             'test',
             [
                 $this->createViolationReportableMock(),
@@ -58,14 +58,14 @@ class ViolationReportGeneratorTest extends Unit
     {
         $violationReportable = $this->createMock(ViolationReportableInterface::class);
         $violationReportable->expects($this->once())
-            ->method('getViolationReport')
+            ->method('getReport')
             ->willReturn($this->createViolationReportMock());
 
         return $violationReportable;
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger
+     * @return \SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportMerger
      */
     protected function createViolationReportMergerMock(): ViolationReportMerger
     {
@@ -73,11 +73,11 @@ class ViolationReportGeneratorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationConverterResolver
+     * @return \SprykerSdk\Sdk\Core\Application\Service\ConverterResolver
      */
-    protected function createViolationConverterResolverMock(): ViolationConverterResolver
+    protected function createViolationConverterResolverMock(): ConverterResolver
     {
-        $violationConverter = $this->createMock(ViolationConverterResolver::class);
+        $violationConverter = $this->createMock(ConverterResolver::class);
         $violationConverter->expects($this->once())
             ->method('resolve');
 
@@ -85,7 +85,7 @@ class ViolationReportGeneratorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface
      */
     protected function createViolationReportRepositoryMock(): ViolationReportRepositoryInterface
     {

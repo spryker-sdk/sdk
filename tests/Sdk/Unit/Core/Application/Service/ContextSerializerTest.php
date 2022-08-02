@@ -8,7 +8,9 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -23,7 +25,7 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class ContextSerializerTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
      */
     protected ContextSerializer $contextSerializer;
 
@@ -38,7 +40,9 @@ class ContextSerializerTest extends Unit
     protected function setUp(): void
     {
         parent::setUp();
-        $this->contextSerializer = new ContextSerializer();
+        $this->contextSerializer = new ContextSerializer(
+            new ReportArrayConverterFactory([new ViolationReportArrayConverter()]),
+        );
     }
 
     /**
@@ -53,7 +57,7 @@ class ContextSerializerTest extends Unit
             $expectedArrayContext['resolved_values'],
             $expectedArrayContext['tags'],
             $expectedArrayContext['messages'],
-            $expectedArrayContext['violation_reports'],
+            $expectedArrayContext['reports'],
         );
 
         $expectedJson = json_encode($expectedArrayContext);
@@ -78,7 +82,7 @@ class ContextSerializerTest extends Unit
             $arrayContext['resolved_values'],
             $arrayContext['tags'],
             $arrayContext['messages'],
-            $arrayContext['violation_reports'],
+            $arrayContext['reports'],
         );
 
         $jsonContext = json_encode($arrayContext);
@@ -108,7 +112,7 @@ class ContextSerializerTest extends Unit
             $arrayContext['resolved_values'],
             $arrayContext['tags'],
             [],
-            $arrayContext['violation_reports'],
+            $arrayContext['reports'],
         );
 
         $jsonContext = json_encode($arrayContext);

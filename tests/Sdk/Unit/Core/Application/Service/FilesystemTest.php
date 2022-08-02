@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Service\Filesystem;
+use SprykerSdk\Sdk\Core\Application\Service\Filesystem;
 
 /**
  * @group Sdk
@@ -20,7 +20,7 @@ use SprykerSdk\Sdk\Core\Appplication\Service\Filesystem;
 class FilesystemTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Core\Application\Service\Filesystem
      */
     protected Filesystem $filesystem;
 

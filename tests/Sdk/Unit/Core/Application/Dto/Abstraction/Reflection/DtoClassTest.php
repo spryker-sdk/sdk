@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Dto\Abstraction\Reflection;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoClass;
+use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Dto;
+use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoClass;
 
 /**
  * @group Sdk
@@ -23,12 +23,12 @@ use SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoClass;
 class DtoClassTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Dto
+     * @var \SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Dto
      */
     protected Dto $dto;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dto\Abstraction\Reflection\DtoClass
+     * @var \SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoClass
      */
     protected DtoClass $dtoClass;
 
@@ -59,11 +59,6 @@ class DtoClassTest extends Unit
              * @var bool
              */
             private bool $privateBoolean;
-
-            /**
-             * @var mixed
-             */
-            public mixed $publicMixed;
 
             /**
              * @var array<string, string>
@@ -103,7 +98,6 @@ class DtoClassTest extends Unit
             'protectedInt',
             'protectedNullableFloat',
             'publicString',
-            'publicMixed',
             'protectedArrayOfStrings',
         ]);
     }

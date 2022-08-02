@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -20,10 +21,19 @@ use Symfony\Component\Process\Process;
 
 class LocalCliRunner implements CommandRunnerInterface
 {
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
     protected OutputInterface $output;
 
+    /**
+     * @var \Symfony\Component\Console\Helper\ProcessHelper
+     */
     protected ProcessHelper $processHelper;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
+     */
     protected ProgressBar $progressBar;
 
     /**
@@ -76,15 +86,12 @@ class LocalCliRunner implements CommandRunnerInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
-        $placeholders = array_map(function (mixed $placeholder): string {
+        $placeholders = array_map(function ($placeholder): string {
             return '/' . preg_quote((string)$placeholder, '/') . '/';
         }, array_keys($context->getResolvedValues()));
 
-        $values = array_map(function (mixed $value): string {
-            return match (gettype($value)) {
-                'array' => implode(',', $value),
-                default => (string)$value,
-            };
+        $values = array_map(function ($value): string {
+            return is_array($value) ? implode(',', $value) : (string)$value;
         }, array_values($context->getResolvedValues()));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
@@ -109,6 +116,17 @@ class LocalCliRunner implements CommandRunnerInterface
             $this->output,
             [$process],
         );
+
+        if (
+            $process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE &&
+            $command instanceof ErrorCommandInterface &&
+            strlen($command->getErrorMessage())
+        ) {
+            $context->addMessage(
+                $command->getCommand(),
+                new Message($command->getErrorMessage(), MessageInterface::ERROR),
+            );
+        }
 
         $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
 

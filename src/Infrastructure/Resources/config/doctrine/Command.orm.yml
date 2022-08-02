@@ -33,6 +33,12 @@ SprykerSdk\Sdk\Infrastructure\Entity\Command:
             nullable: false
             unique: false
             name: stage
+        errorMessage:
+            type: string
+            nullable: false
+            unique: false
+            name: error_message
+            default: ''
     oneToOne:
         converter:
             targetEntity: Converter

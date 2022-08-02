@@ -11,8 +11,12 @@ SprykerSdk\Sdk\Infrastructure\Entity\Workflow:
         project:
             type: string
             nullable: false
-            unique: true
+            unique: false
         workflow:
+            type: string
+            nullable: false
+            unique: false
+        code:
             type: string
             nullable: false
             unique: false
@@ -20,3 +24,23 @@ SprykerSdk\Sdk\Infrastructure\Entity\Workflow:
             type: json
             nullable: false
             unique: false
+    oneToMany:
+        children:
+            targetEntity: Workflow
+            cascade: [ "persist", "remove" ]
+            orphanRemoval: true
+            mappedBy: parent
+        transitions:
+            targetEntity: WorkflowTransition
+            cascade: [ "persist", "remove" ]
+            orphanRemoval: true
+            mappedBy: workflow
+    manyToOne:
+        parent:
+            targetEntity: Workflow
+            inversedBy: children
+    uniqueConstraints:
+        event_user:
+            columns:
+                - project
+                - code

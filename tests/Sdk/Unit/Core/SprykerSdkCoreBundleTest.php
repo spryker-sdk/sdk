@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\DependencyInjection\SprykerSdkCoreExtension;
+use SprykerSdk\Sdk\Core\Application\DependencyInjection\SprykerSdkCoreExtension;
 use SprykerSdk\Sdk\Core\SprykerSdkCoreBundle;
 
 class SprykerSdkCoreBundleTest extends Unit

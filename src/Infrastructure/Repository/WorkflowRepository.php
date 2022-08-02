@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
@@ -40,6 +40,19 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface
+     */
+    public function remove(WorkflowInterface $workflow): WorkflowInterface
+    {
+        $this->getEntityManager()->remove($workflow);
+        $this->getEntityManager()->flush();
+
+        return $workflow;
+    }
+
+    /**
      * @return void
      */
     public function flush(): void
@@ -50,14 +63,48 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
     /**
      * @param string $project
      *
+     * @return array<\SprykerSdk\SdkContracts\Entity\WorkflowInterface>
+     */
+    public function getWorkflows(string $project): array
+    {
+        $criteria = [
+            'project' => $project,
+            'parent' => null,
+        ];
+
+        return $this->findBy($criteria);
+    }
+
+    /**
+     * @param string $project
+     * @param string|null $workflowName
+     *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
      */
-    public function findOne(string $project): ?WorkflowInterface
+    public function findWorkflow(string $project, ?string $workflowName = null): ?WorkflowInterface
     {
         $criteria = [
             'project' => $project,
         ];
 
+        if ($workflowName) {
+            $criteria['code'] = $workflowName;
+        }
+
         return $this->findOneBy($criteria);
+    }
+
+    /**
+     * @param string $project
+     *
+     * @return bool
+     */
+    public function hasWorkflow(string $project): bool
+    {
+        $criteria = [
+            'project' => $project,
+        ];
+
+        return (bool)$this->findOneBy($criteria);
     }
 }

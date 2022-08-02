@@ -10,9 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
@@ -21,7 +19,7 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Task>
  */
-class TaskRepository extends ServiceEntityRepository implements TaskSaveRepositoryInterface, TaskRemoveRepositoryInterface, TaskRepositoryInterface
+class TaskRepository extends ServiceEntityRepository implements TaskRepositoryInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface
@@ -79,7 +77,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskSaveReposito
             throw new InvalidTypeException(sprintf('$taskToUpdate must be instance of %s', Task::class));
         }
 
-        return $this->getEntityManager()->transactional(function () use ($task, $taskToUpdate): Task {
+        return $this->getEntityManager()->wrapInTransaction(function () use ($task, $taskToUpdate): Task {
             $this->getEntityManager()->remove($taskToUpdate->getLifecycle());
 
             $entity = $this->taskMapper->updateInfrastructureEntity($task, $taskToUpdate);

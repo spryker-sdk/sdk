@@ -5,6 +5,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
     arguments:
       - "@project_setting_repository"
+      - "%project_settings_file%"
   event_logger:
     class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
     factory: ["@event_logger_factory", "createEventLogger"]
@@ -20,21 +21,32 @@ services:
           event: console.command,
           method: initProgressBar,
         }
+  command_error:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
+    tags:
+      - {
+        name: kernel.event_listener,
+        event: console.error,
+        method: handle,
+      }
   setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
     arguments:
       - "@doctrine.orm.entity_manager"
       - "@path_resolver"
+      - "@yaml_parser"
+      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
   project_setting_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
     arguments:
+      - "@service_container"
       - "@setting_repository"
       - "@yaml_parser"
       - "%project_settings_file%"
       - "@path_resolver"
   yaml_parser:
     class: Symfony\Component\Yaml\Yaml
-  task_repository:
+  task_yaml_repository:
     public: true
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
     arguments:
@@ -47,7 +59,13 @@ services:
     arguments:
       - "@context_serializer"
       - "@setting_repository"
-
+  initializer_service:
+    class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
+    arguments:
+      - "@cli_value_receiver"
+      - "@setting_repository"
+      - "@service.task_manager"
+      - "@task_yaml_repository"
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
 
@@ -147,9 +165,10 @@ services:
   service.lifecycle_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
     arguments:
-      - "@task_repository"
+      - "@task_yaml_repository"
       - "@task_persistence_repository"
       - !tagged_iterator sdk.update_action
+      - "%kernel.project_dir%"
 
   task_created_action:
     class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
@@ -176,10 +195,10 @@ services:
     arguments:
       - "@service.task_manager"
   output_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\OutputViolationReportFormatter
+    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\OutputViolationReportFormatter
     tags: ["sdk.violation_formatter", "sdk.cli_receiver_setup"]
   yaml_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatters\YamlViolationReportFormatter
+    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\YamlViolationReportFormatter
     tags: ["sdk.violation_formatter"]
     arguments:
       - "@violation_report_mapper"
@@ -187,6 +206,10 @@ services:
       - "@yaml_parser"
   workflow_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
+    arguments:
+      - "@doctrine"
+  workflow_transition_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
     arguments:
       - "@doctrine"
   violation_report_mapper:
@@ -198,6 +221,7 @@ services:
   report_formatter_factory:
     class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
     arguments:
+      - "@context_storage"
       - !tagged_iterator sdk.violation_formatter
   violation_report_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
@@ -220,3 +244,48 @@ services:
           event: console.command,
           method: beforeConsoleCommand,
         }
+
+  app.workflow.guard_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
+    arguments:
+      - "@service_container"
+    tags:
+      - { name: kernel.event_listener, event: console.command, method: setup }
+      - { name: kernel.event_listener, event: workflow.guard, method: handle }
+      - { name: kernel.event_listener, event: workflow.leave, method: handle }
+      - { name: kernel.event_listener, event: workflow.entered, method: handle }
+
+  app.workflow.transition_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
+    arguments:
+      - "@service_container"
+      - "@task_executor"
+      - "@workflow_runner"
+      - "@project_workflow"
+      - "@workflow_repository"
+      - "@workflow_transition_repository"
+    tags:
+      - { name: kernel.event_listener, event: workflow.transition, method: execute }
+
+  app.workflow.started_transitions_guard_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowStartedTransitionListener
+    arguments:
+      - "@project_workflow"
+    tags:
+      - { name: kernel.event_listener, event: workflow.guard, method: guard }
+
+  workflow.marking_store.method:
+    class: SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore
+
+  service.tasks_repository_installer:
+    class: SprykerSdk\Sdk\Infrastructure\Service\TasksRepositoryInstaller
+    arguments:
+      - "%kernel.project_dir%/.gitmodules"
+
+  workflow_runner:
+    class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+    tags: [ "sdk.cli_receiver_setup" ]
+    arguments:
+      - "@cli_value_receiver"
+      - "@service_container"
+

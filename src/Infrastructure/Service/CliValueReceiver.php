@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
@@ -78,7 +78,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      *
      * @return mixed
      */
-    public function get(string $key): mixed
+    public function get(string $key)
     {
         return $this->input->getOption($key);
     }
@@ -88,14 +88,14 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
      *
      * @return mixed
      */
-    public function receiveValue(ReceiverValueInterface $receiverValue): mixed
+    public function receiveValue(ReceiverValueInterface $receiverValue)
     {
-        $choiceValues = $receiverValue->getChoiceValues();
+        $choiceValues = $receiverValue->getChoiceValues() ? $this->prepareChoiceValues($receiverValue->getChoiceValues()) : [];
         $defaultValue = $receiverValue->getDefaultValue();
         $type = $receiverValue->getType();
         $description = $receiverValue->getDescription();
-        if ($defaultValue === null && $choiceValues) {
-            $defaultValue = reset($choiceValues);
+        if (!$defaultValue && $choiceValues) {
+            $defaultValue = array_key_first($choiceValues);
         }
 
         if (count($choiceValues) === 1 && in_array($defaultValue, $choiceValues)) {
@@ -109,11 +109,18 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
                 break;
             default:
                 if ($choiceValues) {
+                    if ($type === 'array') {
+                        $description .= ' (Multiselect format: 0,1)';
+                    }
                     $question = new ChoiceQuestion(
                         $description,
                         $choiceValues,
                         $defaultValue,
                     );
+
+                    if ($type === 'array') {
+                        $question->setMultiselect(true);
+                    }
 
                     break;
                 }
@@ -154,5 +161,25 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
             $this->output,
             $question,
         );
+    }
+
+    /**
+     * @param array $choices
+     *
+     * @return array
+     */
+    protected function prepareChoiceValues(array $choices): array
+    {
+        if (count($choices) === 0) {
+            return $choices;
+        }
+
+        $isList = array_keys($choices) === range(0, count($choices) - 1);
+
+        if (!$isList) {
+            return $choices;
+        }
+
+        return array_combine(range(1, count($choices)), $choices) ?: [];
     }
 }

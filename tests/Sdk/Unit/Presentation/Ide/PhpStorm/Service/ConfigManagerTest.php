@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Presentation\Ide\PhpStorm\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\ConfigManager;
@@ -39,7 +39,7 @@ class ConfigManagerTest extends Unit
     protected CommandLoaderInterface $commandLoader;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 

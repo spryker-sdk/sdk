@@ -7,13 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\InitializedEvent;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\RemovedEvent;
-use SprykerSdk\Sdk\Core\Appplication\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -25,17 +23,17 @@ class TaskManager implements TaskManagerInterface
     protected EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
-    protected TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository;
+    protected TaskRepositoryInterface $taskRepository;
 
     /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRemoveRepositoryInterface&\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskSaveRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        TaskRepositoryInterface|TaskRemoveRepositoryInterface|TaskSaveRepositoryInterface $taskRepository
+        TaskRepositoryInterface $taskRepository
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;

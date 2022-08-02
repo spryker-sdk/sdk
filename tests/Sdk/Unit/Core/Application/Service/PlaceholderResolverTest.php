@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\UnresolvablePlaceholderException;
-use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\UnresolvablePlaceholderException;
+use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -69,7 +69,7 @@ class PlaceholderResolverTest extends Unit
      * @return void
      */
     public function testResolvePlaceholderWithoutSettings(
-        mixed $expectedValue,
+        $expectedValue,
         array $expectedSettings,
         bool $optionalPlaceholder
     ): void {
@@ -117,7 +117,7 @@ class PlaceholderResolverTest extends Unit
             ->willReturn(array_keys($expectedSettings));
         $valueResolverMock->expects($this->once())
             ->method('getValue')
-            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey): mixed {
+            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey) {
                 $this->assertArrayHasKey($expectedSettingKey, $context->getResolvedValues());
 
                 return $context->getResolvedValues()[$expectedSettingKey];
@@ -230,7 +230,7 @@ class PlaceholderResolverTest extends Unit
             ->willReturn(array_keys($expectedSettings));
         $valueResolverMock->expects($this->once())
             ->method('getValue')
-            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey): mixed {
+            ->willReturnCallback(function (ContextInterface $context) use ($expectedSettingKey) {
                 $this->assertArrayHasKey($expectedSettingKey, $context->getResolvedValues());
 
                 return $context->getResolvedValues()[$expectedSettingKey];
@@ -279,7 +279,7 @@ class PlaceholderResolverTest extends Unit
     /**
      * @param array $expectedSettings
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected function createSettingRepositoryMock(array $expectedSettings): ProjectSettingRepositoryInterface
     {
@@ -303,7 +303,7 @@ class PlaceholderResolverTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface
      */
-    protected function createValueResolverMock(array $expectedSettings, mixed $expectedValue): ValueResolverInterface
+    protected function createValueResolverMock(array $expectedSettings, $expectedValue): ValueResolverInterface
     {
         $valueResolverMock = $this->createMock(ValueResolverInterface::class);
         $valueResolverMock->expects($this->once())
@@ -319,9 +319,9 @@ class PlaceholderResolverTest extends Unit
     /**
      * @param mixed $valueResolverMock
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ValueResolverRegistryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface
      */
-    protected function createRegistryMock(mixed $valueResolverMock): ValueResolverRegistryInterface
+    protected function createRegistryMock($valueResolverMock): ValueResolverRegistryInterface
     {
         $registryMock = $this->createMock(ValueResolverRegistryInterface::class);
         $registryMock->expects($this->once())

@@ -10,8 +10,9 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 
-class Command implements CommandInterface
+class Command implements CommandInterface, ErrorCommandInterface
 {
     /**
      * @var string
@@ -44,12 +45,18 @@ class Command implements CommandInterface
     protected string $stage = ContextInterface::DEFAULT_STAGE;
 
     /**
+     * @var string
+     */
+    protected string $errorMessage;
+
+    /**
      * @param string $command
      * @param string $type
      * @param bool $hasStopOnError
      * @param array<string> $tags
      * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
      * @param string $stage
+     * @param string $errorMessage
      */
     public function __construct(
         string $command,
@@ -57,7 +64,8 @@ class Command implements CommandInterface
         bool $hasStopOnError = false,
         array $tags = [],
         ?ConverterInterface $converter = null,
-        string $stage = ContextInterface::DEFAULT_STAGE
+        string $stage = ContextInterface::DEFAULT_STAGE,
+        string $errorMessage = ''
     ) {
         $this->hasStopOnError = $hasStopOnError;
         $this->type = $type;
@@ -65,6 +73,7 @@ class Command implements CommandInterface
         $this->tags = $tags;
         $this->converter = $converter;
         $this->stage = $stage;
+        $this->errorMessage = $errorMessage;
     }
 
     /**
@@ -102,7 +111,7 @@ class Command implements CommandInterface
     /**
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
-    public function getViolationConverter(): ?ConverterInterface
+    public function getConverter(): ?ConverterInterface
     {
         return $this->converter;
     }
@@ -125,5 +134,13 @@ class Command implements CommandInterface
         $this->stage = $stage;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage(): string
+    {
+        return $this->errorMessage;
     }
 }

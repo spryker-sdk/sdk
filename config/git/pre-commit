@@ -5,27 +5,17 @@ then
     ./vendor/bin/phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_project/, src/ tests/ extension/
     if [ $? -ne 0 ]
     then
-        printf "\n\t\033[1;31m[PHP-CS] Push Aborted\n\n\033[0m"
+        printf "\n\t\033[0;31m[PHP-CS] Push Aborted\033[0m\n\n"
 
         return 1
     fi
 fi
 if [ -f ./vendor/bin/phpstan ]
 then
-    ./vendor/bin/phpstan analyze -l 8 src/
+    php -d memory_limit=512M ./vendor/bin/phpstan analyze -l 8 src/
     if [ $? -ne 0 ]
     then
-        printf "\n\t\033[1;31m[Phpstan] Aborted\n\n\033[0m"
-
-        return 1
-    fi
-fi
-if [ -f ./vendor/bin/codecept ]
-then
-    ./vendor/bin/codecept build && ./vendor/bin/codecept run unit
-    if [ $? -ne 0 ]
-    then
-        printf "\n\t\033[1;31m[Codecept] Aborted\n\n\033[0m"
+        printf "\n\t\033[1;31m[Phpstan] Aborted\033[0m\n\n"
 
         return 1
     fi

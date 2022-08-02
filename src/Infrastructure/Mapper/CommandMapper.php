@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use SprykerSdk\Sdk\Infrastructure\Entity\Command;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
 class CommandMapper implements CommandMapperInterface
@@ -40,8 +41,9 @@ class CommandMapper implements CommandMapperInterface
             $command->getType(),
             $command->hasStopOnError(),
             $command->getTags(),
-            $command->getViolationConverter() ? $this->converterMapper->mapConverter($command->getViolationConverter()) : null,
+            $command->getConverter() ? $this->converterMapper->mapConverter($command->getConverter()) : null,
             $command->getStage(),
+            $command instanceof ErrorCommandInterface ? $command->getErrorMessage() : '',
         );
     }
 }

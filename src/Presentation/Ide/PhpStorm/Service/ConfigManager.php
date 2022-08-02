@@ -7,19 +7,14 @@
 
 namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class ConfigManager implements ConfigManagerInterface
 {
-    /**
-     * @var string
-     */
-    protected const SDK_DIR_PATH = 'sdk_dir';
-
     /**
      * @var string
      */
@@ -51,7 +46,7 @@ class ConfigManager implements ConfigManagerInterface
     protected CommandLoaderInterface $commandLoader;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
@@ -64,7 +59,7 @@ class ConfigManager implements ConfigManagerInterface
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface $commandLoader
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface $commandXmlFormatter
      * @param \Symfony\Component\Serializer\Encoder\XmlEncoder $xmlEncoder
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param string $executableFilePath
      */
     public function __construct(
@@ -88,10 +83,6 @@ class ConfigManager implements ConfigManagerInterface
     {
         $ideCommands = $this->commandLoader->load();
         $executableFile = $this->executableFilePath;
-        if (!$executableFile) {
-            $executableFile = (string)$this->getSetting(static::SDK_DIR_PATH)->getValues();
-            $executableFile = '"$PhpExecutable$" ' . $executableFile . '/bin/console';
-        }
 
         $arrayConfig = $this->prepareConfig($ideCommands, $executableFile);
         $xmlConfig = $this->xmlEncoder->encode($arrayConfig, XmlEncoder::FORMAT);
@@ -130,7 +121,7 @@ class ConfigManager implements ConfigManagerInterface
     /**
      * @param string $settingName
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */

@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Tests\Helper\Core\Application\Service;
 
 use Codeception\Module;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\PackageViolationReport;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\Violation;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationFix;
-use SprykerSdk\Sdk\Core\Appplication\Dto\Violation\ViolationReport;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationFix;
+use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -44,7 +44,7 @@ class ContextSerializerHelper extends Module
         }
 
         foreach ($violationReports as $violationReport) {
-            $context->addViolationReport($this->createViolationReport($violationReport));
+            $context->addReport($this->createViolationReport($violationReport));
         }
 
         return $context;
@@ -125,8 +125,9 @@ class ContextSerializerHelper extends Module
                 'key' => 'resolved value',
             ],
             'messages' => $messages ?? $defaultMessages,
-            'violation_reports' => [
+            'reports' => [
                 [
+                    'type' => 'violation_report',
                     'path' => '/path/to/file',
                     'project' => 'b2c',
                     'violations' => [

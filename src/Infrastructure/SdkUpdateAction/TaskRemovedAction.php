@@ -7,15 +7,18 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 
 class TaskRemovedAction implements SdkUpdateActionInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface
+     */
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\TaskManagerInterface $taskManager
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
      */
     public function __construct(TaskManagerInterface $taskManager)
     {

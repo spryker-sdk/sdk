@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
@@ -26,7 +26,7 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class TaskYamlRepository implements TaskRepositoryInterface
+class TaskYamlRepository implements TaskYamlRepositoryInterface
 {
     /**
      * @var string
@@ -34,7 +34,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected const TASK_SET_TYPE = 'task_set';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
 
@@ -54,7 +54,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     protected array $existingTasks = [];
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
@@ -76,7 +76,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
     /**
      * @param array $tags
      *
-     * @throws \SprykerSdk\Sdk\Core\Appplication\Exception\MissingSettingException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return array
      */
@@ -92,8 +92,10 @@ class TaskYamlRepository implements TaskRepositoryInterface
         $taskListData = [];
         $taskSetsData = [];
 
+        $existedDirectories = $this->findExistedDirectories($taskDirSetting->getValues());
+
         $finder = $this->fileFinder
-            ->in(array_map(fn (string $directory): string => $directory . '/*/Tasks/', $taskDirSetting->getValues()))
+            ->in(array_map(fn (string $directory): string => $directory . '/*/Task/', $existedDirectories))
             ->name('*.yaml');
 
         //read task from path, parse and create Task, later use DB for querying
@@ -135,6 +137,24 @@ class TaskYamlRepository implements TaskRepositoryInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param array<string> $directorySettings
+     *
+     * @return array<string>
+     */
+    protected function findExistedDirectories(array $directorySettings): array
+    {
+        return array_filter($directorySettings, function (string $dir): bool {
+            $found = glob($dir . '/*/Task');
+
+            if ($found === false) {
+                return false;
+            }
+
+            return count($found) > 0;
+        });
     }
 
     /**
@@ -205,6 +225,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                 $data['tags'] ?? [],
                 $converter,
                 $data['stage'] ?? ContextInterface::DEFAULT_STAGE,
+                $data['error_message'] ?? '',
             );
         }
 
@@ -236,6 +257,7 @@ class TaskYamlRepository implements TaskRepositoryInterface
                     $tasksTags,
                     $converter,
                     $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
+                    $data['error_message'] ?? '',
                 );
             }
         }

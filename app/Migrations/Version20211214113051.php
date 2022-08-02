@@ -54,7 +54,7 @@ final class Version20211214113051 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_61376006DA75C033 ON sdk_tasks_placeholders (placeholder_id)');
         $this->addSql('CREATE TABLE sdk_workflow (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, project VARCHAR(255) NOT NULL COLLATE BINARY, status CLOB NOT NULL --(DC2Type:json)
         , workflow VARCHAR(255) NOT NULL COLLATE BINARY)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_4C07468E2FB3D0EE ON sdk_workflow (project)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_4C07468E2FB3D0EE ON sdk_workflow (project, workflow)');
     }
 
     public function down(Schema $schema): void
