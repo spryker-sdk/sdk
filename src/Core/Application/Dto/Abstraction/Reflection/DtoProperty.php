@@ -73,7 +73,7 @@ class DtoProperty
     /**
      * @var mixed
      */
-    protected mixed $defaultValue;
+    protected $defaultValue;
 
     /**
      * @var string
@@ -99,7 +99,7 @@ class DtoProperty
         $this->reflectionClass = $reflectionClass;
         $this->reflectionProperty = $reflectionProperty;
 
-        $this->initialize($reflectionProperty);
+        $this->initialize($reflectionClass, $reflectionProperty);
     }
 
     /**
@@ -113,7 +113,7 @@ class DtoProperty
     /**
      * @return mixed
      */
-    public function getDefaultValue(): mixed
+    public function getDefaultValue()
     {
         return $this->defaultValue;
     }
@@ -143,26 +143,28 @@ class DtoProperty
     }
 
     /**
+     * @param \ReflectionClass $class
      * @param \ReflectionProperty $property
      *
      * @return void
      */
-    protected function initialize(ReflectionProperty $property): void
+    protected function initialize(ReflectionClass $class, ReflectionProperty $property): void
     {
         $this->name = $property->getName();
-        $this->defaultValue = $property->getDefaultValue();
+        $this->defaultValue = $class->getDefaultProperties()[$property->getName()] ?? null;
 
-        $this->parseType($property);
+        $this->parseType($class, $property);
     }
 
     /**
+     * @param \ReflectionClass $class
      * @param \ReflectionProperty $property
      *
      * @throws \LogicException
      *
      * @return void
      */
-    protected function parseType(ReflectionProperty $property): void
+    protected function parseType(ReflectionClass $class, ReflectionProperty $property): void
     {
         $type = $property->getType();
         if (!$type instanceof ReflectionNamedType) {
@@ -175,19 +177,27 @@ class DtoProperty
 
         $this->type = $type->getName();
         $this->isArray = $type->getName() === 'array';
-        $this->isRequired = !$type->allowsNull() && $property->getDefaultValue() === null;
+        $this->isRequired = !$type->allowsNull() && !isset($class->getDefaultProperties()[$property->getName()]);
 
         $this->parseDocType($property);
+        $this->resolveType($property);
+    }
 
-        switch ($this->type) {
-            case 'self':
-                $this->type = $property->getDeclaringClass()->getName();
+    /**
+     * @param \ReflectionProperty $property
+     *
+     * @return void
+     */
+    protected function resolveType(ReflectionProperty $property): void
+    {
+        if ($this->type === 'self') {
+            $this->type = $property->getDeclaringClass()->getName();
 
-                break;
-            case 'static':
-                $this->type = $this->reflectionClass->getName();
+            return;
+        }
 
-                break;
+        if ($this->type === 'static') {
+            $this->type = $this->reflectionClass->getName();
         }
     }
 
