@@ -179,11 +179,16 @@ class DtoProperty
 
         $this->parseDocType($property);
 
-        $this->type = match ($this->type) {
-            'self' => $property->getDeclaringClass()->getName(),
-            'static' => $this->reflectionClass->getName(),
-            default => $this->type,
-        };
+        switch ($this->type) {
+            case 'self':
+                $this->type = $property->getDeclaringClass()->getName();
+
+                break;
+            case 'static':
+                $this->type = $this->reflectionClass->getName();
+
+                break;
+        }
     }
 
     /**

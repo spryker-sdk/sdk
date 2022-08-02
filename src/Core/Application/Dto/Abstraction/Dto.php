@@ -338,12 +338,16 @@ class Dto implements FromArrayToArrayInterface
     {
         $typeName = strtolower($typeName);
 
-        return match ($typeName) {
-            'boolean' => 'bool',
-            'double' => 'float',
-            'integer' => 'int',
-            default => $typeName,
-        };
+        switch ($typeName) {
+            case 'boolean':
+                return 'bool';
+            case 'double':
+                return 'float';
+            case 'integer':
+                return 'int';
+            default:
+                return $typeName;
+        }
     }
 
     /**
