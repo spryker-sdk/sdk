@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c870ba06c6b746fd8afb6defd182575",
+    "content-hash": "3d0e1913b89ec28ee9d00d7b75753413",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3200,16 +3200,16 @@
         },
         {
             "name": "knplabs/github-api",
-            "version": "v3.7.0",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "c230ab0162afeaec4318276e6a470af4b52da5fe"
+                "reference": "a43662d7c9d4032768ec829dde2cf143878a4104"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/c230ab0162afeaec4318276e6a470af4b52da5fe",
-                "reference": "c230ab0162afeaec4318276e6a470af4b52da5fe",
+                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/a43662d7c9d4032768ec829dde2cf143878a4104",
+                "reference": "a43662d7c9d4032768ec829dde2cf143878a4104",
                 "shasum": ""
             },
             "require": {
@@ -3276,7 +3276,7 @@
             ],
             "support": {
                 "issues": "https://github.com/KnpLabs/php-github-api/issues",
-                "source": "https://github.com/KnpLabs/php-github-api/tree/v3.7.0"
+                "source": "https://github.com/KnpLabs/php-github-api/tree/v3.8.0"
             },
             "funding": [
                 {
@@ -3284,7 +3284,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-12T17:59:07+00:00"
+            "time": "2022-08-01T18:58:16+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -6158,7 +6158,7 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-master",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
@@ -6177,7 +6177,6 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6191,7 +6190,7 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.2.0"
             },
             "time": "2022-08-01T12:05:17+00:00"
         },
@@ -6300,12 +6299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "46f2dd803197eaeb5947531280412955c9acecb9"
+                "reference": "468f38c02222ce201811555abb73060af618fbf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/46f2dd803197eaeb5947531280412955c9acecb9",
-                "reference": "46f2dd803197eaeb5947531280412955c9acecb9",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/468f38c02222ce201811555abb73060af618fbf4",
+                "reference": "468f38c02222ce201811555abb73060af618fbf4",
                 "shasum": ""
             },
             "require": {
@@ -6321,7 +6320,7 @@
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-develop",
-                "spryker-sdk/sdk-contracts": "dev-master",
+                "spryker-sdk/sdk-contracts": "^0.2.0",
                 "spryker/code-sniffer": "^0.17.3",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
@@ -6360,7 +6359,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2022-07-21T13:23:32+00:00"
+            "time": "2022-08-02T13:40:44+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -6425,16 +6424,16 @@
         },
         {
             "name": "spryker/code-sniffer",
-            "version": "0.17.8",
+            "version": "0.17.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker/code-sniffer.git",
-                "reference": "a4f7db293fad8dfc830abef0fba69bebb0bd2b28"
+                "reference": "11c949db1e9a8127d6ecdddfef0b17760a90eb04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker/code-sniffer/zipball/a4f7db293fad8dfc830abef0fba69bebb0bd2b28",
-                "reference": "a4f7db293fad8dfc830abef0fba69bebb0bd2b28",
+                "url": "https://api.github.com/repos/spryker/code-sniffer/zipball/11c949db1e9a8127d6ecdddfef0b17760a90eb04",
+                "reference": "11c949db1e9a8127d6ecdddfef0b17760a90eb04",
                 "shasum": ""
             },
             "require": {
@@ -6478,7 +6477,7 @@
                 "issues": "https://github.com/spryker/code-sniffer/issues",
                 "source": "https://github.com/spryker/code-sniffer"
             },
-            "time": "2022-06-23T11:29:43+00:00"
+            "time": "2022-08-02T10:40:39+00:00"
         },
         {
             "name": "spryker/symfony",
@@ -14110,7 +14109,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
