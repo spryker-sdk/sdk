@@ -25,11 +25,6 @@ class TaskExecutor
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface>
-     */
-    protected iterable $commandRunners;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;

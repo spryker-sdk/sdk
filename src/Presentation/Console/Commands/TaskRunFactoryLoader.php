@@ -17,7 +17,6 @@ use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Input\InputOption;
@@ -252,12 +251,6 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
                 $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                 $valueResolver->getDescription(),
             );
-        }
-
-        if ($task instanceof TaskSetInterface) {
-            foreach ($task->getSubTasks() as $subTask) {
-                $options = $this->addPlaceholderOptions($subTask, $options);
-            }
         }
 
         return $options;

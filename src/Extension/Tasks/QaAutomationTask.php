@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Tasks;
 
+use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
@@ -17,16 +18,17 @@ use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 class QaAutomationTask implements TaskSetInterface
 {
     /**
-     * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
      */
-    protected array $commands = [];
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      */
-    public function __construct(array $commands)
-    {
-        $this->commands = $commands;
+    public function __construct(
+        ProjectSettingRepositoryInterface $projectSettingRepository
+    ) {
+        $this->projectSettingRepository = $projectSettingRepository;
     }
 
     /**
@@ -48,11 +50,11 @@ class QaAutomationTask implements TaskSetInterface
     /**
      * @param array<string> $tags
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface|string>
      */
     public function getSubTasks(array $tags = []): array
     {
-        return [];
+        return $this->projectSettingRepository->getOneByPath('qa_tasks')->getValues();
     }
 
     /**
@@ -76,7 +78,7 @@ class QaAutomationTask implements TaskSetInterface
      */
     public function getCommands(): array
     {
-        return $this->commands;
+        return [];
     }
 
     /**

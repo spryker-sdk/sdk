@@ -16,6 +16,9 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 class GreeterCommand implements ExecutableCommandInterface
 {
+    /**
+     * @var string
+     */
     protected string $message;
 
     /**

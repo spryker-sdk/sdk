@@ -30,7 +30,7 @@ class CommandMapper implements CommandMapperInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Command>
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Command
      */
     public function mapCommand(CommandInterface $command): Command
     {
