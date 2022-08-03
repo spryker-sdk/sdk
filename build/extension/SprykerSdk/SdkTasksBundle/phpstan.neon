@@ -1,0 +1,11 @@
+parameters:
+    level: 8
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+    ignoreErrors:
+        - '#SprykerSdk\\Sdk\\*#'
+    excludePaths:
+        - 'ValueResolver/*'

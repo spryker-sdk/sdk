@@ -1,0 +1,27 @@
+services:
+
+  clone_internal_project_repository_command:
+    class: SprykerSdk\SdkTasksBundle\Task\Command\CloneInternalProjectRepositoryCommand
+
+  update_docker_submodule_command:
+    class: SprykerSdk\SdkTasksBundle\Task\Command\UpdateDockerSubmoduleCommand
+
+  internal_project_installer_task:
+    class: SprykerSdk\SdkTasksBundle\Task\InternalProjectInstallerTask
+    tags: ['sdk.task']
+    arguments:
+      $commands:
+        - '@check_git_command'
+#        - '@check_docker_command'
+#        - '@check_mutagen_for_mac_command'
+        - '@clone_internal_project_repository_command'
+        - '@add_docker_sdk_command'
+        - '@update_docker_submodule_command'
+        - '@business_model_arm_command'
+        - '@docker_init_up_steps_command'
+
+  internal_project_value_resolver:
+    class: SprykerSdk\SdkTasksBundle\ValueResolver\InternalProjectValueResolver
+    tags: [ "sdk.value_resolver" ]
+    arguments:
+      - '@value_receiver'
