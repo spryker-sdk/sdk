@@ -33,8 +33,7 @@ RUN mkdir -p /home/spryker/.ssh && \
     ssh-keyscan github.com > /home/spryker/.ssh/known_hosts
 
 COPY --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
-# Copy local if exists
-COPY --chown=spryker:spryker local* ${srcRoot}/local
+
 COPY --chown=spryker:spryker src ${srcRoot}/src
 COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db
