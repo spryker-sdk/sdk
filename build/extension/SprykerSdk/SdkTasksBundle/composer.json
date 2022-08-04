@@ -1,0 +1,41 @@
+{
+    "name": "spryker-sdk/sdk-tasks-bundle",
+    "description": "The Spryker SDK bundle aims to provide a private tasks for SDK.",
+    "type": "library",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "symfony/http-kernel": "^5.0 || ^6.0",
+        "symfony/dependency-injection": "^5.0 || ^6.0",
+        "symfony/config": "^5.0 || ^6.0",
+        "symfony/yaml": "^5.0 || ^6.0",
+        "spryker-sdk/sdk-contracts": "^0.2.0",
+        "symfony/process": "^5.0 || ^6.0",
+        "spryker/code-sniffer": "^0.17.1",
+        "phpstan/phpstan": "^1.8"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "SprykerSdk\\SdkTasksBundle\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml DependencyInjection/ Resources/ Task/ ValueResolver/",
+        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml DependencyInjection/ Resources/ Task/ ValueResolver/",
+        "stan": "phpstan analyze -l 8 DependencyInjection/ Resources/ Task/ ValueResolver/",
+        "linters": [
+            "@cs-fix",
+            "@cs-check",
+            "@stan"
+        ]
+    }
+}
