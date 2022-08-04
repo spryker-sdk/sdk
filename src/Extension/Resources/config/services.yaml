@@ -8,7 +8,7 @@ services:
     arguments:
       - '@yaml_parser'
   qa_automation_task:
-    class: SprykerSdk\Sdk\Extension\Tasks\QaAutomationTask
+    class: SprykerSdk\Sdk\Extension\Task\QaAutomationTask
     tags: [ 'sdk.task' ]
     arguments:
       - '@project_setting_repository'
@@ -108,16 +108,16 @@ services:
   SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
-  SprykerSdk\Sdk\Extension\Setting\Initializers\ViolationOutputFormatInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer:
     tags: [ "sdk.setting_initializer" ]
     public: true
   create_directory_initializer:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
     public: true
   violation_output_format_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializers\ViolationOutputFormatInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer
     public: true
-  SprykerSdk\Sdk\Extension\Setting\Initializers\ProjectUuidInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
     arguments:
@@ -132,7 +132,7 @@ services:
       - "@project_setting_repository"
       - "@workflow_repository"
       - "@project_workflow"
-  SprykerSdk\Sdk\Extension\Setting\Initializers\QaTasksInitializer:
+  SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer:
     tags: [ "sdk.setting_initializer" ]
     public: true
     arguments:
@@ -141,7 +141,7 @@ services:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer
     public: true
   qa_task_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializers\QaTasksInitializer
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer
   option_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolver\OptionValueResolver
     arguments:
