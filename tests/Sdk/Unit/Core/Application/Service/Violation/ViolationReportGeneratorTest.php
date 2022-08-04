@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger;
+use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ConverterResolver;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGenerator;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportMerger;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportableInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
@@ -65,7 +65,7 @@ class ViolationReportGeneratorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportMerger
+     * @return \SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportMerger
      */
     protected function createViolationReportMergerMock(): ViolationReportMerger
     {
@@ -73,7 +73,7 @@ class ViolationReportGeneratorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\ConverterResolver
+     * @return \SprykerSdk\Sdk\Core\Application\Service\ConverterResolver
      */
     protected function createViolationConverterResolverMock(): ConverterResolver
     {
@@ -85,7 +85,7 @@ class ViolationReportGeneratorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface
      */
     protected function createViolationReportRepositoryMock(): ViolationReportRepositoryInterface
     {

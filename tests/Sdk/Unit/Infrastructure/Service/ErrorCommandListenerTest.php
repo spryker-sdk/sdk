@@ -10,7 +10,7 @@ namespace Sdk\Unit\Infrastructure\Service;
 use Codeception\Test\Unit;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException;
+use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\InputInterface;

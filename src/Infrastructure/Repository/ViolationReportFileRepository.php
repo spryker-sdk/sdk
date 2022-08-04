@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use Exception;
 use RecursiveIteratorIterator;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ViolationReportRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Report\ReportInterface;
@@ -79,7 +79,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
      *
      * @return void
      */
-    public function cleanup(): void
+    public function cleanUp(): void
     {
         $dirname = $this->violationPathReader->getViolationReportDirPath();
 

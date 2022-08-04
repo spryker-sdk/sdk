@@ -7,6 +7,7 @@ RUN apk update \
     && apk add --no-cache \
     curl \
     git \
+    graphviz \
     nodejs \
     npm \
     && npm install -g npm@8.4.1
@@ -32,6 +33,7 @@ RUN mkdir -p /home/spryker/.ssh && \
     ssh-keyscan github.com > /home/spryker/.ssh/known_hosts
 
 COPY --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
+COPY --chown=spryker:spryker local ${srcRoot}/local
 COPY --chown=spryker:spryker src ${srcRoot}/src
 COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db
@@ -46,8 +48,6 @@ RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer
   composer dump-autoload -o
 ENV APP_ENV=prod
 
-RUN --mount=type=ssh bin/console cache:warmup && \
-    bin/console sdk:init:sdk && \
-    bin/console sdk:update:all
+RUN bin/console cache:warmup
 
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]

@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 
 use DateTime;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition;
 use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition as WorkflowTransitionEntity;
@@ -76,7 +76,7 @@ class WorkflowTransitionListener
     protected ContainerInterface $container;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor
+     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor
      */
     protected TaskExecutor $taskExecutor;
 
@@ -86,27 +86,27 @@ class WorkflowTransitionListener
     protected WorkflowRunner $workflowRunner;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface
      */
     protected WorkflowRepositoryInterface $workflowRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface
      */
     protected WorkflowTransitionRepositoryInterface $workflowTransitionRepository;
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor $taskExecutor
+     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
-     * @param \SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface $workflowTransitionRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface $workflowTransitionRepository
      */
     public function __construct(
         ContainerInterface $container,
@@ -405,7 +405,7 @@ class WorkflowTransitionListener
 
         $nestedWorkflowCode = sprintf('%s.%s.%s', $transitionName, $which, $nestedWorkflowName);
 
-        $nestedWorkflowEntity = $this->workflowRepository->getWorkflow(
+        $nestedWorkflowEntity = $this->workflowRepository->findWorkflow(
             $workflowEntity->getProject(),
             $nestedWorkflowCode,
         );

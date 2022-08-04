@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver;
-use SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory;
-use SprykerSdk\Sdk\Core\Appplication\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator;
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory;
+use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -77,7 +77,7 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportGenerator
+     * @return \SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGenerator
      */
     protected function createViolationConverterGeneratorMock(): ViolationReportGenerator
     {
@@ -87,7 +87,7 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Service\PlaceholderResolver
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
      */
     protected function createPlaceholderResolverMock(): PlaceholderResolver
     {
@@ -110,7 +110,7 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\TaskRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
     protected function createTaskRepositoryMock(): TaskRepositoryInterface
     {
@@ -171,7 +171,7 @@ class TaskExecutorTest extends Unit
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\Sdk\Core\Appplication\Dependency\CommandExecutorInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface
      */
     protected function createCommandExecutorMock(ContextInterface $context): CommandExecutorInterface
     {
@@ -185,7 +185,7 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Appplication\Service\ReportGeneratorFactory
+     * @return \SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory
      */
     protected function createReportGeneratorFactoryMock(): ReportGeneratorFactory
     {

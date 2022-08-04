@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
@@ -30,7 +30,7 @@ class WorkflowRunnerTest extends Unit
     protected ContainerInterface $container;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
@@ -40,7 +40,7 @@ class WorkflowRunnerTest extends Unit
     protected OutputInterface $output;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
      */
     protected ContextFactory $contextFactory;
 

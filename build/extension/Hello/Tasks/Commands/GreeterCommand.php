@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Hello\Tasks\Commands;
+namespace Hello\Task\Command;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;

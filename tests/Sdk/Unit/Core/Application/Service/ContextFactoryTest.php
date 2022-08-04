@@ -8,8 +8,8 @@
 namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ContextRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 

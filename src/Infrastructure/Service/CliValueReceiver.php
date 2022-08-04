@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Exception\MissingValueException;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;

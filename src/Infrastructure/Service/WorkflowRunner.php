@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Appplication\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -40,14 +40,14 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected ContainerInterface $container;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
      */
     protected ContextFactory $contextFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory
      */
     public function __construct(
         CliValueReceiver $cliValueReceiver,
@@ -89,7 +89,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     {
         $context = $context ?? $this->contextFactory->getContext();
 
-        /** @var \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow */
+        /** @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow */
         $projectWorkflow = $this->container->get('project_workflow');
 
         if (!$projectWorkflow->initializeWorkflow($workflowName)) {
@@ -150,7 +150,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      *
      * @return string|null
      */
@@ -179,7 +179,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param array<string> $nextEnabledTransitions
      *
      * @return string|null

@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory;
-use SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer;
-use SprykerSdk\Sdk\Core\Appplication\Service\ReportArrayConverterFactory;
-use SprykerSdk\Sdk\Core\Appplication\Service\Violation\ViolationReportArrayConverter;
+use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory;
+use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -27,7 +27,7 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class ContextSerializerTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextSerializer
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
      */
     protected ContextSerializer $contextSerializer;
 
@@ -37,7 +37,7 @@ class ContextSerializerTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Appplication\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
      */
     protected ContextFactory $contextFactory;
 

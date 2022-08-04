@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\DependencyInjection;
 
-use SprykerSdk\Sdk\Presentation\Console\Commands\TaskRunFactoryLoader;
+use SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Parameter;

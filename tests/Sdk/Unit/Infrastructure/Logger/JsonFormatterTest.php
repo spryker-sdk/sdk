@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Logger;
 
 use Codeception\Test\Unit;
 use Monolog\Logger;
-use SprykerSdk\Sdk\Core\Domain\Events\TaskExecutedEvent;
+use SprykerSdk\Sdk\Core\Domain\Event\TaskExecutedEvent;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 use SprykerSdk\Sdk\Tests\UnitTester;
 

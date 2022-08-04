@@ -1,0 +1,138 @@
+settings:
+  - path: extension_dirs
+    initialization_description: Where can extensions be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    setting_type: sdk
+    values:
+      - src/
+      - extension/
+      - extension/SprykerSdk
+  - path: task_dirs
+    initialization_description: Where can tasks be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    setting_type: sdk
+    values:
+      - src/Extension/Task
+  - path: setting_dirs
+    initialization_description: Where can settings be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    setting_type: sdk
+    values:
+      - src/Extension/Setting
+  - path: value_resolver_dirs
+    initialization_description: Where can value resolvers be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    setting_type: sdk
+    values:
+      - src/Extension/ValueResolver
+  - path: converter_dirs
+    initialization_description: Where can converter be loaded from?
+    strategy: merge
+    init: true
+    type: path
+    setting_type: sdk
+    values:
+      - src/Extension/Converter
+  - path: sdk_dir
+    initialization_description: Where is the sdk directory?
+    strategy: overwrite
+    init: true
+    setting_type: sdk
+    type: path
+    values: "./"
+  - path: project_dir
+    initialization_description: Where is the project directory?
+    strategy: overwrite
+    init: false
+    setting_type: local
+    type: path
+    values: "./"
+  - path: report_usage_statistics
+    initialization_description: Do you agree to send anonymous usage reports to help improving the SDK?
+    strategy: overwrite
+    init: true
+    setting_type: local
+    type: boolean
+    values: false
+  - path: coreNamespaces
+    initialization_description: Do you approve core namespaces?
+    strategy: merge
+    init: false
+    setting_type: local
+    type: string
+    values:
+      - SprykerShop
+      - SprykerEco
+      - Spryker
+      - SprykerSdk
+  - path: projectNamespaces
+    initialization_description: Do you approve project namespaces?
+    strategy: merge
+    init: false
+    setting_type: local
+    type: string
+    values:
+      - Pyz
+  - path: projectNamespace
+    initialization_description: Do you approve project namespace?
+    strategy: merge
+    init: false
+    setting_type: local
+    type: string
+    values: Pyz
+  - path: default_violation_output_format
+    initialization_description: Default qa output report format for the report.
+    strategy: overwrite
+    init: true
+    setting_type: local
+    type: string
+    values: output
+    initializer: violation_output_format_initializer
+  - path: report_dir
+    initialization_description: Where is the project report directory?
+    strategy: overwrite
+    init: false
+    setting_type: local
+    type: path
+    values: "./.ssdk/reports/"
+    initializer: create_directory_initializer
+  - path: project_key
+    initialization_description: What is the project unique key?
+    strategy: overwrite
+    init: true
+    setting_type: local
+    type: uuid
+    values: ""
+    initializer: project_uuid_initializer
+  - path: workflow
+    initialization_description: What is the project workflow?
+    strategy: merge
+    init: true
+    setting_type: local
+    type: array
+    initializer: project_workflow_initializer
+    values: []
+  - path: qa_tasks
+    initialization_description: List of task for QA automation
+    strategy: overwrite
+    init: true
+    type: array
+    setting_type: shared
+    initializer: qa_task_initializer
+    values:
+      - validation:php:codestyle-check
+      - validation:php:security-check
+      - validation:frontend:eslint
+      - validation:php:architecture
+      - validation:php:benchmark
+      - validation:php:static
+      - validation:frontend:architecture
+

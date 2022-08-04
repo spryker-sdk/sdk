@@ -8,11 +8,11 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface;
-use SprykerSdk\Sdk\Core\Appplication\Exception\ProjectWorkflowException;
-use SprykerSdk\Sdk\Core\Appplication\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
@@ -62,7 +62,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowRepositoryMock->expects($this->once())
@@ -125,7 +125,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowTransitionMock = $this->createWorkflowTransitionMock();
@@ -172,7 +172,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowTransitionMock = $this->createWorkflowTransitionMock();
@@ -239,7 +239,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowTransitionMock = $this->createWorkflowTransitionMock();
@@ -264,7 +264,7 @@ class ProjectWorkflowTest extends Unit
         $workflowTransition = $projectWorkflow->findPreviousTransition();
 
         // Assert
-        $this->isNull($workflowTransition);
+        $this->assertNull($workflowTransition);
     }
 
     /**
@@ -286,7 +286,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowTransitionMock = $this->createWorkflowTransitionMock();
@@ -335,7 +335,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowRepositoryMock->expects($this->once())
@@ -386,7 +386,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
@@ -429,7 +429,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
@@ -469,7 +469,7 @@ class ProjectWorkflowTest extends Unit
 
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('getWorkflow')
+            ->method('findWorkflow')
             ->willReturn(new Workflow('', [], 'default'));
 
         $workflowTransitionRepositoryMock = $this->createWorkflowTransitionRepositoryMock();
@@ -531,7 +531,7 @@ class ProjectWorkflowTest extends Unit
             ->willReturn('test');
         $workflowRepositoryMock = $this->createWorkflowRepositoryMock();
         $workflowRepositoryMock->expects($this->once())
-            ->method('findWorkflows')
+            ->method('getWorkflows')
             ->willReturn([$workflowEntityMock]);
         $projectSettingRepositoryMock = $this->createProjectSettingRepositoryMock();
         $projectSettingRepositoryMock->expects($this->once())
@@ -589,7 +589,7 @@ class ProjectWorkflowTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\ProjectSettingRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
     protected function createProjectSettingRepositoryMock(): ProjectSettingRepositoryInterface
     {
@@ -621,7 +621,7 @@ class ProjectWorkflowTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface
      */
     protected function createWorkflowRepositoryMock(): WorkflowRepositoryInterface
     {
@@ -629,7 +629,7 @@ class ProjectWorkflowTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Appplication\Dependency\Repository\WorkflowTransitionRepositoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface
      */
     protected function createWorkflowTransitionRepositoryMock(): WorkflowTransitionRepositoryInterface
     {
