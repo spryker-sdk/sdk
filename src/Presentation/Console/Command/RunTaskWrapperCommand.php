@@ -171,7 +171,7 @@ class RunTaskWrapperCommand extends Command
 
         $context = $this->buildContext($input);
 
-        $context = $this->taskExecutor->execute($this->name, $context);
+        $context = $this->taskExecutor->execute($context, $this->name);
         $this->writeContext($input, $context);
         $this->writeFilteredMessages($output, $context);
 

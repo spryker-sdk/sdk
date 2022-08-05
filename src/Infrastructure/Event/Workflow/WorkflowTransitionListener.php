@@ -168,7 +168,8 @@ class WorkflowTransitionListener
         $allowToFail = $this->getTransitionMeta($event, static::META_ALLOW_TO_FAIL);
 
         $context = $this->getContext($event);
-        $context = $this->taskExecutor->execute($task, $context);
+
+        $context = $this->taskExecutor->execute($context, $task);
         $resolvedNextTransition = $this->resolverNextTransition($event, $context);
 
         if (!$allowToFail && !$resolvedNextTransition && $context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {

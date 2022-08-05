@@ -7,11 +7,6 @@ services:
     class: SprykerSdk\Sdk\Extension\Service\AppDockerFileModifier
     arguments:
       - '@yaml_parser'
-  qa_automation_task:
-    class: SprykerSdk\Sdk\Extension\Task\QaAutomationTask
-    tags: [ 'sdk.task' ]
-    arguments:
-      - '@project_setting_repository'
   app_modify_composer_file:
     class: SprykerSdk\Sdk\Extension\Service\AppComposerFileModifier
   generate_app_change_name_command:

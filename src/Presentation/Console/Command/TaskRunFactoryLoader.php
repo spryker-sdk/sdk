@@ -13,13 +13,11 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
-use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
-use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 
 class TaskRunFactoryLoader extends ContainerCommandLoader
@@ -35,9 +33,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected TaskExecutor $taskExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
+     * @var \SprykerSdk\Sdk\Presentation\Console\Command\OptionExtractor
      */
-    protected PlaceholderResolver $placeholderResolver;
+    protected OptionExtractor $optionExtractor;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
@@ -70,7 +68,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
-     * @param \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver $placeholderResolver
+     * @param \SprykerSdk\Sdk\Presentation\Console\Command\OptionExtractor $optionExtractor
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory
@@ -82,7 +80,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         TaskRepositoryInterface $taskRepository,
         ContextRepositoryInterface $contextRepository,
         TaskExecutor $taskExecutor,
-        PlaceholderResolver $placeholderResolver,
+        OptionExtractor $optionExtractor,
         ProjectSettingRepositoryInterface $projectSettingRepository,
         ProjectWorkflow $projectWorkflow,
         ContextFactory $contextFactory,
@@ -91,7 +89,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         parent::__construct($container, $commandMap);
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
-        $this->placeholderResolver = $placeholderResolver;
+        $this->optionExtractor = $optionExtractor;
         $this->projectSettingRepository = $projectSettingRepository;
         $this->contextRepository = $contextRepository;
         $this->projectWorkflow = $projectWorkflow;
@@ -134,19 +132,13 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             throw new TaskMissingException('Could not find task ' . $name);
         }
 
-        $options = [];
-        $options = $this->addPlaceholderOptions($task, $options);
-        $options = $this->addTagOptions($task, $options);
-        $options = $this->addStageOptions($task, $options);
-        $options = $this->addContextOptions($options);
-
         $command = new RunTaskWrapperCommand(
             $this->taskExecutor,
             $this->projectWorkflow,
             $this->contextRepository,
             $this->projectSettingRepository,
             $this->contextFactory,
-            $options,
+            $this->optionExtractor->extractOptions($task),
             $task->getShortDescription(),
             $task->getId(),
         );
@@ -185,129 +177,5 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             //need to be executable to make the init:sdk command available
             return parent::getNames();
         }
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     * @param array<\Symfony\Component\Console\Input\InputOption> $options
-     *
-     * @return array<\Symfony\Component\Console\Input\InputOption>
-     */
-    protected function addTagOptions(TaskInterface $task, array $options): array
-    {
-        $tags = [];
-
-        foreach ($task->getCommands() as $command) {
-            $tags[] = $command->getTags();
-        }
-        $tags = array_merge(...$tags);
-
-        if (count($tags) > 0) {
-            $options[] = new InputOption(
-                RunTaskWrapperCommand::OPTION_TAGS,
-                substr(RunTaskWrapperCommand::OPTION_TAGS, 0, 1),
-                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-                'Only execute subtasks that matches at least one of the given tags',
-                array_unique($tags),
-            );
-        }
-
-        return $options;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     * @param array<\Symfony\Component\Console\Input\InputOption> $options
-     *
-     * @return array<\Symfony\Component\Console\Input\InputOption>
-     */
-    protected function addStageOptions(TaskInterface $task, array $options): array
-    {
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_STAGES,
-            substr(RunTaskWrapperCommand::OPTION_STAGES, 0, 1),
-            InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-            'Only execute subtasks that matches at least one of the given stages',
-            [],
-        );
-
-        return $options;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     * @param array<\Symfony\Component\Console\Input\InputOption> $options
-     *
-     * @return array<\Symfony\Component\Console\Input\InputOption>
-     */
-    protected function addPlaceholderOptions(TaskInterface $task, array $options): array
-    {
-        foreach ($task->getPlaceholders() as $placeholder) {
-            $valueResolver = $this->placeholderResolver->getValueResolver($placeholder);
-
-            $options[] = new InputOption(
-                $valueResolver->getAlias() ?? $valueResolver->getId(),
-                null,
-                $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
-                $valueResolver->getDescription(),
-            );
-        }
-
-        return $options;
-    }
-
-    /**
-     * @param array<\Symfony\Component\Console\Input\InputOption> $options
-     *
-     * @return array<\Symfony\Component\Console\Input\InputOption>
-     */
-    protected function addContextOptions(array $options): array
-    {
-        $defaultContextFilePath = getcwd() . DIRECTORY_SEPARATOR . 'sdk.context.json';
-
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_READ_CONTEXT_FROM,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Read the context from given JSON file. Can be overwritten via additional options',
-            null,
-        );
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_ENABLE_CONTEXT_WRITING,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Enable serializing the context into a file',
-            false,
-        );
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_WRITE_CONTEXT_TO,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Current context will be written to the given filepath in JSON format',
-            $defaultContextFilePath,
-        );
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_DRY_RUN,
-            'd',
-            InputOption::VALUE_OPTIONAL,
-            'Will only simulate a run and not execute any of the commands',
-            false,
-        );
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_OVERWRITES,
-            'o',
-            InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-            'Will allow to overwrite values that are already passed inside the context',
-            [],
-        );
-        $options[] = new InputOption(
-            RunTaskWrapperCommand::OPTION_FORMAT,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Set format for violations report',
-            null,
-        );
-
-        return $options;
     }
 }
