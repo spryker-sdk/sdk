@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
@@ -73,17 +74,24 @@ class QaAutomationCommand extends RunTaskWrapperCommand
         TaskRepositoryInterface $taskRepository
     ) {
         $this->taskRepository = $taskRepository;
-        $taskIds = $projectSettingRepository->getOneByPath(static::TASKS_SETTING_KEY)->getValues();
-        $this->task = $this->fillTask(
-            $this->taskRepository->findByIds($taskIds),
-        );
+        try {
+            $taskIds = $projectSettingRepository->getOneByPath(static::TASKS_SETTING_KEY)->getValues();
+            $this->task = $this->fillTask(
+                $this->taskRepository->findByIds($taskIds),
+            );
+            $taskOptions = $optionExtractor->extractOptions($this->task);
+        } catch (TableNotFoundException $e) {
+            $this->setHidden(true);
+            $taskOptions = [];
+        }
+
         parent::__construct(
             $taskExecutor,
             $projectWorkflow,
             $contextRepository,
             $projectSettingRepository,
             $contextFactory,
-            $optionExtractor->extractOptions($this->task),
+            $taskOptions,
             static::DESCRIPTION,
             static::COMMAND_NAME,
         );
