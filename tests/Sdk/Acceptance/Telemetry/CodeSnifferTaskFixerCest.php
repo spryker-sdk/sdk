@@ -8,6 +8,8 @@
 namespace SprykerSdk\Sdk\Acceptance\Telemetry;
 
 use PHPUnit\Framework\Assert;
+use RecursiveDirectoryIterator;
+use RecursiveTreeIterator;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\FileReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
@@ -41,8 +43,15 @@ class CodeSnifferTaskFixerCest
             '--path=src/CodeSniffer/success',
         ]);
 
+        if (!$process->isSuccessful()) {
+            var_dump($process->getErrorOutput());
+        }
+
+        $this->showProjectTree($I);
+
         // Assert
         Assert::assertTrue($process->isSuccessful());
+        Assert::assertFileExists($I->getPathFromProjectRoot('.ssdk/reports/' . FileReportTelemetryEventSender::REPORT_FILENAME));
 
         $I->assertTelemetryEventReport(
             static::COMMAND,
@@ -75,9 +84,28 @@ class CodeSnifferTaskFixerCest
             '--path=src/CodeSniffer/success',
         ]);
 
+        if (!$process->isSuccessful()) {
+            var_dump($process->getErrorOutput());
+        }
+
+        $this->showProjectTree($I);
+
         // Assert
         Assert::assertTrue($process->isSuccessful());
         Assert::assertFileExists($errorLogFile);
         Assert::assertStringContainsString(basename($reportFilename), file_get_contents($errorLogFile));
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
+    protected function showProjectTree(AcceptanceTester $I): void
+    {
+        $it = new RecursiveTreeIterator(new RecursiveDirectoryIterator($I->getPathFromProjectRoot('/'), RecursiveDirectoryIterator::SKIP_DOTS));
+        foreach ($it as $path) {
+            echo $path . "\n";
+        }
     }
 }

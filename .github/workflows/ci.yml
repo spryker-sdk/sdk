@@ -13,8 +13,6 @@ jobs:
   validation:
     name: "CS, PHPStan, Security"
     runs-on: ubuntu-18.04
-    env:
-        TELEMETRY_ENABLED: false
     strategy:
       fail-fast: false
       matrix:
@@ -72,9 +70,6 @@ jobs:
 
       - name: Run CodeStyle checks
         run: composer cs-check
-
-      - name: Codecept unit tests
-        run: bin/console doctrine:database:drop --force
 
       - name: Codecept unit tests
         run: composer test
