@@ -10,7 +10,7 @@ RUN apk update \
     graphviz \
     nodejs \
     npm \
-    && npm install -g npm@8.4.1
+    && npm install -g npm@8.16.0
 
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
