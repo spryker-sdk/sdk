@@ -67,7 +67,7 @@ class CodeSnifferTaskFixerCest
             unlink($errorLogFile);
         }
         touch($reportFilename);
-        chmod($reportFilename, 0666);
+        chmod($reportFilename, 0444);
 
         // Act
         $process = $I->runSdkCommand([
