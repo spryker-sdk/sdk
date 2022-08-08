@@ -29,5 +29,5 @@ interface ReportRepositoryInterface
     /**
      * @return void
      */
-    public function cleanup(): void;
+    public function cleanUp(): void;
 }

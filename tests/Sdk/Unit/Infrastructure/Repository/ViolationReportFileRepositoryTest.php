@@ -142,7 +142,7 @@ class ViolationReportFileRepositoryTest extends Unit
             ->willReturn($vfsStream->url());
 
         // Act
-        $this->violationReportFileRepository->cleanup();
+        $this->violationReportFileRepository->cleanUp();
 
         // Assert
         $this->assertEmpty($vfsStream->getChildren());
@@ -169,7 +169,7 @@ class ViolationReportFileRepositoryTest extends Unit
             ->willReturn('');
 
         // Act
-        $this->violationReportFileRepository->cleanup();
+        $this->violationReportFileRepository->cleanUp();
 
         // Assert
         $this->assertNotEmpty($vfsStream->getChildren());

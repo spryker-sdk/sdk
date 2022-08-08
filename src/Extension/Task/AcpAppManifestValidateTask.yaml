@@ -15,5 +15,5 @@ placeholders:
     optional: true
     configuration:
       name: "manifest-path"
-      description: "Path to manifest file [default: 'config/app/manifest/']"
+      description: "Path to manifest file"
       type: string

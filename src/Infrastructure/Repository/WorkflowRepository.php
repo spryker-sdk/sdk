@@ -65,7 +65,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\WorkflowInterface>
      */
-    public function findWorkflows(string $project): array
+    public function getWorkflows(string $project): array
     {
         $criteria = [
             'project' => $project,
@@ -81,7 +81,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
      *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
      */
-    public function getWorkflow(string $project, ?string $workflowName = null): ?WorkflowInterface
+    public function findWorkflow(string $project, ?string $workflowName = null): ?WorkflowInterface
     {
         $criteria = [
             'project' => $project,

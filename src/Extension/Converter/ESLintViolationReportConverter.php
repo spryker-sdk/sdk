@@ -108,6 +108,6 @@ class ESLintViolationReportConverter extends AbstractViolationConverter
      */
     protected function mapSeverity(int $severity): string
     {
-        return [1 => ViolationInterface::SEVERITY_WARNING, 2 => ViolationInterface::SEVERITY_ERROR][$severity] ?? '';
+        return [1 => ViolationInterface::SEVERITY_WARNING, 2 => ViolationInterface::SEVERITY_ERROR][$severity] ?? ViolationInterface::SEVERITY_INFO;
     }
 }

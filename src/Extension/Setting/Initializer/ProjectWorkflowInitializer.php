@@ -67,7 +67,7 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
         $projectKeySetting = $this->projectSettingRepository->findOneByPath(static::PROJECT_KEY_SETTING);
         if ($projectKeySetting && $projectKeySetting->getValues()) {
             $projectKey = (string)$projectKeySetting->getValues();
-            $existingWorkflows = $this->workflowRepository->findWorkflows($projectKey);
+            $existingWorkflows = $this->workflowRepository->getWorkflows($projectKey);
             $existingWorkflowNames = [];
             foreach ($existingWorkflows as $existingWorkflow) {
                 $existingWorkflowNames[] = $existingWorkflow->getWorkflow();

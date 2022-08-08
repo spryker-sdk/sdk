@@ -405,7 +405,7 @@ class WorkflowTransitionListener
 
         $nestedWorkflowCode = sprintf('%s.%s.%s', $transitionName, $which, $nestedWorkflowName);
 
-        $nestedWorkflowEntity = $this->workflowRepository->getWorkflow(
+        $nestedWorkflowEntity = $this->workflowRepository->findWorkflow(
             $workflowEntity->getProject(),
             $nestedWorkflowCode,
         );

@@ -15,12 +15,12 @@ placeholders:
     optional: true
     configuration:
       name: "asyncapi-file"
-      description: "Path to AsyncAPI file [default: 'config/api/asyncapi/asyncapi.yml']"
+      description: "Path to AsyncAPI file"
       type: string
   - name: "%organization%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "organization"
-      description: "Namespace that should be used for the code builder. When set to Spryker code will be generated in the core modules. [default: 'App']"
+      description: "Path to AsyncAPI file"
       type: string
