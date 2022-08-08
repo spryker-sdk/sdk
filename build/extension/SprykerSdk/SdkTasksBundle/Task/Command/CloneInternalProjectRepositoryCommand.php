@@ -19,7 +19,7 @@ class CloneInternalProjectRepositoryCommand implements CommandInterface, ErrorCo
      */
     public function getCommand(): string
     {
-        return 'git clone %internal_project_url% --single-branch ./';
+        return 'git clone %internal_project_url% --single-branch --depth=1 ./';
     }
 
     /**
