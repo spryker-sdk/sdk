@@ -133,5 +133,8 @@
             "allow-contrib": false,
             "require": "^5.0 || ^6.0"
         }
+    },
+    "suggest": {
+        "spryker-sdk/sdk-tasks-bundle": "Provides a list of SDK tasks for the internal Spryker projects."
     }
 }
