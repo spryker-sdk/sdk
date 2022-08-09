@@ -49,7 +49,7 @@ Adding private repositories requires to add an [auth.json](https://getcomposer.o
 
 ### Working with Spryker internal projects
 
-For the internal projects you may need additional tasks and tools. All available tools are extracted to the
+For the internal projects you may need additional tasks. All available tasks are extracted to the
 separate repository. If you need those, please add a package via composer.
 
 ```shell
@@ -68,4 +68,13 @@ in SDK's composer.json.
     }
   ]
 }
+```
+
+After successful sdk-task-bundle installation register it in the config/bundles.php
+```php
+//...
+return [
+    //...
+    SprykerSdk\SdkTasksBundle\PrivateSdkTasksBundle::class => ['all' => true],
+]
 ```
