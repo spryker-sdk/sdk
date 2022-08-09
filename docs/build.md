@@ -76,5 +76,5 @@ After successful sdk-task-bundle installation register it in the config/bundles.
 return [
     //...
     SprykerSdk\SdkTasksBundle\PrivateSdkTasksBundle::class => ['all' => true],
-]
+];
 ```
