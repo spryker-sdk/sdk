@@ -4,7 +4,7 @@ short_description: 'Check your javascript code to avoid errors and enforce conve
 help: ~
 stage: build
 version: 0.1.0
-command: 'npx --prefix %sdk_dir% eslint %config% %file% %fix% --format json > %reportDir%/eslint.codestyle.json'
+command: 'npx --prefix %sdk_dir% eslint %config% %file% %fix% --format json --output-file %reportDir%/eslint.codestyle.json'
 type: local_cli
 placeholders:
   - name: '%sdk_dir%'
