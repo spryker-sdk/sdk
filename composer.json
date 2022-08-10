@@ -44,6 +44,7 @@
         "symfony/expression-language": "^5.0 || ^6.0",
         "symfony/flex": "^1.18.0",
         "symfony/framework-bundle": "^5.3 || ^6.0",
+        "symfony/monolog-bundle": "^3.8",
         "symfony/process": "^5.0 || ^6.0",
         "symfony/runtime": "^5.0 || ^6.0",
         "symfony/validator": "^5.0 || ^6.0",
