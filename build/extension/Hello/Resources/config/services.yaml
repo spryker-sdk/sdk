@@ -1,8 +1,0 @@
-services:
-  hello_php_task:
-    class: Hello\Task\HelloPhpTask
-    tags: ['sdk.task']
-
-  hello_staged_task_set:
-    class: Hello\Task\HelloStagedTaskSet
-    tags: ['sdk.task']
