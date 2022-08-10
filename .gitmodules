@@ -1,4 +1,0 @@
-[submodule "extension/SprykerSdk/SdkTasksBundle"]
-	path = extension/SprykerSdk/SdkTasksBundle
-	url = git@github.com:spryker-sdk/sdk-tasks-bundle.git
-	branch = master
