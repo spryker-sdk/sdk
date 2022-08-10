@@ -56,6 +56,10 @@ chmod a+x "${BUILD_DIR}/installer.sh"
 
 DOCKER_BUILDKIT=1 docker build -f "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" -t spryker/php-sdk:${VERSION} -t spryker/php-sdk:latest "${CURRENT_DIR}"
 
+# Clean up
+
+rm -rf build/{bin,config,db,extension,var,.env.prod,.gitmodules,docker-compose*,VERSION,spryker-sdk.tar.gz}
+
 echo -e "${GREEN}Nearly done, the next steps are:"
 echo -e "${BLUE}docker login"
 echo -e "docker push php-sdk:${VERSION}"
