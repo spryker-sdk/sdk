@@ -38,6 +38,7 @@ cp "${CURRENT_DIR}/config/packages/workflow.yaml" "${BUILD_DIR}/config/packages/
 
 mkdir -p "${BUILD_DIR}/db"
 mkdir -p "${BUILD_DIR}/var/cache"
+mkdir -p "${BUILD_DIR}/infrastructure/debug/php"
 cp -R "${CURRENT_DIR}/extension" "${BUILD_DIR}/"
 cp "${CURRENT_DIR}/.env.prod" "${BUILD_DIR}/.env.prod"
 cp "${CURRENT_DIR}/.gitmodules" "${BUILD_DIR}/.gitmodules"
@@ -58,7 +59,7 @@ DOCKER_BUILDKIT=1 docker build -f "${CURRENT_DIR}/infrastructure/sdk.Dockerfile"
 
 # Clean up
 
-rm -rf build/{bin,config,db,extension,var,.env.prod,.gitmodules,docker-compose*,VERSION,spryker-sdk.tar.gz}
+rm -rf build/{bin,config,db,extension,infrastructure,var,.env.prod,.gitmodules,docker-compose*,VERSION,spryker-sdk.tar.gz}
 
 echo -e "${GREEN}Nearly done, the next steps are:"
 echo -e "${BLUE}docker login"
