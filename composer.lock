@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d0e1913b89ec28ee9d00d7b75753413",
+    "content-hash": "0df85b28cfea1563d8d8affc0952ca26",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6424,16 +6424,16 @@
         },
         {
             "name": "spryker/code-sniffer",
-            "version": "0.17.9",
+            "version": "0.17.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker/code-sniffer.git",
-                "reference": "11c949db1e9a8127d6ecdddfef0b17760a90eb04"
+                "reference": "b3379c08a632c5dde36664eb8ac2f6cfd15c33dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker/code-sniffer/zipball/11c949db1e9a8127d6ecdddfef0b17760a90eb04",
-                "reference": "11c949db1e9a8127d6ecdddfef0b17760a90eb04",
+                "url": "https://api.github.com/repos/spryker/code-sniffer/zipball/b3379c08a632c5dde36664eb8ac2f6cfd15c33dd",
+                "reference": "b3379c08a632c5dde36664eb8ac2f6cfd15c33dd",
                 "shasum": ""
             },
             "require": {
@@ -6477,7 +6477,7 @@
                 "issues": "https://github.com/spryker/code-sniffer/issues",
                 "source": "https://github.com/spryker/code-sniffer"
             },
-            "time": "2022-08-02T10:40:39+00:00"
+            "time": "2022-08-03T09:41:31+00:00"
         },
         {
             "name": "spryker/symfony",
