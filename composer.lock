@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c3b6a6bc429946e747a37c0f535f4b2",
+    "content-hash": "4ca36e35f844f6da7ce68f9d23282565",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6362,7 +6362,7 @@
         },
         {
             "name": "spryker/architecture-sniffer",
-            "version": "0.5.6",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker/architecture-sniffer.git",
@@ -6388,6 +6388,7 @@
                 "spryker/code-sniffer": "*",
                 "symfony/var-dumper": "^4.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -14275,6 +14276,7 @@
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/upgrader": 20,
+        "spryker/architecture-sniffer": 20,
         "spryker/code-sniffer": 20,
         "spryker-sdk/brancho": 20
     },
