@@ -37,7 +37,7 @@
         "spryker-sdk/sync-api": "^0.1.1",
         "spryker-sdk/upgrader": "dev-master",
         "spryker/architecture-sniffer": "dev-master",
-        "spryker/code-sniffer": "^0.17.6",
+        "spryker/code-sniffer": "dev-master",
         "symfony/console": "^5.0 || ^6.0",
         "symfony/dotenv": "^5.0 || ^6.0",
         "symfony/event-dispatcher": "^5.0 || ^6.0",
