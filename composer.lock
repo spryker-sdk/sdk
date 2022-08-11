@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "171dd83ca350a107a7db81ad125e15dc",
+    "content-hash": "5c3b6a6bc429946e747a37c0f535f4b2",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6295,16 +6295,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-master",
+            "version": "dev-bugfix/pplus-1478-sdk-installation-with-php74-project",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "468f38c02222ce201811555abb73060af618fbf4"
+                "reference": "340273bf5dfd11efa73f276e92d3cf575cb169cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/468f38c02222ce201811555abb73060af618fbf4",
-                "reference": "468f38c02222ce201811555abb73060af618fbf4",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/340273bf5dfd11efa73f276e92d3cf575cb169cb",
+                "reference": "340273bf5dfd11efa73f276e92d3cf575cb169cb",
                 "shasum": ""
             },
             "require": {
@@ -6321,7 +6321,7 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-develop",
                 "spryker-sdk/sdk-contracts": "^0.2.0",
-                "spryker/code-sniffer": "^0.17.3",
+                "spryker/code-sniffer": "dev-master",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
                 "symfony/dependency-injection": "^5.0",
@@ -6336,7 +6336,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6357,9 +6356,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/master"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/pplus-1478-sdk-installation-with-php74-project"
             },
-            "time": "2022-08-02T13:40:44+00:00"
+            "time": "2022-08-11T09:30:52+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -6424,27 +6423,28 @@
         },
         {
             "name": "spryker/code-sniffer",
-            "version": "0.17.10",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker/code-sniffer.git",
-                "reference": "b3379c08a632c5dde36664eb8ac2f6cfd15c33dd"
+                "reference": "21b2e6f12911e37b9e3c9c7683475b7afc73b025"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker/code-sniffer/zipball/b3379c08a632c5dde36664eb8ac2f6cfd15c33dd",
-                "reference": "b3379c08a632c5dde36664eb8ac2f6cfd15c33dd",
+                "url": "https://api.github.com/repos/spryker/code-sniffer/zipball/21b2e6f12911e37b9e3c9c7683475b7afc73b025",
+                "reference": "21b2e6f12911e37b9e3c9c7683475b7afc73b025",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.3",
-                "slevomat/coding-standard": "^7.0.1 || ^8.0.1",
-                "squizlabs/php_codesniffer": "^3.6.0"
+                "slevomat/coding-standard": "^7.2.0 || ^8.0.1",
+                "squizlabs/php_codesniffer": "^3.6.2"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.0.0",
                 "phpunit/phpunit": "^9.5"
             },
+            "default-branch": true,
             "bin": [
                 "bin/tokenize"
             ],
@@ -6477,7 +6477,7 @@
                 "issues": "https://github.com/spryker/code-sniffer/issues",
                 "source": "https://github.com/spryker/code-sniffer"
             },
-            "time": "2022-08-03T09:41:31+00:00"
+            "time": "2022-08-09T17:27:11+00:00"
         },
         {
             "name": "spryker/symfony",
@@ -14275,6 +14275,7 @@
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/upgrader": 20,
+        "spryker/code-sniffer": 20,
         "spryker-sdk/brancho": 20
     },
     "prefer-stable": true,
