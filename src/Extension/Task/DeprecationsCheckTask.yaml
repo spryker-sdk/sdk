@@ -4,7 +4,7 @@ short_description: "Check your code by running a static code analysis and genera
 help: ~
 stage: build
 version: 1.0.0
-command: "php %sdk_dir%/vendor/bin/psalm --config=%config% --no-progress --output-format=json --report=%reportDir%/psalm.deprecations_report.json 1> /dev/null"
+command: "php %sdk_dir%/vendor/bin/psalm.phar --config=%config% --no-progress --output-format=json --report=%reportDir%/psalm.deprecations_report.json 1> /dev/null"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
