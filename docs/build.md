@@ -47,3 +47,34 @@ Once the flavored Spryker SDK is build you can execute the same way a non-flavor
 
 Adding private repositories requires to add an [auth.json](https://getcomposer.org/doc/articles/authentication-for-private-packages.md) before building the container.
 
+### Working with Spryker internal projects
+
+For the internal projects you may need additional tasks. All available tasks are extracted to the
+separate repository. If you need those, please add a package via composer.
+
+```shell
+composer require spryker-sdk/sdk-tasks-bundle
+```
+
+Keep in mind that spryker-sdk/sdk-tasks-bundle is a private repository, and you need to configure it first
+in SDK's composer.json.
+
+```json
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/spryker-sdk/sdk-tasks-bundle"
+    }
+  ]
+}
+```
+
+After successful sdk-task-bundle installation register it in the config/bundles.php
+```php
+//...
+return [
+    //...
+    SprykerSdk\SdkTasksBundle\PrivateSdkTasksBundle::class => ['all' => true],
+];
+```
