@@ -156,11 +156,15 @@ services:
       - "@doctrine"
       - !tagged_iterator sdk.task
 
+  service.task_set_to_task_converter:
+    class: SprykerSdk\Sdk\Infrastructure\Service\TaskSetToTaskConverter
+
   service.task_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
     arguments:
       - "@event_dispatcher"
       - "@task_persistence_repository"
+      - "@service.task_set_to_task_converter"
 
   service.lifecycle_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager

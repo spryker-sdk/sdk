@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskManager implements TaskManagerInterface
@@ -28,15 +29,23 @@ class TaskManager implements TaskManagerInterface
     protected TaskRepositoryInterface $taskRepository;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSetToTaskConverter
+     */
+    protected TaskSetToTaskConverter $taskSetToTaskConverter;
+
+    /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSetToTaskConverter $taskSetToTaskConverter
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        TaskRepositoryInterface $taskRepository
+        TaskRepositoryInterface $taskRepository,
+        TaskSetToTaskConverter $taskSetToTaskConverter
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;
+        $this->taskSetToTaskConverter = $taskSetToTaskConverter;
     }
 
     /**
@@ -53,6 +62,10 @@ class TaskManager implements TaskManagerInterface
 
             if ($existingTask) {
                 continue;
+            }
+
+            if ($task instanceof TaskSetInterface) {
+                $task = $this->taskSetToTaskConverter->convert($task);
             }
 
             $entities[] = $this->taskRepository->create($task);

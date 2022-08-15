@@ -403,6 +403,26 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * @return array<string, bool>
+     */
+    public function getSubTasksStopOnErrorMap(): array
+    {
+        return [
+            'hello:php:stage_a' => false,
+        ];
+    }
+
+    /**
+     * @return array<string, array<string>>
+     */
+    public function getSubTasksTagsMap(): array
+    {
+        return [
+            'hello:php:stage_a' => ['tag_a'],
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getVersion(): string
