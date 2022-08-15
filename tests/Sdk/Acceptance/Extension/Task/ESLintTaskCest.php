@@ -132,7 +132,7 @@ class ESLintTaskCest
                 '--file=src/success',
                 '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
                 '--format=yaml',
-                '--report_dir=notExists',
+                '--report_dir=pathNotExists',
             ],
             $I->getProjectRoot(static::PROJECT_DIR),
         );
