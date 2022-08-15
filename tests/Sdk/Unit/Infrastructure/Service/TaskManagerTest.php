@@ -13,7 +13,9 @@ use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskManager;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSetToTaskConverter;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskManagerTest extends Unit
@@ -38,6 +40,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createNoCallsEventDispatcherMock(),
             $this->createRepositoryMock($task),
+            $this->createTaskSetToTaskConverterMock(),
         );
 
         //Act
@@ -57,10 +60,32 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(InitializedEvent::class, InitializedEvent::NAME),
             $this->createRepositoryMock($task, 'create'),
+            $this->createTaskSetToTaskConverterMock(),
         );
 
         //Act
         $tasks = $taskManager->initialize([$task]);
+
+        //Assert
+        $this->assertCount(1, $tasks);
+    }
+
+    /**
+     * @return void
+     */
+    public function testInitializeTaskSetWhenTaskSetExists(): void
+    {
+        //Arrange
+        $taskSet = $this->createTaskSetMock();
+        $task = $this->createTaskMock(static::EXISTENT_TASK_ID);
+        $taskManager = new TaskManager(
+            $this->createEventDispatcherMock(InitializedEvent::class, InitializedEvent::NAME),
+            $this->createRepositoryMock($task, 'create'),
+            $this->createTaskSetToTaskConverterMock($task),
+        );
+
+        //Act
+        $tasks = $taskManager->initialize([$taskSet]);
 
         //Assert
         $this->assertCount(1, $tasks);
@@ -76,6 +101,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(RemovedEvent::class, RemovedEvent::NAME),
             $this->createRepositoryMock($task, 'remove'),
+            $this->createTaskSetToTaskConverterMock(),
         );
 
         //Act
@@ -92,6 +118,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(UpdatedEvent::class, UpdatedEvent::NAME),
             $this->createRepositoryMock($task, 'update'),
+            $this->createTaskSetToTaskConverterMock(),
         );
 
         //Act
@@ -109,6 +136,14 @@ class TaskManagerTest extends Unit
         $taskMock->method('getId')->willReturn($taskId);
 
         return $taskMock;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\TaskSetInterface
+     */
+    protected function createTaskSetMock(): TaskInterface
+    {
+        return $this->createMock(TaskSetInterface::class);
     }
 
     /**
@@ -163,5 +198,20 @@ class TaskManagerTest extends Unit
             ->method('dispatch');
 
         return $eventDispatcherMock;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface|null $task
+     *
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSetToTaskConverter
+     */
+    protected function createTaskSetToTaskConverterMock(?TaskInterface $task = null): TaskSetToTaskConverter
+    {
+        $taskSetToTaskConverterMock = $this->createMock(TaskSetToTaskConverter::class);
+        if ($task !== null) {
+            $taskSetToTaskConverterMock->expects($this->once())->method('convert')->willReturn($task);
+        }
+
+        return $taskSetToTaskConverterMock;
     }
 }
