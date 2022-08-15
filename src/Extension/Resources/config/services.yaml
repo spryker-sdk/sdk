@@ -23,10 +23,6 @@ services:
     arguments:
       - '@app_modify_composer_file'
       - '@app_modify_docker_file'
-  generate_app_add_aop_sdk_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\AddAcpSdkCommand
-    arguments:
-      - '@app_modify_composer_file'
   generate_app_allow_default_composer_plugins_command:
     class: SprykerSdk\Sdk\Extension\Task\Command\AllowDefaultComposerPluginCommand
     arguments:
@@ -57,7 +53,6 @@ services:
         - '@generate_app_command'
         - '@generate_app_change_name_command'
         - '@generate_app_change_php_version_command'
-        - '@generate_app_add_aop_sdk_command'
         - '@generate_app_allow_default_composer_plugins_command'
         - '@generate_app_update_dependencies_command'
         - '@add_docker_sdk_command'
@@ -70,8 +65,8 @@ services:
     arguments:
       $commands:
         - '@check_git_command'
-#        - '@check_docker_command'
-#        - '@check_mutagen_for_mac_command'
+        #        - '@check_docker_command'
+        #        - '@check_mutagen_for_mac_command'
         - '@clone_business_model_command'
         - '@add_docker_sdk_command'
         - '@business_model_arm_command'
