@@ -45,12 +45,8 @@ framework:
         - config
         - translation
         - acp-validated
-        - openapi
-        - openapi-validated
-        - asyncapi
-        - asyncapi-validated
-        - asyncapi-generate
-        - app-validate
+        - openapi-created
+        - asyncapi-created
         - app-validated
       transitions:
         CreateAppSkeleton:
@@ -81,38 +77,16 @@ framework:
             error: Now you need to fix manually and continue with the workflow afterwards.
         CreateOpenApi:
           from: acp-validated
-          to: openapi
+          to: openapi-created
           metadata:
-            task: acp:openapi:create
-        ValidateOpenApi:
-          from: openapi
-          to: openapi-validated
-          metadata:
-            task: acp:openapi:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
-        GenerateOpenApi:
-          from: openapi-validated
-          to: app-validate
-          metadata:
-            task: acp:openapi:generate
+            task: acp:openapi:full-flow
         CreateAsyncapi:
-          from: app-validate
-          to: asyncapi
+          from: openapi-created
+          to: asyncapi-created
           metadata:
-            task: acp:asyncapi:create-full
-        ValidateAsyncapi:
-          from: asyncapi
-          to: asyncapi-validated
-          metadata:
-            task: acp:asyncapi:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
-        GenerateAsyncapiCode:
-          from: asyncapi-validated
-          to: asyncapi-generate
-          metadata:
-            task: acp:asyncapi:generate
+            task: acp:asyncapi:full-flow
         ValidateApp:
-          from: [app-validate, app-validated, asyncapi-generate]
+          from: [openapi-created, app-validated, asyncapi-created]
           to: app-validated
           metadata:
             task: acp:app:validate
