@@ -47,8 +47,7 @@ framework:
         - acp-validated
         - openapi
         - openapi-validated
-        - asyncapi-created
-        - asyncapi-message-added
+        - asyncapi
         - asyncapi-validated
         - asyncapi-generate
         - app-validate
@@ -98,16 +97,11 @@ framework:
             task: acp:openapi:generate
         CreateAsyncapi:
           from: app-validate
-          to: asyncapi-created
+          to: asyncapi
           metadata:
-            task: acp:asyncapi:create
-        AddMessageIntoAsyncapi:
-          from: asyncapi-created
-          to: asyncapi-message-added
-          metadata:
-            task: acp:asyncapi:message-add
+            task: acp:asyncapi:create-full
         ValidateAsyncapi:
-          from: asyncapi-message-added
+          from: asyncapi
           to: asyncapi-validated
           metadata:
             task: acp:asyncapi:validate
