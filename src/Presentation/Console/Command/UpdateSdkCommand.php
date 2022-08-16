@@ -50,7 +50,7 @@ class UpdateSdkCommand extends AbstractUpdateCommand
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        return (int)!($this->runInstallBundles($output) || $this->runUpdate($input, $output));
+        return (int)($this->runInstallBundles($output) || $this->runUpdate($input, $output));
     }
 
     /**

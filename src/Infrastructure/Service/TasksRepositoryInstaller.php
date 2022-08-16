@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TasksRepositoryInstallerInterface;
 use Symfony\Component\Process\Process;
 
@@ -18,11 +19,18 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
     protected string $gitModulesPath;
 
     /**
-     * @param string $gitModulesPath
+     * @var \Psr\Log\LoggerInterface
      */
-    public function __construct(string $gitModulesPath)
+    protected LoggerInterface $logger;
+
+    /**
+     * @param string $gitModulesPath
+     * @param \Psr\Log\LoggerInterface $logger
+     */
+    public function __construct(string $gitModulesPath, LoggerInterface $logger)
     {
         $this->gitModulesPath = $gitModulesPath;
+        $this->logger = $logger;
     }
 
     /**
@@ -42,6 +50,10 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
             $path = $module['path'];
             $branch = $module['branch'] ? sprintf('-b %s', $module['branch']) : '';
             $process = $this->runProcess(sprintf('git submodule add %s --force %s %s && git submodule update --init --force --remote %s', $branch, $url, $path, $path));
+
+            if (!$process->isSuccessful()) {
+                $this->logger->error($process->getErrorOutput());
+            }
 
             $installationModules[$processSection] = $process->isSuccessful();
         }

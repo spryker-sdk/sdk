@@ -57,7 +57,7 @@ class InitSdkCommand extends AbstractInitCommand
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        return (int)!($this->runInstallBundles($output) || $this->runInit($input, $output));
+        return (int)($this->runInstallBundles($output) || $this->runInit($input, $output));
     }
 
     /**
