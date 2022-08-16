@@ -1,7 +1,8 @@
 Telemetry
 ========================
 
-The gaol of the telemetry functionality is collecting and pushing custom business events to the remote analytics server for further processing.
+Telemetry is a feature that helps us to remotely collect user experience data to make our product better.
+To achieve this it creates, collects and sends the business events to remote server for further analyzing.
 If remote server is not accessible the collector stores all the events in the local DB until the remote server be reachable.
 For now is only the task commands execution events are implemented. It collects all the tasks and sends to the data lake remote server.
 
@@ -46,5 +47,5 @@ Project settings `developer_email` and `developer_github_account` are used for u
 The project composer.json is used to populate the project name. All this data are sent in event metadata.
 
 ## How to disable telemetry
-To disable telemetry you can set `TELEMETRY_ENABLED=false` in env variable or update .env file
+By default, it's enabled. To disable telemetry you can set `TELEMETRY_ENABLED=false` in env variable or update .env file
 
