@@ -6162,12 +6162,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "c0ff363c2885033ca4712dd00580ab5561f3dcaf"
+                "reference": "ed6e7b7384215fbe511c34cb1ec4741084afadc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/c0ff363c2885033ca4712dd00580ab5561f3dcaf",
-                "reference": "c0ff363c2885033ca4712dd00580ab5561f3dcaf",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ed6e7b7384215fbe511c34cb1ec4741084afadc7",
+                "reference": "ed6e7b7384215fbe511c34cb1ec4741084afadc7",
                 "shasum": ""
             },
             "require": {
@@ -6192,7 +6192,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-832-update-and-refactoring-workflow-listeners"
             },
-            "time": "2022-08-16T16:51:33+00:00"
+            "time": "2022-08-17T09:00:25+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
