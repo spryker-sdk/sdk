@@ -106,9 +106,9 @@ class Initializer implements InitializerInterface
         }
 
         $value = $this->receiveValue($settingEntity);
+        $settingEntity->setValues($value);
 
         if ($value !== $settingEntity->getValues()) {
-            $settingEntity->setValues($value);
             $this->settingRepository->save($settingEntity);
         }
     }

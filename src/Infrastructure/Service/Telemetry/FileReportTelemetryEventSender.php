@@ -13,6 +13,9 @@ use SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableExceptio
 use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * Writes the last event. Is used for debug purposes.
+ */
 class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
 {
     /**

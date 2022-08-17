@@ -170,7 +170,7 @@ class InitializerTest extends Unit
             ->method('findAll')
             ->willReturn([]);
         $this->settingRepository
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('save');
         $this->settingRepository->expects($this->once())
             ->method('initSettingDefinition')
