@@ -128,7 +128,7 @@ services:
   # Transition resolvers
   transition_boolean_resolver:
     class: SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver
-    public: true
+    tags: ['workflow.transition_resolver']
 
   uname_env_var_processor:
     class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor
