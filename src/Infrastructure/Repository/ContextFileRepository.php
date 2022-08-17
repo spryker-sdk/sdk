@@ -39,11 +39,16 @@ class ContextFileRepository implements ContextRepositoryInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer $contextSerializer
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface $cacheStorage
      */
-    public function __construct(ContextSerializer $contextSerializer, SettingRepositoryInterface $settingRepository)
-    {
+    public function __construct(
+        ContextSerializer $contextSerializer,
+        SettingRepositoryInterface $settingRepository,
+        ContextCacheStorageInterface $cacheStorage
+    ) {
         $this->contextSerializer = $contextSerializer;
         $this->settingRepository = $settingRepository;
+        $this->cacheStorage = $cacheStorage;
     }
 
     /**

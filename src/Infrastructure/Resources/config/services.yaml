@@ -59,6 +59,7 @@ services:
     arguments:
       - "@context_serializer"
       - "@setting_repository"
+      - "@context.in_memory_cache_storage"
   initializer_service:
     class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
     arguments:
@@ -291,3 +292,5 @@ services:
       - "@service_container"
       - "@context_factory"
 
+  context.in_memory_cache_storage:
+    class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
