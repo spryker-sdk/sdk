@@ -16,7 +16,7 @@ class WorkflowTransitionResolverRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testReturnWorkflowTransitionResolverWhenItSet(): void
+    public function testReturnsWorkflowTransitionResolverWhenItSet(): void
     {
         // Arrange
         $transitionResolver = $this->createTransitionResolverMock('some_name');
@@ -24,10 +24,23 @@ class WorkflowTransitionResolverRegistryTest extends Unit
 
         // Act
         $existentResolver = $workflowTransitionResolverRegistry->getTransitionResolverByName('some_name');
-        $nonExistentResolver = $workflowTransitionResolverRegistry->getTransitionResolverByName('not_set');
 
         // Assert
         $this->assertSame($transitionResolver, $existentResolver);
+    }
+
+    /**
+     * @return void
+     */
+    public function testReturnsNullWhenResolverNotSet(): void
+    {
+        // Arrange
+        $workflowTransitionResolverRegistry = new WorkflowTransitionResolverRegistry([]);
+
+        // Act
+        $nonExistentResolver = $workflowTransitionResolverRegistry->getTransitionResolverByName('not_set');
+
+        // Assert
         $this->assertNull($nonExistentResolver);
     }
 
