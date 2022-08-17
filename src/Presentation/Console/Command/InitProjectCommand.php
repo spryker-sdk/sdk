@@ -165,7 +165,7 @@ class InitProjectCommand extends Command
                 );
             }
 
-            if ($needsToAsk) {
+            if ($needsToAsk && !$options[$settingEntity->getPath()]) {
                 continue;
             }
 

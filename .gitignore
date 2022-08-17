@@ -9,6 +9,8 @@
 /node_modules
 /vendor/
 /.idea
+/.ssdk
+.ssdk.log
 db/data.db
 ###< symfony/framework-bundle ###
 
