@@ -13,6 +13,7 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -237,7 +238,7 @@ class ProjectSettingRepositoryTest extends Unit
     public function testSaveShouldSaveSharedSetting(): void
     {
         // Arrange
-        $sharedSetting = $this->tester->createSetting('pathShared', 'valueShared', SettingInterface::STRATEGY_REPLACE, ProjectSettingRepository::LOCAL_SETTING_TYPE);
+        $sharedSetting = $this->tester->createSetting('pathShared', 'valueShared', SettingInterface::STRATEGY_REPLACE, Setting::SETTING_TYPE_LOCAL);
 
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
 
@@ -256,7 +257,7 @@ class ProjectSettingRepositoryTest extends Unit
         $this->assertSame($sharedSetting, $sharedResult);
 
         $this->assertNotEmpty($this->vfsStream->getChildren());
-        $this->assertSame("pathShared: valueShared\n", $this->vfsStream->getChild('settings')->getContent());
+        $this->assertSame("pathShared: valueShared\n", $this->vfsStream->getChild('settings.local')->getContent());
     }
 
     /**

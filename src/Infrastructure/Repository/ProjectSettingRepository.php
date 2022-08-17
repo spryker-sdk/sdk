@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -92,7 +93,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         $sharedProjectValues = $this->getSharedProjectValues();
 
         foreach ($settings as $setting) {
-            if ($setting->getSettingType() === static::SHARED_SETTING_TYPE) {
+            if ($setting->getSettingType() === Setting::SETTING_TYPE_SHARED) {
                 $sharedProjectValues[$setting->getPath()] = $setting->getValues();
 
                 continue;
@@ -192,7 +193,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         $projectValues = $this->getProjectValues();
 
         foreach ($entities as $entity) {
-            if ($entity->getSettingType() === static::SDK_SETTING_TYPE) {
+            if ($entity->getSettingType() === Setting::SETTING_TYPE_SDK) {
                 continue;
             }
 

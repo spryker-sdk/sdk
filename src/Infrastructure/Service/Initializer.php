@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
@@ -76,7 +77,7 @@ class Initializer implements InitializerInterface
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
         $coreEntities = array_filter($settingEntities, function (EntitySettingInterface $setting): bool {
-            return $setting->getSettingType() === SettingRepositoryInterface::SDK_SETTING_TYPE;
+            return $setting->getSettingType() === Setting::SETTING_TYPE_SDK;
         });
 
         foreach ($coreEntities as $settingEntity) {

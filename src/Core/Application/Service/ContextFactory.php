@@ -14,11 +14,6 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class ContextFactory
 {
     /**
-     * @var \SprykerSdk\SdkContracts\Entity\ContextInterface|null
-     */
-    protected ?ContextInterface $context = null;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface
      */
     protected ContextRepositoryInterface $contextRepository;
@@ -32,21 +27,16 @@ class ContextFactory
     }
 
     /**
-     * @param string|null $contextFilePath
+     * @param string|null $contextName
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function getContext(?string $contextFilePath = null): ContextInterface
+    public function getContext(?string $contextName = null): ContextInterface
     {
-        if ($this->context === null) {
-            if ($contextFilePath === null) {
-                $this->context = new Context();
-
-                return $this->context;
-            }
-            $this->context = $this->contextRepository->findByName($contextFilePath) ?: new Context();
+        if (!$contextName) {
+            return new Context();
         }
 
-        return $this->context;
+        return $this->contextRepository->findByName($contextName) ?: new Context();
     }
 }

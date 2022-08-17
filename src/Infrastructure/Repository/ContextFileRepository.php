@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
@@ -29,6 +30,11 @@ class ContextFileRepository implements ContextRepositoryInterface
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface
+     */
+    protected ContextCacheStorageInterface $cacheStorage;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer $contextSerializer
@@ -63,6 +69,11 @@ class ContextFileRepository implements ContextRepositoryInterface
      */
     public function findByName(string $name): ContextInterface
     {
+        $context = $this->cacheStorage->get($name);
+        if ($context) {
+            return $context;
+        }
+
         $contextFilePath = $this->getContextFilePath($name);
 
         if (!is_readable($contextFilePath)) {
@@ -75,7 +86,11 @@ class ContextFileRepository implements ContextRepositoryInterface
             throw new MissingContextFileException(sprintf('Context file %s could not be read', $contextFilePath));
         }
 
-        return $this->contextSerializer->deserialize($contextFileContent);
+        $context = $this->contextSerializer->deserialize($contextFileContent);
+
+        $this->cacheStorage->set($context);
+
+        return $context;
     }
 
     /**
@@ -85,6 +100,8 @@ class ContextFileRepository implements ContextRepositoryInterface
      */
     public function delete(ContextInterface $context): void
     {
+        $this->cacheStorage->remove($context);
+
         $contextFilePath = $this->getContextFilePath($context->getName());
 
         if (is_file($contextFilePath)) {

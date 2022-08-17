@@ -63,4 +63,50 @@ class ContextFactoryTest extends Unit
         //Assert
         $this->assertEquals(new Context(), $foundContext);
     }
+
+    /**
+     * @return void
+     */
+    public function testGetContextReturnsCorrectContextInstanceIfContextFilePathProvidedAndContextExists(): void
+    {
+        //Arrange
+        $expectedPathSpecificContext = new Context();
+        $expectedPathSpecificContext->setName('path-specific-context');
+
+        $contextRepository = $this->createMock(ContextRepositoryInterface::class);
+        $contextRepository
+            ->expects($this->once())
+            ->method('findByName')
+            ->willReturn($expectedPathSpecificContext);
+
+        $contextFactory = new ContextFactory($contextRepository);
+
+        //Act
+        $contextFactory->getContext();
+        $realPathSpecificContext = $contextFactory->getContext($expectedPathSpecificContext->getName());
+
+        //Assert
+        $this->assertEquals($expectedPathSpecificContext, $realPathSpecificContext);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetContextReturnsNewContextInstanceIfContextFilePathProvidedAndContextDoesNotExists(): void
+    {
+        //Arrange
+        $contextRepository = $this->createMock(ContextRepositoryInterface::class);
+        $contextRepository
+            ->expects($this->once())
+            ->method('findByName')
+            ->willReturn(null);
+
+        $contextFactory = new ContextFactory($contextRepository);
+
+        //Act
+        $actualContext = $contextFactory->getContext('not-existing-context-file-path');
+
+        //Assert
+        $this->assertEquals(new Context(), $actualContext);
+    }
 }

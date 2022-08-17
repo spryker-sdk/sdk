@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as EntitySetting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
@@ -119,7 +120,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     public function findCoreSettings(): array
     {
         return $this->findBy([
-            'settingType' => static::SDK_SETTING_TYPE,
+            'settingType' => Setting::SETTING_TYPE_SDK,
         ]);
     }
 
@@ -160,25 +161,39 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         if (!$setting instanceof InfrastructureSetting) {
             throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
         }
-        if ($setting->getType() === 'path') {
-            $values = $setting->getValues();
-            if (is_array($values)) {
-                foreach ($values as $key => $value) {
-                    $values[$key] = $setting->getSettingType() === static::SDK_SETTING_TYPE ?
-                        $this->pathResolver->getResolveRelativePath($value) :
-                        $this->pathResolver->getResolveProjectRelativePath($value);
-                }
-            }
-            if (is_string($values)) {
-                $values = $setting->getSettingType() === static::SDK_SETTING_TYPE ?
-                    $this->pathResolver->getResolveRelativePath($values) :
-                    $this->pathResolver->getResolveProjectRelativePath($values);
-            }
-
-            $setting->setValues($values);
+        if ($setting->getType() !== 'path') {
+            return $setting;
         }
 
+        $values = $setting->getValues();
+        if (is_array($values)) {
+            foreach ($values as $key => $value) {
+                $values[$key] = $this->resolvePathSettingByType($setting->getSettingType(), $value);
+            }
+        }
+
+        if (is_string($values)) {
+            $values = $this->resolvePathSettingByType($setting->getSettingType(), $values);
+        }
+
+        $setting->setValues($values);
+
         return $setting;
+    }
+
+    /**
+     * @param string $settingType
+     * @param mixed $values
+     *
+     * @return string
+     */
+    protected function resolvePathSettingByType(string $settingType, $values): string
+    {
+        if ($settingType === Setting::SETTING_TYPE_SDK) {
+            return $this->pathResolver->getResolveRelativePath($values);
+        }
+
+        return $this->pathResolver->getResolveProjectRelativePath($values);
     }
 
     /**
