@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Cache;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage;
 
@@ -27,7 +28,7 @@ class InMemoryContextCacheStorageTest extends Unit
         // Arrange
         $cacheStorage = new InMemoryContextCacheStorage();
         $context = new Context();
-        $cacheStorage->set($context);
+        $cacheStorage->set($context->getName(), $context);
 
         // Act
         $actualContext = $cacheStorage->get($context->getName());
@@ -69,7 +70,7 @@ class InMemoryContextCacheStorageTest extends Unit
     /**
      * @return void
      */
-    public function testRemove(): void
+    public function testRemoveRemovesContextByKey(): void
     {
         // Arrange
         $cacheStorage = new InMemoryContextCacheStorage();
@@ -77,14 +78,32 @@ class InMemoryContextCacheStorageTest extends Unit
         $contextShouldntBeRemoved->setName('exist');
         $contextShouldBeRemoved = new Context();
         $contextShouldBeRemoved->setName('removed');
-        $cacheStorage->set($contextShouldBeRemoved);
-        $cacheStorage->set($contextShouldntBeRemoved);
+        $cacheStorage->set($contextShouldBeRemoved->getName(), $contextShouldBeRemoved);
+        $cacheStorage->set($contextShouldntBeRemoved->getName(), $contextShouldntBeRemoved);
 
         // Act
-        $cacheStorage->remove($contextShouldBeRemoved);
+        $cacheStorage->remove($contextShouldBeRemoved->getName());
 
         // Assert
         $this->assertNotNull($cacheStorage->get($contextShouldntBeRemoved->getName()));
+        $this->assertNull($cacheStorage->get($contextShouldBeRemoved->getName()));
+    }
+
+    /**
+     * @return void
+     */
+    public function testRemoveRemovesContextByKeyAndLastStoredContextInCaseProperKeyPassed(): void
+    {
+        // Arrange
+        $cacheStorage = new InMemoryContextCacheStorage();
+        $contextShouldBeRemoved = new Context();
+        $contextShouldBeRemoved->setName(ContextCacheStorageInterface::KEY_LAST);
+        $cacheStorage->set($contextShouldBeRemoved->getName(), $contextShouldBeRemoved);
+
+        // Act
+        $cacheStorage->remove($contextShouldBeRemoved->getName());
+
+        // Assert
         $this->assertNull($cacheStorage->get($contextShouldBeRemoved->getName()));
     }
 
@@ -98,12 +117,12 @@ class InMemoryContextCacheStorageTest extends Unit
         $contextOne = new Context();
         $contextOne->setName('test');
         $contextOne->setFormat('json');
-        $cacheStorage->set($contextOne);
+        $cacheStorage->set($contextOne->getName(), $contextOne);
 
         $contextTwo = new Context();
         $contextTwo->setName('test');
         $contextTwo->setFormat('yaml');
-        $cacheStorage->set($contextTwo);
+        $cacheStorage->set($contextTwo->getName(), $contextTwo);
 
         // Act
         $actualContext = $cacheStorage->get($contextOne->getName());

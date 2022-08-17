@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ContextFactory
@@ -33,10 +32,10 @@ class ContextFactory
      */
     public function getContext(?string $contextName = null): ContextInterface
     {
-        if (!$contextName) {
-            return new Context();
+        if ($contextName) {
+            return $this->contextRepository->findByName($contextName);
         }
 
-        return $this->contextRepository->findByName($contextName) ?: new Context();
+        return $this->contextRepository->getLastSavedContextOrNew();
     }
 }

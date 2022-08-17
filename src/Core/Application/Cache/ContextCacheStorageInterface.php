@@ -12,11 +12,16 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 interface ContextCacheStorageInterface
 {
     /**
-     * @param string $contextName
+     * @var string Key for the last stored context.
+     */
+    public const KEY_LAST = 'KEY_LAST';
+
+    /**
+     * @param string $key
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface|null
      */
-    public function get(string $contextName): ?ContextInterface;
+    public function get(string $key): ?ContextInterface;
 
     /**
      * @return array<\SprykerSdk\SdkContracts\Entity\ContextInterface>
@@ -24,16 +29,17 @@ interface ContextCacheStorageInterface
     public function getAll(): array;
 
     /**
+     * @param string $key
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */
-    public function set(ContextInterface $context): void;
+    public function set(string $key, ContextInterface $context): void;
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param string $key
      *
      * @return void
      */
-    public function remove(ContextInterface $context): void;
+    public function remove(string $key): void;
 }

@@ -18,7 +18,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
  * @group Core
  * @group Application
  * @group Service
- * @group ContextStorageTest
+ * @group ContextFactoryTest
  */
 class ContextFactoryTest extends Unit
 {
@@ -54,6 +54,10 @@ class ContextFactoryTest extends Unit
         $contextRepository
             ->expects($this->never())
             ->method('findByName');
+        $contextRepository
+            ->expects($this->once())
+            ->method('getLastSavedContextOrNew')
+            ->willReturn(new Context());
 
         $contextFactory = new ContextFactory($contextRepository);
 
@@ -99,7 +103,7 @@ class ContextFactoryTest extends Unit
         $contextRepository
             ->expects($this->once())
             ->method('findByName')
-            ->willReturn(null);
+            ->willReturn(new Context());
 
         $contextFactory = new ContextFactory($contextRepository);
 

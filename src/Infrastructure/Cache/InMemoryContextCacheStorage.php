@@ -18,13 +18,13 @@ class InMemoryContextCacheStorage implements ContextCacheStorageInterface
     protected array $contextStorage = [];
 
     /**
-     * @param string $contextName
+     * @param string $key
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface|null
      */
-    public function get(string $contextName): ?ContextInterface
+    public function get(string $key): ?ContextInterface
     {
-        return $this->contextStorage[$contextName] ?? null;
+        return $this->contextStorage[$key] ?? null;
     }
 
     /**
@@ -36,22 +36,33 @@ class InMemoryContextCacheStorage implements ContextCacheStorageInterface
     }
 
     /**
+     * @param string $key
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void
      */
-    public function set(ContextInterface $context): void
+    public function set(string $key, ContextInterface $context): void
     {
-        $this->contextStorage[$context->getName()] = $context;
+        $this->contextStorage[$key] = $context;
+
+        if ($key !== ContextCacheStorageInterface::KEY_LAST) {
+            $this->contextStorage[ContextCacheStorageInterface::KEY_LAST] = $context;
+        }
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param string $key
      *
      * @return void
      */
-    public function remove(ContextInterface $context): void
+    public function remove(string $key): void
     {
-        unset($this->contextStorage[$context->getName()]);
+        if ($this->contextStorage[$key] === $this->contextStorage[ContextCacheStorageInterface::KEY_LAST]) {
+            unset($this->contextStorage[$key], $this->contextStorage[ContextCacheStorageInterface::KEY_LAST]);
+
+            return;
+        }
+
+        unset($this->contextStorage[$key]);
     }
 }

@@ -13,6 +13,7 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -40,6 +41,11 @@ class ContextFileRepositoryTest extends Unit
     protected vfsStreamDirectory $vfsStream;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface
+     */
+    protected ContextCacheStorageInterface $contextCacheStorage;
+
+    /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester
      */
     protected UnitTester $tester;
@@ -52,13 +58,13 @@ class ContextFileRepositoryTest extends Unit
         parent::setUp();
         $this->contextSerializer = $this->createMock(ContextSerializer::class);
         $this->settingRepository = $this->createMock(SettingRepositoryInterface::class);
-        $contextCacheStorage = $this->createMock(ContextCacheStorageInterface::class);
+        $this->contextCacheStorage = $this->createMock(ContextCacheStorageInterface::class);
 
         $this->vfsStream = vfsStream::setup();
         $this->contextFileRepository = new ContextFileRepository(
             $this->contextSerializer,
             $this->settingRepository,
-            $contextCacheStorage,
+            $this->contextCacheStorage,
         );
     }
 
@@ -203,5 +209,64 @@ class ContextFileRepositoryTest extends Unit
 
         // Act
         $this->contextFileRepository->findByName($context->getName());
+    }
+
+    /**
+     * @return void
+     */
+    public function testFindByNameReturnsCachedContextIfExists(): void
+    {
+        // Arrange
+        $expectedContext = $this->tester->createContext();
+        $this->contextCacheStorage
+            ->expects($this->once())
+            ->method('get')
+            ->with($expectedContext->getName())
+            ->willReturn($expectedContext);
+
+        // Act
+        $actualContext = $this->contextFileRepository->findByName($expectedContext->getName());
+
+        // Assert
+        $this->assertSame($expectedContext, $actualContext);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetLastSavedContextReturnsContextIfExists(): void
+    {
+        // Arrange
+        $expectedContext = $this->tester->createContext();
+        $this->contextCacheStorage
+            ->expects($this->once())
+            ->method('get')
+            ->with(ContextCacheStorageInterface::KEY_LAST)
+            ->willReturn($expectedContext);
+
+        // Act
+        $context = $this->contextFileRepository->getLastSavedContextOrNew();
+
+        // Assert
+        $this->assertSame($expectedContext, $context);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetLastSavedContextReturnsNewContextIfItNotExists(): void
+    {
+        // Arrange
+        $this->contextCacheStorage
+            ->expects($this->once())
+            ->method('get')
+            ->with(ContextCacheStorageInterface::KEY_LAST)
+            ->willReturn(null);
+
+        // Act
+        $context = $this->contextFileRepository->getLastSavedContextOrNew();
+
+        // Assert
+        $this->assertEquals(new Context(), $context);
     }
 }
