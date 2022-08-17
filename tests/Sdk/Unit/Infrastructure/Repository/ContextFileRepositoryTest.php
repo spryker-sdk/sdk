@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
@@ -51,9 +52,14 @@ class ContextFileRepositoryTest extends Unit
         parent::setUp();
         $this->contextSerializer = $this->createMock(ContextSerializer::class);
         $this->settingRepository = $this->createMock(SettingRepositoryInterface::class);
+        $contextCacheStorage = $this->createMock(ContextCacheStorageInterface::class);
 
         $this->vfsStream = vfsStream::setup();
-        $this->contextFileRepository = new ContextFileRepository($this->contextSerializer, $this->settingRepository);
+        $this->contextFileRepository = new ContextFileRepository(
+            $this->contextSerializer,
+            $this->settingRepository,
+            $contextCacheStorage,
+        );
     }
 
     /**
