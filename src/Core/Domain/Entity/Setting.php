@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class Setting implements SettingInterface
@@ -24,32 +25,32 @@ class Setting implements SettingInterface
     /**
      * @var string
      */
-    protected string $strategy = self::STRATEGY_REPLACE;
+    protected string $strategy;
 
     /**
      * @var string
      */
-    protected string $type = 'string';
+    protected string $type;
 
     /**
      * @var string
      */
-    protected string $settingType = 'local';
+    protected string $settingType;
 
     /**
      * @var bool
      */
-    protected bool $hasInitialization = false;
+    protected bool $hasInitialization;
 
     /**
      * @var string|null
      */
-    protected ?string $initializationDescription = null;
+    protected ?string $initializationDescription;
 
     /**
      * @var string|null
      */
-    protected ?string $initializer = null;
+    protected ?string $initializer;
 
     /**
      * @param string $path
@@ -64,9 +65,9 @@ class Setting implements SettingInterface
     public function __construct(
         string $path,
         $values,
-        string $strategy,
+        string $strategy = self::STRATEGY_REPLACE,
         string $type = 'string',
-        string $settingType = 'local',
+        string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
