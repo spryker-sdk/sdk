@@ -14,12 +14,11 @@ final class Version20220726103404 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Adjusted sdk_setting table with setting_type field.';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_setting AS SELECT id, path, "values", strategy, type, is_project, has_initialization, initialization_description, initializer FROM sdk_setting');
         $this->addSql('DROP TABLE sdk_setting');
         $this->addSql('CREATE TABLE sdk_setting (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, path VARCHAR(255) NOT NULL, "values" CLOB DEFAULT NULL --(DC2Type:json)
@@ -31,7 +30,6 @@ final class Version20220726103404 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_setting AS SELECT id, path, "values", strategy, type, setting_type, has_initialization, initialization_description, initializer FROM sdk_setting');
         $this->addSql('DROP TABLE sdk_setting');
         $this->addSql('CREATE TABLE sdk_setting (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, path VARCHAR(255) NOT NULL, "values" CLOB DEFAULT NULL --(DC2Type:json)

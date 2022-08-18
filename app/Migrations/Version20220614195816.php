@@ -14,12 +14,11 @@ final class Version20220614195816 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Adjusted sdk_workflow table with parent_id to enable nesting.';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP INDEX UNIQ_4C07468E2FB3D0EE');
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_workflow AS SELECT id, project, status, workflow FROM sdk_workflow');
         $this->addSql('DROP TABLE sdk_workflow');
@@ -37,7 +36,6 @@ final class Version20220614195816 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE sdk_workflow_transition');
         $this->addSql('DROP INDEX IDX_4C07468E727ACA70');
         $this->addSql('DROP INDEX event_user');
