@@ -24,7 +24,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     /**
      * @var string
      */
-    protected const LOCAL_PREFIX = 'local';
+    protected const LOCAL_SUFFIX = 'local';
 
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -89,8 +89,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     public function saveMultiple(array $settings): array
     {
-        $localProjectValues = $this->getLocalProjectValues();
-        $sharedProjectValues = $this->getSharedProjectValues();
+        $localProjectValues = $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX);
+        $sharedProjectValues = $this->fetchProjectValues($this->projectSettingFileName);
 
         foreach ($settings as $setting) {
             if ($setting->getSettingType() === Setting::SETTING_TYPE_SHARED) {
@@ -108,7 +108,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         if ($localProjectValues) {
-            file_put_contents($this->projectSettingFileName . '.' . static::LOCAL_PREFIX, $this->yamlParser::dump($localProjectValues));
+            file_put_contents($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {
@@ -210,35 +210,24 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     protected function getProjectValues(): array
     {
-        return array_merge($this->getSharedProjectValues(), $this->getLocalProjectValues());
+        return array_merge(
+            $this->fetchProjectValues($this->projectSettingFileName),
+            $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX),
+        );
     }
 
     /**
+     * @param string $settingPath
+     *
      * @return array
      */
-    protected function getLocalProjectValues(): array
+    protected function fetchProjectValues(string $settingPath): array
     {
-        $localProjectSettingPath = $this->projectSettingFileName . '.' . static::LOCAL_PREFIX;
-
-        if (!is_readable($localProjectSettingPath)) {
+        if (!$this->isReadableFile($settingPath)) {
             return [];
         }
 
-        return (array)$this->yamlParser::parseFile($localProjectSettingPath);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getSharedProjectValues(): array
-    {
-        $sharedProjectSettingPath = $this->projectSettingFileName;
-
-        if (!is_readable($sharedProjectSettingPath)) {
-            return [];
-        }
-
-        return (array)$this->yamlParser::parseFile($sharedProjectSettingPath);
+        return (array)$this->yamlParser::parseFile($settingPath);
     }
 
     /**
@@ -307,15 +296,22 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     {
         $initializerId = $setting->getInitializer() ?? '';
 
-        if (!$this->container->has($initializerId)) {
-            return null;
-        }
-
         $initializer = $this->container->get($initializerId);
+
         if (!$initializer instanceof SettingInitializerInterface) {
             return null;
         }
 
         return $initializer;
+    }
+
+    /**
+     * @param string $localProjectSettingPath
+     *
+     * @return bool
+     */
+    protected function isReadableFile(string $localProjectSettingPath): bool
+    {
+        return is_file($localProjectSettingPath) && is_readable($localProjectSettingPath);
     }
 }

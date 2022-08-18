@@ -549,7 +549,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected function getExistingTask(string $taskId): TaskInterface
     {
         if ($this->existingTasks[$taskId] instanceof TaskSetInterface) {
-            throw new TaskMissingException('Task set can\'t have another task set inside.');
+            throw new TaskMissingException(sprintf(
+                'Task set with id %s can\'t have another task set inside.',
+                $taskId,
+            ));
         }
 
         return $this->existingTasks[$taskId];
