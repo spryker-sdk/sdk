@@ -23,7 +23,7 @@ placeholders:
     configuration:
       name: "config"
       description: "Config file"
-      defaultValue: "vendor/spryker/code-sniffer/Spryker/ruleset.xml"
+      defaultValue: ""
   - name: "%path%"
     value_resolver: STATIC
     optional: false
