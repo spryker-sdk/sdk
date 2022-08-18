@@ -110,7 +110,7 @@
             "@stan"
         ],
         "test": "codecept build && codecept run unit",
-        "test-qa": "codecept build && codecept run acceptance",
+        "test-qa": "vendor/bin/phpcs --config-set default_standard Spryker && codecept build && codecept run acceptance",
         "test-cover": "codecept build && codecept run unit --coverage-xml",
         "test-cover-html": "codecept build && codecept run unit --coverage-html",
         "auto-scripts": {
