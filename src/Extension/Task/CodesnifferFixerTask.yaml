@@ -1,7 +1,7 @@
 ---
 id: "validation:php:codestyle-fix"
 short_description: "Check your code by running a static code analysis"
-help: ~
+help: "You may need to set default phpcs standard before using it. Use the next as an example 'vendor/bin/phpcs --config-set default_standard SPR12'"
 stage: build
 version: 1.0.0
 command: "php %sdk_dir%/vendor/bin/phpcbf %severity% ./%path%"
