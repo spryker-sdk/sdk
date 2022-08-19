@@ -43,7 +43,7 @@ class AppTypeValueResolverTest extends Unit
     {
         // Arrange
         $repositories = [
-            'boilerplate' => 'https://github.com/spryker/project-boilerplate',
+            'boilerplate' => 'https://github.com/spryker-project/mini-framework',
         ];
         $receiverValue = new ReceiverValue(
             'App template to use for creation',
@@ -63,6 +63,6 @@ class AppTypeValueResolverTest extends Unit
         $value = $valueResolver->getValue($this->context, []);
 
         // Assert
-        $this->assertSame('https://github.com/spryker/project-boilerplate', $value);
+        $this->assertSame('https://github.com/spryker-project/mini-framework', $value);
     }
 }
