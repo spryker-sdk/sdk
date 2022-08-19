@@ -32,7 +32,7 @@ id: string #e.g.: validation:code
 short_description: string #e.g.: Fix code style violations
 help: string|null #e.g: Fix codestyle violations, lorem ipsum, etc.
 stage: string #e.g.: build
-command: string #e.g.: php %project_dir%/vendor/bin/phpcs -f --standard=%project_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %module_dir%
+command: string #e.g.: php %project_dir%/vendor/bin/phpcs -f --standard=%project_dir%/vendor/spryker/code-sniffer/Spryker/phpcs.xml %module_dir%
 type: string #e.g.: local_cli
 placeholders:
 - name: string #e.g.: %project_dir%
