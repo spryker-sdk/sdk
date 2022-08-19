@@ -4,7 +4,7 @@ short_description: "Check your code by running a static code analysis"
 help: ~
 stage: build
 version: 1.0.0
-command: "php %sdk_dir%/vendor/bin/phpstan analyze ./%path% -c ./phpstan.neon --error-format=json > %reportDir%/phpstan.static.json"
+command: "php %sdk_dir%/vendor/bin/phpstan analyze ./%path% -c ./phpstan.neon --error-format=json --level=%level% > %reportDir%/phpstan.static.json"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
@@ -26,6 +26,13 @@ placeholders:
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+  - name: "%level%"
+    value_resolver: STATIC_TEXT
+    optional: true
+    configuration:
+      name: "level"
+      description: "Rule level to run"
+      defaultValue: "7"
 report_converter:
   name: PhpStanViolationConverter
   configuration:

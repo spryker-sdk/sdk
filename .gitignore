@@ -8,7 +8,7 @@
 /var/
 /node_modules
 /vendor/
-/.idea
+/.idea/
 /.ssdk
 .ssdk.log
 db/data.db

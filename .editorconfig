@@ -11,9 +11,3 @@ trim_trailing_whitespace = true
 
 [*.bat]
 end_of_line = crlf
-
-[*.yaml]
-indent_size = 2
-
-[*.yml]
-indent_size = 2
