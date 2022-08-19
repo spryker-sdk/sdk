@@ -22,19 +22,19 @@ placeholders:
     optional: true
     configuration:
       name: "openapi-file"
-      description: "Namespace that should be used for the code builder. When set to Spryker code will be generated in the core modules"
+      description: "Path to OpenAPI file"
       type: string
   - name: "%organization%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "organization"
-      description: "Path to AsyncAPI file"
+      description: "The namespace that will be used for code generation e.g. Pyz"
       type: string
   - name: "%application-type%"
     value_resolver: OPTION
     optional: true
     configuration:
       name: "application-type"
-      description: "Application type"
+      description: "Application type e.g. JSON"
       type: string
