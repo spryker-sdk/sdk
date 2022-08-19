@@ -143,8 +143,6 @@ services:
 
   context_factory:
     class: SprykerSdk\Sdk\Core\Application\Service\ContextFactory
-    arguments:
-      - "@context_repository"
 
   report_generator_factory:
     class: SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory

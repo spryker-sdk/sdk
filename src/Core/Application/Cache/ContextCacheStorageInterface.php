@@ -12,11 +12,6 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 interface ContextCacheStorageInterface
 {
     /**
-     * @var string Key for the last stored context.
-     */
-    public const KEY_LAST = 'KEY_LAST';
-
-    /**
      * @param string $key
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface|null

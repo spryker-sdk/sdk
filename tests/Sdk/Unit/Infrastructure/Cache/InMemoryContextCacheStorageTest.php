@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Cache;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage;
 
@@ -86,24 +85,6 @@ class InMemoryContextCacheStorageTest extends Unit
 
         // Assert
         $this->assertNotNull($cacheStorage->get($contextShouldntBeRemoved->getName()));
-        $this->assertNull($cacheStorage->get($contextShouldBeRemoved->getName()));
-    }
-
-    /**
-     * @return void
-     */
-    public function testRemoveRemovesContextByKeyAndLastStoredContextInCaseProperKeyPassed(): void
-    {
-        // Arrange
-        $cacheStorage = new InMemoryContextCacheStorage();
-        $contextShouldBeRemoved = new Context();
-        $contextShouldBeRemoved->setName(ContextCacheStorageInterface::KEY_LAST);
-        $cacheStorage->set($contextShouldBeRemoved->getName(), $contextShouldBeRemoved);
-
-        // Act
-        $cacheStorage->remove($contextShouldBeRemoved->getName());
-
-        // Assert
         $this->assertNull($cacheStorage->get($contextShouldBeRemoved->getName()));
     }
 

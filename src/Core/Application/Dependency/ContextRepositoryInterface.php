@@ -26,14 +26,6 @@ interface ContextRepositoryInterface
     public function findByName(string $name): ContextInterface;
 
     /**
-     * Returns last saved context.
-     * Creates new context in case no context exists.
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
-     */
-    public function getLastSavedContextOrNew(): ContextInterface;
-
-    /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return void

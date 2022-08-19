@@ -7,35 +7,25 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ContextFactory
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface
+     * @var \SprykerSdk\SdkContracts\Entity\ContextInterface|null
      */
-    protected ContextRepositoryInterface $contextRepository;
+    protected ?ContextInterface $context = null;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
-     */
-    public function __construct(ContextRepositoryInterface $contextRepository)
-    {
-        $this->contextRepository = $contextRepository;
-    }
-
-    /**
-     * @param string|null $contextName
-     *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function getContext(?string $contextName = null): ContextInterface
+    public function getContext(): ContextInterface
     {
-        if ($contextName) {
-            return $this->contextRepository->findByName($contextName);
+        if (!$this->context) {
+            $this->context = new Context();
         }
 
-        return $this->contextRepository->getLastSavedContextOrNew();
+        return $this->context;
     }
 }

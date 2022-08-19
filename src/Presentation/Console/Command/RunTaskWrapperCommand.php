@@ -319,15 +319,29 @@ class RunTaskWrapperCommand extends Command
      */
     protected function createContext(InputInterface $input): ContextInterface
     {
-        $contextFilePath = null;
+        $contextFilePath = $this->findContextFilePathInInput($input);
+
+        if (!$contextFilePath) {
+            return $this->contextFactory->getContext();
+        }
+
+        return $this->contextRepository->findByName($contextFilePath);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string|null
+     */
+    protected function findContextFilePathInInput(InputInterface $input): ?string
+    {
         if (
             $input->hasOption(static::OPTION_READ_CONTEXT_FROM)
             && $input->getOption(static::OPTION_READ_CONTEXT_FROM)
         ) {
-            /** @var string $contextFilePath */
-            $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
+            return $input->getOption(static::OPTION_READ_CONTEXT_FROM);
         }
 
-        return $this->contextFactory->getContext($contextFilePath);
+        return null;
     }
 }

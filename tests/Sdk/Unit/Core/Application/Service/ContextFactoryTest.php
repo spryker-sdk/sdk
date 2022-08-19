@@ -8,12 +8,11 @@
 namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
+ * @group Unit
  * @group Sdk
  * @group Core
  * @group Application
@@ -25,41 +24,10 @@ class ContextFactoryTest extends Unit
     /**
      * @return void
      */
-    public function testGetContextFromRepository(): void
-    {
-        //Arrange
-        $context = $this->createMock(ContextInterface::class);
-        $contextRepository = $this->createMock(ContextRepositoryInterface::class);
-        $contextRepository
-            ->expects($this->once())
-            ->method('findByName')
-            ->willReturn($context);
-
-        $contextFactory = new ContextFactory($contextRepository);
-
-        //Act
-        $foundContext = $contextFactory->getContext('test');
-
-        //Assert
-        $this->assertEquals($context, $foundContext);
-    }
-
-    /**
-     * @return void
-     */
     public function testGetContext(): void
     {
         //Arrange
-        $contextRepository = $this->createMock(ContextRepositoryInterface::class);
-        $contextRepository
-            ->expects($this->never())
-            ->method('findByName');
-        $contextRepository
-            ->expects($this->once())
-            ->method('getLastSavedContextOrNew')
-            ->willReturn(new Context());
-
-        $contextFactory = new ContextFactory($contextRepository);
+        $contextFactory = new ContextFactory();
 
         //Act
         $foundContext = $contextFactory->getContext();
@@ -71,46 +39,17 @@ class ContextFactoryTest extends Unit
     /**
      * @return void
      */
-    public function testGetContextReturnsCorrectContextInstanceIfContextFilePathProvidedAndContextExists(): void
+    public function testGetContextReturnsCachedInstance(): void
     {
         //Arrange
-        $expectedPathSpecificContext = new Context();
-        $expectedPathSpecificContext->setName('path-specific-context');
-
-        $contextRepository = $this->createMock(ContextRepositoryInterface::class);
-        $contextRepository
-            ->expects($this->once())
-            ->method('findByName')
-            ->willReturn($expectedPathSpecificContext);
-
-        $contextFactory = new ContextFactory($contextRepository);
+        $contextFactory = new ContextFactory();
+        $expectedContext = $contextFactory->getContext();
+        $expectedContext->setName('name');
 
         //Act
-        $contextFactory->getContext();
-        $realPathSpecificContext = $contextFactory->getContext($expectedPathSpecificContext->getName());
+        $actualContext = $contextFactory->getContext();
 
         //Assert
-        $this->assertEquals($expectedPathSpecificContext, $realPathSpecificContext);
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetContextReturnsNewContextInstanceIfContextFilePathProvidedAndContextDoesNotExists(): void
-    {
-        //Arrange
-        $contextRepository = $this->createMock(ContextRepositoryInterface::class);
-        $contextRepository
-            ->expects($this->once())
-            ->method('findByName')
-            ->willReturn(new Context());
-
-        $contextFactory = new ContextFactory($contextRepository);
-
-        //Act
-        $actualContext = $contextFactory->getContext('not-existing-context-file-path');
-
-        //Assert
-        $this->assertEquals(new Context(), $actualContext);
+        $this->assertSame($expectedContext, $actualContext);
     }
 }

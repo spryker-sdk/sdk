@@ -44,10 +44,6 @@ class InMemoryContextCacheStorage implements ContextCacheStorageInterface
     public function set(string $key, ContextInterface $context): void
     {
         $this->contextStorage[$key] = $context;
-
-        if ($key !== ContextCacheStorageInterface::KEY_LAST) {
-            $this->contextStorage[ContextCacheStorageInterface::KEY_LAST] = $context;
-        }
     }
 
     /**
@@ -57,12 +53,6 @@ class InMemoryContextCacheStorage implements ContextCacheStorageInterface
      */
     public function remove(string $key): void
     {
-        if ($this->contextStorage[$key] === $this->contextStorage[ContextCacheStorageInterface::KEY_LAST]) {
-            unset($this->contextStorage[$key], $this->contextStorage[ContextCacheStorageInterface::KEY_LAST]);
-
-            return;
-        }
-
         unset($this->contextStorage[$key]);
     }
 }
