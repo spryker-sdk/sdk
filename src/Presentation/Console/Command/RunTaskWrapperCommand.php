@@ -339,7 +339,7 @@ class RunTaskWrapperCommand extends Command
             $input->hasOption(static::OPTION_READ_CONTEXT_FROM)
             && $input->getOption(static::OPTION_READ_CONTEXT_FROM)
         ) {
-            return $input->getOption(static::OPTION_READ_CONTEXT_FROM);
+            return (string)$input->getOption(static::OPTION_READ_CONTEXT_FROM);
         }
 
         return null;
