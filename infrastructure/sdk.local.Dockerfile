@@ -10,6 +10,11 @@ RUN if [[ ! -z "${USER_UID}" ]]; then \
         && find /data/var /data/vendor -user root -exec chown -h spryker {} \; ;\
     fi
 
+
+# Set up default stadard for code sniffer
+ARG PHPCS_STANDARD=./ruleset.xml
+RUN vendor/bin/phpcs --config-set default_standard ${PHPCS_STANDARD}
+
 USER spryker
 
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]

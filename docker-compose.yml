@@ -10,6 +10,7 @@ services:
       args:
         USER_UID: ${USER_UID}
         SDK_VERSION: ${SDK_VERSION:-latest}
+        PHPCS_STANDARD: ${PHPCS_STANDARD:-Spryker}
     working_dir: "/project"
     environment:
       HOST_PWD: ${HOST_PWD}

@@ -101,8 +101,8 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
-        "cs-check": "phpcs --colors -p -s --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_project/, src/ tests/ extension/",
-        "cs-fix": "phpcbf --colors -p --extensions=php --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml --ignore=/tests/_project/, src/ tests/ extension/",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
         "stan": "phpstan analyze -l 8 src/",
         "linters": [
             "@cs-fix",
@@ -110,7 +110,7 @@
             "@stan"
         ],
         "test": "codecept build && codecept run unit",
-        "test-qa": "vendor/bin/phpcs --config-set default_standard Spryker && codecept build && codecept run acceptance",
+        "test-qa": "codecept build && codecept run acceptance",
         "test-cover": "codecept build && codecept run unit --coverage-xml",
         "test-cover-html": "codecept build && codecept run unit --coverage-html",
         "auto-scripts": {
