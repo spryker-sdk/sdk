@@ -6196,16 +6196,16 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "0.4.2",
+            "version": "0.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "1372d01fe0af2373f749c12ce78a3fba7f38a2d8"
+                "reference": "8040c877e17cf14e91dd8e5532d7076490dd893b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/1372d01fe0af2373f749c12ce78a3fba7f38a2d8",
-                "reference": "1372d01fe0af2373f749c12ce78a3fba7f38a2d8",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/8040c877e17cf14e91dd8e5532d7076490dd893b",
+                "reference": "8040c877e17cf14e91dd8e5532d7076490dd893b",
                 "shasum": ""
             },
             "require": {
@@ -6230,9 +6230,9 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.2"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.4"
             },
-            "time": "2022-07-12T08:56:13+00:00"
+            "time": "2022-08-08T12:15:51+00:00"
         },
         {
             "name": "spryker-sdk/sync-api",
@@ -14294,5 +14294,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

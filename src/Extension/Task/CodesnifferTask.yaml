@@ -39,7 +39,7 @@ placeholders:
     optional: true
     configuration:
       name: 'severity'
-      description: 'Severity level'
+      description: 'Severity level of the CodeSniffer'
 report_converter:
   name: CheckstyleViolationReportConverter
   configuration:

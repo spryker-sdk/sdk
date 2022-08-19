@@ -16,7 +16,7 @@ placeholders:
     optional: true
     configuration:
       name: 'severity'
-      description: 'Severity level'
+      description: 'Severity level of the CodeSniffer'
   - name: "%config%"
     value_resolver: CONFIG_PATH
     optional: true
