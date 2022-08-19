@@ -9,9 +9,9 @@
 
     <rule ref="vendor/spryker/code-sniffer/Spryker/ruleset.xml"/>
 
-    <file>./src</file>
-    <file>./tests</file>
-    <file>./extension</file>
+    <file>src/</file>
+    <file>tests/</file>
+    <file>extension/</file>
 
     <exclude-pattern>/tests/_project/*</exclude-pattern>
     <exclude-pattern>/tests/_output/*</exclude-pattern>

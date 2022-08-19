@@ -47,10 +47,6 @@ COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
 
-# Set up default stadard for code sniffer
-ARG PHPCS_STANDARD=Spryker
-RUN vendor/bin/phpcs --config-set default_standard ${PHPCS_STANDARD}
-
 ENV APP_ENV=prod
 
 RUN bin/console cache:warmup
