@@ -38,7 +38,7 @@ framework:
       supports:
         - SprykerSdk\SdkContracts\Entity\WorkflowInterface
       initial_marking: start
-      places:
+      places: # states
         - start
         - app-skeleton
         - manifest
@@ -50,8 +50,10 @@ framework:
         - asyncapi
         - asyncapi-validated
         - asyncapi-generate
+        - install
         - app-validate
         - app-validated
+        - done
       transitions:
         CreateAppSkeleton:
             from: start
@@ -78,7 +80,8 @@ framework:
           to: acp-validated
           metadata:
             task: acp:app:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
+            error: Please fix the mentioned issues and re-run the workflow to continue.
+
         CreateOpenApi:
           from: acp-validated
           to: openapi
@@ -89,12 +92,13 @@ framework:
           to: openapi-validated
           metadata:
             task: acp:openapi:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
-        GenerateOpenApi:
+            error: Please fix the mentioned issues and re-run the workflow to continue.
+        GenerateOpenApiCode:
           from: openapi-validated
           to: app-validate
           metadata:
             task: acp:openapi:generate
+
         CreateAsyncapi:
           from: app-validate
           to: asyncapi
@@ -105,16 +109,23 @@ framework:
           to: asyncapi-validated
           metadata:
             task: acp:asyncapi:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
+            error: Please fix the mentioned issues and re-run the workflow to continue.
         GenerateAsyncapiCode:
           from: asyncapi-validated
           to: asyncapi-generate
           metadata:
             task: acp:asyncapi:generate
-        ValidateApp:
-          from: [app-validate, app-validated, asyncapi-generate]
+
+        RunInstall:
+          from: [app-validate, asyncapi-generate]
           to: app-validated
           metadata:
-            task: acp:app:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
+            task: install
+
+        ValidateProject:
+          from: [app-validated, asyncapi-generate]
+          to: done
+          metadata:
+            task: pbc:validate
+            error: Please fix the mentioned issues and re-run the workflow to continue.
 
