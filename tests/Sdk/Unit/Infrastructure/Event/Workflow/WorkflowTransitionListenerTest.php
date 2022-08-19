@@ -70,7 +70,7 @@ class WorkflowTransitionListenerTest extends Unit
         $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->once())
             ->method('execute')
-            ->with('sdk:test:task', $context)
+            ->with($context, 'sdk:test:task')
             ->willReturn($context);
 
         $projectWorkflowMock = $this->createProjectWorkflowMock();
@@ -137,7 +137,7 @@ class WorkflowTransitionListenerTest extends Unit
         $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->once())
             ->method('execute')
-            ->with('sdk:test:task', $context)
+            ->with($context, 'sdk:test:task')
             ->willReturn($context);
 
         $projectWorkflowMock = $this->createProjectWorkflowMock();
@@ -363,8 +363,8 @@ class WorkflowTransitionListenerTest extends Unit
         $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->once())
             ->method('execute')
-            ->with('sdk:test:task', $context)
-            ->willReturnCallback(function (string $task, Context $context) {
+            ->with($context, 'sdk:test:task')
+            ->willReturnCallback(function (Context $context, string $task) {
                 $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
 
                 return $context;
@@ -428,8 +428,8 @@ class WorkflowTransitionListenerTest extends Unit
         $taskExecutorMock = $this->createTaskExecutorMock();
         $taskExecutorMock->expects($this->once())
             ->method('execute')
-            ->with('sdk:test:task', $context)
-            ->willReturnCallback(function (string $task, Context $context) {
+            ->with($context, 'sdk:test:task')
+            ->willReturnCallback(function (Context $context, string $task) {
                 $context->setExitCode(ContextInterface::FAILURE_EXIT_CODE);
 
                 return $context;

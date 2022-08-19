@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -20,6 +21,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
+    /**
+     * @var string
+     */
+    protected const LOCAL_SUFFIX = 'local';
+
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
@@ -83,19 +89,31 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     public function saveMultiple(array $settings): array
     {
-        $projectValues = $this->getProjectValues();
-        $projectSettingPath = $this->projectSettingFileName;
+        $localProjectValues = $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX);
+        $sharedProjectValues = $this->fetchProjectValues($this->projectSettingFileName);
 
         foreach ($settings as $setting) {
-            $projectValues[$setting->getPath()] = $setting->getValues();
+            if ($setting->getSettingType() === Setting::SETTING_TYPE_SHARED) {
+                $sharedProjectValues[$setting->getPath()] = $setting->getValues();
+
+                continue;
+            }
+            $localProjectValues[$setting->getPath()] = $setting->getValues();
         }
 
-        $projectSettingDir = dirname($projectSettingPath);
+        $projectSettingDir = dirname($this->projectSettingFileName);
+
         if (!is_dir($projectSettingDir)) {
             mkdir($projectSettingDir, 0777, true);
         }
 
-        file_put_contents($projectSettingPath, $this->yamlParser->dump($projectValues));
+        if ($localProjectValues) {
+            file_put_contents($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX, $this->yamlParser::dump($localProjectValues));
+        }
+
+        if ($sharedProjectValues) {
+            file_put_contents($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
+        }
 
         return $settings;
     }
@@ -175,7 +193,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         $projectValues = $this->getProjectValues();
 
         foreach ($entities as $entity) {
-            if (!$entity->isProject()) {
+            if ($entity->getSettingType() === Setting::SETTING_TYPE_SDK) {
                 continue;
             }
 
@@ -192,13 +210,24 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     protected function getProjectValues(): array
     {
-        $projectSettingPath = $this->projectSettingFileName;
+        return array_merge(
+            $this->fetchProjectValues($this->projectSettingFileName),
+            $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX),
+        );
+    }
 
-        if (!is_readable($projectSettingPath)) {
+    /**
+     * @param string $settingPath
+     *
+     * @return array
+     */
+    protected function fetchProjectValues(string $settingPath): array
+    {
+        if (!$this->isReadableFile($settingPath)) {
             return [];
         }
 
-        return (array)$this->yamlParser->parseFile($projectSettingPath);
+        return (array)$this->yamlParser::parseFile($settingPath);
     }
 
     /**
@@ -267,15 +296,22 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     {
         $initializerId = $setting->getInitializer() ?? '';
 
-        if (!$this->container->has($initializerId)) {
-            return null;
-        }
-
         $initializer = $this->container->get($initializerId);
+
         if (!$initializer instanceof SettingInitializerInterface) {
             return null;
         }
 
         return $initializer;
+    }
+
+    /**
+     * @param string $localProjectSettingPath
+     *
+     * @return bool
+     */
+    protected function isReadableFile(string $localProjectSettingPath): bool
+    {
+        return is_file($localProjectSettingPath) && is_readable($localProjectSettingPath);
     }
 }

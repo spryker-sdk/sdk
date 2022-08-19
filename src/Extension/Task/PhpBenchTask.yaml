@@ -26,6 +26,7 @@ placeholders:
       name: "tests"
       description: "Relative path to tests directory in project"
       type: path
+      defaultValue: "tests"
   - name: "%bootstrap%"
     value_resolver: STATIC_TEXT
     optional: false
@@ -33,6 +34,7 @@ placeholders:
       name: "bootstrap"
       description: "Relative path to bootstrap file in project"
       type: path
+      defaultValue: "vendor/autoload.php"
   - name: "%group%"
     value_resolver: OPTION
     optional: true

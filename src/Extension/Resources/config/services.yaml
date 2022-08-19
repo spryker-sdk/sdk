@@ -98,8 +98,14 @@ services:
   SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
+  SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer:
+    tags: [ "sdk.setting_initializer" ]
+    public: true
   create_directory_initializer:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
+    public: true
+  violation_output_format_initializer:
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer
     public: true
   SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer:
     tags: ["sdk.setting_initializer"]
@@ -116,8 +122,16 @@ services:
       - "@project_setting_repository"
       - "@workflow_repository"
       - "@project_workflow"
+  SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer:
+    tags: [ "sdk.setting_initializer" ]
+    public: true
+    arguments:
+      - "@task_persistence_repository"
   project_workflow_initializer:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer
+    public: true
+  qa_task_initializer:
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer
     public: true
   option_value_resolver:
     class: SprykerSdk\Sdk\Extension\ValueResolver\OptionValueResolver

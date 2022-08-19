@@ -165,7 +165,11 @@ class InitProjectCommand extends Command
                 );
             }
 
-            if (!$needsToAsk && !$options[$settingEntity->getPath()]) {
+            if ($needsToAsk && !$options[$settingEntity->getPath()]) {
+                continue;
+            }
+
+            if (!$options[$settingEntity->getPath()]) {
                 $questionDescription = $settingEntity->getInitializationDescription();
 
                 if (!$questionDescription) {
@@ -173,9 +177,9 @@ class InitProjectCommand extends Command
                 }
 
                 $choiceValues = [];
-                $initializer = $this->getSettingInitializer($settingEntity);
-                if ($initializer instanceof SettingChoicesProviderInterface) {
-                    $choiceValues = $initializer->getChoices($settingEntity);
+                $initializerChoice = $this->getSettingChoiceInitializer($settingEntity);
+                if ($initializerChoice instanceof SettingChoicesProviderInterface) {
+                    $choiceValues = $initializerChoice->getChoices($settingEntity);
                 }
 
                 $values = $this->cliValueReceiver->receiveValue(
@@ -187,6 +191,7 @@ class InitProjectCommand extends Command
                     ),
                 );
             }
+
             $values = ['boolean' => (bool)$values, 'array' => (array)$values][$settingEntity->getType()] ?? (string)$values;
             if ($settingEntity->getType() !== 'array' && $values === $settingEntity->getValues()) {
                 continue;
@@ -243,14 +248,43 @@ class InitProjectCommand extends Command
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
+     *
+     * @return \SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface|null
+     */
+    protected function getSettingChoiceInitializer(SettingInterface $setting): ?SettingChoicesProviderInterface
+    {
+        $initializerId = $setting->getInitializer() ?? '';
+
+        if (!$this->container->has($initializerId)) {
+            return null;
+        }
+
+        $initializer = $this->container->get($initializerId);
+        if (!$initializer instanceof SettingChoicesProviderInterface) {
+            return null;
+        }
+
+        return $initializer;
+    }
+
+    /**
      * @return void
      */
     protected function createGitignore(): void
     {
         $settingsDir = dirname($this->projectSettingFileName);
+        $ignoreRules = [
+            '*',
+            '!.gitignore',
+            '!' . basename($this->projectSettingFileName),
+        ];
 
         if (realpath($settingsDir) !== realpath('.')) {
-            file_put_contents(sprintf('%s/.gitignore', $settingsDir), '*');
+            file_put_contents(
+                sprintf('%s/.gitignore', $settingsDir),
+                implode("\n", $ignoreRules),
+            );
         }
     }
 }

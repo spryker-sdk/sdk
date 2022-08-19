@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Core\Application\Service;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class SettingManager
@@ -51,7 +52,7 @@ class SettingManager
             if (isset($pathValues[$settingDefinition->getPath()])) {
                 $setting = $this->buildPathValue($settingDefinition, $pathValues[$settingDefinition->getPath()]);
 
-                if ($settingDefinition->isProject()) {
+                if ($settingDefinition->getSettingType() !== Setting::SETTING_TYPE_SDK) {
                     $modifiedProjectSettings[] = $setting;
                 } else {
                     $modifiedCoreSettings[] = $setting;
@@ -88,7 +89,7 @@ class SettingManager
 
         $this->buildPathValue($settingDefinition, $value);
 
-        if ($settingDefinition->isProject()) {
+        if ($settingDefinition->getSettingType() !== Setting::SETTING_TYPE_SDK) {
             return $this->projectSettingRepository->save($settingDefinition);
         }
 

@@ -95,6 +95,7 @@ services:
       - "@service.file_manager"
       - "@placeholder_resolver"
       - "@service.lifecycle_command_executor"
+      - "@context_factory"
 
   lifecycle.removed_subscriber:
     class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\UpdatedEventSubscriber
@@ -103,6 +104,7 @@ services:
       - "@service.file_manager"
       - "@placeholder_resolver"
       - "@service.lifecycle_command_executor"
+      - "@context_factory"
 
   lifecycle.updated_subscriber:
     class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber
@@ -111,6 +113,7 @@ services:
       - "@service.file_manager"
       - "@placeholder_resolver"
       - "@service.lifecycle_command_executor"
+      - "@context_factory"
 
   service.command_executor:
     class: SprykerSdk\Sdk\Core\Application\Service\CommandExecutor
@@ -138,8 +141,10 @@ services:
       - "@workflow_repository"
       - "@workflow_transition_repository"
 
-  context_storage:
-    class: SprykerSdk\Sdk\Core\Application\Service\ContextStorage
+  context_factory:
+    class: SprykerSdk\Sdk\Core\Application\Service\ContextFactory
+    arguments:
+      - "@context_repository"
 
   report_generator_factory:
     class: SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory

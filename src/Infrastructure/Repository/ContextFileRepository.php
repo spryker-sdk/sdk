@@ -7,9 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
@@ -31,13 +33,23 @@ class ContextFileRepository implements ContextRepositoryInterface
     protected SettingRepositoryInterface $settingRepository;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface
+     */
+    protected ContextCacheStorageInterface $cacheStorage;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer $contextSerializer
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface $cacheStorage
      */
-    public function __construct(ContextSerializer $contextSerializer, SettingRepositoryInterface $settingRepository)
-    {
+    public function __construct(
+        ContextSerializer $contextSerializer,
+        SettingRepositoryInterface $settingRepository,
+        ContextCacheStorageInterface $cacheStorage
+    ) {
         $this->contextSerializer = $contextSerializer;
         $this->settingRepository = $settingRepository;
+        $this->cacheStorage = $cacheStorage;
     }
 
     /**
@@ -63,6 +75,11 @@ class ContextFileRepository implements ContextRepositoryInterface
      */
     public function findByName(string $name): ContextInterface
     {
+        $context = $this->cacheStorage->get($name);
+        if ($context) {
+            return $context;
+        }
+
         $contextFilePath = $this->getContextFilePath($name);
 
         if (!is_readable($contextFilePath)) {
@@ -75,7 +92,11 @@ class ContextFileRepository implements ContextRepositoryInterface
             throw new MissingContextFileException(sprintf('Context file %s could not be read', $contextFilePath));
         }
 
-        return $this->contextSerializer->deserialize($contextFileContent);
+        $context = $this->contextSerializer->deserialize($contextFileContent);
+
+        $this->cacheStorage->set($context->getName(), $context);
+
+        return $context;
     }
 
     /**
@@ -85,11 +106,29 @@ class ContextFileRepository implements ContextRepositoryInterface
      */
     public function delete(ContextInterface $context): void
     {
+        $this->cacheStorage->remove($context->getName());
+
         $contextFilePath = $this->getContextFilePath($context->getName());
 
         if (is_file($contextFilePath)) {
             unlink($contextFilePath);
         }
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     */
+    public function getLastSavedContextOrNew(): ContextInterface
+    {
+        $context = $this->cacheStorage->get(ContextCacheStorageInterface::KEY_LAST);
+        if ($context) {
+            return $context;
+        }
+
+        $context = new Context();
+        $this->cacheStorage->set(ContextCacheStorageInterface::KEY_LAST, $context);
+
+        return $context;
     }
 
     /**
