@@ -24,6 +24,8 @@ class CodeSnifferTaskFixerCest
     protected const COMMAND = 'validation:php:codestyle-fix';
 
     /**
+     * @skip Test doesn't work due to path conflicts set in the phpcs.xml
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
