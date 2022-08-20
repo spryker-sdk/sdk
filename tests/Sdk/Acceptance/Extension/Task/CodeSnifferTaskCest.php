@@ -24,8 +24,6 @@ class CodeSnifferTaskCest
     protected const COMMAND = 'validation:php:codestyle-check';
 
     /**
-     * @skip Test doesn't work due to path conflicts set in the phpcs.xml
-     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
@@ -48,8 +46,6 @@ class CodeSnifferTaskCest
     }
 
     /**
-     * @skip Test doesn't work due to path conflicts set in the phpcs.xml
-     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
