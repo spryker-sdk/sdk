@@ -1,7 +1,7 @@
 ---
 id: "validation:php:deprecations-check"
-short_description: "Check your code by running a static code analysis and generate report with deprecations"
-help: ~
+short_description: "Check your code by running a static code analysis and generate report with deprecations. By default uses 'psalm.xml' config file."
+help: "In case of critical errors task exits with code '1'. You can change it by specifying 'errorLevel=1' in the 'psalm.xml'."
 stage: build
 version: 1.0.0
 command: "php %sdk_dir%/vendor/bin/psalm --config=%config% --no-progress --output-format=json --report=%reportDir%/psalm.deprecations_report.json 1> /dev/null"
