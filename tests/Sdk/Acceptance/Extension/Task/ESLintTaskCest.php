@@ -138,7 +138,7 @@ class ESLintTaskCest
         );
 
         // Assert
-        Assert::assertFalse($process->isSuccessful());
+        Assert::assertTrue($process->isSuccessful());
         Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/pathNotExists/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
     }
 
