@@ -1,10 +1,10 @@
 ---
 id: "validation:php:codestyle-fix"
 short_description: "Check your code by running a static code analysis"
-help: ~
+help: "You may need to set default phpcs standard before using it. By default uses phpcs.xml from the project root."
 stage: build
 version: 1.0.0
-command: "php %sdk_dir%/vendor/bin/phpcbf %severity% --standard=%config% ./%path%"
+command: "php %sdk_dir%/vendor/bin/phpcbf %severity% ./%path%"
 type: local_cli
 optional: true
 placeholders:
@@ -16,14 +16,7 @@ placeholders:
     optional: true
     configuration:
       name: 'severity'
-      description: 'Severity level'
-  - name: "%config%"
-    value_resolver: CONFIG_PATH
-    optional: true
-    configuration:
-      name: "config"
-      description: "Config file"
-      defaultValue: "vendor/spryker/code-sniffer/Spryker/ruleset.xml"
+      description: 'Severity level of the CodeSniffer'
   - name: "%path%"
     value_resolver: STATIC
     optional: false

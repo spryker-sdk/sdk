@@ -1,7 +1,7 @@
 ---
 id: "validation:php:codestyle"
 short_description: "Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end."
-help: "Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end."
+help: "Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end. By default uses phpcs.xml from the project root."
 stage: build
 version: 1.0.0
 command: ~

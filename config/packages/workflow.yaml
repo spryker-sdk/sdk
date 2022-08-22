@@ -38,7 +38,7 @@ framework:
       supports:
         - SprykerSdk\SdkContracts\Entity\WorkflowInterface
       initial_marking: start
-      places:
+      places: # states
         - start
         - app-skeleton
         - manifest
@@ -48,6 +48,7 @@ framework:
         - openapi-created
         - asyncapi-created
         - app-validated
+        - done
       transitions:
         CreateAppSkeleton:
             from: start
@@ -74,7 +75,7 @@ framework:
           to: acp-validated
           metadata:
             task: acp:app:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
+            error: Please fix the mentioned issues and re-run the workflow to continue.
         CreateOpenApi:
           from: acp-validated
           to: openapi-created
@@ -85,10 +86,15 @@ framework:
           to: asyncapi-created
           metadata:
             task: acp:asyncapi:full-flow
-        ValidateApp:
-          from: [openapi-created, app-validated, asyncapi-created]
-          to: app-validated
+        RunInstall:
+            from: [openapi-created, asyncapi-created]
+            to: app-validated
+            metadata:
+                task: install
+        ValidateProject:
+          from: [app-validated, asyncapi-created]
+          to: done
           metadata:
-            task: acp:app:validate
-            error: Now you need to fix manually and continue with the workflow afterwards.
+            task: pbc:validate
+            error: Please fix the mentioned issues and re-run the workflow to continue.
 
