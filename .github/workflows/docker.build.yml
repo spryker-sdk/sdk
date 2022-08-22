@@ -23,11 +23,9 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v1
 
-            - name: Clean submodules
-              run: cat /dev/null > .gitmodules
-
             - name: Build
               id: docker_build
+              run: cat /dev/null > .gitmodules
               uses: docker/build-push-action@v2
               with:
                   push: false
