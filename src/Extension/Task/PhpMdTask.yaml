@@ -31,7 +31,7 @@ placeholders:
     optional: false
     configuration:
       name: "priority"
-      description: "Minimal priority of rules to fail the validation"
+      description: "Minimal PHPMD priority of rules to fail the validation"
       minValue: 1
       maxValue: 10
       defaultValue: 2

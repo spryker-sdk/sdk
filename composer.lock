@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84fa27a11d96644c58371709b1cceb73",
+    "content-hash": "187b315ff5bf7bb0f3a612033d531861",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6158,16 +6158,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-723/master-qa-automation",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "602e2f991b71b69e78abc4e1d12f410a33ccdd85"
+                "reference": "ed462706b9c170c1474b1060d42f24375150adf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/602e2f991b71b69e78abc4e1d12f410a33ccdd85",
-                "reference": "602e2f991b71b69e78abc4e1d12f410a33ccdd85",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ed462706b9c170c1474b1060d42f24375150adf8",
+                "reference": "ed462706b9c170c1474b1060d42f24375150adf8",
                 "shasum": ""
             },
             "require": {
@@ -6190,22 +6190,22 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-723/master-qa-automation"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.2.0"
             },
-            "time": "2022-08-04T09:36:06+00:00"
+            "time": "2022-08-01T12:05:17+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "0.4.2",
+            "version": "0.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "1372d01fe0af2373f749c12ce78a3fba7f38a2d8"
+                "reference": "8040c877e17cf14e91dd8e5532d7076490dd893b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/1372d01fe0af2373f749c12ce78a3fba7f38a2d8",
-                "reference": "1372d01fe0af2373f749c12ce78a3fba7f38a2d8",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/8040c877e17cf14e91dd8e5532d7076490dd893b",
+                "reference": "8040c877e17cf14e91dd8e5532d7076490dd893b",
                 "shasum": ""
             },
             "require": {
@@ -6230,9 +6230,9 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.2"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.4"
             },
-            "time": "2022-07-12T08:56:13+00:00"
+            "time": "2022-08-08T12:15:51+00:00"
         },
         {
             "name": "spryker-sdk/sync-api",
@@ -14270,18 +14270,10 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-723/master-qa-automation",
-            "alias": "0.2.0",
-            "alias_normalized": "0.2.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -14302,5 +14294,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
