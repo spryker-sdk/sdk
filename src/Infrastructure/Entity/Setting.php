@@ -12,6 +12,11 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 class Setting extends DomainSetting
 {
     /**
+     * @var string
+     */
+    public const DEFAULT_SETTING_TYPE = 'local';
+
+    /**
      * @var int|null
      */
     protected ?int $id;
@@ -33,7 +38,7 @@ class Setting extends DomainSetting
         $values,
         string $strategy,
         string $type = 'string',
-        string $settingType = 'local',
+        string $settingType = self::DEFAULT_SETTING_TYPE,
         bool $hasInitialization = false,
         ?string $initializationDescription = null,
         ?string $initializer = null

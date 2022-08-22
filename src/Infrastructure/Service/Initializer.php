@@ -12,7 +12,6 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
@@ -63,21 +62,23 @@ class Initializer implements InitializerInterface
      */
     public function initialize(array $settings): void
     {
-        $this->initializeSettingValues($settings, $this->settingRepository->initSettingDefinition());
+        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingDefinition */
+        $settingDefinition = $this->settingRepository->initSettingDefinition();
+
+        $this->initializeSettingValues($settings, $settingDefinition);
         $this->taskManager->initialize($this->taskYamlRepository->findAll());
     }
 
     /**
      * @param array<string, mixed> $settings
-     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settingEntities
+     * @param array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingEntities
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settings, array $settingEntities): array
     {
-        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
         $coreEntities = array_filter($settingEntities, function (EntitySettingInterface $setting): bool {
-            return $setting->getSettingType() === Setting::SETTING_TYPE_SDK;
+            return $setting->isSdk();
         });
 
         foreach ($coreEntities as $settingEntity) {

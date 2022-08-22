@@ -155,4 +155,36 @@ class Setting implements SettingInterface
     {
         return $this->initializer;
     }
+
+    /**
+     * @return bool
+     */
+    public function isSdk(): bool
+    {
+        return $this->getSettingType() === SettingEnum::SETTING_TYPE_SDK;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProject(): bool
+    {
+        return $this->getSettingType() !== SettingEnum::SETTING_TYPE_SDK;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShared(): bool
+    {
+        return $this->getSettingType() === SettingEnum::SETTING_TYPE_SHARED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocal(): bool
+    {
+        return $this->getSettingType() === SettingEnum::SETTING_TYPE_LOCAL;
+    }
 }

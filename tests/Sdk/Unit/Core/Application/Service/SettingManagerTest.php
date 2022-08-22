@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
@@ -126,7 +127,7 @@ class SettingManagerTest extends Unit
             ->willReturnCallback(function (array $settingKeys) use ($pathValues): array {
                 $settings = [];
                 foreach (array_intersect_key($pathValues, array_flip($settingKeys)) as $path => $value) {
-                    $settings[] = $this->tester->createSetting($path, $value, SettingInterface::STRATEGY_REPLACE, 'sdk');
+                    $settings[] = $this->tester->createSetting($path, $value, SettingInterface::STRATEGY_REPLACE, Setting::SETTING_TYPE_SDK);
                 }
 
                 return $settings;
@@ -194,7 +195,7 @@ class SettingManagerTest extends Unit
             ->expects($this->once())
             ->method('findOneByPath')
             ->willReturnCallback(function (string $settingPath) use ($value): SettingInterface {
-                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_REPLACE, 'sdk');
+                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_REPLACE, Setting::SETTING_TYPE_SDK);
             });
 
         $this->settingRepositoryMock->expects($this->once())
@@ -227,7 +228,7 @@ class SettingManagerTest extends Unit
             ->method('findOneByPath')
             ->with($path)
             ->willReturnCallback(function (string $settingPath) use ($value): SettingInterface {
-                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_MERGE, 'sdk');
+                return $this->tester->createSetting($settingPath, $value, SettingInterface::STRATEGY_MERGE, Setting::SETTING_TYPE_SDK);
             });
 
         $this->settingRepositoryMock->expects($this->once())

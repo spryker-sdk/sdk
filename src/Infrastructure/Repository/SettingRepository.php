@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
@@ -103,13 +102,11 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function findProjectSettings(): array
     {
-        $settings = $this->matching(
-            (new Criteria())
-                ->where(
-                    Criteria::expr()
-                        ->neq('settingType', 'sdk'),
-                ),
-        )->toArray();
+        $settings = $this->createQueryBuilder('s')
+            ->where('s.settingType <> :settingType')
+            ->setParameter('settingType', 'sdk')
+            ->getQuery()
+            ->execute();
 
         return array_map([$this, 'resolvePathSetting'], $settings);
     }
