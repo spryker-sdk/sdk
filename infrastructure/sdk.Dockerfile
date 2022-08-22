@@ -46,6 +46,7 @@ COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
 
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
+
 ENV APP_ENV=prod
 
 RUN bin/console cache:warmup
