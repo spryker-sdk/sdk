@@ -24,7 +24,7 @@ jobs:
               uses: docker/setup-buildx-action@v1
 
             - name: Clean submodules
-              run: cat /dev/null > .gitmodules && rm extension/SprykerSdk/SdkTasksBundle
+              run: cat /dev/null > .gitmodules && rm -r extension/SprykerSdk/SdkTasksBundle
 
             - name: Build
               id: docker_build
