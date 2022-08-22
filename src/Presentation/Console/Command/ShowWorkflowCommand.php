@@ -17,12 +17,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
-use Throwable;
 
 class ShowWorkflowCommand extends Command
 {
+    /**
+     * @var string
+     */
+    protected const WORKFLOW_VAR_DIR = 'var/workflow';
+
     /**
      * @var string
      */
@@ -80,7 +83,7 @@ class ShowWorkflowCommand extends Command
     /**
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this->addArgument(static::ARG_WORKFLOW_NAME, InputArgument::OPTIONAL, 'Workflow name');
@@ -94,19 +97,13 @@ class ShowWorkflowCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
         $workflowName = $this->getWorkflowName($input);
 
-        try {
-            $dotWorkflow = $this->dumpWorkflow($workflowName);
-            $filePath = $this->renderWorkflow($workflowName, $dotWorkflow);
-            $io->text(sprintf('file://%s', $filePath));
-        } catch (Throwable $e) {
-            $io->error($e->getMessage());
+        $dotWorkflow = $this->dumpWorkflow($workflowName);
 
-            return static::FAILURE;
-        }
+        $filePath = $this->renderWorkflow($workflowName, $dotWorkflow);
+
+        $this->writeWorkflowFileConsoleMessage($output, $filePath);
 
         return static::SUCCESS;
     }
@@ -176,18 +173,56 @@ class ShowWorkflowCommand extends Command
      */
     protected function renderWorkflow(string $workflowName, string $dotWorkflow): string
     {
-        $settingsDir = preg_replace('/^(([\/\\])|([.](?!\w)))+/u', '', dirname($this->projectSettingsFile));
-        $relativePath = sprintf('%s/%s.svg', $settingsDir, $workflowName);
+        $process = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-o' . $this->getWorkflowGraphTargetFileName($workflowName)], null, null, $dotWorkflow);
+        $process->run();
 
-        $dot = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-o' . $relativePath], null, null, $dotWorkflow);
-        $result = $dot->run();
-
-        if ($result !== static::SUCCESS) {
-            throw new RuntimeException('Error occurred in `dot` command');
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(sprintf('Error occurred in `dot` command: %s', $process->getErrorOutput()));
         }
 
-        $path = getenv('HOST_PWD') ?: $this->sdkDirectory;
+        return $this->getWorkflowGraphHostFileName($workflowName);
+    }
 
-        return sprintf('%s/%s', $path, $relativePath);
+    /**
+     * @param string $workflowName
+     *
+     * @return string
+     */
+    protected function getWorkflowGraphTargetFileName(string $workflowName): string
+    {
+        $dir = sprintf('%s/%s', $this->sdkDirectory, static::WORKFLOW_VAR_DIR);
+
+        if (!is_dir($dir)) {
+            mkdir($dir, 0766, true);
+        }
+
+        return sprintf('%s/%s.svg', $dir, $workflowName);
+    }
+
+    /**
+     * @param string $workflowName
+     *
+     * @return string
+     */
+    protected function getWorkflowGraphHostFileName(string $workflowName): string
+    {
+        $dir = rtrim(getenv('SDK_DIR') ?: $this->sdkDirectory, DIRECTORY_SEPARATOR);
+
+        return sprintf('%s/%s/%s.svg', $dir, static::WORKFLOW_VAR_DIR, $workflowName);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string $filePath
+     *
+     * @return void
+     */
+    protected function writeWorkflowFileConsoleMessage(OutputInterface $output, string $filePath): void
+    {
+        $output->writeln('');
+        $output->writeln('To open the workflow graph click the link below (with pressed Ctrl):');
+        $output->writeln('');
+        $output->writeln(sprintf('  <info>file://%s</info>', $filePath));
+        $output->writeln('');
     }
 }
