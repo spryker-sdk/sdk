@@ -62,9 +62,16 @@ No conventions yet
 - `protected static $defaultName` __SHOULD NOT__ be used because of performance reasons and future deprecation in Symfony 6.1 version.
   Instead `protcted const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
 
+## Contracts
+
+#### This section describes how to develop and document sdk contracts.
+
+- Contract is an interface that allows user to customize existing business logic.
+- Contract __MUST__ exist only in case we need to provide extension for existing logic.
+- Contract is a public API and __MUST__ follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
+- Class that implements Contract __MUST__ follow [Spryker plugin specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/342786076/INTEGRATED+RFC+Specification+for+plugins).
 
 ## TODO
 
 - .env usage.
-- Description for the spryker sdk contracts interfaces.
 - Enums.
