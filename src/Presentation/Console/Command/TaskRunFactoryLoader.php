@@ -8,13 +8,14 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use Psr\Container\ContainerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException;
-use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
@@ -33,9 +34,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected TaskExecutor $taskExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\Console\Command\OptionExtractor
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
      */
-    protected OptionExtractor $optionExtractor;
+    protected TaskOptionBuilder $taskOptionBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
@@ -58,9 +59,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ContextRepositoryInterface $contextRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    protected ContextFactory $contextFactory;
+    protected ContextFactoryInterface $contextFactory;
 
     /**
      * @param \Psr\Container\ContainerInterface $container
@@ -68,10 +69,10 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
-     * @param \SprykerSdk\Sdk\Presentation\Console\Command\OptionExtractor $optionExtractor
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder $taskOptionBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param string $environment
      */
     public function __construct(
@@ -80,16 +81,16 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         TaskRepositoryInterface $taskRepository,
         ContextRepositoryInterface $contextRepository,
         TaskExecutor $taskExecutor,
-        OptionExtractor $optionExtractor,
+        TaskOptionBuilder $taskOptionBuilder,
         ProjectSettingRepositoryInterface $projectSettingRepository,
         ProjectWorkflow $projectWorkflow,
-        ContextFactory $contextFactory,
+        ContextFactoryInterface $contextFactory,
         string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
         $this->taskRepository = $taskRepository;
         $this->taskExecutor = $taskExecutor;
-        $this->optionExtractor = $optionExtractor;
+        $this->taskOptionBuilder = $taskOptionBuilder;
         $this->projectSettingRepository = $projectSettingRepository;
         $this->contextRepository = $contextRepository;
         $this->projectWorkflow = $projectWorkflow;
@@ -138,7 +139,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             $this->contextRepository,
             $this->projectSettingRepository,
             $this->contextFactory,
-            $this->optionExtractor->extractOptions($task),
+            $this->taskOptionBuilder->extractOptions($task),
             $task->getShortDescription(),
             $task->getId(),
         );

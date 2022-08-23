@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Lifecycle\Subscriber;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\UpdatedEventSubscriber;
-use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
@@ -50,9 +50,9 @@ class UpdatedEventSubscriberTest extends Unit
     protected CommandExecutorInterface $commandExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    protected ContextFactory $contextFactory;
+    protected ContextFactoryInterface $contextFactory;
 
     /**
      * @return void
@@ -64,7 +64,7 @@ class UpdatedEventSubscriberTest extends Unit
         $this->fileManager = $this->createMock(FileManagerInterface::class);
         $this->placeholderResolver = $this->createMock(PlaceholderResolver::class);
         $this->commandExecutor = $this->createMock(CommandExecutorInterface::class);
-        $this->contextFactory = $this->createMock(ContextFactory::class);
+        $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
 
         $this->subscriber = new UpdatedEventSubscriber(
             $this->fileManager,

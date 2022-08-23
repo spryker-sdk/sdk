@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
 use SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory;
 use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter;
@@ -37,9 +37,9 @@ class ContextSerializerTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    protected ContextFactory $contextFactory;
+    protected ContextFactoryInterface $contextFactory;
 
     /**
      * @return void
@@ -47,7 +47,7 @@ class ContextSerializerTest extends Unit
     protected function setUp(): void
     {
         parent::setUp();
-        $this->contextFactory = $this->createMock(ContextFactory::class);
+        $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
         $this->contextFactory
             ->method('getContext')
             ->willReturn(new Context());

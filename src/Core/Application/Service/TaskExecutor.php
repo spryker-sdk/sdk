@@ -20,11 +20,6 @@ use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 class TaskExecutor
 {
     /**
-     * @var string
-     */
-    public const DYNAMIC_TASK = 'dynamic';
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
      */
     protected PlaceholderResolver $placeholderResolver;

@@ -104,7 +104,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     {
         $settings = $this->createQueryBuilder('s')
             ->where('s.settingType <> :settingType')
-            ->setParameter('settingType', 'sdk')
+            ->setParameter('settingType', Setting::SETTING_TYPE_SDK)
             ->getQuery()
             ->execute();
 

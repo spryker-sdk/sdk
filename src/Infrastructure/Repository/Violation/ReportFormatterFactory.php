@@ -7,15 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation;
 
-use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 
 class ReportFormatterFactory
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    protected ContextFactory $contextFactory;
+    protected ContextFactoryInterface $contextFactory;
 
     /**
      * @var iterable<\SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface>
@@ -23,10 +23,10 @@ class ReportFormatterFactory
     protected iterable $violationReportFormatters;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param iterable<\SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface> $violationReportFormatters
      */
-    public function __construct(ContextFactory $contextFactory, iterable $violationReportFormatters)
+    public function __construct(ContextFactoryInterface $contextFactory, iterable $violationReportFormatters)
     {
         $this->contextFactory = $contextFactory;
         $this->violationReportFormatters = $violationReportFormatters;

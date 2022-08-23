@@ -20,6 +20,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -43,7 +44,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
     /**
      * @var string
      */
-    protected const COMMAND_NAME = 'qa:run';
+    protected const COMMAND_NAME = 'sdk:qa:run';
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\TaskInterface
@@ -61,7 +62,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory
-     * @param \SprykerSdk\Sdk\Presentation\Console\Command\OptionExtractor $optionExtractor
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder $taskOptionBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      */
     public function __construct(
@@ -70,7 +71,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
         ContextRepositoryInterface $contextRepository,
         ProjectSettingRepositoryInterface $projectSettingRepository,
         ContextFactory $contextFactory,
-        OptionExtractor $optionExtractor,
+        TaskOptionBuilder $taskOptionBuilder,
         TaskRepositoryInterface $taskRepository
     ) {
         $this->taskRepository = $taskRepository;
@@ -79,7 +80,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
             $this->task = $this->fillTask(
                 $this->taskRepository->findByIds($taskIds),
             );
-            $taskOptions = $optionExtractor->extractOptions($this->task);
+            $taskOptions = $taskOptionBuilder->extractOptions($this->task);
         } catch (TableNotFoundException $e) {
             $this->setHidden(true);
             $taskOptions = [];
@@ -127,9 +128,50 @@ class QaAutomationCommand extends RunTaskWrapperCommand
      */
     protected function fillTask(array $tasks): TaskInterface
     {
-        $commands = [];
+        return new Task(
+            static::COMMAND_NAME,
+            $this->getDescription(),
+            $this->getCommands($tasks),
+            (new Lifecycle(
+                new InitializedEventData(),
+                new UpdatedEventData(),
+                new RemovedEventData(),
+            )),
+            '',
+            $this->getPlaceholders($tasks),
+            '',
+            null,
+            false,
+            ContextInterface::DEFAULT_STAGE,
+            false,
+            [],
+        );
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     */
+    protected function getPlaceholders(array $tasks): array
+    {
         $placeholders = [];
 
+        foreach ($tasks as $task) {
+            $placeholders[] = $task->getPlaceholders();
+        }
+
+        return array_merge(...$placeholders);
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected function getCommands(array $tasks): array
+    {
+        $commands = [];
         foreach ($tasks as $task) {
             foreach ($task->getCommands() as $command) {
                 $commands[] = new Command(
@@ -144,28 +186,8 @@ class QaAutomationCommand extends RunTaskWrapperCommand
                     $command instanceof ErrorCommandInterface ? $command->getErrorMessage() : '',
                 );
             }
-            $placeholders[] = $task->getPlaceholders();
         }
 
-        $placeholders = array_merge(...$placeholders);
-
-        return new Task(
-            static::COMMAND_NAME,
-            $this->getDescription(),
-            $commands,
-            (new Lifecycle(
-                new InitializedEventData(),
-                new UpdatedEventData(),
-                new RemovedEventData(),
-            )),
-            '0.0.1',
-            $placeholders,
-            '',
-            null,
-            false,
-            ContextInterface::DEFAULT_STAGE,
-            false,
-            [],
-        );
+        return $commands;
     }
 }

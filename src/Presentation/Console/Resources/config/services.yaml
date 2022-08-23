@@ -41,12 +41,8 @@ services:
       - "@context_repository"
       - "@project_setting_repository"
       - "@context_factory"
-      - "@option_extractor"
+      - "@task_option_builder"
       - "@task_persistence_repository"
-  option_extractor:
-    class: SprykerSdk\Sdk\Presentation\Console\Command\OptionExtractor
-    arguments:
-      - '@placeholder_resolver'
   list_workflow_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\ListWorkflowCommand
     tags: ["console.command"]

@@ -235,6 +235,10 @@ services:
       - "@setting_repository"
       - "%kernel.project_dir%"
 
+  task_option_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
+    arguments:
+     - '@placeholder_resolver'
   app.event_listener.request_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
     arguments:

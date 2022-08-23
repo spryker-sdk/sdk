@@ -7,10 +7,11 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class ContextFactory
+class ContextFactory implements ContextFactoryInterface
 {
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface|null

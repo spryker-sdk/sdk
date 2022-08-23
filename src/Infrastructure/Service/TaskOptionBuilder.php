@@ -5,13 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\Console\Command;
+namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Presentation\Console\Command\RunTaskWrapperCommand;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class OptionExtractor
+class TaskOptionBuilder
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
@@ -36,7 +37,7 @@ class OptionExtractor
         $options = [];
         $options = $this->addPlaceholderOptions($task, $options);
         $options = $this->addTagOptions($task, $options);
-        $options = $this->addStageOptions($task, $options);
+        $options = $this->addStageOptions($options);
         $options = $this->addContextOptions($options);
 
         return $options;
@@ -71,12 +72,11 @@ class OptionExtractor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      * @param array<\Symfony\Component\Console\Input\InputOption> $options
      *
      * @return array<\Symfony\Component\Console\Input\InputOption>
      */
-    protected function addStageOptions(TaskInterface $task, array $options): array
+    protected function addStageOptions(array $options): array
     {
         $options[] = new InputOption(
             RunTaskWrapperCommand::OPTION_STAGES,

@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
@@ -40,9 +40,9 @@ class WorkflowRunnerTest extends Unit
     protected OutputInterface $output;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    protected ContextFactory $contextFactory;
+    protected ContextFactoryInterface $contextFactory;
 
     /**
      * @return void
@@ -53,7 +53,7 @@ class WorkflowRunnerTest extends Unit
         $this->container = $this->createMock(ContainerInterface::class);
         $this->projectWorkflow = $this->createMock(ProjectWorkflow::class);
         $this->output = $this->createMock(OutputInterface::class);
-        $this->contextFactory = $this->createMock(ContextFactory::class);
+        $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
 
         parent::setUp();
     }

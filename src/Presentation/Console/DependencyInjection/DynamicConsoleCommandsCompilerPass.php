@@ -28,7 +28,7 @@ class DynamicConsoleCommandsCompilerPass implements CompilerPassInterface
                 ->addArgument(new Reference('task_persistence_repository'))
                 ->addArgument(new Reference('context_repository'))
                 ->addArgument(new Reference('task_executor'))
-                ->addArgument(new Reference('option_extractor'))
+                ->addArgument(new Reference('task_option_builder'))
                 ->addArgument(new Reference('project_setting_repository'))
                 ->addArgument(new Reference('project_workflow'))
                 ->addArgument(new Reference('context_factory'))

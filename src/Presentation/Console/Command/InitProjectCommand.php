@@ -170,26 +170,7 @@ class InitProjectCommand extends Command
             }
 
             if (!$options[$settingEntity->getPath()]) {
-                $questionDescription = $settingEntity->getInitializationDescription();
-
-                if (!$questionDescription) {
-                    $questionDescription = 'Initial value for ' . $settingEntity->getPath();
-                }
-
-                $choiceValues = [];
-                $initializerChoice = $this->getSettingChoiceInitializer($settingEntity);
-                if ($initializerChoice instanceof SettingChoicesProviderInterface) {
-                    $choiceValues = $initializerChoice->getChoices($settingEntity);
-                }
-
-                $values = $this->cliValueReceiver->receiveValue(
-                    new ReceiverValue(
-                        $questionDescription,
-                        is_array($values) ? array_key_first($values) : $values,
-                        $settingEntity->getType(),
-                        $choiceValues,
-                    ),
-                );
+                $values = $this->askSettingValue($settingEntity, $values);
             }
 
             $values = ['boolean' => (bool)$values, 'array' => (array)$values][$settingEntity->getType()] ?? (string)$values;
@@ -208,6 +189,36 @@ class InitProjectCommand extends Command
         }
 
         return $settingEntitiesToSave;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     * @param mixed $values
+     *
+     * @return mixed
+     */
+    protected function askSettingValue(SettingInterface $settingEntity, $values)
+    {
+        $questionDescription = $settingEntity->getInitializationDescription();
+
+        if (!$questionDescription) {
+            $questionDescription = 'Initial value for ' . $settingEntity->getPath();
+        }
+
+        $choiceValues = [];
+        $initializerChoice = $this->getSettingChoiceInitializer($settingEntity);
+        if ($initializerChoice instanceof SettingChoicesProviderInterface) {
+            $choiceValues = $initializerChoice->getChoices($settingEntity);
+        }
+
+        return $this->cliValueReceiver->receiveValue(
+            new ReceiverValue(
+                $questionDescription,
+                is_array($values) ? array_key_first($values) : $values,
+                $settingEntity->getType(),
+                $choiceValues,
+            ),
+        );
     }
 
     /**
