@@ -206,7 +206,7 @@ class WorkflowTransitionListener
     protected function resolverNextTransition(TransitionEvent $event, ContextInterface $context): ?string
     {
         $transitionResolverService = $this->getTransitionMeta($event, static::META_KEY_TRANSITION_RESOLVER);
-        if (!$transitionResolverService || !isset($transitionResolverService['name'])) {
+        if (!isset($transitionResolverService['name'])) {
             return null;
         }
 
