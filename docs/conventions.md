@@ -74,6 +74,35 @@ No conventions yet
 - Short description __MUST__ follow Spryker public API specification.
 - Each method in the Contract's implementation class __MUST NOT__ contain `@api` tag.
 
+Example
+
+```php
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerSdk\Sdk\Core\Application\ValueResolver
+
+use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
+
+class AcmeValueResolver implemets ValueResolverInterface
+{
+    /**
+     * {@inheritdoc}
+     * - Short description.
+     *
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     *
+     * @return string
+     */
+    public function resolve(ContextInterface $context, array $settingValues): string { /* ... */ }
+}
+```
+
 ## TODO
 
 - .env usage.
