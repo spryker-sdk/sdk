@@ -64,12 +64,15 @@ No conventions yet
 
 ## Contracts
 
-#### This section describes how to develop and document sdk contracts.
+#### This section describes how to develop and document sdk contracts and their implementation.
 
-- Contract is an interface that allows user to customize existing business logic.
-- Contract __MUST__ exist only in case we need to provide extension for existing logic.
+- Contract is an interface that allows users to customize existing business logic.
+- Contract __MUST__ exist only in case existing logic provides for an extension by the user.
 - Contract is a public API and __MUST__ follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
-- Class that implements Contract __MUST__ follow [Spryker plugin specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/342786076/INTEGRATED+RFC+Specification+for+plugins).
+- Each method in the Contract's implementation class __MUST__ have the `{@inheritDoc}` tag on the first line of the docblock.
+- Each method in the Contract's implementation class __MAY__ have an additional short description.
+- Short description __MUST__ follow Spryker public API specification.
+- Each method in the Contract's implementation class __MUST NOT__ contain `@api` tag.
 
 ## TODO
 
