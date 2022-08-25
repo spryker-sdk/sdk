@@ -186,8 +186,8 @@ class ShowWorkflowCommand extends Command
      */
     protected function getWorkflowGraphTargetFileName(string $workflowName): string
     {
-        if (!is_dir($dir)) {
-            mkdir($dir, 0766, true);
+        if (!is_dir($this->varWorkflowDirectory)) {
+            mkdir($this->varWorkflowDirectory, 0766, true);
         }
 
         return sprintf('%s/%s.svg', $this->varWorkflowDirectory, $workflowName);
