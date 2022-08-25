@@ -24,7 +24,7 @@ class ShowWorkflowCommand extends Command
     /**
      * @var string
      */
-    protected const WORKFLOW_VAR_DIR = 'var/workflow';
+    protected const VAR_DIR_WORKFLOW = 'var/workflow';
 
     /**
      * @var string
@@ -62,22 +62,31 @@ class ShowWorkflowCommand extends Command
     protected string $sdkDirectory;
 
     /**
+     * @var string
+     */
+    protected string $hostSdkDirectory;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param string $projectSettingsFile
      * @param string $sdkDirectory
+     * @param string $hostSdkDirectory
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         CliValueReceiver $cliValueReceiver,
         string $projectSettingsFile,
-        string $sdkDirectory
+        string $sdkDirectory,
+        string $hostSdkDirectory
     ) {
+        parent::__construct(static::NAME);
+
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->projectSettingsFile = $projectSettingsFile;
         $this->sdkDirectory = $sdkDirectory;
-        parent::__construct(static::NAME);
+        $this->hostSdkDirectory = $hostSdkDirectory;
     }
 
     /**
@@ -190,7 +199,7 @@ class ShowWorkflowCommand extends Command
      */
     protected function getWorkflowGraphTargetFileName(string $workflowName): string
     {
-        $dir = sprintf('%s/%s', $this->sdkDirectory, static::WORKFLOW_VAR_DIR);
+        $dir = sprintf('%s/%s', $this->sdkDirectory, static::VAR_DIR_WORKFLOW);
 
         if (!is_dir($dir)) {
             mkdir($dir, 0766, true);
@@ -206,9 +215,7 @@ class ShowWorkflowCommand extends Command
      */
     protected function getWorkflowGraphHostFileName(string $workflowName): string
     {
-        $dir = rtrim(getenv('SDK_DIR') ?: $this->sdkDirectory, DIRECTORY_SEPARATOR);
-
-        return sprintf('%s/%s/%s.svg', $dir, static::WORKFLOW_VAR_DIR, $workflowName);
+        return sprintf('%s/%s/%s.svg', $this->hostSdkDirectory, static::VAR_DIR_WORKFLOW, $workflowName);
     }
 
     /**
