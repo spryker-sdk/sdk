@@ -42,9 +42,8 @@ services:
     arguments:
       - "@project_workflow"
       - "@cli_value_receiver"
-      - "%project_settings_file%"
-      - "%kernel.project_dir%"
-      - "%host_sdk_dir%"
+      - "%kernel.project_dir%/var/workflow"
+      - "%host_sdk_dir%/var/workflow"
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand
