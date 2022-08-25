@@ -235,6 +235,13 @@ services:
       - "@setting_repository"
       - "%kernel.project_dir%"
 
+  dynamic_task_set_creator:
+    class: SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator
+    arguments:
+      - "@project_setting_repository"
+      - "@task_option_builder"
+      - "@task_persistence_repository"
+
   task_option_builder:
     class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
     arguments:

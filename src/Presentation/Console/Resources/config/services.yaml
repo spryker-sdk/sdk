@@ -41,8 +41,7 @@ services:
       - "@context_repository"
       - "@project_setting_repository"
       - "@context_factory"
-      - "@task_option_builder"
-      - "@task_persistence_repository"
+      - "@dynamic_task_set_creator"
   list_workflow_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\ListWorkflowCommand
     tags: ["console.command"]
