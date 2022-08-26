@@ -35,9 +35,9 @@ class CommandMapper implements CommandMapperInterface
     public function mapCommand(CommandInterface $command): Command
     {
         return new Command(
-            $command instanceof ExecutableCommandInterface || $command->getType() === 'php' ?
-                get_class($command) :
-                $command->getCommand(),
+            !($command instanceof ExecutableCommandInterface) || class_exists($command->getCommand()) ?
+                $command->getCommand() :
+                get_class($command),
             $command->getType(),
             $command->hasStopOnError(),
             $command->getTags(),

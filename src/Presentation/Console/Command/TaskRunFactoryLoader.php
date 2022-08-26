@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Container\ContainerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
@@ -109,7 +110,11 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             return true;
         }
 
-        $task = $this->taskRepository->findById($name);
+        try {
+            $task = $this->taskRepository->findById($name);
+        } catch (TableNotFoundException $e) {
+            return false;
+        }
 
         return ($task !== null);
     }
