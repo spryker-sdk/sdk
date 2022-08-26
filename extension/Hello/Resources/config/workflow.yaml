@@ -49,10 +49,24 @@ framework:
             task: hello:php
             allowToFail: true
             transitionResolver: # Resolver needs for resolve next transition
-              service: transition_boolean_resolver
+              name: boolean_resolver
               settings:
                 failed: bye # transition name for filed result
                 successful: world # transition name for successful result
+        hello-interactive:
+          from: start
+          to: middle
+          metadata:
+            task: ~ # not neccessary to have a task for the interactive transition.
+            transitionResolver: # Resolver needs for resolve next transition
+              name: interactive
+              settings:
+                question: 'What would you like to execute next?'
+                choices:
+                  world: # Transition name should be enabled as a next transition in the current workflow.
+                    description: Executes hello:php task # (optional). Will be printer in the console to provide more information to the user.
+                  bye:
+                    description: Executes bye:world task # (optional). Will be printer in the console to provide more information to the user.
         world:
           from: middle
           to: end
