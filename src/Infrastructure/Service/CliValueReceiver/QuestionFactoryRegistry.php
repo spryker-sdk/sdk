@@ -15,7 +15,7 @@ class QuestionFactoryRegistry
     /**
      * @var array<string, \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface>
      */
-    protected iterable $questionFactories;
+    protected array $questionFactories;
 
     /**
      * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface> $questionFactories
