@@ -6162,12 +6162,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "64e97874f9d659e2137c3288ea69e44a245651f6"
+                "reference": "2a73269a378754220237e9df7e5f2f28b8244659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/64e97874f9d659e2137c3288ea69e44a245651f6",
-                "reference": "64e97874f9d659e2137c3288ea69e44a245651f6",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/2a73269a378754220237e9df7e5f2f28b8244659",
+                "reference": "2a73269a378754220237e9df7e5f2f28b8244659",
                 "shasum": ""
             },
             "require": {
@@ -6192,7 +6192,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-723/master-qa-automation"
             },
-            "time": "2022-08-23T13:32:28+00:00"
+            "time": "2022-08-23T13:36:30+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

@@ -19,6 +19,7 @@ use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
+use SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
@@ -50,7 +51,7 @@ class WorkflowTransitionListenerTest extends Unit
         $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
         $metadataStoreMock->method('getTransitionMetadata')
             ->with($transition)
-            ->willReturn(['task' => 'sdk:test:task', 'transitionResolver' => ['service' => 'mock', 'settings' => []]]);
+            ->willReturn(['task' => 'sdk:test:task', 'transitionResolver' => ['name' => 'mock', 'settings' => []]]);
 
         $workflowMock = $this->createMock(SymfonyWorkflow::class);
         $workflowMock->method('getMetadataStore')
@@ -89,18 +90,18 @@ class WorkflowTransitionListenerTest extends Unit
             ->method('resolveTransition')
             ->willReturn('nextTransition');
 
-        $containerMock = $this->createContainerMock();
-        $containerMock->expects($this->once())
-            ->method('get')
+        $workflowTransitionResolverRegistryMock = $this->createWorkflowTransitionResolverRegistryMock();
+        $workflowTransitionResolverRegistryMock->expects($this->once())
+            ->method('getTransitionResolverByName')
             ->willReturn($transitionResolverMock);
 
         $eventListener = new WorkflowTransitionListener(
-            $containerMock,
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
             $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $workflowTransitionRepositoryMock,
+            $workflowTransitionResolverRegistryMock,
         );
 
         // Act
@@ -152,12 +153,12 @@ class WorkflowTransitionListenerTest extends Unit
             ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
             $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $workflowTransitionRepositoryMock,
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Act
@@ -207,12 +208,12 @@ class WorkflowTransitionListenerTest extends Unit
             ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
             $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $workflowTransitionRepositoryMock,
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Act
@@ -260,12 +261,12 @@ class WorkflowTransitionListenerTest extends Unit
             ));
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
             $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $this->createWorkflowTransitionRepositoryMock(),
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Act
@@ -317,12 +318,12 @@ class WorkflowTransitionListenerTest extends Unit
             ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
             $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $workflowTransitionRepositoryMock,
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Act
@@ -382,12 +383,12 @@ class WorkflowTransitionListenerTest extends Unit
             ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
             $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $workflowTransitionRepositoryMock,
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Act
@@ -447,12 +448,12 @@ class WorkflowTransitionListenerTest extends Unit
             ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $taskExecutorMock,
             $this->createWorkflowRunnerMock(),
             $projectWorkflowMock,
             $this->createWorkflowRepositoryMock(),
             $workflowTransitionRepositoryMock,
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Assert
@@ -513,12 +514,12 @@ class WorkflowTransitionListenerTest extends Unit
             ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $this->createTaskExecutorMock(),
             $workflowRunnerMock,
             $projectWorkflowMock,
             $workflowRepositoryMock,
             $workflowTransitionRepositoryMock,
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Act
@@ -579,12 +580,12 @@ class WorkflowTransitionListenerTest extends Unit
             ->willReturnCallback(fn (WorkflowTransition $transition): WorkflowTransition => $transition);
 
         $eventListener = new WorkflowTransitionListener(
-            $this->createContainerMock(),
             $this->createTaskExecutorMock(),
             $workflowRunnerMock,
             $projectWorkflowMock,
             $workflowRepositoryMock,
             $workflowTransitionRepositoryMock,
+            $this->createWorkflowTransitionResolverRegistryMock(),
         );
 
         // Act
@@ -657,5 +658,13 @@ class WorkflowTransitionListenerTest extends Unit
     protected function createSymfonyWorkflowMock(): SymfonyWorkflow
     {
         return $this->createMock(SymfonyWorkflow::class);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+     */
+    protected function createWorkflowTransitionResolverRegistryMock(): WorkflowTransitionResolverRegistry
+    {
+        return $this->createMock(WorkflowTransitionResolverRegistry::class);
     }
 }

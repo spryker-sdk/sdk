@@ -270,12 +270,12 @@ services:
   app.workflow.transition_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
     arguments:
-      - "@service_container"
       - "@task_executor"
       - "@workflow_runner"
       - "@project_workflow"
       - "@workflow_repository"
       - "@workflow_transition_repository"
+      - "@workflow.transition_resolver_registry"
     tags:
       - { name: kernel.event_listener, event: workflow.transition, method: execute }
 
@@ -305,3 +305,7 @@ services:
 
   context.in_memory_cache_storage:
     class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
+  workflow.transition_resolver_registry:
+    class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+    arguments:
+      - !tagged_iterator workflow.transition_resolver
