@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -44,7 +44,7 @@ class ShowWorkflowCommand extends Command
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
      */
     protected CliValueReceiver $cliValueReceiver;
 
@@ -60,7 +60,7 @@ class ShowWorkflowCommand extends Command
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
      * @param string $projectSettingsFile
      * @param string $sdkDirectory
      */

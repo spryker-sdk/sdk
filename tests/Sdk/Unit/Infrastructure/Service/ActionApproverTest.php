@@ -9,12 +9,12 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Service\ActionApprover;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 
 class ActionApproverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
      */
     protected CliValueReceiver $cliValueReceiver;
 

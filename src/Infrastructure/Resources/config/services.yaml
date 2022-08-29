@@ -79,10 +79,33 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
     tags: ["command.runner"]
   cli_value_receiver:
-    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
     tags: ["sdk.cli_receiver_setup"]
     arguments:
       - "@question_helper"
+      - "@cli_value_receiver.question_registry"
+
+  cli_value_receiver.question_factory.generic:
+    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\GenericQuestionFactory
+    tags: [ "sdk.cli_value_receiver_factory" ]
+
+  cli_value_receiver.question_factory.array:
+      class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  cli_value_receiver.question_factory.boolean:
+      class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\BooleanQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  cli_value_receiver.question_factory.path:
+      class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\PathQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  cli_value_receiver.question_registry:
+      class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry
+      arguments:
+          - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
+
   cli_receiver_setup_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
     tags:

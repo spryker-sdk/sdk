@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -29,7 +29,7 @@ class InitProjectCommand extends Command
     protected const NAME = 'sdk:init:project';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
      */
     protected CliValueReceiver $cliValueReceiver;
 
@@ -54,7 +54,7 @@ class InitProjectCommand extends Command
     protected string $projectSettingFileName;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Service\SettingManager $projectSettingManager
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Psr\Container\ContainerInterface $container

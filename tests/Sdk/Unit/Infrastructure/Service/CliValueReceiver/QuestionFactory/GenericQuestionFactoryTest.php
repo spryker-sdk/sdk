@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver\QuestionFactory;
+
+use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\GenericQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\Question;
+
+class GenericQuestionFactoryTest extends Unit
+{
+    /**
+     * @return void
+     */
+    public function testCreatesChoiceQuestionWhenHaveChoices(): void
+    {
+        // Arrange
+        $questionFactory = new GenericQuestionFactory();
+
+        // Act
+        $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');
+
+        // Assert
+        $this->assertInstanceOf(ChoiceQuestion::class, $question);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreatesQuestionWhenHaveNoChoices(): void
+    {
+        // Arrange
+        $questionFactory = new GenericQuestionFactory();
+
+        // Act
+        $question = $questionFactory->createQuestion('Some description', [], 'one');
+
+        // Assert
+        $this->assertSame(Question::class, get_class($question));
+        $this->assertIsCallable($question->getNormalizer());
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasValidatorWhenDefaultValueNotSet(): void
+    {
+        // Arrange
+        $questionFactory = new GenericQuestionFactory();
+
+        // Act
+        $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three']);
+
+        // Assert
+        $this->assertIsCallable($question->getValidator());
+    }
+
+    /**
+     * @return void
+     */
+    public function testHasTypeGeneric(): void
+    {
+        // Act
+        $type = GenericQuestionFactory::getType();
+
+        // Assert
+        $this->assertSame($type, QuestionTypeEnum::TYPE_GENERIC);
+    }
+}

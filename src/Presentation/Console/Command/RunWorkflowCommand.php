@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -48,7 +48,7 @@ class RunWorkflowCommand extends Command
     protected $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
      */
     protected $cliValueReceiver;
 
@@ -59,7 +59,7 @@ class RunWorkflowCommand extends Command
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
      */
     public function __construct(

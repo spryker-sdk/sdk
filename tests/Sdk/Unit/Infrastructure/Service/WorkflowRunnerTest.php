@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class WorkflowRunnerTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
      */
     protected CliValueReceiver $cliValueReceiver;
 

@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,7 +31,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected OutputInterface $output;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
      */
     protected CliValueReceiver $cliValueReceiver;
 
@@ -40,7 +41,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected ContainerInterface $container;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(CliValueReceiver $cliValueReceiver, ContainerInterface $container)

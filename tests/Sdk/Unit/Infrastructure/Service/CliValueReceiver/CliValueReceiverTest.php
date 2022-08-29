@@ -5,11 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service;
+namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\BooleanQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\GenericQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,7 +33,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ChoiceQuestion::class, 'test1');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', null, 'array', ['test1' => '']);
 
         //Act
@@ -42,7 +49,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ChoiceQuestion::class, 'test1');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', 'test1', 'array', ['test1', 'test2']);
 
         //Act
@@ -57,7 +65,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ConfirmationQuestion::class, true);
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', true, 'boolean', []);
 
         //Act
@@ -72,7 +81,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ChoiceQuestion::class, 'default');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', 'default', 'some-type', [1, 2, 3]);
 
         //Act
@@ -87,7 +97,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createArrayTypeWithChoicesAssertion('default');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', 'default', 'array', [1, 2, 3]);
 
         //Act
@@ -96,12 +107,13 @@ class CliValueReceiverTest extends Unit
 
     /**
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry $questionFactoriesRegistry
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
      */
-    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper): CliValueReceiver
+    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper, QuestionFactoryRegistry $questionFactoriesRegistry): CliValueReceiver
     {
-        $cliValueReceiver = new CliValueReceiver($questionHelper);
+        $cliValueReceiver = new CliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $cliValueReceiver->setInput($this->createInputMock());
         $cliValueReceiver->setOutput($this->createOutputMock());
 
@@ -126,6 +138,31 @@ class CliValueReceiverTest extends Unit
             );
 
         return $questionHelperMock;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry
+     */
+    protected function createQuestionFactoriesRegistryMock(): QuestionFactoryRegistry
+    {
+        $questionFactoryRegistryMock = $this->createMock(QuestionFactoryRegistry::class);
+
+        $mockMap = [
+            QuestionTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,
+            QuestionTypeEnum::TYPE_BOOLEAN => BooleanQuestionFactory::class,
+        ];
+
+        $questionFactoryRegistryMock->method('getQuestionFactoryByType')->willReturnCallback(
+            static function (string $type) use ($mockMap): QuestionFactoryInterface {
+                if (!isset($mockMap[$type])) {
+                    return new GenericQuestionFactory();
+                }
+
+                return new $mockMap[$type]();
+            },
+        );
+
+        return $questionFactoryRegistryMock;
     }
 
     /**
