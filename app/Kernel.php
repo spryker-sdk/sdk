@@ -71,6 +71,7 @@ class Kernel extends BaseKernel
         $extensionDirectories = [
             sprintf('%s/extension/*/', $projectDir),
             sprintf('%s/extension/*/*/', $projectDir),
+            sprintf('%s/extension/*/src/*/', $projectDir),
             sprintf('%s/extension/*/*/src/*/', $projectDir),
         ];
 

@@ -6,9 +6,11 @@ settings:
     type: path
     is_project: false
     values:
-      - src/
-      - extension/
-      - extension/SprykerSdk
+      - src/*/
+      - extension/*/src/
+      - extension/SprykerSdk/*/src/
+      - extension/*/
+      - extension/SprykerSdk/*/
   - path: task_dirs
     initialization_description: Where can tasks be loaded from?
     strategy: merge

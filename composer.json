@@ -92,7 +92,7 @@
     "autoload-dev": {
         "psr-4": {
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
-            "Hello\\": "extension/Hello/"
+            "Hello\\": "extension/Hello/src/"
         }
     },
     "replace": {
