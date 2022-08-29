@@ -103,7 +103,7 @@
     "scripts": {
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "stan": "phpstan analyze -l 8 src/",
+        "stan": "phpstan analyze src/",
         "linters": [
             "@cs-fix",
             "@cs-check",
