@@ -143,7 +143,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     /**
      * @param array<string> $taskIds
      *
-     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function findByIds(array $taskIds): array
     {
@@ -154,9 +154,17 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
             ->getQuery()
             ->execute();
 
-        return array_filter($tasks, function ($task) {
-            return $task instanceof TaskInterface;
-        });
+        $orderedTasks = [];
+
+        foreach ($taskIds as $taskId) {
+            if (!isset($tasks[$taskId])) {
+                continue;
+            }
+
+            $orderedTasks[] = $tasks[$taskId];
+        }
+
+        return $orderedTasks;
     }
 
     /**

@@ -28,7 +28,7 @@ interface TaskRepositoryInterface
     /**
      * @param array<string> $taskIds
      *
-     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function findByIds(array $taskIds): array;
 
