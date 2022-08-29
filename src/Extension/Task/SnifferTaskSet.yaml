@@ -1,7 +1,7 @@
 ---
 id: "validation:php:all"
 short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
-help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
+help: "Validates your php code using different approaches like codestyle, architecural and static analysis. By default uses phpcs.xml from the project root."
 stage: build
 version: 1.0.0
 command: ~
