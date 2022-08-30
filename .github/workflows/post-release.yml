@@ -7,8 +7,7 @@ on:
 jobs:
     docker:
         name: docker build and bush
-        runs-on: ubuntu-latest
-
+        runs-on: ubuntu-22.04
         steps:
             # https://github.com/actions/checkout
             -   name: Checkout codebase
@@ -33,3 +32,35 @@ jobs:
                     tags: spryker/php-sdk:${{ github.event.release.tag_name }}
                     labels: Release ${{ github.event.release.tag_name }}
 
+    installer:
+        name: Create and publish installer
+        runs-on: ubuntu-22.04
+        steps:
+            # https://github.com/actions/checkout
+            -   name: Checkout codebase
+                uses: actions/checkout@v2
+
+            # Get details of the latest release.
+            -   name: Get latest release
+                id: latest_release
+                uses: kaliber5/action-get-release@v1
+                with:
+                    token: ${{ github.token }}
+                    latest: true
+
+            # Build `installer.sh` script. The result script will be placed into `./build` directory.
+            -   name: Run installer creation
+                shell: bash
+                run: |
+                    ./infrastructure/installer_builder.sh ${{ github.event.release.tag_name }}
+
+            # Uploads `installer.sh` script. Requires `upload_url` from the `latest_release` step.
+            -   name: Upload installer.sh
+                uses: actions/upload-release-asset@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    upload_url: ${{ steps.latest_release.outputs.upload_url }}
+                    asset_path: ./build/installer.sh
+                    asset_name: installer.sh
+                    asset_content_type: text/x-shellscript
