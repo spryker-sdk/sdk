@@ -27,5 +27,5 @@ final class QuestionTypeEnum
     /**
      * @var string
      */
-    public const TYPE_GENERIC = 'generic';
+    public const TYPE_STRING = 'string';
 }

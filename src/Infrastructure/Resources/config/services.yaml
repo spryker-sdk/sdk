@@ -85,8 +85,8 @@ services:
       - "@question_helper"
       - "@cli_value_receiver.question_registry"
 
-  cli_value_receiver.question_factory.generic:
-    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\GenericQuestionFactory
+  cli_value_receiver.question_factory.string:
+    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\StringQuestionFactory
     tags: [ "sdk.cli_value_receiver_factory" ]
 
   cli_value_receiver.question_factory.array:

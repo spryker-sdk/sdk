@@ -8,7 +8,7 @@
 namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\GenericQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\StringQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -21,7 +21,7 @@ class GenericQuestionFactoryTest extends Unit
     public function testCreatesChoiceQuestionWhenHaveChoices(): void
     {
         // Arrange
-        $questionFactory = new GenericQuestionFactory();
+        $questionFactory = new StringQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');
@@ -36,7 +36,7 @@ class GenericQuestionFactoryTest extends Unit
     public function testCreatesQuestionWhenHaveNoChoices(): void
     {
         // Arrange
-        $questionFactory = new GenericQuestionFactory();
+        $questionFactory = new StringQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', [], 'one');
@@ -52,7 +52,7 @@ class GenericQuestionFactoryTest extends Unit
     public function testHasValidatorWhenDefaultValueNotSet(): void
     {
         // Arrange
-        $questionFactory = new GenericQuestionFactory();
+        $questionFactory = new StringQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three']);
@@ -67,9 +67,9 @@ class GenericQuestionFactoryTest extends Unit
     public function testHasTypeGeneric(): void
     {
         // Act
-        $type = GenericQuestionFactory::getType();
+        $type = StringQuestionFactory::getType();
 
         // Assert
-        $this->assertSame($type, QuestionTypeEnum::TYPE_GENERIC);
+        $this->assertSame($type, QuestionTypeEnum::TYPE_STRING);
     }
 }

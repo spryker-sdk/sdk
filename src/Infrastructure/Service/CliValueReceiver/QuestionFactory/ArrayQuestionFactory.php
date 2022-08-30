@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class ArrayQuestionFactory extends GenericQuestionFactory
+class ArrayQuestionFactory extends StringQuestionFactory
 {
     /**
      * @var string

@@ -12,8 +12,8 @@ use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\BooleanQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\GenericQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\StringQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
@@ -155,7 +155,7 @@ class CliValueReceiverTest extends Unit
         $questionFactoryRegistryMock->method('getQuestionFactoryByType')->willReturnCallback(
             static function (string $type) use ($mockMap): QuestionFactoryInterface {
                 if (!isset($mockMap[$type])) {
-                    return new GenericQuestionFactory();
+                    return new StringQuestionFactory();
                 }
 
                 return new $mockMap[$type]();

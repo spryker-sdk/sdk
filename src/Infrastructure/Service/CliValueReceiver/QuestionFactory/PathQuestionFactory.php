@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Question\Question;
 
-class PathQuestionFactory extends GenericQuestionFactory
+class PathQuestionFactory extends StringQuestionFactory
 {
     /**
      * @param string $description

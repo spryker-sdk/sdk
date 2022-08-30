@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class GenericQuestionFactory implements QuestionFactoryInterface
+class StringQuestionFactory implements QuestionFactoryInterface
 {
     /**
      * @param string $description
@@ -80,6 +80,6 @@ class GenericQuestionFactory implements QuestionFactoryInterface
      */
     public static function getType(): string
     {
-        return QuestionTypeEnum::TYPE_GENERIC;
+        return QuestionTypeEnum::TYPE_STRING;
     }
 }
