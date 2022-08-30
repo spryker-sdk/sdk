@@ -65,7 +65,7 @@ placeholders:
       name: "report"
       description: "Report config"
       type: string
-      defaultValue: '"\"generator\":\"expression\",\"cols\":[\"benchmark\",\"subject\",\"best\",\"mean\",\"worst\",\"stdev\",\"revs\",\"its\"]"'
+      defaultValue: '{"generator":"expression","cols":["benchmark","subject","best","mean","worst","stdev","revs","its"]}'
   - name: "%time-unit%"
     value_resolver: OPTION
     optional: true

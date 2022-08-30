@@ -151,14 +151,16 @@ class DynamicTaskSetCreator
                     $equalPlaceholderCounter[$placeholder->getName()]++;
                     $configuration = $placeholder->getConfiguration();
                     if (isset($configuration['name'])) {
-                        $configuration['name'] = sprintf('%s-%s', $configuration['name'], $equalPlaceholderCounter[$placeholder->getName()]);
+                        $configuration['name'] = sprintf('%s%s', $configuration['name'], $equalPlaceholderCounter[$placeholder->getName()]);
                     }
                     if (isset($configuration['description'])) {
                         $configuration['description'] = sprintf('%s (%s)', $configuration['description'], $task->getId());
                     }
 
                     $name = $placeholder->getName();
-                    $newName = sprintf('%s-%s', $name, $equalPlaceholderCounter[$placeholder->getName()]);
+
+                    $newName = mb_substr($name, 0, -1) . $equalPlaceholderCounter[$placeholder->getName()] . mb_substr($name, -1);
+
                     $placeholdersForChanging[$name] = $newName;
 
                     $placeholder = new Placeholder(
