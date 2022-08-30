@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Infrastructure\Entity\Placeholder;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -101,17 +102,19 @@ class DynamicTaskSetCreator
      */
     protected function fillTask(string $taskSettingKey, array $tasks): TaskInterface
     {
+        [$commands, $placeholders] = $this->getExtractAndReplaceEqualPlaceholders($tasks);
+
         return new Task(
             $taskSettingKey,
             $taskSettingKey,
-            $this->getCommands($tasks),
+            $commands,
             (new Lifecycle(
                 new InitializedEventData(),
                 new UpdatedEventData(),
                 new RemovedEventData(),
             )),
             '',
-            $this->getPlaceholders($tasks),
+            $placeholders,
             '',
             null,
             false,
@@ -124,42 +127,59 @@ class DynamicTaskSetCreator
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     * @return array
      */
-    protected function getPlaceholders(array $tasks): array
+    protected function getExtractAndReplaceEqualPlaceholders(array $tasks): array
     {
         $placeholders = [];
-
-        foreach ($tasks as $task) {
-            $placeholders[] = $task->getPlaceholders();
-        }
-
-        $placeholders = array_merge(...$placeholders);
-
-        $uniquePlaceholders = [];
-
-        /** @var \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder */
-        foreach ($placeholders as $placeholder) {
-            $uniquePlaceholders[$placeholder->getName()] = $placeholder;
-        }
-
-        return $uniquePlaceholders;
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     *
-     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
-     */
-    protected function getCommands(array $tasks): array
-    {
         $commands = [];
+
+        $equalPlaceholderCounter = [];
         foreach ($tasks as $task) {
+            $placeholdersForChanging = [];
+            foreach ($task->getPlaceholders() as $placeholder) {
+                if (
+                    isset($placeholders[$placeholder->getName()]) &&
+                    (
+                        !empty($placeholder->getConfiguration()['defaultValue']) ||
+                        empty($placeholder->getConfiguration()['settingPaths'])
+                    )
+                ) {
+                    if (!isset($equalPlaceholderCounter[$placeholder->getName()])) {
+                        $equalPlaceholderCounter[$placeholder->getName()] = 0;
+                    }
+                    $equalPlaceholderCounter[$placeholder->getName()]++;
+                    $configuration = $placeholder->getConfiguration();
+                    if (isset($configuration['name'])) {
+                        $configuration['name'] = sprintf('%s-%s', $configuration['name'], $equalPlaceholderCounter[$placeholder->getName()]);
+                    }
+                    if (isset($configuration['description'])) {
+                        $configuration['description'] = sprintf('%s (%s)', $configuration['description'], $task->getId());
+                    }
+
+                    $name = $placeholder->getName();
+                    $newName = sprintf('%s-%s', $name, $equalPlaceholderCounter[$placeholder->getName()]);
+                    $placeholdersForChanging[$name] = $newName;
+
+                    $placeholder = new Placeholder(
+                        $newName,
+                        $placeholder->getValueResolver(),
+                        $configuration,
+                        $placeholder->isOptional(),
+                    );
+                }
+
+                $placeholders[$placeholder->getName()] = $placeholder;
+            }
+
             foreach ($task->getCommands() as $command) {
+                if ($command instanceof ExecutableCommandInterface) {
+                    $commands[] = $command;
+
+                    continue;
+                }
                 $commands[] = new Command(
-                    $command instanceof ExecutableCommandInterface || $command->getType() === 'php' ?
-                        get_class($command) :
-                        $command->getCommand(),
+                    $this->replacePlaceholdersInCommand($command->getCommand(), $placeholdersForChanging),
                     $command->getType(),
                     false,
                     $command->getTags(),
@@ -170,6 +190,25 @@ class DynamicTaskSetCreator
             }
         }
 
-        return $commands;
+        return [$commands, $placeholders];
+    }
+
+    /**
+     * @param string $command
+     * @param array $placeholdersForChanging
+     *
+     * @return string
+     */
+    protected function replacePlaceholdersInCommand(string $command, array $placeholdersForChanging): string
+    {
+        $placeholders = array_map(function ($placeholder): string {
+            return '/' . preg_quote((string)$placeholder, '/') . '/';
+        }, array_keys($placeholdersForChanging));
+
+        $newPlaceholders = array_map(function ($value): string {
+            return is_array($value) ? implode(',', $value) : (string)$value;
+        }, array_values($placeholdersForChanging));
+
+        return (string)preg_replace($placeholders, $newPlaceholders, $command);
     }
 }
