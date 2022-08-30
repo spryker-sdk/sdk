@@ -55,15 +55,7 @@ cp "${CURRENT_DIR}/infrastructure/installer.sh" "${BUILD_DIR}/installer.sh"
 cat "${BUILD_DIR}/spryker-sdk.tar.gz" >> "${BUILD_DIR}/installer.sh"
 chmod a+x "${BUILD_DIR}/installer.sh"
 
-DOCKER_BUILDKIT=1 docker build -f "${CURRENT_DIR}/infrastructure/sdk.Dockerfile" -t spryker/php-sdk:${VERSION} -t spryker/php-sdk:latest "${CURRENT_DIR}"
-
 # Clean up
 
 rm -rf build/{bin,config,db,extension,infrastructure,var,.env.prod,.gitmodules,docker-compose*,VERSION,spryker-sdk.tar.gz}
 
-echo -e "${GREEN}Nearly done, the next steps are:"
-echo -e "${BLUE}docker login"
-echo -e "docker push php-sdk:${VERSION}"
-echo -e "git tag ${VERSION} && git push origin ${VERSION}"
-echo -e "${YELLOW}create a github release (https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release)"
-echo -e "upload the ${BUILD_DIR}/installer.sh to the github release${NC}"
