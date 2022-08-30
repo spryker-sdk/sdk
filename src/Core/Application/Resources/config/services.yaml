@@ -155,3 +155,8 @@ services:
     arguments:
       - !tagged_iterator report.array_converter
 
+
+  sdk_task_pool:
+      class: SprykerSdk\Sdk\Core\Application\Service\TaskPool
+      arguments:
+          - !tagged_iterator sdk.task

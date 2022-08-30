@@ -11,7 +11,16 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilder;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -52,13 +61,29 @@ class TaskYamlRepositoryTest extends Unit
     {
         parent::setUp();
 
+        $taskPool = new TaskPool([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
+        $placeholderBuilder = new PlaceholderBuilder($taskPool);
+        $taskBuilder = new TaskBuilder(
+            $placeholderBuilder,
+            new CommandBuilder($taskPool),
+            new LifecycleBuilder(
+                new LifecycleEventDataBuilder(
+                    new FileBuilder(),
+                    new LifecycleCommandBuilder(),
+                    $placeholderBuilder
+                )
+            )
+        );
+
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->fileFinder = $this->createMock(Finder::class);
         $this->taskYamlRepository = new TaskYamlRepository(
             $this->settingRepository,
             new Finder(),
             new Yaml(),
-            [new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))],
+            $taskBuilder,
+            new TaskSetBuilder($taskBuilder),
+            $taskPool,
         );
     }
 

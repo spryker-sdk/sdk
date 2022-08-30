@@ -46,6 +46,47 @@ services:
       - "@path_resolver"
   yaml_parser:
     class: Symfony\Component\Yaml\Yaml
+
+  command_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder
+    arguments:
+      - '@sdk_task_pool'
+
+  file_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder
+
+  lifecycle_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder
+    arguments:
+        - '@lifecycle_event_data_builder'
+
+  lifecycle_command_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder
+
+  lifecycle_event_data_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder
+    arguments:
+      - '@file_builder'
+      - '@lifecycle_command_builder'
+      - '@placeholder_builder'
+
+  placeholder_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder
+    arguments:
+      - '@sdk_task_pool'
+
+  task_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder
+    arguments:
+      - '@placeholder_builder'
+      - '@command_builder'
+      - '@lifecycle_builder'
+
+  task_set_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilder
+    arguments:
+      - '@task_builder'
+
   task_yaml_repository:
     public: true
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
@@ -53,7 +94,10 @@ services:
       - "@setting_repository"
       - "@file_finder"
       - "@yaml_parser"
-      - !tagged_iterator sdk.task
+      - '@task_builder'
+      - '@task_set_builder'
+      - '@sdk_task_pool'
+
   context_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
     arguments:
