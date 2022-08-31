@@ -40,6 +40,7 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
+        $existingTasks = $this->taskPool->getTasks();
         if (isset($data['type']) && $data['type'] === TaskType::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
                 $taskTags = $task['tags'] ?? [];
@@ -48,7 +49,7 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
                 }
                 $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
                     $taskListData[$task['id']]['placeholders'] :
-                    $this->taskPool->getTasks()[$task['id']]->getPlaceholders();
+                    $existingTasks[$task['id']]->getPlaceholders();
             }
         }
         $taskPlaceholders = array_merge(...$taskPlaceholders);
@@ -60,15 +61,24 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
                 continue;
             }
 
-            $placeholderName = $placeholderData['name'];
-            $placeholders[$placeholderName] = new Placeholder(
-                $placeholderName,
-                $placeholderData['value_resolver'],
-                $placeholderData['configuration'] ?? [],
-                $placeholderData['optional'] ?? false,
-            );
+            $placeholders[$placeholderData['name']] = $this->buildPlaceholder($placeholderData);
         }
 
         return $placeholders;
+    }
+
+    /**
+     * @param array $placeholderData
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\PlaceholderInterface
+     */
+    protected function buildPlaceholder(array $placeholderData): PlaceholderInterface
+    {
+        return new Placeholder(
+            $placeholderData['name'],
+            $placeholderData['value_resolver'],
+            $placeholderData['configuration'] ?? [],
+            $placeholderData['optional'] ?? false,
+        );
     }
 }

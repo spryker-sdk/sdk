@@ -76,12 +76,13 @@ class CommandBuilder implements CommandBuilderInterface
             return $commands;
         }
 
+        $existingTasks = $this->taskPool->getTasks();
         foreach ($data['tasks'] as $task) {
             $tasksTags = $task['tags'] ?? [];
             if ($tags && !array_intersect($tags, $tasksTags)) {
                 continue;
             }
-            $taskData = $taskListData[$task['id']] ?? $this->taskPool->getTasks()[$task['id']];
+            $taskData = $taskListData[$task['id']] ?? $existingTasks[$task['id']];
 
             if ($taskData instanceof TaskInterface) {
                 foreach ($taskData->getCommands() as $command) {
