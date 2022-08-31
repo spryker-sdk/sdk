@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
-use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class CommandBuilder implements CommandBuilderInterface
@@ -22,11 +22,18 @@ class CommandBuilder implements CommandBuilderInterface
     protected TaskPool $taskPool;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface
      */
-    public function __construct(TaskPool $taskPool)
+    protected ConverterBuilderInterface $converterBuilder;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface $converterBuilder
+     */
+    public function __construct(TaskPool $taskPool, ConverterBuilderInterface $converterBuilder)
     {
         $this->taskPool = $taskPool;
+        $this->converterBuilder = $converterBuilder;
     }
 
     /**
@@ -41,54 +48,82 @@ class CommandBuilder implements CommandBuilderInterface
         $commands = [];
 
         if (in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
-            $converter = isset($data['report_converter']) ? new Converter(
-                $data['report_converter']['name'],
-                $data['report_converter']['configuration'],
-            ) : null;
-            $commands[] = new Command(
-                $data['command'],
-                $data['type'],
-                false,
+            $commands[] = $this->buildCommand(
+                $data,
                 $data['tags'] ?? [],
-                $converter,
-                $data['stage'] ?? ContextInterface::DEFAULT_STAGE,
-                $data['error_message'] ?? '',
+                false,
+                $this->converterBuilder->buildConverter($data),
             );
         }
 
-        if ($data['type'] === TaskType::TASK_SET_TYPE) {
-            foreach ($data['tasks'] as $task) {
-                $tasksTags = $task['tags'] ?? [];
-                if ($tags && !array_intersect($tags, $tasksTags)) {
-                    continue;
-                }
-                $taskData = $taskListData[$task['id']] ?? $this->taskPool->getTasks()[$task['id']];
+        $taskSetCommands = $this->buildTaskSetCommands($data, $taskListData, $tags);
 
-                if ($taskData instanceof TaskInterface) {
-                    foreach ($taskData->getCommands() as $command) {
-                        $commands[] = $command;
-                    }
+        return array_merge($commands, $taskSetCommands);
+    }
 
-                    continue;
-                }
+    /**
+     * @param array $data
+     * @param array $taskListData
+     * @param array $tags
+     *
+     * @return array
+     */
+    protected function buildTaskSetCommands(array $data, array $taskListData, array $tags = []): array
+    {
+        $commands = [];
 
-                $converter = isset($taskData['report_converter']) ? new Converter(
-                    $taskData['report_converter']['name'],
-                    $taskData['report_converter']['configuration'],
-                ) : null;
+        if ($data['type'] !== TaskType::TASK_SET_TYPE) {
+            return $commands;
+        }
 
-                $commands[] = new Command(
-                    $taskData['command'],
-                    $taskData['type'],
-                    $task['stop_on_error'],
-                    $tasksTags,
-                    $converter,
-                    $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
-                    $data['error_message'] ?? '',
-                );
+        foreach ($data['tasks'] as $task) {
+            $tasksTags = $task['tags'] ?? [];
+            if ($tags && !array_intersect($tags, $tasksTags)) {
+                continue;
             }
+            $taskData = $taskListData[$task['id']] ?? $this->taskPool->getTasks()[$task['id']];
+
+            if ($taskData instanceof TaskInterface) {
+                foreach ($taskData->getCommands() as $command) {
+                    $commands[] = $command;
+                }
+
+                continue;
+            }
+
+            $commands[] = $this->buildCommand(
+                $taskData,
+                $tasksTags,
+                $task['stop_on_error'],
+                $this->converterBuilder->buildConverter($taskData),
+            );
         }
 
         return $commands;
+    }
+
+    /**
+     * @param array $taskData
+     * @param array $tasksTags
+     * @param bool $stopOnError
+     * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
+     *
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Command
+     */
+    protected function buildCommand(
+        array $taskData,
+        array $tasksTags,
+        bool $stopOnError,
+        ?ConverterInterface $converter
+    ): Command {
+        return new Command(
+            $taskData['command'],
+            $taskData['type'],
+            $stopOnError,
+            $tasksTags,
+            $converter,
+            $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
+            $taskData['error_message'] ?? '',
+        );
     }
 }

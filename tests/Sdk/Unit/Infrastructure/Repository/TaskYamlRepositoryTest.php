@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder;
@@ -65,7 +66,7 @@ class TaskYamlRepositoryTest extends Unit
         $placeholderBuilder = new PlaceholderBuilder($taskPool);
         $taskBuilder = new TaskBuilder(
             $placeholderBuilder,
-            new CommandBuilder($taskPool),
+            new CommandBuilder($taskPool, new ConverterBuilder()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
                     new FileBuilder(),

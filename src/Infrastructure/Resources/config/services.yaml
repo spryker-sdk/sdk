@@ -47,10 +47,14 @@ services:
   yaml_parser:
     class: Symfony\Component\Yaml\Yaml
 
+  converter_builder:
+    class: \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder
+
   command_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder
     arguments:
       - '@sdk_task_pool'
+      - '@converter_builder'
 
   file_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder
