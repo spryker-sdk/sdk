@@ -11,6 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
@@ -27,25 +28,23 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected TaskMapperInterface $taskMapper;
 
     /**
-     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskPool
      */
-    protected array $existingTasks = [];
+    protected TaskPool $taskPool;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
-     * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
+     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
         ManagerRegistry $registry,
-        iterable $existingTasks = []
+        TaskPool $taskPool
     ) {
         parent::__construct($registry, Task::class);
         $this->taskMapper = $taskMapper;
-        foreach ($existingTasks as $existingTask) {
-            $this->existingTasks[$existingTask->getId()] = $existingTask;
-        }
+        $this->taskPool = $taskPool;
     }
 
     /**
@@ -149,7 +148,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected function changePhpCommand(TaskInterface $task, bool $realCommand = true): TaskInterface
     {
         $existingCommands = [];
-        foreach ($this->existingTasks as $existingTask) {
+        foreach ($this->taskPool->getTasks() as $existingTask) {
             foreach ($existingTask->getCommands() as $existingCommand) {
                 $existingCommands[get_class($existingCommand)] = $existingCommand;
             }

@@ -70,9 +70,9 @@ class TaskYamlRepositoryTest extends Unit
                 new LifecycleEventDataBuilder(
                     new FileBuilder(),
                     new LifecycleCommandBuilder(),
-                    $placeholderBuilder
-                )
-            )
+                    $placeholderBuilder,
+                ),
+            ),
         );
 
         $this->settingRepository = $this->createMock(SettingRepository::class);
