@@ -246,13 +246,13 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     {
         $existingDirs = [];
         foreach ($directorySettings as $directorySetting) {
-            $foundOldPathes = glob($directorySetting . '/Task');
-            $foundNewPathes = glob($directorySetting . '/task');
-            if ($foundOldPathes) {
-                $existingDirs[] = $foundOldPathes;
+            $foundOldPaths = glob($directorySetting . '/Task');
+            $foundNewPaths = glob($directorySetting . '/task');
+            if ($foundOldPaths) {
+                $existingDirs[] = $foundOldPaths;
             }
-            if ($foundNewPathes) {
-                $existingDirs[] = $foundNewPathes;
+            if ($foundNewPaths) {
+                $existingDirs[] = $foundNewPaths;
             }
         }
 
