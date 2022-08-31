@@ -1,6 +1,7 @@
 parameters:
   env(UNAME_INFO): ''
   uname_info: '%env(uname:UNAME_INFO)%'
+  sdk_settings: "%kernel.project_dir%/src/Extension/Resources/config/setting/settings.yaml"
 
 services:
   app_modify_docker_file:
@@ -128,7 +129,7 @@ services:
   # Transition resolvers
   transition_boolean_resolver:
     class: SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver
-    public: true
+    tags: ['workflow.transition_resolver']
 
   uname_env_var_processor:
     class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor
