@@ -29,7 +29,13 @@ class AutoloaderService
      */
     public function __construct(string $baseDirectory)
     {
-        $this->classLoader = require $baseDirectory . '/vendor/autoload.php';
+        if (is_file($baseDirectory . '/vendor/autoload.php')) {
+            $classLoaderPath = $baseDirectory . '/vendor/autoload.php';
+        } else {
+            $classLoaderPath = $baseDirectory . '/../autoload.php';
+        }
+
+        $this->classLoader = require $classLoaderPath;
         $this->baseDirectory = $baseDirectory;
     }
 
