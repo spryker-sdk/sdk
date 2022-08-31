@@ -87,7 +87,7 @@ class TaskYamlRepositoryTest extends Unit
     public function testFindAllShouldReturnBuiltTasks(): void
     {
         // Arrange
-        $pathToTasks = realpath(__DIR__ . '/../../../../_support');
+        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
 
         $setting = $this->tester->createInfrastructureSetting(
             'extension_dirs',
@@ -113,7 +113,7 @@ class TaskYamlRepositoryTest extends Unit
     public function testFindByIdShouldReturnTask(): void
     {
         // Arrange
-        $pathToTasks = realpath(__DIR__ . '/../../../../_support');
+        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
 
         $setting = $this->tester->createInfrastructureSetting(
             'extension_dirs',
@@ -142,7 +142,7 @@ class TaskYamlRepositoryTest extends Unit
     public function testFindByNotExistedIdShouldReturnNull(): void
     {
         // Arrange
-        $pathToTasks = realpath(__DIR__ . '/../../../../_support');
+        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
 
         $setting = $this->tester->createInfrastructureSetting(
             'extension_dirs',
