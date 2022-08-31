@@ -19,7 +19,6 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Placeholder;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
-use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class DynamicTaskSetCreator
@@ -186,7 +185,7 @@ class DynamicTaskSetCreator
                     false,
                     $command->getTags(),
                     $command->getConverter(),
-                    $task instanceof StagedTaskInterface ? $task->getStage() : $command->getStage(),
+                    ContextInterface::DEFAULT_STAGE,
                     $command instanceof ErrorCommandInterface ? $command->getErrorMessage() : '',
                 );
             }
