@@ -6,9 +6,13 @@ settings:
     type: path
     setting_type: sdk
     values:
-      - src/
-      - extension/
-      - extension/SprykerSdk
+      - src/*/
+      - extension/*/
+      - extension/SprykerSdk/*/
+      - extension/*/src/
+      - extension/SprykerSdk/*/src/
+      - src/*/Resources/config/
+      - extension/*/config/
   - path: task_dirs
     initialization_description: Where can tasks be loaded from?
     strategy: merge

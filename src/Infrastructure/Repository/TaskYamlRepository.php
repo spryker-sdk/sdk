@@ -97,10 +97,8 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $taskListData = [];
         $taskSetsData = [];
 
-        $existedDirectories = $this->findExistedDirectories($taskDirSetting->getValues());
-
         $finder = $this->fileFinder
-            ->in(array_map(fn (string $directory): string => $directory . '/*/Task/', $existedDirectories))
+            ->in($this->findExistedDirectories($taskDirSetting->getValues()))
             ->name('*.yaml');
 
         //read task from path, parse and create Task, later use DB for querying
@@ -246,15 +244,15 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function findExistedDirectories(array $directorySettings): array
     {
-        return array_filter($directorySettings, function (string $dir): bool {
-            $found = glob($dir . '/*/Task');
-
-            if ($found === false) {
-                return false;
+        $existingDirs = [];
+        foreach ($directorySettings as $directorySetting) {
+            $found = glob($directorySetting . '/{Task,task}', GLOB_BRACE);
+            if ($found) {
+                $existingDirs[] = $found;
             }
+        }
 
-            return count($found) > 0;
-        });
+        return array_merge(...$existingDirs);
     }
 
     /**
