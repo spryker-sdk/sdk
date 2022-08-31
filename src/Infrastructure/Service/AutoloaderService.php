@@ -32,7 +32,7 @@ class AutoloaderService
         if (is_file($baseDirectory . '/vendor/autoload.php')) {
             $classLoaderPath = $baseDirectory . '/vendor/autoload.php';
         } else {
-            $classLoaderPath = $baseDirectory . '/../autoload.php';
+            $classLoaderPath = $baseDirectory . '/../../autoload.php';
         }
 
         $this->classLoader = require $classLoaderPath;

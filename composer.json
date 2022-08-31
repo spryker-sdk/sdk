@@ -50,7 +50,8 @@
         "symfony/runtime": "^5.0 || ^6.0",
         "symfony/validator": "^5.0 || ^6.0",
         "symfony/workflow": "^5.0 || ^6.0",
-        "symfony/yaml": "^5.0 || ^6.0"
+        "symfony/yaml": "^5.0 || ^6.0",
+        "spryker-sdk/brancho": "1.0.x-dev"
     },
     "require-dev": {
         "codeception/codeception": "^4.2.1",
@@ -61,7 +62,6 @@
         "mikey179/vfsstream": "^1.6",
         "phpunit/php-code-coverage": "^9.2",
         "sllh/composer-versions-check": "^2.0",
-        "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/security-checker": "^0.1.0",
         "symfony/filesystem": "^5.0 || ^6.0",
         "symfony/var-dumper": "^5.0 || ^6.0"
@@ -137,8 +137,5 @@
     },
     "suggest": {
         "spryker-sdk/sdk-tasks-bundle": "Provides a list of SDK tasks for the internal Spryker projects."
-    },
-    "bin": [
-        "bin/spryker-sdk"
-    ]
+    }
 }
