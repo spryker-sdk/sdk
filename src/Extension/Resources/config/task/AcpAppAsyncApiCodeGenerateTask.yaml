@@ -22,5 +22,5 @@ placeholders:
     optional: true
     configuration:
       name: "organization"
-      description: "Path to AsyncAPI file"
+      description: "The namespace that will be used for code generation e.g. Pyz"
       type: string
