@@ -14,7 +14,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: 'report_dir'
+      alias: 'report_dir'
       description: 'Path to reports directory.'
       type: string
       settingPaths: [ 'report_dir' ]
@@ -30,7 +30,7 @@ placeholders:
     value_resolver: FLAG
     optional: true
     configuration:
-      name: 'fix'
+      alias: 'fix'
       description: 'Automatically fixes found problems.'
   - name: '%file%'
     value_resolver: STATIC_TEXT

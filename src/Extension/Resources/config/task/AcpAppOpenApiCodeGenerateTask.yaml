@@ -14,27 +14,27 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "project-root"
+      alias: "project-root"
       description: "Relative path to project root"
       type: path
   - name: "%openapi-file%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "openapi-file"
+      alias: "openapi-file"
       description: "Path to OpenAPI file"
       type: string
   - name: "%organization%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "organization"
+      alias: "organization"
       description: "The namespace that will be used for code generation e.g. Pyz"
       type: string
   - name: "%application-type%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "application-type"
+      alias: "application-type"
       description: "Application type e.g. JSON"
       type: string

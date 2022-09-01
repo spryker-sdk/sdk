@@ -14,7 +14,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "report_dir"
+      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]

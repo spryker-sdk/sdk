@@ -4,18 +4,22 @@ short_description: "Check your code efficiency by running a benchmark"
 help: ~
 stage: build
 version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/phpbench run %tests% --bootstrap=%bootstrap% %group% %iterations% %revs% %report% %time-unit% --dump-file=%reportDir%/phpbench.benchmark.xml"
+command: "php %executable_command% run %tests% --bootstrap=%bootstrap% %group% %iterations% %revs% %report% %time-unit% --dump-file=%reportDir%/phpbench.benchmark.xml"
 type: local_cli
 optional: false
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      alias: "executable_folder"
+      description: "Executable folder (checks in project dir)"
+      defaultValue: "vendor/bin/phpbench"
   - name: "%reportDir%"
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "report_dir"
+      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
@@ -23,7 +27,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: false
     configuration:
-      name: "tests"
+      alias: "tests"
       description: "Relative path to tests directory in project"
       type: path
       defaultValue: "tests"
@@ -31,7 +35,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: false
     configuration:
-      name: "bootstrap"
+      alias: "bootstrap"
       description: "Relative path to bootstrap file in project"
       type: path
       defaultValue: "vendor/autoload.php"
@@ -39,14 +43,14 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "group"
+      alias: "group"
       description: "Group to run"
       type: string
   - name: "%iterations%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "iterations"
+      alias: "iterations"
       description: "Iterations count"
       type: string
       defaultValue: 1
@@ -54,7 +58,7 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "revs"
+      alias: "revs"
       description: "Revolution count"
       type: string
       defaultValue: 1
@@ -62,7 +66,7 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "report"
+      alias: "report"
       description: "Report config"
       type: string
       defaultValue: '{"generator":"expression","cols":["benchmark","subject","best","mean","worst","stdev","revs","its"]}'
@@ -70,7 +74,7 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "time-unit"
+      alias: "time-unit"
       description: "Time unit"
       type: string
       defaultValue: milliseconds

@@ -35,34 +35,6 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array $settingValues
-     *
-     * @return string
-     */
-    protected function getValueFromSettings(array $settingValues): string
-    {
-        if (!isset($settingValues[static::SETTING_SDK_DIR])) {
-            return $this->sdkBasePath;
-        }
-
-        $settingSdkBasePath = $settingValues[static::SETTING_SDK_DIR];
-
-        if (realpath($settingSdkBasePath) !== false) {
-            return realpath($settingSdkBasePath);
-        }
-
-        return $this->sdkBasePath . '/' . $settingSdkBasePath;
-    }
-
-    /**
      * @return string
      */
     public function getId(): string
@@ -105,10 +77,22 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return string|null
+     * @param array $settingValues
+     *
+     * @return string
      */
-    public function getDefaultValue(): ?string
+    protected function getValueFromSettings(array $settingValues): string
     {
-        return null;
+        if (!isset($settingValues[static::SETTING_SDK_DIR])) {
+            return $this->sdkBasePath;
+        }
+
+        $settingSdkBasePath = $settingValues[static::SETTING_SDK_DIR];
+
+        if (realpath($settingSdkBasePath) !== false) {
+            return realpath($settingSdkBasePath);
+        }
+
+        return $this->sdkBasePath . '/' . $settingSdkBasePath;
     }
 }

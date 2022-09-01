@@ -11,7 +11,7 @@ placeholders:
     value_resolver: STATIC
     optional: false
     configuration:
-      name: "path"
+      alias: "path"
       description: "Relative path to module directory in project"
       type: path
       settingPaths: []
@@ -20,5 +20,5 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: 'severity'
+      alias: 'severity'
       description: 'Severity level of the CodeSniffer'

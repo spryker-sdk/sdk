@@ -14,7 +14,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "report_dir"
+      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
@@ -22,14 +22,14 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "file-path"
+      alias: "file-path"
       description: "Execute stylelint only for this file"
       type: string
   - name: "%config-path%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "config-path"
+      alias: "config-path"
       description: "Use this stylelint config instead of default"
       type: string
 report_converter:

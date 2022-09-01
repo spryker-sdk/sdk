@@ -11,7 +11,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "coreNamespaces"
+      alias: "coreNamespaces"
       description: "CoreNamespaces"
       type: string
       settingPaths: ["coreNamespaces"]
@@ -19,7 +19,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "projectNamespaces"
+      alias: "projectNamespaces"
       description: "Project namespaces"
       type: string
       settingPaths: ["projectNamespaces"]
@@ -27,7 +27,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "projectNamespace"
+      alias: "projectNamespace"
       description: "Project namespace"
       type: string
       settingPaths: ["projectNamespace"]
@@ -43,7 +43,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: false
     configuration:
-      name: "module"
+      alias: "module"
       description: "Module name in camelcase format"
       type: string
       settingPaths: []

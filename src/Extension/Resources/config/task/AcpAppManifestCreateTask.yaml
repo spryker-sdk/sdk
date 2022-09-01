@@ -14,14 +14,14 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: false
     configuration:
-      name: "name"
+      alias: "name"
       description: "The name of the App"
       type: string
   - name: "%locale%"
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "locale"
+      alias: "locale"
       description: "A valid locale e.g.: en_US"
       type: string
       defaultValue: "en_US"
@@ -29,6 +29,6 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "manifest-path"
+      alias: "manifest-path"
       description: "Path to save manifest file to"
       type: string

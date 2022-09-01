@@ -70,24 +70,6 @@ class NamespaceValueResolver extends AbstractValueResolver
     /**
      * @return array<string>
      */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return null;
-    }
-
-    /**
-     * @return array<string>
-     */
     public function getSettingPaths(): array
     {
         return ['projectNamespaces', 'coreNamespaces'];

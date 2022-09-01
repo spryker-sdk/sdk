@@ -14,13 +14,13 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "asyncapi-file"
+      alias: "asyncapi-file"
       description: "Path to AsyncAPI file"
       type: string
   - name: "%organization%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "organization"
+      alias: "organization"
       description: "The namespace that will be used for code generation e.g. Pyz"
       type: string

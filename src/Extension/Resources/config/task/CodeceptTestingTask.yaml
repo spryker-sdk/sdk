@@ -4,24 +4,28 @@ short_description: 'Run acceptance tests'
 help: ~
 stage: build
 version: 0.1.0
-command: 'php %sdk_dir%/vendor/bin/codecept run %suites% --json=%reportDir%/codeception.report.json'
+command: 'php "%executable_command%" run %suites% --json=%reportDir%/codeception.report.json'
 type: local_cli
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      alias: "executable_folder"
+      description: "Executable folder (checks in project dir)"
+      defaultValue: "vendor/bin/codecept"
   - name: "%suites%"
     value_resolver: STATIC
     optional: true
     configuration:
-      name: "suites"
+      alias: "suites"
       description: "Suite name that should executed. Multiple suites can be comma-separated"
       type: string
   - name: "%reportDir%"
     value_resolver: STATIC
     optional: true
     configuration:
-      name: "report_dir"
+      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]

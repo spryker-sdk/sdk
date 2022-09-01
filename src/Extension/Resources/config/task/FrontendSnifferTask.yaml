@@ -14,7 +14,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "report_dir"
+      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
@@ -22,7 +22,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "level_restriction"
+      alias: "level_restriction"
       description: "Collect core or project level only (possible values: core, project)"
       help: "Collect core or project level only (possible values: core, project)"
       type: string

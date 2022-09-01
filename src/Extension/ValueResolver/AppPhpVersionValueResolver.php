@@ -32,24 +32,6 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     ];
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
-    }
-
-    /**
      * @return string
      */
     public function getId(): string
@@ -63,14 +45,6 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     public function getDescription(): string
     {
         return 'PHP version to use for the App';
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
     }
 
     /**

@@ -14,20 +14,20 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: false
     configuration:
-      name: "title"
+      alias: "title"
       description: "The name of the App"
       type: string
   - name: "%asyncapi-file%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "asyncapi-file"
+      alias: "asyncapi-file"
       description: "Path to save AsyncAPI file to"
       type: string
   - name: "%api-version%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "api-version"
+      alias: "api-version"
       description: "Version number of the AsyncAPI schema"
       type: string

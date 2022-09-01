@@ -4,17 +4,21 @@ short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
 version: 1.0.0
-command: "%sdk_dir%/vendor/bin/phpmd ./src json %config% %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
+command: "%executable_command% ./src json %config% %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
 type: local_cli
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      alias: "executable_folder"
+      description: "Executable folder (checks in project dir)"
+      defaultValue: "vendor/bin/phpmd"
   - name: "%strict%"
     value_resolver: FLAG
     optional: false
     configuration:
-      name: "strict"
+      alias: "strict"
       description: "Report silent violations"
       defaultValue: false
       settingPaths: []
@@ -23,15 +27,15 @@ placeholders:
     value_resolver: CONFIG_PATH
     optional: true
     configuration:
-      param: "config"
-      name: "config"
+      option: "config"
+      alias: "config"
       description: "Config file"
       defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
   - name: "%priority%"
     value_resolver: STATIC_TEXT
     optional: false
     configuration:
-      name: "priority"
+      alias: "priority"
       description: "Minimal PHPMD priority of rules to fail the validation"
       minValue: 1
       maxValue: 10
@@ -42,7 +46,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "report_dir"
+      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]

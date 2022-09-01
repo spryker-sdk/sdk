@@ -14,6 +14,6 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "manifest-path"
+      alias: "manifest-path"
       description: "Path to manifest file"
       type: string

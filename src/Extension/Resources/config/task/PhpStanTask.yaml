@@ -14,7 +14,7 @@ placeholders:
     value_resolver: STATIC
     optional: false
     configuration:
-      name: "path"
+      alias: "path"
       description: "Relative path to module directory in project"
       type: path
       settingPaths: []
@@ -23,7 +23,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "report_dir"
+      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
@@ -31,7 +31,7 @@ placeholders:
     value_resolver: STATIC_TEXT
     optional: true
     configuration:
-      name: "level"
+      alias: "level"
       description: "Rule level to run"
       defaultValue: "7"
 report_converter:

@@ -152,6 +152,9 @@ class DynamicTaskSetCreator
                     if (isset($configuration['name'])) {
                         $configuration['name'] = sprintf('%s%s', $configuration['name'], $equalPlaceholderCounter[$placeholder->getName()]);
                     }
+                    if (isset($configuration['alias'])) {
+                        $configuration['alias'] = sprintf('%s%s', $configuration['alias'], $equalPlaceholderCounter[$placeholder->getName()]);
+                    }
                     if (isset($configuration['description'])) {
                         $configuration['description'] = sprintf('%s (%s)', $configuration['description'], $task->getId());
                     }

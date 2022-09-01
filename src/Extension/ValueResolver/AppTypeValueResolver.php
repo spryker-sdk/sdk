@@ -50,14 +50,6 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
      * @return string
      */
     public function getType(): string
@@ -74,29 +66,11 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
      * @return mixed
      */
     public function getDefaultValue()
     {
         return array_key_first(static::REPOSITORIES);
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
     }
 
     /**

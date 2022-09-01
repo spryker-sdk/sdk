@@ -78,6 +78,14 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getDefaultValue()
+    {
+        return null;
+    }
+
+    /**
      * @param array $settingValues
      * @param array $resolvedValues
      *
@@ -89,28 +97,36 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
+     * @return array<string>
+     */
+    protected function getRequiredSettingPaths(): array
+    {
+        return [];
+    }
+
+    /**
+     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
+     *
+     * @return mixed|null
+     */
+    protected function getValueFromSettings(array $settingValues)
+    {
+        return $settingValues[$this->getValueName()] ?? null;
+    }
+
+    /**
      * @return string
      */
     protected function getValueName(): string
     {
-        if ($this->getAlias()) {
-            return $this->getAlias();
-        }
-
-        return $this->getId();
+        return $this->getAlias() ?? $this->getId();
     }
 
     /**
      * @return array<string>
      */
-    abstract protected function getRequiredSettingPaths(): array;
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingValueException
-     *
-     * @return mixed
-     */
-    abstract protected function getValueFromSettings(array $settingValues);
+    public function getSettingPaths(): array
+    {
+        return [];
+    }
 }

@@ -14,20 +14,20 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "manifest-path"
+      alias: "manifest-path"
       description: "Path to save manifest file to"
       type: string
   - name: "%configuration-file%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "configuration-file"
+      alias: "configuration-file"
       description: "Path to save configuration file to"
       type: string
   - name: "%translation-file%"
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "translation-file"
+      alias: "translation-file"
       description: "Path to save translation file to"
       type: string

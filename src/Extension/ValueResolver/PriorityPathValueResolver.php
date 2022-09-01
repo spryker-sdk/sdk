@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class ConfigPathValueResolver extends ConfigurableAbstractValueResolver
+class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
 {
     /**
      * @var string
@@ -27,15 +27,7 @@ class ConfigPathValueResolver extends ConfigurableAbstractValueResolver
      */
     public function getId(): string
     {
-        return 'CONFIG_PATH';
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'string';
+        return 'PRIORITY_PATH';
     }
 
     /**
@@ -49,8 +41,18 @@ class ConfigPathValueResolver extends ConfigurableAbstractValueResolver
     {
         $value = (string)parent::getValue($context, $settingValues, $optional);
 
-        $projectLevelSettings = sprintf('%s/%s', $settingValues[static::PROJECT_DIR_SETTING] ?? '', $value);
-        $sdkLevelSettings = sprintf('%s/%s', $settingValues[static::SDK_DIR_SETTING] ?? '', $value);
+        $projectDir = $settingValues[static::PROJECT_DIR_SETTING];
+        $sdkDir = $settingValues[static::SDK_DIR_SETTING];
+
+        if (strpos($projectDir, DIRECTORY_SEPARATOR, -1) === 0) {
+            $projectDir = rtrim($projectDir, DIRECTORY_SEPARATOR);
+        }
+        if (strpos($sdkDir, DIRECTORY_SEPARATOR, -1) === 0) {
+            $sdkDir = rtrim($sdkDir, DIRECTORY_SEPARATOR);
+        }
+
+        $projectLevelSettings = sprintf('%s/%s', $projectDir ?? '', $value);
+        $sdkLevelSettings = sprintf('%s/%s', $sdkDir ?? '', $value);
 
         return file_exists($projectLevelSettings) ? $projectLevelSettings : $sdkLevelSettings;
     }
@@ -69,5 +71,15 @@ class ConfigPathValueResolver extends ConfigurableAbstractValueResolver
     public function getSettingPaths(): array
     {
         return $this->getRequiredSettingPaths();
+    }
+
+    /**
+     * @param array $settingValues
+     *
+     * @return string|null
+     */
+    protected function getValueFromSettings(array $settingValues): ?string
+    {
+        return null;
     }
 }

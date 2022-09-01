@@ -14,6 +14,6 @@ placeholders:
     value_resolver: OPTION
     optional: true
     configuration:
-      name: "configuration-file"
+      alias: "configuration-file"
       description: "Path to save configuration file to"
       type: string
