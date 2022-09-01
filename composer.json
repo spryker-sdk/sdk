@@ -137,8 +137,5 @@
     },
     "suggest": {
         "spryker-sdk/sdk-tasks-bundle": "Provides a list of SDK tasks for the internal Spryker projects."
-    },
-    "bin": [
-        "bin/spryker-sdk"
-    ]
+    }
 }
