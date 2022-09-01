@@ -43,7 +43,7 @@ class AnalyzerReportTaskCest
             [static::COMMAND],
             $I->getProjectRoot(static::PROJECT_DIR),
         );
-
+\var_dump($process->getOutput(), $process->getErrorOutput(), $process->getExitCode(), $process->getExitCodeText());die;
         // Assert
         Assert::assertTrue($process->isSuccessful());
     }
