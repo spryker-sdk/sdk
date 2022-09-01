@@ -161,7 +161,6 @@
         "version": "5.2.12"
     },
     "knplabs/github-api": {
-        "version": "3.7",
         "version": "3.6",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
@@ -218,20 +217,8 @@
     "phpbench/phpbench": {
         "version": "1.2.3"
     },
-    "phpdocumentor/reflection-common": {
-        "version": "2.2.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.3.0"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.5.1"
-    },
     "phpmd/phpmd": {
         "version": "2.10.2"
-    },
-    "phpspec/prophecy": {
-        "version": "1.14.0"
     },
     "phpstan/phpdoc-parser": {
         "version": "1.2.0"

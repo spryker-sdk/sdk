@@ -1,22 +1,15 @@
 ---
 id: "validation:php:codestyle-check"
 short_description: "Check your code by running a static code analysis and generate report with violations"
-help: ~
+help: "You may need to set default phpcs standard before using it. By default uses phpcs.xml from the project root."
 stage: build
 version: 1.0.0
-command: "php %sdk_dir%/vendor/bin/phpcs %severity% --standard=%config% --report=json ./%path% --report-file=%reportDir%/phpcs.codestyle.json"
+command: "php %sdk_dir%/vendor/bin/phpcs %severity% --report=json ./%path% --report-file=%reportDir%/phpcs.codestyle.json"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
-  - name: "%config%"
-    value_resolver: CONFIG_PATH
-    optional: true
-    configuration:
-      name: "config"
-      description: "Config file"
-      defaultValue: "vendor/spryker/code-sniffer/Spryker/ruleset.xml"
   - name: "%path%"
     value_resolver: STATIC
     optional: false
@@ -41,7 +34,7 @@ placeholders:
       name: 'severity'
       description: 'Severity level of the CodeSniffer'
 report_converter:
-  name: CheckstyleViolationReportConverter
-  configuration:
-    input_file: phpcs.codestyle.json
-    producer: phpcs
+    name: CheckstyleViolationReportConverter
+    configuration:
+        input_file: phpcs.codestyle.json
+        producer: phpcs
