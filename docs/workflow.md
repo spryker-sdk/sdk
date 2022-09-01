@@ -1,18 +1,42 @@
-### Workflow SDK tool
+# Workflow SDK tool
 
-One or more workflows can be initialized for a project and run via `sdk:workflow:run` command. Workflows are defined in workflow.yaml files either in `config/packages` or in the configuration of extension bundles. Project is limited to the workflows specified during initialization. If none was specified, any workflow can be started by providing it's name to the `sdk:workflow:run` command. Two identical top-level workflows can't run inside the same project.
+## How to initialize and run workflows
 
-#### Relevant commands:
+To initialize project with specified workflow you need to execute `spryker-sdk init:sdk:project --workflow={workflowName}`.
+If project already has been initialized by a `spryker-sdk init:sdk:project` command you can manually add workflow in project config `{projectDir}/.ssdk/settings`.
+```yaml
+# {projectDir}/.ssdk/settings
+project_key: e9abab71-59f3-e9ff-468c-7a6d28e10724
+workflow:
+    - app # app workflow
+```
+
+Project is limited to the workflows specified during initialization.
+
+To run workflow you need to execute `spryker-sdk sdk:workflow:run {workflowName}` in project dir.
+If none was specified, any workflow can be started by providing it's name to the `sdk:workflow:run` command.
+Two identical top-level workflows can't run inside the same project.
+
+## Commands
+
 ```bash
-  #  Generate svg image for concrete workflow
-  spryker-sdk workflow:dump {workflowName}  | dot -Tsvg -o graph.svg
+  # List of available workflows
+  spryker-sdk sdk:workflow:list
+  # Generate svg image for concrete workflow
+  spryker-sdk sdk:workflow:show {workflowName}
   # Init project settings with workflow
-  spryker-sdk init:sdk:project --workflow={workflowName} --workflow={workflowName} # If you init workflows for the project you can use only these workflows.
+  spryker-sdk sdk:init:project --workflow={workflowName} --workflow={workflowName} # If you init workflows for the project you can use only these workflows.
   # Run workflow process.
   spryker-sdk sdk:workflow:run {workflowName}
 ```
 
-#### Behavior of the workflow can be configured by providing specific keys to the metadata of the workflow:
+## Configuration reference
+
+In SDK directory workflows are defined in workflow.yaml files either in `config/packages` or in the configuration of extension bundles.
+
+The basic workflow documentation you can find in [symfony docs](https://symfony.com/doc/current/workflow.html).
+
+#### Additionally, the workflow behavior can be configured and extended by providing some specific metadata options:
 - `transitionResolver`: `sdk:workflow:run` See example below `service` should implement `\SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface`.
 - `allowToFail: true`: `sdk:workflow:run` will set the next place if task failed.
 - `re-run: true`: `sdk:workflow:run` will run workflow many times when the current one has finished.
