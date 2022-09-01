@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -47,13 +48,9 @@ class CommandBuilder implements CommandBuilderInterface
     {
         $commands = [];
 
-        if (in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
-            $commands[] = $this->buildCommand(
-                $data,
-                $data['tags'] ?? [],
-                false,
-                $this->converterBuilder->buildConverter($data),
-            );
+        $taskCommand = $this->buildTaskCommand($data);
+        if ($taskCommand) {
+            $commands[] = $taskCommand;
         }
 
         $taskSetCommands = $this->buildTaskSetCommands($data, $taskListData, $tags);
@@ -63,10 +60,29 @@ class CommandBuilder implements CommandBuilderInterface
 
     /**
      * @param array $data
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\CommandInterface|null
+     */
+    protected function buildTaskCommand(array $data): ?CommandInterface
+    {
+        if (in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
+            return null;
+        }
+
+        return $this->buildCommand(
+            $data,
+            $data['tags'] ?? [],
+            false,
+            $this->converterBuilder->buildConverter($data),
+        );
+    }
+
+    /**
+     * @param array $data
      * @param array $taskListData
      * @param array $tags
      *
-     * @return array
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected function buildTaskSetCommands(array $data, array $taskListData, array $tags = []): array
     {
@@ -79,7 +95,7 @@ class CommandBuilder implements CommandBuilderInterface
         $existingTasks = $this->taskPool->getTasks();
         foreach ($data['tasks'] as $task) {
             $tasksTags = $task['tags'] ?? [];
-            if ($tags && !array_intersect($tags, $tasksTags)) {
+            if (!array_intersect($tags, $tasksTags)) {
                 continue;
             }
             $taskData = $taskListData[$task['id']] ?? $existingTasks[$task['id']];

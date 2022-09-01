@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
@@ -15,14 +15,14 @@ use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 class PlaceholderBuilder implements PlaceholderBuilderInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskPool
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface
      */
-    protected TaskPool $taskPool;
+    protected TaskPoolInterface $taskPool;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface $taskPool
      */
-    public function __construct(TaskPool $taskPool)
+    public function __construct(TaskPoolInterface $taskPool)
     {
         $this->taskPool = $taskPool;
     }

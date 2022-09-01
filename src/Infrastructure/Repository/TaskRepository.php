@@ -11,7 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
@@ -28,19 +28,19 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected TaskMapperInterface $taskMapper;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskPool
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface
      */
-    protected TaskPool $taskPool;
+    protected TaskPoolInterface $taskPool;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
-     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface $taskPool
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
         ManagerRegistry $registry,
-        TaskPool $taskPool
+        TaskPoolInterface $taskPool
     ) {
         parent::__construct($registry, Task::class);
         $this->taskMapper = $taskMapper;

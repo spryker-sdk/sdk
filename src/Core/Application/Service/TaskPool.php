@@ -7,7 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
-class TaskPool
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
+
+class TaskPool implements TaskPoolInterface
 {
     /**
      * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>

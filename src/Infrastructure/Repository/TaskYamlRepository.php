@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilderInterface;
@@ -46,9 +46,9 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected TaskSetBuilderInterface $taskSetBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskPool
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface
      */
-    protected TaskPool $taskPool;
+    protected TaskPoolInterface $taskPool;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
@@ -56,7 +56,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilderInterface $taskSetBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface $taskPool
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
@@ -64,7 +64,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         Yaml $yamlParser,
         TaskBuilderInterface $taskBuilder,
         TaskSetBuilderInterface $taskSetBuilder,
-        TaskPool $taskPool
+        TaskPoolInterface $taskPool
     ) {
         $this->yamlParser = $yamlParser;
         $this->fileFinder = $fileFinder;
