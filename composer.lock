@@ -6103,22 +6103,22 @@
         },
         {
             "name": "spryker-sdk/integrator",
-            "version": "dev-develop",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "b98ac551df42f7f8d03c90b49340f86c5b86439e"
+                "reference": "7f83130795424becf80e86318bc9bbc999be3543"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/b98ac551df42f7f8d03c90b49340f86c5b86439e",
-                "reference": "b98ac551df42f7f8d03c90b49340f86c5b86439e",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/7f83130795424becf80e86318bc9bbc999be3543",
+                "reference": "7f83130795424becf80e86318bc9bbc999be3543",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0.0 || ^2.0.0",
                 "composer/composer": "^2.1.0",
-                "laminas/laminas-filter": "^2.14.0",
+                "laminas/laminas-filter": "^2.11.0",
                 "nikic/php-parser": "^4.3.0",
                 "php": ">=7.4",
                 "sebastian/diff": "^4.0.0",
@@ -6126,11 +6126,12 @@
                 "symfony/finder": "^5.3.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.6.5",
+                "phpstan/phpstan": "^1.0.0",
                 "phpunit/phpunit": "^9.5.0",
                 "spryker/code-sniffer": "@stable",
                 "symfony/filesystem": "^5.3.0"
             },
+            "default-branch": true,
             "bin": [
                 "bin/integrator"
             ],
@@ -6152,9 +6153,9 @@
             "description": "Integrator module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
-                "source": "https://github.com/spryker-sdk/integrator/tree/develop"
+                "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2022-07-14T09:14:10+00:00"
+            "time": "2022-08-31T10:01:03+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -6299,12 +6300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "468f38c02222ce201811555abb73060af618fbf4"
+                "reference": "416840745013e66ab93fe7f62de75cbee462567b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/468f38c02222ce201811555abb73060af618fbf4",
-                "reference": "468f38c02222ce201811555abb73060af618fbf4",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/416840745013e66ab93fe7f62de75cbee462567b",
+                "reference": "416840745013e66ab93fe7f62de75cbee462567b",
                 "shasum": ""
             },
             "require": {
@@ -6319,7 +6320,7 @@
                 "nikic/php-parser": "4.13.*",
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
-                "spryker-sdk/integrator": "dev-develop",
+                "spryker-sdk/integrator": "dev-master",
                 "spryker-sdk/sdk-contracts": "^0.2.0",
                 "spryker/code-sniffer": "^0.17.3",
                 "symfony/config": "^5.0",
@@ -6334,6 +6335,8 @@
                 "symfony/yaml": "^5.3"
             },
             "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.5"
             },
             "default-branch": true,
@@ -6359,7 +6362,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2022-08-02T13:40:44+00:00"
+            "time": "2022-09-01T10:29:06+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
