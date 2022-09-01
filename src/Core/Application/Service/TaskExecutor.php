@@ -25,11 +25,6 @@ class TaskExecutor
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface>
-     */
-    protected iterable $commandRunners;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
     protected TaskRepositoryInterface $taskRepository;
@@ -71,14 +66,16 @@ class TaskExecutor
     }
 
     /**
-     * @param string $taskId
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param string|null $taskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function execute(string $taskId, ContextInterface $context): ContextInterface
+    public function execute(ContextInterface $context, ?string $taskId = null): ContextInterface
     {
-        $context = $this->addBaseTask($taskId, $context);
+        if ($taskId !== null) {
+            $context = $this->addBaseTask($taskId, $context);
+        }
         $context = $this->collectRequiredStages($context);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);

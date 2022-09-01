@@ -47,7 +47,7 @@ class TaskExecutorTest extends Unit
         );
 
         // Act
-        $result = $taskExecutor->execute('test', $context);
+        $result = $taskExecutor->execute($context, 'test');
 
         // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());
@@ -70,7 +70,7 @@ class TaskExecutorTest extends Unit
         );
 
         // Act
-        $result = $taskExecutor->execute('test', $context);
+        $result = $taskExecutor->execute($context, 'test');
 
         // Assert
         $this->assertSame($context->getExitCode(), $result->getExitCode());

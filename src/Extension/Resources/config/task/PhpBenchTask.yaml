@@ -26,6 +26,7 @@ placeholders:
       name: "tests"
       description: "Relative path to tests directory in project"
       type: path
+      defaultValue: "tests"
   - name: "%bootstrap%"
     value_resolver: STATIC_TEXT
     optional: false
@@ -33,6 +34,7 @@ placeholders:
       name: "bootstrap"
       description: "Relative path to bootstrap file in project"
       type: path
+      defaultValue: "vendor/autoload.php"
   - name: "%group%"
     value_resolver: OPTION
     optional: true
@@ -63,7 +65,7 @@ placeholders:
       name: "report"
       description: "Report config"
       type: string
-      defaultValue: '"\"generator\":\"expression\",\"cols\":[\"benchmark\",\"subject\",\"best\",\"mean\",\"worst\",\"stdev\",\"revs\",\"its\"]"'
+      defaultValue: '{"generator":"expression","cols":["benchmark","subject","best","mean","worst","stdev","revs","its"]}'
   - name: "%time-unit%"
     value_resolver: OPTION
     optional: true

@@ -7,34 +7,26 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
-use LogicException;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class ContextStorage
+class ContextFactory implements ContextFactoryInterface
 {
+    /**
+     * @var \SprykerSdk\SdkContracts\Entity\ContextInterface|null
+     */
     protected ?ContextInterface $context = null;
 
     /**
-     * @throws \LogicException
-     *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
     public function getContext(): ContextInterface
     {
-        if ($this->context === null) {
-            throw new LogicException(sprintf('Context is not set. Populate it firstly'));
+        if (!$this->context) {
+            $this->context = new Context();
         }
 
         return $this->context;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return void
-     */
-    public function setContext(ContextInterface $context): void
-    {
-        $this->context = $context;
     }
 }
