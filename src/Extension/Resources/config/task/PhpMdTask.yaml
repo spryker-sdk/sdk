@@ -4,16 +4,24 @@ short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
 version: 1.0.0
-command: "%executable_command% ./src json %config% %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
+command: "%executable_command% %path% json %config% %strict% --minimumpriority %priority% %reportDir%"
 type: local_cli
 placeholders:
   - name: "%executable_command%"
     value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      alias: "executable_folder"
-      description: "Executable folder (checks in project dir)"
+      description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/phpmd"
+      settingPaths: [ "project_dir", "sdk_dir" ]
+  - name: "%path%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      alias: "path"
+      description: "Relative path to module directory in project"
+      type: path
+      defaultValue: 'src'
   - name: "%strict%"
     value_resolver: FLAG
     optional: false
@@ -21,7 +29,6 @@ placeholders:
       alias: "strict"
       description: "Report silent violations"
       defaultValue: false
-      settingPaths: []
       type: boolean
   - name: "%config%"
     value_resolver: CONFIG_PATH
@@ -32,7 +39,7 @@ placeholders:
       description: "Config file"
       defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
   - name: "%priority%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
       alias: "priority"
@@ -40,16 +47,16 @@ placeholders:
       minValue: 1
       maxValue: 10
       defaultValue: 2
-      settingPaths: []
       type: int
   - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      alias: "report_dir"
+      option: "reportfile"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+      defaultValue: "phpmd.static.json"
 report_converter:
   name: PHPMDViolationConverter
   configuration:

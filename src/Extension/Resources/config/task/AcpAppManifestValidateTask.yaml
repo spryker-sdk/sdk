@@ -11,9 +11,10 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%manifest-path%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "manifest-path"
+      option: "manifest-path"
       description: "Path to manifest file"
       type: string

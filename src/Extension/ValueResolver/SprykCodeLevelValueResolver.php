@@ -31,11 +31,11 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAlias(): string
+    public function getAlias(): ?string
     {
-        return 'mode';
+        return null;
     }
 
     /**

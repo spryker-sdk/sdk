@@ -11,30 +11,34 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%project-root%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "project-root"
+      option: "project-root"
       description: "Relative path to project root"
       type: path
   - name: "%openapi-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "openapi-file"
+      option: "openapi-file"
       description: "Path to OpenAPI file"
       type: string
   - name: "%organization%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "organization"
+      option: "organization"
       description: "The namespace that will be used for code generation e.g. Pyz"
       type: string
   - name: "%application-type%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "application-type"
+      option: "application-type"
       description: "Application type e.g. JSON"
       type: string

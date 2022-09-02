@@ -11,14 +11,14 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%name%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
       alias: "name"
       description: "The name of the App"
       type: string
   - name: "%locale%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "locale"
@@ -26,9 +26,10 @@ placeholders:
       type: string
       defaultValue: "en_US"
   - name: "%manifest-path%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "manifest-path"
+      option: "manifest-path"
       description: "Path to save manifest file to"
       type: string

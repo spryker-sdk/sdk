@@ -11,23 +11,25 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%title%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
       alias: "title"
       description: "The name of the App"
       type: string
   - name: "%openapi-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "openapi-file"
+      option: "openapi-file"
       description: "Path to save OpenAPI file to"
       type: string
   - name: "%api-version%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "api-version"
+      option: "api-version"
       description: "Version number of the OpenAPI schema"
       type: string

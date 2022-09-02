@@ -73,7 +73,7 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     public function getAlias(): ?string
     {
-        return 'sdk-dir';
+        return null;
     }
 
     /**

@@ -11,16 +11,18 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%asyncapi-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "asyncapi-file"
+      option: "asyncapi-file"
       description: "Path to AsyncAPI file"
       type: string
   - name: "%organization%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "organization"
+      option: "organization"
       description: "The namespace that will be used for code generation e.g. Pyz"
       type: string

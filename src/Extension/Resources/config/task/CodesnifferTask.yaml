@@ -4,16 +4,25 @@ short_description: "Check your code by running a static code analysis and genera
 help: "You may need to set default phpcs standard before using it. By default uses phpcs.xml from the project root."
 stage: build
 version: 1.0.0
-command: "php %executable_command% %severity% --report=json ./%path% --report-file=%reportDir%/phpcs.codestyle.json"
+command: "php %executable_command% %severity% %report_type% %path% %reportDir%"
 type: local_cli
 placeholders:
   - name: "%executable_command%"
     value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      alias: "executable_folder"
-      description: "Executable folder (checks in project dir)"
+      description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/phpcs"
+      settingPaths: [ "project_dir", "sdk_dir" ]
+  - name: "%report_type%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      option: "report"
+      description: "Report Type format"
+      type: string
+      settingPaths: []
+      defaultValue: 'json'
   - name: "%path%"
     value_resolver: STATIC
     optional: false
@@ -24,18 +33,20 @@ placeholders:
       settingPaths: []
       defaultValue: 'src'
   - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      alias: "report_dir"
+      option: "report-file"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+      defaultValue: "phpcs.codestyle.json"
   - name: "%severity%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: 'severity'
+      option: 'severity'
       description: 'Severity level of the CodeSniffer'
       type: int
       defaultValue: null

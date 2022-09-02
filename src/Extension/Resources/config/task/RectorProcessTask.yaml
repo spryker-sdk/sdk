@@ -4,7 +4,7 @@ short_description: "Instant Upgrades and Automated Refactoring"
 help: ~
 stage: build
 version: 0.1.0
-command: "php %executable_command% process ./%path% %config% %is-ansi%"
+command: "php %executable_command% process %path% %config% %is-ansi%"
 type: local_cli
 optional: false
 placeholders:
@@ -12,17 +12,9 @@ placeholders:
     value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      alias: "executable_folder"
-      description: "Executable folder (checks in project dir)"
+      description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/rector"
-  - name: "%reportDir%"
-    value_resolver: STATIC
-    optional: true
-    configuration:
-      alias: "report_dir"
-      description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      settingPaths: [ "project_dir", "sdk_dir" ]
   - name: "%path%"
     value_resolver: STATIC
     optional: false
@@ -32,7 +24,7 @@ placeholders:
       type: path
       defaultValue: "src"
   - name: "%config%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       option: "config"

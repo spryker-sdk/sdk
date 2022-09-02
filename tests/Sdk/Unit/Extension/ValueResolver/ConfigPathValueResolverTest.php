@@ -50,6 +50,7 @@ class ConfigPathValueResolverTest extends Unit
             ->method('get')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
         $value = $valueResolver->getValue($this->context, ['project_dir' => '.', 'sdk_dir' => 'non_exist']);
 
@@ -68,6 +69,7 @@ class ConfigPathValueResolverTest extends Unit
             ->method('get')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
         $value = $valueResolver->getValue($this->context, ['project_dir' => 'non_exist', 'sdk_dir' => '.']);
 

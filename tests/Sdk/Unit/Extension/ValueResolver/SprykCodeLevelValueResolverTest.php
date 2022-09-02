@@ -95,7 +95,7 @@ class SprykCodeLevelValueResolverTest extends Unit
         $this->assertSame('project', $value);
         $this->assertSame('project', $valueResolver->getDefaultValue());
         $this->assertSame('string', $valueResolver->getType());
-        $this->assertSame('mode', $valueResolver->getAlias());
+        $this->assertNull($valueResolver->getAlias());
         $this->assertSame('CORE', $valueResolver->getId());
     }
 }

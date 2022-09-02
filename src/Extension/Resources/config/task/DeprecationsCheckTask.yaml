@@ -4,24 +4,25 @@ short_description: "Check your code by running a static code analysis and genera
 help: "By default exits with code `1` in case of critical error and with code `0` in all other cases. Adjust the depth of analysis by specifying `errorLevel=1` in the `psalm.xml` file if you want to prevent command fails in case of critical errors."
 stage: build
 version: 1.0.0
-command: "php %executable_command% --config=%config% --no-progress --output-format=json --report=%reportDir%/psalm.deprecations_report.json 1> /dev/null"
+command: "php %executable_command% --config=%config% --no-progress --output-format=json %reportDir% 1> /dev/null"
 type: local_cli
 placeholders:
   - name: "%executable_command%"
     value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      alias: "executable_folder"
-      description: "Executable folder (checks in project dir)"
+      description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/psalm"
+      settingPaths: [ "project_dir", "sdk_dir" ]
   - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      alias: "report_dir"
+      option: "report"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+      defaultValue: "psalm.deprecations_report.json"
   - name: "%config%"
     value_resolver: CONFIG_PATH
     optional: true

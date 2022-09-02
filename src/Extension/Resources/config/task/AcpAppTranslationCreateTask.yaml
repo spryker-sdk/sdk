@@ -11,9 +11,10 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%translation-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "translation-file"
+      option: "translation-file"
       description: "Path to save translation file to"
       type: string

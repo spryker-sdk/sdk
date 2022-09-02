@@ -8,20 +8,11 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
+use SprykerSdk\Sdk\Extension\Exception\CanNotResolveValueException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
 {
-    /**
-     * @var string
-     */
-    protected const PROJECT_DIR_SETTING = 'project_dir';
-
-    /**
-     * @var string
-     */
-    protected const SDK_DIR_SETTING = 'sdk_dir';
-
     /**
      * @return string
      */
@@ -35,26 +26,33 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
      * @param array $settingValues
      * @param bool $optional
      *
+     * @throws \SprykerSdk\Sdk\Extension\Exception\CanNotResolveValueException
+     *
      * @return string
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
-        $value = (string)parent::getValue($context, $settingValues, $optional);
+        $relativePath = (string)parent::getValue($context, $settingValues, $optional);
 
-        $projectDir = $settingValues[static::PROJECT_DIR_SETTING];
-        $sdkDir = $settingValues[static::SDK_DIR_SETTING];
-
-        if (strpos($projectDir, DIRECTORY_SEPARATOR, -1) === 0) {
-            $projectDir = rtrim($projectDir, DIRECTORY_SEPARATOR);
+        foreach ($this->getSettingPaths() as $settingKey) {
+            $path = $settingValues[$settingKey];
+            if (strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
+                $path = rtrim($path, DIRECTORY_SEPARATOR);
+            }
+            $path = sprintf('%s/%s', $path, $relativePath);
+            if (file_exists($path)) {
+                return $this->formatValue($path);
+            }
         }
-        if (strpos($sdkDir, DIRECTORY_SEPARATOR, -1) === 0) {
-            $sdkDir = rtrim($sdkDir, DIRECTORY_SEPARATOR);
+        if (!$this->getSettingPaths()) {
+            $path = sprintf('%s/%s', getcwd(), $relativePath);
+
+            if (file_exists($path)) {
+                return $this->formatValue($relativePath);
+            }
         }
 
-        $projectLevelSettings = sprintf('%s/%s', $projectDir ?? '', $value);
-        $sdkLevelSettings = sprintf('%s/%s', $sdkDir ?? '', $value);
-
-        return file_exists($projectLevelSettings) ? $projectLevelSettings : $sdkLevelSettings;
+        throw new CanNotResolveValueException('Can\'t resolve path.');
     }
 
     /**
@@ -62,15 +60,7 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
      */
     protected function getRequiredSettingPaths(): array
     {
-        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return $this->getRequiredSettingPaths();
+        return $this->getSettingPaths();
     }
 
     /**
@@ -81,5 +71,13 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
     protected function getValueFromSettings(array $settingValues): ?string
     {
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'path';
     }
 }

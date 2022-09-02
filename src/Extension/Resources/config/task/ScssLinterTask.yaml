@@ -4,32 +4,34 @@ short_description: "Check your scss styles to avoid errors and enforce conventio
 help: ~
 stage: build
 version: 0.1.0
-command: "node %sdk_dir%/frontend/libs/stylelint.js %file-path% %config-path% > %reportDir%/stylelint.codestyle.json"
+command: "node %sdk_dir%/frontend/libs/stylelint.js %file-path% %config-path% > %reportDir%"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
   - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      alias: "report_dir"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+      defaultValue: "stylelint.codestyle.json"
   - name: "%file-path%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "file-path"
+      option: "file-path"
       description: "Execute stylelint only for this file"
       type: string
   - name: "%config-path%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "config-path"
+      option: "config-path"
       description: "Use this stylelint config instead of default"
       type: string
 report_converter:

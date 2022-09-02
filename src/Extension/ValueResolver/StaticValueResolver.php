@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class StaticValueResolver extends ConfigurableAbstractValueResolver
 {
@@ -17,5 +18,28 @@ class StaticValueResolver extends ConfigurableAbstractValueResolver
     public function getId(): string
     {
         return 'STATIC';
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     * @param bool $optional
+     *
+     * @return mixed
+     */
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
+    {
+        $value = parent::getValue($context, $settingValues, $optional);
+
+        if (is_array($value)) {
+            $items = [];
+            foreach ($value as $item) {
+                $items[] = $this->formatValue(sprintf('\'%s\'', $item));
+            }
+
+            return $items;
+        }
+
+        return $value ? $this->formatValue(sprintf('\'%s\'', $value)) : null;
     }
 }

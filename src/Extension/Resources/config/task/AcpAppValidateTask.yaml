@@ -11,23 +11,26 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%manifest-path%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "manifest-path"
+      option: "manifest-path"
       description: "Path to save manifest file to"
       type: string
   - name: "%configuration-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "configuration-file"
+      option: "configuration-file"
       description: "Path to save configuration file to"
       type: string
   - name: "%translation-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "translation-file"
+      option: "translation-file"
       description: "Path to save translation file to"
       type: string

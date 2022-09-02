@@ -29,27 +29,27 @@ abstract class ConfigurableAbstractValueResolver extends AbstractValueResolver i
     /**
      * @var string|null
      */
-    protected ?string $description;
+    protected ?string $description = null;
 
     /**
      * @var array
      */
-    protected array $settingPaths;
+    protected array $settingPaths = [];
 
     /**
      * @var array
      */
-    protected array $choiceValues;
+    protected array $choiceValues = [];
 
     /**
      * @var string|null
      */
-    protected ?string $help;
+    protected ?string $help = null;
 
     /**
      * @var string
      */
-    protected string $type;
+    protected string $type = 'string';
 
     /**
      * @return string
@@ -125,9 +125,9 @@ abstract class ConfigurableAbstractValueResolver extends AbstractValueResolver i
      */
     public function configure(array $values): void
     {
-        $this->alias = $values['alias'] ?? $values['name'];
-        $this->option = $values['option'] ?? $this->alias ?? null;
-        $this->description = $values['description'];
+        $this->alias = $values['alias'] ?? $values['name'] ?? null;
+        $this->description = $values['description'] ?? '';
+        $this->option = $values['option'] ?? null;
         $this->defaultValue = $values['defaultValue'] ?? null;
         $this->help = $values['help'] ?? null;
         $this->type = $values['type'] ?? 'string';
@@ -136,10 +136,16 @@ abstract class ConfigurableAbstractValueResolver extends AbstractValueResolver i
     }
 
     /**
+     * @param string $value
+     *
      * @return string
      */
-    protected function getValueName(): string
+    protected function formatValue(string $value): string
     {
-        return $this->getAlias() ?? $this->getId();
+        if ($this->getOption() === null) {
+            return $value;
+        }
+
+        return sprintf('--%s=%s', $this->getOption(), $value);
     }
 }

@@ -4,7 +4,7 @@ short_description: "Check your code by running a static code analysis"
 help: "You may need to set default phpcs standard before using it. By default uses phpcs.xml from the project root."
 stage: build
 version: 1.0.0
-command: "php %executable_command% %severity% ./%path%"
+command: "php %executable_command% %severity% %path%"
 type: local_cli
 optional: true
 placeholders:
@@ -12,14 +12,15 @@ placeholders:
     value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      alias: "executable_folder"
-      description: "Executable folder (checks in project dir)"
+      description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/phpcbf"
+      settingPaths: [ "project_dir", "sdk_dir" ]
   - name: "%severity%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: 'severity'
+      option: 'severity'
       description: 'Severity level of the CodeSniffer'
   - name: "%path%"
     value_resolver: STATIC

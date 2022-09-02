@@ -4,20 +4,12 @@ short_description: "An opinionated code formatter"
 help: ~
 stage: build
 version: 0.1.0
-command: "npx --prefix %sdk_dir% prettier --write --loglevel=%log_level% ./%path%"
+command: "npx --prefix %sdk_dir% prettier --write --loglevel=%log_level% %path%"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
-  - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
-    optional: true
-    configuration:
-      alias: "report_dir"
-      description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
   - name: "%path%"
     value_resolver: STATIC
     optional: false
@@ -28,7 +20,7 @@ placeholders:
       settingPaths: []
       defaultValue: 'src'
   - name: "%log_level%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: true
     configuration:
       alias: "log_level"

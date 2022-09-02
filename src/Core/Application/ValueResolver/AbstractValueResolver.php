@@ -40,8 +40,8 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
     {
-        if ($this->valueReceiver->has($this->getValueName())) {
-            return $this->valueReceiver->get($this->getValueName());
+        if ($this->getAlias() && $this->valueReceiver->has($this->getAlias())) {
+            return $this->valueReceiver->get($this->getAlias());
         }
 
         $requiredSettings = array_intersect(array_keys($settingValues), $this->getRequiredSettingPaths());
@@ -111,15 +111,14 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      */
     protected function getValueFromSettings(array $settingValues)
     {
-        return $settingValues[$this->getValueName()] ?? null;
-    }
+        $settingPaths = $this->getSettingPaths();
+        if (!$settingPaths) {
+            return null;
+        }
 
-    /**
-     * @return string
-     */
-    protected function getValueName(): string
-    {
-        return $this->getAlias() ?? $this->getId();
+        $settingName = reset($settingPaths);
+
+        return $settingValues[$settingName] ?? null;
     }
 
     /**

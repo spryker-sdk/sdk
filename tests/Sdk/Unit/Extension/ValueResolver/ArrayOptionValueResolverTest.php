@@ -69,7 +69,7 @@ class ArrayOptionValueResolverTest extends Unit
             ->method('get')
             ->willReturn(['value1', 'value2']);
         $valueResolver = new ArrayOptionValueResolver($this->valueReceiver);
-        $valueResolver->configure(['name' => 'key', 'description' => '', 'type' => 'array']);
+        $valueResolver->configure(['name' => 'key', 'description' => '', 'type' => 'array', 'option' => 'key']);
 
         // Act
         $value = $valueResolver->getValue($this->context, []);

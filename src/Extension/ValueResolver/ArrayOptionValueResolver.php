@@ -12,6 +12,14 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class ArrayOptionValueResolver extends StaticValueResolver
 {
     /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return 'ARRAY_OPTION';
+    }
+
+    /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -26,21 +34,14 @@ class ArrayOptionValueResolver extends StaticValueResolver
             return null;
         }
 
-        $options = array_map(
-            function ($valueParam) {
-                return sprintf('--%s=\'%s\'', $this->getAlias(), $valueParam);
-            },
-            $values,
-        );
-
-        return implode(' ', $options);
+        return implode(' ', $values);
     }
 
     /**
      * @return string
      */
-    public function getId(): string
+    public function getType(): string
     {
-        return 'ARRAY_OPTION';
+        return 'array';
     }
 }

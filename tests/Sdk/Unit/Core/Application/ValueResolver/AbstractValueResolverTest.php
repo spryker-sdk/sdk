@@ -130,7 +130,7 @@ class AbstractValueResolverTest extends Unit
              */
             public function getSettingPaths(): array
             {
-                return [];
+                return ['test'];
             }
 
             /**

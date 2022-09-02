@@ -10,6 +10,9 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @deprecated Use STATIC value resolver with option configuration instead.
+ */
 class OptionValueResolver extends StaticValueResolver
 {
     /**
@@ -26,10 +29,10 @@ class OptionValueResolver extends StaticValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = true)
     {
-        if ($optional && !$this->hasDefaultValue) {
+        if ($optional && !$this->hasDefaultValue && $this->getAlias()) {
             $optional = !$this->valueReceiver->receiveValue(
                 new ReceiverValue(
-                    sprintf('Would you like to configure `%s` setting? (%s)', $this->getValueName(), $this->getDescription()),
+                    sprintf('Would you like to configure `%s` setting? (%s)', $this->getAlias(), $this->getDescription()),
                     false,
                     'boolean',
                 ),
@@ -38,7 +41,7 @@ class OptionValueResolver extends StaticValueResolver
 
         $value = parent::getValue($context, $settingValues, $optional);
 
-        return $value ? sprintf('--%s=\'%s\'', $this->getOption() ?? $this->getAlias(), $value) : null;
+        return $value ? sprintf('--%s=%s', $this->getAlias(), $value) : null;
     }
 
     /**

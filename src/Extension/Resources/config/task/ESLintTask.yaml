@@ -4,28 +4,30 @@ short_description: 'Check your javascript code to avoid errors and enforce conve
 help: ~
 stage: build
 version: 0.1.0
-command: 'npx --prefix %sdk_dir% eslint %config% %file% %fix% --format json --output-file %reportDir%/eslint.codestyle.json'
+command: 'npx --prefix %sdk_dir% eslint %config% %file% %fix% --format=json %reportDir%'
 type: local_cli
 placeholders:
   - name: '%sdk_dir%'
     value_resolver: SDK_DIR
     optional: true
-  - name: '%reportDir%'
-    value_resolver: STATIC_TEXT
+  - name: "%reportDir%"
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      alias: 'report_dir'
-      description: 'Path to reports directory.'
+      option: "output-file"
+      description: "Reports directory"
       type: string
-      settingPaths: [ 'report_dir' ]
+      settingPaths: ["report_dir"]
+      defaultValue: "eslint.codestyle.json"
   - name: '%config%'
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      defaultValue: null
+      option: 'config'
       name: 'config'
       description: 'Path to configuration file. By default uses .eslint.* config from current directory.'
       type: string
+      defaultValue: null
   - name: '%fix%'
     value_resolver: FLAG
     optional: true
@@ -33,7 +35,7 @@ placeholders:
       alias: 'fix'
       description: 'Automatically fixes found problems.'
   - name: '%file%'
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: true
     configuration:
       type: path
