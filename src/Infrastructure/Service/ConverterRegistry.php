@@ -56,7 +56,13 @@ class ConverterRegistry implements ConverterRegistryInterface
     ) {
         $this->sdkBasePath = $sdkBasePath;
         $this->settingRepository = $settingRepository;
-        $this->classLoader = require $this->sdkBasePath . '/vendor/autoload.php';
+
+        if (is_file($sdkBasePath . '/vendor/autoload.php')) {
+            $classLoaderPath = $sdkBasePath . '/vendor/autoload.php';
+        } else {
+            $classLoaderPath = $sdkBasePath . '/../../autoload.php';
+        }
+        $this->classLoader = require $classLoaderPath;
     }
 
     /**

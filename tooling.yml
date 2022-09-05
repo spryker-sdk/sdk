@@ -3,3 +3,7 @@ architecture-sniffer:
 
 code-sniffer:
     level: 2
+
+upgrader:
+    prefixes:
+        - SprykerSdk

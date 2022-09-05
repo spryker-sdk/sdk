@@ -141,6 +141,33 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     }
 
     /**
+     * @param array<string> $taskIds
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     */
+    public function findByIds(array $taskIds): array
+    {
+        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Task> $tasks */
+        $tasks = $this->createQueryBuilder('t', 't.id')
+            ->where('t.id IN (:id)')
+            ->setParameter('id', $taskIds)
+            ->getQuery()
+            ->execute();
+
+        $orderedTasks = [];
+
+        foreach ($taskIds as $taskId) {
+            if (!isset($tasks[$taskId])) {
+                continue;
+            }
+
+            $orderedTasks[] = $tasks[$taskId];
+        }
+
+        return $orderedTasks;
+    }
+
+    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Task $task
      * @param bool $realCommand
      *

@@ -22,7 +22,7 @@ No conventions yet
 
 - __MUST__ define the path with an underscore as separator (e.g.: `some_setting`)
 
-- __MUST__ define the scope `is_project: true/false` to distinguish if the setting is per project or globally
+- __MUST__ define the scope `setting_type: sdk/local/shared` to distinguish if the setting is per project or globally
 
 - __MUST__  define a type to be either array, integer, string, boolean or float
 
