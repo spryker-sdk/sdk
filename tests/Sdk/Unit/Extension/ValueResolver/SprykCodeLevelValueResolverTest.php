@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Extension\ValueResolver\NamespaceValueResolver;
 use SprykerSdk\Sdk\Extension\ValueResolver\SprykCodeLevelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
