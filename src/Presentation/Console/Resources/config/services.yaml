@@ -31,6 +31,18 @@ services:
       - "@project_workflow"
       - "@cli_value_receiver"
       - "@workflow_runner"
+      - "@context_factory"
+  qa_automation_command:
+    autowire: false
+    class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
+    tags: [ "console.command" ]
+    arguments:
+      - "@task_executor"
+      - "@project_workflow"
+      - "@context_repository"
+      - "@project_setting_repository"
+      - "@context_factory"
+      - "@dynamic_task_set_creator"
   list_workflow_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\ListWorkflowCommand
     tags: ["console.command"]

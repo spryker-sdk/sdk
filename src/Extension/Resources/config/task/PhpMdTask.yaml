@@ -23,6 +23,7 @@ placeholders:
     value_resolver: CONFIG_PATH
     optional: true
     configuration:
+      param: "config"
       name: "config"
       description: "Config file"
       defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
