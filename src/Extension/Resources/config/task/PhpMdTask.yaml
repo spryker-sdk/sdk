@@ -4,7 +4,7 @@ short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
 version: 1.0.0
-command: "%executable_command% %path% json %config% %strict% --minimumpriority %priority% %reportDir%"
+command: "%executable_command% %path% %format% %config% %strict% --minimumpriority %priority% %reportDir%"
 type: local_cli
 placeholders:
   - name: "%executable_command%"
@@ -14,6 +14,13 @@ placeholders:
       description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/phpmd"
       settingPaths: [ "project_dir", "sdk_dir" ]
+  - name: "%format%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      description: "Output format."
+      type: path
+      defaultValue: 'json'
   - name: "%path%"
     value_resolver: STATIC
     optional: true
@@ -29,6 +36,14 @@ placeholders:
       alias: "strict"
       description: "Report silent violations"
       defaultValue: false
+      type: boolean
+  - name: "%minimumpriority%"
+    value_resolver: FLAG
+    optional: false
+    configuration:
+      alias: "minimumpriority"
+      description: "Minimum priority"
+      defaultValue: true
       type: boolean
   - name: "%config%"
     value_resolver: CONFIG_PATH

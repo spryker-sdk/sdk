@@ -29,5 +29,4 @@ placeholders:
       alias: "path"
       description: "Relative path to module directory in project"
       type: path
-      settingPaths: []
       defaultValue: 'src'

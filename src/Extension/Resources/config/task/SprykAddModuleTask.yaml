@@ -3,22 +3,38 @@ id: "generate:php:add-module"
 short_description: "Generate a new Spryker module in the current project"
 help: ~
 stage: build
-command: "php %sdk_dir%/vendor/bin/spryk-run AddModule --mode=%coreLevel% --organization=%namespace% --module=%module%"
+command: "php %sdk_dir%/vendor/bin/spryk-run AddModule %organization% %coreLevel% %module%"
 version: 1.0.0
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
-  - name: "%namespace%"
+  - name: "%organization%"
     value_resolver: NAMESPACE
+    optional: false
+    configuration:
+      alias: "namespace"
+      option: "organization"
+      description: "Namespace name"
+      type: string
+      defaultValue: 'Pyz'
+      settingPaths: ["projectNamespaces", "coreNamespaces"]
   - name: "%coreLevel%"
     value_resolver: CORE
-    optional: true
+    optional: false
+    configuration:
+      alias: "mode"
+      option: "mode"
+      description: "Core Level"
+      type: string
+      defaultValue: 'project'
+      settingPaths: ["coreNamespaces"]
   - name: "%module%"
     value_resolver: STATIC
     optional: false
     configuration:
       alias: "module"
+      option: "module"
       description: "Module name in camelcase format"
       type: string

@@ -4,12 +4,18 @@ short_description: "Perform architecture checks on either core and project level
 help: ~
 stage: build
 version: 0.1.0
-command: "npx --prefix %sdk_dir% frontend-sniffer %level_restriction% > %reportDir% 2>&1"
+command: "npx %prefix% %sdk_dir% frontend-sniffer %level_restriction% > %reportDir% 2>&1"
 type: local_cli
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
+  - name: '%prefix%'
+    value_resolver: FLAG
+    optional: true
+    configuration:
+      flag: "prefix"
+      defaultValue: true
   - name: "%reportDir%"
     value_resolver: REPORT_DIR
     optional: true

@@ -4,7 +4,7 @@ short_description: "Check your code efficiency by running a benchmark"
 help: ~
 stage: build
 version: 0.1.0
-command: "php %executable_command% run %tests% --bootstrap=%bootstrap% %group% %iterations% %revs% %report% %time-unit% %reportDir%"
+command: "php %executable_command% run %tests% %bootstrap% %group% %iterations% %revs% %report% %time-unit% %reportDir%"
 type: local_cli
 optional: false
 placeholders:
@@ -37,6 +37,7 @@ placeholders:
     optional: false
     configuration:
       alias: "bootstrap"
+      option: "bootstrap"
       description: "Relative path to bootstrap file in project"
       type: path
       defaultValue: "vendor/autoload.php"

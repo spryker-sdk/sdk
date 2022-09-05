@@ -7,15 +7,11 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class NamespaceValueResolver extends AbstractValueResolver
+class NamespaceValueResolver extends ConfigurableAbstractValueResolver
 {
-    /**
-     * @var string
-     */
-    public const ALIAS = 'namespace';
-
     /**
      * @return string
      */
@@ -25,35 +21,15 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return string
-     */
-    public function getAlias(): string
-    {
-        return static::ALIAS;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return 'Namespace name';
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'string';
-    }
-
-    /**
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     * @param bool $optional
+     *
      * @return mixed
      */
-    public function getDefaultValue()
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
     {
-        return 'Pyz';
+        return $this->formatValue(parent::getValue($context, $settingValues, $optional));
     }
 
     /**
@@ -65,13 +41,5 @@ class NamespaceValueResolver extends AbstractValueResolver
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
         return array_merge($settingValues['projectNamespaces'], $settingValues['coreNamespaces']);
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return ['projectNamespaces', 'coreNamespaces'];
     }
 }

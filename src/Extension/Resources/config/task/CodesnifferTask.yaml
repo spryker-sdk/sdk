@@ -21,7 +21,6 @@ placeholders:
       option: "report"
       description: "Report Type format"
       type: string
-      settingPaths: []
       defaultValue: 'json'
   - name: "%path%"
     value_resolver: STATIC
@@ -30,7 +29,6 @@ placeholders:
       alias: "path"
       description: "Relative path to module directory in project"
       type: path
-      settingPaths: []
       defaultValue: 'src'
   - name: "%reportDir%"
     value_resolver: REPORT_DIR
