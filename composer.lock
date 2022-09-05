@@ -6237,12 +6237,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "03b5954f6b9a31b0a4c28b0b3edbcb832b764cf1"
+                "reference": "5f743295f4e27d4f8949877d554d74a6190ab066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/03b5954f6b9a31b0a4c28b0b3edbcb832b764cf1",
-                "reference": "03b5954f6b9a31b0a4c28b0b3edbcb832b764cf1",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/5f743295f4e27d4f8949877d554d74a6190ab066",
+                "reference": "5f743295f4e27d4f8949877d554d74a6190ab066",
                 "shasum": ""
             },
             "require": {
@@ -6271,6 +6271,8 @@
                 "symfony/yaml": "^5.3"
             },
             "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.5",
                 "spryker/code-sniffer": "dev-master"
             },
@@ -6296,7 +6298,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/pplus-1478-sdk-installation-with-php74-project"
             },
-            "time": "2022-09-05T08:37:47+00:00"
+            "time": "2022-09-05T10:53:40+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
