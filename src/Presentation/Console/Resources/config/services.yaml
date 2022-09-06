@@ -1,6 +1,7 @@
 parameters:
   local_executable_file_path: '"$PhpExecutable$" %kernel.project_dir%/bin/console'
   executable_file_path: '%env(default:local_executable_file_path:EXECUTABLE_FILE_PATH)%'
+  host_sdk_dir: '%env(default:kernel.project_dir:SDK_DIR)%'
 services:
   question_helper:
     class: Symfony\Component\Console\Helper\SymfonyQuestionHelper
@@ -12,7 +13,7 @@ services:
       - "%kernel.project_dir%"
       - "@process_helper"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
+      - "%sdk_settings%"
   init_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitCommand
@@ -21,7 +22,7 @@ services:
       - "@initializer_service"
       - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
-      - "%kernel.project_dir%/src/Extension/Setting/settings.yaml"
+      - "%sdk_settings%"
   run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\RunWorkflowCommand
@@ -30,6 +31,18 @@ services:
       - "@project_workflow"
       - "@cli_value_receiver"
       - "@workflow_runner"
+      - "@context_factory"
+  qa_automation_command:
+    autowire: false
+    class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
+    tags: [ "console.command" ]
+    arguments:
+      - "@task_executor"
+      - "@project_workflow"
+      - "@context_repository"
+      - "@project_setting_repository"
+      - "@context_factory"
+      - "@dynamic_task_set_creator"
   list_workflow_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\ListWorkflowCommand
     tags: ["console.command"]
@@ -41,8 +54,8 @@ services:
     arguments:
       - "@project_workflow"
       - "@cli_value_receiver"
-      - "%project_settings_file%"
-      - "%kernel.project_dir%"
+      - "%kernel.project_dir%/var/workflow"
+      - "%host_sdk_dir%/var/workflow"
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand

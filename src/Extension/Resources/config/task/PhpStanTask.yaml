@@ -18,6 +18,7 @@ placeholders:
       description: "Relative path to module directory in project"
       type: path
       settingPaths: []
+      defaultValue: 'src'
   - name: "%reportDir%"
     value_resolver: STATIC_TEXT
     optional: true

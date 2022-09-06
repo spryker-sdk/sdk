@@ -10,6 +10,12 @@ namespace SprykerSdk\Sdk\Acceptance\Extension\Task;
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
+/**
+ * @group Acceptance
+ * @group Extension
+ * @group Task
+ * @group ArchitectureSnifferTaskCest
+ */
 class ArchitectureSnifferTaskCest
 {
     /**

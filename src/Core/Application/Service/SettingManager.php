@@ -80,6 +80,7 @@ class SettingManager
      */
     public function setSetting(string $path, $value): SettingInterface
     {
+        /** @var \SprykerSdk\Sdk\Core\Domain\Entity\Setting|null $settingDefinition */
         $settingDefinition = $this->projectSettingRepository->findOneByPath($path);
 
         if (!$settingDefinition) {

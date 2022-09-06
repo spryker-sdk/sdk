@@ -21,9 +21,9 @@ interface ContextRepositoryInterface
     /**
      * @param string $name
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
      */
-    public function findByName(string $name): ?ContextInterface;
+    public function findByName(string $name): ContextInterface;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
