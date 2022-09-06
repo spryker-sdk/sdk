@@ -14,12 +14,11 @@ final class Version20220727133310 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Tables names fixes.';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE sdk_removed_event_command (removed_event_id INTEGER NOT NULL, command_id INTEGER NOT NULL, PRIMARY KEY(removed_event_id, command_id))');
         $this->addSql('CREATE INDEX IDX_4852800B5CA6D57F ON sdk_removed_event_command (removed_event_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4852800B33E1689A ON sdk_removed_event_command (command_id)');
@@ -40,14 +39,6 @@ final class Version20220727133310 extends AbstractMigration
         $this->addSql('DROP TABLE sdk_removed_events_placeholders');
         $this->addSql('DROP TABLE sdk_tasks_commands');
         $this->addSql('DROP TABLE sdk_tasks_placeholders');
-        $this->addSql('DROP INDEX UNIQ_95DDEAADD10938F7');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_command AS SELECT id, converter_id, command, stage, type, has_stop_on_error, tags, error_message FROM sdk_command');
-        $this->addSql('DROP TABLE sdk_command');
-        $this->addSql('CREATE TABLE sdk_command (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, converter_id INTEGER DEFAULT NULL, command VARCHAR(255) NOT NULL, stage VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, has_stop_on_error BOOLEAN NOT NULL, tags CLOB NOT NULL --(DC2Type:json)
-        , error_message VARCHAR(255) NOT NULL, CONSTRAINT FK_95DDEAADD10938F7 FOREIGN KEY (converter_id) REFERENCES sdk_converter (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)');
-        $this->addSql('INSERT INTO sdk_command (id, converter_id, command, stage, type, has_stop_on_error, tags, error_message) SELECT id, converter_id, command, stage, type, has_stop_on_error, tags, error_message FROM __temp__sdk_command');
-        $this->addSql('DROP TABLE __temp__sdk_command');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_95DDEAADD10938F7 ON sdk_command (converter_id)');
         $this->addSql('DROP INDEX UNIQ_ABFCC59E5CA6D57F');
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_lifecycle AS SELECT id, removed_event_id FROM sdk_lifecycle');
         $this->addSql('DROP TABLE sdk_lifecycle');
@@ -86,7 +77,6 @@ final class Version20220727133310 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE sdk_removed_events_commands (removed_event_id INTEGER NOT NULL, command_id INTEGER NOT NULL, PRIMARY KEY(removed_event_id, command_id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4A58221C33E1689A ON sdk_removed_events_commands (command_id)');
         $this->addSql('CREATE INDEX IDX_4A58221C5CA6D57F ON sdk_removed_events_commands (removed_event_id)');
@@ -107,14 +97,6 @@ final class Version20220727133310 extends AbstractMigration
         $this->addSql('DROP TABLE sdk_removed_event_file');
         $this->addSql('DROP TABLE sdk_task_command');
         $this->addSql('DROP TABLE sdk_task_placeholder');
-        $this->addSql('DROP INDEX UNIQ_95DDEAADD10938F7');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_command AS SELECT id, converter_id, command, type, has_stop_on_error, tags, stage, error_message FROM sdk_command');
-        $this->addSql('DROP TABLE sdk_command');
-        $this->addSql('CREATE TABLE sdk_command (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, converter_id INTEGER DEFAULT NULL, command VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, has_stop_on_error BOOLEAN NOT NULL, tags CLOB NOT NULL --(DC2Type:json)
-        , stage VARCHAR(255) NOT NULL, error_message VARCHAR(255) DEFAULT NULL)');
-        $this->addSql('INSERT INTO sdk_command (id, converter_id, command, type, has_stop_on_error, tags, stage, error_message) SELECT id, converter_id, command, type, has_stop_on_error, tags, stage, error_message FROM __temp__sdk_command');
-        $this->addSql('DROP TABLE __temp__sdk_command');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_95DDEAADD10938F7 ON sdk_command (converter_id)');
         $this->addSql('DROP INDEX UNIQ_ABFCC59E5CA6D57F');
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_lifecycle AS SELECT id, removed_event_id FROM sdk_lifecycle');
         $this->addSql('DROP TABLE sdk_lifecycle');

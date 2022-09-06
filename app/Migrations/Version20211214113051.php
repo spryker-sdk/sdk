@@ -14,12 +14,11 @@ final class Version20211214113051 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Initial migration.';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE sdk_converter (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL COLLATE BINARY, configuration CLOB NOT NULL --(DC2Type:json)
         )');
         $this->addSql('CREATE TABLE sdk_command (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, converter_id INTEGER DEFAULT NULL, command VARCHAR(255) NOT NULL COLLATE BINARY, stage VARCHAR(255) NOT NULL COLLATE BINARY, type VARCHAR(255) NOT NULL COLLATE BINARY, has_stop_on_error BOOLEAN NOT NULL, tags CLOB NOT NULL COLLATE BINARY --(DC2Type:json)
@@ -59,7 +58,6 @@ final class Version20211214113051 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE sdk_converter');
         $this->addSql('DROP TABLE sdk_command');
         $this->addSql('DROP TABLE sdk_file');

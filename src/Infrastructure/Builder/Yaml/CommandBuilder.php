@@ -65,7 +65,7 @@ class CommandBuilder implements CommandBuilderInterface
      */
     protected function buildTaskCommand(array $data): ?CommandInterface
     {
-        if (in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
+        if (!in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
             return null;
         }
 
@@ -92,13 +92,13 @@ class CommandBuilder implements CommandBuilderInterface
             return $commands;
         }
 
-        $existingTasks = $this->taskPool->getTasks();
         foreach ($data['tasks'] as $task) {
             $tasksTags = $task['tags'] ?? [];
             if (!array_intersect($tags, $tasksTags)) {
                 continue;
             }
-            $taskData = $taskListData[$task['id']] ?? $existingTasks[$task['id']];
+
+            $taskData = $taskListData[$task['id']] ?? $this->taskPool->getNotNestedTaskSet($task['id']);
 
             if ($taskData instanceof TaskInterface) {
                 foreach ($taskData->getCommands() as $command) {

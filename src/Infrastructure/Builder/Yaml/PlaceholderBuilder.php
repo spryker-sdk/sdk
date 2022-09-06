@@ -40,16 +40,16 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        $existingTasks = $this->taskPool->getTasks();
         if (isset($data['type']) && $data['type'] === TaskType::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
                 $taskTags = $task['tags'] ?? [];
-                if ($tags && !array_intersect($tags, $taskTags)) {
+                if (!array_intersect($tags, $taskTags)) {
                     continue;
                 }
+
                 $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
                     $taskListData[$task['id']]['placeholders'] :
-                    $existingTasks[$task['id']]->getPlaceholders();
+                    $this->taskPool->getNotNestedTaskSet($task['id'])->getPlaceholders();
             }
         }
         $taskPlaceholders = array_merge(...$taskPlaceholders);
