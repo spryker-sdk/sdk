@@ -165,7 +165,7 @@ class WorkflowTransitionListener
 
         $context = $this->getContext($event);
         if ($task) {
-            $context = $this->taskExecutor->execute($task, $context);
+            $context = $this->taskExecutor->execute($context, $task);
         }
         $resolvedNextTransition = $this->resolverNextTransition($event, $context);
 
