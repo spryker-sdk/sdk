@@ -36,7 +36,7 @@
         "spryker-sdk/sdk-contracts": "^0.3.0",
         "spryker-sdk/spryk": "^0.4.0",
         "spryker-sdk/sync-api": "^0.1.1",
-        "spryker-sdk/upgrader": "dev-bugfix/pplus-1478-sdk-installation-with-php74-project",
+        "spryker-sdk/upgrader": "dev-master",
         "spryker/architecture-sniffer": "dev-master",
         "spryker/code-sniffer": "dev-master",
         "symfony/console": "^5.0 || ^6.0",
