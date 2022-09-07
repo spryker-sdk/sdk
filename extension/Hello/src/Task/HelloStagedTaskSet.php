@@ -25,7 +25,7 @@ class HelloStagedTaskSet implements TaskSetInterface
      */
     public function getStages(): array
     {
-        return ['stageA', 'stageB'];
+        return [];
     }
 
     /**
@@ -90,7 +90,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getStage(): string
                 {
-                    return 'stageA';
+                    return 'build';
                 }
 
                 /**
@@ -201,7 +201,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getStage(): string
                 {
-                    return 'stageB';
+                    return 'default';
                 }
 
                 /**
@@ -432,6 +432,38 @@ class HelloStagedTaskSet implements TaskSetInterface
     public function getSuccessor(): ?string
     {
         return null;
+    }
+
+    /**
+     * @return array<string, array<string>>
+     */
+    public function getTagsMap(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array<string, bool>
+     */
+    public function getStopOnErrorMap(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array<string, array<string, array>>
+     */
+    public function getOverridePlaceholdersMap(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array<string, array<string, string>>
+     */
+    public function getSharedPlaceholdersMap(): array
+    {
+        return [];
     }
 
     /**

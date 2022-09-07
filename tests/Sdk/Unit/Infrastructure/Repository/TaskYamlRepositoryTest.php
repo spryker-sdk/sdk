@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository;
+use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -58,6 +59,7 @@ class TaskYamlRepositoryTest extends Unit
             $this->settingRepository,
             new Finder(),
             new Yaml(),
+            $this->createTaskFromYamlTaskSetBuilderMock(),
             [new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))],
         );
     }
@@ -160,5 +162,13 @@ class TaskYamlRepositoryTest extends Unit
 
         // Assert
         $this->assertNull($result);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromYamlTaskSetBuilderInterface
+     */
+    public function createTaskFromYamlTaskSetBuilderMock(): TaskFromYamlTaskSetBuilderInterface
+    {
+        return $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84fa27a11d96644c58371709b1cceb73",
+    "content-hash": "aed2f00f9d281d060714c8617aa3bc58",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6158,16 +6158,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-723/master-qa-automation",
+            "version": "dev-feature/sdk-899-extend-task-set-placeholders",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "369ed8eb12f182b41245436b181480070c83f2d6"
+                "reference": "dfb473b19db35e82c8376528e5b8fa4382a55c95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/369ed8eb12f182b41245436b181480070c83f2d6",
-                "reference": "369ed8eb12f182b41245436b181480070c83f2d6",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/dfb473b19db35e82c8376528e5b8fa4382a55c95",
+                "reference": "dfb473b19db35e82c8376528e5b8fa4382a55c95",
                 "shasum": ""
             },
             "require": {
@@ -6190,9 +6190,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-723/master-qa-automation"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-899-extend-task-set-placeholders"
             },
-            "time": "2022-08-29T08:40:26+00:00"
+            "time": "2022-09-07T08:59:20+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14273,7 +14273,7 @@
     "aliases": [
         {
             "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-723/master-qa-automation",
+            "version": "dev-feature/sdk-899-extend-task-set-placeholders",
             "alias": "0.2.0",
             "alias_normalized": "0.2.0.0"
         }
@@ -14302,5 +14302,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
