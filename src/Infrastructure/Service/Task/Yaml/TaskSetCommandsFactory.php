@@ -25,9 +25,8 @@ class TaskSetCommandsFactory
     {
         $commands = [];
 
-        /** @var array{id: string} $task */
         foreach ($taskSetConfiguration['tasks'] as $task) {
-            $commands[$task['id']] = isset($allTasksConfigurations[$task['id']])
+            $commands[(string)$task['id']] = isset($allTasksConfigurations[$task['id']])
                 ? [$this->createCommandFromArray($allTasksConfigurations[$task['id']])]
                 : $existingTasks[$task['id']]->getCommands();
         }

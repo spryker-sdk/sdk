@@ -24,9 +24,8 @@ class TaskSetPlaceholdersFactory
     {
         $placeholders = [];
 
-        /** @var array{id: string} $task */
         foreach ($taskSetConfiguration['tasks'] as $task) {
-            $placeholders[$task['id']] = isset($allTasksConfigurations[$task['id']])
+            $placeholders[(string)$task['id']] = isset($allTasksConfigurations[$task['id']])
                 ? $this->createPlaceholdersFromDefinitions($allTasksConfigurations[$task['id']]['placeholders'])
                 : $existingTasks[$task['id']]->getPlaceholders();
         }
