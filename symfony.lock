@@ -161,7 +161,6 @@
         "version": "5.2.12"
     },
     "knplabs/github-api": {
-        "version": "3.7",
         "version": "3.6",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
@@ -229,9 +228,6 @@
     },
     "phpmd/phpmd": {
         "version": "2.10.2"
-    },
-    "phpspec/prophecy": {
-        "version": "1.14.0"
     },
     "phpstan/phpdoc-parser": {
         "version": "1.2.0"
