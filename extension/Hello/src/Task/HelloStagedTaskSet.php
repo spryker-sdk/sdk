@@ -25,7 +25,7 @@ class HelloStagedTaskSet implements TaskSetInterface
      */
     public function getStages(): array
     {
-        return [];
+        return ['stageA', 'stageB'];
     }
 
     /**
@@ -82,7 +82,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getStages(): array
                 {
-                    return ['stageA', 'stageB'];
+                    return [];
                 }
 
                 /**
