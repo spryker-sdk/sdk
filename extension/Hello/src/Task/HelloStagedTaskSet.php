@@ -82,7 +82,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getStages(): array
                 {
-                    return [];
+                    return ['stageA', 'stageB'];
                 }
 
                 /**
@@ -90,7 +90,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getStage(): string
                 {
-                    return 'build';
+                    return 'stageA';
                 }
 
                 /**
@@ -201,7 +201,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                  */
                 public function getStage(): string
                 {
-                    return 'default';
+                    return 'stageB';
                 }
 
                 /**
