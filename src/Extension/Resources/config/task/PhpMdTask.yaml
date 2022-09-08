@@ -4,7 +4,7 @@ short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
 version: 1.0.0
-command: "%executable_command% %path% %format% %config% %strict% --minimumpriority %priority% %reportDir%"
+command: "%executable_command% %path% %format% %config% %strict% %minimum-priority% %priority% %reportDir%"
 type: local_cli
 placeholders:
   - name: "%executable_command%"
@@ -37,11 +37,11 @@ placeholders:
       description: "Report silent violations"
       defaultValue: false
       type: boolean
-  - name: "%minimumpriority%"
+  - name: "%minimum-priority%"
     value_resolver: FLAG
     optional: false
     configuration:
-      alias: "minimumpriority"
+      alias: "minimum-priority"
       description: "Minimum priority"
       defaultValue: true
       type: boolean

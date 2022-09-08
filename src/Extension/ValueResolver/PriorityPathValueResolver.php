@@ -39,13 +39,13 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
             if (strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
                 $path = rtrim($path, DIRECTORY_SEPARATOR);
             }
-            $path = sprintf('%s/%s', $path, $relativePath);
+            $path = implode(DIRECTORY_SEPARATOR, [$path, $relativePath]);
             if (file_exists($path)) {
                 return $this->formatValue($path);
             }
         }
         if (!$this->getSettingPaths()) {
-            $path = sprintf('%s/%s', getcwd(), $relativePath);
+            $path = implode(DIRECTORY_SEPARATOR, [getcwd(), $relativePath]);
 
             if (file_exists($path)) {
                 return $this->formatValue($relativePath);
