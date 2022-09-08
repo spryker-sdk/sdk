@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
+
 interface CommandBuilderInterface
 {
     /**
-     * @param array $data
-     * @param array $taskListData
-     * @param array<string> $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskListData
      *
      * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    public function buildCommands(array $data, array $taskListData, array $tags = []): array;
+    public function buildCommands(TaskYamlInterface $taskListData): array;
 }

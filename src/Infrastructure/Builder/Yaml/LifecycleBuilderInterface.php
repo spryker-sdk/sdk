@@ -7,16 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 
 interface LifecycleBuilderInterface
 {
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskListData
      *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
      */
-    public function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface;
+    public function buildLifecycle(TaskYamlInterface $taskListData): TaskLifecycleInterface;
 }

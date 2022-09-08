@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 
 class TaskSetBuilder implements TaskSetBuilderInterface
@@ -25,22 +26,21 @@ class TaskSetBuilder implements TaskSetBuilderInterface
     }
 
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    public function buildTaskSet(array $taskData, array $taskListData, array $tasks, array $tags = []): Task
+    public function buildTaskSet(TaskYamlInterface $taskYaml): Task
     {
-        $task = $this->taskBuilder->buildTask($taskData, $taskListData, $tags);
+        $task = $this->taskBuilder->buildTask($taskYaml);
+        $taskData = $taskYaml->getTaskData();
 
         if (!isset($taskData['tasks'])) {
             return $task;
         }
 
         $taskSetPlaceholders = [];
+        $tasks = $taskYaml->getTasks();
 
         foreach ($taskData['tasks'] as $subTaskData) {
             $subTask = $tasks[$subTaskData['id']] ?? null;

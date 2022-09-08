@@ -7,18 +7,20 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 class ConverterBuilder implements ConverterBuilderInterface
 {
     /**
-     * @param array $data
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
-    public function buildConverter(array $data): ?ConverterInterface
+    public function buildConverter(TaskYamlInterface $taskYaml): ?ConverterInterface
     {
+        $data = $taskYaml->getTaskData();
         if (!isset($data['report_converter'])) {
             return null;
         }

@@ -7,14 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
 interface ConverterBuilderInterface
 {
     /**
-     * @param array $data
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskData
      *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
-    public function buildConverter(array $data): ?ConverterInterface;
+    public function buildConverter(TaskYamlInterface $taskData): ?ConverterInterface;
 }

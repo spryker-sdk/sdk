@@ -7,16 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 
 interface TaskBuilderInterface
 {
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    public function buildTask(array $taskData, array $taskListData, array $tags = []): Task;
+    public function buildTask(TaskYamlInterface $taskYaml): Task;
 }

@@ -7,18 +7,20 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 
 class LifecycleCommandBuilder implements LifecycleCommandBuilderInterface
 {
     /**
-     * @param array $data
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    public function buildLifecycleCommands(array $data): array
+    public function buildLifecycleCommands(TaskYamlInterface $taskYaml): array
     {
         $commands = [];
+        $data = $taskYaml->getTaskData();
 
         if (!isset($data['commands'])) {
             return $commands;

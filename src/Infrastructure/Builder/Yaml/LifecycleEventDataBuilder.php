@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
@@ -44,14 +45,13 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
     }
 
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
      */
-    public function buildInitializedEventData(array $taskData, array $taskListData, array $tags = []): InitializedEventData
+    public function buildInitializedEventData(TaskYamlInterface $taskYaml): InitializedEventData
     {
+        $taskData = $taskYaml->getTaskData();
         if (!isset($taskData['lifecycle']['INITIALIZED'])) {
             return new InitializedEventData();
         }
@@ -59,21 +59,20 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
         $eventData = $taskData['lifecycle']['INITIALIZED'];
 
         return new InitializedEventData(
-            $this->lifecycleCommandBuilder->buildLifecycleCommands($eventData),
-            $this->placeholderBuilder->buildPlaceholders($eventData, $taskListData, $tags),
-            $this->fileBuilder->buildFiles($eventData),
+            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYaml->withTaskData($eventData)),
+            $this->placeholderBuilder->buildPlaceholders($taskYaml->withTaskData($eventData)),
+            $this->fileBuilder->buildFiles($taskYaml->withTaskData($eventData)),
         );
     }
 
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
      */
-    public function buildRemovedEventData(array $taskData, array $taskListData, array $tags = []): RemovedEventData
+    public function buildRemovedEventData(TaskYamlInterface $taskYaml): RemovedEventData
     {
+        $taskData = $taskYaml->getTaskData();
         if (!isset($taskData['lifecycle']['REMOVED'])) {
             return new RemovedEventData();
         }
@@ -81,21 +80,20 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
         $eventData = $taskData['lifecycle']['REMOVED'];
 
         return new RemovedEventData(
-            $this->lifecycleCommandBuilder->buildLifecycleCommands($eventData),
-            $this->placeholderBuilder->buildPlaceholders($eventData, $taskListData, $tags),
-            $this->fileBuilder->buildFiles($eventData),
+            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYaml->withTaskData($eventData)),
+            $this->placeholderBuilder->buildPlaceholders($taskYaml->withTaskData($eventData)),
+            $this->fileBuilder->buildFiles($taskYaml->withTaskData($eventData)),
         );
     }
 
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
      */
-    public function buildUpdatedEventData(array $taskData, array $taskListData, array $tags = []): UpdatedEventData
+    public function buildUpdatedEventData(TaskYamlInterface $taskYaml): UpdatedEventData
     {
+        $taskData = $taskYaml->getTaskData();
         if (!isset($taskData['lifecycle']['UPDATED'])) {
             return new UpdatedEventData();
         }
@@ -103,9 +101,9 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
         $eventData = $taskData['lifecycle']['UPDATED'];
 
         return new UpdatedEventData(
-            $this->lifecycleCommandBuilder->buildLifecycleCommands($eventData),
-            $this->placeholderBuilder->buildPlaceholders($eventData, $taskListData, $tags),
-            $this->fileBuilder->buildFiles($eventData),
+            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYaml->withTaskData($eventData)),
+            $this->placeholderBuilder->buildPlaceholders($taskYaml->withTaskData($eventData)),
+            $this->fileBuilder->buildFiles($taskYaml->withTaskData($eventData)),
         );
     }
 }

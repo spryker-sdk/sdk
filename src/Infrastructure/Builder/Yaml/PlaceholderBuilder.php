@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
@@ -28,25 +29,20 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
     }
 
     /**
-     * @param array $data
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
-    public function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
+    public function buildPlaceholders(TaskYamlInterface $taskYaml): array
     {
+        $data = $taskYaml->getTaskData();
+        $taskListData = $taskYaml->getTaskListData();
         $placeholders = [];
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
         if (isset($data['type']) && $data['type'] === TaskType::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
-                $taskTags = $task['tags'] ?? [];
-                if (!array_intersect($tags, $taskTags)) {
-                    continue;
-                }
-
                 $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
                     $taskListData[$task['id']]['placeholders'] :
                     $this->taskPool->getNotNestedTaskSet($task['id'])->getPlaceholders();
@@ -61,7 +57,7 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
                 continue;
             }
 
-            $placeholders[$placeholderData['name']] = $this->buildPlaceholder($placeholderData);
+            $placeholders[$placeholderData['name']] = $this->createPlaceholder($placeholderData);
         }
 
         return $placeholders;
@@ -72,7 +68,7 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
      *
      * @return \SprykerSdk\SdkContracts\Entity\PlaceholderInterface
      */
-    protected function buildPlaceholder(array $placeholderData): PlaceholderInterface
+    protected function createPlaceholder(array $placeholderData): PlaceholderInterface
     {
         return new Placeholder(
             $placeholderData['name'],

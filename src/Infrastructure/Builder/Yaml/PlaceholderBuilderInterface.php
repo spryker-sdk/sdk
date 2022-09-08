@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
+
 interface PlaceholderBuilderInterface
 {
     /**
-     * @param array $data
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
-    public function buildPlaceholders(array $data, array $taskListData, array $tags = []): array;
+    public function buildPlaceholders(TaskYamlInterface $taskYaml): array;
 }

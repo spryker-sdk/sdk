@@ -14,7 +14,7 @@ interface TaskYamlRepositoryInterface
     /**
      * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
-    public function findAll();
+    public function findAll(): array;
 
     /**
      * @param string $taskId

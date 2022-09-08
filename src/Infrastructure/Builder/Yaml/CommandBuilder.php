@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
@@ -38,33 +39,32 @@ class CommandBuilder implements CommandBuilderInterface
     }
 
     /**
-     * @param array $data
-     * @param array $taskListData
-     * @param array<string> $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    public function buildCommands(array $data, array $taskListData, array $tags = []): array
+    public function buildCommands(TaskYamlInterface $taskYaml): array
     {
         $commands = [];
 
-        $taskCommand = $this->buildTaskCommand($data);
+        $taskCommand = $this->buildTaskCommand($taskYaml);
         if ($taskCommand) {
             $commands[] = $taskCommand;
         }
 
-        $taskSetCommands = $this->buildTaskSetCommands($data, $taskListData, $tags);
+        $taskSetCommands = $this->buildTaskSetCommands($taskYaml);
 
         return array_merge($commands, $taskSetCommands);
     }
 
     /**
-     * @param array $data
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\CommandInterface|null
      */
-    protected function buildTaskCommand(array $data): ?CommandInterface
+    protected function buildTaskCommand(TaskYamlInterface $taskYaml): ?CommandInterface
     {
+        $data = $taskYaml->getTaskData();
         if (!in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
             return null;
         }
@@ -73,19 +73,19 @@ class CommandBuilder implements CommandBuilderInterface
             $data,
             $data['tags'] ?? [],
             false,
-            $this->converterBuilder->buildConverter($data),
+            $this->converterBuilder->buildConverter($taskYaml),
         );
     }
 
     /**
-     * @param array $data
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    protected function buildTaskSetCommands(array $data, array $taskListData, array $tags = []): array
+    protected function buildTaskSetCommands(TaskYamlInterface $taskYaml): array
     {
+        $data = $taskYaml->getTaskData();
+        $taskListData = $taskYaml->getTaskListData();
         $commands = [];
 
         if ($data['type'] !== TaskType::TASK_SET_TYPE) {
@@ -93,11 +93,6 @@ class CommandBuilder implements CommandBuilderInterface
         }
 
         foreach ($data['tasks'] as $task) {
-            $tasksTags = $task['tags'] ?? [];
-            if (!array_intersect($tags, $tasksTags)) {
-                continue;
-            }
-
             $taskData = $taskListData[$task['id']] ?? $this->taskPool->getNotNestedTaskSet($task['id']);
 
             if ($taskData instanceof TaskInterface) {
@@ -110,7 +105,7 @@ class CommandBuilder implements CommandBuilderInterface
 
             $commands[] = $this->buildCommand(
                 $taskData,
-                $tasksTags,
+                $task['tags'] ?? [],
                 $task['stop_on_error'],
                 $this->converterBuilder->buildConverter($taskData),
             );

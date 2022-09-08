@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 
@@ -26,18 +27,16 @@ class LifecycleBuilder implements LifecycleBuilderInterface
     }
 
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskListData
      *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
      */
-    public function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface
+    public function buildLifecycle(TaskYamlInterface $taskListData): TaskLifecycleInterface
     {
         return new Lifecycle(
-            $this->lifecycleEventDataBuilder->buildInitializedEventData($taskData, $taskListData, $tags),
-            $this->lifecycleEventDataBuilder->buildUpdatedEventData($taskData, $taskListData, $tags),
-            $this->lifecycleEventDataBuilder->buildRemovedEventData($taskData, $taskListData, $tags),
+            $this->lifecycleEventDataBuilder->buildInitializedEventData($taskListData),
+            $this->lifecycleEventDataBuilder->buildUpdatedEventData($taskListData),
+            $this->lifecycleEventDataBuilder->buildRemovedEventData($taskListData),
         );
     }
 }

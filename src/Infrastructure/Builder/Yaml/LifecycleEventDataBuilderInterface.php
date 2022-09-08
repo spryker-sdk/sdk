@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
@@ -14,29 +15,23 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 interface LifecycleEventDataBuilderInterface
 {
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
      */
-    public function buildInitializedEventData(array $taskData, array $taskListData, array $tags = []): InitializedEventData;
+    public function buildInitializedEventData(TaskYamlInterface $taskYaml): InitializedEventData;
 
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
      */
-    public function buildRemovedEventData(array $taskData, array $taskListData, array $tags = []): RemovedEventData;
+    public function buildRemovedEventData(TaskYamlInterface $taskYaml): RemovedEventData;
 
     /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array $tags
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
      */
-    public function buildUpdatedEventData(array $taskData, array $taskListData, array $tags = []): UpdatedEventData;
+    public function buildUpdatedEventData(TaskYamlInterface $taskYaml): UpdatedEventData;
 }

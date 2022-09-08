@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
@@ -82,13 +83,11 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     }
 
     /**
-     * @param array $tags
-     *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return array
      */
-    public function findAll(array $tags = []): array
+    public function findAll(): array
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
 
@@ -116,12 +115,12 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         }
 
         foreach ($taskListData as $taskData) {
-            $task = $this->taskBuilder->buildTask($taskData, $taskListData, $tags);
+            $task = $this->taskBuilder->buildTask(new TaskYaml($taskData, $taskListData));
             $tasks[$task->getId()] = $task;
         }
 
         foreach ($taskSetsData as $taskData) {
-            $task = $this->taskSetBuilder->buildTaskSet($taskData, $taskListData, $tasks, $tags);
+            $task = $this->taskSetBuilder->buildTaskSet(new TaskYaml($taskData, $taskListData, $tasks));
             $tasks[$task->getId()] = $task;
         }
 
@@ -225,13 +224,12 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
     /**
      * @param string $taskId
-     * @param array $tags
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
-    public function findById(string $taskId, array $tags = []): ?TaskInterface
+    public function findById(string $taskId): ?TaskInterface
     {
-        $tasks = $this->findAll($tags);
+        $tasks = $this->findAll();
 
         if (array_key_exists($taskId, $tasks)) {
             return $tasks[$taskId];
