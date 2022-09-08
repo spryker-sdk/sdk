@@ -59,7 +59,7 @@ framework:
           metadata:
             task: ~ # not neccessary to have a task for the interactive transition.
             transitionResolver: # Resolver needs for resolve next transition
-              name: interactive
+              name: interactive # By setting interactive transitionResolver name current transition will be recognized as interactive and appropriate actions will be done.
               settings:
                 question: 'What would you like to execute next?'
                 choices:

@@ -87,11 +87,23 @@ class InteractionAnswerBasedTransitionResolver implements TransitionResolverInte
             $choiceValues[(string)$transition] = (string)$choice['description'];
         }
 
-        $duplicates = array_unique(array_diff_assoc($choiceValues, array_unique($choiceValues)));
+        $duplicates = $this->getDuplicateDescriptions($choiceValues);
         if ($duplicates) {
             throw new UniqueValueException(sprintf('Descriptions for choices must be unique: `%s`', implode('`,`', $duplicates)));
         }
 
         return $choiceValues;
+    }
+
+    /**
+     * @param array<string, string> $choiceValues
+     *
+     * @return array<string>
+     */
+    protected function getDuplicateDescriptions(array $choiceValues): array
+    {
+        $duplicates = array_diff_assoc($choiceValues, array_unique($choiceValues));
+
+        return array_unique($duplicates);
     }
 }
