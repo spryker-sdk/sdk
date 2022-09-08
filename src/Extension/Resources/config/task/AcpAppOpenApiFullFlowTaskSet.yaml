@@ -1,0 +1,16 @@
+---
+id: "acp:openapi:full-flow"
+short_description: "Create ACP OpenAPI"
+help: ~
+stage: build
+version: 1.0.0
+command: ~
+type: task_set
+tasks:
+  - id: "acp:openapi:create"
+    stop_on_error: false
+  - id: "acp:openapi:validate"
+    stop_on_error: true
+  - id: "acp:openapi:generate"
+    stop_on_error: true
+placeholders: []
