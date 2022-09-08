@@ -13,6 +13,11 @@ use SprykerSdk\Sdk\Extension\Workflow\InteractionAnswerBasedTransitionResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group Workflow
+ */
 class InteractionAnswerBasedTransitionResolverTest extends Unit
 {
     /**

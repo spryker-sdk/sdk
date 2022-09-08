@@ -18,17 +18,17 @@ class InteractionAnswerBasedTransitionResolver implements TransitionResolverInte
     /**
      * @var string
      */
-    protected const RESOLVER_NAME = 'interactive';
-
-    /**
-     * @var string
-     */
     public const QUESTION = 'question';
 
     /**
      * @var string
      */
     public const CHOICES = 'choices';
+
+    /**
+     * @var string
+     */
+    public const RESOLVER_NAME = 'interactive';
 
     /**
      * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
