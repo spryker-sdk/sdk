@@ -25,7 +25,7 @@ class Workflow extends EntityWorkflow
     protected Collection $children;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface>
      */
     protected Collection $transitions;
 

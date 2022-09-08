@@ -12,8 +12,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInte
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
@@ -25,9 +25,9 @@ class InitializerTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected CliReceiver $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
@@ -67,7 +67,7 @@ class InitializerTest extends Unit
         parent::setUp();
 
         $this->taskYamlRepository = $this->createMock(TaskYamlRepositoryInterface::class);
-        $this->cliValueReceiver = $this->createMock(CliValueReceiver::class);
+        $this->cliValueReceiver = $this->createMock(CliReceiver::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
 

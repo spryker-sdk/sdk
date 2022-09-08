@@ -9,15 +9,15 @@ namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Extension\ValueResolver\ArrayOptionValueResolver;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 class ArrayOptionValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected ReceiverInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -29,7 +29,7 @@ class ArrayOptionValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(ReceiverInterface::class);
         $this->valueReceiver
             ->expects($this->once())
             ->method('has')

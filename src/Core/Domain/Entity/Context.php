@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;

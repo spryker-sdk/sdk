@@ -12,15 +12,15 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInte
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition;
 use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition as WorkflowTransitionEntity;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use Symfony\Component\Workflow\Event\Event;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
@@ -141,7 +141,7 @@ class WorkflowTransitionListener
 
     /**
      * @param \Symfony\Component\Workflow\Event\TransitionEvent $event
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transition
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $transition
      *
      * @throws \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
      *
@@ -200,7 +200,7 @@ class WorkflowTransitionListener
 
     /**
      * @param \Symfony\Component\Workflow\Event\TransitionEvent $event
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return string|null
      */
@@ -221,7 +221,7 @@ class WorkflowTransitionListener
 
     /**
      * @param \Symfony\Component\Workflow\Event\TransitionEvent $event
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transition
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $transition
      * @param string $which
      *
      * @throws \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
@@ -268,7 +268,7 @@ class WorkflowTransitionListener
      *
      * @throws \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface
      */
     protected function startTransition(TransitionEvent $event): WorkflowTransitionInterface
     {
@@ -305,11 +305,11 @@ class WorkflowTransitionListener
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transitionEntity
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $transitionEntity
      * @param string $state
      * @param array $data
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface
      */
     protected function updateTransition(
         WorkflowTransitionInterface $transitionEntity,
@@ -374,11 +374,11 @@ class WorkflowTransitionListener
      *
      * @throws \Symfony\Component\Workflow\Exception\NotEnabledTransitionException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function getContext(TransitionEvent $event): ContextInterface
     {
-        /** @var \SprykerSdk\SdkContracts\Entity\ContextInterface $context */
+        /** @var \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context */
         $context = $event->getContext()['context'] ?? null;
 
         if (!$context instanceof ContextInterface) {
@@ -390,7 +390,7 @@ class WorkflowTransitionListener
 
     /**
      * @param \Symfony\Component\Workflow\Event\Event $event
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $transition
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $transition
      * @param string $which
      *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface

@@ -9,18 +9,19 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ActionApproverInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver;
 
 class ActionApprover implements ActionApproverInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected CliReceiver $cliValueReceiver;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver $cliValueReceiver
      */
-    public function __construct(CliValueReceiver $cliValueReceiver)
+    public function __construct(CliReceiver $cliValueReceiver)
     {
         $this->cliValueReceiver = $cliValueReceiver;
     }

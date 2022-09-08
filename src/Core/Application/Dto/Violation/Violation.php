@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationFixInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationFixInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 
 class Violation implements ViolationInterface
 {
@@ -78,7 +78,7 @@ class Violation implements ViolationInterface
     protected array $attributes = [];
 
     /**
-     * @var \SprykerSdk\SdkContracts\Violation\ViolationFixInterface
+     * @var \SprykerSdk\SdkContracts\Report\Violation\ViolationFixInterface
      */
     protected ?ViolationFixInterface $fix = null;
 
@@ -199,7 +199,7 @@ class Violation implements ViolationInterface
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationFixInterface|null
      */
     public function getFix(): ?ViolationFixInterface
     {
@@ -339,7 +339,7 @@ class Violation implements ViolationInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationFixInterface|null $fix
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationFixInterface|null $fix
      *
      * @return $this
      */

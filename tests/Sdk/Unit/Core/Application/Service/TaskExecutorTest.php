@@ -15,11 +15,11 @@ use SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 /**
  * @group Sdk
@@ -100,13 +100,11 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Logger\EventLoggerInterface
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface
      */
     protected function createEventLoggerMock(): EventLoggerInterface
     {
-        $eventLogger = $this->createMock(EventLoggerInterface::class);
-
-        return $eventLogger;
+        return $this->createMock(EventLoggerInterface::class);
     }
 
     /**

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class ViolationReport implements ViolationReportInterface
 {
@@ -17,7 +17,7 @@ class ViolationReport implements ViolationReportInterface
     protected string $project;
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
+     * @var array<\SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface>
      */
     protected array $packages;
 
@@ -27,15 +27,15 @@ class ViolationReport implements ViolationReportInterface
     protected string $path;
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @var array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     protected array $violations;
 
     /**
      * @param string $project
      * @param string $path
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
-     * @param array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface> $packages
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface> $packages
      */
     public function __construct(string $project, string $path, array $violations = [], array $packages = [])
     {
@@ -54,7 +54,7 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface>
      */
     public function getPackages(): array
     {
@@ -70,7 +70,7 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     public function getViolations(): array
     {

@@ -9,21 +9,21 @@ namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Extension\ValueResolver\FlagValueResolver;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface;
 
 class StaticValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected ReceiverInterface $valueReceiver;
 
     /**
      * @return void
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(ReceiverInterface::class);
 
         parent::setUp();
     }

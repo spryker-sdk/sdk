@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 interface AfterCommandExecutedActionInterface
 {
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface;
 }

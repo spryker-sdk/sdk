@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationFixInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationFixInterface;
 
 class ViolationFix implements ViolationFixInterface
 {

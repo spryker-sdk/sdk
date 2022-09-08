@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
-use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
-
 abstract class BaseLifecycleEventData implements LifecycleEventDataInterface
 {
     /**
@@ -22,14 +20,14 @@ abstract class BaseLifecycleEventData implements LifecycleEventDataInterface
     protected array $placeholders;
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Entity\FileInterface>
+     * @var array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
      */
     protected array $files;
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
-     * @param array<\SprykerSdk\SdkContracts\Entity\FileInterface> $files
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface> $files
      */
     public function __construct(array $commands = [], array $placeholders = [], array $files = [])
     {
@@ -55,7 +53,7 @@ abstract class BaseLifecycleEventData implements LifecycleEventDataInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
      */
     public function getFiles(): array
     {

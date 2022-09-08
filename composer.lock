@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be4780d9061cca9f34ea19862016cfc4",
+    "content-hash": "a9d7e6dbf8ff5afe2969278dabc2906f",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3971,16 +3971,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.13.2",
+            "version": "v4.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "210577fe3cf7badcc5814d99455df46564f3c077"
+                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/210577fe3cf7badcc5814d99455df46564f3c077",
-                "reference": "210577fe3cf7badcc5814d99455df46564f3c077",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/34bea19b6e03d8153165d8f30bba4c3be86184c1",
+                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1",
                 "shasum": ""
             },
             "require": {
@@ -4021,9 +4021,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.2"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.14.0"
             },
-            "time": "2021-11-30T19:35:32+00:00"
+            "time": "2022-05-31T20:59:12+00:00"
         },
         {
             "name": "ondrejmirtes/better-reflection",
@@ -6304,16 +6304,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "0.3.0",
+            "version": "dev-feature/sdk-907-contracts-api-doc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "2f477d3e3edba346387fdb98cc2005a2118676b1"
+                "reference": "ec68dd8a28c7629b8ba05253e250dfe8aaa8da51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/2f477d3e3edba346387fdb98cc2005a2118676b1",
-                "reference": "2f477d3e3edba346387fdb98cc2005a2118676b1",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ec68dd8a28c7629b8ba05253e250dfe8aaa8da51",
+                "reference": "ec68dd8a28c7629b8ba05253e250dfe8aaa8da51",
                 "shasum": ""
             },
             "require": {
@@ -6326,6 +6326,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
+                    "SprykerSdk\\Sniffs\\": "Sniffs/",
                     "SprykerSdk\\SdkContracts\\": "src/"
                 }
             },
@@ -6336,9 +6337,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.3.0"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-907-contracts-api-doc"
             },
-            "time": "2022-09-01T12:22:50+00:00"
+            "time": "2022-09-08T07:45:41+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -6441,16 +6442,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-master",
+            "version": "dev-feature/sdk-907-contracts-api-doc",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "c7f3384bdba03fbe73ba59e4489d6de9a9ded859"
+                "reference": "fb983ff3a8c64c0228e2db677e01b3ad916a183a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/c7f3384bdba03fbe73ba59e4489d6de9a9ded859",
-                "reference": "c7f3384bdba03fbe73ba59e4489d6de9a9ded859",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/fb983ff3a8c64c0228e2db677e01b3ad916a183a",
+                "reference": "fb983ff3a8c64c0228e2db677e01b3ad916a183a",
                 "shasum": ""
             },
             "require": {
@@ -6462,12 +6463,11 @@
                 "http-interop/http-factory-guzzle": "^1.0",
                 "knplabs/github-api": "^3.4",
                 "m4tthumphrey/php-gitlab-api": "^11.5",
-                "nikic/php-parser": "4.13.*",
+                "nikic/php-parser": "4.14.*",
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-master",
-                "spryker-sdk/sdk-contracts": "^0.3.0",
-                "spryker/code-sniffer": "^0.17.3",
+                "spryker-sdk/sdk-contracts": "dev-feature/sdk-907-contracts-api-doc",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
                 "symfony/dependency-injection": "^5.0",
@@ -6480,11 +6480,11 @@
                 "symfony/yaml": "^5.3"
             },
             "require-dev": {
-                "mikey179/vfsstream": "^1.6",
+                "mikey179/vfsstream": "^1.6.7",
                 "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.5"
+                "phpunit/phpunit": "^9.5",
+                "spryker/code-sniffer": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6505,9 +6505,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/master"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/sdk-907-contracts-api-doc"
             },
-            "time": "2022-09-05T09:04:49+00:00"
+            "time": "2022-09-08T07:41:13+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -14433,6 +14433,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -14453,5 +14454,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

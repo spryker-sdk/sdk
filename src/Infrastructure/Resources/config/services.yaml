@@ -71,16 +71,16 @@ services:
     class: Symfony\Component\Console\Helper\ProcessHelper
 
   local_cli_command_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
+    class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner
     tags: ["command.runner"]
     arguments:
       - "@process_helper"
       - "@progress_bar"
   php_command_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
+    class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
     tags: ["command.runner"]
   cli_value_receiver:
-    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver
     tags: ["sdk.cli_receiver_setup"]
     arguments:
       - "@question_helper"

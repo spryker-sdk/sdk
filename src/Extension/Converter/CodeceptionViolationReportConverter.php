@@ -11,8 +11,8 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class CodeceptionViolationReportConverter extends AbstractViolationConverter
 {
@@ -38,7 +38,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
     {
@@ -116,7 +116,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
      * @param string $projectDirectory
      * @param array $testCases
      *
-     * @return array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface>
      */
     protected function getPackages(string $projectDirectory, array $testCases): array
     {

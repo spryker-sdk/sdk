@@ -17,13 +17,13 @@ use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -401,7 +401,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $data
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
      */
     protected function buildFiles(array $data): array
     {
@@ -426,7 +426,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface
      */
     protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface
     {

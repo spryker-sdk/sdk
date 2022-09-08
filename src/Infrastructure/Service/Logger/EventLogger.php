@@ -5,12 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Service\Logger;
 
 use Psr\Log\LoggerInterface;
+use SprykerSdk\Sdk\Core\Domain\Event\EventInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
-use SprykerSdk\SdkContracts\Event\EventInterface;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 class EventLogger implements EventLoggerInterface
 {

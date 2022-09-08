@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 class ValueResolverRegistry implements ValueResolverRegistryInterface
@@ -36,16 +36,16 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface $valueReceiver
      * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param string $sdkBasePath
      */
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected ReceiverInterface $valueReceiver;
 
     /**
      * @var string
@@ -64,14 +64,14 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface $valueReceiver
      * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param \SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService $autoloaderService
      * @param string $sdkBasePath
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
-        ValueReceiverInterface $valueReceiver,
+        ReceiverInterface $valueReceiver,
         iterable $valueResolverServices,
         AutoloaderService $autoloaderService,
         string $sdkBasePath

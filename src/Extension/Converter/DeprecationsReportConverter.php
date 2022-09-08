@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Extension\Converter;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class DeprecationsReportConverter extends AbstractViolationConverter
 {
@@ -37,7 +37,7 @@ class DeprecationsReportConverter extends AbstractViolationConverter
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
     {
@@ -83,7 +83,7 @@ class DeprecationsReportConverter extends AbstractViolationConverter
     /**
      * @param array $issues
      *
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     protected function formatDeprecations(array $issues): array
     {
@@ -93,7 +93,7 @@ class DeprecationsReportConverter extends AbstractViolationConverter
     /**
      * @param array $issue
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface
      */
     protected function createDeprecation(array $issue): ViolationInterface
     {

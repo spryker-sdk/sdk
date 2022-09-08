@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 class PCSystemValueResolver extends AbstractValueResolver
 {
@@ -53,10 +53,10 @@ class PCSystemValueResolver extends AbstractValueResolver
     ];
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface $valueReceiver
      * @param string $unameInfo
      */
-    public function __construct(ValueReceiverInterface $valueReceiver, string $unameInfo)
+    public function __construct(ReceiverInterface $valueReceiver, string $unameInfo)
     {
         parent::__construct($valueReceiver);
         $this->unameInfo = $unameInfo;

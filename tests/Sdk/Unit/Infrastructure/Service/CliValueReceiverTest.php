@@ -9,7 +9,7 @@ namespace Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -112,11 +112,11 @@ class CliValueReceiverTest extends Unit
     /**
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver
      */
-    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper): CliValueReceiver
+    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper): CliReceiver
     {
-        $cliValueReceiver = new CliValueReceiver($questionHelper);
+        $cliValueReceiver = new CliReceiver($questionHelper);
         $cliValueReceiver->setInput($this->createInputMock());
         $cliValueReceiver->setOutput($this->createOutputMock());
 

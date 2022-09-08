@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\ValueResolver;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 /**
  * @group Sdk
@@ -23,9 +23,9 @@ use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 class AbstractValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected ReceiverInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -37,7 +37,7 @@ class AbstractValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(ReceiverInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();

@@ -11,8 +11,8 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationFix;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class ViolationReportFileMapper implements ViolationReportFileMapperInterface
 {
@@ -20,7 +20,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
      * @param array $violationReport
      * @param array<string>|null $includePackages
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface
      */
     public function mapFileStructureToViolationReport(array $violationReport, ?array $includePackages = []): ViolationReportInterface
     {
@@ -65,7 +65,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface $violationReport
      *
      * @return array
      */
@@ -106,7 +106,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violation
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface $violation
      *
      * @return array<string, mixed>
      */
@@ -140,7 +140,7 @@ class ViolationReportFileMapper implements ViolationReportFileMapperInterface
     /**
      * @param array $violation
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface
      */
     protected function createViolation(array $violation): ViolationInterface
     {
