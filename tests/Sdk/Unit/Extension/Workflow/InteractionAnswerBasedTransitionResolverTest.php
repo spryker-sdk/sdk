@@ -17,6 +17,7 @@ use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
  * @group Sdk
  * @group Extension
  * @group Workflow
+ * @group InteractionAnswerBasedTransitionResolverTest
  */
 class InteractionAnswerBasedTransitionResolverTest extends Unit
 {
