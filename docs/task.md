@@ -26,18 +26,19 @@ The declarative is preferred way unless more complex logic is needed.
 
 Configuration file should be placed in `extension/*/config/task/` or `src/Extension/Resources/config/task/` directory.
 
-- `id` - the __unique__ task id. Should consist only of `[\w\:]+` symbols.
-- `short_description` - the task description that's displayed in `Description` section in command help.
-- `help` - the help description that's displayed in `Help` section in command help.
-- `stage` - the task and command stage.
-- `version` - the task version. Must follow the semver specification.
+- `id` - __unique__ task id. Should consist only of `[\w\:]+` symbols.
+- `short_description` - task description that's displayed in `Description` section in command help.
+- `help` - help description that's displayed in `Help` section in command help.
+- `stage` - task and command stage.
+- `version` - task version. Must follow the semver specification.
 - `deprecated` - define the task deprecation status.
-- `successor` - the task id that should be used instead if the current one is deprecated.
-- `comamnd` - the executable command string.
-- `type` - the tasks type. `local_cli` or `local_cli_interactive` should be used for yaml task declaration and `php` type for php task class.
-- `tags` - the task command tags.
-- `placeholders` - the command placeholders list.
-- `lifecycle` - the lifecycle commands list.
+- `successor` - task id that should be used instead if the current one is deprecated.
+- `comamnd` - an executable command string.
+- `type` - tasks type. `local_cli` or `local_cli_interactive` should be used for yaml task declaration and `php` type for php task class.
+- `tags` - task command tags.
+- `error_message` - default command error message in case of non-zero command code return
+- `placeholders` - command placeholders list.
+- `lifecycle` - lifecycle commands list.
 
 `id`, `short_description`, `version`, `type`, `command` are  __REQUIRED__ properties.
 
