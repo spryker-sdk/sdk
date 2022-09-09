@@ -27,7 +27,7 @@ class TaskSetCommandsFactory
 
         foreach ($taskSetConfiguration['tasks'] as $task) {
             $commands[(string)$task['id']] = isset($allTasksConfigurations[$task['id']])
-                ? [$this->createCommandFromArray($allTasksConfigurations[$task['id']])]
+                ? [$this->createCommandFromArray($allTasksConfigurations[$task['id']], $taskSetConfiguration)]
                 : $existingTasks[$task['id']]->getCommands();
         }
 
@@ -36,10 +36,11 @@ class TaskSetCommandsFactory
 
     /**
      * @param array<string, mixed> $commandData
+     * @param array<string, mixed> $taskSetConfiguration
      *
      * @return \SprykerSdk\SdkContracts\Entity\CommandInterface
      */
-    protected function createCommandFromArray(array $commandData): CommandInterface
+    protected function createCommandFromArray(array $commandData, array $taskSetConfiguration): CommandInterface
     {
         $converter = isset($commandData['report_converter']) ? new Converter(
             $commandData['report_converter']['name'],
@@ -53,7 +54,7 @@ class TaskSetCommandsFactory
             $commandData['tags'] ?? [],
             $converter,
             $commandData['stage'] ?? ContextInterface::DEFAULT_STAGE,
-            $commandData['error_message'] ?? '',
+            $taskSetConfiguration['error_message'] ?? '',
         );
     }
 }
