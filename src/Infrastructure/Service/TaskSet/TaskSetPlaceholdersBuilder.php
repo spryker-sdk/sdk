@@ -5,22 +5,22 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Task;
+namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet;
 
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 class TaskSetPlaceholdersBuilder
 {
     /**
      * @param array<string, array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>> $subTasksPlaceholders
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap $placeholdersOverrideMap
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto $placeholdersOverrideMap
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
-    public function buildTaskSetPlaceholders(array $subTasksPlaceholders, TaskSetOverrideMap $placeholdersOverrideMap): array
+    public function buildTaskSetPlaceholders(array $subTasksPlaceholders, TaskSetOverrideMapDto $placeholdersOverrideMap): array
     {
         $subTasksPlaceholders = $this->applyOverridePlaceholderMap($subTasksPlaceholders, $placeholdersOverrideMap);
         $subTasksPlaceholders = $this->applySharedPlaceholderMap($subTasksPlaceholders, $placeholdersOverrideMap);
@@ -30,11 +30,11 @@ class TaskSetPlaceholdersBuilder
 
     /**
      * @param array<string, array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>> $placeholders
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap $placeholdersOverrideMap
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto $placeholdersOverrideMap
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
-    protected function applyOverridePlaceholderMap(array $placeholders, TaskSetOverrideMap $placeholdersOverrideMap): array
+    protected function applyOverridePlaceholderMap(array $placeholders, TaskSetOverrideMapDto $placeholdersOverrideMap): array
     {
         foreach ($placeholdersOverrideMap->getOverridePlaceholdersMap() as $taskId => $overrideMap) {
             foreach ($overrideMap as $placeholderName => $newPlaceholderDefinition) {
@@ -53,11 +53,11 @@ class TaskSetPlaceholdersBuilder
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap $placeholdersOverrideMap
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto $placeholdersOverrideMap
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
-    protected function applySharedPlaceholderMap(array $placeholders, TaskSetOverrideMap $placeholdersOverrideMap): array
+    protected function applySharedPlaceholderMap(array $placeholders, TaskSetOverrideMapDto $placeholdersOverrideMap): array
     {
         foreach ($placeholdersOverrideMap->getSharedPlaceholdersMap() as $placeholderName => $placeholderConfiguration) {
             $placeholder = $this->getFirstPlaceholderByName($placeholders, $placeholderName);
@@ -105,8 +105,10 @@ class TaskSetPlaceholdersBuilder
      *
      * @return \SprykerSdk\SdkContracts\Entity\PlaceholderInterface
      */
-    protected function overrideSharedPlaceholderConfig(PlaceholderInterface $targetPlaceholder, array $config): PlaceholderInterface
-    {
+    protected function overrideSharedPlaceholderConfig(
+        PlaceholderInterface $targetPlaceholder,
+        array $config
+    ): PlaceholderInterface {
         $newPlaceholderDefinition = [];
 
         if (isset($config['description'])) {
@@ -122,8 +124,10 @@ class TaskSetPlaceholdersBuilder
      *
      * @return \SprykerSdk\SdkContracts\Entity\PlaceholderInterface
      */
-    protected function createOverrodePlaceholder(PlaceholderInterface $targetPlaceholder, array $newPlaceholderDefinition): PlaceholderInterface
-    {
+    protected function createOverrodePlaceholder(
+        PlaceholderInterface $targetPlaceholder,
+        array $newPlaceholderDefinition
+    ): PlaceholderInterface {
         if (!isset($newPlaceholderDefinition['name'])) {
             $newPlaceholderDefinition['name'] = $targetPlaceholder->getName();
         }
@@ -140,7 +144,12 @@ class TaskSetPlaceholdersBuilder
             $newPlaceholderDefinition['optional'] = $targetPlaceholder->isOptional();
         }
 
-        return new Placeholder($newPlaceholderDefinition['name'], $newPlaceholderDefinition['value_resolver'], $newPlaceholderDefinition['configuration'], $newPlaceholderDefinition['optional']);
+        return new Placeholder(
+            $newPlaceholderDefinition['name'],
+            $newPlaceholderDefinition['value_resolver'],
+            $newPlaceholderDefinition['configuration'],
+            $newPlaceholderDefinition['optional'],
+        );
     }
 
     /**
@@ -151,17 +160,11 @@ class TaskSetPlaceholdersBuilder
     protected function makePlaceHoldersUnique(array $subTasksPlaceholders): array
     {
         $uniquePlaceholders = [];
-        $uniquePlaceholderNames = [];
 
-        foreach (array_reverse($subTasksPlaceholders) as $subTasksPlaceholder) {
-            if (in_array($subTasksPlaceholder->getName(), $uniquePlaceholderNames, true)) {
-                continue;
-            }
-
-            $uniquePlaceholders[] = $subTasksPlaceholder;
-            $uniquePlaceholderNames[] = $subTasksPlaceholder->getName();
+        foreach ($subTasksPlaceholders as $subTasksPlaceholder) {
+            $uniquePlaceholders[$subTasksPlaceholder->getName()] = $subTasksPlaceholder;
         }
 
-        return $uniquePlaceholders;
+        return array_values($uniquePlaceholders);
     }
 }

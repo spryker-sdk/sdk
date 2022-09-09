@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Task;
+namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet;
 
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
@@ -17,29 +17,29 @@ use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 class TaskFromTaskSetBuilder implements TaskFromTaskSetBuilderInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetPlaceholdersBuilder
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder
      */
     protected TaskSetPlaceholdersBuilder $taskSetPlaceholdersBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder
      */
     protected TaskSetCommandsBuilder $taskSetCommandsBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory
      */
-    protected TaskSetOverrideMapFactory $taskSetOverrideMapFactory;
+    protected TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetPlaceholdersBuilder $taskSetPlaceholdersBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder $taskSetCommandsBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory $taskSetOverrideMapFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder $taskSetPlaceholdersBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder $taskSetCommandsBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory
      */
     public function __construct(
         TaskSetPlaceholdersBuilder $taskSetPlaceholdersBuilder,
         TaskSetCommandsBuilder $taskSetCommandsBuilder,
-        TaskSetOverrideMapFactory $taskSetOverrideMapFactory
+        TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory
     ) {
         $this->taskSetPlaceholdersBuilder = $taskSetPlaceholdersBuilder;
         $this->taskSetCommandsBuilder = $taskSetCommandsBuilder;

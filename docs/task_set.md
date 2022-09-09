@@ -5,7 +5,7 @@ To achieve that you must create the task set yaml configuration or implement `\S
 
 ### Overriding
 
-In tasks set you can redeclare sub-tasks `stop_on_error`, `tags` and override placeholders behavior.
+In tasks set you can redeclare sub-tasks `stop_on_error`, `tags` and override `placeholders` behavior.
 
 ### Configuring sub-task placeholders
 

@@ -15,8 +15,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterfac
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
@@ -31,14 +31,14 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected TaskMapperInterface $taskMapper;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder
      */
     protected TaskSetCommandsBuilder $taskSetCommandsBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory
      */
-    protected TaskSetOverrideMapFactory $taskSetOverrideMapFactory;
+    protected TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory;
 
     /**
      * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
@@ -48,15 +48,15 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder $taskSetCommandsBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory $taskSetOverrideMapFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder $taskSetCommandsBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
         ManagerRegistry $registry,
         TaskSetCommandsBuilder $taskSetCommandsBuilder,
-        TaskSetOverrideMapFactory $taskSetOverrideMapFactory,
+        TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory,
         iterable $existingTasks = []
     ) {
         parent::__construct($registry, Task::class);
@@ -197,9 +197,11 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     {
         if ($realCommand && isset($this->existingTasks[$task->getId()])) {
             $task->setCommands(new ArrayCollection($this->getTaskCommands($this->existingTasks[$task->getId()])));
-        } else {
-            $task->setCommands(new ArrayCollection($task->getCommands()));
+
+            return $task;
         }
+
+        $task->setCommands(new ArrayCollection($task->getCommands()));
 
         return $task;
     }

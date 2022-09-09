@@ -49,6 +49,8 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -57,6 +59,8 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -65,6 +69,8 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -73,6 +79,8 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -81,6 +89,8 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -89,6 +99,8 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string
@@ -97,6 +109,8 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface

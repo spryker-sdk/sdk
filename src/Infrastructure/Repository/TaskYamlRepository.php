@@ -20,7 +20,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromYamlTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
@@ -52,7 +52,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected Yaml $yamlParser;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromYamlTaskSetBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface
      */
     protected TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder;
 
@@ -65,7 +65,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(

@@ -5,19 +5,27 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\Task;
+namespace Sdk\Unit\Infrastructure\Service\TaskSet;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromYamlTaskSetBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetPlaceholdersBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml\TaskSetCommandsFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml\TaskSetOverrideMapFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml\TaskSetPlaceholdersFactory;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetCommandsFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetOverrideMapFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetPlaceholdersFactory;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group TaskSet
+ * @group TaskFromYamlTaskSetBuilderTest
+ */
 class TaskFromYamlTaskSetBuilderTest extends Unit
 {
     /**
@@ -70,7 +78,7 @@ class TaskFromYamlTaskSetBuilderTest extends Unit
      * @param string $taskId
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml\TaskSetCommandsFactory
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetCommandsFactory
      */
     public function createTaskSetCommandsFactoryMock(string $taskId, CommandInterface $command): TaskSetCommandsFactory
     {
@@ -85,7 +93,7 @@ class TaskFromYamlTaskSetBuilderTest extends Unit
      * @param string $taskId
      * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml\TaskSetPlaceholdersFactory
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetPlaceholdersFactory
      */
     public function createTaskSetPlaceholdersFactoryMock(string $taskId, PlaceholderInterface $placeholder): TaskSetPlaceholdersFactory
     {
@@ -97,14 +105,14 @@ class TaskFromYamlTaskSetBuilderTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml\TaskSetOverrideMapFactory
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetOverrideMapFactory
      */
     public function createTaskSetOverrideMapFactoryMock(): TaskSetOverrideMapFactory
     {
         $taskSetOverrideMapFactoryMock = $this->createMock(TaskSetOverrideMapFactory::class);
 
         $taskSetOverrideMapFactoryMock->method('createTaskSetOverrideMap')->willReturn(
-            $this->createMock(TaskSetOverrideMap::class),
+            $this->createMock(TaskSetOverrideMapDto::class),
         );
 
         return $taskSetOverrideMapFactoryMock;
@@ -129,7 +137,7 @@ class TaskFromYamlTaskSetBuilderTest extends Unit
     /**
      * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetPlaceholdersBuilder
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder
      */
     protected function createTaskSetPlaceholdersBuilderMock(PlaceholderInterface $placeholder): TaskSetPlaceholdersBuilder
     {
@@ -142,7 +150,7 @@ class TaskFromYamlTaskSetBuilderTest extends Unit
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $commandInterface
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder
      */
     protected function createTaskSetCommandsBuilderMock(CommandInterface $commandInterface): TaskSetCommandsBuilder
     {

@@ -5,9 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap;
+namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap;
 
-class TaskSetOverrideMapBuilder
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
+
+class TaskSetOverrideMapDtoBuilder
 {
     /**
      * @var array<string, bool>
@@ -78,11 +80,11 @@ class TaskSetOverrideMapBuilder
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto
      */
-    public function getTaskSetOverrideMap(): TaskSetOverrideMap
+    public function getTaskSetOverrideMap(): TaskSetOverrideMapDto
     {
-        return new TaskSetOverrideMap(
+        return new TaskSetOverrideMapDto(
             $this->stopOnErrorMap,
             $this->tagsMap,
             $this->sharedPlaceholderMap,

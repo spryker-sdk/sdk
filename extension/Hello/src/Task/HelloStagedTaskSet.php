@@ -435,6 +435,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string, array<string>>
      */
     public function getTagsMap(): array
@@ -443,6 +445,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string, bool>
      */
     public function getStopOnErrorMap(): array
@@ -451,6 +455,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string, array<string, array>>
      */
     public function getOverridePlaceholdersMap(): array
@@ -459,6 +465,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string, array<string, string>>
      */
     public function getSharedPlaceholdersMap(): array

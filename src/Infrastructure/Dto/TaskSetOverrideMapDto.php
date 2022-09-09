@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap;
+namespace SprykerSdk\Sdk\Infrastructure\Dto;
 
-class TaskSetOverrideMap
+class TaskSetOverrideMapDto
 {
     /**
      * @var array<string, bool>

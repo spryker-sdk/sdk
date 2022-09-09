@@ -5,23 +5,23 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml;
+namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml;
 
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapBuilderFactory;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilderFactory;
 
 class TaskSetOverrideMapFactory
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapBuilderFactory
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilderFactory
      */
-    protected TaskSetOverrideMapBuilderFactory $taskSetOverrideMapBuilderFactory;
+    protected TaskSetOverrideMapDtoBuilderFactory $taskSetOverrideMapBuilderFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapBuilderFactory $taskSetOverrideMapBuilderFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilderFactory $taskSetOverrideMapBuilderFactory
      */
-    public function __construct(TaskSetOverrideMapBuilderFactory $taskSetOverrideMapBuilderFactory)
+    public function __construct(TaskSetOverrideMapDtoBuilderFactory $taskSetOverrideMapBuilderFactory)
     {
         $this->taskSetOverrideMapBuilderFactory = $taskSetOverrideMapBuilderFactory;
     }
@@ -29,9 +29,9 @@ class TaskSetOverrideMapFactory
     /**
      * @param array<string, mixed> $taskSetConfiguration
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto
      */
-    public function createTaskSetOverrideMap(array $taskSetConfiguration): TaskSetOverrideMap
+    public function createTaskSetOverrideMap(array $taskSetConfiguration): TaskSetOverrideMapDto
     {
         $taskSetOverrideMapBuilder = $this->taskSetOverrideMapBuilderFactory->getBuilder();
 
@@ -45,13 +45,15 @@ class TaskSetOverrideMapFactory
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapBuilder $taskSetOverrideMapBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilder $taskSetOverrideMapBuilder
      * @param array<string, mixed> $taskSetConfiguration
      *
      * @return void
      */
-    protected function populateSharadPlaceholders(TaskSetOverrideMapBuilder $taskSetOverrideMapBuilder, array $taskSetConfiguration): void
-    {
+    protected function populateSharadPlaceholders(
+        TaskSetOverrideMapDtoBuilder $taskSetOverrideMapBuilder,
+        array $taskSetConfiguration
+    ): void {
         if (!isset($taskSetConfiguration['shared_placeholders'])) {
             return;
         }
@@ -62,12 +64,12 @@ class TaskSetOverrideMapFactory
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapBuilder $taskSetOverrideMapBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilder $taskSetOverrideMapBuilder
      * @param array<string, mixed> $subTask
      *
      * @return void
      */
-    protected function populateSubTasks(TaskSetOverrideMapBuilder $taskSetOverrideMapBuilder, array $subTask): void
+    protected function populateSubTasks(TaskSetOverrideMapDtoBuilder $taskSetOverrideMapBuilder, array $subTask): void
     {
         if (isset($subTask['stop_on_error'])) {
             $taskSetOverrideMapBuilder->addStopOnError($subTask['id'], (bool)$subTask['stop_on_error']);

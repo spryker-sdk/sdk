@@ -5,20 +5,28 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\Task;
+namespace Sdk\Unit\Infrastructure\Service\TaskSet;
 
 use Codeception\Test\Unit;
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromTaskSetBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetPlaceholdersBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group TaskSet
+ * @group TaskFromTaskSetBuilderTest
+ */
 class TaskFromTaskSetBuilderTest extends Unit
 {
     /**
@@ -158,17 +166,17 @@ class TaskFromTaskSetBuilderTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMapFactory
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory
      */
-    protected function createTaskSetOverrideMapFactoryMock(): TaskSetOverrideMapFactory
+    protected function createTaskSetOverrideMapFactoryMock(): TaskSetOverrideMapDtoFactory
     {
-        return $this->createMock(TaskSetOverrideMapFactory::class);
+        return $this->createMock(TaskSetOverrideMapDtoFactory::class);
     }
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetPlaceholdersBuilder
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder
      */
     protected function createTaskSetPlaceholdersBuilderMock(PlaceholderInterface $placeholder): TaskSetPlaceholdersBuilder
     {
@@ -181,7 +189,7 @@ class TaskFromTaskSetBuilderTest extends Unit
     /**
      * @param \SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\CommandInterface $commandInterface
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder
      */
     protected function createTaskSetCommandsBuilderMock(CommandInterface $commandInterface): TaskSetCommandsBuilder
     {

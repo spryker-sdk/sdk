@@ -5,16 +5,24 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\Task;
+namespace Sdk\Unit\Infrastructure\Service\TaskSet;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetCommandsBuilder;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group TaskSet
+ * @group TaskSetCommandsBuilderTest
+ */
 class TaskSetCommandsBuilderTest extends Unit
 {
     /**
@@ -24,7 +32,7 @@ class TaskSetCommandsBuilderTest extends Unit
     {
         // Arrange
         $command = $this->createCommandMock('echo %config%', 'local_cli', ['tag_a'], false);
-        $overrideMap = new TaskSetOverrideMap(
+        $overrideMap = new TaskSetOverrideMapDto(
             ['taskId' => true],
             ['taskId' => ['tag_b', 'tag_c']],
             [],
@@ -52,7 +60,7 @@ class TaskSetCommandsBuilderTest extends Unit
     {
         // Arrange
         $command = $this->createExecutableCommandMock('', 'php', ['tag_a'], false);
-        $overrideMap = new TaskSetOverrideMap(
+        $overrideMap = new TaskSetOverrideMapDto(
             ['taskId' => true],
             ['taskId' => ['tag_b', 'tag_c']],
             [],

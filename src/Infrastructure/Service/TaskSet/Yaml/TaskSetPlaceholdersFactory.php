@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Task\Yaml;
+namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml;
 
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
@@ -20,8 +20,11 @@ class TaskSetPlaceholdersFactory
      *
      * @return array<string, array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>>
      */
-    public function getSubTasksPlaceholders(array $taskSetConfiguration, array $allTasksConfigurations, array $existingTasks): array
-    {
+    public function getSubTasksPlaceholders(
+        array $taskSetConfiguration,
+        array $allTasksConfigurations,
+        array $existingTasks
+    ): array {
         $placeholders = [];
 
         foreach ($taskSetConfiguration['tasks'] as $task) {
@@ -66,7 +69,12 @@ class TaskSetPlaceholdersFactory
         $configuration = $placeholderData['configuration'] ?? [];
 
         return isset($placeholderData['optional'])
-            ? new Placeholder($placeholderData['name'], $placeholderData['value_resolver'], $configuration, $placeholderData['optional'])
+            ? new Placeholder(
+                $placeholderData['name'],
+                $placeholderData['value_resolver'],
+                $configuration,
+                $placeholderData['optional'],
+            )
             : new Placeholder($placeholderData['name'], $placeholderData['value_resolver'], $configuration);
     }
 }

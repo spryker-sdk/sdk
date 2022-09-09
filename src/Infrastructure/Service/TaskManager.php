@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -30,14 +30,14 @@ class TaskManager implements TaskManagerInterface
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromTaskSetBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface
      */
     protected TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder;
 
     /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,

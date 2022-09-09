@@ -5,13 +5,21 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\Task;
+namespace Sdk\Unit\Infrastructure\Service\TaskSet;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetPlaceholdersBuilder;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group TaskSet
+ * @group TaskSetPlaceholdersBuilderTest
+ */
 class TaskSetPlaceholdersBuilderTest extends Unit
 {
     /**
@@ -34,7 +42,7 @@ class TaskSetPlaceholdersBuilderTest extends Unit
             'settingPaths' => ['path_b'],
         ];
 
-        $overrideMap = new TaskSetOverrideMap(
+        $overrideMap = new TaskSetOverrideMapDto(
             [],
             [],
             [],
@@ -83,7 +91,7 @@ class TaskSetPlaceholdersBuilderTest extends Unit
             false,
         );
 
-        $overrideMap = new TaskSetOverrideMap(
+        $overrideMap = new TaskSetOverrideMapDto(
             [],
             [],
             ['%placeholder_a%' => ['description' => 'shared_placeholder']],

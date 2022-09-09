@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Task;
+namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\ValueObject\ConfigurableCommand;
-use SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -18,11 +18,11 @@ class TaskSetCommandsBuilder
 {
     /**
      * @param array<string, array<\SprykerSdk\SdkContracts\Entity\CommandInterface>> $subTasksCommands
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Task\TaskSetOverrideMap\TaskSetOverrideMap $taskSetOverrideMap
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto $taskSetOverrideMap
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    public function buildTaskSetCommands(array $subTasksCommands, TaskSetOverrideMap $taskSetOverrideMap): array
+    public function buildTaskSetCommands(array $subTasksCommands, TaskSetOverrideMapDto $taskSetOverrideMap): array
     {
         $taskSetCommands = [];
 
