@@ -16,7 +16,7 @@ class ArrayQuestionFactory extends StringQuestionFactory
     /**
      * @var string
      */
-    public const CHOICE_DESCRIPTION_SUFFIX = ' (Multiselect format: 0,1)';
+    public const CHOICE_DESCRIPTION_SUFFIX = ' (Multiselect format: 1,2,3)';
 
     /**
      * @param string $description
