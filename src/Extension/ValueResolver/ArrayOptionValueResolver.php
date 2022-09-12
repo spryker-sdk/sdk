@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ArrayOptionValueResolver extends StaticValueResolver
@@ -42,6 +43,6 @@ class ArrayOptionValueResolver extends StaticValueResolver
      */
     public function getType(): string
     {
-        return 'array';
+        return Type::ARRAY_TYPE;
     }
 }

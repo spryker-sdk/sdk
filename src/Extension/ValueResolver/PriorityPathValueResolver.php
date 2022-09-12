@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
 use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
+use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
@@ -78,6 +79,6 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
      */
     public function getType(): string
     {
-        return 'path';
+        return Type::PATH_TYPE;
     }
 }

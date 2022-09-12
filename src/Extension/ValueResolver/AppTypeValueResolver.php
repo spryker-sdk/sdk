@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class AppTypeValueResolver extends AbstractValueResolver
@@ -54,7 +55,7 @@ class AppTypeValueResolver extends AbstractValueResolver
      */
     public function getType(): string
     {
-        return 'string';
+        return Type::STRING_TYPE;
     }
 
     /**

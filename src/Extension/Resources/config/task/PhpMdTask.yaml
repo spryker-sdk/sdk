@@ -36,7 +36,6 @@ placeholders:
       alias: "strict"
       description: "Report silent violations"
       defaultValue: false
-      type: boolean
   - name: "%minimum-priority%"
     value_resolver: FLAG
     optional: false
@@ -44,7 +43,6 @@ placeholders:
       alias: "minimum-priority"
       description: "Minimum priority"
       defaultValue: true
-      type: boolean
   - name: "%config%"
     value_resolver: CONFIG_PATH
     optional: true

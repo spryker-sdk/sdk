@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
 
 class AppPhpVersionValueResolver extends AbstractValueResolver
 {
@@ -52,7 +53,7 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
      */
     public function getType(): string
     {
-        return 'string';
+        return Type::STRING_TYPE;
     }
 
     /**

@@ -28,7 +28,6 @@ placeholders:
     configuration:
       alias: 'add-metadata'
       defaultValue: true
-      type: boolean
       description: 'When this option is set the defined default set of metadata will be added to the message definition'
   - name: "%from-transfer-class%"
     value_resolver: STATIC
