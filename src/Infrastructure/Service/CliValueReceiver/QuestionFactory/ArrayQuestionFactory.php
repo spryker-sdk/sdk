@@ -27,6 +27,10 @@ class ArrayQuestionFactory extends StringQuestionFactory
      */
     public function createQuestion(string $description, array $choices, $defaultValue = null): Question
     {
+        if (is_array($defaultValue)) {
+            $defaultValue = implode(',', array_keys(array_intersect($choices, $defaultValue)));
+        }
+
         return count($choices) > 0
             ? $this->createChoiceQuestion($description, $choices, $defaultValue)
             : $this->createLineQuestion($description, $defaultValue);

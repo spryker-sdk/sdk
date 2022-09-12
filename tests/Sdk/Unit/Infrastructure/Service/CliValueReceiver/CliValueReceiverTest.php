@@ -121,7 +121,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(Question::class, 'test1');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', null, 'array', ['test1' => '']);
 
         //Act
