@@ -39,7 +39,7 @@ class StaticValueResolverTest extends Unit
             'name' => 'alias',
             'description' => 'description',
             'help' => 'help',
-            'type' => 'string',
+            'type' => 'boolean',
             'settingPaths' => ['setting'],
             'choiceValues' => ['values'],
         ];
