@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "187b315ff5bf7bb0f3a612033d531861",
+    "content-hash": "d9b15d9aa7c0f966c9d8b724bfc421d0",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6158,16 +6158,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "0.2.0",
+            "version": "dev-feature/sdk-832-update-and-refactoring-workflow-listeners",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "ed462706b9c170c1474b1060d42f24375150adf8"
+                "reference": "ed6e7b7384215fbe511c34cb1ec4741084afadc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ed462706b9c170c1474b1060d42f24375150adf8",
-                "reference": "ed462706b9c170c1474b1060d42f24375150adf8",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ed6e7b7384215fbe511c34cb1ec4741084afadc7",
+                "reference": "ed6e7b7384215fbe511c34cb1ec4741084afadc7",
                 "shasum": ""
             },
             "require": {
@@ -6190,9 +6190,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.2.0"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-832-update-and-refactoring-workflow-listeners"
             },
-            "time": "2022-08-01T12:05:17+00:00"
+            "time": "2022-08-17T09:00:25+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14270,10 +14270,18 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "dev-feature/sdk-832-update-and-refactoring-workflow-listeners",
+            "alias": "0.2.0",
+            "alias_normalized": "0.2.0.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },

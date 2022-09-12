@@ -49,7 +49,7 @@ framework:
             task: hello:php
             allowToFail: true
             transitionResolver: # Resolver needs for resolve next transition
-              service: transition_boolean_resolver
+              name: boolean_resolver
               settings:
                 failed: bye # transition name for filed result
                 successful: world # transition name for successful result
