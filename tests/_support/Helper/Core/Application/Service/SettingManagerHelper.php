@@ -18,18 +18,18 @@ class SettingManagerHelper extends Module
      * @param string $path
      * @param mixed $value
      * @param string $strategy
-     * @param bool $isProject
+     * @param string $settingType
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
-    public function createSetting(string $path, $value, string $strategy = SettingInterface::STRATEGY_REPLACE, bool $isProject = true): SettingInterface
+    public function createSetting(string $path, $value, string $strategy = SettingInterface::STRATEGY_REPLACE, string $settingType = 'local'): SettingInterface
     {
         return new Setting(
             $path,
             $value ?? null,
             $strategy,
             gettype($value),
-            $isProject,
+            $settingType,
         );
     }
 
@@ -39,7 +39,7 @@ class SettingManagerHelper extends Module
      * @param int|null $id
      * @param string $strategy
      * @param string $type
-     * @param bool $isProject
+     * @param string $settingType
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
      * @param string|null $initializer
@@ -52,7 +52,7 @@ class SettingManagerHelper extends Module
         ?int $id = null,
         string $strategy = SettingInterface::STRATEGY_REPLACE,
         string $type = 'string',
-        bool $isProject = true,
+        string $settingType = 'local',
         bool $hasInitialization = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
@@ -63,7 +63,7 @@ class SettingManagerHelper extends Module
             $values,
             $strategy,
             $type,
-            $isProject,
+            $settingType,
             $hasInitialization,
             $initializationDescription,
             $initializer,

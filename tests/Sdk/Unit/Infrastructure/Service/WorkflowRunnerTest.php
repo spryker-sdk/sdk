@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
@@ -39,6 +40,11 @@ class WorkflowRunnerTest extends Unit
     protected OutputInterface $output;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
+     */
+    protected ContextFactoryInterface $contextFactory;
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -47,6 +53,7 @@ class WorkflowRunnerTest extends Unit
         $this->container = $this->createMock(ContainerInterface::class);
         $this->projectWorkflow = $this->createMock(ProjectWorkflow::class);
         $this->output = $this->createMock(OutputInterface::class);
+        $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
 
         parent::setUp();
     }
@@ -73,7 +80,7 @@ class WorkflowRunnerTest extends Unit
                 OutputInterface::VERBOSITY_NORMAL,
             );
 
-        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
         $workflowRunner->setInput(new ArrayInput([]));
         $workflowRunner->setOutput($this->output);
 
@@ -114,7 +121,7 @@ class WorkflowRunnerTest extends Unit
                 OutputInterface::VERBOSITY_NORMAL,
             );
 
-        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
         $workflowRunner->setInput(new ArrayInput([]));
         $workflowRunner->setOutput($this->output);
 
@@ -154,7 +161,7 @@ class WorkflowRunnerTest extends Unit
                 ['<info>The `workflowName:test` transition finished successfully.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
             );
 
-        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
         $workflowRunner->setInput(new ArrayInput([]));
         $workflowRunner->setOutput($this->output);
 
@@ -197,7 +204,7 @@ class WorkflowRunnerTest extends Unit
                 ['<error>The workflow `workflowName` has been finished.</error>', OutputInterface::VERBOSITY_NORMAL],
             );
 
-        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
         $workflowRunner->setInput(new ArrayInput([]));
         $workflowRunner->setOutput($this->output);
 
@@ -239,7 +246,7 @@ class WorkflowRunnerTest extends Unit
                 ['<error>The `workflowName:test` transition is failed, see details above.</error>', OutputInterface::VERBOSITY_NORMAL],
             );
 
-        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container);
+        $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
         $workflowRunner->setInput(new ArrayInput([]));
         $workflowRunner->setOutput($this->output);
 

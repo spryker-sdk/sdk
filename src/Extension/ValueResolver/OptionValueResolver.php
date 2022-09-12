@@ -19,6 +19,11 @@ class OptionValueResolver extends StaticValueResolver
     protected bool $hasDefaultValue = false;
 
     /**
+     * @var string
+     */
+    protected string $commandParameter;
+
+    /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -39,7 +44,7 @@ class OptionValueResolver extends StaticValueResolver
 
         $value = parent::getValue($context, $settingValues, $optional);
 
-        return $value ? sprintf('--%s=\'%s\'', $this->getAlias(), $value) : null;
+        return $value ? sprintf('--%s=\'%s\'', $this->commandParameter ?? $this->getAlias(), $value) : null;
     }
 
     /**
@@ -58,6 +63,10 @@ class OptionValueResolver extends StaticValueResolver
     public function configure(array $values): void
     {
         $this->hasDefaultValue = array_key_exists('defaultValue', $values);
+
+        if (isset($values['param'])) {
+            $this->commandParameter = $values['param'];
+        }
 
         parent::configure($values);
     }

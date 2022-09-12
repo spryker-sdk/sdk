@@ -112,11 +112,17 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
                 $defaultValue,
             );
 
-        return $this->questionHelper->ask(
+        $value = $this->questionHelper->ask(
             $this->input,
             $this->output,
             $question,
         );
+
+        if ($question->isMultiline()) {
+            return (array)preg_split("/\r\n|\n|\r/", $value);
+        }
+
+        return $value;
     }
 
     /**

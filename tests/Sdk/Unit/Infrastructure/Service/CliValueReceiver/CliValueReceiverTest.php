@@ -114,6 +114,21 @@ class CliValueReceiverTest extends Unit
     }
 
     /**
+     * @return void
+     */
+    public function testMultiValuesWithMultiLineWhenArrayTypeSet(): void
+    {
+        //Arrange
+        $questionAssertion = $this->createQuestionAssertion(Question::class, 'test1');
+        $questionHelper = $this->createQuestionHelperMock($questionAssertion);
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $receiverValue = new ReceiverValue('', null, 'array', ['test1' => '']);
+
+        //Act
+        $cliValueReceiver->receiveValue($receiverValue);
+    }
+
+    /**
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry $questionFactoriesRegistry
      *

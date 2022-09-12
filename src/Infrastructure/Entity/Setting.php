@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
 
 class Setting extends DomainSetting
 {
@@ -22,7 +23,7 @@ class Setting extends DomainSetting
      * @param mixed $values
      * @param string $strategy
      * @param string $type
-     * @param bool $isProject
+     * @param string $settingType
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
      * @param string|null $initializer
@@ -33,13 +34,13 @@ class Setting extends DomainSetting
         $values,
         string $strategy,
         string $type = 'string',
-        bool $isProject = true,
+        string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
     ) {
         $this->id = $id;
-        parent::__construct($path, $values, $strategy, $type, $isProject, $hasInitialization, $initializationDescription, $initializer);
+        parent::__construct($path, $values, $strategy, $type, $settingType, $hasInitialization, $initializationDescription, $initializer);
     }
 
     /**
@@ -91,13 +92,13 @@ class Setting extends DomainSetting
     }
 
     /**
-     * @param bool $isProject
+     * @param string $settingType
      *
      * @return void
      */
-    public function setIsProject(bool $isProject): void
+    public function setSettingType(string $settingType): void
     {
-        $this->isProject = $isProject;
+        $this->settingType = $settingType;
     }
 
     /**

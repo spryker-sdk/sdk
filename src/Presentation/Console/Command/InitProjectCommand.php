@@ -166,28 +166,14 @@ class InitProjectCommand extends Command
                 );
             }
 
-            if (!$needsToAsk && !$options[$settingEntity->getPath()]) {
-                $questionDescription = $settingEntity->getInitializationDescription();
-
-                if (!$questionDescription) {
-                    $questionDescription = 'Initial value for ' . $settingEntity->getPath();
-                }
-
-                $choiceValues = [];
-                $initializer = $this->getSettingInitializer($settingEntity);
-                if ($initializer instanceof SettingChoicesProviderInterface) {
-                    $choiceValues = $initializer->getChoices($settingEntity);
-                }
-
-                $values = $this->cliValueReceiver->receiveValue(
-                    new ReceiverValue(
-                        $questionDescription,
-                        is_array($values) ? array_key_first($values) : $values,
-                        $settingEntity->getType(),
-                        $choiceValues,
-                    ),
-                );
+            if ($needsToAsk && !$options[$settingEntity->getPath()]) {
+                continue;
             }
+
+            if (!$options[$settingEntity->getPath()]) {
+                $values = $this->askSettingValue($settingEntity, $values);
+            }
+
             $values = ['boolean' => (bool)$values, 'array' => (array)$values][$settingEntity->getType()] ?? (string)$values;
             if ($settingEntity->getType() !== 'array' && $values === $settingEntity->getValues()) {
                 continue;
@@ -204,6 +190,36 @@ class InitProjectCommand extends Command
         }
 
         return $settingEntitiesToSave;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     * @param mixed $values
+     *
+     * @return mixed
+     */
+    protected function askSettingValue(SettingInterface $settingEntity, $values)
+    {
+        $questionDescription = $settingEntity->getInitializationDescription();
+
+        if (!$questionDescription) {
+            $questionDescription = 'Initial value for ' . $settingEntity->getPath();
+        }
+
+        $choiceValues = [];
+        $initializerChoice = $this->getSettingChoiceInitializer($settingEntity);
+        if ($initializerChoice instanceof SettingChoicesProviderInterface) {
+            $choiceValues = $initializerChoice->getChoices($settingEntity);
+        }
+
+        return $this->cliValueReceiver->receiveValue(
+            new ReceiverValue(
+                $questionDescription,
+                is_array($values) ? array_key_first($values) : $values,
+                $settingEntity->getType(),
+                $choiceValues,
+            ),
+        );
     }
 
     /**
@@ -244,14 +260,43 @@ class InitProjectCommand extends Command
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
+     *
+     * @return \SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface|null
+     */
+    protected function getSettingChoiceInitializer(SettingInterface $setting): ?SettingChoicesProviderInterface
+    {
+        $initializerId = $setting->getInitializer() ?? '';
+
+        if (!$this->container->has($initializerId)) {
+            return null;
+        }
+
+        $initializer = $this->container->get($initializerId);
+        if (!$initializer instanceof SettingChoicesProviderInterface) {
+            return null;
+        }
+
+        return $initializer;
+    }
+
+    /**
      * @return void
      */
     protected function createGitignore(): void
     {
         $settingsDir = dirname($this->projectSettingFileName);
+        $ignoreRules = [
+            '*',
+            '!.gitignore',
+            '!' . basename($this->projectSettingFileName),
+        ];
 
         if (realpath($settingsDir) !== realpath('.')) {
-            file_put_contents(sprintf('%s/.gitignore', $settingsDir), '*');
+            file_put_contents(
+                sprintf('%s/.gitignore', $settingsDir),
+                implode("\n", $ignoreRules),
+            );
         }
     }
 }

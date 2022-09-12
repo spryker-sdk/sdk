@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class Setting implements SettingInterface
@@ -25,39 +26,39 @@ class Setting implements SettingInterface
     /**
      * @var string
      */
-    protected string $strategy = self::STRATEGY_REPLACE;
+    protected string $strategy;
 
     /**
      * @var string
      */
-    protected string $type = 'string';
+    protected string $type;
+
+    /**
+     * @var string
+     */
+    protected string $settingType;
 
     /**
      * @var bool
      */
-    protected bool $isProject = true;
-
-    /**
-     * @var bool
-     */
-    protected bool $hasInitialization = false;
+    protected bool $hasInitialization;
 
     /**
      * @var string|null
      */
-    protected ?string $initializationDescription = null;
+    protected ?string $initializationDescription;
 
     /**
      * @var string|null
      */
-    protected ?string $initializer = null;
+    protected ?string $initializer;
 
     /**
      * @param string $path
      * @param mixed $values
      * @param string $strategy
      * @param string $type
-     * @param bool $isProject
+     * @param string $settingType
      * @param bool $hasInitialization
      * @param string|null $initializationDescription
      * @param string|null $initializer
@@ -65,16 +66,16 @@ class Setting implements SettingInterface
     public function __construct(
         string $path,
         $values,
-        string $strategy,
+        string $strategy = self::STRATEGY_REPLACE,
         string $type = ValueTypeEnum::TYPE_STRING,
-        bool $isProject = true,
+        string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
     ) {
         $this->initializationDescription = $initializationDescription;
         $this->hasInitialization = $hasInitialization;
-        $this->isProject = $isProject;
+        $this->settingType = $settingType;
         $this->type = $type;
         $this->strategy = $strategy;
         $this->values = $values;
@@ -125,11 +126,11 @@ class Setting implements SettingInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isProject(): bool
+    public function getSettingType(): string
     {
-        return $this->isProject;
+        return $this->settingType;
     }
 
     /**
@@ -154,5 +155,37 @@ class Setting implements SettingInterface
     public function getInitializer(): ?string
     {
         return $this->initializer;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSdk(): bool
+    {
+        return $this->getSettingType() === SettingEnum::SETTING_TYPE_SDK;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProject(): bool
+    {
+        return $this->getSettingType() !== SettingEnum::SETTING_TYPE_SDK;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShared(): bool
+    {
+        return $this->getSettingType() === SettingEnum::SETTING_TYPE_SHARED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocal(): bool
+    {
+        return $this->getSettingType() === SettingEnum::SETTING_TYPE_LOCAL;
     }
 }
