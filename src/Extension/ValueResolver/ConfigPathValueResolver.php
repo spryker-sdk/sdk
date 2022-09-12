@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
@@ -59,7 +60,7 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
      */
     public function getType(): string
     {
-        return 'string';
+        return ValueTypeEnum::TYPE_STRING;
     }
 
     /**

@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
 class StaticValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
@@ -107,7 +108,7 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
         $this->alias = $values['name'];
         $this->description = $values['description'];
         $this->help = $values['help'] ?? null;
-        $this->type = $values['type'] ?? 'string';
+        $this->type = $values['type'] ?? ValueTypeEnum::TYPE_STRING;
         $this->settingPaths = $values['settingPaths'] ?? [];
         $this->choiceValues = $values['choiceValues'] ?? [];
     }

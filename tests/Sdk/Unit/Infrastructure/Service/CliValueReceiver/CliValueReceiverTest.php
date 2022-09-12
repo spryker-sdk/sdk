@@ -9,13 +9,13 @@ namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\BooleanQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\StringQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,6 +23,14 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group CliValueReceiver
+ * @group CliValueReceiverTest
+ */
 class CliValueReceiverTest extends Unit
 {
     /**
@@ -148,8 +156,8 @@ class CliValueReceiverTest extends Unit
         $questionFactoryRegistryMock = $this->createMock(QuestionFactoryRegistry::class);
 
         $mockMap = [
-            QuestionTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,
-            QuestionTypeEnum::TYPE_BOOLEAN => BooleanQuestionFactory::class,
+            ValueTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,
+            ValueTypeEnum::TYPE_BOOLEAN => BooleanQuestionFactory::class,
         ];
 
         $questionFactoryRegistryMock->method('getQuestionFactoryByType')->willReturnCallback(

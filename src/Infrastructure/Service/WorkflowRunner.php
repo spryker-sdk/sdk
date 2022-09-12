@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
@@ -159,7 +160,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
                 new ReceiverValue(
                     'Select the next step in workflow.',
                     current($nextEnabledTransitions),
-                    'string',
+                    ValueTypeEnum::TYPE_STRING,
                     $nextEnabledTransitions,
                 ),
             );

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory;
 
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
@@ -68,6 +68,6 @@ class ArrayQuestionFactory extends StringQuestionFactory
      */
     public static function getType(): string
     {
-        return QuestionTypeEnum::TYPE_ARRAY;
+        return ValueTypeEnum::TYPE_ARRAY;
     }
 }

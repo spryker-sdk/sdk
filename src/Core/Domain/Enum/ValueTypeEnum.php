@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+namespace SprykerSdk\Sdk\Core\Domain\Enum;
 
-final class QuestionTypeEnum
+final class ValueTypeEnum
 {
     /**
      * @var string

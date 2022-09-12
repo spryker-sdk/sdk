@@ -8,12 +8,19 @@
 namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver;
 
 use Codeception\Test\Unit;
-use RuntimeException;
+use InvalidArgumentException;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\StringQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group CliValueReceiver
+ * @group QuestionFactoryRegistryTest
+ */
 class QuestionFactoryRegistryTest extends Unit
 {
     /**
@@ -22,28 +29,13 @@ class QuestionFactoryRegistryTest extends Unit
     public function testRegistryReturnsQuestionFactoryWhenTypeExists(): void
     {
         // Arrange
-        $questionFactoryRegistry = new QuestionFactoryRegistry([QuestionTypeEnum::TYPE_ARRAY => new ArrayQuestionFactory()]);
+        $questionFactoryRegistry = new QuestionFactoryRegistry([ValueTypeEnum::TYPE_ARRAY => new ArrayQuestionFactory()]);
 
         // Act
-        $questionFactor = $questionFactoryRegistry->getQuestionFactoryByType(QuestionTypeEnum::TYPE_ARRAY);
+        $questionFactory = $questionFactoryRegistry->getQuestionFactoryByType(ValueTypeEnum::TYPE_ARRAY);
 
         // Assert
-        $this->assertSame(QuestionTypeEnum::TYPE_ARRAY, $questionFactor::getType());
-    }
-
-    /**
-     * @return void
-     */
-    public function testRegistryReturnsGenericQuestionFactoryWhenTypeDoesNotExist(): void
-    {
-        // Arrange
-        $questionFactoryRegistry = new QuestionFactoryRegistry([QuestionTypeEnum::TYPE_STRING => new StringQuestionFactory()]);
-
-        // Act
-        $questionFactor = $questionFactoryRegistry->getQuestionFactoryByType('some_type');
-
-        // Assert
-        $this->assertSame(QuestionTypeEnum::TYPE_STRING, $questionFactor::getType());
+        $this->assertSame(ValueTypeEnum::TYPE_ARRAY, $questionFactory::getType());
     }
 
     /**
@@ -53,9 +45,9 @@ class QuestionFactoryRegistryTest extends Unit
     {
         // Arrange & Assert
         $questionFactoryRegistry = new QuestionFactoryRegistry([]);
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         // Act
-        $questionFactor = $questionFactoryRegistry->getQuestionFactoryByType('some_type');
+        $questionFactoryRegistry->getQuestionFactoryByType('some_type');
     }
 }

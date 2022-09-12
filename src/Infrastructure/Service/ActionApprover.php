@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ActionApproverInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 
 class ActionApprover implements ActionApproverInterface
 {
@@ -38,7 +38,7 @@ class ActionApprover implements ActionApproverInterface
             new ReceiverValue(
                 $message,
                 true,
-                QuestionTypeEnum::TYPE_BOOLEAN,
+                ValueTypeEnum::TYPE_BOOLEAN,
             ),
         );
     }

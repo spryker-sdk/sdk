@@ -8,11 +8,20 @@
 namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group CliValueReceiver
+ * @group QuestionFactory
+ * @group ArrayQuestionFactoryTest
+ */
 class ArrayQuestionFactoryTest extends Unit
 {
     /**
@@ -58,6 +67,6 @@ class ArrayQuestionFactoryTest extends Unit
         $type = ArrayQuestionFactory::getType();
 
         // Assert
-        $this->assertSame($type, QuestionTypeEnum::TYPE_ARRAY);
+        $this->assertSame($type, ValueTypeEnum::TYPE_ARRAY);
     }
 }

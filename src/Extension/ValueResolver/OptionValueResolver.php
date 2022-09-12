@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class OptionValueResolver extends StaticValueResolver
@@ -31,7 +32,7 @@ class OptionValueResolver extends StaticValueResolver
                 new ReceiverValue(
                     sprintf('Would you like to configure `%s` setting? (%s)', $this->getValueName(), $this->getDescription()),
                     false,
-                    'boolean',
+                    ValueTypeEnum::TYPE_BOOLEAN,
                 ),
             );
         }

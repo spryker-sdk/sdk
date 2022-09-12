@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory;
 
 use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
@@ -80,6 +80,6 @@ class StringQuestionFactory implements QuestionFactoryInterface
      */
     public static function getType(): string
     {
-        return QuestionTypeEnum::TYPE_STRING;
+        return ValueTypeEnum::TYPE_STRING;
     }
 }

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 
-use RuntimeException;
+use InvalidArgumentException;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface;
 use Traversable;
 
@@ -29,28 +29,16 @@ class QuestionFactoryRegistry
     /**
      * @param string $questionType
      *
+     * @throws \InvalidArgumentException
+     *
      * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface
      */
     public function getQuestionFactoryByType(string $questionType): QuestionFactoryInterface
     {
         if (!isset($this->questionFactories[$questionType])) {
-            return $this->getStringQuestionFactory();
+            throw new InvalidArgumentException(sprintf('Unable to find %s question factory type', $questionType));
         }
 
         return $this->questionFactories[$questionType];
-    }
-
-    /**
-     * @throws \RuntimeException
-     *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface
-     */
-    protected function getStringQuestionFactory(): QuestionFactoryInterface
-    {
-        if (!isset($this->questionFactories[QuestionTypeEnum::TYPE_STRING])) {
-            throw new RuntimeException(sprintf('Unable to find %s question factory type', QuestionTypeEnum::TYPE_STRING));
-        }
-
-        return $this->questionFactories[QuestionTypeEnum::TYPE_STRING];
     }
 }

@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -131,7 +132,7 @@ class ShowWorkflowCommand extends Command
                 new ReceiverValue(
                     'Select workflow to show',
                     current(array_keys($workflows)),
-                    'string',
+                    ValueTypeEnum::TYPE_STRING,
                     $workflows,
                 ),
             )

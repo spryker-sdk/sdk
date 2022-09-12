@@ -8,10 +8,19 @@
 namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\PathQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionTypeEnum;
 use Symfony\Component\Console\Question\Question;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group CliValueReceiver
+ * @group QuestionFactory
+ * @group PathQuestionFactoryTest
+ */
 class PathQuestionFactoryTest extends Unit
 {
     /**
@@ -39,6 +48,6 @@ class PathQuestionFactoryTest extends Unit
         $type = PathQuestionFactory::getType();
 
         // Assert
-        $this->assertSame($type, QuestionTypeEnum::TYPE_PATH);
+        $this->assertSame($type, ValueTypeEnum::TYPE_PATH);
     }
 }
