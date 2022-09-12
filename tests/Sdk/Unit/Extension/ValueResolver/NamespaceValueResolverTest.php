@@ -14,7 +14,10 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 /**
- * @group Test1
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group NamespaceValueResolverTest
  */
 class NamespaceValueResolverTest extends Unit
 {

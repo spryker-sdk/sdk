@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
-use SprykerSdk\Sdk\Extension\Exception\CanNotResolveValueException;
+use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
@@ -26,7 +26,7 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
      * @param array $settingValues
      * @param bool $optional
      *
-     * @throws \SprykerSdk\Sdk\Extension\Exception\CanNotResolveValueException
+     * @throws \SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException
      *
      * @return string
      */
@@ -52,7 +52,7 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
             }
         }
 
-        throw new CanNotResolveValueException('Can\'t resolve path.');
+        throw new UnresolvableValueExceptionException('Can\'t resolve path.');
     }
 
     /**

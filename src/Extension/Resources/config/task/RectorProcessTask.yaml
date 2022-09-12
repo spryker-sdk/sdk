@@ -3,7 +3,7 @@ id: "validation:php:rector"
 short_description: "Instant Upgrades and Automated Refactoring"
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %executable_command% process %path% %config% %is-ansi%"
 type: local_cli
 optional: false

@@ -3,7 +3,7 @@ id: "validation:php:benchmark"
 short_description: "Check your code efficiency by running a benchmark"
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %executable_command% run %tests% %bootstrap% %group% %iterations% %revs% %report% %time-unit% %reportDir%"
 type: local_cli
 optional: false

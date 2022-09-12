@@ -3,7 +3,7 @@ id: "acp:asyncapi:validate"
 short_description: "Validate ACP AsyncAPI file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:validate %asyncapi-file% -v"
 type: local_cli
 placeholders:

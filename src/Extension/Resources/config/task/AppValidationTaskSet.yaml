@@ -3,7 +3,7 @@ id: "pbc:validate"
 short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: ~
 type: task_set
 tasks:

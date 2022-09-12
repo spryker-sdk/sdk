@@ -3,7 +3,7 @@ id: "acp:app:validate"
 short_description: "Create ACP AsyncAPI file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:validate %manifest-path% %configuration-file% %translation-file% -v"
 type: local_cli
 placeholders:

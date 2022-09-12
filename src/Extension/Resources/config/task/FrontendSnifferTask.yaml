@@ -3,7 +3,7 @@ id: "validation:frontend:architecture"
 short_description: "Perform architecture checks on either core and project level frontend code"
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "npx %prefix% %sdk_dir% frontend-sniffer %level_restriction% > %reportDir% 2>&1"
 type: local_cli
 placeholders:

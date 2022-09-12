@@ -9,6 +9,6 @@ namespace SprykerSdk\Sdk\Extension\Exception;
 
 use RuntimeException;
 
-class CanNotResolveValueException extends RuntimeException
+class UnresolvableValueExceptionException extends RuntimeException
 {
 }

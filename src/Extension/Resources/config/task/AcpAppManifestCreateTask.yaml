@@ -3,7 +3,7 @@ id: "acp:manifest:create"
 short_description: "Create ACP manifest file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:manifest:create %manifest-path% %name% %locale%"
 type: local_cli_interactive
 placeholders:

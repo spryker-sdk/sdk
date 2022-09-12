@@ -3,7 +3,7 @@ id: 'tests:sdk:codecept'
 short_description: 'Run acceptance tests'
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: 'php "%executable_command%" run %suites% %reportDir%'
 type: local_cli
 placeholders:

@@ -3,7 +3,7 @@ id: "validation:frontend:prettier-fix"
 short_description: "An opinionated code formatter"
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "npx --prefix %sdk_dir% prettier --write --loglevel=%log_level% %path%"
 type: local_cli
 placeholders:

@@ -3,7 +3,7 @@ id: "acp:translation:validate"
 short_description: "Validate ACP translation file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:translation:validate %translation-file% %manifest-path% %configuration-file%"
 type: local_cli
 placeholders:

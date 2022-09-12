@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
- * @deprecated Use STATIC value resolver with option configuration instead.
+ * @deprecated Use `STATIC` value resolver with option configuration instead.
  */
 class OptionValueResolver extends StaticValueResolver
 {
