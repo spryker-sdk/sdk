@@ -45,13 +45,8 @@ framework:
         - config
         - translation
         - acp-validated
-        - openapi
-        - openapi-validated
-        - asyncapi
-        - asyncapi-validated
-        - asyncapi-generate
-        - install
-        - app-validate
+        - openapi-created
+        - asyncapi-created
         - app-validated
         - done
       transitions:
@@ -81,49 +76,23 @@ framework:
           metadata:
             task: acp:app:validate
             error: Please fix the mentioned issues and re-run the workflow to continue.
-
         CreateOpenApi:
           from: acp-validated
-          to: openapi
+          to: openapi-created
           metadata:
-            task: acp:openapi:create
-        ValidateOpenApi:
-          from: openapi
-          to: openapi-validated
-          metadata:
-            task: acp:openapi:validate
-            error: Please fix the mentioned issues and re-run the workflow to continue.
-        GenerateOpenApiCode:
-          from: openapi-validated
-          to: app-validate
-          metadata:
-            task: acp:openapi:generate
-
+            task: acp:openapi:full-flow
         CreateAsyncapi:
-          from: app-validate
-          to: asyncapi
+          from: openapi-created
+          to: asyncapi-created
           metadata:
-            task: acp:asyncapi:create-full
-        ValidateAsyncapi:
-          from: asyncapi
-          to: asyncapi-validated
-          metadata:
-            task: acp:asyncapi:validate
-            error: Please fix the mentioned issues and re-run the workflow to continue.
-        GenerateAsyncapiCode:
-          from: asyncapi-validated
-          to: asyncapi-generate
-          metadata:
-            task: acp:asyncapi:generate
-
+            task: acp:asyncapi:full-flow
         RunInstall:
-          from: [app-validate, asyncapi-generate]
-          to: app-validated
-          metadata:
-            task: install
-
+            from: [openapi-created, asyncapi-created]
+            to: app-validated
+            metadata:
+                task: install
         ValidateProject:
-          from: [app-validated, asyncapi-generate]
+          from: [app-validated, asyncapi-created]
           to: done
           metadata:
             task: pbc:validate
