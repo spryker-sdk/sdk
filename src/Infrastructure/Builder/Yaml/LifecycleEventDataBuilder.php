@@ -56,12 +56,12 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
             return new InitializedEventData();
         }
 
-        $eventData = $taskData['lifecycle']['INITIALIZED'];
+        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle']['INITIALIZED']);
 
         return new InitializedEventData(
-            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYaml->withTaskData($eventData)),
-            $this->placeholderBuilder->buildPlaceholders($taskYaml->withTaskData($eventData)),
-            $this->fileBuilder->buildFiles($taskYaml->withTaskData($eventData)),
+            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
+            $this->placeholderBuilder->buildPlaceholders($taskYamlWithEventData),
+            $this->fileBuilder->buildFiles($taskYamlWithEventData),
         );
     }
 
@@ -77,12 +77,12 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
             return new RemovedEventData();
         }
 
-        $eventData = $taskData['lifecycle']['REMOVED'];
+        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle']['REMOVED']);
 
         return new RemovedEventData(
-            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYaml->withTaskData($eventData)),
-            $this->placeholderBuilder->buildPlaceholders($taskYaml->withTaskData($eventData)),
-            $this->fileBuilder->buildFiles($taskYaml->withTaskData($eventData)),
+            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
+            $this->placeholderBuilder->buildPlaceholders($taskYamlWithEventData),
+            $this->fileBuilder->buildFiles($taskYamlWithEventData),
         );
     }
 
@@ -98,12 +98,12 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
             return new UpdatedEventData();
         }
 
-        $eventData = $taskData['lifecycle']['UPDATED'];
+        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle']['UPDATED']);
 
         return new UpdatedEventData(
-            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYaml->withTaskData($eventData)),
-            $this->placeholderBuilder->buildPlaceholders($taskYaml->withTaskData($eventData)),
-            $this->fileBuilder->buildFiles($taskYaml->withTaskData($eventData)),
+            $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
+            $this->placeholderBuilder->buildPlaceholders($taskYamlWithEventData),
+            $this->fileBuilder->buildFiles($taskYamlWithEventData),
         );
     }
 }

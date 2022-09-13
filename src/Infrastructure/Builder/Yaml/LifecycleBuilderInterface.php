@@ -13,9 +13,9 @@ use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 interface LifecycleBuilderInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskListData
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
      */
-    public function buildLifecycle(TaskYamlInterface $taskListData): TaskLifecycleInterface;
+    public function buildLifecycle(TaskYamlInterface $taskYaml): TaskLifecycleInterface;
 }

@@ -27,16 +27,16 @@ class LifecycleBuilder implements LifecycleBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskListData
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
      */
-    public function buildLifecycle(TaskYamlInterface $taskListData): TaskLifecycleInterface
+    public function buildLifecycle(TaskYamlInterface $taskYaml): TaskLifecycleInterface
     {
         return new Lifecycle(
-            $this->lifecycleEventDataBuilder->buildInitializedEventData($taskListData),
-            $this->lifecycleEventDataBuilder->buildUpdatedEventData($taskListData),
-            $this->lifecycleEventDataBuilder->buildRemovedEventData($taskListData),
+            $this->lifecycleEventDataBuilder->buildInitializedEventData($taskYaml),
+            $this->lifecycleEventDataBuilder->buildUpdatedEventData($taskYaml),
+            $this->lifecycleEventDataBuilder->buildRemovedEventData($taskYaml),
         );
     }
 }
