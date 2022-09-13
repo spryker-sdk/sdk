@@ -12,9 +12,9 @@ use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 interface CommandBuilderInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskListData
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    public function buildCommands(TaskYamlInterface $taskListData): array;
+    public function buildCommands(TaskYamlInterface $taskYaml): array;
 }

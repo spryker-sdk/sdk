@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
@@ -29,13 +30,23 @@ class CommandBuilder implements CommandBuilderInterface
     protected ConverterBuilderInterface $converterBuilder;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface
+     */
+    protected TaskYamlFactoryInterface $taskYamlFactory;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface $converterBuilder
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
      */
-    public function __construct(TaskPool $taskPool, ConverterBuilderInterface $converterBuilder)
-    {
+    public function __construct(
+        TaskPool $taskPool,
+        ConverterBuilderInterface $converterBuilder,
+        TaskYamlFactoryInterface $taskYamlFactory
+    ) {
         $this->taskPool = $taskPool;
         $this->converterBuilder = $converterBuilder;
+        $this->taskYamlFactory = $taskYamlFactory;
     }
 
     /**
@@ -107,7 +118,7 @@ class CommandBuilder implements CommandBuilderInterface
                 $taskData,
                 $task['tags'] ?? [],
                 $task['stop_on_error'],
-                $this->converterBuilder->buildConverter($taskData),
+                $this->converterBuilder->buildConverter($this->taskYamlFactory->createTaskYaml($taskData, $taskListData)),
             );
         }
 

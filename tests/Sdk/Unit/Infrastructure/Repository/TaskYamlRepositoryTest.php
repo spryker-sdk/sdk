@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
@@ -66,7 +67,7 @@ class TaskYamlRepositoryTest extends Unit
         $placeholderBuilder = new PlaceholderBuilder($taskPool);
         $taskBuilder = new TaskBuilder(
             $placeholderBuilder,
-            new CommandBuilder($taskPool, new ConverterBuilder()),
+            new CommandBuilder($taskPool, new ConverterBuilder(), new TaskYamlFactory()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
                     new FileBuilder(),
@@ -85,6 +86,7 @@ class TaskYamlRepositoryTest extends Unit
             $taskBuilder,
             new TaskSetBuilder($taskBuilder),
             $taskPool,
+            new TaskYamlFactory(),
         );
     }
 
@@ -108,6 +110,8 @@ class TaskYamlRepositoryTest extends Unit
     }
 
     /**
+     * @group test
+     *
      * @return void
      */
     public function testFindAllShouldReturnBuiltTasks(): void

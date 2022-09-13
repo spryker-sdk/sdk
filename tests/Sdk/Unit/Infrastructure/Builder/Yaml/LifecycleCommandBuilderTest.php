@@ -57,12 +57,12 @@ class LifecycleCommandBuilderTest extends Unit
         $this->assertNotEmpty($result);
         $this->assertContainsOnlyInstancesOf(CommandInterface::class, $result);
 
-        $this->assertSame($data['commands'][0]['command'], $result[0]->getCommand());
-        $this->assertSame($data['commands'][0]['type'], $result[0]->getType());
+        $this->assertSame($data->getTaskData()['commands'][0]['command'], $result[0]->getCommand());
+        $this->assertSame($data->getTaskData()['commands'][0]['type'], $result[0]->getType());
         $this->assertFalse($result[0]->hasStopOnError());
 
-        $this->assertSame($data['commands'][1]['command'], $result[1]->getCommand());
-        $this->assertSame($data['commands'][1]['type'], $result[1]->getType());
+        $this->assertSame($data->getTaskData()['commands'][1]['command'], $result[1]->getCommand());
+        $this->assertSame($data->getTaskData()['commands'][1]['type'], $result[1]->getType());
         $this->assertFalse($result[1]->hasStopOnError());
     }
 }

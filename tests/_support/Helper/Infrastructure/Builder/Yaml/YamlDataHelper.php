@@ -8,15 +8,16 @@
 namespace SprykerSdk\Sdk\Tests\Helper\Infrastructure\Builder\Yaml;
 
 use Codeception\Module;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 
 class YamlDataHelper extends Module
 {
     /**
-     * @return array<string, array>
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
      */
-    public function createFilesData(): array
+    public function createFilesData(): TaskYaml
     {
-        return [
+        return new TaskYaml([
             'files' => [
                 [
                     'path' => 'test/path1',
@@ -27,15 +28,15 @@ class YamlDataHelper extends Module
                     'content' => 'Dummy content2',
                 ],
             ],
-        ];
+        ], []);
     }
 
     /**
-     * @return array<string, array>
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
      */
-    public function createLifecycleCommandsData(): array
+    public function createLifecycleCommandsData(): TaskYaml
     {
-        return [
+        return new TaskYaml([
             'commands' => [
                 [
                     'command' => 'echo 1;',
@@ -46,6 +47,6 @@ class YamlDataHelper extends Module
                     'type' => 'cli',
                 ],
             ],
-        ];
+        ], []);
     }
 }

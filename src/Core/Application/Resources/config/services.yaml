@@ -163,3 +163,6 @@ services:
       class: SprykerSdk\Sdk\Core\Application\Service\TaskPool
       arguments:
           - !tagged_iterator sdk.task
+
+  task_yaml_factory:
+      class: SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory

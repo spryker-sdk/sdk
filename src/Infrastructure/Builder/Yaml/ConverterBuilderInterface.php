@@ -13,9 +13,9 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 interface ConverterBuilderInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskData
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
-    public function buildConverter(TaskYamlInterface $taskData): ?ConverterInterface;
+    public function buildConverter(TaskYamlInterface $taskYaml): ?ConverterInterface;
 }

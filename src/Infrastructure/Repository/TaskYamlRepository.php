@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
@@ -59,12 +59,18 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected TaskPoolInterface $taskPool;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface
+     */
+    protected TaskYamlFactoryInterface $taskYamlFactory;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilderInterface $taskSetBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface $taskPool
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
@@ -72,7 +78,8 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         Yaml $yamlParser,
         TaskBuilderInterface $taskBuilder,
         TaskSetBuilderInterface $taskSetBuilder,
-        TaskPoolInterface $taskPool
+        TaskPoolInterface $taskPool,
+        TaskYamlFactoryInterface $taskYamlFactory
     ) {
         $this->yamlParser = $yamlParser;
         $this->fileFinder = $fileFinder;
@@ -80,6 +87,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $this->taskBuilder = $taskBuilder;
         $this->taskSetBuilder = $taskSetBuilder;
         $this->taskPool = $taskPool;
+        $this->taskYamlFactory = $taskYamlFactory;
     }
 
     /**
@@ -115,12 +123,16 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         }
 
         foreach ($taskListData as $taskData) {
-            $task = $this->taskBuilder->buildTask(new TaskYaml($taskData, $taskListData));
+            $task = $this->taskBuilder->buildTask(
+                $this->taskYamlFactory->createTaskYaml($taskData, $taskListData),
+            );
             $tasks[$task->getId()] = $task;
         }
 
         foreach ($taskSetsData as $taskData) {
-            $task = $this->taskSetBuilder->buildTaskSet(new TaskYaml($taskData, $taskListData, $tasks));
+            $task = $this->taskSetBuilder->buildTaskSet(
+                $this->taskYamlFactory->createTaskYaml($taskData, $taskListData, $tasks),
+            );
             $tasks[$task->getId()] = $task;
         }
 

@@ -27,7 +27,7 @@ class TaskYaml implements TaskYamlInterface
     /**
      * @param array $taskData
      * @param array $taskListData
-     * @param array $tasks
+     * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      */
     public function __construct(array $taskData, array $taskListData, array $tasks = [])
     {

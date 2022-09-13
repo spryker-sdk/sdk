@@ -56,9 +56,9 @@ class FileBuilderTest extends Unit
         // Assert
         $this->assertNotEmpty($result);
         $this->assertContainsOnlyInstancesOf(FileInterface::class, $result);
-        $this->assertSame($files['files'][0]['path'], $result[0]->getPath());
-        $this->assertSame($files['files'][0]['content'], $result[0]->getContent());
-        $this->assertSame($files['files'][1]['path'], $result[1]->getPath());
-        $this->assertSame($files['files'][1]['content'], $result[1]->getContent());
+        $this->assertSame($files->getTaskData()['files'][0]['path'], $result[0]->getPath());
+        $this->assertSame($files->getTaskData()['files'][0]['content'], $result[0]->getContent());
+        $this->assertSame($files->getTaskData()['files'][1]['path'], $result[1]->getPath());
+        $this->assertSame($files->getTaskData()['files'][1]['content'], $result[1]->getContent());
     }
 }

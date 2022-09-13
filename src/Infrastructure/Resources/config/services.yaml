@@ -55,6 +55,7 @@ services:
     arguments:
       - '@sdk_task_pool'
       - '@converter_builder'
+      - '@task_yaml_factory'
 
   file_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder
@@ -101,6 +102,7 @@ services:
       - '@task_builder'
       - '@task_set_builder'
       - '@sdk_task_pool'
+      - '@task_yaml_factory'
 
   context_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
