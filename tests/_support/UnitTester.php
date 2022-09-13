@@ -57,13 +57,14 @@ class UnitTester extends Actor
      * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface|null $lifecycle
      * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
      * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
+     * @param string $id
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    public function createTask(?LifecycleInterface $lifecycle = null, array $commands = [], array $placeholders = []): TaskInterface
+    public function createTask(?LifecycleInterface $lifecycle = null, array $commands = [], array $placeholders = [], string $id = 'task'): TaskInterface
     {
         return new Task(
-            'task',
+            $id,
             'short description',
             $commands,
             $lifecycle ?: new Lifecycle(new InitializedEventData(), new UpdatedEventData(), new RemovedEventData()),

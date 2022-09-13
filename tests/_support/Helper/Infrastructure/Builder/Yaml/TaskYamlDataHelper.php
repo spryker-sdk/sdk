@@ -9,10 +9,11 @@ namespace SprykerSdk\Sdk\Tests\Helper\Infrastructure\Builder\Yaml;
 
 use Codeception\Module;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\BaseLifecycleEventData;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class YamlDataHelper extends Module
+class TaskYamlDataHelper extends Module
 {
     /**
      * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
@@ -181,13 +182,29 @@ class YamlDataHelper extends Module
     }
 
     /**
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     */
+    public function createConverterData(): TaskYaml
+    {
+        return new TaskYaml([
+            'report_converter' => [
+                'name' => 'CheckstyleViolationReportConverter',
+                'configuration' => [
+                    'input_file' => 'phpcs.codestyle.json',
+                    'producer' => 'phpcs',
+                ],
+            ],
+        ], []);
+    }
+
+    /**
      * @param string $lifecycleName
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\BaseLifecycleEventData $eventData
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $eventData
      *
      * @return void
      */
-    public function assertLifecycleEventData(string $lifecycleName, TaskYaml $taskYaml, BaseLifecycleEventData $eventData): void
+    public function assertLifecycleEventData(string $lifecycleName, TaskYaml $taskYaml, LifecycleEventDataInterface $eventData): void
     {
         $expectedCommandsData = $taskYaml->getTaskData()['lifecycle'][$lifecycleName]['commands'];
         $expectedFilesData = $taskYaml->getTaskData()['lifecycle'][$lifecycleName]['files'];
@@ -202,5 +219,87 @@ class YamlDataHelper extends Module
         $this->assertSame($expectedPlaceholdersData[0]['name'], $eventData->getPlaceholders()['world']->getName());
         $this->assertSame($expectedPlaceholdersData[0]['configuration'], $eventData->getPlaceholders()['world']->getConfiguration());
         $this->assertSame($expectedPlaceholdersData[0]['value_resolver'], $eventData->getPlaceholders()['world']->getValueResolver());
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     */
+    public function createPlaceholdersData(): TaskYaml
+    {
+        return new TaskYaml([
+            'placeholders' => [
+                [
+                    'name' => 'world',
+                    'value_resolver' => 'STATIC',
+                    'configuration' => [],
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'hello',
+                    'value_resolver' => 'STATIC',
+                    'configuration' => [],
+                    'optional' => true,
+                ],
+            ],
+        ], []);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     */
+    public function createTaskData(): TaskYaml
+    {
+        return new TaskYaml($this->createTaskArrayData(), []);
+    }
+
+    /**
+     * @return array
+     */
+    public function createTaskArrayData(): array
+    {
+        return [
+            'id' => 'task:id',
+            'short_description' => 'Short description',
+            'command' => 'echo 1',
+            'type' => 'local_cli',
+            'stop_on_error' => false,
+            'tags' => ['default'],
+            'stage' => ContextInterface::DEFAULT_STAGE,
+            'version' => '1.1.1',
+            'help' => 'Help!',
+            'successor' => 'task:id:successor',
+            'placeholders' => [
+                [
+                    'name' => 'world',
+                    'value_resolver' => 'STATIC',
+                    'configuration' => [],
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'hello',
+                    'value_resolver' => 'STATIC',
+                    'configuration' => [],
+                    'optional' => true,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $subTask
+     *
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     */
+    public function createTaskSetYamlData(TaskInterface $subTask): TaskYaml
+    {
+        return new TaskYaml([
+            'tasks' => [
+                [
+                    'id' => $subTask->getId(),
+                ],
+            ],
+        ], [], [
+            $subTask->getId() => $subTask,
+        ]);
     }
 }

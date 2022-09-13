@@ -10,7 +10,7 @@ suites:
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\FileManagerHelper
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\PlaceholderResolverHelper
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\SettingManagerHelper
-                - \SprykerSdk\Sdk\Tests\Helper\Infrastructure\Builder\Yaml\YamlDataHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Infrastructure\Builder\Yaml\TaskYamlDataHelper
         step_decorators: ~
     acceptance:
         path: Sdk/Acceptance
