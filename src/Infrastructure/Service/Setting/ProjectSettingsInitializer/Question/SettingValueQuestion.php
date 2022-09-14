@@ -50,10 +50,10 @@ class SettingValueQuestion
             $questionDescription = 'Initial value for ' . $setting->getPath();
         }
 
-        $choiceProviderName = $setting->getInitializer() ?? '';
+        $choicesProviderName = $setting->getInitializer() ?? '';
 
-        $choiceValues = $this->settingChoicesProviderRegistry->hasSettingChoicesProvider($choiceProviderName)
-            ? $this->settingChoicesProviderRegistry->getSettingChoicesProvider($choiceProviderName)->getChoices($setting)
+        $choiceValues = $this->settingChoicesProviderRegistry->hasSettingChoicesProvider($choicesProviderName)
+            ? $this->settingChoicesProviderRegistry->getSettingChoicesProvider($choicesProviderName)->getChoices($setting)
             : [];
 
         return $this->cliValueReceiver->receiveValue(

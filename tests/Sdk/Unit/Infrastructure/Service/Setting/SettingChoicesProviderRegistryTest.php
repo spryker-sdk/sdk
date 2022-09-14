@@ -42,18 +42,18 @@ class SettingChoicesProviderRegistryTest extends Unit
     public function testRegistryCanCheckAndGenWhenServicesSetAsArray(): void
     {
         // Arrange
-        $choiceProviderMock = $this->createChoicesProviderMock();
+        $choicesProviderMock = $this->createChoicesProviderMock();
         $settingChoicesProviderRegistry = new SettingChoicesProviderRegistry(
-            ['test-provider' => $choiceProviderMock],
+            ['test-provider' => $choicesProviderMock],
         );
 
         // Act
-        $isChoiceProviderSet = $settingChoicesProviderRegistry->hasSettingChoicesProvider('test-provider');
-        $choiceProvider = $settingChoicesProviderRegistry->getSettingChoicesProvider('test-provider');
+        $isChoicesProviderSet = $settingChoicesProviderRegistry->hasSettingChoicesProvider('test-provider');
+        $choicesProvider = $settingChoicesProviderRegistry->getSettingChoicesProvider('test-provider');
 
         // Assert
-        $this->assertTrue($isChoiceProviderSet);
-        $this->assertSame($choiceProviderMock, $choiceProvider);
+        $this->assertTrue($isChoicesProviderSet);
+        $this->assertSame($choicesProviderMock, $choicesProvider);
     }
 
     /**
@@ -62,9 +62,9 @@ class SettingChoicesProviderRegistryTest extends Unit
     public function testRegistryCanCheckAndGenWhenServicesSetAsIterator(): void
     {
         // Arrange
-        $choiceProviderMock = $this->createChoicesProviderMock();
+        $choicesProviderMock = $this->createChoicesProviderMock();
         $settingChoicesProviderRegistry = new SettingChoicesProviderRegistry(
-            new ArrayIterator(['test-provider' => $choiceProviderMock]),
+            new ArrayIterator(['test-provider' => $choicesProviderMock]),
         );
 
         // Act
@@ -73,7 +73,7 @@ class SettingChoicesProviderRegistryTest extends Unit
 
         // Assert
         $this->assertTrue($isChoiceProviderSet);
-        $this->assertSame($choiceProviderMock, $choiceProvider);
+        $this->assertSame($choicesProviderMock, $choiceProvider);
     }
 
     /**
