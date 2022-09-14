@@ -133,7 +133,7 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     {
         return $this->getRequiredSettingPaths();
     }
-    
+
     /**
      * @return array<string>
      */
