@@ -1,4 +1,4 @@
-#### Spryker SDK value resolvers
+# Spryker SDK value resolvers
 
 | Value Resolver Name | Description                                                                                          |
 |---------------------|------------------------------------------------------------------------------------------------------|
@@ -9,7 +9,7 @@
 | CONFIG_PATH  | Uses to resolve relative path by priority: `project` path then by default `sdk` path if it's exists. |
 | FLAG  | Uses for flag options, has boolean type.                                                             |
 | NAMESPACE  | Uses for spryk tool to resolve namespcases for tool. Based on settings.                              |
-| PC_SYSTEM  | Uses for resolveing OS. Linux, mac, mac (ARM).                                                       |
+| PC_SYSTEM  | Uses for resolveing OS. Linux, Mac, Mac (ARM).                                                       |
 | PRIORITY_PATH  | Uses to resolve relative path for tool entrypoint: `project` path then by if exist `sdk` path.       |
 | REPORT_DIR  | Uses for resolving report file path.                                                                 |
 | SDK_DIR  | Uses for resolve path to sdk folder.                                                                 |
