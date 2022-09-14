@@ -52,4 +52,14 @@ class ProjectUuidInitializer implements SettingInitializerInterface
 
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return 'project_uuid_initializer';
+    }
 }

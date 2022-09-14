@@ -100,7 +100,7 @@ services:
     tags: ["sdk.setting_initializer"]
     public: true
   SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer:
-    tags: [ "sdk.setting_initializer" ]
+    tags: [ "sdk.setting_choice_provider" ]
     public: true
   create_directory_initializer:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
@@ -117,14 +117,14 @@ services:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer
     public: true
   SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer:
-    tags: ["sdk.setting_initializer"]
+    tags: ["sdk.setting_initializer", "sdk.setting_choice_provider"]
     public: true
     arguments:
       - "@project_setting_repository"
       - "@workflow_repository"
       - "@project_workflow"
   SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer:
-    tags: [ "sdk.setting_initializer" ]
+    tags: [ "sdk.setting_choice_provider" ]
     public: true
     arguments:
       - "@task_persistence_repository"

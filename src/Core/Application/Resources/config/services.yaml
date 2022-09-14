@@ -158,3 +158,10 @@ services:
     arguments:
       - !tagged_iterator report.array_converter
 
+  project_settings_handler:
+      class: SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsHandler
+      arguments:
+          - "@setting_repository"
+          - "@project_setting_manager"
+          - "@project_settings_init.initializer"
+

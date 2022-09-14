@@ -62,10 +62,8 @@ services:
     tags: ["console.command"]
     arguments:
       - "@cli_value_receiver"
-      - "@project_setting_manager"
       - "@setting_repository"
-      - "@service_container"
-      - "%project_settings_file%"
+      - "@project_settings_handler"
   setting_set_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\SettingSetCommand
     tags: ["console.command"]

@@ -28,4 +28,9 @@ final class ValueTypeEnum
      * @var string
      */
     public const TYPE_STRING = 'string';
+
+    /**
+     * @var string
+     */
+    public const TYPE_UUID = 'uuid';
 }

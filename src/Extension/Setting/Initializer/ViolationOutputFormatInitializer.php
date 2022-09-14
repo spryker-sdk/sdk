@@ -23,4 +23,12 @@ class ViolationOutputFormatInitializer implements SettingChoicesProviderInterfac
     {
         return [OutputViolationReportFormatter::FORMAT, YamlViolationReportFormatter::FORMAT];
     }
+
+    /**
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return 'violation_output_format_initializer';
+    }
 }

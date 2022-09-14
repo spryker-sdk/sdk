@@ -17,4 +17,9 @@ interface SettingChoicesProviderInterface
      * @return array<string>
      */
     public function getChoices(SettingInterface $setting): array;
+
+    /**
+     * @return string
+     */
+    public static function getName(): string;
 }

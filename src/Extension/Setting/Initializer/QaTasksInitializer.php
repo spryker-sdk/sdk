@@ -44,4 +44,12 @@ class QaTasksInitializer implements SettingChoicesProviderInterface
 
         return $validationTasks;
     }
+
+    /**
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return 'qa_task_initializer';
+    }
 }

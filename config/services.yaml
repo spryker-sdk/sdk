@@ -25,3 +25,10 @@ services:
     SprykerSdk\Sdk\Presentation\Console\:
         resource: '../src/Presentation/Console'
         exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+
+    _instanceof:
+        SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface:
+            tags: [ "sdk.setting_choice_provider" ]
+
+        SprykerSdk\SdkContracts\Setting\SettingInitializerInterface:
+            tags: ["sdk.setting_initializer"]

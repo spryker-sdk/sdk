@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
 use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 
 class Setting extends DomainSetting
 {
@@ -33,7 +34,7 @@ class Setting extends DomainSetting
         string $path,
         $values,
         string $strategy,
-        string $type = 'string',
+        string $type = ValueTypeEnum::TYPE_STRING,
         string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
         ?string $initializationDescription = null,
