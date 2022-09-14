@@ -13,10 +13,10 @@ interface TaskFromYamlTaskSetBuilderInterface
 {
     /**
      * @param array<string, mixed> $taskSetConfiguration
-     * @param array<string, mixed> $allTasksConfigurations
+     * @param array<string, mixed> $taskConfigurations
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    public function buildTaskFromYamlTaskSet(array $taskSetConfiguration, array $allTasksConfigurations, array $existingTasks): TaskInterface;
+    public function buildTaskFromYamlTaskSet(array $taskSetConfiguration, array $taskConfigurations, array $existingTasks): TaskInterface;
 }

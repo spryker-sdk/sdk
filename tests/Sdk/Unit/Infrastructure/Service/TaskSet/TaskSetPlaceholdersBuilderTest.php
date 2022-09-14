@@ -25,7 +25,7 @@ class TaskSetPlaceholdersBuilderTest extends Unit
     /**
      * @return void
      */
-    public function testOverridesPlaceholdersWhenOverridePlaceholdersSet(): void
+    public function testBuildTaskSetPlaceholdersShouldOverridePlaceholdersWhenOverridePlaceholdersSet(): void
     {
         // Arrange
         $placeholder = $this->createPlaceholderMock(
@@ -74,7 +74,7 @@ class TaskSetPlaceholdersBuilderTest extends Unit
     /**
      * @return void
      */
-    public function testOverridesPlaceholdersWhenSharedPlaceholdersSet(): void
+    public function testBuildTaskSetPlaceholdersShouldOverridePlaceholdersWhenSharedPlaceholdersSet(): void
     {
         // Arrange
         $placeholderA = $this->createPlaceholderMock(

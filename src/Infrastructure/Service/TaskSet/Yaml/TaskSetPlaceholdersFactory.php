@@ -15,21 +15,21 @@ class TaskSetPlaceholdersFactory
 {
     /**
      * @param array<string, mixed> $taskSetConfiguration
-     * @param array<string, array<string, mixed>> $allTasksConfigurations
+     * @param array<string, array<string, mixed>> $taskConfigurations
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      *
      * @return array<string, array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>>
      */
     public function getSubTasksPlaceholders(
         array $taskSetConfiguration,
-        array $allTasksConfigurations,
+        array $taskConfigurations,
         array $existingTasks
     ): array {
         $placeholders = [];
 
         foreach ($taskSetConfiguration['tasks'] as $task) {
-            $placeholders[(string)$task['id']] = isset($allTasksConfigurations[$task['id']])
-                ? $this->createPlaceholdersFromDefinitions($allTasksConfigurations[$task['id']]['placeholders'])
+            $placeholders[(string)$task['id']] = isset($taskConfigurations[$task['id']])
+                ? $this->createPlaceholdersFromDefinitions($taskConfigurations[$task['id']]['placeholders'])
                 : $existingTasks[$task['id']]->getPlaceholders();
         }
 

@@ -16,18 +16,18 @@ class TaskSetCommandsFactory
 {
     /**
      * @param array<string, mixed> $taskSetConfiguration
-     * @param array<string, array<string, mixed>> $allTasksConfigurations
+     * @param array<string, array<string, mixed>> $tasksConfigurations
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      *
      * @return array<string, array<\SprykerSdk\SdkContracts\Entity\CommandInterface>>
      */
-    public function getSubTasksCommands(array $taskSetConfiguration, array $allTasksConfigurations, array $existingTasks): array
+    public function getSubTasksCommands(array $taskSetConfiguration, array $tasksConfigurations, array $existingTasks): array
     {
         $commands = [];
 
         foreach ($taskSetConfiguration['tasks'] as $task) {
-            $commands[(string)$task['id']] = isset($allTasksConfigurations[$task['id']])
-                ? [$this->createCommandFromArray($allTasksConfigurations[$task['id']], $taskSetConfiguration)]
+            $commands[(string)$task['id']] = isset($tasksConfigurations[$task['id']])
+                ? [$this->createCommandFromArray($tasksConfigurations[$task['id']], $taskSetConfiguration)]
                 : $existingTasks[$task['id']]->getCommands();
         }
 

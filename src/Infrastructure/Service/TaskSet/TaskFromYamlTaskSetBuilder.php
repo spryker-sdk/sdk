@@ -70,14 +70,14 @@ class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
 
     /**
      * @param array<string, mixed> $taskSetConfiguration
-     * @param array<string, mixed> $allTasksConfigurations
+     * @param array<string, mixed> $taskConfigurations
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function buildTaskFromYamlTaskSet(
         array $taskSetConfiguration,
-        array $allTasksConfigurations,
+        array $taskConfigurations,
         array $existingTasks
     ): TaskInterface {
         $taskSetOverrideMap = $this->taskSetPlaceholdersOverrideMapFactory->createTaskSetOverrideMap($taskSetConfiguration);
@@ -85,10 +85,10 @@ class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
         return new Task(
             $taskSetConfiguration['id'],
             $taskSetConfiguration['short_description'],
-            $this->getCommands($taskSetConfiguration, $allTasksConfigurations, $existingTasks, $taskSetOverrideMap),
+            $this->getCommands($taskSetConfiguration, $taskConfigurations, $existingTasks, $taskSetOverrideMap),
             $this->getLifeCycle(),
             $taskSetConfiguration['version'],
-            $this->getPlaceholders($taskSetConfiguration, $allTasksConfigurations, $existingTasks, $taskSetOverrideMap),
+            $this->getPlaceholders($taskSetConfiguration, $taskConfigurations, $existingTasks, $taskSetOverrideMap),
             $taskSetConfiguration['help'] ?? null,
             $taskSetConfiguration['successor'] ?? null,
             $taskSetConfiguration['deprecated'] ?? false,
@@ -100,7 +100,7 @@ class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
 
     /**
      * @param array<string, mixed> $taskSetConfiguration
-     * @param array<string, mixed> $allTasksConfigurations
+     * @param array<string, mixed> $taskConfigurations
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto $taskSetOverrideMap
      *
@@ -108,13 +108,13 @@ class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
      */
     protected function getPlaceholders(
         array $taskSetConfiguration,
-        array $allTasksConfigurations,
+        array $taskConfigurations,
         array $existingTasks,
         TaskSetOverrideMapDto $taskSetOverrideMap
     ): array {
         $subTasksPlaceholders = $this->taskSetPlaceholdersFactory->getSubTasksPlaceholders(
             $taskSetConfiguration,
-            $allTasksConfigurations,
+            $taskConfigurations,
             $existingTasks,
         );
 
@@ -123,7 +123,7 @@ class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
 
     /**
      * @param array<string, mixed> $taskSetConfiguration
-     * @param array<string, mixed> $allTasksConfigurations
+     * @param array<string, mixed> $taskConfigurations
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto $taskSetOverrideMap
      *
@@ -131,13 +131,13 @@ class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
      */
     protected function getCommands(
         array $taskSetConfiguration,
-        array $allTasksConfigurations,
+        array $taskConfigurations,
         array $existingTasks,
         TaskSetOverrideMapDto $taskSetOverrideMap
     ): array {
         $subTasksCommands = $this->taskSetCommandsFactory->getSubTasksCommands(
             $taskSetConfiguration,
-            $allTasksConfigurations,
+            $taskConfigurations,
             $existingTasks,
         );
 
