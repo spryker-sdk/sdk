@@ -49,6 +49,8 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     protected string $type;
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -57,6 +59,8 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -65,6 +69,8 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array
@@ -73,6 +79,8 @@ class StaticValueResolver extends AbstractValueResolver implements ConfigurableV
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string

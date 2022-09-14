@@ -32,6 +32,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getShortDescription(): string
@@ -40,7 +42,9 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -83,6 +87,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getHelp(): ?string
@@ -91,6 +97,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -99,6 +107,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
@@ -107,6 +117,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getVersion(): string
@@ -115,6 +127,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isDeprecated(): bool
@@ -123,6 +137,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool
@@ -131,6 +147,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getSuccessor(): ?string

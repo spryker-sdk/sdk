@@ -30,6 +30,8 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -78,6 +80,8 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $settingValues
      * @param array $resolvedValues
      *

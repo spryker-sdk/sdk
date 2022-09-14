@@ -46,6 +46,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getPackage(): string
@@ -54,6 +56,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getPath(): string
@@ -62,6 +66,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     public function getViolations(): array
@@ -70,6 +76,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string, array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>>
      */
     public function getFileViolations(): array

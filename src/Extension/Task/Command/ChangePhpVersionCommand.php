@@ -51,6 +51,8 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -68,6 +70,8 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -76,6 +80,8 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -84,6 +90,8 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -92,6 +100,8 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -100,11 +110,23 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
     {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
     }
 
     /**
@@ -152,13 +174,5 @@ class ChangePhpVersionCommand implements ExecutableCommandInterface
     protected function getPhpVersion(array $resolvedValues): string
     {
         return $resolvedValues['%' . AppPhpVersionValueResolver::VALUE_NAME . '%'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getStage(): string
-    {
-        return ContextInterface::DEFAULT_STAGE;
     }
 }

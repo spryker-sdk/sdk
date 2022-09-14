@@ -18,6 +18,8 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class HelloPhpTask implements TaskInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getShortDescription(): string
@@ -26,7 +28,9 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -34,6 +38,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getHelp(): ?string
@@ -42,6 +48,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -50,6 +58,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
@@ -60,6 +70,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getVersion(): string
@@ -68,6 +80,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isDeprecated(): bool
@@ -76,6 +90,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool
@@ -84,6 +100,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getSuccessor(): ?string
@@ -92,6 +110,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface
@@ -104,6 +124,8 @@ class HelloPhpTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getStages(): array

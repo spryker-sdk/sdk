@@ -23,6 +23,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     protected const PROJECT = 'project';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -31,6 +33,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getAlias(): string
@@ -39,6 +43,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -47,6 +53,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -55,6 +63,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -77,6 +87,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getDefaultValue()
@@ -85,6 +97,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     protected function getRequiredSettingPaths(): array
@@ -93,6 +107,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array<string, mixed> $settingValues
      *
      * @return mixed
@@ -103,6 +119,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array

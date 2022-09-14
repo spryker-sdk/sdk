@@ -35,6 +35,68 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return 'SDK_DIR';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return 'Relative to the installation directory of the SDK or absolute path';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array<string>
+     */
+    public function getSettingPaths(): array
+    {
+        return [
+            static::SETTING_SDK_DIR,
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'path';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string|null
+     */
+    public function getAlias(): ?string
+    {
+        return 'sdk-dir';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string|null
+     */
+    public function getDefaultValue(): ?string
+    {
+        return null;
+    }
+
+    /**
      * @return array<string>
      */
     protected function getRequiredSettingPaths(): array
@@ -60,55 +122,5 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
         }
 
         return $this->sdkBasePath . '/' . $settingSdkBasePath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return 'SDK_DIR';
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return 'Relative to the installation directory of the SDK or absolute path';
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [
-            static::SETTING_SDK_DIR,
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'path';
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAlias(): ?string
-    {
-        return 'sdk-dir';
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDefaultValue(): ?string
-    {
-        return null;
     }
 }

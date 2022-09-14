@@ -41,6 +41,8 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     protected string $producer;
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $configuration
      *
      * @return void
@@ -52,6 +54,8 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface

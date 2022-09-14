@@ -19,6 +19,8 @@ class GreeterCommand implements ExecutableCommandInterface
     protected string $message;
 
     /**
+     * {@inheritDoc}
+     *
      * @param string $message
      */
     public function __construct(string $message)
@@ -27,6 +29,8 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -35,6 +39,8 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -43,6 +49,8 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array
      */
     public function getTags(): array
@@ -51,6 +59,8 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -59,6 +69,8 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
@@ -94,6 +106,8 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -102,6 +116,8 @@ class GreeterCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

@@ -83,6 +83,8 @@ class Violation implements ViolationInterface
     protected ?ViolationFixInterface $fix = null;
 
     /**
+     * {@inheritDoc}
+     *
      * @param string $id
      * @param string $message
      */
@@ -93,6 +95,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -101,6 +105,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getMessage(): string
@@ -109,6 +115,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isFixable(): bool
@@ -117,6 +125,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function producedBy(): string
@@ -125,7 +135,7 @@ class Violation implements ViolationInterface
     }
 
     /**
-     * INFO, WARNING, ERROR
+     * {@inheritDoc}
      *
      * @return string
      */
@@ -135,6 +145,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function priority(): ?string
@@ -143,6 +155,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getClass(): ?string
@@ -151,6 +165,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return int|null
      */
     public function getStartLine(): ?int
@@ -159,6 +175,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return int|null
      */
     public function getEndLine(): ?int
@@ -167,6 +185,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return int|null
      */
     public function getStartColumn(): ?int
@@ -175,6 +195,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return int|null
      */
     public function getEndColumn(): ?int
@@ -183,6 +205,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getMethod(): ?string
@@ -191,6 +215,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array
      */
     public function getAdditionalAttributes(): array
@@ -199,6 +225,8 @@ class Violation implements ViolationInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationFixInterface|null
      */
     public function getFix(): ?ViolationFixInterface

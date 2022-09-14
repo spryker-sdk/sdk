@@ -77,6 +77,8 @@ class Command implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -85,6 +87,8 @@ class Command implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -93,6 +97,8 @@ class Command implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -101,6 +107,8 @@ class Command implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -109,6 +117,8 @@ class Command implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -117,6 +127,8 @@ class Command implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string
@@ -137,6 +149,8 @@ class Command implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getErrorMessage(): string

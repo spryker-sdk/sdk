@@ -12,6 +12,8 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class StaticTextValueResolver extends StaticValueResolver
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -20,6 +22,8 @@ class StaticTextValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional

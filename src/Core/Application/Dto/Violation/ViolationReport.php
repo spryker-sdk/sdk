@@ -46,6 +46,8 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getProject(): string
@@ -54,6 +56,8 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface>
      */
     public function getPackages(): array
@@ -62,6 +66,8 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getPath(): string
@@ -70,6 +76,8 @@ class ViolationReport implements ViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     public function getViolations(): array

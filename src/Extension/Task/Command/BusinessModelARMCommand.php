@@ -37,6 +37,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -45,6 +47,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -114,6 +118,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getErrorMessage(): string
@@ -122,6 +128,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -130,6 +138,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -138,6 +148,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -146,6 +158,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -154,6 +168,8 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

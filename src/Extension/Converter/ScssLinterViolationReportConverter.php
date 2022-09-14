@@ -26,6 +26,8 @@ class ScssLinterViolationReportConverter extends AbstractViolationConverter
     protected string $producer;
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $configuration
      *
      * @return void
@@ -37,6 +39,8 @@ class ScssLinterViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface

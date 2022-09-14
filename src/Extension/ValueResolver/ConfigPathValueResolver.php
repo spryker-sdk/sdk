@@ -39,6 +39,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     protected string $description = 'Path to the config file';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -47,6 +49,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -55,6 +59,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -63,6 +69,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getAlias(): string
@@ -71,6 +79,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDefaultValue(): string
@@ -79,6 +89,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $values
      *
      * @return void
@@ -94,6 +106,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -111,19 +125,21 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array
     {
         return $this->getRequiredSettingPaths();
+    }
+    
+    /**
+     * @return array<string>
+     */
+    protected function getRequiredSettingPaths(): array
+    {
+        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
     }
 
     /**

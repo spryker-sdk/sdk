@@ -32,6 +32,8 @@ class ViolationFix implements ViolationFixInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -40,6 +42,8 @@ class ViolationFix implements ViolationFixInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getAction(): string

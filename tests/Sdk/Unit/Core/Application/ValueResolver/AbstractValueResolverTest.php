@@ -118,6 +118,8 @@ class AbstractValueResolverTest extends Unit
     {
         return new class ($this->valueReceiver) extends AbstractValueResolver {
             /**
+             * {@inheritDoc}
+             *
              * @return string
              */
             public function getId(): string
@@ -126,6 +128,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return array<string>
              */
             public function getSettingPaths(): array
@@ -134,6 +138,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return string|null
              */
             public function getAlias(): ?string
@@ -142,6 +148,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return string
              */
             public function getDescription(): string
@@ -150,6 +158,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return string
              */
             public function getType(): string
@@ -158,6 +168,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return mixed
              */
             public function getDefaultValue()
@@ -166,6 +178,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return array<string>
              */
             protected function getRequiredSettingPaths(): array
@@ -174,6 +188,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @param array<string, mixed> $settingValues
              *
              * @return mixed

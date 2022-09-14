@@ -37,6 +37,8 @@ class CheckstyleViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface

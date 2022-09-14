@@ -19,13 +19,6 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class RemoveRepDirTask implements TaskInterface
 {
     /**
-     * @uses \SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
-     *
-     * @var string
-     */
-    protected const REPORT_DIR_SETTING_NAME = 'reportDir';
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface
      */
     protected ViolationReportRepositoryInterface $violationReportRepository;
@@ -40,6 +33,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getShortDescription(): string
@@ -48,6 +43,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array
      */
     public function getPlaceholders(): array
@@ -56,6 +53,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getHelp(): ?string
@@ -64,6 +63,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -72,6 +73,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
@@ -82,6 +85,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getVersion(): string
@@ -90,6 +95,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isDeprecated(): bool
@@ -98,6 +105,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getSuccessor(): ?string
@@ -106,6 +115,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool
@@ -114,6 +125,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface
@@ -126,6 +139,8 @@ class RemoveRepDirTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getStages(): array

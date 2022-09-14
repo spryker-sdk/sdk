@@ -17,6 +17,8 @@ use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 class ESLintViolationReportConverter extends AbstractViolationConverter
 {
     /**
+     * {@inheritDoc}
+     *
      * @param array $configuration
      *
      * @return void
@@ -28,6 +30,8 @@ class ESLintViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
