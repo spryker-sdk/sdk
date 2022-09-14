@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
@@ -63,21 +64,30 @@ class RunWorkflowCommand extends Command
     protected ContextFactoryInterface $contextFactory;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
+     */
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         CliValueReceiver $cliValueReceiver,
         WorkflowRunner $workflowRunner,
-        ContextFactoryInterface $contextFactory
+        ContextFactoryInterface $contextFactory,
+        ProjectSettingRepositoryInterface $projectSettingRepository
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->workflowRunner = $workflowRunner;
         $this->contextFactory = $contextFactory;
+        $this->projectSettingRepository = $projectSettingRepository;
+
         parent::__construct(static::NAME);
     }
 
@@ -106,18 +116,16 @@ EOT,
     {
         /** @var string|null $workflowName */
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
+        $projectWorkflows = (array)$this->projectSettingRepository->getOneByPath(ProjectWorkflow::WORKFLOW)->getValues();
 
-        $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
-
-        if ($workflowName && $initializedWorkflows && !in_array($workflowName, $initializedWorkflows)) {
-            $output->writeln('<error>You haven\'t initialized a workflow with "sdk:workflow:init"' .
-                ' or you don\'t have any open tasks defined</error>');
+        if ($workflowName && !in_array($workflowName, $projectWorkflows)) {
+            $output->writeln('<error>You haven\'t active a workflows".</error>');
 
             return static::FAILURE;
         }
 
         if (!$workflowName) {
-            $workflows = $initializedWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
+            $workflows = $projectWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
             $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
                     'You have more than one initialized workflow. You have to select one.',
