@@ -48,7 +48,7 @@ class SettingChoicesProviderRegistry
     public function getSettingChoicesProvider(string $name): SettingChoicesProviderInterface
     {
         if (!isset($this->settingChoicesProviders[$name])) {
-            throw new InvalidArgumentException(sprintf('Choice provider %s is not found', $name));
+            throw new InvalidArgumentException(sprintf('Choice provider "%s" is not found', $name));
         }
 
         return $this->settingChoicesProviders[$name];

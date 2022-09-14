@@ -48,7 +48,7 @@ class SettingInitializerRegistry
     public function getSettingInitializer(string $name): SettingInitializerInterface
     {
         if (!isset($this->settingInitializers[$name])) {
-            throw new InvalidArgumentException(sprintf('Initializer %s is not found', $name));
+            throw new InvalidArgumentException(sprintf('Initializer "%s" is not found', $name));
         }
 
         return $this->settingInitializers[$name];
