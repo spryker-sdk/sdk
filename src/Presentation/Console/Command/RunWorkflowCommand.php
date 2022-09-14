@@ -119,7 +119,7 @@ EOT,
         $projectWorkflows = (array)$this->projectSettingRepository->getOneByPath(ProjectWorkflow::WORKFLOW)->getValues();
 
         if ($workflowName && !in_array($workflowName, $projectWorkflows)) {
-            $output->writeln('<error>You haven\'t active a workflows".</error>');
+            $output->writeln('<error>You don\'t have any active a workflows".</error>');
 
             return static::FAILURE;
         }
