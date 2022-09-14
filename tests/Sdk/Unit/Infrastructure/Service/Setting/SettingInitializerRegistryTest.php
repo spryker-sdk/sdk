@@ -26,7 +26,7 @@ class SettingInitializerRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testRegistryThrowsExceptionWhenServiceNotFound(): void
+    public function testGetSettingInitializerShouldThrowsExceptionWhenServiceNotFound(): void
     {
         // Arrange
         $settingInitializerRegistry = new SettingInitializerRegistry([]);
@@ -39,7 +39,7 @@ class SettingInitializerRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testRegistryCanCheckAndGenWhenServicesSetAsArray(): void
+    public function testGetSettingInitializerShouldCheckAndGenWhenServicesSetAsArray(): void
     {
         // Arrange
         $settingInitializerMockMock = $this->createSettingInitializerMock();
@@ -59,7 +59,7 @@ class SettingInitializerRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testRegistryCanCheckAndGenWhenServicesSetAsIterator(): void
+    public function testGetSettingInitializerShouldCheckAndGenWhenServicesSetAsIterator(): void
     {
         // Arrange
         $settingInitializerMockMock = $this->createSettingInitializerMock();

@@ -33,7 +33,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnsEmptyWhenSettingNotApplicable(): void
+    public function testInitializeShouldReturnEmptyArrayWhenSettingNotApplicable(): void
     {
         // Arrange
         $projectSettingsInitializer = new ProjectSettingsInitializer(
@@ -56,7 +56,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnsEmptyWhenSettingIsUuidWithoutInitializer(): void
+    public function testInitializeShouldReturnEmptyArrayWhenSettingIsUuidWithoutInitializer(): void
     {
         // Arrange
         $projectSettingsInitializer = new ProjectSettingsInitializer(
@@ -89,7 +89,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnsEmptyWhenAnswerIsToLeaveDefaultValues(): void
+    public function testInitializeShouldReturnEmptyArrayWhenAnswerIsToLeaveDefaultValues(): void
     {
         // Arrange
         $projectSettingsInitializer = new ProjectSettingsInitializer(
@@ -120,7 +120,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testAskValueWhenValuesNotSet(): void
+    public function testInitializeShouldAskValueWhenValuesNotSet(): void
     {
         // Arrange
         $projectSettingsInitializer = new ProjectSettingsInitializer(
@@ -152,7 +152,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnsSettingsWhenValueSetInIncomingData(): void
+    public function testInitializeShouldReturnSettingsWhenValueSetInIncomingData(): void
     {
         // Arrange
         $projectSettingsInitializer = new ProjectSettingsInitializer(
@@ -184,7 +184,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnsEmptyWhenValueNotChanged(): void
+    public function testInitializeShouldReturnEmptyArrayWhenValueNotChanged(): void
     {
         // Arrange
         $projectSettingsInitializer = new ProjectSettingsInitializer(

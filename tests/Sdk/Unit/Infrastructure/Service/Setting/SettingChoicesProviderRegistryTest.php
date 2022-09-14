@@ -26,7 +26,7 @@ class SettingChoicesProviderRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testRegistryThrowsExceptionWhenServiceNotFound(): void
+    public function testGetSettingChoicesProviderShouldThrowExceptionWhenServiceNotFound(): void
     {
         // Arrange
         $settingChoicesProviderRegistry = new SettingChoicesProviderRegistry([]);
@@ -39,7 +39,7 @@ class SettingChoicesProviderRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testRegistryCanCheckAndGenWhenServicesSetAsArray(): void
+    public function testGetSettingChoicesProviderShouldCheckAndGetWhenServicesSetAsArray(): void
     {
         // Arrange
         $choicesProviderMock = $this->createChoicesProviderMock();
@@ -59,7 +59,7 @@ class SettingChoicesProviderRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testRegistryCanCheckAndGenWhenServicesSetAsIterator(): void
+    public function testGetSettingChoicesProviderShouldCheckAndGetWhenServicesSetAsIterator(): void
     {
         // Arrange
         $choicesProviderMock = $this->createChoicesProviderMock();

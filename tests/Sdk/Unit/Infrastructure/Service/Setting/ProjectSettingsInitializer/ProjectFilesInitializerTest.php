@@ -26,7 +26,7 @@ class ProjectFilesInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testCreatesProjectSettingsFiles(): void
+    public function testInitProjectFilesShouldCreateProjectSettingsFiles(): void
     {
         // Arrange
         $projectSettingsDir = vfsStream::setup('.ssdk');
@@ -45,7 +45,7 @@ class ProjectFilesInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testReturnsProjectInitializedWhenSettingFileExists(): void
+    public function testIsProjectSettingsInitialisedShouldReturnProjectInitializedWhenSettingFileExists(): void
     {
         // Arrange
         $projectSettingsDir = vfsStream::setup('.ssdk');
