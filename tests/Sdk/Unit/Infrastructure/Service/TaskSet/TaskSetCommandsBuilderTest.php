@@ -28,7 +28,7 @@ class TaskSetCommandsBuilderTest extends Unit
     /**
      * @return void
      */
-    public function testBuildsOverrodePlaceholdersWhenStringCommand(): void
+    public function testBuildTaskSetCommandsShouldOverridePlaceholdersWhenCommandIsString(): void
     {
         // Arrange
         $command = $this->createCommandMock('echo %config%', 'local_cli', ['tag_a'], false);
@@ -56,7 +56,7 @@ class TaskSetCommandsBuilderTest extends Unit
     /**
      * @return void
      */
-    public function testBuildsOverrodePlaceholdersWhenPhpTypeCommand(): void
+    public function testBuildTaskSetCommandsShouldOverridePlaceholdersWhenCommandsIsPhpType(): void
     {
         // Arrange
         $command = $this->createExecutableCommandMock('', 'php', ['tag_a'], false);
