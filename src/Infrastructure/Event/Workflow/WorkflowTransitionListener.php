@@ -150,9 +150,6 @@ class WorkflowTransitionListener
     protected function tryRunTask(TransitionEvent $event, WorkflowTransitionInterface $transition): void
     {
         $task = $this->getTransitionMeta($event, static::META_KEY_TASK);
-        if (!$task) {
-            return;
-        }
 
         $shouldRunTask = in_array($transition->getState(), [
             WorkflowTransitionInterface::WORKFLOW_TRANSITION_STARTED,
@@ -167,8 +164,9 @@ class WorkflowTransitionListener
         $allowToFail = $this->getTransitionMeta($event, static::META_ALLOW_TO_FAIL);
 
         $context = $this->getContext($event);
-
-        $context = $this->taskExecutor->execute($context, $task);
+        if ($task) {
+            $context = $this->taskExecutor->execute($context, $task);
+        }
         $resolvedNextTransition = $this->resolverNextTransition($event, $context);
 
         if (!$allowToFail && !$resolvedNextTransition && $context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
