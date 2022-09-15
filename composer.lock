@@ -6308,16 +6308,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "ec68dd8a28c7629b8ba05253e250dfe8aaa8da51"
+                "reference": "0e7ada2dd80dd9c1c8ab3784593edda9d4dff658"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ec68dd8a28c7629b8ba05253e250dfe8aaa8da51",
-                "reference": "ec68dd8a28c7629b8ba05253e250dfe8aaa8da51",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/0e7ada2dd80dd9c1c8ab3784593edda9d4dff658",
+                "reference": "0e7ada2dd80dd9c1c8ab3784593edda9d4dff658",
                 "shasum": ""
             },
             "require": {
-                "php": ">= 7.4"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.2",
@@ -6339,7 +6339,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-907-contracts-api-doc"
             },
-            "time": "2022-09-08T07:45:41+00:00"
+            "time": "2022-09-15T08:47:17+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -6446,12 +6446,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "fb983ff3a8c64c0228e2db677e01b3ad916a183a"
+                "reference": "a2b1234ffeb0ac487f575192e77757647cc73586"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/fb983ff3a8c64c0228e2db677e01b3ad916a183a",
-                "reference": "fb983ff3a8c64c0228e2db677e01b3ad916a183a",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a2b1234ffeb0ac487f575192e77757647cc73586",
+                "reference": "a2b1234ffeb0ac487f575192e77757647cc73586",
                 "shasum": ""
             },
             "require": {
@@ -6507,7 +6507,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/feature/sdk-907-contracts-api-doc"
             },
-            "time": "2022-09-08T07:41:13+00:00"
+            "time": "2022-09-15T08:50:39+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",

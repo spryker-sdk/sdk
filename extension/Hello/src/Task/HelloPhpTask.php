@@ -106,7 +106,7 @@ class HelloPhpTask implements TaskInterface
      */
     public function getSuccessor(): ?string
     {
-        return '/bin/echo "hello %world% %somebody%"';
+        return 'hello:php';
     }
 
     /**
