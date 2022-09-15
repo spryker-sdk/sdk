@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
