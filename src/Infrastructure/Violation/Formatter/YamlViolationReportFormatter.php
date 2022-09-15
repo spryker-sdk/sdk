@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter;
+namespace SprykerSdk\Sdk\Infrastructure\Violation\Formatter;
 
 use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
+use SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -26,7 +26,7 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
     protected ViolationReportFileMapperInterface $violationReportFileMapper;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader
+     * @var \SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader
      */
     protected ViolationPathReader $violationPathReader;
 
@@ -37,7 +37,7 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapper
-     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader $violationPathReader
+     * @param \SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader $violationPathReader
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      */
     public function __construct(

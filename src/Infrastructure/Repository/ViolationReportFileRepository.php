@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Exception;
 use RecursiveIteratorIterator;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
+use SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory;
+use SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Report\ReportInterface;
 use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
@@ -20,18 +20,18 @@ use Symfony\Component\Translation\Exception\InvalidResourceException;
 class ViolationReportFileRepository implements ViolationReportRepositoryInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader
+     * @var \SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader
      */
     protected ViolationPathReader $violationPathReader;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+     * @var \SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory
      */
     protected ReportFormatterFactory $reportFormatterFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader $violationPathReader
-     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader $violationPathReader
+     * @param \SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory $reportFormatterFactory
      */
     public function __construct(
         ViolationPathReader $violationPathReader,
