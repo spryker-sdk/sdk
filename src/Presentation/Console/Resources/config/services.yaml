@@ -32,6 +32,7 @@ services:
       - "@cli_interaction_processor"
       - "@workflow_runner"
       - "@context_factory"
+      - "@project_setting_repository"
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
