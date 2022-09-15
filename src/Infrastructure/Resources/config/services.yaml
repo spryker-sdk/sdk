@@ -12,7 +12,7 @@ services:
   action_approver:
     class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
     arguments:
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
   progress_bar:
     class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
     tags:
@@ -63,7 +63,7 @@ services:
   initializer_service:
     class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
     arguments:
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
       - "@setting_repository"
       - "@service.task_manager"
       - "@task_yaml_repository"
@@ -79,8 +79,8 @@ services:
   php_command_runner:
     class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
     tags: ["command.runner"]
-  cli_value_receiver:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver
+  cli_interaction_processor:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
     tags: ["sdk.cli_receiver_setup"]
     arguments:
       - "@question_helper"
@@ -106,7 +106,7 @@ services:
       - "@local_cli_command_runner"
 
   value_receiver:
-    alias: "cli_value_receiver"
+    alias: "cli_interaction_processor"
   autoloader_service:
     class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
     arguments:
@@ -299,7 +299,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
     tags: [ "sdk.cli_receiver_setup" ]
     arguments:
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
       - "@service_container"
       - "@context_factory"
 

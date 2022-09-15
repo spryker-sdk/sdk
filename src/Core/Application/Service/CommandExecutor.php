@@ -16,7 +16,7 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class CommandExecutor implements CommandExecutorInterface
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\CommandRunnerInterface> $commandRunners
+     * @var iterable<\SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface> $commandRunners
      */
     protected iterable $commandRunners;
 
@@ -26,7 +26,7 @@ class CommandExecutor implements CommandExecutorInterface
     protected iterable $afterCommandExecutedActions;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\CommandRunnerInterface> $commandRunners
+     * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface> $commandRunners
      * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface> $afterCommandExecutedActions
      */
     public function __construct(

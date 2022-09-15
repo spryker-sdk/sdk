@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\Logger;
 
 use Psr\Log\LoggerInterface;
+use SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Domain\Event\EventInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 

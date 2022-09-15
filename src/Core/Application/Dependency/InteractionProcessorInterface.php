@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
+namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
 
-interface ReceiverInterface
+interface InteractionProcessorInterface
 {
     /**
      * @param string $key

@@ -8,20 +8,20 @@
 namespace SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
+use SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Event\TaskExecutedEvent;
-use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
 class LogEventAction implements AfterCommandExecutedActionInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface
      */
     protected EventLoggerInterface $eventLogger;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface $eventLogger
      */
     public function __construct(EventLoggerInterface $eventLogger)
     {

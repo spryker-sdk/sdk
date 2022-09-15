@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service\AfterCommandExecutedActio
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction\LogEventAction;
+use SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -72,7 +72,7 @@ class LogEventActionTest extends Unit
     /**
      * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder $invocationRule
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface
      */
     protected function createEventLoggerMock(InvocationOrder $invocationRule): EventLoggerInterface
     {

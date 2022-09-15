@@ -9,11 +9,11 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Container\ContainerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -29,9 +29,9 @@ class InitProjectCommand extends Command
     protected const NAME = 'sdk:init:project';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\SettingManager
@@ -54,14 +54,14 @@ class InitProjectCommand extends Command
     protected string $projectSettingFileName;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Service\SettingManager $projectSettingManager
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Psr\Container\ContainerInterface $container
      * @param string $projectSettingFileName
      */
     public function __construct(
-        CliReceiver $cliValueReceiver,
+        InteractionProcessorInterface $cliValueReceiver,
         SettingManager $projectSettingManager,
         SettingRepositoryInterface $settingRepository,
         ContainerInterface $container,

@@ -10,9 +10,9 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Application\Service\CommandExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
 /**

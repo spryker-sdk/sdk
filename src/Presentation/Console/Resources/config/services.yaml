@@ -29,7 +29,7 @@ services:
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
       - "@workflow_runner"
       - "@context_factory"
   qa_automation_command:
@@ -53,7 +53,7 @@ services:
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
       - "%kernel.project_dir%/var/workflow"
       - "%host_sdk_dir%/var/workflow"
   init_project_command:
@@ -61,7 +61,7 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand
     tags: ["console.command"]
     arguments:
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
       - "@project_setting_manager"
       - "@setting_repository"
       - "@service_container"

@@ -9,21 +9,21 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Service\ActionApprover;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 
 class ActionApproverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
      */
-    protected CliReceiver $cliValueReceiver;
+    protected CliInteractionProcessor $cliValueReceiver;
 
     /**
      * @return void
      */
     protected function setUp(): void
     {
-        $this->cliValueReceiver = $this->createMock(CliReceiver::class);
+        $this->cliValueReceiver = $this->createMock(CliInteractionProcessor::class);
 
         parent::setUp();
     }

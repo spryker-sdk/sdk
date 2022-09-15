@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use Exception;
 use SprykerSdk\Sdk\Core\Application\Dependency\TasksRepositoryInstallerInterface;
+use SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Domain\Event\Event;
-use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,14 +41,14 @@ class InstallSdkBundlesCommand extends Command
     protected string $sdkBasePath;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface
      */
     protected EventLoggerInterface $eventLogger;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TasksRepositoryInstallerInterface $tasksRepositoryInstaller
      * @param string $sdkBasePath
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface $eventLogger
      */
     public function __construct(
         TasksRepositoryInstallerInterface $tasksRepositoryInstaller,

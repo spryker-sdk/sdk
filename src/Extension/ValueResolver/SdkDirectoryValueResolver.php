@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface;
 
 class SdkDirectoryValueResolver extends AbstractValueResolver
 {
@@ -23,11 +23,11 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     protected string $sdkBasePath;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      * @param string $sdkBasePath
      */
     public function __construct(
-        ReceiverInterface $valueReceiver,
+        InteractionProcessorInterface $valueReceiver,
         string $sdkBasePath
     ) {
         $this->sdkBasePath = $sdkBasePath;
