@@ -21,6 +21,8 @@ class OptionValueResolver extends StaticValueResolver
     protected bool $hasDefaultValue = false;
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -45,6 +47,8 @@ class OptionValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -53,6 +57,8 @@ class OptionValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $values
      *
      * @return void

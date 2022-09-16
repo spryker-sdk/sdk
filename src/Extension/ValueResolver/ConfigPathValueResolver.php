@@ -24,6 +24,8 @@ class ConfigPathValueResolver extends ConfigurableAbstractValueResolver
     protected const SDK_DIR_SETTING = 'sdk_dir';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -32,6 +34,8 @@ class ConfigPathValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -40,6 +44,8 @@ class ConfigPathValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional

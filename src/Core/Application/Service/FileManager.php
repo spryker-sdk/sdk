@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface;
-use SprykerSdk\SdkContracts\Entity\FileInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 
 class FileManager implements FileManagerInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface $file
      *
      * @return void
      */
@@ -23,7 +23,7 @@ class FileManager implements FileManagerInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface $file
      *
      * @return bool
      */

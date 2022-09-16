@@ -8,15 +8,15 @@
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 class CommandExecutor implements CommandExecutorInterface
 {
     /**
-     * @var iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
+     * @var iterable<\SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface> $commandRunners
      */
     protected iterable $commandRunners;
 
@@ -26,7 +26,7 @@ class CommandExecutor implements CommandExecutorInterface
     protected iterable $afterCommandExecutedActions;
 
     /**
-     * @param iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface> $commandRunners
+     * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface> $commandRunners
      * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface> $afterCommandExecutedActions
      */
     public function __construct(
@@ -39,9 +39,9 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
@@ -75,9 +75,9 @@ class CommandExecutor implements CommandExecutorInterface
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function executeAfterCommandExecutedActions(CommandInterface $command, ContextInterface $context): ContextInterface
     {

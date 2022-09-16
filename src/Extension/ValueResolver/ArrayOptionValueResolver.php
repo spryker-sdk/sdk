@@ -13,6 +13,8 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class ArrayOptionValueResolver extends StaticValueResolver
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -21,6 +23,8 @@ class ArrayOptionValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -39,6 +43,8 @@ class ArrayOptionValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string

@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity;
 use DateTime;
 use DateTimeInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 
 class WorkflowTransition implements WorkflowTransitionInterface
 {

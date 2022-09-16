@@ -7,29 +7,31 @@
 
 namespace SprykerSdk\Sdk\Core\Application\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 abstract class AbstractValueResolver implements ValueResolverInterface
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      */
-    public function __construct(ValueReceiverInterface $valueReceiver)
+    public function __construct(InteractionProcessorInterface $valueReceiver)
     {
         $this->valueReceiver = $valueReceiver;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -86,12 +88,24 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $settingValues
      * @param array $resolvedValues
      *
      * @return array
      */
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array<string>
+     */
+    public function getSettingPaths(): array
     {
         return [];
     }
@@ -119,13 +133,5 @@ abstract class AbstractValueResolver implements ValueResolverInterface
         $settingName = reset($settingPaths);
 
         return $settingValues[$settingName] ?? null;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
     }
 }

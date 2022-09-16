@@ -18,6 +18,8 @@ class SprykCodeLevelValueResolver extends ConfigurableAbstractValueResolver
     protected const CORE = 'core';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -26,6 +28,8 @@ class SprykCodeLevelValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional

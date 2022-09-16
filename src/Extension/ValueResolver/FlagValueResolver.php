@@ -18,6 +18,8 @@ class FlagValueResolver extends StaticValueResolver
     protected string $flag;
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -26,6 +28,8 @@ class FlagValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $values
      *
      * @return void
@@ -38,6 +42,8 @@ class FlagValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional

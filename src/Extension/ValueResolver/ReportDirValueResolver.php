@@ -19,6 +19,8 @@ class ReportDirValueResolver extends ConfigurableAbstractValueResolver
     protected const REPORT_DIR_SETTING = 'report_dir';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -27,6 +29,8 @@ class ReportDirValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -43,11 +47,23 @@ class ReportDirValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array
     {
         return [static::REPORT_DIR_SETTING];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return Type::PATH_TYPE;
     }
 
     /**
@@ -66,13 +82,5 @@ class ReportDirValueResolver extends ConfigurableAbstractValueResolver
     protected function getValueFromSettings(array $settingValues): ?string
     {
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return Type::PATH_TYPE;
     }
 }

@@ -13,6 +13,8 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class NamespaceValueResolver extends ConfigurableAbstractValueResolver
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -21,6 +23,8 @@ class NamespaceValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -33,6 +37,8 @@ class NamespaceValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $settingValues
      * @param array $resolvedValues
      *

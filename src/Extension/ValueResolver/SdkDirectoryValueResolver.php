@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 class SdkDirectoryValueResolver extends AbstractValueResolver
 {
@@ -24,11 +24,11 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     protected string $sdkBasePath;
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      * @param string $sdkBasePath
      */
     public function __construct(
-        ValueReceiverInterface $valueReceiver,
+        InteractionProcessorInterface $valueReceiver,
         string $sdkBasePath
     ) {
         $this->sdkBasePath = $sdkBasePath;
@@ -36,6 +36,8 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -44,6 +46,8 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -52,6 +56,8 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array
@@ -62,6 +68,8 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -70,6 +78,8 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getAlias(): ?string

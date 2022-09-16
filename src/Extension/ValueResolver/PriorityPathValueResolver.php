@@ -15,6 +15,8 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -23,6 +25,8 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -57,6 +61,16 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return Type::PATH_TYPE;
+    }
+
+    /**
      * @return array<string>
      */
     protected function getRequiredSettingPaths(): array
@@ -72,13 +86,5 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
     protected function getValueFromSettings(array $settingValues): ?string
     {
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return Type::PATH_TYPE;
     }
 }

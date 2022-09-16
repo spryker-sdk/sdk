@@ -7,18 +7,21 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
+use SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Helper\HelperSet;
 
 class CliRunnerSetupListener
 {
-    protected LocalCliRunner $cliRunner;
+    /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface
+     */
+    protected CliCommandRunnerInterface $cliRunner;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner $cliRunner
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface $cliRunner
      */
-    public function __construct(LocalCliRunner $cliRunner)
+    public function __construct(CliCommandRunnerInterface $cliRunner)
     {
         $this->cliRunner = $cliRunner;
     }

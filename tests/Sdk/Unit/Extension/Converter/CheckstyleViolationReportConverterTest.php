@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Extension\Converter;
 
 use SprykerSdk\Sdk\Extension\Converter\CheckstyleViolationReportConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class CheckstyleViolationReportConverterTest extends ReportConverterTest
 {

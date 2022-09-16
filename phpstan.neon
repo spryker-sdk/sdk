@@ -1,10 +1,14 @@
 parameters:
     level: 8
+    paths:
+        -  src/
+
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
     bootstrapFiles:
         - phpstan-bootstrap.php
+
     ignoreErrors:
         -
             message: '#PHPDoc tag @param has invalid value \(\\Monolog\\Formatter\\JsonFormatter::BATCH_MODE_#'

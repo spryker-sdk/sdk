@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\Violation;
 
-use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
 
 class PackageViolationReport implements PackageViolationReportInterface
 {
@@ -22,20 +22,20 @@ class PackageViolationReport implements PackageViolationReportInterface
     protected string $path;
 
     /**
-     * @var array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @var array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     protected array $violations;
 
     /**
-     * @var array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
+     * @var array<string, array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>>
      */
     protected array $fileViolations;
 
     /**
      * @param string $package
      * @param string $path
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
-     * @param array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>> $fileViolations
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface> $violations
+     * @param array<string, array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>> $fileViolations
      */
     public function __construct(string $package, string $path, array $violations = [], array $fileViolations = [])
     {
@@ -46,6 +46,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getPackage(): string
@@ -54,6 +56,8 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getPath(): string
@@ -62,7 +66,9 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * {@inheritDoc}
+     *
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     public function getViolations(): array
     {
@@ -70,7 +76,9 @@ class PackageViolationReport implements PackageViolationReportInterface
     }
 
     /**
-     * @return array<string, array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>>
+     * {@inheritDoc}
+     *
+     * @return array<string, array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>>
      */
     public function getFileViolations(): array
     {
