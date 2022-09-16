@@ -10,12 +10,12 @@ namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -135,8 +135,10 @@ class CliInteractionProcessorTest extends Unit
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
      */
-    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper, QuestionFactoryRegistry $questionFactoriesRegistry): CliInteractionProcessor
-    {
+    protected function createCliValueReceiver(
+        SymfonyQuestionHelper $questionHelper,
+        QuestionFactoryRegistry $questionFactoriesRegistry
+    ): CliInteractionProcessor {
         $cliValueReceiver = new CliInteractionProcessor($questionHelper, $questionFactoriesRegistry);
         $cliValueReceiver->setInput($this->createInputMock());
         $cliValueReceiver->setOutput($this->createOutputMock());
@@ -170,7 +172,8 @@ class CliInteractionProcessorTest extends Unit
     protected function createQuestionFactoriesRegistryMock(): QuestionFactoryRegistry
     {
         $questionFactoryRegistryMock = $this->createMock(
-            \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry::class);
+            QuestionFactoryRegistry::class,
+        );
 
         $mockMap = [
             ValueTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,

@@ -29,7 +29,7 @@ class PathQuestionFactoryTest extends Unit
     public function testCreatesBooleanQuestion(): void
     {
         // Arrange
-        $questionFactory = new \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory();
+        $questionFactory = new PathQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');

@@ -45,7 +45,7 @@ class StringQuestionFactoryTest extends Unit
     public function testCreatesQuestionWhenHaveNoChoices(): void
     {
         // Arrange
-        $questionFactory = new \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory();
+        $questionFactory = new StringQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', [], 'one');
@@ -76,7 +76,7 @@ class StringQuestionFactoryTest extends Unit
     public function testHasTypeGeneric(): void
     {
         // Act
-        $type = \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory::getType();
+        $type = StringQuestionFactory::getType();
 
         // Assert
         $this->assertSame($type, ValueTypeEnum::TYPE_STRING);

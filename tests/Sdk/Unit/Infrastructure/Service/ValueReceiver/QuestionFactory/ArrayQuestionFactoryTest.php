@@ -39,7 +39,9 @@ class ArrayQuestionFactoryTest extends Unit
         // Assert
         $this->assertInstanceOf(ChoiceQuestion::class, $question);
         $this->assertStringContainsString(
-            \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory::CHOICE_DESCRIPTION_SUFFIX, $question->getQuestion());
+            ArrayQuestionFactory::CHOICE_DESCRIPTION_SUFFIX,
+            $question->getQuestion(),
+        );
         $this->assertTrue($question->isMultiSelect());
     }
 

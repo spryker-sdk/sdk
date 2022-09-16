@@ -14,7 +14,6 @@ use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

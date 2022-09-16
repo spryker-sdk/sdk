@@ -29,7 +29,7 @@ class QuestionFactoryRegistryTest extends Unit
     public function testRegistryReturnsQuestionFactoryWhenTypeExists(): void
     {
         // Arrange
-        $questionFactoryRegistry = new \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry([ValueTypeEnum::TYPE_ARRAY => new ArrayQuestionFactory()]);
+        $questionFactoryRegistry = new QuestionFactoryRegistry([ValueTypeEnum::TYPE_ARRAY => new ArrayQuestionFactory()]);
 
         // Act
         $questionFactory = $questionFactoryRegistry->getQuestionFactoryByType(ValueTypeEnum::TYPE_ARRAY);

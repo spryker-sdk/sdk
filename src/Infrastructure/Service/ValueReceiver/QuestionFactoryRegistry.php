@@ -29,9 +29,9 @@ class QuestionFactoryRegistry
     /**
      * @param string $questionType
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface
      * @throws \InvalidArgumentException
      *
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface
      */
     public function getQuestionFactoryByType(string $questionType): QuestionFactoryInterface
     {
