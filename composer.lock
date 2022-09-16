@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be4780d9061cca9f34ea19862016cfc4",
+    "content-hash": "b5a82dc944ca293ec0ff3896a71c30d4",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6304,20 +6304,20 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "2f477d3e3edba346387fdb98cc2005a2118676b1"
+                "reference": "8c28aeccc9e7af883a6138f7a52356c0132c52c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/2f477d3e3edba346387fdb98cc2005a2118676b1",
-                "reference": "2f477d3e3edba346387fdb98cc2005a2118676b1",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/8c28aeccc9e7af883a6138f7a52356c0132c52c8",
+                "reference": "8c28aeccc9e7af883a6138f7a52356c0132c52c8",
                 "shasum": ""
             },
             "require": {
-                "php": ">= 7.4"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.2",
@@ -6326,6 +6326,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
+                    "SprykerSdk\\Sniffs\\": "Sniffs/",
                     "SprykerSdk\\SdkContracts\\": "src/"
                 }
             },
@@ -6336,9 +6337,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.3.0"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.0"
             },
-            "time": "2022-09-01T12:22:50+00:00"
+            "time": "2022-09-15T11:05:28+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -6445,12 +6446,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "2a753aff840f2bea331524a840498785210a3b22"
+                "reference": "4f2015bf193da5b7c532c657c8eb37decabf614c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/2a753aff840f2bea331524a840498785210a3b22",
-                "reference": "2a753aff840f2bea331524a840498785210a3b22",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/4f2015bf193da5b7c532c657c8eb37decabf614c",
+                "reference": "4f2015bf193da5b7c532c657c8eb37decabf614c",
                 "shasum": ""
             },
             "require": {
@@ -6466,7 +6467,7 @@
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-master",
-                "spryker-sdk/sdk-contracts": "^0.3.0",
+                "spryker-sdk/sdk-contracts": "^0.4.0",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
                 "symfony/dependency-injection": "^5.0",
@@ -6507,7 +6508,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2022-09-09T08:31:04+00:00"
+            "time": "2022-09-15T12:56:16+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -14453,5 +14454,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

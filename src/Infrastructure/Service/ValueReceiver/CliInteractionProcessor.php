@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInterface
+class CliInteractionProcessor implements InteractionProcessorInterface, InputOutputReceiverInterface
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
@@ -84,7 +84,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface $receiverValue
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface $receiverValue
      *
      * @return mixed
      */

@@ -12,11 +12,11 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInte
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Transition;
@@ -257,7 +257,7 @@ class ProjectWorkflow
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface|null
      */
     public function getRunningTransition(?WorkflowInterface $workflow = null): ?WorkflowTransitionInterface
     {
@@ -285,7 +285,7 @@ class ProjectWorkflow
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface|null
      */
     public function findPreviousTransition(?WorkflowInterface $workflow = null): ?WorkflowTransitionInterface
     {

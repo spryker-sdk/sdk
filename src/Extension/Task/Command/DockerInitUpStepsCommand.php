@@ -16,6 +16,8 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class DockerInitUpStepsCommand implements ExecutableCommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -24,6 +26,8 @@ class DockerInitUpStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -42,6 +46,8 @@ class DockerInitUpStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -50,6 +56,8 @@ class DockerInitUpStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -58,6 +66,8 @@ class DockerInitUpStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -66,6 +76,8 @@ class DockerInitUpStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -74,6 +86,8 @@ class DockerInitUpStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

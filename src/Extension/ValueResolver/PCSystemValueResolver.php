@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 class PCSystemValueResolver extends AbstractValueResolver
 {
@@ -53,16 +53,20 @@ class PCSystemValueResolver extends AbstractValueResolver
     ];
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * {@inheritDoc}
+     *
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      * @param string $unameInfo
      */
-    public function __construct(ValueReceiverInterface $valueReceiver, string $unameInfo)
+    public function __construct(InteractionProcessorInterface $valueReceiver, string $unameInfo)
     {
         parent::__construct($valueReceiver);
         $this->unameInfo = $unameInfo;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -71,6 +75,8 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -90,6 +96,8 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -98,6 +106,8 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array
@@ -106,6 +116,8 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -114,6 +126,8 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getAlias(): ?string
@@ -122,19 +136,26 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getDefaultValue()
     {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $settingValues
+     * @param array $resolvedValues
+     *
+     * @return array
+     */
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
+    {
+        return [];
     }
 
     /**
@@ -148,12 +169,9 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @param array $settingValues
-     * @param array $resolvedValues
-     *
-     * @return array
+     * @return array<string>
      */
-    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
+    protected function getRequiredSettingPaths(): array
     {
         return [];
     }

@@ -11,8 +11,8 @@ use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ContextFileRepository implements ContextRepositoryInterface
 {
@@ -52,9 +52,9 @@ class ContextFileRepository implements ContextRepositoryInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function saveContext(ContextInterface $context): ContextInterface
     {
@@ -72,7 +72,7 @@ class ContextFileRepository implements ContextRepositoryInterface
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function findByName(string $name): ContextInterface
     {
@@ -101,7 +101,7 @@ class ContextFileRepository implements ContextRepositoryInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */

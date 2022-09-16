@@ -15,10 +15,10 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\SdkContracts\Report\ReportInterface;
-use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportArrayConverterInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportArrayConverterInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class ViolationReportArrayConverter implements ViolationReportArrayConverterInterface
 {
@@ -28,6 +28,8 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
     public const VIOLATION_REPORT_TYPE = 'violation_report';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getSupportedReportType(): string
@@ -36,6 +38,8 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return class-string
      */
     public function getSupportedReportClass(): string
@@ -44,6 +48,8 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Report\ReportInterface $report
      *
      * @throws \InvalidArgumentException
@@ -66,7 +72,35 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface $violation
+     * {@inheritDoc}
+     *
+     * @param array $arrayData
+     *
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingValueException
+     *
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface
+     */
+    public function fromArray(array $arrayData): ViolationReportInterface
+    {
+        if (!isset($arrayData['type']) || $arrayData['type'] !== static::VIOLATION_REPORT_TYPE) {
+            throw new InvalidReportTypeException(sprintf('Invalid report type "%s"', $arrayData['type'] ?? '-'));
+        }
+
+        if (!isset($arrayData['project'], $arrayData['path'], $arrayData['violations'], $arrayData['packages'])) {
+            throw new MissingValueException(sprintf('Invalid report data "%s"', json_encode($arrayData, JSON_THROW_ON_ERROR)));
+        }
+
+        return new ViolationReport(
+            $arrayData['project'],
+            $arrayData['path'],
+            array_map([$this, 'violationFromArray'], $arrayData['violations']),
+            array_map([$this, 'packageViolationReportFromArray'], $arrayData['packages']),
+        );
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface $violation
      *
      * @return array<string, mixed>
      */
@@ -86,7 +120,7 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationInterface $violation
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface $violation
      *
      * @return array
      */
@@ -116,37 +150,11 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
     }
 
     /**
-     * @param array $arrayData
-     *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingValueException
-     *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
-     */
-    public function fromArray(array $arrayData): ViolationReportInterface
-    {
-        if (!isset($arrayData['type']) || $arrayData['type'] !== static::VIOLATION_REPORT_TYPE) {
-            throw new InvalidReportTypeException(sprintf('Invalid report type "%s"', $arrayData['type'] ?? '-'));
-        }
-
-        if (!isset($arrayData['project'], $arrayData['path'], $arrayData['violations'], $arrayData['packages'])) {
-            throw new MissingValueException(sprintf('Invalid report data "%s"', json_encode($arrayData, JSON_THROW_ON_ERROR)));
-        }
-
-        return new ViolationReport(
-            $arrayData['project'],
-            $arrayData['path'],
-            array_map([$this, 'violationFromArray'], $arrayData['violations']),
-            array_map([$this, 'packageViolationReportFromArray'], $arrayData['packages']),
-        );
-    }
-
-    /**
      * @param array<string, mixed> $arrayData
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingValueException
      *
-     * @return \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface
      */
     protected function packageViolationReportFromArray(array $arrayData): PackageViolationReportInterface
     {
@@ -173,7 +181,7 @@ class ViolationReportArrayConverter implements ViolationReportArrayConverterInte
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingValueException
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface
      */
     protected function violationFromArray(array $arrayData): ViolationInterface
     {

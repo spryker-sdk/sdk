@@ -16,6 +16,8 @@ use SprykerSdk\SdkContracts\Entity\MessageInterface;
 class NextAppStepsCommand implements ExecutableCommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -29,6 +31,8 @@ class NextAppStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -37,6 +41,8 @@ class NextAppStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -45,6 +51,8 @@ class NextAppStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -53,6 +61,8 @@ class NextAppStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -61,6 +71,8 @@ class NextAppStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -69,6 +81,8 @@ class NextAppStepsCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Extension\Workflow;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\Exception\UniqueValueException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
 
 class InteractionAnswerBasedTransitionResolver implements TransitionResolverInterface
@@ -31,14 +31,14 @@ class InteractionAnswerBasedTransitionResolver implements TransitionResolverInte
     public const RESOLVER_NAME = 'interactive';
 
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      */
-    public function __construct(ValueReceiverInterface $cliValueReceiver)
+    public function __construct(InteractionProcessorInterface $cliValueReceiver)
     {
         $this->cliValueReceiver = $cliValueReceiver;
     }

@@ -32,6 +32,8 @@ class Converter implements ConverterInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getName(): string
@@ -40,6 +42,8 @@ class Converter implements ConverterInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string, mixed>
      */
     public function getConfiguration(): array

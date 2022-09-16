@@ -7,25 +7,25 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Cache;
 
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 
 interface ContextCacheStorageInterface
 {
     /**
      * @param string $key
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface|null
      */
     public function get(string $key): ?ContextInterface;
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Entity\ContextInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface>
      */
     public function getAll(): array;
 
     /**
      * @param string $key
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */

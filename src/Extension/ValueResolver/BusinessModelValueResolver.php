@@ -31,6 +31,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     ];
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -39,6 +41,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -53,6 +57,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -61,6 +67,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array
@@ -69,6 +77,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -77,6 +87,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getAlias(): ?string
@@ -85,6 +97,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     protected function getRequiredSettingPaths(): array
@@ -93,6 +107,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getDefaultValue()
@@ -101,16 +117,8 @@ class BusinessModelValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @param array<string, mixed> $settingValues
+     * {@inheritDoc}
      *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
-    }
-
-    /**
      * @param array $settingValues
      * @param array $resolvedValues
      *
@@ -119,5 +127,17 @@ class BusinessModelValueResolver extends AbstractValueResolver
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
         return array_keys(static::REPOSITORIES);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array<string, mixed> $settingValues
+     *
+     * @return mixed
+     */
+    protected function getValueFromSettings(array $settingValues)
+    {
+        return [];
     }
 }
