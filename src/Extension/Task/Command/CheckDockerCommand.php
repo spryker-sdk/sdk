@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Task\Command;
 
+use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
@@ -35,7 +36,7 @@ class CheckDockerCommand implements CommandInterface, ErrorCommandInterface
      */
     public function getType(): string
     {
-        return 'local_cli';
+        return CommandType::LOCAL_CLI_TYPE;
     }
 
     /**

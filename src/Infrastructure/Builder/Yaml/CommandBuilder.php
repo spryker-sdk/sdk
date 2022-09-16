@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -76,7 +77,7 @@ class CommandBuilder implements CommandBuilderInterface
     protected function buildTaskCommand(TaskYamlInterface $taskYaml): ?CommandInterface
     {
         $data = $taskYaml->getTaskData();
-        if (!in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
+        if (!in_array($data['type'], CommandType::LOCAL_CLI_TYPES, true)) {
             return null;
         }
 

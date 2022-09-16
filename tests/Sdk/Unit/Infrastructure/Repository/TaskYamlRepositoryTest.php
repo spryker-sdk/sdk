@@ -16,7 +16,7 @@ use SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder;
@@ -70,7 +70,7 @@ class TaskYamlRepositoryTest extends Unit
             new CommandBuilder($taskPool, new ConverterBuilder(), new TaskYamlFactory()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
-                    new FileBuilder(),
+                    new FileCollectionBuilder(),
                     new LifecycleCommandBuilder(),
                     $placeholderBuilder,
                 ),

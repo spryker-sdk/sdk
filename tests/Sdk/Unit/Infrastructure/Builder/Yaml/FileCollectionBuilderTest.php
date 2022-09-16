@@ -8,8 +8,8 @@
 namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\FileInterface;
 
@@ -19,14 +19,14 @@ use SprykerSdk\SdkContracts\Entity\FileInterface;
  * @group Infrastructure
  * @group Builder
  * @group Yaml
- * @group FileBuilderTest
+ * @group FileCollectionBuilderTest
  */
-class FileBuilderTest extends Unit
+class FileCollectionBuilderTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface
      */
-    protected FileBuilderInterface $fileBuilder;
+    protected FileCollectionBuilderInterface $fileBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester
@@ -39,7 +39,7 @@ class FileBuilderTest extends Unit
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fileBuilder = new FileBuilder();
+        $this->fileBuilder = new FileCollectionBuilder();
     }
 
     /**

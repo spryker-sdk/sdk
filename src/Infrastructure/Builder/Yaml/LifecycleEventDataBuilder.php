@@ -15,9 +15,9 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface
      */
-    protected FileBuilderInterface $fileBuilder;
+    protected FileCollectionBuilderInterface $fileCollectionBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilderInterface
@@ -30,16 +30,16 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
     protected PlaceholderBuilderInterface $placeholderBuilder;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilderInterface $fileBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface $fileCollectionBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilderInterface $lifecycleCommandBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilderInterface $placeholderBuilder
      */
     public function __construct(
-        FileBuilderInterface $fileBuilder,
+        FileCollectionBuilderInterface $fileCollectionBuilder,
         LifecycleCommandBuilderInterface $lifecycleCommandBuilder,
         PlaceholderBuilderInterface $placeholderBuilder
     ) {
-        $this->fileBuilder = $fileBuilder;
+        $this->fileCollectionBuilder = $fileCollectionBuilder;
         $this->lifecycleCommandBuilder = $lifecycleCommandBuilder;
         $this->placeholderBuilder = $placeholderBuilder;
     }
@@ -61,7 +61,7 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
         return new InitializedEventData(
             $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
             $this->placeholderBuilder->buildPlaceholders($taskYamlWithEventData),
-            $this->fileBuilder->buildFiles($taskYamlWithEventData),
+            $this->fileCollectionBuilder->buildFiles($taskYamlWithEventData),
         );
     }
 
@@ -82,7 +82,7 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
         return new RemovedEventData(
             $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
             $this->placeholderBuilder->buildPlaceholders($taskYamlWithEventData),
-            $this->fileBuilder->buildFiles($taskYamlWithEventData),
+            $this->fileCollectionBuilder->buildFiles($taskYamlWithEventData),
         );
     }
 
@@ -103,7 +103,7 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
         return new UpdatedEventData(
             $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
             $this->placeholderBuilder->buildPlaceholders($taskYamlWithEventData),
-            $this->fileBuilder->buildFiles($taskYamlWithEventData),
+            $this->fileCollectionBuilder->buildFiles($taskYamlWithEventData),
         );
     }
 }

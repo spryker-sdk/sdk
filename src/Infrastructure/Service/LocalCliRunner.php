@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
@@ -73,7 +74,7 @@ class LocalCliRunner implements CommandRunnerInterface
      */
     public function canHandle(CommandInterface $command): bool
     {
-        return in_array($command->getType(), ['local_cli', 'local_cli_interactive'], true);
+        return in_array($command->getType(), CommandType::LOCAL_CLI_TYPES, true);
     }
 
     /**
@@ -108,7 +109,7 @@ class LocalCliRunner implements CommandRunnerInterface
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
 
-        if ($command->getType() === 'local_cli_interactive') {
+        if ($command->getType() === CommandType::LOCAL_CLI_INTERACTIVE) {
             $process->setTty(true);
         }
 

@@ -11,7 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
@@ -35,7 +35,7 @@ class LifecycleEventDataBuilderTest extends Unit
     protected function setUp(): void
     {
         $taskPool = new TaskPool([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
-        $this->lifecycleEventDataBuilder = new LifecycleEventDataBuilder(new FileBuilder(), new LifecycleCommandBuilder(), new PlaceholderBuilder($taskPool));
+        $this->lifecycleEventDataBuilder = new LifecycleEventDataBuilder(new FileCollectionBuilder(), new LifecycleCommandBuilder(), new PlaceholderBuilder($taskPool));
         parent::setUp();
     }
 

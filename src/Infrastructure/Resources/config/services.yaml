@@ -57,8 +57,8 @@ services:
       - '@converter_builder'
       - '@task_yaml_factory'
 
-  file_builder:
-    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileBuilder
+  file_collection_builder:
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder
 
   lifecycle_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder

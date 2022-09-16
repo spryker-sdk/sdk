@@ -68,20 +68,8 @@ class TaskYaml implements TaskYamlInterface
     public function withTaskData(array $taskData)
     {
         $that = clone $this;
-        $that->setTaskData($taskData);
+        $that->taskData = $taskData;
 
         return $that;
-    }
-
-    /**
-     * @param array<string, mixed> $taskData
-     *
-     * @return $this
-     */
-    public function setTaskData(array $taskData)
-    {
-        $this->taskData = $taskData;
-
-        return $this;
     }
 }
