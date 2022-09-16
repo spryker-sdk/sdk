@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Extension\ValueResolver\ConfigurableAbstractValueResolver;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
@@ -204,8 +205,11 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected function loadValueResolver(string $loadableClassName): void
     {
-        //value resolver might already be registered as service
-        if (array_key_exists($loadableClassName, $this->valueResolversClasses)) {
+        //value resolver might already be registered as service, or it's abstract
+        if (
+            array_key_exists($loadableClassName, $this->valueResolversClasses) ||
+            ConfigurableAbstractValueResolver::class === $loadableClassName
+        ) {
             return;
         }
 
