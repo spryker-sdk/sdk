@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class SprykCodeLevelValueResolver extends ConfigurableAbstractValueResolver
+class SprykCodeLevelValueResolver extends OriginValueResolver
 {
     /**
      * @var string

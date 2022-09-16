@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class StaticValueResolver extends ConfigurableAbstractValueResolver
+class StaticValueResolver extends OriginValueResolver
 {
     /**
      * {@inheritDoc}

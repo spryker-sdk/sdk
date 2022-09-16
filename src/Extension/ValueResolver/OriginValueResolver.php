@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
-abstract class ConfigurableAbstractValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
+class OriginValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
 {
     /**
      * @var mixed
@@ -51,6 +51,16 @@ abstract class ConfigurableAbstractValueResolver extends AbstractValueResolver i
      * @var string
      */
     protected string $type = 'string';
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return 'ORIGIN';
+    }
 
     /**
      * @return string

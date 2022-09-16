@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
 use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
+class PriorityPathValueResolver extends OriginValueResolver
 {
     /**
      * {@inheritDoc}
