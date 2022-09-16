@@ -15,8 +15,6 @@ In another word task is a commands wrapper that makes them extensible, configura
 
 `sdk:update:all` - executes the updates of all existing tasks. The [lifecycle events](lifecycle_management.md) will be triggered after.
 
-`rm -rf ./db && spryker-sdk sdk:init:sdk` - the hard way (only for developers)
-
 ## How to create task
 
 Task can be created in a declarative way by specifying the task yaml configuration file or by implementing `\SprykerSdk\SdkContracts\Entity\TaskInterface` as a php class.
@@ -26,36 +24,30 @@ The declarative is preferred way unless more complex logic is needed.
 
 Configuration file should be placed in `extension/*/config/task/` or `src/Extension/Resources/config/task/` directory.
 
-- `id` - __unique__ task id. Should consist only of `[\w\:]+` symbols.
-- `short_description` - task description that's displayed in `Description` section in command help.
-- `help` - help description that's displayed in `Help` section in command help.
-- `stage` - task and command stage.
-- `version` - task version. Must follow the semver specification.
-- `deprecated` - define the task deprecation status.
-- `successor` - task id that should be used instead if the current one is deprecated.
-- `comamnd` - an executable command string.
-- `type` - tasks type. `local_cli` or `local_cli_interactive` should be used for yaml task declaration and `php` type for php task class.
-- `tags` - task command tags.
-- `error_message` - default command error message in case of non-zero command code return
-- `placeholders` - command placeholders list.
-- `lifecycle` - lifecycle commands list.
-
-`id`, `short_description`, `version`, `type`, `command` are  __REQUIRED__ properties.
+| Property            | Required | Description                                                                                                                   |
+|---------------------|----------|-------------------------------------------------------------------------------------------------------------------------------|
+| `id`                | yes      | __Unique__ task id. Should consist only of `[\w\:]+` symbols                                                                  |
+| `short_description` | yes      | Task description that's displayed in `Description` section in command help                                                    |
+| `version`           | yes      | Task version. Must follow the semver specification                                                                            |
+| `type`              | yes      | Tasks type. `local_cli` or `local_cli_interactive` should be used for yaml task declaration and `php` type for php task class |
+| `command`           | yes      | An executable command string                                                                                                  |
+| `help`              | no       | Help description that's displayed in `Help` section in command help                                                           |
+| `stage`             | no       | Task and command stage                                                                                                        |
+| `deprecated`        | no       | Defines the task deprecation status                                                                                           |
+| `successor`         | no       | Task id that should be used instead if the current one is deprecated                                                          |
+| `tags`              | no       | Task command tags                                                                                                             |
+| `error_message`     | no       | Default command error message that's used in case of non-zero command code return                                             |
+| `placeholders`      | no       | Command placeholders list. [See definition](#placeholders)                                                                    |
+| `lifecycle`         | no       | Lifecycle commands list. [See docs](lifecycle_management.md)                                                                  |
 
 #### Placeholders
 
-- `name` - the placeholder name. The same name should be placed in command string for substitution. See [conventions](conventions.md#Placeholder).
-- `value_resolver` - the value resolver classname or name. Is used for fetching and processing command values.
-- `optional` - defines the placeholder optional or not.
-- `configuration` - the value resolver configuration. Depends on particular value resolver.
-
-#### Lifecycle
-
-See lifecycle [docs](lifecycle_management.md)
-
-- `INITIALIZED` - defines the command that should be executed and files that should be created after the task initialization.
-- `UPDATED` - defines the command that should be executed and files that should be created after the task update.
-- `REMOVED` - defines the command that should be executed and files that should be removed after the task removal.
+| Property         | Required | Description                                                                                                                      |
+|------------------|----------|----------------------------------------------------------------------------------------------------------------------------------|
+| `name`           | yes      | Placeholder name. The same name should be placed in command string for substitution. See [conventions](conventions.md#Placeholder) |
+| `value_resolver` | yes      | Value resolver classname or name. Is used for fetching and processing command values                                             |
+| `optional`       | no       | Defines the placeholder optional or not                                                                                          |
+| `configuration`  | no       | Value resolver configuration. Depends on particular value resolver                                                               |
 
 Checkout the [conventions](conventions.md#Task) for additional info.
 
