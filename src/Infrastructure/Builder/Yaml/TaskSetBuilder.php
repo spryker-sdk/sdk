@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskSetBuilder implements TaskSetBuilderInterface
 {
@@ -45,11 +46,9 @@ class TaskSetBuilder implements TaskSetBuilderInterface
         foreach ($taskData['tasks'] as $subTaskData) {
             $subTask = $tasks[$subTaskData['id']] ?? null;
 
-            if ($subTask === null) {
-                continue;
+            if ($subTask instanceof TaskInterface) {
+                $taskSetPlaceholders[] = $subTask->getPlaceholders();
             }
-
-            $taskSetPlaceholders[] = $subTask->getPlaceholders();
         }
 
         $task->setPlaceholdersArray(array_merge(...$taskSetPlaceholders));

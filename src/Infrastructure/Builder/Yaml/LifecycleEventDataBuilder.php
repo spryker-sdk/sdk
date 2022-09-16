@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
+use SprykerSdk\Sdk\Core\Domain\Enum\LifecycleName;
 
 class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
 {
@@ -52,11 +53,11 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
     public function buildInitializedEventData(TaskYamlInterface $taskYaml): InitializedEventData
     {
         $taskData = $taskYaml->getTaskData();
-        if (!isset($taskData['lifecycle']['INITIALIZED'])) {
+        if (!isset($taskData['lifecycle'][LifecycleName::INITIALIZED])) {
             return new InitializedEventData();
         }
 
-        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle']['INITIALIZED']);
+        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle'][LifecycleName::INITIALIZED]);
 
         return new InitializedEventData(
             $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
@@ -73,11 +74,11 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
     public function buildRemovedEventData(TaskYamlInterface $taskYaml): RemovedEventData
     {
         $taskData = $taskYaml->getTaskData();
-        if (!isset($taskData['lifecycle']['REMOVED'])) {
+        if (!isset($taskData['lifecycle'][LifecycleName::REMOVED])) {
             return new RemovedEventData();
         }
 
-        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle']['REMOVED']);
+        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle'][LifecycleName::REMOVED]);
 
         return new RemovedEventData(
             $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),
@@ -94,11 +95,11 @@ class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
     public function buildUpdatedEventData(TaskYamlInterface $taskYaml): UpdatedEventData
     {
         $taskData = $taskYaml->getTaskData();
-        if (!isset($taskData['lifecycle']['UPDATED'])) {
+        if (!isset($taskData['lifecycle'][LifecycleName::UPDATED])) {
             return new UpdatedEventData();
         }
 
-        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle']['UPDATED']);
+        $taskYamlWithEventData = $taskYaml->withTaskData($taskData['lifecycle'][LifecycleName::UPDATED]);
 
         return new UpdatedEventData(
             $this->lifecycleCommandBuilder->buildLifecycleCommands($taskYamlWithEventData),

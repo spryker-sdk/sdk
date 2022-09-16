@@ -10,6 +10,7 @@ namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Domain\Enum\LifecycleName;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder;
@@ -53,8 +54,8 @@ class LifecycleBuilderTest extends Unit
         $lifecycle = $this->lifecycleBuilder->buildLifecycle($taskYaml);
 
         // Assert
-        $this->tester->assertLifecycleEventData('INITIALIZED', $taskYaml, $lifecycle->getInitializedEventData());
-        $this->tester->assertLifecycleEventData('UPDATED', $taskYaml, $lifecycle->getUpdatedEventData());
-        $this->tester->assertLifecycleEventData('REMOVED', $taskYaml, $lifecycle->getRemovedEventData());
+        $this->tester->assertLifecycleEventData(LifecycleName::INITIALIZED, $taskYaml, $lifecycle->getInitializedEventData());
+        $this->tester->assertLifecycleEventData(LifecycleName::UPDATED, $taskYaml, $lifecycle->getUpdatedEventData());
+        $this->tester->assertLifecycleEventData(LifecycleName::REMOVED, $taskYaml, $lifecycle->getRemovedEventData());
     }
 }

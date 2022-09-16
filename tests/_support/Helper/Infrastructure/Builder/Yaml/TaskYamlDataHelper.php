@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Tests\Helper\Infrastructure\Builder\Yaml;
 
 use Codeception\Module;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
+use SprykerSdk\Sdk\Core\Domain\Enum\LifecycleName;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -111,7 +112,7 @@ class TaskYamlDataHelper extends Module
     {
         return new TaskYaml([
             'lifecycle' => [
-                'INITIALIZED' => [
+                LifecycleName::INITIALIZED => [
                     'commands' => [
                         [
                             'command' => 'echo test',
@@ -133,7 +134,7 @@ class TaskYamlDataHelper extends Module
                         ],
                     ],
                 ],
-                'REMOVED' => [
+                LifecycleName::REMOVED => [
                     'commands' => [
                         [
                             'command' => 'echo test',
@@ -155,7 +156,7 @@ class TaskYamlDataHelper extends Module
                         ],
                     ],
                 ],
-                'UPDATED' => [
+                LifecycleName::UPDATED => [
                     'commands' => [
                         [
                             'command' => 'echo test',
