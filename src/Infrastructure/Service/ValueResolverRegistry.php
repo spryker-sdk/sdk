@@ -208,7 +208,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
         //value resolver might already be registered as service, or it's abstract
         if (
             array_key_exists($loadableClassName, $this->valueResolversClasses) ||
-            ConfigurableAbstractValueResolver::class === $loadableClassName
+            $loadableClassName === ConfigurableAbstractValueResolver::class
         ) {
             return;
         }
