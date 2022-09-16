@@ -36,18 +36,11 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
     public function buildPlaceholders(TaskYamlInterface $taskYaml): array
     {
         $data = $taskYaml->getTaskData();
-        $taskListData = $taskYaml->getTaskListData();
         $placeholders = [];
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        if (isset($data['type']) && $data['type'] === TaskType::TASK_SET_TYPE) {
-            foreach ($data['tasks'] as $task) {
-                $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
-                    $taskListData[$task['id']]['placeholders'] :
-                    $this->taskPool->getNotNestedTaskSet($task['id'])->getPlaceholders();
-            }
-        }
+        $taskPlaceholders = $this->extractPlaceholdersFromYamlTask($taskYaml, $taskPlaceholders);
         $taskPlaceholders = array_merge(...$taskPlaceholders);
 
         foreach ($taskPlaceholders as $placeholderData) {
@@ -61,6 +54,31 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
         }
 
         return $placeholders;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
+     * @param array<string> $taskPlaceholders
+     *
+     * @return array
+     */
+    protected function extractPlaceholdersFromYamlTask(TaskYamlInterface $taskYaml, array $taskPlaceholders): array
+    {
+        $data = $taskYaml->getTaskData();
+
+        if (!isset($data['type']) || $data['type'] !== TaskType::TASK_SET_TYPE) {
+            return $taskPlaceholders;
+        }
+
+        $taskListData = $taskYaml->getTaskListData();
+
+        foreach ($data['tasks'] as $task) {
+            $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
+                $taskListData[$task['id']]['placeholders'] :
+                $this->taskPool->getNotNestedTaskSet($task['id'])->getPlaceholders();
+        }
+
+        return $taskPlaceholders;
     }
 
     /**

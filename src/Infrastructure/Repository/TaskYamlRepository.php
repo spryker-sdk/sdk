@@ -136,7 +136,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
             $tasks[$task->getId()] = $task;
         }
 
-        $this->extractTaskSetTasks($tasks);
+        $this->updateTaskRegistryWithTaskSetTasks($tasks);
 
         return array_merge($tasks, $this->taskPool->getAll());
     }
@@ -146,7 +146,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      *
      * @return void
      */
-    protected function extractTaskSetTasks(array $tasks): void
+    protected function updateTaskRegistryWithTaskSetTasks(array $tasks): void
     {
         foreach ($this->taskPool->getAll() as $taskId => $existingTask) {
             if (!$existingTask instanceof TaskSetInterface) {
