@@ -12,6 +12,12 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\SprykCodeLevelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group SprykCodeLevelValueResolverTest
+ */
 class SprykCodeLevelValueResolverTest extends Unit
 {
     /**

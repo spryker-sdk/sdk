@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class StaticValueResolver extends ConfigurableAbstractValueResolver
@@ -35,15 +34,15 @@ class StaticValueResolver extends ConfigurableAbstractValueResolver
     {
         $value = parent::getValue($context, $settingValues, $optional);
 
-        if (is_array($value)) {
-            $items = [];
-            foreach ($value as $item) {
-                $items[] = $this->formatValue(sprintf('\'%s\'', $item));
-            }
-
-            return $items;
+        if (!is_array($value)) {
+            return $value ? $this->formatValue(sprintf('\'%s\'', $value)) : null;
         }
 
-        return $value ? $this->formatValue(sprintf('\'%s\'', $value)) : null;
+        $items = [];
+        foreach ($value as $item) {
+            $items[] = $this->formatValue(sprintf('\'%s\'', $item));
+        }
+
+        return $items;
     }
 }

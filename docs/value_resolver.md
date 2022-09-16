@@ -16,7 +16,7 @@
 | CORE  | Uses for resolving core level. Based on resolved values from `NAMESPACE` resolver.                   |
 | STATIC  | Uses as universal value resolver with additional settings.                                           |
 
-#### Placeholder with `STATIC` value resolver with configuration. See [conventions](conventions.md#Placeholder):
+#### Example with placeholder with `STATIC` value resolver with configuration. See [conventions](conventions.md#Placeholder):
 ```yaml
   - name: "%shortcode_name%" # For replacing in command.
     value_resolver: STATIC # Value resolver name.

@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class SprykCodeLevelValueResolver extends ConfigurableAbstractValueResolver

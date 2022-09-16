@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\ConfigurableAbstractValueResolver;
 use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
 use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -39,6 +38,14 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
     {
         $relativePath = (string)parent::getValue($context, $settingValues, $optional);
 
+        if (!$this->getSettingPaths()) {
+            $path = implode(DIRECTORY_SEPARATOR, [getcwd(), $relativePath]);
+
+            if (file_exists($path)) {
+                return $this->formatValue($relativePath);
+            }
+        }
+
         foreach ($this->getSettingPaths() as $settingKey) {
             $path = $settingValues[$settingKey];
             if (strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
@@ -47,13 +54,6 @@ class PriorityPathValueResolver extends ConfigurableAbstractValueResolver
             $path = implode(DIRECTORY_SEPARATOR, [$path, $relativePath]);
             if (file_exists($path)) {
                 return $this->formatValue($path);
-            }
-        }
-        if (!$this->getSettingPaths()) {
-            $path = implode(DIRECTORY_SEPARATOR, [getcwd(), $relativePath]);
-
-            if (file_exists($path)) {
-                return $this->formatValue($relativePath);
             }
         }
 

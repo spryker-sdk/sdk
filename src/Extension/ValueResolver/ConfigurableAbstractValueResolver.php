@@ -5,8 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\ValueResolver;
+namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
 abstract class ConfigurableAbstractValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
