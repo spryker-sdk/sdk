@@ -23,7 +23,7 @@ class PathQuestionFactory extends StringQuestionFactory
     {
         $question = parent::createQuestion($description, $choices, $defaultValue);
 
-        $question->setAutocompleterCallback([$this, 'getAutocompleteCallback']);
+        $question->setAutocompleterCallback([$this, 'autocompleteInput']);
 
         return $question;
     }
@@ -33,7 +33,7 @@ class PathQuestionFactory extends StringQuestionFactory
      *
      * @return array<string>
      */
-    public function getAutocompleteCallback(string $userInput): array
+    public function autocompleteInput(string $userInput): array
     {
         $inputPath = preg_replace('%(/|^)[^/]*$%', '$1', $userInput);
         //Autocompletion is an optional convenience feature that should not fail the whole command run

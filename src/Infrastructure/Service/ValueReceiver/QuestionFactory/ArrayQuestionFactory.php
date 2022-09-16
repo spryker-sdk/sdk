@@ -16,7 +16,7 @@ class ArrayQuestionFactory extends StringQuestionFactory
     /**
      * @var string
      */
-    public const CHOICE_DESCRIPTION_SUFFIX = ' (Multiselect format: 1,2,3)';
+    public const CHOICE_DESCRIPTION_SUFFIX = '(Multiselect format: 1,2,3)';
 
     /**
      * @param string $description
@@ -45,7 +45,7 @@ class ArrayQuestionFactory extends StringQuestionFactory
      */
     protected function createChoiceQuestion(string $description, array $choices, $defaultValue = null): ChoiceQuestion
     {
-        $description .= static::CHOICE_DESCRIPTION_SUFFIX;
+        $description .= ' '. static::CHOICE_DESCRIPTION_SUFFIX;
         $question = parent::createChoiceQuestion($description, $choices, $defaultValue);
 
         $question->setMultiselect(true);
