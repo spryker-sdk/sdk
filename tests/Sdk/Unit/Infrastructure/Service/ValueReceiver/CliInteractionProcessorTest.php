@@ -28,10 +28,10 @@ use Symfony\Component\Console\Question\Question;
  * @group Unit
  * @group Infrastructure
  * @group Service
- * @group CliValueReceiver
- * @group CliValueReceiverTest
+ * @group ValueReceiver
+ * @group CliInteractionProcessorTest
  */
-class CliValueReceiverTest extends Unit
+class CliInteractionProcessorTest extends Unit
 {
     /**
      * @return void
@@ -135,9 +135,9 @@ class CliValueReceiverTest extends Unit
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
      */
-    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper): CliInteractionProcessor
+    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper, QuestionFactoryRegistry $questionFactoriesRegistry): CliInteractionProcessor
     {
-        $cliValueReceiver = new CliInteractionProcessor($questionHelper);
+        $cliValueReceiver = new CliInteractionProcessor($questionHelper, $questionFactoriesRegistry);
         $cliValueReceiver->setInput($this->createInputMock());
         $cliValueReceiver->setOutput($this->createOutputMock());
 
