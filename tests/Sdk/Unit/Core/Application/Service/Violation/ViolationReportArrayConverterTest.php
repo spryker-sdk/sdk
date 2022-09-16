@@ -130,7 +130,7 @@ class ViolationReportArrayConverterTest extends Unit
             }
 
             /**
-             * @return array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
+             * @return array<\SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface>
              */
             public function getPackages(): array
             {
@@ -146,7 +146,7 @@ class ViolationReportArrayConverterTest extends Unit
             }
 
             /**
-             * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+             * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
              */
             public function getViolations(): array
             {

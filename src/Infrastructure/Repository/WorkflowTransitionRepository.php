@@ -10,10 +10,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition>
@@ -31,7 +31,7 @@ class WorkflowTransitionRepository extends ServiceEntityRepository implements Wo
     /**
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface>
      */
     public function getAll(WorkflowInterface $workflow): array
     {
@@ -45,7 +45,7 @@ class WorkflowTransitionRepository extends ServiceEntityRepository implements Wo
     /**
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface|null
      */
     public function findLast(WorkflowInterface $workflow): ?WorkflowTransitionInterface
     {
@@ -57,9 +57,9 @@ class WorkflowTransitionRepository extends ServiceEntityRepository implements Wo
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $event
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $event
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface
      */
     public function save(WorkflowTransitionInterface $event): WorkflowTransitionInterface
     {

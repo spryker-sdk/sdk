@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 
 interface ContextFactoryInterface
 {
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function getContext(): ContextInterface;
 }

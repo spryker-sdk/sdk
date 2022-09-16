@@ -28,6 +28,8 @@ class TransitionBooleanResolver implements TransitionResolverInterface
     protected const RESOLVER_NAME = 'boolean_resolver';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getName(): string
@@ -36,6 +38,8 @@ class TransitionBooleanResolver implements TransitionResolverInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settings
      *

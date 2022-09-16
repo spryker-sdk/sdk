@@ -12,9 +12,9 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportMerger;
-use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 /**
  * @group Sdk
@@ -52,7 +52,7 @@ class ViolationReportMergerTest extends Unit
     /**
      * @param string $postfix
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface
      */
     protected function createViolationReport(string $postfix = ''): ViolationReportInterface
     {
@@ -67,7 +67,7 @@ class ViolationReportMergerTest extends Unit
     /**
      * @param string $postfix
      *
-     * @return \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface
      */
     protected function createPackageViolationReport(string $postfix = ''): PackageViolationReportInterface
     {
@@ -85,7 +85,7 @@ class ViolationReportMergerTest extends Unit
     /**
      * @param string $postfix
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface
      */
     protected function createViolationReportConverter(string $postfix = ''): ViolationInterface
     {

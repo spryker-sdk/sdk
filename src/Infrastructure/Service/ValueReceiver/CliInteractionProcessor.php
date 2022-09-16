@@ -5,16 +5,16 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInterface
+class CliInteractionProcessor implements InteractionProcessorInterface, InputOutputReceiverInterface
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
@@ -32,13 +32,13 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
     protected SymfonyQuestionHelper $questionHelper;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry
      */
     protected QuestionFactoryRegistry $questionFactoryRegistry;
 
     /**
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry $questionFactoryRegistry
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry $questionFactoryRegistry
      */
     public function __construct(SymfonyQuestionHelper $questionHelper, QuestionFactoryRegistry $questionFactoryRegistry)
     {
@@ -87,7 +87,7 @@ class CliValueReceiver implements ValueReceiverInterface, InputOutputReceiverInt
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface $receiverValue
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface $receiverValue
      *
      * @return mixed
      */

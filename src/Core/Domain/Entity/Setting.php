@@ -84,6 +84,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getPath(): string
@@ -92,6 +94,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getValues()
@@ -100,6 +104,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param mixed $values
      *
      * @return void
@@ -110,6 +116,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStrategy(): string
@@ -118,6 +126,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -126,6 +136,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getSettingType(): string
@@ -134,6 +146,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasInitialization(): bool
@@ -142,6 +156,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getInitializationDescription(): ?string
@@ -150,6 +166,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getInitializer(): ?string
@@ -166,6 +184,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isProject(): bool
@@ -174,6 +194,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isShared(): bool

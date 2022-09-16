@@ -8,21 +8,21 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ActionApproverInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 
 class ActionApprover implements ActionApproverInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      */
-    public function __construct(CliValueReceiver $cliValueReceiver)
+    public function __construct(InteractionProcessorInterface $cliValueReceiver)
     {
         $this->cliValueReceiver = $cliValueReceiver;
     }

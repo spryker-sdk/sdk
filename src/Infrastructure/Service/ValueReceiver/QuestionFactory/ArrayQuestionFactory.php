@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory;
+namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;

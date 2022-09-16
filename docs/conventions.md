@@ -69,39 +69,6 @@ No conventions yet
 - Contract is an interface that allows users to customize existing business logic.
 - Contract __MUST__ exist only in case existing logic provides for an extension by the user.
 - Contract is a public API and __MUST__ follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
-- Each method in the Contract's implementation class __MUST__ have the `{@inheritDoc}` tag on the first line of the docblock.
-- Each method in the Contract's implementation class __MAY__ have an additional short description.
-- Short description __MUST__ follow Spryker public API specification.
-- Each method in the Contract's implementation class __MUST NOT__ contain `@api` tag.
-
-Example
-
-```php
-<?php
-
-/**
- * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
-
-namespace SprykerSdk\Sdk\Core\Application\ValueResolver
-
-use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
-
-class AcmeValueResolver implemets ValueResolverInterface
-{
-    /**
-     * {@inheritdoc}
-     * - Short description.
-     *
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param array $settingValues
-     *
-     * @return string
-     */
-    public function resolve(ContextInterface $context, array $settingValues): string { /* ... */ }
-}
-```
 
 ## TODO
 

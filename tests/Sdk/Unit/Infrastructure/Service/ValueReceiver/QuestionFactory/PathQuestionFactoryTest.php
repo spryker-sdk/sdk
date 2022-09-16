@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver\QuestionFactory;
+namespace Sdk\Unit\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\PathQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory;
 use Symfony\Component\Console\Question\Question;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Question\Question;
  * @group Unit
  * @group Infrastructure
  * @group Service
- * @group CliValueReceiver
+ * @group ValueReceiver
  * @group QuestionFactory
  * @group PathQuestionFactoryTest
  */
@@ -29,7 +29,7 @@ class PathQuestionFactoryTest extends Unit
     public function testCreatesBooleanQuestion(): void
     {
         // Arrange
-        $questionFactory = new PathQuestionFactory();
+        $questionFactory = new \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');

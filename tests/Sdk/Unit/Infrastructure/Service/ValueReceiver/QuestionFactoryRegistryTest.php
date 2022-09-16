@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver;
+namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
 
 use Codeception\Test\Unit;
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry;
 
 /**
  * @group Sdk
@@ -29,7 +29,7 @@ class QuestionFactoryRegistryTest extends Unit
     public function testRegistryReturnsQuestionFactoryWhenTypeExists(): void
     {
         // Arrange
-        $questionFactoryRegistry = new QuestionFactoryRegistry([ValueTypeEnum::TYPE_ARRAY => new ArrayQuestionFactory()]);
+        $questionFactoryRegistry = new \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry([ValueTypeEnum::TYPE_ARRAY => new ArrayQuestionFactory()]);
 
         // Act
         $questionFactory = $questionFactoryRegistry->getQuestionFactoryByType(ValueTypeEnum::TYPE_ARRAY);

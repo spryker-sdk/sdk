@@ -21,6 +21,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     ];
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -29,6 +31,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -43,6 +47,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -51,6 +57,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getSettingPaths(): array
@@ -59,6 +67,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -67,11 +77,36 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getAlias(): ?string
     {
         return 'boilerplate_url';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $settingValues
+     * @param array $resolvedValues
+     *
+     * @return array
+     */
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
+    {
+        return array_keys(static::REPOSITORIES);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return mixed
+     */
+    public function getDefaultValue()
+    {
+        return array_key_first(static::REPOSITORIES);
     }
 
     /**
@@ -83,14 +118,6 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return mixed
-     */
-    public function getDefaultValue()
-    {
-        return array_key_first(static::REPOSITORIES);
-    }
-
-    /**
      * @param array<string, mixed> $settingValues
      *
      * @return mixed
@@ -98,16 +125,5 @@ class AppTypeValueResolver extends AbstractValueResolver
     protected function getValueFromSettings(array $settingValues)
     {
         return [];
-    }
-
-    /**
-     * @param array $settingValues
-     * @param array $resolvedValues
-     *
-     * @return array
-     */
-    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
-    {
-        return array_keys(static::REPOSITORIES);
     }
 }

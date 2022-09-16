@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver\QuestionFactory;
+namespace Sdk\Unit\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\BooleanQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  * @group Unit
  * @group Infrastructure
  * @group Service
- * @group CliValueReceiver
+ * @group ValueReceiver
  * @group QuestionFactory
  * @group BooleanQuestionFactoryTest
  */
@@ -29,7 +29,7 @@ class BooleanQuestionFactoryTest extends Unit
     public function testCreatesBooleanQuestion(): void
     {
         // Arrange
-        $questionFactory = new BooleanQuestionFactory();
+        $questionFactory = new \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');
@@ -44,7 +44,7 @@ class BooleanQuestionFactoryTest extends Unit
     public function testHasTypeBoolean(): void
     {
         // Act
-        $type = BooleanQuestionFactory::getType();
+        $type = \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory::getType();
 
         // Assert
         $this->assertSame($type, ValueTypeEnum::TYPE_BOOLEAN);

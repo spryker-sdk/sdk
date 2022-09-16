@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Core\Application\Violation;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationConverterInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 abstract class AbstractViolationConverter implements ViolationConverterInterface
 {
@@ -111,7 +111,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
     abstract public function configure(array $configuration): void;
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     abstract public function convert(): ?ViolationReportInterface;
 }

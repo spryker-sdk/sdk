@@ -5,26 +5,33 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
-use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\ProgressBar;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class LocalCliRunner implements CommandRunnerInterface
+class LocalCliRunner implements CliCommandRunnerInterface
 {
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface
      */
     protected OutputInterface $output;
+
+    /**
+     * @var \Symfony\Component\Console\Input\InputInterface
+     */
+    protected InputInterface $input;
 
     /**
      * @var \Symfony\Component\Console\Helper\ProcessHelper
@@ -51,9 +58,19 @@ class LocalCliRunner implements CommandRunnerInterface
      *
      * @return void
      */
-    public function setOutput(OutputInterface $output)
+    public function setOutput(OutputInterface $output): void
     {
         $this->output = $output;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return void
+     */
+    public function setInput(InputInterface $input): void
+    {
+        $this->input = $input;
     }
 
     /**
@@ -78,11 +95,11 @@ class LocalCliRunner implements CommandRunnerInterface
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {

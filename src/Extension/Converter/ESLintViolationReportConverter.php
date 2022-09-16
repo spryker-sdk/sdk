@@ -11,12 +11,14 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class ESLintViolationReportConverter extends AbstractViolationConverter
 {
     /**
+     * {@inheritDoc}
+     *
      * @param array $configuration
      *
      * @return void
@@ -28,7 +30,9 @@ class ESLintViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * {@inheritDoc}
+     *
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
     {
@@ -60,7 +64,7 @@ class ESLintViolationReportConverter extends AbstractViolationConverter
      * @param string $projectDirectory
      * @param array $files
      *
-     * @return array<\SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface>
      */
     protected function getPackages(string $projectDirectory, array $files): array
     {
