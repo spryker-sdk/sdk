@@ -94,17 +94,22 @@ services:
     arguments:
       - '@task_builder'
 
-  task_yaml_repository:
+  task_file_loader:
     public: true
-    class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
+    class: SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskFileLoader
     arguments:
       - "@setting_repository"
-      - "@file_finder"
-      - "@yaml_parser"
       - '@task_builder'
       - '@task_set_builder'
       - '@sdk_task_registry'
       - '@task_yaml_factory'
+      - '@task_file_reader'
+
+  task_file_reader:
+    class: SprykerSdk\Sdk\Infrastructure\TaskReader\TaskFileReader
+    arguments:
+      - "@file_finder"
+      - "@yaml_parser"
 
   context_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
@@ -118,7 +123,7 @@ services:
       - "@cli_value_receiver"
       - "@setting_repository"
       - "@service.task_manager"
-      - "@task_yaml_repository"
+      - "@task_file_loader"
   process_helper:
     class: Symfony\Component\Console\Helper\ProcessHelper
 
@@ -218,7 +223,7 @@ services:
   service.lifecycle_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
     arguments:
-      - "@task_yaml_repository"
+      - "@task_file_loader"
       - "@task_persistence_repository"
       - !tagged_iterator sdk.update_action
       - "%kernel.project_dir%"

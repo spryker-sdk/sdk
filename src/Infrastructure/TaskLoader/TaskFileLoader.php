@@ -5,28 +5,26 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Repository;
+namespace SprykerSdk\Sdk\Infrastructure\TaskLoader;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskCollection;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
 
-class TaskYamlRepository implements TaskYamlRepositoryInterface
+class TaskFileLoader implements TaskLoaderInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
@@ -34,24 +32,14 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @var \Symfony\Component\Finder\Finder
-     */
-    protected Finder $fileFinder;
-
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
-
-    /**
      * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface
      */
     protected TaskBuilderInterface $taskBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface
      */
-    protected TaskSetBuilderInterface $taskSetBuilder;
+    protected TaskBuilderInterface $taskSetBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
@@ -64,30 +52,32 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected TaskYamlFactoryInterface $taskYamlFactory;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface
+     */
+    protected TaskReaderInterface $taskFileReader;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \Symfony\Component\Finder\Finder $fileFinder
-     * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilderInterface $taskSetBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskSetBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface $taskFileReader
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
-        Finder $fileFinder,
-        Yaml $yamlParser,
         TaskBuilderInterface $taskBuilder,
-        TaskSetBuilderInterface $taskSetBuilder,
+        TaskBuilderInterface $taskSetBuilder,
         TaskRegistryInterface $taskRegistry,
-        TaskYamlFactoryInterface $taskYamlFactory
+        TaskYamlFactoryInterface $taskYamlFactory,
+        TaskReaderInterface $taskFileReader
     ) {
-        $this->yamlParser = $yamlParser;
-        $this->fileFinder = $fileFinder;
         $this->settingRepository = $settingRepository;
         $this->taskBuilder = $taskBuilder;
         $this->taskSetBuilder = $taskSetBuilder;
         $this->taskRegistry = $taskRegistry;
         $this->taskYamlFactory = $taskYamlFactory;
+        $this->taskFileReader = $taskFileReader;
     }
 
     /**
@@ -104,41 +94,50 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         }
 
         $tasks = [];
-        $taskListData = [];
-        $taskSetsData = [];
+        $taskCollection = $this->taskFileReader->read($taskDirSetting);
 
-        $finder = $this->fileFinder
-            ->in($this->findExistedDirectories($taskDirSetting->getValues()))
-            ->name('*.yaml');
-
-        //read task from path, parse and create Task, later use DB for querying
-        foreach ($finder->files() as $taskFile) {
-            $taskData = $this->yamlParser->parse($taskFile->getContents());
-
-            if ($taskData['type'] === TaskType::TASK_SET_TYPE) {
-                $taskSetsData[$taskData['id']] = $taskData;
-            } else {
-                $taskListData[$taskData['id']] = $taskData;
-            }
-        }
-
-        foreach ($taskListData as $taskData) {
-            $task = $this->taskBuilder->buildTask(
-                $this->taskYamlFactory->createTaskYaml($taskData, $taskListData),
-            );
-            $tasks[$task->getId()] = $task;
-        }
-
-        foreach ($taskSetsData as $taskData) {
-            $task = $this->taskSetBuilder->buildTaskSet(
-                $this->taskYamlFactory->createTaskYaml($taskData, $taskListData, $tasks),
-            );
-            $tasks[$task->getId()] = $task;
-        }
+        $tasks = $this->collectTasks($taskCollection, $tasks);
+        $tasks = $this->collectTaskSets($taskCollection, $tasks);
 
         $this->updateTaskRegistryWithTaskSetTasks($tasks);
 
         return array_merge($tasks, $this->taskRegistry->getAll());
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskCollection $taskCollection
+     * @param array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task> $tasks
+     *
+     * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task>
+     */
+    protected function collectTasks(TaskCollection $taskCollection, array $tasks): array
+    {
+        foreach ($taskCollection->getTasks() as $taskData) {
+            $task = $this->taskBuilder->buildTask(
+                $this->taskYamlFactory->createTaskYaml($taskData, $taskCollection->getTasks()),
+            );
+            $tasks[$task->getId()] = $task;
+        }
+
+        return $tasks;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskCollection $taskCollection
+     * @param array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task> $tasks
+     *
+     * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task>
+     */
+    protected function collectTaskSets(TaskCollection $taskCollection, array $tasks): array
+    {
+        foreach ($taskCollection->getTaskSets() as $taskData) {
+            $task = $this->taskSetBuilder->buildTask(
+                $this->taskYamlFactory->createTaskYaml($taskData, $taskCollection->getTasks(), $tasks),
+            );
+            $tasks[$task->getId()] = $task;
+        }
+
+        return $tasks;
     }
 
     /**
@@ -248,27 +247,5 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         }
 
         return null;
-    }
-
-    /**
-     * @param array<string> $directorySettings
-     *
-     * @return array<string>
-     */
-    protected function findExistedDirectories(array $directorySettings): array
-    {
-        $existingDirs = [];
-        foreach ($directorySettings as $directorySetting) {
-            $foundOldPaths = glob($directorySetting . '/Task');
-            $foundNewPaths = glob($directorySetting . '/task');
-            if ($foundOldPaths) {
-                $existingDirs[] = $foundOldPaths;
-            }
-            if ($foundNewPaths) {
-                $existingDirs[] = $foundNewPaths;
-            }
-        }
-
-        return array_merge(...$existingDirs);
     }
 }

@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Dependency\Repository;
+namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-interface TaskYamlRepositoryInterface
+interface TaskLoaderInterface
 {
     /**
      * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>

@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class TaskSetBuilder implements TaskSetBuilderInterface
+class TaskSetBuilder implements TaskBuilderInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface
@@ -31,7 +31,7 @@ class TaskSetBuilder implements TaskSetBuilderInterface
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    public function buildTaskSet(TaskYaml $taskYaml): Task
+    public function buildTask(TaskYaml $taskYaml): Task
     {
         $task = $this->taskBuilder->buildTask($taskYaml);
         $taskData = $taskYaml->getTaskData();
