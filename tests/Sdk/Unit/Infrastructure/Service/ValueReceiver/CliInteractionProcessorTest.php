@@ -5,17 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver;
+namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\ArrayQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\BooleanQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\StringQuestionFactory;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,10 +28,10 @@ use Symfony\Component\Console\Question\Question;
  * @group Unit
  * @group Infrastructure
  * @group Service
- * @group CliValueReceiver
- * @group CliValueReceiverTest
+ * @group ValueReceiver
+ * @group CliInteractionProcessorTest
  */
-class CliValueReceiverTest extends Unit
+class CliInteractionProcessorTest extends Unit
 {
     /**
      * @return void
@@ -131,13 +131,15 @@ class CliValueReceiverTest extends Unit
 
     /**
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry $questionFactoriesRegistry
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry $questionFactoriesRegistry
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
      */
-    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper, QuestionFactoryRegistry $questionFactoriesRegistry): CliValueReceiver
-    {
-        $cliValueReceiver = new CliValueReceiver($questionHelper, $questionFactoriesRegistry);
+    protected function createCliValueReceiver(
+        SymfonyQuestionHelper $questionHelper,
+        QuestionFactoryRegistry $questionFactoriesRegistry
+    ): CliInteractionProcessor {
+        $cliValueReceiver = new CliInteractionProcessor($questionHelper, $questionFactoriesRegistry);
         $cliValueReceiver->setInput($this->createInputMock());
         $cliValueReceiver->setOutput($this->createOutputMock());
 
@@ -165,11 +167,13 @@ class CliValueReceiverTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactoryRegistry
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry
      */
     protected function createQuestionFactoriesRegistryMock(): QuestionFactoryRegistry
     {
-        $questionFactoryRegistryMock = $this->createMock(QuestionFactoryRegistry::class);
+        $questionFactoryRegistryMock = $this->createMock(
+            QuestionFactoryRegistry::class,
+        );
 
         $mockMap = [
             ValueTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,

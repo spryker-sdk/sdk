@@ -19,6 +19,8 @@ use Symfony\Component\Process\Process;
 class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -27,6 +29,8 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -50,6 +54,8 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getErrorMessage(): string
@@ -58,6 +64,8 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -66,6 +74,8 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -74,6 +84,8 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -82,6 +94,8 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -90,6 +104,8 @@ class CheckMutagenCommand implements ExecutableCommandInterface, ErrorCommandInt
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

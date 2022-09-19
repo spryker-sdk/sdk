@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use Psr\Log\LoggerInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\EventLogger;
-use SprykerSdk\SdkContracts\Event\EventInterface;
+use SprykerSdk\Sdk\Core\Domain\Event\EventInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger;
 
 class EventLoggerTest extends Unit
 {

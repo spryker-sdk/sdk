@@ -13,6 +13,8 @@ use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 class CreateDirectoryInitializer implements SettingInitializerInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
      * @return void

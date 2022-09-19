@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsHandler;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,9 +27,9 @@ class InitProjectCommand extends Command
     protected const NAME = 'sdk:init:project';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
@@ -42,12 +42,12 @@ class InitProjectCommand extends Command
     protected ProjectSettingsHandler $projectSettingsHandler;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsHandler $projectSettingsHandler
      */
     public function __construct(
-        CliValueReceiver $cliValueReceiver,
+        InteractionProcessorInterface $cliValueReceiver,
         SettingRepositoryInterface $settingRepository,
         ProjectSettingsHandler $projectSettingsHandler
     ) {

@@ -9,15 +9,15 @@ namespace SprykerSdk\Sdk\Core\Application\Service\Violation;
 
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
-use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class ViolationReportMerger
 {
     /**
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationReportInterface> $violationReports
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface> $violationReports
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface
      */
     public function merge(array $violationReports): ViolationReportInterface
     {
@@ -76,7 +76,7 @@ class ViolationReportMerger
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface $package
+     * @param \SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface $package
      *
      * @return array
      */

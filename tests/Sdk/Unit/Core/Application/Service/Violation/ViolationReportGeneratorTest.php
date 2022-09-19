@@ -13,8 +13,8 @@ use SprykerSdk\Sdk\Core\Application\Service\ConverterResolver;
 use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportGenerator;
 use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportMerger;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportableInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportableInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 /**
  * @group Sdk
@@ -52,7 +52,7 @@ class ViolationReportGeneratorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportableInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportableInterface
      */
     protected function createViolationReportableMock(): ViolationReportableInterface
     {
@@ -97,7 +97,7 @@ class ViolationReportGeneratorTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface
      */
     protected function createViolationReportMock(): ViolationReportInterface
     {

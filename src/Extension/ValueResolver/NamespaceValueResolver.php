@@ -18,6 +18,8 @@ class NamespaceValueResolver extends AbstractValueResolver
     public const ALIAS = 'namespace';
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -26,6 +28,8 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getAlias(): string
@@ -34,6 +38,8 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -42,6 +48,8 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -50,6 +58,8 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getDefaultValue()
@@ -58,6 +68,8 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $settingValues
      * @param array $resolvedValues
      *
@@ -69,6 +81,18 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @return array<string>
+     */
+    public function getSettingPaths(): array
+    {
+        return ['projectNamespaces', 'coreNamespaces'];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     protected function getRequiredSettingPaths(): array
@@ -84,13 +108,5 @@ class NamespaceValueResolver extends AbstractValueResolver
     protected function getValueFromSettings(array $settingValues)
     {
         return null;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return ['projectNamespaces', 'coreNamespaces'];
     }
 }

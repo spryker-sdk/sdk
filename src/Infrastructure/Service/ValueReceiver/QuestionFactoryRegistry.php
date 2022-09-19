@@ -5,21 +5,21 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface;
 use Traversable;
 
 class QuestionFactoryRegistry
 {
     /**
-     * @var array<string, \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface>
+     * @var array<string, \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface>
      */
     protected array $questionFactories;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface> $questionFactories
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface> $questionFactories
      */
     public function __construct(iterable $questionFactories)
     {
@@ -31,7 +31,7 @@ class QuestionFactoryRegistry
      *
      * @throws \InvalidArgumentException
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\QuestionFactoryInterface
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface
      */
     public function getQuestionFactoryByType(string $questionType): QuestionFactoryInterface
     {

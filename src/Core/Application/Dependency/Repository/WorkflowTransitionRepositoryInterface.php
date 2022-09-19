@@ -7,29 +7,29 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency\Repository;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 
 interface WorkflowTransitionRepositoryInterface
 {
     /**
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface>
      */
     public function getAll(WorkflowInterface $workflow): array;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\WorkflowInterface $workflow
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface|null
      */
     public function findLast(WorkflowInterface $workflow): ?WorkflowTransitionInterface;
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface $event
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $event
      *
-     * @return \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface
      */
     public function save(WorkflowTransitionInterface $event): WorkflowTransitionInterface;
 }

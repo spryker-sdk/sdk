@@ -8,17 +8,17 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\NamespaceValueResolver;
 use SprykerSdk\Sdk\Extension\ValueResolver\SprykCodeLevelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 class SprykCodeLevelValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -30,7 +30,7 @@ class SprykCodeLevelValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();

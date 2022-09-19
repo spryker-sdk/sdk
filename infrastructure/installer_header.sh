@@ -29,10 +29,9 @@ then
     echo "alias spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.zshrc  && source ~/.zshrc
     echo 'Created alias in ~/.zshrc';
 elif [[ -e ~/.bashrc ]]
+then
     echo "alias spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.bashrc && source ~/.bashrc
     echo 'Created alias in ~/.bashrc';
-then
-
 else
   echo ""
   echo "Installation complete."

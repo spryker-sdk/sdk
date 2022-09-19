@@ -5,19 +5,15 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory;
+namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
+use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class ArrayQuestionFactory extends StringQuestionFactory
+class StringQuestionFactory implements QuestionFactoryInterface
 {
-    /**
-     * @var string
-     */
-    public const CHOICE_DESCRIPTION_SUFFIX = ' (Multiselect format: 1,2,3)';
-
     /**
      * @param string $description
      * @param array $choices
@@ -27,13 +23,23 @@ class ArrayQuestionFactory extends StringQuestionFactory
      */
     public function createQuestion(string $description, array $choices, $defaultValue = null): Question
     {
-        if (is_array($defaultValue)) {
-            $defaultValue = implode(',', array_keys(array_intersect($choices, $defaultValue)));
+        $question = count($choices) === 0
+            ? $this->createLineQuestion($description, $defaultValue)
+            : $this->createChoiceQuestion($description, $choices, $defaultValue);
+
+        if ($defaultValue !== null) {
+            return $question;
         }
 
-        return count($choices) > 0
-            ? $this->createChoiceQuestion($description, $choices, $defaultValue)
-            : $this->createLineQuestion($description, $defaultValue);
+        $question->setValidator(function ($value) {
+            if ($value === '' || $value === null) {
+                throw new MissingValueException('Value is required');
+            }
+
+            return $value;
+        });
+
+        return $question;
     }
 
     /**
@@ -45,12 +51,11 @@ class ArrayQuestionFactory extends StringQuestionFactory
      */
     protected function createChoiceQuestion(string $description, array $choices, $defaultValue = null): ChoiceQuestion
     {
-        $description .= static::CHOICE_DESCRIPTION_SUFFIX;
-        $question = parent::createChoiceQuestion($description, $choices, $defaultValue);
-
-        $question->setMultiselect(true);
-
-        return $question;
+        return new ChoiceQuestion(
+            $description,
+            $choices,
+            $defaultValue,
+        );
     }
 
     /**
@@ -61,8 +66,11 @@ class ArrayQuestionFactory extends StringQuestionFactory
      */
     protected function createLineQuestion(string $description, $defaultValue = null): Question
     {
-        $question = parent::createLineQuestion($description, $defaultValue);
-        $question->setMultiline(true);
+        $question = new Question($description, $defaultValue);
+
+        $question->setNormalizer(function ($value) {
+            return $value ?: '';
+        });
 
         return $question;
     }
@@ -72,6 +80,6 @@ class ArrayQuestionFactory extends StringQuestionFactory
      */
     public static function getType(): string
     {
-        return ValueTypeEnum::TYPE_ARRAY;
+        return ValueTypeEnum::TYPE_STRING;
     }
 }

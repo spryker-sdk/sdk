@@ -5,23 +5,23 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\CliValueReceiver\QuestionFactory;
+namespace Sdk\Unit\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\QuestionFactory\PathQuestionFactory;
-use Symfony\Component\Console\Question\Question;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Service
- * @group CliValueReceiver
+ * @group ValueReceiver
  * @group QuestionFactory
- * @group PathQuestionFactoryTest
+ * @group BooleanQuestionFactoryTest
  */
-class PathQuestionFactoryTest extends Unit
+class BooleanQuestionFactoryTest extends Unit
 {
     /**
      * @return void
@@ -29,14 +29,13 @@ class PathQuestionFactoryTest extends Unit
     public function testCreatesBooleanQuestion(): void
     {
         // Arrange
-        $questionFactory = new PathQuestionFactory();
+        $questionFactory = new BooleanQuestionFactory();
 
         // Act
         $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');
 
         // Assert
-        $this->assertInstanceOf(Question::class, $question);
-        $this->assertIsCallable($question->getAutocompleterCallback());
+        $this->assertInstanceOf(ConfirmationQuestion::class, $question);
     }
 
     /**
@@ -45,9 +44,9 @@ class PathQuestionFactoryTest extends Unit
     public function testHasTypeBoolean(): void
     {
         // Act
-        $type = PathQuestionFactory::getType();
+        $type = BooleanQuestionFactory::getType();
 
         // Assert
-        $this->assertSame($type, ValueTypeEnum::TYPE_PATH);
+        $this->assertSame($type, ValueTypeEnum::TYPE_BOOLEAN);
     }
 }

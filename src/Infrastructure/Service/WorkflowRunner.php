@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,9 +32,9 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected OutputInterface $output;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -47,12 +47,12 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected ContextFactoryInterface $contextFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      */
     public function __construct(
-        CliValueReceiver $cliValueReceiver,
+        InteractionProcessorInterface $cliValueReceiver,
         ContainerInterface $container,
         ContextFactoryInterface $contextFactory
     ) {

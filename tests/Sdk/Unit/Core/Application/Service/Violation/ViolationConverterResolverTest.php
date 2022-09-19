@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ConverterResolver;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationConverterInterface;
 
 /**
  * @group Sdk

@@ -27,6 +27,8 @@ class ProjectUuidInitializer implements SettingInitializerInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
      * @return void

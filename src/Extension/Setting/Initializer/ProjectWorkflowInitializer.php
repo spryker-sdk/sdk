@@ -53,6 +53,8 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
      * @return void
@@ -82,6 +84,8 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
      * @return array<string>
