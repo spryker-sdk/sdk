@@ -111,7 +111,7 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
     {
         $values = $projectSettingsDto->getSettingValue($setting->getPath());
 
-        if ($projectSettingsDto->useDefaultValue() || $this->isInitializedByInitializers($setting)) {
+        if ($projectSettingsDto->useDefaultValue() || $this->isInitializedByInitializer($setting)) {
             return null;
         }
 
@@ -165,7 +165,7 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
      *
      * @return bool
      */
-    protected function isInitializedByInitializers(SettingInterface $setting): bool
+    protected function isInitializedByInitializer(SettingInterface $setting): bool
     {
         return !$setting->hasInitialization()
             || ($setting->getInitializer() && $setting->getType() === ValueTypeEnum::TYPE_UUID);
