@@ -78,6 +78,10 @@ class InitProjectCommand extends Command
         }
 
         foreach ($settings as $setting) {
+            if (!$setting->hasInitialization()) {
+                continue;
+            }
+
             $mode = InputOption::VALUE_REQUIRED;
             if ($setting->getStrategy() === 'merge') {
                 $mode = $mode | InputOption::VALUE_IS_ARRAY;

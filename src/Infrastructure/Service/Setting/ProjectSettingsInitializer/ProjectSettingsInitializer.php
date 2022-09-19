@@ -109,24 +109,18 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
      */
     protected function handleProjectSetting(SettingInterface $setting, ProjectSettingsInitDto $projectSettingsDto): ?SettingInterface
     {
-        $inputSettingValue = $projectSettingsDto->getSettingValue($setting->getPath());
+        $values = $projectSettingsDto->getSettingValue($setting->getPath());
 
-        if ($this->isSettingNotApplicable($setting, $inputSettingValue)) {
+        if ($projectSettingsDto->useDefaultValue() || $this->isInitializedByInitializers($setting)) {
             return null;
         }
 
-        $values = $inputSettingValue ?? $setting->getValues();
+        if ($this->isValuesEmpty($values)) {
+            if (!$this->changeDefaultValueQuestion->ask($setting)) {
+                return null;
+            }
 
-        $useDefaultValue = $this->isValueEmpty($inputSettingValue)
-            ? !$this->changeDefaultValueQuestion->ask($setting)
-            : $projectSettingsDto->useDefaultValue();
-
-        if ($useDefaultValue && $this->isValueEmpty($inputSettingValue)) {
-            return null;
-        }
-
-        if ($this->isValueEmpty($inputSettingValue)) {
-            $values = $this->settingValueQuestion->ask($setting, $values);
+            $values = $this->settingValueQuestion->ask($setting, $setting->getValues());
         }
 
         if (!$this->isValuesChanged($setting, $values)) {
@@ -139,6 +133,16 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
     }
 
     /**
+     * @param mixed $values
+     *
+     * @return bool
+     */
+    protected function isValuesEmpty($values): bool
+    {
+        return $values === null || $values === [];
+    }
+
+    /**
      * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
      *
      * @return void
@@ -146,9 +150,9 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
     protected function initializeSettings(array $settings): void
     {
         foreach ($settings as $setting) {
-            $initializerName = $setting->getInitializer() ?? '';
+            $initializerName = $setting->getInitializer();
 
-            if (!$this->settingInitializerRegistry->hasSettingInitializer($initializerName)) {
+            if ($initializerName === null || !$this->settingInitializerRegistry->hasSettingInitializer($initializerName)) {
                 continue;
             }
 
@@ -158,24 +162,13 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
-     * @param mixed $inputSettingValue
      *
      * @return bool
      */
-    protected function isSettingNotApplicable(SettingInterface $setting, $inputSettingValue): bool
+    protected function isInitializedByInitializers(SettingInterface $setting): bool
     {
-        return ($this->isValueEmpty($inputSettingValue) && !$setting->hasInitialization())
+        return !$setting->hasInitialization()
             || ($setting->getInitializer() && $setting->getType() === ValueTypeEnum::TYPE_UUID);
-    }
-
-    /**
-     * @param mixed|null $values
-     *
-     * @return bool
-     */
-    protected function isValueEmpty($values): bool
-    {
-        return $values === null || $values === '' || $values === [];
     }
 
     /**

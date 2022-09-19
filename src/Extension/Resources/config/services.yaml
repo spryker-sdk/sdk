@@ -105,9 +105,6 @@ services:
   create_directory_initializer:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
     public: true
-  violation_output_format_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer
-    public: true
   SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer:
     tags: ["sdk.setting_initializer"]
     public: true

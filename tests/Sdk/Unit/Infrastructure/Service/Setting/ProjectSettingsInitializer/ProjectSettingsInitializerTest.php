@@ -18,6 +18,7 @@ use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Que
 use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
 use SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 
 /**
  * @group Sdk
@@ -33,7 +34,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testInitializeShouldReturnEmptyArrayWhenSettingNotApplicable(): void
+    public function testInitializeShouldReturnEmptyArrayWhenValueHasNoInitialization(): void
     {
         // Arrange
         $projectSettingsInitializer = new ProjectSettingsInitializer(
@@ -44,7 +45,8 @@ class ProjectSettingsInitializerTest extends Unit
         );
 
         $hasNoInitializationSetting = new Setting('setting_path', []);
-        $projectSettingsInitDto = new ProjectSettingsInitDto([], false);
+
+        $projectSettingsInitDto = new ProjectSettingsInitDto(['setting_path' => 'some_value'], false);
 
         // Act
         $settings = $projectSettingsInitializer->initialize([$hasNoInitializationSetting], $projectSettingsInitDto);
@@ -62,7 +64,7 @@ class ProjectSettingsInitializerTest extends Unit
         $projectSettingsInitializer = new ProjectSettingsInitializer(
             $this->createChangeDefaultValueQuestionMock(),
             $this->createSettingValueQuestionMock(),
-            $this->createSettingInitializerRegistry(),
+            $this->createSettingInitializerRegistry(['uuid_initializer' => $this->createSettingInitializerMock()]),
             $this->createProjectFilesInitializerMock(),
         );
 
@@ -74,7 +76,7 @@ class ProjectSettingsInitializerTest extends Unit
             SettingEnum::SETTING_TYPE_LOCAL,
             false,
             null,
-            'some_initializer',
+            'uuid_initializer',
         );
 
         $projectSettingsInitDto = new ProjectSettingsInitDto(['setting_path' => 'val'], false);
@@ -259,9 +261,17 @@ class ProjectSettingsInitializerTest extends Unit
     }
 
     /**
+     * @return \SprykerSdk\SdkContracts\Setting\SettingInitializerInterface
+     */
+    protected function createSettingInitializerMock(): SettingInitializerInterface
+    {
+        return $this->createMock(SettingInitializerInterface::class);
+    }
+
+    /**
      * @return \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
      */
-    public function createProjectFilesInitializerMock(): ProjectFilesInitializer
+    protected function createProjectFilesInitializerMock(): ProjectFilesInitializer
     {
         return $this->createMock(ProjectFilesInitializer::class);
     }

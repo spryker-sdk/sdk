@@ -7,17 +7,17 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingChoicesProviderRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class SettingValueQuestion
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingChoicesProviderRegistry
@@ -25,11 +25,11 @@ class SettingValueQuestion
     protected SettingChoicesProviderRegistry $settingChoicesProviderRegistry;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingChoicesProviderRegistry $settingChoicesProviderRegistry
      */
     public function __construct(
-        CliValueReceiver $cliValueReceiver,
+        InteractionProcessorInterface $cliValueReceiver,
         SettingChoicesProviderRegistry $settingChoicesProviderRegistry
     ) {
         $this->cliValueReceiver = $cliValueReceiver;
@@ -46,15 +46,17 @@ class SettingValueQuestion
     {
         $questionDescription = $setting->getInitializationDescription();
 
-        if ($questionDescription === null || $questionDescription === '') {
+        if ($questionDescription === null) {
             $questionDescription = 'Initial value for ' . $setting->getPath();
         }
 
-        $choicesProviderName = $setting->getInitializer() ?? '';
+        $choicesProviderName = $setting->getInitializer();
 
-        $choiceValues = $this->settingChoicesProviderRegistry->hasSettingChoicesProvider($choicesProviderName)
-            ? $this->settingChoicesProviderRegistry->getSettingChoicesProvider($choicesProviderName)->getChoices($setting)
-            : [];
+        $choiceValues = [];
+
+        if ($choicesProviderName !== null && $this->settingChoicesProviderRegistry->hasSettingChoicesProvider($choicesProviderName)) {
+            $choiceValues = $this->settingChoicesProviderRegistry->getSettingChoicesProvider($choicesProviderName)->getChoices($setting);
+        }
 
         return $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
