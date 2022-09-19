@@ -99,6 +99,9 @@ services:
   SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
+  violation_output_format_initializer:
+    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer
+    public: true
   SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer:
     tags: [ "sdk.setting_choice_provider" ]
     public: true
