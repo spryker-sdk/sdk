@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
-use SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolver\OriginValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class StaticValueResolverTest extends Unit
+class OriginValueResolverTest extends Unit
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
@@ -30,6 +30,7 @@ class StaticValueResolverTest extends Unit
     public function setUp(): void
     {
         $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
+
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -38,30 +39,36 @@ class StaticValueResolverTest extends Unit
     /**
      * @return void
      */
-    public function testGetValueOption(): void
+    public function testConfigure(): void
     {
         // Arrange
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('get')
-            ->willReturn('value');
-        $valueResolver = new StaticValueResolver($this->valueReceiver);
-        $valueResolver->configure(['option' => 'test', 'name' => 'key', 'description' => '']);
-        // Act
-        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
+        $values = [
+            'defaultValue' => 'defaultValue',
+            'name' => 'alias',
+            'description' => 'description',
+            'help' => 'help',
+            'type' => 'boolean',
+            'settingPaths' => ['setting'],
+            'choiceValues' => ['values'],
+        ];
+        $valueResolver = new OriginValueResolver($this->valueReceiver);
+        $valueResolver->configure($values);
 
         // Assert
-        $this->assertSame('--test=\'value\'', $value);
+        $this->assertSame($values['defaultValue'], $valueResolver->getDefaultValue());
+        $this->assertSame($values['name'], $valueResolver->getAlias());
+        $this->assertSame($values['description'], $valueResolver->getDescription());
+        $this->assertSame($values['help'], $valueResolver->getHelp());
+        $this->assertSame($values['type'], $valueResolver->getType());
+        $this->assertSame($values['type'], $valueResolver->getType());
+        $this->assertSame($values['settingPaths'], $valueResolver->getSettingPaths());
+        $this->assertSame($values['choiceValues'], $valueResolver->getChoiceValues([]));
     }
 
     /**
      * @return void
      */
-    public function testGetValueArgument(): void
+    public function testGetValue(): void
     {
         // Arrange
         $this->valueReceiver
@@ -72,12 +79,12 @@ class StaticValueResolverTest extends Unit
             ->expects($this->once())
             ->method('get')
             ->willReturn('value');
-        $valueResolver = new StaticValueResolver($this->valueReceiver);
-        $valueResolver->configure(['name' => 'key', 'description' => '']);
+        $valueResolver = new OriginValueResolver($this->valueReceiver);
+        $valueResolver->configure(['option' => 'test', 'name' => 'key', 'description' => '']);
         // Act
         $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
 
         // Assert
-        $this->assertSame('\'value\'', $value);
+        $this->assertSame('value', $value);
     }
 }
