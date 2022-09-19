@@ -12,6 +12,12 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\OptionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group OptionalValueResolverTest
+ */
 class OptionalValueResolverTest extends Unit
 {
     /**

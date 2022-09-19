@@ -13,6 +13,12 @@ use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\ValueResolver\BusinessModelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group BusinessModelValueResolverTest
+ */
 class BusinessModelValueResolverTest extends Unit
 {
     /**

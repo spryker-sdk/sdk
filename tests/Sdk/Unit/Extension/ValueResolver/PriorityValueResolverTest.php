@@ -13,6 +13,12 @@ use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
 use SprykerSdk\Sdk\Extension\ValueResolver\PriorityPathValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group PriorityValueResolverTest
+ */
 class PriorityValueResolverTest extends Unit
 {
     /**
