@@ -61,6 +61,29 @@ class StaticValueResolverTest extends Unit
     /**
      * @return void
      */
+    public function testGetValueOptions(): void
+    {
+        // Arrange
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('has')
+            ->willReturn(true);
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(['value1', 'value2']);
+        $valueResolver = new StaticValueResolver($this->valueReceiver);
+        $valueResolver->configure(['option' => 'test', 'name' => 'key', 'description' => '']);
+        // Act
+        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
+
+        // Assert
+        $this->assertSame(['--test=\'value1\'', '--test=\'value2\''], $value);
+    }
+
+    /**
+     * @return void
+     */
     public function testGetValueArgument(): void
     {
         // Arrange
