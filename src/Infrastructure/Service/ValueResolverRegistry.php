@@ -12,7 +12,6 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Extension\ValueResolver\OriginValueResolver;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
