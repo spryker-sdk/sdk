@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
 
 class TaskYamlFactory implements TaskYamlFactoryInterface
 {
@@ -18,9 +17,9 @@ class TaskYamlFactory implements TaskYamlFactoryInterface
      * @param array $taskListData
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
      */
-    public function createTaskYaml(array $taskData, array $taskListData, array $tasks = []): TaskYamlInterface
+    public function createTaskYaml(array $taskData, array $taskListData, array $tasks = []): TaskYaml
     {
         return new TaskYaml($taskData, $taskListData, $tasks);
     }

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 
 interface TaskYamlFactoryInterface
 {
@@ -16,7 +16,7 @@ interface TaskYamlFactoryInterface
      * @param array $taskListData
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
      */
-    public function createTaskYaml(array $taskData, array $taskListData, array $tasks = []): TaskYamlInterface;
+    public function createTaskYaml(array $taskData, array $taskListData, array $tasks = []): TaskYaml;
 }

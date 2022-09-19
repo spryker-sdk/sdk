@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
@@ -44,11 +44,11 @@ class TaskBuilder implements TaskBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    public function buildTask(TaskYamlInterface $taskYaml): Task
+    public function buildTask(TaskYaml $taskYaml): Task
     {
         $placeholders = $this->placeholderBuilder->buildPlaceholders($taskYaml);
         $commands = $this->commandBuilder->buildCommands($taskYaml);

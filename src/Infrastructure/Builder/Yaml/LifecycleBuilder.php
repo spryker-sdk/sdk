@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 
@@ -27,11 +27,11 @@ class LifecycleBuilder implements LifecycleBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
      */
-    public function buildLifecycle(TaskYamlInterface $taskYaml): TaskLifecycleInterface
+    public function buildLifecycle(TaskYaml $taskYaml): TaskLifecycleInterface
     {
         return new Lifecycle(
             $this->lifecycleEventDataBuilder->buildInitializedEventData($taskYaml),

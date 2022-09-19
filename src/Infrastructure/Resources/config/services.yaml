@@ -71,7 +71,7 @@ services:
   lifecycle_event_data_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder
     arguments:
-      - '@file_builder'
+      - '@file_collection_builder'
       - '@lifecycle_command_builder'
       - '@placeholder_builder'
 

@@ -7,17 +7,17 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 
 class FileCollectionBuilder implements FileCollectionBuilderInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
      */
-    public function buildFiles(TaskYamlInterface $taskYaml): array
+    public function buildFiles(TaskYaml $taskYaml): array
     {
         $files = [];
         $data = $taskYaml->getTaskData();

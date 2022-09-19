@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
@@ -51,11 +51,11 @@ class CommandBuilder implements CommandBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    public function buildCommands(TaskYamlInterface $taskYaml): array
+    public function buildCommands(TaskYaml $taskYaml): array
     {
         $commands = [];
 
@@ -70,11 +70,11 @@ class CommandBuilder implements CommandBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\CommandInterface|null
      */
-    protected function buildTaskCommand(TaskYamlInterface $taskYaml): ?CommandInterface
+    protected function buildTaskCommand(TaskYaml $taskYaml): ?CommandInterface
     {
         $data = $taskYaml->getTaskData();
         if (!in_array($data['type'], CommandType::LOCAL_CLI_TYPES, true)) {
@@ -90,11 +90,11 @@ class CommandBuilder implements CommandBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface $taskYaml
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    protected function buildTaskSetCommands(TaskYamlInterface $taskYaml): array
+    protected function buildTaskSetCommands(TaskYaml $taskYaml): array
     {
         $data = $taskYaml->getTaskData();
         $taskListData = $taskYaml->getTaskListData();

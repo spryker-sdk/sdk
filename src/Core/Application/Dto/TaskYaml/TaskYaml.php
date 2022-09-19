@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\TaskYaml;
 
-class TaskYaml implements TaskYamlInterface
+class TaskYaml
 {
     /**
      * @var array
@@ -63,7 +63,7 @@ class TaskYaml implements TaskYamlInterface
     /**
      * @param array<string, mixed> $taskData
      *
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYamlInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
      */
     public function withTaskData(array $taskData)
     {
