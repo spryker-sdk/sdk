@@ -15,12 +15,12 @@ use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow;
+use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
-use SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
 use Symfony\Component\Workflow\Metadata\InMemoryMetadataStore;
 use Symfony\Component\Workflow\Registry;
@@ -645,7 +645,7 @@ class ProjectWorkflowTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface
      */
     protected function createWorkflowTransitionMock(): WorkflowTransitionInterface
     {

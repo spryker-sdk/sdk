@@ -15,9 +15,9 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class ContextSerializerHelper extends Module
 {
@@ -53,7 +53,7 @@ class ContextSerializerHelper extends Module
     /**
      * @param array $violationReport
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface
      */
     public function createViolationReport(array $violationReport): ViolationReportInterface
     {
@@ -68,7 +68,7 @@ class ContextSerializerHelper extends Module
     /**
      * @param array $reportData
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface
      */
     public function createViolationReportConverter(array $reportData): ViolationInterface
     {
@@ -90,7 +90,7 @@ class ContextSerializerHelper extends Module
     /**
      * @param array $report
      *
-     * @return \SprykerSdk\SdkContracts\Violation\PackageViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface
      */
     public function createPackageViolationReport(array $report): PackageViolationReportInterface
     {

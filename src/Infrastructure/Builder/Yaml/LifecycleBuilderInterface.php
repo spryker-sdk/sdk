@@ -8,14 +8,14 @@
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 
 interface LifecycleBuilderInterface
 {
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
-     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface
      */
     public function buildLifecycle(TaskYaml $taskYaml): TaskLifecycleInterface;
 }

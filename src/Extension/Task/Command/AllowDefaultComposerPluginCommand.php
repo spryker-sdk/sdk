@@ -31,6 +31,8 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -39,6 +41,8 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -47,6 +51,8 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -55,6 +61,8 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -63,6 +71,8 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -71,6 +81,8 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -90,6 +102,8 @@ class AllowDefaultComposerPluginCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

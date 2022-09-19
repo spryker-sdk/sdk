@@ -11,8 +11,8 @@ use SimpleXMLElement;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class PhpBenchReportConverter extends AbstractViolationConverter
 {
@@ -27,6 +27,8 @@ class PhpBenchReportConverter extends AbstractViolationConverter
     protected string $producer;
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $configuration
      *
      * @return void
@@ -38,7 +40,9 @@ class PhpBenchReportConverter extends AbstractViolationConverter
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * {@inheritDoc}
+     *
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
     {
@@ -72,7 +76,7 @@ class PhpBenchReportConverter extends AbstractViolationConverter
     /**
      * @param \SimpleXMLElement $report
      *
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     protected function getResults(SimpleXMLElement $report): array
     {

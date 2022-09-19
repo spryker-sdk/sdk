@@ -11,10 +11,11 @@ use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\FileInterface;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface as ContractContextInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 abstract class LifecycleEventSubscriber
@@ -58,8 +59,8 @@ abstract class LifecycleEventSubscriber
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\FileInterface> $files
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface> $files
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -87,7 +88,7 @@ abstract class LifecycleEventSubscriber
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -99,12 +100,12 @@ abstract class LifecycleEventSubscriber
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $eventData
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface $eventData
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
-    protected function createContext(LifecycleEventDataInterface $eventData, TaskInterface $task): ContextInterface
+    protected function createContext(LifecycleEventDataInterface $eventData, TaskInterface $task): ContractContextInterface
     {
         $context = $this->contextFactory->getContext();
         $context->setTask($task);
@@ -116,7 +117,7 @@ abstract class LifecycleEventSubscriber
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface $file
      *
      * @return void
      */

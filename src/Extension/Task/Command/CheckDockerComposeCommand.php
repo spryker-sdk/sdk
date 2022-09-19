@@ -16,6 +16,8 @@ use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -24,6 +26,8 @@ class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterfa
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getErrorMessage(): string
@@ -32,6 +36,8 @@ class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterfa
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -40,6 +46,8 @@ class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterfa
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -48,6 +56,8 @@ class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterfa
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -56,6 +66,8 @@ class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterfa
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -64,6 +76,8 @@ class CheckDockerComposeCommand implements CommandInterface, ErrorCommandInterfa
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

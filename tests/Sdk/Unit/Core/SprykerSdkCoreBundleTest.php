@@ -11,6 +11,11 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\DependencyInjection\SprykerSdkCoreExtension;
 use SprykerSdk\Sdk\Core\SprykerSdkCoreBundle;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group SprykerSdkCoreBundleTest
+ */
 class SprykerSdkCoreBundleTest extends Unit
 {
     /**

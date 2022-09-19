@@ -14,7 +14,7 @@ interface FileCollectionBuilderInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
      */
     public function buildFiles(TaskYaml $taskYaml): array;
 }

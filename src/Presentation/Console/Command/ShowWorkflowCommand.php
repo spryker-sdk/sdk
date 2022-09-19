@@ -8,9 +8,10 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use RuntimeException;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -42,9 +43,9 @@ class ShowWorkflowCommand extends Command
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var string
@@ -58,13 +59,13 @@ class ShowWorkflowCommand extends Command
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param string $varWorkflowDirectory
      * @param string $hostVarWorkflowDirectory
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
-        CliValueReceiver $cliValueReceiver,
+        InteractionProcessorInterface $cliValueReceiver,
         string $varWorkflowDirectory,
         string $hostVarWorkflowDirectory
     ) {
@@ -124,7 +125,7 @@ class ShowWorkflowCommand extends Command
                 new ReceiverValue(
                     'Select workflow to show',
                     current(array_keys($workflows)),
-                    'string',
+                    ValueTypeEnum::TYPE_STRING,
                     $workflows,
                 ),
             )

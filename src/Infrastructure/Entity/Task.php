@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task as CoreTask;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
 
 class Task extends CoreTask
 {
@@ -27,14 +27,14 @@ class Task extends CoreTask
     protected Collection $commandCollection;
 
     /**
-     * @var \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface
+     * @var \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface
      */
     protected LifecycleInterface $lifecycle;
 
     /**
      * @param string $id
      * @param string $shortDescription
-     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      * @param string $version
      * @param string|null $help
      * @param string|null $successor
@@ -73,7 +73,7 @@ class Task extends CoreTask
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface $lifecycle
      *
      * @return $this
      */

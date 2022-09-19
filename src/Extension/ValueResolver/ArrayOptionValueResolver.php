@@ -7,11 +7,24 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ArrayOptionValueResolver extends StaticValueResolver
 {
     /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return 'ARRAY_OPTION';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -26,21 +39,16 @@ class ArrayOptionValueResolver extends StaticValueResolver
             return null;
         }
 
-        $options = array_map(
-            function ($valueParam) {
-                return sprintf('--%s=\'%s\'', $this->getAlias(), $valueParam);
-            },
-            $values,
-        );
-
-        return implode(' ', $options);
+        return implode(' ', $values);
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
-    public function getId(): string
+    public function getType(): string
     {
-        return 'ARRAY_OPTION';
+        return ValueTypeEnum::TYPE_ARRAY;
     }
 }

@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task as DomainTask;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -142,7 +142,7 @@ class TaskMapper implements TaskMapperInterface
     /**
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface
      */
     protected function mapLifecycle(TaskInterface $task): PersistentLifecycleInterface
     {
