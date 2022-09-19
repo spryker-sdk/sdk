@@ -11,7 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
@@ -28,23 +28,23 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected TaskMapperInterface $taskMapper;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
      */
-    protected TaskPoolInterface $taskPool;
+    protected TaskRegistryInterface $taskRegistry;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface $taskPool
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
         ManagerRegistry $registry,
-        TaskPoolInterface $taskPool
+        TaskRegistryInterface $taskRegistry
     ) {
         parent::__construct($registry, Task::class);
         $this->taskMapper = $taskMapper;
-        $this->taskPool = $taskPool;
+        $this->taskRegistry = $taskRegistry;
     }
 
     /**
@@ -175,7 +175,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected function changePhpCommand(TaskInterface $task, bool $realCommand = true): TaskInterface
     {
         $existingCommands = [];
-        foreach ($this->taskPool->getAll() as $existingTask) {
+        foreach ($this->taskRegistry->getAll() as $existingTask) {
             foreach ($existingTask->getCommands() as $existingCommand) {
                 $existingCommands[get_class($existingCommand)] = $existingCommand;
             }

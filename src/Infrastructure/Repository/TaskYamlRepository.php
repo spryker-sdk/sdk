@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
@@ -54,9 +54,9 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected TaskSetBuilderInterface $taskSetBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
      */
-    protected TaskPoolInterface $taskPool;
+    protected TaskRegistryInterface $taskRegistry;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface
@@ -69,7 +69,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilderInterface $taskSetBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface $taskPool
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
      */
     public function __construct(
@@ -78,7 +78,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         Yaml $yamlParser,
         TaskBuilderInterface $taskBuilder,
         TaskSetBuilderInterface $taskSetBuilder,
-        TaskPoolInterface $taskPool,
+        TaskRegistryInterface $taskRegistry,
         TaskYamlFactoryInterface $taskYamlFactory
     ) {
         $this->yamlParser = $yamlParser;
@@ -86,7 +86,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $this->settingRepository = $settingRepository;
         $this->taskBuilder = $taskBuilder;
         $this->taskSetBuilder = $taskSetBuilder;
-        $this->taskPool = $taskPool;
+        $this->taskRegistry = $taskRegistry;
         $this->taskYamlFactory = $taskYamlFactory;
     }
 
@@ -138,7 +138,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         $this->updateTaskRegistryWithTaskSetTasks($tasks);
 
-        return array_merge($tasks, $this->taskPool->getAll());
+        return array_merge($tasks, $this->taskRegistry->getAll());
     }
 
     /**
@@ -148,12 +148,12 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function updateTaskRegistryWithTaskSetTasks(array $tasks): void
     {
-        foreach ($this->taskPool->getAll() as $taskId => $existingTask) {
+        foreach ($this->taskRegistry->getAll() as $taskId => $existingTask) {
             if (!$existingTask instanceof TaskSetInterface) {
                 continue;
             }
 
-            $this->taskPool->set($taskId, new Task(
+            $this->taskRegistry->set($taskId, new Task(
                 $existingTask->getId(),
                 $existingTask->getShortDescription(),
                 $this->extractCommands($tasks, $existingTask),
@@ -181,7 +181,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $placeholders = [];
         foreach ($existingTask->getSubTasks() as $subTask) {
             if (is_string($subTask)) {
-                $subTask = $tasks[$subTask] ?? $this->taskPool->get($subTask);
+                $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
             }
             $placeholders[] = $subTask->getPlaceholders();
         }
@@ -201,7 +201,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         foreach ($existingTask->getSubTasks() as $subTask) {
             if (is_string($subTask)) {
-                $subTask = $tasks[$subTask] ?? $this->taskPool->get($subTask);
+                $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
             }
             $commands[] = $this->extractExistingCommands($subTask);
         }

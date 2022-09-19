@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-interface TaskPoolInterface
+interface TaskRegistryInterface
 {
     /**
      * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
@@ -30,11 +30,4 @@ interface TaskPoolInterface
      * @return void
      */
     public function set(string $id, TaskInterface $task): void;
-
-    /**
-     * @param string $id
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
-     */
-    public function getNotNestedTaskSet(string $id): TaskInterface;
 }

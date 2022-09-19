@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Exception;
 
-use RuntimeException;
+use Throwable;
 
-class TaskSetNestingException extends RuntimeException implements TaskValidationException
+interface TaskValidationException extends Throwable
 {
 }

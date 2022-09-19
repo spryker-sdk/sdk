@@ -9,8 +9,9 @@ namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
 use SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory;
+use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
@@ -35,9 +36,10 @@ class CommandBuilderTest extends Unit
     protected function setUp(): void
     {
         $this->commandBuilder = new CommandBuilder(
-            new TaskPool([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]),
+            new TaskRegistry([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]),
             new ConverterBuilder(),
             new TaskYamlFactory(),
+            new NestedTaskSetValidator(),
         );
         parent::setUp();
     }

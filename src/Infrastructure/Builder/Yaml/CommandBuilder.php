@@ -7,9 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
@@ -21,9 +22,9 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class CommandBuilder implements CommandBuilderInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskPool
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
      */
-    protected TaskPool $taskPool;
+    protected TaskRegistryInterface $taskRegistry;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface
@@ -36,18 +37,26 @@ class CommandBuilder implements CommandBuilderInterface
     protected TaskYamlFactoryInterface $taskYamlFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\TaskPool $taskPool
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface
+     */
+    protected TaskValidatorInterface $nestedTaskSetValidator;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface $converterBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface $nestedTaskSetValidator
      */
     public function __construct(
-        TaskPool $taskPool,
+        TaskRegistryInterface $taskRegistry,
         ConverterBuilderInterface $converterBuilder,
-        TaskYamlFactoryInterface $taskYamlFactory
+        TaskYamlFactoryInterface $taskYamlFactory,
+        TaskValidatorInterface $nestedTaskSetValidator
     ) {
-        $this->taskPool = $taskPool;
+        $this->taskRegistry = $taskRegistry;
         $this->converterBuilder = $converterBuilder;
         $this->taskYamlFactory = $taskYamlFactory;
+        $this->nestedTaskSetValidator = $nestedTaskSetValidator;
     }
 
     /**
@@ -105,7 +114,7 @@ class CommandBuilder implements CommandBuilderInterface
         }
 
         foreach ($data['tasks'] as $task) {
-            $taskData = $taskListData[$task['id']] ?? $this->taskPool->getNotNestedTaskSet($task['id']);
+            $taskData = $taskListData[$task['id']] ?? $this->getTaskAndValidate($task['id']);
 
             if ($taskData instanceof TaskInterface) {
                 foreach ($taskData->getCommands() as $command) {
@@ -124,6 +133,19 @@ class CommandBuilder implements CommandBuilderInterface
         }
 
         return $commands;
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    protected function getTaskAndValidate(string $id): TaskInterface
+    {
+        $taskFromRegistry = $this->taskRegistry->get($id);
+        $this->nestedTaskSetValidator->validate($taskFromRegistry);
+
+        return $taskFromRegistry;
     }
 
     /**

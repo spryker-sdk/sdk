@@ -9,7 +9,8 @@ namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
+use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Core\Domain\Enum\LifecycleName;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder;
@@ -36,8 +37,8 @@ class LifecycleBuilderTest extends Unit
      */
     protected function setUp(): void
     {
-        $taskPool = new TaskPool([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
-        $lifecycleEventDataBuilder = new LifecycleEventDataBuilder(new FileCollectionBuilder(), new LifecycleCommandBuilder(), new PlaceholderBuilder($taskPool));
+        $taskRegistry = new TaskRegistry([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
+        $lifecycleEventDataBuilder = new LifecycleEventDataBuilder(new FileCollectionBuilder(), new LifecycleCommandBuilder(), new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator()));
         $this->lifecycleBuilder = new LifecycleBuilder($lifecycleEventDataBuilder);
         parent::setUp();
     }

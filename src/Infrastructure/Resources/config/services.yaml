@@ -53,9 +53,10 @@ services:
   command_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder
     arguments:
-      - '@sdk_task_pool'
+      - '@sdk_task_registry'
       - '@converter_builder'
       - '@task_yaml_factory'
+      - '@sdk_nested_task_set_validator'
 
   file_collection_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder
@@ -78,7 +79,8 @@ services:
   placeholder_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder
     arguments:
-      - '@sdk_task_pool'
+      - '@sdk_task_registry'
+      - '@sdk_nested_task_set_validator'
 
   task_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder
@@ -101,7 +103,7 @@ services:
       - "@yaml_parser"
       - '@task_builder'
       - '@task_set_builder'
-      - '@sdk_task_pool'
+      - '@sdk_task_registry'
       - '@task_yaml_factory'
 
   context_repository:
@@ -205,7 +207,7 @@ services:
     arguments:
       - "@mapper.task_mapper"
       - "@doctrine"
-      - '@sdk_task_pool'
+      - '@sdk_task_registry'
 
   service.task_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager

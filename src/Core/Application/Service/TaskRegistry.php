@@ -7,12 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskPoolInterface;
-use SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException;
+use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
-class TaskPool implements TaskPoolInterface
+class TaskRegistry implements TaskRegistryInterface
 {
     /**
      * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
@@ -56,25 +54,5 @@ class TaskPool implements TaskPoolInterface
     public function set(string $id, TaskInterface $task): void
     {
         $this->existingTasks[$id] = $task;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
-     */
-    public function getNotNestedTaskSet(string $id): TaskInterface
-    {
-        $task = $this->get($id);
-        if ($task instanceof TaskSetInterface) {
-            throw new TaskSetNestingException(sprintf(
-                'Task set with id %s can\'t have another task set inside.',
-                $id,
-            ));
-        }
-
-        return $task;
     }
 }

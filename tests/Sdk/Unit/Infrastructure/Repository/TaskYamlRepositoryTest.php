@@ -11,8 +11,9 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
 use SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory;
+use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
@@ -63,11 +64,11 @@ class TaskYamlRepositoryTest extends Unit
     {
         parent::setUp();
 
-        $taskPool = new TaskPool([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
-        $placeholderBuilder = new PlaceholderBuilder($taskPool);
+        $taskRegistry = new TaskRegistry([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
+        $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator());
         $taskBuilder = new TaskBuilder(
             $placeholderBuilder,
-            new CommandBuilder($taskPool, new ConverterBuilder(), new TaskYamlFactory()),
+            new CommandBuilder($taskRegistry, new ConverterBuilder(), new TaskYamlFactory(), new NestedTaskSetValidator()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
                     new FileCollectionBuilder(),
@@ -85,7 +86,7 @@ class TaskYamlRepositoryTest extends Unit
             new Yaml(),
             $taskBuilder,
             new TaskSetBuilder($taskBuilder),
-            $taskPool,
+            $taskRegistry,
             new TaskYamlFactory(),
         );
     }

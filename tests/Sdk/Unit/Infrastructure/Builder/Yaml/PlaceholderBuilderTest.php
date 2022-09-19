@@ -9,7 +9,8 @@ namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\TaskPool;
+use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
+use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -33,7 +34,8 @@ class PlaceholderBuilderTest extends Unit
     protected function setUp(): void
     {
         $this->placeholderBuilder = new PlaceholderBuilder(
-            new TaskPool([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]),
+            new TaskRegistry([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]),
+            new NestedTaskSetValidator(),
         );
         parent::setUp();
     }

@@ -159,10 +159,13 @@ services:
       - !tagged_iterator report.array_converter
 
 
-  sdk_task_pool:
-      class: SprykerSdk\Sdk\Core\Application\Service\TaskPool
+  sdk_task_registry:
+      class: SprykerSdk\Sdk\Core\Application\Service\TaskRegistry
       arguments:
           - !tagged_iterator sdk.task
 
   task_yaml_factory:
       class: SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory
+
+  sdk_nested_task_set_validator:
+      class: SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator
