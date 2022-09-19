@@ -163,12 +163,6 @@ class RunTaskWrapperCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->projectWorkflow->getProjectWorkflows()) {
-            $output->writeln('<error>Your project has initialized workflow. Follow the workflow. See details for `sdk:workflow:run` command.</error>');
-
-            return static::FAILURE;
-        }
-
         $context = $this->buildContext($input);
 
         $context = $this->taskExecutor->execute($context, $this->name);
