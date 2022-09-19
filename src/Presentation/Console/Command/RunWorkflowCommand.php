@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -130,7 +131,7 @@ EOT,
                 new ReceiverValue(
                     'You have more than one initialized workflow. You have to select one.',
                     current(array_keys($workflows)),
-                    'string',
+                    ValueTypeEnum::TYPE_STRING,
                     $workflows,
                 ),
             ) : current($workflows);

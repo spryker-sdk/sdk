@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
 use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class Setting implements SettingInterface
@@ -66,7 +67,7 @@ class Setting implements SettingInterface
         string $path,
         $values,
         string $strategy = self::STRATEGY_REPLACE,
-        string $type = 'string',
+        string $type = ValueTypeEnum::TYPE_STRING,
         string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
         ?string $initializationDescription = null,

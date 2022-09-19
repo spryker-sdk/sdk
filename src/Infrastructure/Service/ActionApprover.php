@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Core\Application\Dependency\ActionApproverInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 
 class ActionApprover implements ActionApproverInterface
 {
@@ -37,7 +38,7 @@ class ActionApprover implements ActionApproverInterface
             new ReceiverValue(
                 $message,
                 true,
-                'boolean',
+                ValueTypeEnum::TYPE_BOOLEAN,
             ),
         );
     }

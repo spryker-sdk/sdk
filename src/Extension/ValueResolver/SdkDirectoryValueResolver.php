@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
-use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 
 class SdkDirectoryValueResolver extends AbstractValueResolver
 {
@@ -74,7 +74,7 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     public function getType(): string
     {
-        return Type::PATH_TYPE;
+        return ValueTypeEnum::TYPE_PATH;
     }
 
     /**

@@ -84,6 +84,29 @@ services:
     tags: ["sdk.cli_receiver_setup"]
     arguments:
       - "@question_helper"
+      - "@value_receiver.question_registry"
+
+  value_receiver.question_factory.string:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory
+    tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_factory.array:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_factory.boolean:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_factory.path:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_registry:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry
+      arguments:
+          - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
+
   cli_receiver_setup_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
     tags:

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ConfigPathValueResolver extends OriginValueResolver
@@ -39,7 +39,7 @@ class ConfigPathValueResolver extends OriginValueResolver
      */
     public function getType(): string
     {
-        return Type::STRING_TYPE;
+        return ValueTypeEnum::TYPE_STRING;
     }
 
     /**
@@ -64,16 +64,16 @@ class ConfigPathValueResolver extends OriginValueResolver
     /**
      * @return array<string>
      */
-    protected function getRequiredSettingPaths(): array
+    public function getSettingPaths(): array
     {
-        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
+        return $this->getRequiredSettingPaths();
     }
 
     /**
      * @return array<string>
      */
-    public function getSettingPaths(): array
+    protected function getRequiredSettingPaths(): array
     {
-        return $this->getRequiredSettingPaths();
+        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
     }
 }

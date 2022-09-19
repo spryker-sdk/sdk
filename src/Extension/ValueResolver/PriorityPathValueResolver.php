@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
-use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class PriorityPathValueResolver extends OriginValueResolver
@@ -67,7 +67,7 @@ class PriorityPathValueResolver extends OriginValueResolver
      */
     public function getType(): string
     {
-        return Type::PATH_TYPE;
+        return ValueTypeEnum::TYPE_PATH;
     }
 
     /**

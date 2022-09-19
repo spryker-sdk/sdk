@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Extension\ValueResolver\Enum\Type;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ReportDirValueResolver extends OriginValueResolver
@@ -62,7 +62,7 @@ class ReportDirValueResolver extends OriginValueResolver
      */
     public function getType(): string
     {
-        return Type::PATH_TYPE;
+        return ValueTypeEnum::TYPE_PATH;
     }
 
     /**
