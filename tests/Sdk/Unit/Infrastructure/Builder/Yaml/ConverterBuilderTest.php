@@ -12,6 +12,14 @@ use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Builder
+ * @group Yaml
+ * @group ConverterBuilderTest
+ */
 class ConverterBuilderTest extends Unit
 {
     /**

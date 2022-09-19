@@ -16,6 +16,14 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Builder
+ * @group Yaml
+ * @group PlaceholderBuilderTest
+ */
 class PlaceholderBuilderTest extends Unit
 {
     /**

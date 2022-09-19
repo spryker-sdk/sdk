@@ -14,6 +14,14 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterfac
 use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Core
+ * @group Application
+ * @group Service
+ * @group TaskRegistryTest
+ */
 class TaskRegistryTest extends Unit
 {
     /**

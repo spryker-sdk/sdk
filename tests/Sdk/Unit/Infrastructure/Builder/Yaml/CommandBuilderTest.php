@@ -18,6 +18,14 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Builder
+ * @group Yaml
+ * @group CommandBuilderTest
+ */
 class CommandBuilderTest extends Unit
 {
     /**

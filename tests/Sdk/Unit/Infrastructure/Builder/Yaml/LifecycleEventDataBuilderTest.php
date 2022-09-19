@@ -18,6 +18,14 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Builder
+ * @group Yaml
+ * @group LifecycleEventDataBuilderTest
+ */
 class LifecycleEventDataBuilderTest extends Unit
 {
     /**

@@ -12,6 +12,14 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilder;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Builder
+ * @group Yaml
+ * @group TaskSetBuilderTest
+ */
 class TaskSetBuilderTest extends Unit
 {
     /**
