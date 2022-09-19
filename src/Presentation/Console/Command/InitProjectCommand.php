@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
@@ -119,7 +120,7 @@ class InitProjectCommand extends Command
         if (file_exists($this->projectSettingFileName)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
-                    new ReceiverValue('Project settings file already exists, should it be overwritten?', false, 'boolean'),
+                    new ReceiverValue('Project settings file already exists, should it be overwritten?', false, ValueTypeEnum::TYPE_BOOLEAN),
                 )
             ) {
                 return static::SUCCESS;
@@ -160,7 +161,7 @@ class InitProjectCommand extends Command
                     new ReceiverValue(
                         sprintf('Would you like to change the default value for `%s` setting?', $settingEntity->getPath()),
                         false,
-                        'boolean',
+                        ValueTypeEnum::TYPE_BOOLEAN,
                     ),
                 );
             }

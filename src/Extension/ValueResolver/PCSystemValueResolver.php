@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class PCSystemValueResolver extends AbstractValueResolver
@@ -122,7 +123,7 @@ class PCSystemValueResolver extends AbstractValueResolver
      */
     public function getType(): string
     {
-        return 'string';
+        return ValueTypeEnum::TYPE_STRING;
     }
 
     /**

@@ -5,11 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service;
+namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,7 +23,15 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class CliValueReceiverTest extends Unit
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group ValueReceiver
+ * @group CliInteractionProcessorTest
+ */
+class CliInteractionProcessorTest extends Unit
 {
     /**
      * @return void
@@ -27,7 +41,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ChoiceQuestion::class, 'test1');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', null, 'array', ['test1' => '']);
 
         //Act
@@ -42,7 +57,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ChoiceQuestion::class, 'test1');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', 'test1', 'array', ['test1', 'test2']);
 
         //Act
@@ -57,7 +73,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ConfirmationQuestion::class, true);
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', true, 'boolean', []);
 
         //Act
@@ -72,7 +89,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(ChoiceQuestion::class, 'default');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', 'default', 'some-type', [1, 2, 3]);
 
         //Act
@@ -87,7 +105,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createArrayTypeWithChoicesAssertion('default');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', 'default', 'array', [1, 2, 3]);
 
         //Act
@@ -102,7 +121,8 @@ class CliValueReceiverTest extends Unit
         //Arrange
         $questionAssertion = $this->createQuestionAssertion(Question::class, 'test1');
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
-        $cliValueReceiver = $this->createCliValueReceiver($questionHelper);
+        $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
+        $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
         $receiverValue = new ReceiverValue('', null, 'array', ['test1' => '']);
 
         //Act
@@ -111,12 +131,15 @@ class CliValueReceiverTest extends Unit
 
     /**
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry $questionFactoriesRegistry
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
      */
-    protected function createCliValueReceiver(SymfonyQuestionHelper $questionHelper): CliInteractionProcessor
-    {
-        $cliValueReceiver = new CliInteractionProcessor($questionHelper);
+    protected function createCliValueReceiver(
+        SymfonyQuestionHelper $questionHelper,
+        QuestionFactoryRegistry $questionFactoriesRegistry
+    ): CliInteractionProcessor {
+        $cliValueReceiver = new CliInteractionProcessor($questionHelper, $questionFactoriesRegistry);
         $cliValueReceiver->setInput($this->createInputMock());
         $cliValueReceiver->setOutput($this->createOutputMock());
 
@@ -141,6 +164,33 @@ class CliValueReceiverTest extends Unit
             );
 
         return $questionHelperMock;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry
+     */
+    protected function createQuestionFactoriesRegistryMock(): QuestionFactoryRegistry
+    {
+        $questionFactoryRegistryMock = $this->createMock(
+            QuestionFactoryRegistry::class,
+        );
+
+        $mockMap = [
+            ValueTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,
+            ValueTypeEnum::TYPE_BOOLEAN => BooleanQuestionFactory::class,
+        ];
+
+        $questionFactoryRegistryMock->method('getQuestionFactoryByType')->willReturnCallback(
+            static function (string $type) use ($mockMap): QuestionFactoryInterface {
+                if (!isset($mockMap[$type])) {
+                    return new StringQuestionFactory();
+                }
+
+                return new $mockMap[$type]();
+            },
+        );
+
+        return $questionFactoryRegistryMock;
     }
 
     /**
