@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Tests\Helper\Infrastructure\Builder\Yaml;
 
 use Codeception\Module;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Core\Domain\Enum\LifecycleName;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskYamlDataHelper extends Module
@@ -201,7 +201,7 @@ class TaskYamlDataHelper extends Module
     /**
      * @param string $lifecycleName
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
-     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $eventData
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface $eventData
      *
      * @return void
      */

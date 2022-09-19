@@ -8,10 +8,10 @@
 namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
-use SprykerSdk\SdkContracts\Entity\FileInterface;
 
 /**
  * @group Sdk

@@ -63,7 +63,7 @@ class TaskSetBuilderTest extends Unit
             ->willReturn($task);
 
         // Act
-        $taskSet = $this->taskSetBuilder->buildTaskSet($taskYaml);
+        $taskSet = $this->taskSetBuilder->buildTask($taskYaml);
 
         // Assert
         $this->assertCount(count($placeholders), $taskSet->getPlaceholders());
