@@ -9,6 +9,9 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @deprecated Use universal `STATIC` value resolver with configuration instead.
+ */
 class StaticTextValueResolver extends StaticValueResolver
 {
     /**
@@ -32,17 +35,6 @@ class StaticTextValueResolver extends StaticValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
     {
-        $value = parent::getValue($context, $settingValues, $optional);
-
-        if (is_array($value)) {
-            $items = [];
-            foreach ($value as $item) {
-                $items[] = sprintf('\'%s\'', $item);
-            }
-
-            return $items;
-        }
-
-        return $value ? sprintf('\'%s\'', $value) : null;
+        return parent::getValue($context, $settingValues, $optional);
     }
 }

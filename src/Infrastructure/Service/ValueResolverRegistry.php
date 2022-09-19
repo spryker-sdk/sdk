@@ -204,7 +204,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected function loadValueResolver(string $loadableClassName): void
     {
-        //value resolver might already be registered as service
+        //value resolver might already be registered as service.
         if (array_key_exists($loadableClassName, $this->valueResolversClasses)) {
             return;
         }

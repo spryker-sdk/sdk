@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class FlagValueResolver extends StaticValueResolver
@@ -54,5 +55,13 @@ class FlagValueResolver extends StaticValueResolver
         $defaultValue = parent::getValue($context, $settingValues, $optional);
 
         return !$defaultValue ? '' : sprintf('--%s', $this->flag);
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return ValueTypeEnum::TYPE_BOOLEAN;
     }
 }

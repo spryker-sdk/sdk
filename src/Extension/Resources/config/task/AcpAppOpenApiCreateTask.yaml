@@ -3,7 +3,7 @@ id: "acp:openapi:create"
 short_description: "Create ACP OpenAPI file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/syncapi schema:openapi:create %openapi-file% %api-version% %title% -v"
 type: local_cli_interactive
 placeholders:
@@ -11,23 +11,25 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%title%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "title"
+      alias: "title"
       description: "The name of the App"
       type: string
   - name: "%openapi-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "openapi-file"
+      alias: "openapi-file"
+      option: "openapi-file"
       description: "Path to save OpenAPI file to"
       type: string
   - name: "%api-version%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "api-version"
+      alias: "api-version"
+      option: "api-version"
       description: "Version number of the OpenAPI schema"
       type: string

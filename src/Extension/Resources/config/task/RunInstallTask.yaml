@@ -3,6 +3,6 @@ id: "install"
 short_description: "Runs Sprykers install command."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php ./vendor/bin/install"
 type: local_cli

@@ -100,8 +100,12 @@ class TaskOptionBuilder
         foreach ($task->getPlaceholders() as $placeholder) {
             $valueResolver = $this->placeholderResolver->getValueResolver($placeholder);
 
+            if ($valueResolver->getAlias() === null) {
+                continue;
+            }
+
             $options[] = new InputOption(
-                $valueResolver->getAlias() ?? $valueResolver->getId(),
+                $valueResolver->getAlias(),
                 null,
                 $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                 $valueResolver->getDescription(),

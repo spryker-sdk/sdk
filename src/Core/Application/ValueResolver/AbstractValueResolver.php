@@ -42,8 +42,8 @@ abstract class AbstractValueResolver implements ValueResolverInterface
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
     {
-        if ($this->valueReceiver->has($this->getValueName())) {
-            return $this->valueReceiver->get($this->getValueName());
+        if ($this->getAlias() && $this->valueReceiver->has($this->getAlias())) {
+            return $this->valueReceiver->get($this->getAlias());
         }
 
         $requiredSettings = array_intersect(array_keys($settingValues), $this->getRequiredSettingPaths());
@@ -80,6 +80,14 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getDefaultValue()
+    {
+        return null;
+    }
+
+    /**
      * {@inheritDoc}
      *
      * @param array $settingValues
@@ -93,28 +101,37 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
+     *
+     * @return array<string>
      */
-    protected function getValueName(): string
+    public function getSettingPaths(): array
     {
-        if ($this->getAlias()) {
-            return $this->getAlias();
-        }
-
-        return $this->getId();
+        return [];
     }
 
     /**
      * @return array<string>
      */
-    abstract protected function getRequiredSettingPaths(): array;
+    protected function getRequiredSettingPaths(): array
+    {
+        return [];
+    }
 
     /**
-     * @param array<string, mixed> $settingValues
+     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
      *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingValueException
-     *
-     * @return mixed
+     * @return mixed|null
      */
-    abstract protected function getValueFromSettings(array $settingValues);
+    protected function getValueFromSettings(array $settingValues)
+    {
+        $settingPaths = $this->getSettingPaths();
+        if (!$settingPaths) {
+            return null;
+        }
+
+        $settingName = reset($settingPaths);
+
+        return $settingValues[$settingName] ?? null;
+    }
 }

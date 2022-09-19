@@ -70,16 +70,6 @@ class BusinessModelValueResolver extends AbstractValueResolver
     /**
      * {@inheritDoc}
      *
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @return string
      */
     public function getType(): string
@@ -95,16 +85,6 @@ class BusinessModelValueResolver extends AbstractValueResolver
     public function getAlias(): ?string
     {
         return static::ALIAS;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
     }
 
     /**
@@ -128,17 +108,5 @@ class BusinessModelValueResolver extends AbstractValueResolver
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
         return array_keys(static::REPOSITORIES);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
     }
 }

@@ -59,16 +59,6 @@ class AppTypeValueResolver extends AbstractValueResolver
     /**
      * {@inheritDoc}
      *
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @return string
      */
     public function getType(): string
@@ -89,19 +79,6 @@ class AppTypeValueResolver extends AbstractValueResolver
     /**
      * {@inheritDoc}
      *
-     * @param array $settingValues
-     * @param array $resolvedValues
-     *
-     * @return array
-     */
-    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
-    {
-        return array_keys(static::REPOSITORIES);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @return mixed
      */
     public function getDefaultValue()
@@ -110,20 +87,15 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
+     * {@inheritDoc}
      *
-     * @return mixed
+     * @param array $settingValues
+     * @param array $resolvedValues
+     *
+     * @return array
      */
-    protected function getValueFromSettings(array $settingValues)
+    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
-        return [];
+        return array_keys(static::REPOSITORIES);
     }
 }

@@ -9,16 +9,17 @@ namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
-use SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver;
+use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
+use SprykerSdk\Sdk\Extension\ValueResolver\PriorityPathValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
  * @group Sdk
  * @group Extension
  * @group ValueResolver
- * @group StaticValueResolverTest
+ * @group PriorityValueResolverTest
  */
-class StaticValueResolverTest extends Unit
+class PriorityValueResolverTest extends Unit
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
@@ -36,6 +37,7 @@ class StaticValueResolverTest extends Unit
     public function setUp(): void
     {
         $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
+
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -44,7 +46,7 @@ class StaticValueResolverTest extends Unit
     /**
      * @return void
      */
-    public function testGetValueOption(): void
+    public function testGetValue(): void
     {
         // Arrange
         $this->valueReceiver
@@ -54,59 +56,60 @@ class StaticValueResolverTest extends Unit
         $this->valueReceiver
             ->expects($this->once())
             ->method('get')
-            ->willReturn('value');
-        $valueResolver = new StaticValueResolver($this->valueReceiver);
-        $valueResolver->configure(['option' => 'test', 'name' => 'key', 'description' => '']);
-        // Act
-        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
-
-        // Assert
-        $this->assertSame('--test=\'value\'', $value);
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetValueOptions(): void
-    {
-        // Arrange
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('get')
-            ->willReturn(['value1', 'value2']);
-        $valueResolver = new StaticValueResolver($this->valueReceiver);
-        $valueResolver->configure(['option' => 'test', 'name' => 'key', 'description' => '']);
-        // Act
-        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
-
-        // Assert
-        $this->assertSame(['--test=\'value1\'', '--test=\'value2\''], $value);
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetValueArgument(): void
-    {
-        // Arrange
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('get')
-            ->willReturn('value');
-        $valueResolver = new StaticValueResolver($this->valueReceiver);
+            ->willReturn('./');
+        $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);
         // Act
         $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
 
         // Assert
-        $this->assertSame('\'value\'', $value);
+        $this->assertSame('./', $value);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetValueFromSettings(): void
+    {
+        // Arrange
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('has')
+            ->willReturn(true);
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn('tests');
+        $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['name' => 'key', 'description' => '', 'settingPaths' => ['one', 'two']]);
+        // Act
+        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value', 'one' => 'nonExist', 'two' => '.']);
+
+        // Assert
+        $this->assertSame('./tests', $value);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetValueException(): void
+    {
+        // Arrange
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('has')
+            ->willReturn(true);
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn('./none');
+        $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['name' => 'key', 'description' => '']);
+
+        // Assert
+        $this->expectException(UnresolvableValueExceptionException::class);
+
+        // Act
+        $valueResolver->getValue($this->context, ['defaultValue' => './data/file.txt']);
     }
 }

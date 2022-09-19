@@ -9,17 +9,16 @@ namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
-use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Extension\ValueResolver\BusinessModelValueResolver;
+use SprykerSdk\Sdk\Extension\ValueResolver\ConfigPathValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
  * @group Sdk
  * @group Extension
  * @group ValueResolver
- * @group BusinessModelValueResolverTest
+ * @group ConfigValueResolverTest
  */
-class BusinessModelValueResolverTest extends Unit
+class ConfigValueResolverTest extends Unit
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
@@ -37,6 +36,7 @@ class BusinessModelValueResolverTest extends Unit
     public function setUp(): void
     {
         $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
+
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -45,31 +45,23 @@ class BusinessModelValueResolverTest extends Unit
     /**
      * @return void
      */
-    public function testGetValueIfEmpty(): void
+    public function testGetValue(): void
     {
         // Arrange
-        $repositories = [
-            'b2b' => 'https://github.com/spryker-shop/b2b-demo-shop.git',
-            'b2c' => 'https://github.com/spryker-shop/b2c-demo-shop.git',
-        ];
-        $receiverValue = new ReceiverValue(
-            'Choose project for installation',
-            array_key_first($repositories),
-            'string',
-            array_keys($repositories),
-        );
         $this->valueReceiver
             ->expects($this->once())
-            ->method('receiveValue')
-            ->with($receiverValue)
-            ->willReturn('b2b');
-
-        $valueResolver = new BusinessModelValueResolver($this->valueReceiver);
-
+            ->method('has')
+            ->willReturn(true);
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn('');
+        $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['name' => 'key', 'description' => '']);
         // Act
-        $value = $valueResolver->getValue($this->context, []);
+        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
 
         // Assert
-        $this->assertSame('https://github.com/spryker-shop/b2b-demo-shop.git', $value);
+        $this->assertSame('/', $value);
     }
 }

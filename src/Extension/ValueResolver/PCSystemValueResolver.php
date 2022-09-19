@@ -109,16 +109,6 @@ class PCSystemValueResolver extends AbstractValueResolver
     /**
      * {@inheritDoc}
      *
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @return string
      */
     public function getType(): string
@@ -134,46 +124,5 @@ class PCSystemValueResolver extends AbstractValueResolver
     public function getAlias(): ?string
     {
         return static::ALIAS;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return mixed
-     */
-    public function getDefaultValue()
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param array $settingValues
-     * @param array $resolvedValues
-     *
-     * @return array
-     */
-    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
     }
 }
