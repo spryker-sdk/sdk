@@ -48,7 +48,7 @@ class PriorityPathValueResolver extends OriginValueResolver
 
         foreach ($this->getSettingPaths() as $settingKey) {
             $path = $settingValues[$settingKey];
-            if (strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
+            if ($path && strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
                 $path = rtrim($path, DIRECTORY_SEPARATOR);
             }
             $path = implode(DIRECTORY_SEPARATOR, [$path, $relativePath]);

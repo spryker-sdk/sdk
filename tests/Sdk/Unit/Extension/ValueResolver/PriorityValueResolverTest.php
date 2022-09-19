@@ -69,6 +69,29 @@ class PriorityValueResolverTest extends Unit
     /**
      * @return void
      */
+    public function testGetValueFromSettings(): void
+    {
+        // Arrange
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('has')
+            ->willReturn(true);
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn('tests');
+        $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['name' => 'key', 'description' => '', 'settingPaths' => ['one', 'two']]);
+        // Act
+        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value', 'one' => 'nonExist', 'two' => '.']);
+
+        // Assert
+        $this->assertSame('./tests', $value);
+    }
+
+    /**
+     * @return void
+     */
     public function testGetValueException(): void
     {
         // Arrange
