@@ -517,6 +517,46 @@ class HelloStagedTaskSet implements TaskSetInterface
     /**
      * {@inheritDoc}
      *
+     * @return array<string, array<string>>
+     */
+    public function getTagsMap(): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array<string, bool>
+     */
+    public function getStopOnErrorMap(): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array<string, array<string, array>>
+     */
+    public function getOverridePlaceholdersMap(): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array<string, array<string, string>>
+     */
+    public function getSharedPlaceholdersMap(): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface
