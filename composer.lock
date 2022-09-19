@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5a82dc944ca293ec0ff3896a71c30d4",
+    "content-hash": "a61ad25bd788538b37ab562315b1ba86",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6304,16 +6304,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "0.4.0",
+            "version": "dev-feature/sdk-848-refactor-init-project-value",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "8c28aeccc9e7af883a6138f7a52356c0132c52c8"
+                "reference": "e66e0a2b99a946a2238e58a95930f425456f84d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/8c28aeccc9e7af883a6138f7a52356c0132c52c8",
-                "reference": "8c28aeccc9e7af883a6138f7a52356c0132c52c8",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/e66e0a2b99a946a2238e58a95930f425456f84d6",
+                "reference": "e66e0a2b99a946a2238e58a95930f425456f84d6",
                 "shasum": ""
             },
             "require": {
@@ -6337,9 +6337,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.0"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-848-refactor-init-project-value"
             },
-            "time": "2022-09-15T11:05:28+00:00"
+            "time": "2022-09-19T07:46:01+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14430,10 +14430,18 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "dev-feature/sdk-848-refactor-init-project-value",
+            "alias": "0.4.0",
+            "alias_normalized": "0.4.0.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -14454,5 +14462,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
