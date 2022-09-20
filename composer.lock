@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08b6c87fdfd2674746fff7ddd0535448",
+    "content-hash": "9830bc1bf61b17134cd5aa4f66a224e4",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6304,7 +6304,7 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-899-extend-task-set-placeholders",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
@@ -6323,6 +6323,7 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -14433,7 +14434,7 @@
     "aliases": [
         {
             "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-899-extend-task-set-placeholders",
+            "version": "9999999-dev",
             "alias": "0.4.0",
             "alias_normalized": "0.4.0.0"
         }
