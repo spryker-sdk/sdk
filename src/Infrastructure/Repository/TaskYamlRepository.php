@@ -23,8 +23,6 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
-use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
