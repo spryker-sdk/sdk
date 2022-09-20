@@ -67,9 +67,10 @@ placeholders:
       description: "Path to save AsyncAPI file to"
       type: string
   - name: "%property%"
-    value_resolver: ARRAY_OPTION
+    value_resolver: STATIC
     optional: false
     configuration:
       alias: "property"
       option: "property"
       description: "When this option is set the property value will be added to the message definition of the specified channel. Example propertyA:valueA [enter for newline] propertyB:valueB"
+      type: array

@@ -10,6 +10,9 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @deprecated Use `STATIC` value resolver with type `array`.
+ */
 class ArrayOptionValueResolver extends StaticValueResolver
 {
     /**
