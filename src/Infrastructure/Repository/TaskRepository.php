@@ -12,11 +12,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Domain\ValueObject\ConfigurableCommand;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory;
+use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
@@ -241,6 +243,13 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
                 if ($subTask === null) {
                     throw new InvalidArgumentException(sprintf('Task %s not found', $subTask));
                 }
+            }
+            if ($subTask instanceof StagedTaskInterface) {
+                foreach ($subTask->getCommands() as $command) {
+                    $commands[$subTask->getId()][] = new ConfigurableCommand($command, null, null, $subTask->getStage());
+                }
+
+                continue;
             }
             $commands[$subTask->getId()] = $subTask->getCommands();
         }
