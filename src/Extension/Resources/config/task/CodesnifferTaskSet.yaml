@@ -12,3 +12,8 @@ tasks:
   - id: "validation:php:codestyle-check"
     stop_on_error: false
 placeholders: []
+shared_placeholders:
+    '%sdk_dir%': ~
+    '%severity%': ~
+    '%path%': ~
+    '%reportDir%': ~

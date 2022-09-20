@@ -15,9 +15,34 @@ tasks:
     stop_on_error: true
   - id: "validation:php:architecture"
     stop_on_error: true
+    placeholder_overrides:
+        '%config%':
+            name: "%phpmd_config%"
+            value_resolver: CONFIG_PATH
+            optional: true
+            configuration:
+                param: "config"
+                name: "config"
+                description: "Path to architecture validation config file"
+                defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
   - id: "tests:sdk:codecept"
     stop_on_error: true
   - id: "validation:php:rector"
     stop_on_error: true
-
+    placeholder_overrides:
+        '%config%':
+            name: "%rector_config%"
+            value_resolver: OPTION
+            optional: true
+            configuration:
+                param: "config"
+                name: "config"
+                description: "Path to rector validation config file"
+                type: string
+                defaultValue: "architector.php"
 placeholders: []
+shared_placeholders:
+    '%sdk_dir%': ~
+    '%severity%': ~
+    '%path%': ~
+    '%reportDir%': ~
