@@ -78,6 +78,8 @@ class HelloStagedTaskSet implements TaskSetInterface
         return [
             new class implements StagedTaskInterface {
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<string>
                  */
                 public function getStages(): array
@@ -86,6 +88,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getStage(): string
@@ -94,6 +98,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getId(): string
@@ -102,6 +108,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getShortDescription(): string
@@ -110,6 +118,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
                  */
                 public function getCommands(): array
@@ -118,6 +128,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
                  */
                 public function getPlaceholders(): array
@@ -136,6 +148,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string|null
                  */
                 public function getHelp(): ?string
@@ -144,6 +158,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getVersion(): string
@@ -152,6 +168,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return bool
                  */
                 public function isDeprecated(): bool
@@ -160,6 +178,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return bool
                  */
                 public function isOptional(): bool
@@ -168,6 +188,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string|null
                  */
                 public function getSuccessor(): ?string
@@ -176,6 +198,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
                  */
                 public function getLifecycle(): LifecycleInterface
@@ -189,6 +213,8 @@ class HelloStagedTaskSet implements TaskSetInterface
             },
             new class implements StagedTaskInterface {
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<string>
                  */
                 public function getStages(): array
@@ -197,6 +223,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getStage(): string
@@ -205,6 +233,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getId(): string
@@ -213,6 +243,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getShortDescription(): string
@@ -221,6 +253,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
                  */
                 public function getCommands(): array
@@ -229,6 +263,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
                  */
                 public function getPlaceholders(): array
@@ -247,6 +283,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string|null
                  */
                 public function getHelp(): ?string
@@ -255,6 +293,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getVersion(): string
@@ -263,6 +303,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return bool
                  */
                 public function isDeprecated(): bool
@@ -271,6 +313,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return bool
                  */
                 public function isOptional(): bool
@@ -279,6 +323,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string|null
                  */
                 public function getSuccessor(): ?string
@@ -287,6 +333,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
                  */
                 public function getLifecycle(): LifecycleInterface
@@ -300,6 +348,8 @@ class HelloStagedTaskSet implements TaskSetInterface
             },
             new class implements StagedTaskInterface {
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<string>
                  */
                 public function getStages(): array
@@ -308,6 +358,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getStage(): string
@@ -316,6 +368,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getId(): string
@@ -324,6 +378,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getShortDescription(): string
@@ -332,6 +388,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
                  */
                 public function getCommands(): array
@@ -340,6 +398,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
                  */
                 public function getPlaceholders(): array
@@ -348,6 +408,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string|null
                  */
                 public function getHelp(): ?string
@@ -356,6 +418,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string
                  */
                 public function getVersion(): string
@@ -364,6 +428,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return bool
                  */
                 public function isDeprecated(): bool
@@ -372,6 +438,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return bool
                  */
                 public function isOptional(): bool
@@ -380,6 +448,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return string|null
                  */
                 public function getSuccessor(): ?string
@@ -388,6 +458,8 @@ class HelloStagedTaskSet implements TaskSetInterface
                 }
 
                 /**
+                 * {@inheritDoc}
+                 *
                  * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
                  */
                 public function getLifecycle(): LifecycleInterface
@@ -403,6 +475,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getVersion(): string
@@ -411,6 +485,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isDeprecated(): bool
@@ -419,6 +495,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool
@@ -427,6 +505,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getSuccessor(): ?string
@@ -441,7 +521,10 @@ class HelloStagedTaskSet implements TaskSetInterface
      */
     public function getTagsMap(): array
     {
-        return [];
+        return [
+            'hello:php:stage_default' => ['stage_default'],
+            'hello:php:stage_b' => ['stage_b'],
+        ];
     }
 
     /**
@@ -451,7 +534,9 @@ class HelloStagedTaskSet implements TaskSetInterface
      */
     public function getStopOnErrorMap(): array
     {
-        return [];
+        return [
+            'hello:php:stage_default' => true,
+        ];
     }
 
     /**
@@ -475,6 +560,8 @@ class HelloStagedTaskSet implements TaskSetInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface

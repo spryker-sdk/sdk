@@ -9,17 +9,17 @@ namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 
 class ContextFactory implements ContextFactoryInterface
 {
     /**
-     * @var \SprykerSdk\SdkContracts\Entity\ContextInterface|null
+     * @var \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface|null
      */
     protected ?ContextInterface $context = null;
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function getContext(): ContextInterface
     {

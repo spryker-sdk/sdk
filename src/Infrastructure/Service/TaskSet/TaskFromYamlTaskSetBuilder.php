@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
@@ -17,7 +18,6 @@ use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetCommandsFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetOverrideMapFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetPlaceholdersFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
@@ -145,7 +145,7 @@ class TaskFromYamlTaskSetBuilder implements TaskFromYamlTaskSetBuilderInterface
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface
      */
     protected function getLifeCycle(): TaskLifecycleInterface
     {

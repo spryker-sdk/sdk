@@ -7,16 +7,13 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
-class NamespaceValueResolver extends AbstractValueResolver
+class NamespaceValueResolver extends OriginValueResolver
 {
     /**
-     * @var string
-     */
-    public const ALIAS = 'namespace';
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -25,38 +22,22 @@ class NamespaceValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return string
-     */
-    public function getAlias(): string
-    {
-        return static::ALIAS;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return 'Namespace name';
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'string';
-    }
-
-    /**
+     * {@inheritDoc}
+     *
+     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param array $settingValues
+     * @param bool $optional
+     *
      * @return mixed
      */
-    public function getDefaultValue()
+    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false)
     {
-        return 'Pyz';
+        return $this->formatValue(parent::getValue($context, $settingValues, $optional));
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $settingValues
      * @param array $resolvedValues
      *
@@ -65,31 +46,5 @@ class NamespaceValueResolver extends AbstractValueResolver
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
         return array_merge($settingValues['projectNamespaces'], $settingValues['coreNamespaces']);
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return null;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return ['projectNamespaces', 'coreNamespaces'];
     }
 }

@@ -8,19 +8,19 @@
 namespace SprykerSdk\Sdk\Infrastructure\Cache;
 
 use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 
 class InMemoryContextCacheStorage implements ContextCacheStorageInterface
 {
     /**
-     * @var array<string, \SprykerSdk\SdkContracts\Entity\ContextInterface>
+     * @var array<string, \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface>
      */
     protected array $contextStorage = [];
 
     /**
      * @param string $key
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface|null
      */
     public function get(string $key): ?ContextInterface
     {
@@ -28,7 +28,7 @@ class InMemoryContextCacheStorage implements ContextCacheStorageInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Entity\ContextInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface>
      */
     public function getAll(): array
     {
@@ -37,7 +37,7 @@ class InMemoryContextCacheStorage implements ContextCacheStorageInterface
 
     /**
      * @param string $key
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */

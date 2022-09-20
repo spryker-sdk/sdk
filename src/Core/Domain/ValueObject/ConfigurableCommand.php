@@ -31,13 +31,19 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
     protected ?array $tags;
 
     /**
+     * @var string|null
+     */
+    protected ?string $stage;
+
+    /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      * @param bool|null $stopOnError
      * @param array<string>|null $tags
+     * @param string|null $stage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(CommandInterface $command, ?bool $stopOnError = null, ?array $tags = null)
+    public function __construct(CommandInterface $command, ?bool $stopOnError = null, ?array $tags = null, ?string $stage = null)
     {
         if (!($command instanceof ExecutableCommandInterface)) {
             throw new InvalidArgumentException(sprintf('Command %s should be executable', get_class($command)));
@@ -46,6 +52,7 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
         $this->command = $command;
         $this->stopOnError = $stopOnError;
         $this->tags = $tags;
+        $this->stage = $stage;
     }
 
     /**
@@ -105,7 +112,7 @@ class ConfigurableCommand implements CommandInterface, ExecutableCommandInterfac
      */
     public function getStage(): string
     {
-        return $this->command->getStage();
+        return $this->stage ?? $this->command->getStage();
     }
 
     /**

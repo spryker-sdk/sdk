@@ -14,6 +14,8 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 class GenerateAppCommand implements CommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -22,6 +24,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -30,6 +34,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -38,6 +44,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -46,6 +54,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -54,6 +64,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

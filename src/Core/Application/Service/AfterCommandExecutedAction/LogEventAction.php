@@ -8,20 +8,20 @@
 namespace SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
+use SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Event\TaskExecutedEvent;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 class LogEventAction implements AfterCommandExecutedActionInterface
 {
     /**
-     * @var \SprykerSdk\SdkContracts\Logger\EventLoggerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface
      */
     protected EventLoggerInterface $eventLogger;
 
     /**
-     * @param \SprykerSdk\SdkContracts\Logger\EventLoggerInterface $eventLogger
+     * @param \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface $eventLogger
      */
     public function __construct(EventLoggerInterface $eventLogger)
     {
@@ -30,9 +30,9 @@ class LogEventAction implements AfterCommandExecutedActionInterface
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {

@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner;
+use SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner;
 use SprykerSdk\Sdk\Infrastructure\Service\ProgressBar;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use Symfony\Component\Console\Helper\HelperSet;

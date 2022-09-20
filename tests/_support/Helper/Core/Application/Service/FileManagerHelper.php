@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Tests\Helper\Core\Application\Service;
 use Codeception\Module;
 use org\bovigo\vfs\vfsStreamFile;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
-use SprykerSdk\SdkContracts\Entity\FileInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 
 class FileManagerHelper extends Module
 {
@@ -18,7 +18,7 @@ class FileManagerHelper extends Module
      * @param string $path
      * @param string $content
      *
-     * @return \SprykerSdk\SdkContracts\Entity\FileInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface
      */
     public function createFile(string $path, string $content): FileInterface
     {

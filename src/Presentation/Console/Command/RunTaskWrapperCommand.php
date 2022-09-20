@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -163,12 +163,6 @@ class RunTaskWrapperCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->projectWorkflow->getProjectWorkflows()) {
-            $output->writeln('<error>Your project has initialized workflow. Follow the workflow. See details for `sdk:workflow:run` command.</error>');
-
-            return static::FAILURE;
-        }
-
         $context = $this->buildContext($input);
 
         $context = $this->taskExecutor->execute($context, $this->name);
@@ -180,7 +174,7 @@ class RunTaskWrapperCommand extends Command
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -239,7 +233,7 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function buildContext(InputInterface $input): ContextInterface
     {
@@ -293,7 +287,7 @@ class RunTaskWrapperCommand extends Command
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -315,7 +309,7 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function createContext(InputInterface $input): ContextInterface
     {

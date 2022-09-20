@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Report\ReportInterface;
 
@@ -30,7 +30,7 @@ class ContextSerializer
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return string
      */
@@ -49,7 +49,7 @@ class ContextSerializer
     /**
      * @param string $content
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function deserialize(string $content): ContextInterface
     {

@@ -15,6 +15,8 @@ use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 class CheckGitCommand implements CommandInterface, ErrorCommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -23,6 +25,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getErrorMessage(): string
@@ -31,6 +35,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -39,6 +45,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -47,6 +55,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -55,6 +65,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -63,6 +75,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

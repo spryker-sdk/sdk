@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Extension\Converter;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
 {
@@ -41,6 +41,8 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     protected string $producer;
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $configuration
      *
      * @return void
@@ -52,7 +54,9 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * {@inheritDoc}
+     *
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
     {
@@ -81,7 +85,7 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     /**
      * @param string $report
      *
-     * @return array<\SprykerSdk\SdkContracts\Violation\ViolationInterface>
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
      */
     protected function parseViolations(string $report): array
     {
@@ -111,7 +115,7 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     /**
      * @param array $reportLines
      * @param int $offset
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface> $violations
      *
      * @return void
      */
@@ -131,7 +135,7 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     /**
      * @param array $reportLines
      * @param int $offset
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface> $violations
      *
      * @return void
      */
@@ -162,7 +166,7 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     /**
      * @param array $reportLines
      * @param int $offset
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface> $violations
      *
      * @return void
      */
@@ -179,7 +183,7 @@ class FrontendSnifferViolationReportConverter extends AbstractViolationConverter
     /**
      * @param array $reportLines
      * @param int $offset
-     * @param array<\SprykerSdk\SdkContracts\Violation\ViolationInterface> $violations
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface> $violations
      *
      * @return void
      */

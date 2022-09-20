@@ -12,7 +12,7 @@ services:
   action_approver:
     class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
     arguments:
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
   progress_bar:
     class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
     tags:
@@ -64,7 +64,7 @@ services:
   initializer_service:
     class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
     arguments:
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
       - "@setting_repository"
       - "@service.task_manager"
       - "@task_yaml_repository"
@@ -72,19 +72,46 @@ services:
     class: Symfony\Component\Console\Helper\ProcessHelper
 
   local_cli_command_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\LocalCliRunner
+    class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner
     tags: ["command.runner"]
     arguments:
       - "@process_helper"
       - "@progress_bar"
   php_command_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\PhpCommandRunner
+    class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
     tags: ["command.runner"]
-  cli_value_receiver:
-    class: SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+  cli_interaction_processor:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
     tags: ["sdk.cli_receiver_setup"]
     arguments:
       - "@question_helper"
+      - "@value_receiver.question_registry"
+
+  value_receiver.question_factory.int:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\IntQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_factory.string:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory
+    tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_factory.array:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_factory.boolean:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_factory.path:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
+  value_receiver.question_registry:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry
+      arguments:
+          - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
+
   cli_receiver_setup_listener:
     class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
     tags:
@@ -107,7 +134,7 @@ services:
       - "@local_cli_command_runner"
 
   value_receiver:
-    alias: "cli_value_receiver"
+    alias: "cli_interaction_processor"
   autoloader_service:
     class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
     arguments:
@@ -303,7 +330,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
     tags: [ "sdk.cli_receiver_setup" ]
     arguments:
-      - "@cli_value_receiver"
+      - "@cli_interaction_processor"
       - "@service_container"
       - "@context_factory"
 

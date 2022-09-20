@@ -3,67 +3,73 @@ id: "acp:asyncapi:message-add"
 short_description: "Create ACP AsyncAPI file."
 help: ~
 stage: build
-version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:message:add %channel-name% %message-name% %operation-id% %asyncapi-file% %property% %from-transfer-class% %message-type% %add-metadata% -v"
+version: 0.2.0
+command: "php %executable_command% schema:asyncapi:message:add %channel-name% %message-name% %operation-id% %asyncapi-file% %property% %from-transfer-class% %message-type% %add-metadata% -v"
 type: local_cli_interactive
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/asyncapi"
+      settingPaths: [ "project_dir", "sdk_dir" ]
   - name: '%message-type%'
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: 'message-type'
+      alias: 'message-type'
+      option: 'message-type'
       choiceValues: ['publish', 'subscribe']
       description: 'Select event type for a message'
   - name: '%add-metadata%'
     value_resolver: FLAG
     optional: true
     configuration:
-      name: 'add-metadata'
+      alias: 'add-metadata'
       defaultValue: true
-      type: boolean
       description: 'When this option is set the defined default set of metadata will be added to the message definition'
   - name: "%from-transfer-class%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "from-transfer-class"
+      alias: "from-transfer-class"
+      option: "from-transfer-class"
       description: "The Transfer class name from which the message should be created"
       type: string
   - name: "%operation-id%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "operation-id"
+      alias: "operation-id"
       description: "Operation ID of the message. Operation ID is required for each message"
       type: string
   - name: "%message-name%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "message-name"
+      alias: "message-name"
       description: "The message name"
       type: string
   - name: "%channel-name%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "channel-name"
+      alias: "channel-name"
       description: "Channel name for message"
       type: string
   - name: "%asyncapi-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "asyncapi-file"
+      alias: "asyncapi-file"
+      option: "asyncapi-file"
       description: "Path to save AsyncAPI file to"
       type: string
   - name: "%property%"
     value_resolver: ARRAY_OPTION
     optional: false
     configuration:
-      name: "property"
+      alias: "property"
+      option: "property"
       description: "When this option is set the property value will be added to the message definition of the specified channel. Example propertyA:valueA [enter for newline] propertyB:valueB"
-      type: array

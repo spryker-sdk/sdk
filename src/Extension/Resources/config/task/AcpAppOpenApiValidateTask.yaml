@@ -3,7 +3,7 @@ id: "acp:openapi:validate"
 short_description: "Validate ACP OpenAPI file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/syncapi schema:openapi:validate %openapi-file% -v"
 type: local_cli
 placeholders:
@@ -11,9 +11,10 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%openapi-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "openapi-file"
+      alias: "openapi-file"
+      option: "openapi-file"
       description: "Path to OpenAPI file"
       type: string
