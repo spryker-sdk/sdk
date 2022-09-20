@@ -34,6 +34,10 @@ class StaticValueResolver extends OriginValueResolver
     {
         $value = parent::getValue($context, $settingValues, $optional);
 
+        if ($value === null) {
+            return null;
+        }
+
         if (!is_array($value)) {
             return $value ? $this->formatValue(sprintf('\'%s\'', $value)) : null;
         }
@@ -43,6 +47,6 @@ class StaticValueResolver extends OriginValueResolver
             $items[] = $this->formatValue(sprintf('\'%s\'', $item));
         }
 
-        return $items;
+        return implode(' ', $items);
     }
 }

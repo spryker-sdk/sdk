@@ -61,7 +61,7 @@ class StaticTextValueResolverTest extends Unit
         $value = $valueResolver->getValue($this->context, []);
 
         // Assert
-        $this->assertSame(['\'value1\'', '\'value2\''], $value);
+        $this->assertSame('\'value1\' \'value2\'', $value);
     }
 
     /**

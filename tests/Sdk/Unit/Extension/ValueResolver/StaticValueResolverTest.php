@@ -84,7 +84,7 @@ class StaticValueResolverTest extends Unit
         $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
 
         // Assert
-        $this->assertSame(['--test=\'value1\'', '--test=\'value2\''], $value);
+        $this->assertSame('--test=\'value1\' --test=\'value2\'', $value);
     }
 
     /**
