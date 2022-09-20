@@ -36,13 +36,7 @@ class ArrayOptionValueResolver extends StaticValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = true)
     {
-        $values = parent::getValue($context, $settingValues, $optional);
-
-        if ($values === null) {
-            return null;
-        }
-
-        return implode(' ', $values);
+        return parent::getValue($context, $settingValues, $optional);
     }
 
     /**
