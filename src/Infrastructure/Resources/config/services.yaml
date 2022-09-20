@@ -87,6 +87,10 @@ services:
       - "@question_helper"
       - "@value_receiver.question_registry"
 
+  value_receiver.question_factory.int:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\IntQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
+
   value_receiver.question_factory.string:
     class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory
     tags: [ "sdk.cli_value_receiver_factory" ]
