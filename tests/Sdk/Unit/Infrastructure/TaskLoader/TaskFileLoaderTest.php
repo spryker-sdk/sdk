@@ -5,9 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
+namespace Sdk\Unit\Infrastructure\TaskLoader;
 
 use Codeception\Test\Unit;
+use Hello\Task\HelloStagedTaskSet;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -31,6 +32,13 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group TaskLoader
+ * @group TaskFileLoaderTest
+ */
 class TaskFileLoaderTest extends Unit
 {
     /**
@@ -65,7 +73,10 @@ class TaskFileLoaderTest extends Unit
     {
         parent::setUp();
 
-        $taskRegistry = new TaskRegistry([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
+        $taskRegistry = new TaskRegistry([
+            new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class)),
+            new HelloStagedTaskSet(),
+        ]);
         $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator());
         $taskBuilder = new TaskBuilder(
             $placeholderBuilder,
@@ -133,7 +144,7 @@ class TaskFileLoaderTest extends Unit
         $result = $this->taskFileLoader->findAll();
 
         // Assert
-        $this->assertCount(4, $result);
+        $this->assertCount(5, $result);
     }
 
     /**
