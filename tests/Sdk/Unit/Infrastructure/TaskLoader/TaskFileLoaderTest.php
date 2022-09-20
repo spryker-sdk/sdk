@@ -29,6 +29,7 @@ use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskFileLoader;
 use SprykerSdk\Sdk\Infrastructure\TaskReader\TaskFileReader;
 use SprykerSdk\Sdk\Tests\UnitTester;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -73,9 +74,14 @@ class TaskFileLoaderTest extends Unit
     {
         parent::setUp();
 
+        $taskSetWithStringReference = $this->createMock(TaskSetInterface::class);
+        $taskSetWithStringReference->method('getId')->willReturn('test:task:set');
+        $taskSetWithStringReference->method('getSubTasks')->willReturn(['violation:php:clean-report-dir']);
+
         $taskRegistry = new TaskRegistry([
             new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class)),
             new HelloStagedTaskSet(),
+            $taskSetWithStringReference,
         ]);
         $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator());
         $taskBuilder = new TaskBuilder(
@@ -144,7 +150,7 @@ class TaskFileLoaderTest extends Unit
         $result = $this->taskFileLoader->findAll();
 
         // Assert
-        $this->assertCount(5, $result);
+        $this->assertCount(6, $result);
     }
 
     /**
