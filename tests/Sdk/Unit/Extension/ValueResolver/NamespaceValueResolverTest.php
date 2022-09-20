@@ -8,17 +8,23 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\ValueResolver\NamespaceValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group NamespaceValueResolverTest
+ */
 class NamespaceValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -30,7 +36,7 @@ class NamespaceValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -46,16 +52,18 @@ class NamespaceValueResolverTest extends Unit
             'Namespace name',
             'Pyz',
             'string',
-            ['test1', 'test2', 'test3'],
+            ['Pyz', 'test2', 'test3'],
         );
         $this->valueReceiver
             ->expects($this->once())
             ->method('receiveValue')
-            ->with($receiverValue);
+            ->with($receiverValue)
+            ->willReturn('Pyz');
 
         $valueResolver = new NamespaceValueResolver($this->valueReceiver);
+        $valueResolver->configure(['defaultValue' => 'Pyz', 'description' => 'Namespace name']);
 
         // Act
-        $valueResolver->getValue($this->context, ['projectNamespaces' => ['test1', 'test2'], 'coreNamespaces' => ['test3']]);
+        $valueResolver->getValue($this->context, ['projectNamespaces' => ['Pyz', 'test2'], 'coreNamespaces' => ['test3']]);
     }
 }

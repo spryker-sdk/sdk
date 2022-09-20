@@ -12,6 +12,13 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group Setting
+ * @group Initializer
+ * @group ProjectUuidInitializerTest
+ */
 class ProjectUuidInitializerTest extends Unit
 {
     /**

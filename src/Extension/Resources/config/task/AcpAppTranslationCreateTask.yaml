@@ -3,7 +3,7 @@ id: "acp:translation:create"
 short_description: "Create ACP translation file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:translation:create %translation-file%"
 type: local_cli_interactive
 placeholders:
@@ -11,9 +11,10 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%translation-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "translation-file"
+      alias: "translation-file"
+      option: "translation-file"
       description: "Path to save translation file to"
       type: string

@@ -8,16 +8,22 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\ConfigPathValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group ConfigPathValueResolverTest
+ */
 class ConfigPathValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -29,7 +35,7 @@ class ConfigPathValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->valueReceiver
             ->expects($this->once())
             ->method('has')
@@ -50,6 +56,7 @@ class ConfigPathValueResolverTest extends Unit
             ->method('get')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
         $value = $valueResolver->getValue($this->context, ['project_dir' => '.', 'sdk_dir' => 'non_exist']);
 
@@ -68,6 +75,7 @@ class ConfigPathValueResolverTest extends Unit
             ->method('get')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
         $value = $valueResolver->getValue($this->context, ['project_dir' => 'non_exist', 'sdk_dir' => '.']);
 

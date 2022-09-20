@@ -50,6 +50,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -67,6 +69,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -75,6 +79,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -83,6 +89,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -91,6 +99,8 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -99,11 +109,23 @@ class ChangeNamesCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
     {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getStage(): string
+    {
+        return ContextInterface::DEFAULT_STAGE;
     }
 
     /**
@@ -141,13 +163,5 @@ class ChangeNamesCommand implements ExecutableCommandInterface
         $this->dockerFileModifier->replace(function (string $content) use ($appName) {
             return str_replace('spryker.local', $appName . '.local', $content);
         }, $context, static::DOCKER_INITIALIZATION_ERROR);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStage(): string
-    {
-        return ContextInterface::DEFAULT_STAGE;
     }
 }

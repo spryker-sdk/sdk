@@ -50,6 +50,8 @@ class Placeholder implements PlaceholderInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getName(): string
@@ -58,6 +60,8 @@ class Placeholder implements PlaceholderInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getValueResolver(): string
@@ -66,6 +70,8 @@ class Placeholder implements PlaceholderInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array
      */
     public function getConfiguration(): array
@@ -74,6 +80,8 @@ class Placeholder implements PlaceholderInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool

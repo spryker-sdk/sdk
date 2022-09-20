@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
 
 interface RemovedEventMapperInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */

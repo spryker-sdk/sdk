@@ -116,6 +116,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -124,6 +126,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getShortDescription(): string
@@ -132,6 +136,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
@@ -140,6 +146,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
@@ -148,6 +156,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getHelp(): ?string
@@ -156,6 +166,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getVersion(): string
@@ -164,6 +176,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getSuccessor(): ?string
@@ -172,6 +186,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isDeprecated(): bool
@@ -180,6 +196,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface
@@ -188,6 +206,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string
@@ -196,6 +216,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool
@@ -204,6 +226,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param string $stage
      *
      * @return $this
@@ -216,6 +240,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param bool $optional
      *
      * @return $this
@@ -228,6 +254,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getStages(): array
@@ -236,6 +264,8 @@ class Task implements StagedTaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array<string> $stages
      *
      * @return $this

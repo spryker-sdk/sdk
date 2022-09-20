@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Converter;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class SecurityViolationReportConverter extends AbstractViolationConverter
 {
@@ -25,6 +25,8 @@ class SecurityViolationReportConverter extends AbstractViolationConverter
     protected string $producer;
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $configuration
      *
      * @return void
@@ -36,7 +38,9 @@ class SecurityViolationReportConverter extends AbstractViolationConverter
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * {@inheritDoc}
+     *
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function convert(): ?ViolationReportInterface
     {
