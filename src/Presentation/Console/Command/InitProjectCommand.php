@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsHandler;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializerInterface;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,23 +37,23 @@ class InitProjectCommand extends Command
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsHandler
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializerInterface
      */
-    protected ProjectSettingsHandler $projectSettingsHandler;
+    protected ProjectSettingsInitializerInterface $projectSettingsInitializer;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsHandler $projectSettingsHandler
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializer $projectSettingsInitializer
      */
     public function __construct(
         InteractionProcessorInterface $cliValueReceiver,
         SettingRepositoryInterface $settingRepository,
-        ProjectSettingsHandler $projectSettingsHandler
+        ProjectSettingsInitializerInterface $projectSettingsInitializer
     ) {
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
-        $this->projectSettingsHandler = $projectSettingsHandler;
+        $this->projectSettingsInitializer = $projectSettingsInitializer;
 
         parent::__construct(static::NAME);
     }
@@ -103,7 +103,7 @@ class InitProjectCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->projectSettingsHandler->isProjectSettingsInitialised() && !$this->isReInitializedNeeded()) {
+        if ($this->projectSettingsInitializer->isProjectSettingsInitialised() && !$this->isReInitializedNeeded()) {
             return static::SUCCESS;
         }
 
@@ -112,7 +112,7 @@ class InitProjectCommand extends Command
             (bool)$input->getOption('default'),
         );
 
-        $this->projectSettingsHandler->handleInitialize($projectSettingsInitDto);
+        $this->projectSettingsInitializer->initialize($projectSettingsInitDto);
 
         return static::SUCCESS;
     }

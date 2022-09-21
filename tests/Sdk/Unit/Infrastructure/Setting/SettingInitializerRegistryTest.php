@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\Setting;
+namespace Sdk\Unit\Infrastructure\Setting;
 
 use ArrayIterator;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry;
+use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 
 /**

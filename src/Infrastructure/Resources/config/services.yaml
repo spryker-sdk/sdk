@@ -334,33 +334,33 @@ services:
       - !tagged_iterator workflow.transition_resolver
 
   setting.setting_choices_provider_registry:
-      class: SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingChoicesProviderRegistry
+      class: SprykerSdk\Sdk\Infrastructure\Setting\SettingChoicesProviderRegistry
       arguments:
           - !tagged_iterator { tag: 'sdk.setting_choice_provider', default_index_method: 'getName' }
 
   setting.setting_initializer_registry:
-      class: SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry
+      class: SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
       arguments:
           - !tagged_iterator { tag: 'sdk.setting_initializer', default_index_method: 'getName' }
 
   project_settings_init.question.change_default_value:
-      class: SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
+      class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
       arguments:
           - "@cli_interaction_processor"
 
   project_settings_init.question.setting_value:
-      class: SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion
+      class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion
       arguments:
           - "@cli_interaction_processor"
           - "@setting.setting_choices_provider_registry"
 
   project_settings_init.files_initializer:
-      class: SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
+      class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
       arguments:
           - "%project_settings_file%"
 
   project_settings_init.initializer:
-      class: SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectSettingsInitializer
+      class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor
       arguments:
           - "@project_settings_init.question.change_default_value"
           - "@project_settings_init.question.setting_value"

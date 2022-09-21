@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer;
+namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer;
 
 class ProjectFilesInitializer
 {
@@ -53,7 +53,7 @@ class ProjectFilesInitializer
         if (realpath($settingsDir) !== realpath('.')) {
             file_put_contents(
                 sprintf('%s/.gitignore', $settingsDir),
-                implode("\n", $ignoreRules),
+                implode(PHP_EOL, $ignoreRules),
             );
         }
     }

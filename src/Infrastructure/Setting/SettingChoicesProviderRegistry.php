@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Setting;
+namespace SprykerSdk\Sdk\Infrastructure\Setting;
 
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
@@ -48,7 +48,7 @@ class SettingChoicesProviderRegistry
     public function getSettingChoicesProvider(string $name): SettingChoicesProviderInterface
     {
         if (!isset($this->settingChoicesProviders[$name])) {
-            throw new InvalidArgumentException(sprintf('Choices provider "%s" is not found', $name));
+            throw new InvalidArgumentException(sprintf('Choices provider `%s` is not found', $name));
         }
 
         return $this->settingChoicesProviders[$name];

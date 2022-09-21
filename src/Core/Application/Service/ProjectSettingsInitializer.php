@@ -7,11 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectSettingsInitializer;
+use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor;
 
-class ProjectSettingsHandler
+class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
@@ -24,23 +25,23 @@ class ProjectSettingsHandler
     protected SettingManager $settingManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectSettingsInitializer
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface
      */
-    protected ProjectSettingsInitializer $projectSettingsInitializer;
+    protected ProjectSettingsInitializerProcessorInterface $projectSettingsInitializerProcessor;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\SettingManager $settingManager
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectSettingsInitializer $projectSettingsInitializer
+     * @param \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor $projectSettingsInitializerProcessor
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
         SettingManager $settingManager,
-        ProjectSettingsInitializer $projectSettingsInitializer
+        ProjectSettingsInitializerProcessor $projectSettingsInitializerProcessor
     ) {
         $this->settingRepository = $settingRepository;
         $this->settingManager = $settingManager;
-        $this->projectSettingsInitializer = $projectSettingsInitializer;
+        $this->projectSettingsInitializerProcessor = $projectSettingsInitializerProcessor;
     }
 
     /**
@@ -48,13 +49,13 @@ class ProjectSettingsHandler
      *
      * @return void
      */
-    public function handleInitialize(ProjectSettingsInitDto $projectSettingsDto): void
+    public function initialize(ProjectSettingsInitDto $projectSettingsDto): void
     {
         $settings = $this->settingRepository->findProjectSettings();
 
-        $settingsToSave = $this->projectSettingsInitializer->initialize($settings, $projectSettingsDto);
+        $settingsToSave = $this->projectSettingsInitializerProcessor->initialize($settings, $projectSettingsDto);
 
-        $this->writeProjectSettings($settingsToSave);
+        $this->settingManager->writeSettings($settingsToSave);
     }
 
     /**
@@ -62,22 +63,6 @@ class ProjectSettingsHandler
      */
     public function isProjectSettingsInitialised(): bool
     {
-        return $this->projectSettingsInitializer->isInitialized();
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
-     *
-     * @return void
-     */
-    protected function writeProjectSettings(array $settings): void
-    {
-        $projectValues = [];
-
-        foreach ($settings as $setting) {
-            $projectValues[$setting->getPath()] = $setting->getValues();
-        }
-
-        $this->settingManager->setSettings($projectValues);
+        return $this->projectSettingsInitializerProcessor->isInitialized();
     }
 }

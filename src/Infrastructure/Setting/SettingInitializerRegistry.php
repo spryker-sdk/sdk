@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Setting;
+namespace SprykerSdk\Sdk\Infrastructure\Setting;
 
 use InvalidArgumentException;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
@@ -48,7 +48,7 @@ class SettingInitializerRegistry
     public function getSettingInitializer(string $name): SettingInitializerInterface
     {
         if (!isset($this->settingInitializers[$name])) {
-            throw new InvalidArgumentException(sprintf('Initializer "%s" is not found', $name));
+            throw new InvalidArgumentException(sprintf('Initializer `%s` is not found', $name));
         }
 
         return $this->settingInitializers[$name];

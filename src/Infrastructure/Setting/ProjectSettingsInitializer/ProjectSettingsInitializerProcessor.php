@@ -5,43 +5,43 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer;
+namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry;
+use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion;
+use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
+use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
-class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
+class ProjectSettingsInitializerProcessor implements ProjectSettingsInitializerProcessorInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
      */
     protected ChangeDefaultValueQuestion $changeDefaultValueQuestion;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion
      */
     protected SettingValueQuestion $settingValueQuestion;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
      */
     protected SettingInitializerRegistry $settingInitializerRegistry;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
      */
     protected ProjectFilesInitializer $projectFilesInitializer;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion $changeDefaultValueQuestion
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion $settingValueQuestion
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry $settingInitializerRegistry
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectFilesInitializer $projectFilesInitializer
+     * @param \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion $changeDefaultValueQuestion
+     * @param \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion $settingValueQuestion
+     * @param \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry $settingInitializerRegistry
+     * @param \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer $projectFilesInitializer
      */
     public function __construct(
         ChangeDefaultValueQuestion $changeDefaultValueQuestion,
@@ -179,7 +179,10 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
      */
     protected function isValuesChanged(SettingInterface $setting, $values): bool
     {
-        $values = [ValueTypeEnum::TYPE_BOOLEAN => (bool)$values, ValueTypeEnum::TYPE_ARRAY => (array)$values][$setting->getType()] ?? (string)$values;
+        $values = [
+            ValueTypeEnum::TYPE_BOOLEAN => (bool)$values,
+            ValueTypeEnum::TYPE_ARRAY => (array)$values,
+        ][$setting->getType()] ?? (string)$values;
 
         return $setting->getType() === ValueTypeEnum::TYPE_ARRAY || $values !== $setting->getValues();
     }

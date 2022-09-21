@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question;
+namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingChoicesProviderRegistry;
+use SprykerSdk\Sdk\Infrastructure\Setting\SettingChoicesProviderRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class SettingValueQuestion
@@ -20,13 +20,13 @@ class SettingValueQuestion
     protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingChoicesProviderRegistry
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\SettingChoicesProviderRegistry
      */
     protected SettingChoicesProviderRegistry $settingChoicesProviderRegistry;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingChoicesProviderRegistry $settingChoicesProviderRegistry
+     * @param \SprykerSdk\Sdk\Infrastructure\Setting\SettingChoicesProviderRegistry $settingChoicesProviderRegistry
      */
     public function __construct(
         InteractionProcessorInterface $cliValueReceiver,

@@ -5,17 +5,21 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Dependency;
+namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 
 interface ProjectSettingsInitializerInterface
 {
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
      * @param \SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto $projectSettingsDto
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
+     * @return void
      */
-    public function initialize(array $settings, ProjectSettingsInitDto $projectSettingsDto): array;
+    public function initialize(ProjectSettingsInitDto $projectSettingsDto): void;
+
+    /**
+     * @return bool
+     */
+    public function isProjectSettingsInitialised(): bool;
 }

@@ -5,18 +5,18 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\Setting\ProjectSettingsInitializer;
+namespace Sdk\Unit\Infrastructure\Setting\ProjectSettingsInitializer;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectFilesInitializer;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectSettingsInitializer;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
-use SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry;
+use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer;
+use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor;
+use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion;
+use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
+use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 
@@ -37,7 +37,7 @@ class ProjectSettingsInitializerTest extends Unit
     public function testInitializeShouldReturnEmptyArrayWhenValueHasNoInitialization(): void
     {
         // Arrange
-        $projectSettingsInitializer = new ProjectSettingsInitializer(
+        $projectSettingsInitializer = new ProjectSettingsInitializerProcessor(
             $this->createChangeDefaultValueQuestionMock(),
             $this->createSettingValueQuestionMock(),
             $this->createSettingInitializerRegistry(),
@@ -61,7 +61,7 @@ class ProjectSettingsInitializerTest extends Unit
     public function testInitializeShouldReturnEmptyArrayWhenSettingIsUuidWithoutInitializer(): void
     {
         // Arrange
-        $projectSettingsInitializer = new ProjectSettingsInitializer(
+        $projectSettingsInitializer = new ProjectSettingsInitializerProcessor(
             $this->createChangeDefaultValueQuestionMock(),
             $this->createSettingValueQuestionMock(),
             $this->createSettingInitializerRegistry(['uuid_initializer' => $this->createSettingInitializerMock()]),
@@ -94,7 +94,7 @@ class ProjectSettingsInitializerTest extends Unit
     public function testInitializeShouldReturnEmptyArrayWhenAnswerIsToLeaveDefaultValues(): void
     {
         // Arrange
-        $projectSettingsInitializer = new ProjectSettingsInitializer(
+        $projectSettingsInitializer = new ProjectSettingsInitializerProcessor(
             $this->createChangeDefaultValueQuestionMock(false, true),
             $this->createSettingValueQuestionMock(),
             $this->createSettingInitializerRegistry(),
@@ -125,7 +125,7 @@ class ProjectSettingsInitializerTest extends Unit
     public function testInitializeShouldAskValueWhenValuesNotSet(): void
     {
         // Arrange
-        $projectSettingsInitializer = new ProjectSettingsInitializer(
+        $projectSettingsInitializer = new ProjectSettingsInitializerProcessor(
             $this->createChangeDefaultValueQuestionMock(true, true),
             $this->createSettingValueQuestionMock('setting_value', true),
             $this->createSettingInitializerRegistry(),
@@ -157,7 +157,7 @@ class ProjectSettingsInitializerTest extends Unit
     public function testInitializeShouldReturnSettingsWhenValueSetInIncomingData(): void
     {
         // Arrange
-        $projectSettingsInitializer = new ProjectSettingsInitializer(
+        $projectSettingsInitializer = new ProjectSettingsInitializerProcessor(
             $this->createChangeDefaultValueQuestionMock(),
             $this->createSettingValueQuestionMock(),
             $this->createSettingInitializerRegistry(),
@@ -189,7 +189,7 @@ class ProjectSettingsInitializerTest extends Unit
     public function testInitializeShouldReturnEmptyArrayWhenValueNotChanged(): void
     {
         // Arrange
-        $projectSettingsInitializer = new ProjectSettingsInitializer(
+        $projectSettingsInitializer = new ProjectSettingsInitializerProcessor(
             $this->createChangeDefaultValueQuestionMock(),
             $this->createSettingValueQuestionMock(),
             $this->createSettingInitializerRegistry(),
@@ -218,7 +218,7 @@ class ProjectSettingsInitializerTest extends Unit
      * @param bool $answer
      * @param bool $shouldAsk
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
+     * @return \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
      */
     protected function createChangeDefaultValueQuestionMock(bool $answer = true, bool $shouldAsk = false): ChangeDefaultValueQuestion
     {
@@ -236,7 +236,7 @@ class ProjectSettingsInitializerTest extends Unit
      * @param mixed $value
      * @param bool $shouldAsk
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion
+     * @return \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion
      */
     protected function createSettingValueQuestionMock($value = '', bool $shouldAsk = false): SettingValueQuestion
     {
@@ -253,7 +253,7 @@ class ProjectSettingsInitializerTest extends Unit
     /**
      * @param array $initializers
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Setting\SettingInitializerRegistry
+     * @return \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
      */
     public function createSettingInitializerRegistry(array $initializers = []): SettingInitializerRegistry
     {
@@ -269,7 +269,7 @@ class ProjectSettingsInitializerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
+     * @return \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
      */
     protected function createProjectFilesInitializerMock(): ProjectFilesInitializer
     {
