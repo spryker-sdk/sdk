@@ -1,0 +1,61 @@
+---
+id: "validation:php:deprecations-check"
+short_description: "Check your code by running a static code analysis and generate report with deprecations. By default uses `psalm.xml` config file."
+help: "By default exits with code `1` in case of critical error and with code `0` in all other cases. Adjust the depth of analysis by specifying `errorLevel=1` in the `psalm.xml` file if you want to prevent command fails in case of critical errors."
+stage: build
+version: 1.1.0
+command: "php %executable_command% --config=%config% %no-progress% %output-format% %reportDir% 1> /dev/null"
+type: local_cli
+placeholders:
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
+    optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/psalm"
+      settingPaths: [ "project_dir", "sdk_dir" ]
+  - name: "%output-format%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      option: "output-format"
+      description: "Output format"
+      type: string
+      defaultValue: 'json'
+  - name: '%no-progress%'
+    value_resolver: FLAG
+    optional: true
+    configuration:
+      flag: "no-progress"
+      description: 'Automatically fixes found problems.'
+      defaultValue: true
+  - name: "%output-format%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      option: "output-format"
+      description: "Output format"
+      type: string
+      defaultValue: 'json'
+  - name: "%reportDir%"
+    value_resolver: REPORT_DIR
+    optional: true
+    configuration:
+      option: "report"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+      defaultValue: "psalm.deprecations_report.json"
+  - name: "%config%"
+    value_resolver: CONFIG_PATH
+    optional: true
+    configuration:
+      option: "config"
+      alias: "config"
+      description: "Config file"
+      defaultValue: "psalm.xml"
+report_converter:
+  name: DeprecationsReportConverter
+  configuration:
+    input_file: psalm.deprecations_report.json
+    producer: psalm

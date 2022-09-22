@@ -8,16 +8,22 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\ArrayOptionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group ArrayOptionValueResolverTest
+ */
 class ArrayOptionValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -29,7 +35,7 @@ class ArrayOptionValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->valueReceiver
             ->expects($this->once())
             ->method('has')
@@ -67,9 +73,9 @@ class ArrayOptionValueResolverTest extends Unit
         $this->valueReceiver
             ->expects($this->once())
             ->method('get')
-            ->willReturn("value1\r\nvalue2");
+            ->willReturn(['value1', 'value2']);
         $valueResolver = new ArrayOptionValueResolver($this->valueReceiver);
-        $valueResolver->configure(['name' => 'key', 'description' => '']);
+        $valueResolver->configure(['name' => 'key', 'description' => '', 'type' => 'array', 'option' => 'key']);
 
         // Act
         $value = $valueResolver->getValue($this->context, []);

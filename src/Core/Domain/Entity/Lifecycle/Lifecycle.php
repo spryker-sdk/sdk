@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle;
 
-use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
-
 class Lifecycle implements TaskLifecycleInterface
 {
     protected InitializedEventData $initializedEventData;

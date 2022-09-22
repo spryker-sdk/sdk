@@ -1,0 +1,35 @@
+---
+id: "acp:asyncapi:create"
+short_description: "Create ACP AsyncAPI file."
+help: ~
+stage: build
+version: 0.2.0
+command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:create %asyncapi-file% %api-version% %title% -v"
+type: local_cli_interactive
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%title%"
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      alias: "title"
+      description: "The name of the App"
+      type: string
+  - name: "%asyncapi-file%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      alias: "asyncapi-file"
+      option: "asyncapi-file"
+      description: "Path to save AsyncAPI file to"
+      type: string
+  - name: "%api-version%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      alias: "api-version"
+      option: "api-version"
+      description: "Version number of the AsyncAPI schema"
+      type: string

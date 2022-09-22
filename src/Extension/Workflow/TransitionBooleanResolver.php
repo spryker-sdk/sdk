@@ -23,6 +23,23 @@ class TransitionBooleanResolver implements TransitionResolverInterface
     public const FAILED = 'failed';
 
     /**
+     * @var string
+     */
+    protected const RESOLVER_NAME = 'boolean_resolver';
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return static::RESOLVER_NAME;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settings
      *

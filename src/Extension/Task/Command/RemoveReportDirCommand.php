@@ -15,13 +15,6 @@ use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 class RemoveReportDirCommand implements ExecutableCommandInterface
 {
     /**
-     * @uses \SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
-     *
-     * @var string
-     */
-    protected const REPORT_DIR_SETTING_NAME = 'reportDir';
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface
      */
     protected ViolationReportRepositoryInterface $violationReportRepository;
@@ -36,6 +29,8 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      *
      * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -48,6 +43,8 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -56,6 +53,8 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -64,6 +63,8 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -72,6 +73,8 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -80,6 +83,8 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -88,6 +93,8 @@ class RemoveReportDirCommand implements ExecutableCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

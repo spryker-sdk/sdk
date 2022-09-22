@@ -12,8 +12,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInte
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
@@ -25,9 +25,9 @@ class InitializerTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected CliInteractionProcessor $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
@@ -67,7 +67,7 @@ class InitializerTest extends Unit
         parent::setUp();
 
         $this->taskYamlRepository = $this->createMock(TaskYamlRepositoryInterface::class);
-        $this->cliValueReceiver = $this->createMock(CliValueReceiver::class);
+        $this->cliValueReceiver = $this->createMock(CliInteractionProcessor::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
 
@@ -92,11 +92,13 @@ class InitializerTest extends Unit
                 'testValue',
                 'overwrite',
                 'string',
-                false,
+                'sdk',
             ),
         ];
-            $this->taskManager->expects($this->once())
+        $this->taskManager
+            ->expects($this->once())
             ->method('initialize');
+
         $this->taskYamlRepository
             ->expects($this->once())
             ->method('findAll')
@@ -125,7 +127,7 @@ class InitializerTest extends Unit
                 'testValue',
                 'overwrite',
                 'string',
-                false,
+                'sdk',
                 false,
             ),
         ];
@@ -159,7 +161,7 @@ class InitializerTest extends Unit
                 null,
                 'overwrite',
                 'string',
-                false,
+                'sdk',
                 true,
             ),
         ];
@@ -187,7 +189,7 @@ class InitializerTest extends Unit
     /**
      * @return void
      */
-    public function testWithProjectSetting(): void
+    public function testWithLocalProjectSetting(): void
     {
         // Arrange
         $optionSettings = [];
@@ -197,7 +199,45 @@ class InitializerTest extends Unit
                 null,
                 'overwrite',
                 'string',
+                'local',
                 true,
+            ),
+        ];
+        $this->taskManager->expects($this->once())
+            ->method('initialize');
+        $this->taskYamlRepository
+            ->expects($this->once())
+            ->method('findAll')
+            ->willReturn([]);
+        $this->settingRepository
+            ->expects($this->never())
+            ->method('save');
+        $this->settingRepository->expects($this->once())
+            ->method('initSettingDefinition')
+            ->willReturn($settings);
+        $this->cliValueReceiver
+            ->expects($this->never())
+            ->method('receiveValue')
+            ->willReturn(null);
+
+        // Act
+        $this->initializerService->initialize($optionSettings);
+    }
+
+    /**
+     * @return void
+     */
+    public function testWithSharedProjectSetting(): void
+    {
+        // Arrange
+        $optionSettings = [];
+        $settings = [
+            new Setting(
+                'testKey',
+                null,
+                'overwrite',
+                'string',
+                'shared',
                 true,
             ),
         ];

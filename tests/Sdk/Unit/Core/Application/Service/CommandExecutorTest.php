@@ -10,10 +10,10 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Application\Service\CommandExecutor;
-use SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
  * @group Sdk
@@ -77,7 +77,7 @@ class CommandExecutorTest extends Unit
     }
 
     /**
-     * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      * @param bool|true $canHandle
      * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder|null $invocationRule
      *
@@ -107,7 +107,7 @@ class CommandExecutorTest extends Unit
     /**
      * @param bool|false $isDry
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function createContextMock(bool $isDry = false): ContextInterface
     {
@@ -125,7 +125,7 @@ class CommandExecutorTest extends Unit
     }
 
     /**
-     * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder $invocationRule
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface

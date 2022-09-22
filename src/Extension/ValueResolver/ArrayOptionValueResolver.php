@@ -7,11 +7,27 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @deprecated Use `STATIC` value resolver with type `array`.
+ */
 class ArrayOptionValueResolver extends StaticValueResolver
 {
     /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return 'ARRAY_OPTION';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -20,29 +36,16 @@ class ArrayOptionValueResolver extends StaticValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = true)
     {
-        $value = parent::getValue($context, $settingValues, $optional);
-
-        if ($value === null) {
-            return null;
-        }
-
-        $values = (array)preg_split("/\r\n|\n|\r/", $value);
-
-        $options = array_map(
-            function ($valueParam) {
-                return sprintf('--%s=\'%s\'', $this->getAlias(), $valueParam);
-            },
-            $values,
-        );
-
-        return implode(' ', $options);
+        return parent::getValue($context, $settingValues, $optional);
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
-    public function getId(): string
+    public function getType(): string
     {
-        return 'ARRAY_OPTION';
+        return ValueTypeEnum::TYPE_ARRAY;
     }
 }

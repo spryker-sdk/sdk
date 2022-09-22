@@ -7,8 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 
 class SdkDirectoryValueResolver extends AbstractValueResolver
 {
@@ -23,11 +24,11 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     protected string $sdkBasePath;
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      * @param string $sdkBasePath
      */
     public function __construct(
-        ValueReceiverInterface $valueReceiver,
+        InteractionProcessorInterface $valueReceiver,
         string $sdkBasePath
     ) {
         $this->sdkBasePath = $sdkBasePath;
@@ -35,11 +36,55 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return 'SDK_DIR';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return 'Relative to the installation directory of the SDK or absolute path';
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
-    protected function getRequiredSettingPaths(): array
+    public function getSettingPaths(): array
     {
-        return [];
+        return [
+            static::SETTING_SDK_DIR,
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return ValueTypeEnum::TYPE_PATH;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string|null
+     */
+    public function getAlias(): ?string
+    {
+        return null;
     }
 
     /**
@@ -59,56 +104,6 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
             return realpath($settingSdkBasePath);
         }
 
-        return $this->sdkBasePath . '/' . $settingSdkBasePath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return 'SDK_DIR';
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return 'Relative to the installation directory of the SDK or absolute path';
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [
-            static::SETTING_SDK_DIR,
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'path';
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAlias(): ?string
-    {
-        return 'sdk-dir';
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDefaultValue(): ?string
-    {
-        return null;
+        return $this->sdkBasePath . DIRECTORY_SEPARATOR . $settingSdkBasePath;
     }
 }

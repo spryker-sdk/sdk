@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
-use SprykerSdk\SdkContracts\Entity\Lifecycle\PersistentLifecycleInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface;
 
 class Lifecycle implements PersistentLifecycleInterface
 {

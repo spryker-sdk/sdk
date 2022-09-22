@@ -1,0 +1,37 @@
+---
+id: 'tests:sdk:codecept'
+short_description: 'Run acceptance tests'
+help: ~
+stage: build
+version: 0.2.0
+command: 'php "%executable_command%" run %suites% %reportDir%'
+type: local_cli
+placeholders:
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
+    optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/codecept"
+      settingPaths: [ "project_dir", "sdk_dir" ]
+  - name: "%suites%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      alias: "suites"
+      description: "Suite name that should executed. Multiple suites can be comma-separated"
+      type: string
+  - name: "%reportDir%"
+    value_resolver: REPORT_DIR
+    optional: true
+    configuration:
+      option: "json"
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+      defaultValue: "codeception.report.json"
+report_converter:
+  name: CodeceptionViolationReportConverter
+  configuration:
+    input_file: codeception.report.json
+    producer: codeception

@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter;
 
 use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,6 +17,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class OutputViolationReportFormatter implements ViolationReportFormatterInterface, InputOutputReceiverInterface
 {
+    /**
+     * @var string
+     */
+    public const FORMAT = 'output';
+
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
      */
@@ -37,12 +42,12 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
      */
     public function getFormat(): string
     {
-        return 'output';
+        return static::FORMAT;
     }
 
     /**
      * @param string $name
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface $violationReport
      *
      * @return void
      */
@@ -105,7 +110,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     /**
      * @param string $name
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function read(string $name): ?ViolationReportInterface
     {

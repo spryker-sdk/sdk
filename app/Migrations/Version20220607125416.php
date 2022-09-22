@@ -17,7 +17,7 @@ final class Version20220607125416 extends AbstractMigration
      */
     public function getDescription(): string
     {
-        return '';
+        return 'Added error message field to the sdk_command table.';
     }
 
     /**
@@ -27,7 +27,6 @@ final class Version20220607125416 extends AbstractMigration
      */
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP INDEX UNIQ_95DDEAADD10938F7');
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_command AS SELECT id, converter_id, command, stage, type, has_stop_on_error, tags FROM sdk_command');
         $this->addSql('DROP TABLE sdk_command');
@@ -45,7 +44,6 @@ final class Version20220607125416 extends AbstractMigration
      */
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP INDEX UNIQ_95DDEAADD10938F7');
         $this->addSql('CREATE TEMPORARY TABLE __temp__sdk_command AS SELECT id, converter_id, command, type, has_stop_on_error, tags, stage FROM sdk_command');
         $this->addSql('DROP TABLE sdk_command');

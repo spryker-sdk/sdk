@@ -1,0 +1,20 @@
+---
+id: "acp:asyncapi:validate"
+short_description: "Validate ACP AsyncAPI file."
+help: ~
+stage: build
+version: 0.2.0
+command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:validate %asyncapi-file% -v"
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%asyncapi-file%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      alias: "asyncapi-file"
+      option: "asyncapi-file"
+      description: "Path to AsyncAPI file"
+      type: string

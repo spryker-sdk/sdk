@@ -7,13 +7,12 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\ContextStorage;
+use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -73,11 +72,6 @@ class RunTaskWrapperCommand extends Command
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
-     */
-    protected ReportFormatterFactory $reportFormatterFactory;
-
-    /**
      * @var array<\Symfony\Component\Console\Input\InputOption>
      */
     protected array $taskOptions;
@@ -98,16 +92,21 @@ class RunTaskWrapperCommand extends Command
     protected ContextRepositoryInterface $contextRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextStorage
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
-    protected ContextStorage $contextStorage;
+    protected ProjectSettingRepositoryInterface $projectSettingRepository;
+
+    /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
+     */
+    protected ContextFactoryInterface $contextFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory $reportFormatterFactory
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextStorage $contextStorage
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param array<\Symfony\Component\Console\Input\InputOption> $taskOptions
      * @param string $description
      * @param string $name
@@ -116,18 +115,18 @@ class RunTaskWrapperCommand extends Command
         TaskExecutor $taskExecutor,
         ProjectWorkflow $projectWorkflow,
         ContextRepositoryInterface $contextRepository,
-        ReportFormatterFactory $reportFormatterFactory,
-        ContextStorage $contextStorage,
+        ProjectSettingRepositoryInterface $projectSettingRepository,
+        ContextFactoryInterface $contextFactory,
         array $taskOptions,
         string $description,
         string $name
     ) {
+        $this->projectSettingRepository = $projectSettingRepository;
         $this->description = $description;
         $this->projectWorkflow = $projectWorkflow;
         $this->taskOptions = $taskOptions;
         $this->taskExecutor = $taskExecutor;
-        $this->reportFormatterFactory = $reportFormatterFactory;
-        $this->contextStorage = $contextStorage;
+        $this->contextFactory = $contextFactory;
         $this->name = $name;
         $this->contextRepository = $contextRepository;
         parent::__construct($name);
@@ -164,15 +163,9 @@ class RunTaskWrapperCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->projectWorkflow->getProjectWorkflows()) {
-            $output->writeln('<error>Your project has initialized workflow. Follow the workflow. See details for `sdk:workflow:run` command.</error>');
-
-            return static::FAILURE;
-        }
-
         $context = $this->buildContext($input);
 
-        $context = $this->taskExecutor->execute($this->name, $context);
+        $context = $this->taskExecutor->execute($context, $this->name);
         $this->writeContext($input, $context);
         $this->writeFilteredMessages($output, $context);
 
@@ -181,7 +174,7 @@ class RunTaskWrapperCommand extends Command
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -240,7 +233,7 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function buildContext(InputInterface $input): ContextInterface
     {
@@ -269,22 +262,32 @@ class RunTaskWrapperCommand extends Command
             $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
         }
 
-        if (
-            $input->hasOption(static::OPTION_FORMAT)
-            && is_string($input->getOption(static::OPTION_FORMAT))
-            && $input->getOption(static::OPTION_FORMAT)
-        ) {
-            $context->setFormat($input->getOption(static::OPTION_FORMAT));
-        }
-
-        $this->contextStorage->setContext($context);
+        $context->setFormat($this->getReportFormat($input));
 
         return $context;
     }
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     *
+     * @return string
+     */
+    protected function getReportFormat(InputInterface $input): string
+    {
+        if (
+            $input->hasOption(static::OPTION_FORMAT)
+            && is_string($input->getOption(static::OPTION_FORMAT))
+            && $input->getOption(static::OPTION_FORMAT)
+        ) {
+            return $input->getOption(static::OPTION_FORMAT);
+        }
+
+        return $this->projectSettingRepository->getOneByPath('default_violation_output_format')->getValues();
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */
@@ -306,20 +309,34 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function createContext(InputInterface $input): ContextInterface
     {
-        if (
-            !$input->hasOption(static::OPTION_READ_CONTEXT_FROM)
-            || !$input->getOption(static::OPTION_READ_CONTEXT_FROM)
-        ) {
-            return new Context();
+        $contextFilePath = $this->findContextFilePathInInput($input);
+
+        if (!$contextFilePath) {
+            return $this->contextFactory->getContext();
         }
 
-        /** @var string $contextFilePath */
-        $contextFilePath = $input->getOption(static::OPTION_READ_CONTEXT_FROM);
+        return $this->contextRepository->findByName($contextFilePath);
+    }
 
-        return $this->contextRepository->findByName($contextFilePath) ?: new Context();
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string|null
+     */
+    protected function findContextFilePathInInput(InputInterface $input): ?string
+    {
+        if (
+            $input->hasOption(static::OPTION_READ_CONTEXT_FROM)
+            && $input->getOption(static::OPTION_READ_CONTEXT_FROM)
+            && is_string($input->getOption(static::OPTION_READ_CONTEXT_FROM))
+        ) {
+            return $input->getOption(static::OPTION_READ_CONTEXT_FROM);
+        }
+
+        return null;
     }
 }

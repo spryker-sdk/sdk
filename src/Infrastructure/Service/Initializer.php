@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
@@ -18,9 +19,9 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 class Initializer implements InitializerInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
@@ -38,13 +39,13 @@ class Initializer implements InitializerInterface
     protected TaskYamlRepositoryInterface $taskYamlRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface $taskYamlRepository
      */
     public function __construct(
-        CliValueReceiver $cliValueReceiver,
+        InteractionProcessorInterface $cliValueReceiver,
         SettingRepositoryInterface $settingRepository,
         TaskManagerInterface $taskManager,
         TaskYamlRepositoryInterface $taskYamlRepository
@@ -62,21 +63,23 @@ class Initializer implements InitializerInterface
      */
     public function initialize(array $settings): void
     {
-        $this->initializeSettingValues($settings, $this->settingRepository->initSettingDefinition());
+        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingDefinition */
+        $settingDefinition = $this->settingRepository->initSettingDefinition();
+
+        $this->initializeSettingValues($settings, $settingDefinition);
         $this->taskManager->initialize($this->taskYamlRepository->findAll());
     }
 
     /**
      * @param array<string, mixed> $settings
-     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settingEntities
+     * @param array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingEntities
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settings, array $settingEntities): array
     {
-        /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $coreEntities */
         $coreEntities = array_filter($settingEntities, function (EntitySettingInterface $setting): bool {
-            return !$setting->isProject();
+            return $setting->isSdk();
         });
 
         foreach ($coreEntities as $settingEntity) {

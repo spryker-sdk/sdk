@@ -8,17 +8,23 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\ValueResolver\AppTypeValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group AppTypeValueResolverTest
+ */
 class AppTypeValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -30,7 +36,7 @@ class AppTypeValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -43,7 +49,7 @@ class AppTypeValueResolverTest extends Unit
     {
         // Arrange
         $repositories = [
-            'boilerplate' => 'https://github.com/spryker/project-boilerplate',
+            'boilerplate' => 'https://github.com/spryker-projects/mini-framework',
         ];
         $receiverValue = new ReceiverValue(
             'App template to use for creation',
@@ -63,6 +69,6 @@ class AppTypeValueResolverTest extends Unit
         $value = $valueResolver->getValue($this->context, []);
 
         // Assert
-        $this->assertSame('https://github.com/spryker/project-boilerplate', $value);
+        $this->assertSame('https://github.com/spryker-projects/mini-framework', $value);
     }
 }

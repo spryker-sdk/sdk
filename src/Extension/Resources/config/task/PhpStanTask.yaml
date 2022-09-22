@@ -1,0 +1,60 @@
+---
+id: "validation:php:static"
+short_description: "Check your code by running a static code analysis"
+help: ~
+stage: build
+version: 1.1.0
+command: "php %sdk_dir%/vendor/bin/phpstan analyze %path% %configuration% %config-path% %error-format% --level=%level% > %reportDir%"
+type: local_cli
+placeholders:
+  - name: "%sdk_dir%"
+    value_resolver: SDK_DIR
+    optional: true
+  - name: "%path%"
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      alias: "path"
+      description: "Relative path to module directory in project"
+      type: path
+      defaultValue: 'src'
+  - name: '%configuration%'
+    value_resolver: FLAG
+    optional: true
+    configuration:
+      flag: "configuration"
+      defaultValue: true
+  - name: "%config-path%"
+    value_resolver: PRIORITY_PATH
+    optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "phpstan.neon"
+      settingPaths: [ "project_dir"]
+  - name: "%error-format%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      option: "error-format"
+      type: path
+      defaultValue: 'json'
+  - name: "%reportDir%"
+    value_resolver: REPORT_DIR
+    optional: true
+    configuration:
+      description: "Reports directory"
+      type: string
+      settingPaths: ["report_dir"]
+      defaultValue: "phpstan.static.json"
+  - name: "%level%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      alias: "level"
+      description: "Rule level to run"
+      defaultValue: "7"
+report_converter:
+  name: PhpStanViolationConverter
+  configuration:
+    input_file: phpstan.static.json
+    producer: phpstan

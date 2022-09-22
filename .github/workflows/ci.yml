@@ -12,7 +12,7 @@ on:
 jobs:
   validation:
     name: "CS, PHPStan, Security"
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -58,12 +58,7 @@ jobs:
         run: composer --version
 
       - name: Composer install
-        if: ${{ matrix.php-version != '7.4' }}
         run: composer install
-
-      - name: Composer install
-        if: ${{ matrix.php-version == '7.4' }}
-        run: composer update --prefer-lowest
 
       - name: Run PHPStan
         run: composer stan

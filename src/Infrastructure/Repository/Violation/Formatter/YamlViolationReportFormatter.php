@@ -10,11 +10,16 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter;
 use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlViolationReportFormatter implements ViolationReportFormatterInterface
 {
+    /**
+     * @var string
+     */
+    public const FORMAT = 'yaml';
+
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface
      */
@@ -50,12 +55,12 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
      */
     public function getFormat(): string
     {
-        return 'yaml';
+        return static::FORMAT;
     }
 
     /**
      * @param string $name
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface $violationReport
      *
      * @return void
      */
@@ -72,7 +77,7 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
     /**
      * @param string $name
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function read(string $name): ?ViolationReportInterface
     {

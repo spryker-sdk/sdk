@@ -7,9 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -30,9 +32,9 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected OutputInterface $output;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -40,13 +42,23 @@ class WorkflowRunner implements InputOutputReceiverInterface
     protected ContainerInterface $container;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    public function __construct(CliValueReceiver $cliValueReceiver, ContainerInterface $container)
-    {
+    protected ContextFactoryInterface $contextFactory;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
+     */
+    public function __construct(
+        InteractionProcessorInterface $cliValueReceiver,
+        ContainerInterface $container,
+        ContextFactoryInterface $contextFactory
+    ) {
         $this->cliValueReceiver = $cliValueReceiver;
         $this->container = $container;
+        $this->contextFactory = $contextFactory;
     }
 
     /**
@@ -77,7 +89,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
      */
     public function execute(string $workflowName, ?ContextInterface $context = null): ContextInterface
     {
-        $context = $context ?? new Context();
+        $context = $context ?? $this->contextFactory->getContext();
 
         /** @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow */
         $projectWorkflow = $this->container->get('project_workflow');
@@ -158,7 +170,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
                 new ReceiverValue(
                     'Select the next step in workflow.',
                     current($nextEnabledTransitions),
-                    'string',
+                    ValueTypeEnum::TYPE_STRING,
                     $nextEnabledTransitions,
                 ),
             );

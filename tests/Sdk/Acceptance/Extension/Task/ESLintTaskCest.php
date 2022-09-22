@@ -120,33 +120,6 @@ class ESLintTaskCest
      *
      * @return void
      */
-    public function testReportDirNotFound(AcceptanceTester $I): void
-    {
-        // Arrange
-        $I->cleanReports(static::PROJECT_DIR);
-
-        // Act
-        $process = $I->runSdkCommand(
-            [
-                static::COMMAND,
-                '--file=src/success',
-                '--config=' . $I->getPathFromSdkRoot(static::CONFIG_FILE),
-                '--format=yaml',
-                '--report_dir=notExists',
-            ],
-            $I->getProjectRoot(static::PROJECT_DIR),
-        );
-
-        // Assert
-        Assert::assertFalse($process->isSuccessful());
-        Assert::assertFileDoesNotExist($I->getPathFromProjectRoot('.ssdk/reports/' . static::COMMAND . '.violations.yaml', static::PROJECT_DIR));
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
-     *
-     * @return void
-     */
     public function testFilesContainViolations(AcceptanceTester $I): void
     {
         // Arrange

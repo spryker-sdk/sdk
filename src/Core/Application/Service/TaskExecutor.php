@@ -11,9 +11,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ActionApproverInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
@@ -23,11 +23,6 @@ class TaskExecutor
      * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
      */
     protected PlaceholderResolver $placeholderResolver;
-
-    /**
-     * @var iterable<\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface>
-     */
-    protected iterable $commandRunners;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
@@ -71,14 +66,16 @@ class TaskExecutor
     }
 
     /**
-     * @param string $taskId
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
+     * @param string|null $taskId
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
-    public function execute(string $taskId, ContextInterface $context): ContextInterface
+    public function execute(ContextInterface $context, ?string $taskId = null): ContextInterface
     {
-        $context = $this->addBaseTask($taskId, $context);
+        if ($taskId !== null) {
+            $context = $this->addBaseTask($taskId, $context);
+        }
         $context = $this->collectRequiredStages($context);
         $context = $this->collectRequiredPlaceholders($context);
         $context = $this->resolveValues($context);
@@ -87,9 +84,9 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function collectRequiredStages(ContextInterface $context): ContextInterface
     {
@@ -110,11 +107,11 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      * @param array<string> $stages
      * @param array<string> $commandsStages
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function setContextRequiredStages(ContextInterface $context, array $stages, array $commandsStages): ContextInterface
     {
@@ -126,9 +123,9 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function collectRequiredPlaceholders(ContextInterface $context): ContextInterface
     {
@@ -138,9 +135,9 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function resolveValues(ContextInterface $context): ContextInterface
     {
@@ -165,9 +162,9 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function executeTasks(ContextInterface $context): ContextInterface
     {
@@ -183,10 +180,10 @@ class TaskExecutor
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      * @param string $stage
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function executeStage(ContextInterface $context, string $stage): ContextInterface
     {
@@ -238,11 +235,11 @@ class TaskExecutor
 
     /**
      * @param string $taskId
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function addBaseTask(string $taskId, ContextInterface $context): ContextInterface
     {

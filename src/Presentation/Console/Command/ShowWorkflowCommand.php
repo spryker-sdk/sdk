@@ -8,18 +8,17 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use RuntimeException;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
-use Throwable;
 
 class ShowWorkflowCommand extends Command
 {
@@ -44,43 +43,44 @@ class ShowWorkflowCommand extends Command
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
      * @var string
      */
-    protected string $projectSettingsFile;
+    protected string $varWorkflowDirectory;
 
     /**
      * @var string
      */
-    protected string $sdkDirectory;
+    protected string $hostVarWorkflowDirectory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param string $projectSettingsFile
-     * @param string $sdkDirectory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
+     * @param string $varWorkflowDirectory
+     * @param string $hostVarWorkflowDirectory
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
-        CliValueReceiver $cliValueReceiver,
-        string $projectSettingsFile,
-        string $sdkDirectory
+        InteractionProcessorInterface $cliValueReceiver,
+        string $varWorkflowDirectory,
+        string $hostVarWorkflowDirectory
     ) {
+        parent::__construct(static::NAME);
+
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
-        $this->projectSettingsFile = $projectSettingsFile;
-        $this->sdkDirectory = $sdkDirectory;
-        parent::__construct(static::NAME);
+        $this->varWorkflowDirectory = $varWorkflowDirectory;
+        $this->hostVarWorkflowDirectory = $hostVarWorkflowDirectory;
     }
 
     /**
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this->addArgument(static::ARG_WORKFLOW_NAME, InputArgument::OPTIONAL, 'Workflow name');
@@ -94,19 +94,13 @@ class ShowWorkflowCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
         $workflowName = $this->getWorkflowName($input);
 
-        try {
-            $dotWorkflow = $this->dumpWorkflow($workflowName);
-            $filePath = $this->renderWorkflow($workflowName, $dotWorkflow);
-            $io->text(sprintf('file://%s', $filePath));
-        } catch (Throwable $e) {
-            $io->error($e->getMessage());
+        $dotWorkflow = $this->dumpWorkflow($workflowName);
 
-            return static::FAILURE;
-        }
+        $filePath = $this->renderWorkflow($workflowName, $dotWorkflow);
+
+        $this->writeWorkflowFileConsoleMessage($output, $filePath);
 
         return static::SUCCESS;
     }
@@ -131,7 +125,7 @@ class ShowWorkflowCommand extends Command
                 new ReceiverValue(
                     'Select workflow to show',
                     current(array_keys($workflows)),
-                    'string',
+                    ValueTypeEnum::TYPE_STRING,
                     $workflows,
                 ),
             )
@@ -176,18 +170,52 @@ class ShowWorkflowCommand extends Command
      */
     protected function renderWorkflow(string $workflowName, string $dotWorkflow): string
     {
-        $settingsDir = preg_replace('/^(([\/\\])|([.](?!\w)))+/u', '', dirname($this->projectSettingsFile));
-        $relativePath = sprintf('%s/%s.svg', $settingsDir, $workflowName);
+        $process = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-o' . $this->getWorkflowGraphTargetFileName($workflowName)], null, null, $dotWorkflow);
+        $process->run();
 
-        $dot = new Process(['dot', '-Tsvg', '-Grankdir=TB', '-o' . $relativePath], null, null, $dotWorkflow);
-        $result = $dot->run();
-
-        if ($result !== static::SUCCESS) {
-            throw new RuntimeException('Error occurred in `dot` command');
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(sprintf('Error occurred in `dot` command: %s', $process->getErrorOutput()));
         }
 
-        $path = getenv('HOST_PWD') ?: $this->sdkDirectory;
+        return $this->getWorkflowGraphHostFileName($workflowName);
+    }
 
-        return sprintf('%s/%s', $path, $relativePath);
+    /**
+     * @param string $workflowName
+     *
+     * @return string
+     */
+    protected function getWorkflowGraphTargetFileName(string $workflowName): string
+    {
+        if (!is_dir($this->varWorkflowDirectory)) {
+            mkdir($this->varWorkflowDirectory, 0766, true);
+        }
+
+        return sprintf('%s/%s.svg', $this->varWorkflowDirectory, $workflowName);
+    }
+
+    /**
+     * @param string $workflowName
+     *
+     * @return string
+     */
+    protected function getWorkflowGraphHostFileName(string $workflowName): string
+    {
+        return sprintf('%s/%s.svg', $this->hostVarWorkflowDirectory, $workflowName);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string $filePath
+     *
+     * @return void
+     */
+    protected function writeWorkflowFileConsoleMessage(OutputInterface $output, string $filePath): void
+    {
+        $output->writeln('');
+        $output->writeln('To open the workflow graph click the link below (with pressed Ctrl):');
+        $output->writeln('');
+        $output->writeln(sprintf('  <info>file://%s</info>', $filePath));
+        $output->writeln('');
     }
 }

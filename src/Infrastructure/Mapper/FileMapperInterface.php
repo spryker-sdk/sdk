@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\File;
-use SprykerSdk\SdkContracts\Entity\FileInterface;
 
 interface FileMapperInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\FileInterface $file
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface $file
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\File
      */

@@ -11,6 +11,12 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group Workflow
+ * @group TransitionBooleanResolverTest
+ */
 class TransitionBooleanResolverTest extends Unit
 {
     /**

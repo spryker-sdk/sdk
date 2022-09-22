@@ -3,8 +3,27 @@
 The Spryker SDK defines the following conventions.
 
 ## Task
+`id`, `short_description`, `version`, `type`, `command` are  __REQUIRED__ properties.
 
-- MUST have an id following the schema `<group>:<language>:<subgroup>`, where `<group>` is one of validation, generation, `<language>` is php for now  and `<subgroup>` should be a descriptive name. E.g.: `validation:php:architecture`
+- __MUST__ have an `id` following the schema `<group>:<language>:<subgroup>`, where `<group>` is one of validation, generation, `<language>` is php for now  and `<subgroup>` should be a descriptive name. E.g.: `validation:php:architecture`
+
+- __MUST__ have a `version` according to the [semver](https://semver.org/) specification
+
+- __MUST__ have a `short_description` with a short task description
+
+- __MUST__ have a `type` one of a `local_cli`, `local_cli_interactive`, `task-set`, `php`
+
+- __MUST__ have a `command` with executable command string or null
+
+## Task Set
+
+- __MUST__ have a `type` with `task-set` value
+
+- __MUST__ have a `tasks` with the list of the required sub-tasks
+
+- __MUST__ have a sub-task `id` in the `tasks` list
+
+- __MUST__ have null value in `command` property (e.g. `command: ~`)
 
 ## Workflow
 
@@ -22,7 +41,7 @@ No conventions yet
 
 - __MUST__ define the path with an underscore as separator (e.g.: `some_setting`)
 
-- __MUST__ define the scope `is_project: true/false` to distinguish if the setting is per project or globally
+- __MUST__ define the scope `setting_type: sdk/local/shared` to distinguish if the setting is per project or globally
 
 - __MUST__  define a type to be either array, integer, string, boolean or float
 
@@ -62,9 +81,15 @@ No conventions yet
 - `protected static $defaultName` __SHOULD NOT__ be used because of performance reasons and future deprecation in Symfony 6.1 version.
   Instead `protcted const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
 
+## Contracts
+
+#### This section describes how to develop and document sdk contracts and their implementation.
+
+- Contract is an interface that allows users to customize existing business logic.
+- Contract __MUST__ exist only in case existing logic provides for an extension by the user.
+- Contract is a public API and __MUST__ follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
 
 ## TODO
 
 - .env usage.
-- Description for the spryker sdk contracts interfaces.
 - Enums.

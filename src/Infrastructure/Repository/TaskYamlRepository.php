@@ -10,19 +10,24 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -92,10 +97,8 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $taskListData = [];
         $taskSetsData = [];
 
-        $existedDirectories = $this->findExistedDirectories($taskDirSetting->getValues());
-
         $finder = $this->fileFinder
-            ->in(array_map(fn (string $directory): string => $directory . '/*/Task/', $existedDirectories))
+            ->in($this->findExistedDirectories($taskDirSetting->getValues()))
             ->name('*.yaml');
 
         //read task from path, parse and create Task, later use DB for querying
@@ -119,7 +122,102 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
             $tasks[$task->getId()] = $task;
         }
 
+        $this->extractTaskSetTasks($tasks);
+
         return array_merge($tasks, $this->existingTasks);
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     *
+     * @return void
+     */
+    protected function extractTaskSetTasks(array $tasks): void
+    {
+        foreach ($this->existingTasks as $taskId => $existingTask) {
+            if (!($existingTask instanceof TaskSetInterface)) {
+                continue;
+            }
+
+            $this->existingTasks[$taskId] = new Task(
+                $existingTask->getId(),
+                $existingTask->getShortDescription(),
+                $this->extractCommands($tasks, $existingTask),
+                $existingTask->getLifecycle(),
+                $existingTask->getVersion(),
+                $this->extractPlaceholders($tasks, $existingTask),
+                $existingTask->getHelp(),
+                $existingTask->getSuccessor(),
+                $existingTask->isDeprecated(),
+                ContextInterface::DEFAULT_STAGE,
+                $existingTask->isOptional(),
+                $existingTask->getStages(),
+            );
+        }
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $existingTask
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     */
+    protected function extractPlaceholders(array $tasks, TaskSetInterface $existingTask): array
+    {
+        $placeholders = [];
+        foreach ($existingTask->getSubTasks() as $subTask) {
+            if (is_string($subTask)) {
+                $subTask = $tasks[$subTask] ?? $this->existingTasks[$subTask];
+            }
+            $placeholders[] = $subTask->getPlaceholders();
+        }
+
+        return array_merge(...$placeholders);
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $existingTask
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected function extractCommands(array $tasks, TaskSetInterface $existingTask): array
+    {
+        $commands = [];
+
+        foreach ($existingTask->getSubTasks() as $subTask) {
+            if (is_string($subTask)) {
+                $subTask = $tasks[$subTask] ?? $this->existingTasks[$subTask];
+            }
+            $commands[] = $this->extractExistingCommands($subTask);
+        }
+
+        return array_merge(...$commands);
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected function extractExistingCommands(TaskInterface $task): array
+    {
+        $commands = [];
+        foreach ($task->getCommands() as $command) {
+            $commands[] = new Command(
+                $command instanceof ExecutableCommandInterface || $command->getType() === 'php' ?
+                    get_class($command) :
+                    $command->getCommand(),
+                $command->getType(),
+                $command->hasStopOnError(),
+                $command->getTags(),
+                $command->getConverter(),
+                $task instanceof StagedTaskInterface ? $task->getStage() : $command->getStage(),
+                $command instanceof ErrorCommandInterface ? $command->getErrorMessage() : '',
+            );
+        }
+
+        return $commands;
     }
 
     /**
@@ -146,15 +244,19 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function findExistedDirectories(array $directorySettings): array
     {
-        return array_filter($directorySettings, function (string $dir): bool {
-            $found = glob($dir . '/*/Task');
-
-            if ($found === false) {
-                return false;
+        $existingDirs = [];
+        foreach ($directorySettings as $directorySetting) {
+            $foundOldPaths = glob($directorySetting . '/Task');
+            $foundNewPaths = glob($directorySetting . '/task');
+            if ($foundOldPaths) {
+                $existingDirs[] = $foundOldPaths;
             }
+            if ($foundNewPaths) {
+                $existingDirs[] = $foundNewPaths;
+            }
+        }
 
-            return count($found) > 0;
-        });
+        return array_merge(...$existingDirs);
     }
 
     /**
@@ -176,9 +278,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                 if ($tags && !array_intersect($tags, $taskTags)) {
                     continue;
                 }
+
                 $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
                     $taskListData[$task['id']]['placeholders'] :
-                    $this->existingTasks[$task['id']]->getPlaceholders();
+                    $this->getExistingTask($task['id'])->getPlaceholders();
             }
         }
         $taskPlaceholders = array_merge(...$taskPlaceholders);
@@ -206,6 +309,8 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @param array $data
      * @param array $taskListData
      * @param array<string> $tags
+     *
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException
      *
      * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
@@ -235,7 +340,11 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                 if ($tags && !array_intersect($tags, $tasksTags)) {
                     continue;
                 }
-                $taskData = $taskListData[$task['id']] ?? $this->existingTasks[$task['id']];
+                $taskData = $taskListData[$task['id']] ?? $this->getExistingTask($task['id']);
+
+                if ($taskData instanceof TaskSetInterface) {
+                    throw new TaskSetNestingException('Task set can\'t have another task set inside.');
+                }
 
                 if ($taskData instanceof TaskInterface) {
                     foreach ($taskData->getCommands() as $command) {
@@ -292,7 +401,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $data
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
      */
     protected function buildFiles(array $data): array
     {
@@ -317,7 +426,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @param array $taskListData
      * @param array $tags
      *
-     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\TaskLifecycleInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface
      */
     protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface
     {
@@ -454,5 +563,24 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $task->setPlaceholdersArray(array_merge(...$taskSetPlaceholders));
 
         return $task;
+    }
+
+    /**
+     * @param string $taskId
+     *
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    protected function getExistingTask(string $taskId): TaskInterface
+    {
+        if ($this->existingTasks[$taskId] instanceof TaskSetInterface) {
+            throw new TaskSetNestingException(sprintf(
+                'Task set with id %s can\'t have another task set inside.',
+                $taskId,
+            ));
+        }
+
+        return $this->existingTasks[$taskId];
     }
 }
