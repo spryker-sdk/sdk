@@ -4,6 +4,13 @@ parameters:
   sdk_settings: "%kernel.project_dir%/src/Extension/Resources/config/setting/settings.yaml"
 
 services:
+  _instanceof:
+    SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface:
+        tags: [ "sdk.setting_choice_provider" ]
+
+    SprykerSdk\SdkContracts\Setting\SettingInitializerInterface:
+        tags: [ "sdk.setting_initializer" ]
+
   app_modify_docker_file:
     class: SprykerSdk\Sdk\Extension\Service\AppDockerFileModifier
     arguments:
