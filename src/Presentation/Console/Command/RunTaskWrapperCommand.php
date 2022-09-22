@@ -261,8 +261,11 @@ class RunTaskWrapperCommand extends Command
         ) {
             $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
         }
+        $report = $this->getReportFormat($input);
 
-        $context->setFormat($this->getReportFormat($input));
+        if ($report) {
+            $context->setFormat($report);
+        }
 
         return $context;
     }
@@ -270,9 +273,9 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return string
+     * @return string|null
      */
-    protected function getReportFormat(InputInterface $input): string
+    protected function getReportFormat(InputInterface $input): ?string
     {
         if (
             $input->hasOption(static::OPTION_FORMAT)
@@ -282,7 +285,7 @@ class RunTaskWrapperCommand extends Command
             return $input->getOption(static::OPTION_FORMAT);
         }
 
-        return $this->projectSettingRepository->getOneByPath('default_violation_output_format')->getValues();
+        return null;
     }
 
     /**

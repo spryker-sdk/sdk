@@ -7,8 +7,12 @@ services:
       - "@project_setting_repository"
       - "%project_settings_file%"
   event_logger:
-    class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
+    class: SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger
     factory: ["@event_logger_factory", "createEventLogger"]
+  default_context_receiver:
+    class: SprykerSdk\Sdk\Infrastructure\Service\DefaultContextReceiver
+    arguments:
+        - '@setting_repository'
   action_approver:
     class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
     arguments:
