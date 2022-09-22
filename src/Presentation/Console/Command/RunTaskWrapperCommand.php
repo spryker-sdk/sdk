@@ -261,10 +261,10 @@ class RunTaskWrapperCommand extends Command
         ) {
             $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
         }
-        $report = $this->getReportFormat($input);
+        $format = $this->getReportFormat($input);
 
-        if ($report) {
-            $context->setFormat($report);
+        if ($format) {
+            $context->setFormat($format);
         }
 
         return $context;

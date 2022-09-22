@@ -15,7 +15,7 @@ class DefaultContextReceiver implements DefaultContextReceiverInterface
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
-    private SettingRepositoryInterface $settingRepository;
+    protected SettingRepositoryInterface $settingRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository

@@ -22,7 +22,7 @@ class ContextFactory implements ContextFactoryInterface
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\DefaultContextReceiverInterface
      */
-    private DefaultContextReceiverInterface $defaultContextReceiver;
+    protected DefaultContextReceiverInterface $defaultContextReceiver;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\DefaultContextReceiverInterface $defaultContextReceiver
