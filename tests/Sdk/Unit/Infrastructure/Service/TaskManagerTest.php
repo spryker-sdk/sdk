@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskManager;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -38,6 +39,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createNoCallsEventDispatcherMock(),
             $this->createRepositoryMock($task),
+            $this->createTaskFromTaskSetBuilderMock(),
         );
 
         //Act
@@ -57,6 +59,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(InitializedEvent::class, InitializedEvent::NAME),
             $this->createRepositoryMock($task, 'create'),
+            $this->createTaskFromTaskSetBuilderMock(),
         );
 
         //Act
@@ -76,6 +79,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(RemovedEvent::class, RemovedEvent::NAME),
             $this->createRepositoryMock($task, 'remove'),
+            $this->createTaskFromTaskSetBuilderMock(),
         );
 
         //Act
@@ -92,6 +96,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(UpdatedEvent::class, UpdatedEvent::NAME),
             $this->createRepositoryMock($task, 'update'),
+            $this->createTaskFromTaskSetBuilderMock(),
         );
 
         //Act
@@ -163,5 +168,13 @@ class TaskManagerTest extends Unit
             ->method('dispatch');
 
         return $eventDispatcherMock;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface
+     */
+    protected function createTaskFromTaskSetBuilderMock(): TaskFromTaskSetBuilderInterface
+    {
+        return $this->createMock(TaskFromTaskSetBuilderInterface::class);
     }
 }

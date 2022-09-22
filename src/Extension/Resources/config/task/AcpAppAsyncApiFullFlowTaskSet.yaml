@@ -16,3 +16,7 @@ tasks:
   - id: "acp:asyncapi:generate"
     stop_on_error: true
 placeholders: []
+shared_placeholders:
+    '%sdk_dir%': ~
+    '%asyncapi-file%': ~
+

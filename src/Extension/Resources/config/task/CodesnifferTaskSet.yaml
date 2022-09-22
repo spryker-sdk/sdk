@@ -9,6 +9,15 @@ type: task_set
 tasks:
   - id: "validation:php:codestyle-fix"
     stop_on_error: false
+    placeholder_overrides:
+        '%executable_command%':
+            name: "%executable_command_codestyle_fix%"
   - id: "validation:php:codestyle-check"
     stop_on_error: false
+    placeholder_overrides:
+        '%executable_command%':
+            name: "%executable_command_codestyle_check%"
 placeholders: []
+shared_placeholders:
+    '%severity%': ~
+    '%path%': ~

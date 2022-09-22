@@ -12,7 +12,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskManager implements TaskManagerInterface
@@ -28,19 +30,27 @@ class TaskManager implements TaskManagerInterface
     protected TaskRepositoryInterface $taskRepository;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface
+     */
+    protected TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder;
+
+    /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        TaskRepositoryInterface $taskRepository
+        TaskRepositoryInterface $taskRepository,
+        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;
+        $this->taskFromTaskSetBuilder = $taskFromTaskSetBuilder;
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
@@ -53,6 +63,10 @@ class TaskManager implements TaskManagerInterface
 
             if ($existingTask) {
                 continue;
+            }
+
+            if ($task instanceof TaskSetInterface) {
+                $task = $this->taskFromTaskSetBuilder->buildTaskFromTaskSet($task, $tasks);
             }
 
             $entities[] = $this->taskRepository->create($task);

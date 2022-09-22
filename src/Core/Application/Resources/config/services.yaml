@@ -143,7 +143,9 @@ services:
 
   context_factory:
     class: SprykerSdk\Sdk\Core\Application\Service\ContextFactory
-
+    arguments:
+        - '@default_context_receiver'
+        -
   report_generator_factory:
     class: SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory
     arguments:
