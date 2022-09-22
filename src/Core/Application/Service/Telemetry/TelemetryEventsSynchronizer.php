@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TelemetryEventReposito
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\Telemetry\TelemetryEventsQueryCriteria;
 use SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 use Symfony\Component\Lock\LockFactory;
 use Throwable;
 
@@ -103,7 +103,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      *
      * @return void
      */
@@ -181,7 +181,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     /**
      * @param int $syncTimestamp
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface>
+     * @return array<TelemetryEventInterface>
      */
     protected function getTelemetryEvents(int $syncTimestamp): array
     {
@@ -194,7 +194,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
+     * @param array<TelemetryEventInterface> $telemetryEvents
      *
      * @return void
      */
@@ -206,7 +206,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      *
      * @return void
      */

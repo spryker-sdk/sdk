@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use RuntimeException;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TelemetryEventNormalizer implements NormalizerInterface
@@ -63,7 +63,7 @@ class TelemetryEventNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface $payload
+     * @param TelemetryEventPayloadInterface $payload
      *
      * @throws \InvalidArgumentException
      *

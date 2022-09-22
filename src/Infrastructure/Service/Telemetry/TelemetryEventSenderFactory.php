@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
 
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 
 class TelemetryEventSenderFactory
 {
@@ -92,7 +93,7 @@ class TelemetryEventSenderFactory
         return new class implements TelemetryEventSenderInterface
         {
             /**
-             * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
+             * @param array<TelemetryEventInterface> $telemetryEvents
              *
              * @return void
              */

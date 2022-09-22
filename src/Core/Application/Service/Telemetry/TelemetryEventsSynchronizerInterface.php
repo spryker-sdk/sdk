@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service\Telemetry;
 
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 
 interface TelemetryEventsSynchronizerInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      *
      * @return void
      */

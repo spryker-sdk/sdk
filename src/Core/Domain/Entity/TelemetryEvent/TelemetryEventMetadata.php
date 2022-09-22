@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent;
 
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
-
 class TelemetryEventMetadata implements TelemetryEventMetadataInterface
 {
     /**

@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service\Telemetry;
 
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
 
 interface TelemetryEventMetadataFactoryInterface
 {
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface
+     * @return TelemetryEventMetadataInterface
      */
     public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface;
 }

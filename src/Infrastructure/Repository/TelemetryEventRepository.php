@@ -14,9 +14,9 @@ use Doctrine\ORM\EntityRepository;
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TelemetryEventRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\Telemetry\TelemetryEventsQueryCriteria;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TelemetryEventMapperInterface;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
 
 class TelemetryEventRepository extends EntityRepository implements TelemetryEventRepositoryInterface
 {
@@ -37,7 +37,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @return void
@@ -54,7 +54,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @throws \RuntimeException
@@ -119,7 +119,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @throws \RuntimeException
@@ -148,7 +148,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
+     * @param array<TelemetryEventInterface> $telemetryEvents
      *
      * @return void
      */

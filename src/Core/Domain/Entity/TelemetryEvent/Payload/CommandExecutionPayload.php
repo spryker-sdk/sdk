@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload;
 
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface;
-
 class CommandExecutionPayload implements TelemetryEventPayloadInterface
 {
     /**

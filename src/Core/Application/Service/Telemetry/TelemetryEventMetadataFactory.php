@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Core\Application\Service\Telemetry;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
 
 class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInterface
 {
@@ -45,7 +45,7 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface
+     * @return TelemetryEventMetadataInterface
      */
     public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface
     {

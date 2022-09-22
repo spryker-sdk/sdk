@@ -5,9 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity\Telemetry;
+namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent;
 
 use DateTimeImmutable;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface;
 
 interface TelemetryEventInterface
 {
@@ -27,12 +28,12 @@ interface TelemetryEventInterface
     public function markSynchronizeFailed(): void;
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Telemetry\TelemetryEventPayloadInterface
+     * @return TelemetryEventPayloadInterface
      */
     public function getPayload(): TelemetryEventPayloadInterface;
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Telemetry\TelemetryEventMetadataInterface
+     * @return TelemetryEventMetadataInterface
      */
     public function getMetadata(): TelemetryEventMetadataInterface;
 

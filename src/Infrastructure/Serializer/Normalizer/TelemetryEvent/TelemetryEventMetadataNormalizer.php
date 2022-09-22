@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent;
 
 use InvalidArgumentException;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TelemetryEventMetadataNormalizer implements NormalizerInterface

@@ -7,10 +7,12 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
+
 interface TelemetryEventSenderInterface
 {
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
+     * @param array<TelemetryEventInterface> $telemetryEvents
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException
      *

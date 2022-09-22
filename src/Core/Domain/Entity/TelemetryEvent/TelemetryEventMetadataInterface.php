@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Domain\Entity\Telemetry;
+namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent;
 
 interface TelemetryEventMetadataInterface
 {

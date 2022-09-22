@@ -9,12 +9,12 @@ namespace SprykerSdk\Sdk\Core\Application\Dependency\Repository;
 
 use DateInterval;
 use SprykerSdk\Sdk\Core\Application\Dto\Telemetry\TelemetryEventsQueryCriteria;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 
 interface TelemetryEventRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @return void
@@ -22,7 +22,7 @@ interface TelemetryEventRepositoryInterface
     public function save(TelemetryEventInterface $telemetryEvent, bool $flush = true): void;
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @return void
@@ -30,14 +30,14 @@ interface TelemetryEventRepositoryInterface
     public function update(TelemetryEventInterface $telemetryEvent, bool $flush = true): void;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\Telemetry\TelemetryEventsQueryCriteria $criteria
+     * @param TelemetryEventsQueryCriteria $criteria
      *
      * @return array
      */
     public function getTelemetryEvents(TelemetryEventsQueryCriteria $criteria): array;
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @return void
@@ -45,7 +45,7 @@ interface TelemetryEventRepositoryInterface
     public function remove(TelemetryEventInterface $telemetryEvent, bool $flush = true): void;
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface> $telemetryEvents
+     * @param array<TelemetryEventInterface> $telemetryEvents
      *
      * @return void
      */
