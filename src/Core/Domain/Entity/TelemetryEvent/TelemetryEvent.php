@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent;
 
 use DateTimeImmutable;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Telemetry\TelemetryEventInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Telemetry\TelemetryEventMetadataInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Telemetry\TelemetryEventPayloadInterface;
 
 class TelemetryEvent implements TelemetryEventInterface
 {
