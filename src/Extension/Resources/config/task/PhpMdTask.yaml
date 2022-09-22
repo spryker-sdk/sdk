@@ -57,8 +57,6 @@ placeholders:
     configuration:
       alias: "priority"
       description: "Minimal PHPMD priority of rules to fail the validation"
-      minValue: 1
-      maxValue: 10
       defaultValue: 2
       type: int
   - name: "%reportDir%"
