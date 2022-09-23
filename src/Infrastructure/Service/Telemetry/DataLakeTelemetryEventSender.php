@@ -11,7 +11,6 @@ use GuzzleHttp\ClientInterface;
 use Psr\Http\Client\NetworkExceptionInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException;
-use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class DataLakeTelemetryEventSender implements TelemetryEventSenderInterface
@@ -71,7 +70,7 @@ class DataLakeTelemetryEventSender implements TelemetryEventSenderInterface
     }
 
     /**
-     * @param array<TelemetryEventInterface> $telemetryEvents
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface> $telemetryEvents
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException
      *

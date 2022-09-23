@@ -63,7 +63,7 @@ class TelemetryEventNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param TelemetryEventPayloadInterface $payload
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface $payload
      *
      * @throws \InvalidArgumentException
      *

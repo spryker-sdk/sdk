@@ -103,7 +103,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return void
      */
@@ -181,7 +181,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     /**
      * @param int $syncTimestamp
      *
-     * @return array<TelemetryEventInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface>
      */
     protected function getTelemetryEvents(int $syncTimestamp): array
     {
@@ -194,7 +194,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
-     * @param array<TelemetryEventInterface> $telemetryEvents
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface> $telemetryEvents
      *
      * @return void
      */
@@ -206,7 +206,7 @@ class TelemetryEventsSynchronizer implements TelemetryEventsSynchronizerInterfac
     }
 
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return void
      */

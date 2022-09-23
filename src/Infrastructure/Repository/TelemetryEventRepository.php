@@ -37,7 +37,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @return void
@@ -54,7 +54,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @throws \RuntimeException
@@ -119,7 +119,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      * @param bool $flush
      *
      * @throws \RuntimeException
@@ -148,7 +148,7 @@ class TelemetryEventRepository extends EntityRepository implements TelemetryEven
     }
 
     /**
-     * @param array<TelemetryEventInterface> $telemetryEvents
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface> $telemetryEvents
      *
      * @return void
      */

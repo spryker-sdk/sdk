@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInter
 interface TelemetryEventMetadataFactoryInterface
 {
     /**
-     * @return TelemetryEventMetadataInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface
      */
     public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface;
 }

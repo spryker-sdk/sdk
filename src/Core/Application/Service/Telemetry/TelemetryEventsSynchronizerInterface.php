@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 interface TelemetryEventsSynchronizerInterface
 {
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return void
      */

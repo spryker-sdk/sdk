@@ -28,12 +28,12 @@ interface TelemetryEventInterface
     public function markSynchronizeFailed(): void;
 
     /**
-     * @return TelemetryEventPayloadInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface
      */
     public function getPayload(): TelemetryEventPayloadInterface;
 
     /**
-     * @return TelemetryEventMetadataInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface
      */
     public function getMetadata(): TelemetryEventMetadataInterface;
 

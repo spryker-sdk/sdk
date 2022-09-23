@@ -14,7 +14,7 @@ use SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent as InfrastructureTelemet
 class TelemetryEventMapper implements TelemetryEventMapperInterface
 {
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent
      */
@@ -28,7 +28,7 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
     }
 
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent
      */
@@ -42,7 +42,7 @@ class TelemetryEventMapper implements TelemetryEventMapperInterface
     }
 
     /**
-     * @param TelemetryEventInterface $fromTelemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $fromTelemetryEvent
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent|\SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent $toTelemetryEvent
      *
      * @return void

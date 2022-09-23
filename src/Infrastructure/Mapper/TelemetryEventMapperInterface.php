@@ -14,21 +14,21 @@ use SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent as InfrastructureTelemet
 interface TelemetryEventMapperInterface
 {
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent
      */
     public function mapToInfrastructureTelemetryEvent(TelemetryEventInterface $telemetryEvent): InfrastructureTelemetryEvent;
 
     /**
-     * @param TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent
      */
     public function mapToDomainTelemetryEvent(TelemetryEventInterface $telemetryEvent): DomainTelemetryEvent;
 
     /**
-     * @param TelemetryEventInterface $fromTelemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $fromTelemetryEvent
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent|\SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent $toTelemetryEvent
      *
      * @return void

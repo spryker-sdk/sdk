@@ -33,12 +33,12 @@ class TelemetryEvent implements TelemetryEventInterface
     protected string $scope;
 
     /**
-     * @var TelemetryEventPayloadInterface
+     * @var \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface
      */
     protected TelemetryEventPayloadInterface $payload;
 
     /**
-     * @var TelemetryEventMetadataInterface
+     * @var \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface
      */
     protected TelemetryEventMetadataInterface $metadata;
 
@@ -58,8 +58,8 @@ class TelemetryEvent implements TelemetryEventInterface
     protected DateTimeImmutable $triggeredAt;
 
     /**
-     * @param TelemetryEventPayloadInterface $payload
-     * @param TelemetryEventMetadataInterface $metadata
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface $payload
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface $metadata
      */
     public function __construct(TelemetryEventPayloadInterface $payload, TelemetryEventMetadataInterface $metadata)
     {
@@ -117,7 +117,7 @@ class TelemetryEvent implements TelemetryEventInterface
     }
 
     /**
-     * @return TelemetryEventPayloadInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface
      */
     public function getPayload(): TelemetryEventPayloadInterface
     {
@@ -125,7 +125,7 @@ class TelemetryEvent implements TelemetryEventInterface
     }
 
     /**
-     * @param TelemetryEventPayloadInterface $payload
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface $payload
      *
      * @return void
      */
@@ -135,7 +135,7 @@ class TelemetryEvent implements TelemetryEventInterface
     }
 
     /**
-     * @return TelemetryEventMetadataInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface
      */
     public function getMetadata(): TelemetryEventMetadataInterface
     {
@@ -143,7 +143,7 @@ class TelemetryEvent implements TelemetryEventInterface
     }
 
     /**
-     * @param TelemetryEventMetadataInterface $metadata
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface $metadata
      *
      * @return void
      */

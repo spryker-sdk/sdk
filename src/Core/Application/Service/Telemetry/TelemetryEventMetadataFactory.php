@@ -45,7 +45,7 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
     }
 
     /**
-     * @return TelemetryEventMetadataInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface
      */
     public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface
     {
