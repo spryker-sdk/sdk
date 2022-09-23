@@ -14,8 +14,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventS
 use SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizer;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface;
 
@@ -96,7 +96,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface $telemetryEvent
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface $telemetryEvent
      *
      * @return \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TelemetryEventRepositoryInterface
      */
@@ -109,7 +109,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface
      */
     protected function createTelemetryEvent(): TelemetryEventInterface
     {
@@ -166,7 +166,7 @@ class TelemetryEventsSynchronizerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface
      */
     protected function createTelemetryEventWithExpectedFailedCall(): TelemetryEventInterface
     {

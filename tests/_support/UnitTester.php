@@ -19,7 +19,9 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent as DomainTelemetryEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command as InfrastructureCommand;
 use SprykerSdk\Sdk\Infrastructure\Entity\File as InfrastructureFile;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
@@ -34,8 +36,6 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface;
-use SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
@@ -330,7 +330,7 @@ class UnitTester extends Actor
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventPayloadInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface
      */
     public function createTelemetryEventPayload(): TelemetryEventPayloadInterface
     {
@@ -363,7 +363,7 @@ class UnitTester extends Actor
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface
      */
     public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface
     {
