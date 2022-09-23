@@ -131,6 +131,20 @@ class Initializer implements InitializerInterface
             ),
         );
 
+        return $this->normalizeReceivedValue($value);
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    protected function normalizeReceivedValue($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+
         return is_scalar($value) ? $value : json_encode($value);
     }
 }
