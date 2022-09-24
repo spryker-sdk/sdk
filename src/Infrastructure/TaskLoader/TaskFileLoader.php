@@ -8,8 +8,6 @@
 namespace SprykerSdk\Sdk\Infrastructure\TaskLoader;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskCollection;
@@ -18,6 +16,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\TaskReader\TaskReaderInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -53,7 +52,7 @@ class TaskFileLoader implements TaskLoaderInterface
     protected TaskYamlFactoryInterface $taskYamlFactory;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\TaskReader\TaskReaderInterface
      */
     protected TaskReaderInterface $taskFileReader;
 
@@ -63,7 +62,7 @@ class TaskFileLoader implements TaskLoaderInterface
      * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskSetBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface $taskFileReader
+     * @param \SprykerSdk\Sdk\Infrastructure\TaskReader\TaskReaderInterface $taskFileReader
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
@@ -241,12 +240,6 @@ class TaskFileLoader implements TaskLoaderInterface
      */
     public function findById(string $taskId): ?TaskInterface
     {
-        $tasks = $this->findAll();
-
-        if (array_key_exists($taskId, $tasks)) {
-            return $tasks[$taskId];
-        }
-
-        return null;
+        return $this->findAll()[$taskId] ?? null;
     }
 }

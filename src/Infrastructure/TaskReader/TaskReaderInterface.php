@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Dependency;
+namespace SprykerSdk\Sdk\Infrastructure\TaskReader;
 
 use SprykerSdk\Sdk\Core\Application\Dto\TaskCollection;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;

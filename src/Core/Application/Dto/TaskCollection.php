@@ -10,20 +10,20 @@ namespace SprykerSdk\Sdk\Core\Application\Dto;
 class TaskCollection
 {
     /**
-     * @var array
+     * @var array<string, array>
      */
-    protected array $tasks = [];
+    protected array $tasks;
 
     /**
-     * @var array
+     * @var array<string, array>
      */
-    protected array $taskSets = [];
+    protected array $taskSets;
 
     /**
      * @param array $tasks
      * @param array $taskSets
      */
-    public function __construct(array $tasks, array $taskSets)
+    public function __construct(array $tasks = [], array $taskSets = [])
     {
         $this->tasks = $tasks;
         $this->taskSets = $taskSets;
@@ -43,5 +43,31 @@ class TaskCollection
     public function getTaskSets(): array
     {
         return $this->taskSets;
+    }
+
+    /**
+     * @param string $id
+     * @param array $task
+     *
+     * @return $this
+     */
+    public function addTask(string $id, array $task)
+    {
+        $this->tasks[$id] = $task;
+
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     * @param array $taskSet
+     *
+     * @return $this
+     */
+    public function addTaskSet(string $id, array $taskSet)
+    {
+        $this->taskSets[$id] = $taskSet;
+
+        return $this;
     }
 }

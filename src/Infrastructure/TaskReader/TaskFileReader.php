@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\TaskReader;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskCollection;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
@@ -43,24 +42,34 @@ class TaskFileReader implements TaskReaderInterface
      */
     public function read(SettingInterface $taskDirSetting): TaskCollection
     {
-        $taskListData = [];
-        $taskSetsData = [];
-
         $finder = $this->fileFinder
             ->in($this->findExistedDirectories($taskDirSetting->getValues()))
             ->name('*.yaml');
 
+        $taskCollection = new TaskCollection();
+
         foreach ($finder->files() as $taskFile) {
             $taskData = $this->yamlParser->parse($taskFile->getContents());
 
-            if ($taskData['type'] === TaskType::TASK_SET_TYPE) {
-                $taskSetsData[$taskData['id']] = $taskData;
-            } else {
-                $taskListData[$taskData['id']] = $taskData;
-            }
+            $taskCollection = $this->populateCollection($taskCollection, $taskData);
         }
 
-        return new TaskCollection($taskListData, $taskSetsData);
+        return $taskCollection;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskCollection $taskCollection
+     * @param mixed $taskData
+     *
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskCollection
+     */
+    protected function populateCollection(TaskCollection $taskCollection, $taskData): TaskCollection
+    {
+        if ($taskData['type'] === TaskType::TASK_SET_TYPE) {
+            return $taskCollection->addTaskSet($taskData['id'], $taskData);
+        }
+
+        return $taskCollection->addTask($taskData['id'], $taskData);
     }
 
     /**

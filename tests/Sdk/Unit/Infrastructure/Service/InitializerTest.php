@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
@@ -50,7 +50,7 @@ class InitializerTest extends Unit
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface
      */
     protected TaskLoaderInterface $taskLoader;
 

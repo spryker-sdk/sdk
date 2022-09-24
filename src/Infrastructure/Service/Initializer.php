@@ -10,9 +10,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
@@ -34,7 +34,7 @@ class Initializer implements InitializerInterface
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface
      */
     protected TaskLoaderInterface $taskFileLoader;
 
@@ -42,7 +42,7 @@ class Initializer implements InitializerInterface
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface $taskFileLoader
+     * @param \SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface $taskFileLoader
      */
     public function __construct(
         InteractionProcessorInterface $cliValueReceiver,

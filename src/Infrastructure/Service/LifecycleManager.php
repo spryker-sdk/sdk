@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use GuzzleHttp\Client;
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
+use SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface;
 use Throwable;
 
 class LifecycleManager implements LifecycleManagerInterface
@@ -28,7 +28,7 @@ class LifecycleManager implements LifecycleManagerInterface
     public const GITHUB_ENDPOINT = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface
      */
     protected TaskLoaderInterface $taskFileLoader;
 
@@ -48,7 +48,7 @@ class LifecycleManager implements LifecycleManagerInterface
     protected string $sdkDirectory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskLoaderInterface $taskFileLoader
+     * @param \SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskLoaderInterface $taskFileLoader
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository $taskEntityRepository
      * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface> $actions
      * @param string $sdkDirectory

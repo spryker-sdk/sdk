@@ -48,7 +48,7 @@ class LifecycleEventDataBuilderTest extends Unit
         $this->lifecycleEventDataBuilder = new LifecycleEventDataBuilder(
             new FileCollectionBuilder(),
             new LifecycleCommandBuilder(),
-            new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator(), new PlaceholderFactory())
+            new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator(), new PlaceholderFactory()),
         );
         parent::setUp();
     }
