@@ -21,6 +21,8 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
+use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
+use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -49,10 +51,10 @@ class TaskBuilderTest extends Unit
     protected function setUp(): void
     {
         $taskRegistry = new TaskRegistry([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]);
-        $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator());
+        $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator(), new PlaceholderFactory());
         $this->taskBuilder = new TaskBuilder(
             $placeholderBuilder,
-            new CommandBuilder($taskRegistry, new ConverterBuilder(), new TaskYamlFactory(), new NestedTaskSetValidator()),
+            new CommandBuilder($taskRegistry, new ConverterBuilder(), new TaskYamlFactory(), new NestedTaskSetValidator(), new CommandFactory()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
                     new FileCollectionBuilder(),

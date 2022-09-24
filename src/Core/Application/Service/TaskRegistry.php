@@ -55,4 +55,14 @@ class TaskRegistry implements TaskRegistryInterface
     {
         $this->existingTasks[$id] = $task;
     }
+
+    /**
+     * @param string $id
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
+     */
+    public function find(string $id): ?TaskInterface
+    {
+        return $this->existingTasks[$id] ?? null;
+    }
 }

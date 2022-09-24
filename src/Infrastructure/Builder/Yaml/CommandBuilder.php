@@ -11,12 +11,10 @@ use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
-use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class CommandBuilder implements CommandBuilderInterface
@@ -42,21 +40,29 @@ class CommandBuilder implements CommandBuilderInterface
     protected TaskValidatorInterface $nestedTaskSetValidator;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory
+     */
+    protected CommandFactory $commandFactory;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface $converterBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface $nestedTaskSetValidator
+     * @param \SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory $commandFactory
      */
     public function __construct(
         TaskRegistryInterface $taskRegistry,
         ConverterBuilderInterface $converterBuilder,
         TaskYamlFactoryInterface $taskYamlFactory,
-        TaskValidatorInterface $nestedTaskSetValidator
+        TaskValidatorInterface $nestedTaskSetValidator,
+        CommandFactory $commandFactory
     ) {
         $this->taskRegistry = $taskRegistry;
         $this->converterBuilder = $converterBuilder;
         $this->taskYamlFactory = $taskYamlFactory;
         $this->nestedTaskSetValidator = $nestedTaskSetValidator;
+        $this->commandFactory = $commandFactory;
     }
 
     /**
@@ -90,9 +96,8 @@ class CommandBuilder implements CommandBuilderInterface
             return null;
         }
 
-        return $this->buildCommand(
+        return $this->commandFactory->createFromArray(
             $data,
-            $data['tags'] ?? [],
             false,
             $this->converterBuilder->buildConverter($taskYaml),
         );
@@ -124,11 +129,15 @@ class CommandBuilder implements CommandBuilderInterface
                 continue;
             }
 
-            $commands[] = $this->buildCommand(
+            $converter = $this->converterBuilder->buildConverter(
+                $this->taskYamlFactory->createTaskYaml($taskData, $taskListData),
+            );
+
+            $commands[] = $this->commandFactory->createFromArray(
                 $taskData,
-                $task['tags'] ?? [],
                 $task['stop_on_error'],
-                $this->converterBuilder->buildConverter($this->taskYamlFactory->createTaskYaml($taskData, $taskListData)),
+                $converter,
+                $taskData['error_message'] ?? '',
             );
         }
 
@@ -146,30 +155,5 @@ class CommandBuilder implements CommandBuilderInterface
         $this->nestedTaskSetValidator->validate($taskFromRegistry);
 
         return $taskFromRegistry;
-    }
-
-    /**
-     * @param array $taskData
-     * @param array $tasksTags
-     * @param bool $stopOnError
-     * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Command
-     */
-    protected function buildCommand(
-        array $taskData,
-        array $tasksTags,
-        bool $stopOnError,
-        ?ConverterInterface $converter
-    ): Command {
-        return new Command(
-            $taskData['command'],
-            $taskData['type'],
-            $stopOnError,
-            $tasksTags,
-            $converter,
-            $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
-            $taskData['error_message'] ?? '',
-        );
     }
 }

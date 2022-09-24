@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
+use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
@@ -48,6 +49,7 @@ class CommandBuilderTest extends Unit
             new ConverterBuilder(),
             new TaskYamlFactory(),
             new NestedTaskSetValidator(),
+            new CommandFactory(),
         );
         parent::setUp();
     }

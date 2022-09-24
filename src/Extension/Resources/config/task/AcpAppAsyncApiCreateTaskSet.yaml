@@ -12,3 +12,7 @@ tasks:
   - id: "acp:asyncapi:message-add"
     stop_on_error: false
 placeholders: []
+shared_placeholders:
+    '%sdk_dir%': ~
+    '%asyncapi-file%':
+        description: "Path to AsyncAPI file"

@@ -24,8 +24,10 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilder;
+use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
+use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskFileLoader;
 use SprykerSdk\Sdk\Infrastructure\TaskReader\TaskFileReader;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -83,10 +85,10 @@ class TaskFileLoaderTest extends Unit
             new HelloStagedTaskSet(),
             $taskSetWithStringReference,
         ]);
-        $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator());
+        $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator(), new PlaceholderFactory());
         $taskBuilder = new TaskBuilder(
             $placeholderBuilder,
-            new CommandBuilder($taskRegistry, new ConverterBuilder(), new TaskYamlFactory(), new NestedTaskSetValidator()),
+            new CommandBuilder($taskRegistry, new ConverterBuilder(), new TaskYamlFactory(), new NestedTaskSetValidator(), new CommandFactory()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
                     new FileCollectionBuilder(),
@@ -101,7 +103,7 @@ class TaskFileLoaderTest extends Unit
         $this->taskFileLoader = new TaskFileLoader(
             $this->settingRepository,
             $taskBuilder,
-            new TaskSetBuilder($taskBuilder),
+            $this->createTaskFromYamlTaskSetBuilderMock(),
             $taskRegistry,
             new TaskYamlFactory(),
             new TaskFileReader(new Finder(), new Yaml()),
@@ -206,5 +208,13 @@ class TaskFileLoaderTest extends Unit
 
         // Assert
         $this->assertNull($result);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface
+     */
+    public function createTaskFromYamlTaskSetBuilderMock(): TaskFromYamlTaskSetBuilderInterface
+    {
+        return $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
     }
 }

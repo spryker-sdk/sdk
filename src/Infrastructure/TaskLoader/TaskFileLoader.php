@@ -17,6 +17,7 @@ use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -37,9 +38,9 @@ class TaskFileLoader implements TaskLoaderInterface
     protected TaskBuilderInterface $taskBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface
      */
-    protected TaskBuilderInterface $taskSetBuilder;
+    protected TaskFromYamlTaskSetBuilderInterface $taskSetBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
@@ -59,7 +60,7 @@ class TaskFileLoader implements TaskLoaderInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskSetBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskSetBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskReaderInterface $taskFileReader
@@ -67,7 +68,7 @@ class TaskFileLoader implements TaskLoaderInterface
     public function __construct(
         SettingRepositoryInterface $settingRepository,
         TaskBuilderInterface $taskBuilder,
-        TaskBuilderInterface $taskSetBuilder,
+        TaskFromYamlTaskSetBuilderInterface $taskSetBuilder,
         TaskRegistryInterface $taskRegistry,
         TaskYamlFactoryInterface $taskYamlFactory,
         TaskReaderInterface $taskFileReader
@@ -126,12 +127,12 @@ class TaskFileLoader implements TaskLoaderInterface
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskCollection $taskCollection
      * @param array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task> $tasks
      *
-     * @return array<string, \SprykerSdk\Sdk\Core\Domain\Entity\Task>
+     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     protected function collectTaskSets(TaskCollection $taskCollection, array $tasks): array
     {
         foreach ($taskCollection->getTaskSets() as $taskData) {
-            $task = $this->taskSetBuilder->buildTask(
+            $task = $this->taskSetBuilder->buildTaskFromYamlTaskSet(
                 $this->taskYamlFactory->createTaskYaml($taskData, $taskCollection->getTasks(), $tasks),
             );
             $tasks[$task->getId()] = $task;

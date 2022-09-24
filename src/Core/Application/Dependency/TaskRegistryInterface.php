@@ -25,6 +25,13 @@ interface TaskRegistryInterface
 
     /**
      * @param string $id
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
+     */
+    public function find(string $id): ?TaskInterface;
+
+    /**
+     * @param string $id
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void

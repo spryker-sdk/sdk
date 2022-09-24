@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
 use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
+use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
@@ -44,6 +45,7 @@ class PlaceholderBuilderTest extends Unit
         $this->placeholderBuilder = new PlaceholderBuilder(
             new TaskRegistry([new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))]),
             new NestedTaskSetValidator(),
+            new PlaceholderFactory(),
         );
         parent::setUp();
     }

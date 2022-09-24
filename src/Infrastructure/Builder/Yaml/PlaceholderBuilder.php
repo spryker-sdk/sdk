@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
-use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -28,13 +28,23 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
     protected TaskValidatorInterface $nestedTaskSetValidator;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory
+     */
+    protected PlaceholderFactory $placeholderFactory;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface $nestedTaskSetValidator
+     * @param \SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory $placeholderFactory
      */
-    public function __construct(TaskRegistryInterface $taskRegistry, TaskValidatorInterface $nestedTaskSetValidator)
-    {
+    public function __construct(
+        TaskRegistryInterface $taskRegistry,
+        TaskValidatorInterface $nestedTaskSetValidator,
+        PlaceholderFactory $placeholderFactory
+    ) {
         $this->taskRegistry = $taskRegistry;
         $this->nestedTaskSetValidator = $nestedTaskSetValidator;
+        $this->placeholderFactory = $placeholderFactory;
     }
 
     /**
@@ -59,7 +69,7 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
                 continue;
             }
 
-            $placeholders[$placeholderData['name']] = $this->createPlaceholder($placeholderData);
+            $placeholders[$placeholderData['name']] = $this->placeholderFactory->createFromArray($placeholderData);
         }
 
         return $placeholders;
@@ -101,20 +111,5 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
         $this->nestedTaskSetValidator->validate($taskFromRegistry);
 
         return $taskFromRegistry;
-    }
-
-    /**
-     * @param array $placeholderData
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\PlaceholderInterface
-     */
-    protected function createPlaceholder(array $placeholderData): PlaceholderInterface
-    {
-        return new Placeholder(
-            $placeholderData['name'],
-            $placeholderData['value_resolver'],
-            $placeholderData['configuration'] ?? [],
-            $placeholderData['optional'] ?? false,
-        );
     }
 }

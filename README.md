@@ -14,8 +14,8 @@ so you can focus developing exciting features for your business case.
 
 - ensure auth file is available for composer (https://getcomposer.org/doc/articles/authentication-for-private-packages.md)
 - ensure docker & docker-compose is installed
-- Download the `install.sh` from the latest release at https://github.com/spryker-sdk/sdk/releases
-- run `install.sh </path/to/install/sdk/in>`
+- Download the `installer.sh` from the latest release at https://github.com/spryker-sdk/sdk/releases
+- run `installer.sh </path/to/install/sdk/in>`
 - echo "add alias spryker-sdk='</path/to/install/sdk/in>/bin/spryker-sdk.sh'" >> ~/.bashrc
 
 ## Update
