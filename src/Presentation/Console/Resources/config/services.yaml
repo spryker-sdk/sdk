@@ -8,7 +8,7 @@ services:
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
-    tags: [ "console.command", "telemetry.observable_command" ]
+    tags: [ "console.command" ]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -36,7 +36,7 @@ services:
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@task_executor"
       - "@project_workflow"
@@ -78,8 +78,8 @@ services:
     tags: ["console.command"]
     arguments:
       - "@service.lifecycle_manager"
-      - "@setting_repository"
       - "@doctrine_migrations.migrate_command"
+      - "@initializer_service"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
     tags: ["console.command", "telemetry.observable_command"]
@@ -88,7 +88,7 @@ services:
       - "@process_helper"
   install_private_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\InstallSdkBundlesCommand
-    tags: [ "console.command", "telemetry.observable_command"]
+    tags: [ "console.command" ]
     arguments:
       - "@service.tasks_repository_installer"
       - '%kernel.project_dir%'
