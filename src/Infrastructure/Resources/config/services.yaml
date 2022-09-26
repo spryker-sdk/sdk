@@ -114,7 +114,6 @@ services:
       - '@task_builder'
       - '@task.task_from_yaml_builder'
       - '@sdk_task_registry'
-      - '@task_yaml_factory'
       - '@task_file_reader'
 
   task_file_reader:
