@@ -11,17 +11,17 @@ use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 
-class LifecycleBuilder implements LifecycleBuilderInterface
+class LifecycleBuilder
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder
      */
-    protected LifecycleEventDataBuilderInterface $lifecycleEventDataBuilder;
+    protected LifecycleEventDataBuilder $lifecycleEventDataBuilder;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilderInterface $lifecycleEventDataBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleEventDataBuilder $lifecycleEventDataBuilder
      */
-    public function __construct(LifecycleEventDataBuilderInterface $lifecycleEventDataBuilder)
+    public function __construct(LifecycleEventDataBuilder $lifecycleEventDataBuilder)
     {
         $this->lifecycleEventDataBuilder = $lifecycleEventDataBuilder;
     }

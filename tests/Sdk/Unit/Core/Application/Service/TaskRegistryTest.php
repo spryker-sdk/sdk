@@ -11,8 +11,8 @@ use Codeception\Test\Unit;
 use Hello\Task\HelloPhpTask;
 use Hello\Task\HelloStagedTaskSet;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
+use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistry;
 
 /**
  * @group Sdk
@@ -25,7 +25,7 @@ use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 class TaskRegistryTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\TaskRegistry
+     * @var \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistry
      */
     protected TaskRegistry $taskRegistry;
 

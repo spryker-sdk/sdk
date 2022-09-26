@@ -8,7 +8,7 @@
 namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilder;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
@@ -28,9 +28,9 @@ class TaskSetBuilderTest extends Unit
     protected TaskSetBuilder $taskSetBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder
      */
-    protected TaskBuilderInterface $taskBuilder;
+    protected TaskBuilder $taskBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester
@@ -42,7 +42,7 @@ class TaskSetBuilderTest extends Unit
      */
     protected function setUp(): void
     {
-        $this->taskBuilder = $this->createMock(TaskBuilderInterface::class);
+        $this->taskBuilder = $this->createMock(TaskBuilder::class);
         $this->taskSetBuilder = new TaskSetBuilder($this->taskBuilder);
         parent::setUp();
     }
@@ -66,7 +66,7 @@ class TaskSetBuilderTest extends Unit
 
         $this->taskBuilder
             ->expects($this->once())
-            ->method('buildTask')
+            ->method('buildTaskByTaskYaml')
             ->with($taskYaml)
             ->willReturn($task);
 

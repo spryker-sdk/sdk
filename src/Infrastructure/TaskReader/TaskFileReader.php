@@ -65,7 +65,7 @@ class TaskFileReader implements TaskReaderInterface
      */
     protected function populateCollection(TaskCollection $taskCollection, $taskData): TaskCollection
     {
-        if ($taskData['type'] === TaskType::TASK_SET_TYPE) {
+        if ($taskData['type'] === TaskType::TYPE_TASK_SET) {
             return $taskCollection->addTaskSet($taskData['id'], $taskData);
         }
 

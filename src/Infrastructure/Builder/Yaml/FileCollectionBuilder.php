@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 
-class FileCollectionBuilder implements FileCollectionBuilderInterface
+class FileCollectionBuilder
 {
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml

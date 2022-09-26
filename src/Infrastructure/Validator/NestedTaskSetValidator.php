@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\TaskValidator;
+namespace SprykerSdk\Sdk\Infrastructure\Validator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException;

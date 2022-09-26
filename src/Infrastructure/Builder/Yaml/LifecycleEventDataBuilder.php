@@ -13,32 +13,32 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Enum\LifecycleName;
 
-class LifecycleEventDataBuilder implements LifecycleEventDataBuilderInterface
+class LifecycleEventDataBuilder
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder
      */
-    protected FileCollectionBuilderInterface $fileCollectionBuilder;
+    protected FileCollectionBuilder $fileCollectionBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder
      */
-    protected LifecycleCommandBuilderInterface $lifecycleCommandBuilder;
+    protected LifecycleCommandBuilder $lifecycleCommandBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder
      */
-    protected PlaceholderBuilderInterface $placeholderBuilder;
+    protected PlaceholderBuilder $placeholderBuilder;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface $fileCollectionBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilderInterface $lifecycleCommandBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilderInterface $placeholderBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder $fileCollectionBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder $lifecycleCommandBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder $placeholderBuilder
      */
     public function __construct(
-        FileCollectionBuilderInterface $fileCollectionBuilder,
-        LifecycleCommandBuilderInterface $lifecycleCommandBuilder,
-        PlaceholderBuilderInterface $placeholderBuilder
+        FileCollectionBuilder $fileCollectionBuilder,
+        LifecycleCommandBuilder $lifecycleCommandBuilder,
+        PlaceholderBuilder $placeholderBuilder
     ) {
         $this->fileCollectionBuilder = $fileCollectionBuilder;
         $this->lifecycleCommandBuilder = $lifecycleCommandBuilder;

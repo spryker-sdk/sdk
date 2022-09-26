@@ -7,32 +7,26 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
+use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class CommandBuilder implements CommandBuilderInterface
+class CommandBuilder
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface
      */
     protected TaskRegistryInterface $taskRegistry;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder
      */
-    protected ConverterBuilderInterface $converterBuilder;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface
-     */
-    protected TaskYamlFactoryInterface $taskYamlFactory;
+    protected ConverterBuilder $converterBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface
@@ -45,22 +39,19 @@ class CommandBuilder implements CommandBuilderInterface
     protected CommandFactory $commandFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface $converterBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface $taskRegistry
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder $converterBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface $nestedTaskSetValidator
      * @param \SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory $commandFactory
      */
     public function __construct(
         TaskRegistryInterface $taskRegistry,
-        ConverterBuilderInterface $converterBuilder,
-        TaskYamlFactoryInterface $taskYamlFactory,
+        ConverterBuilder $converterBuilder,
         TaskValidatorInterface $nestedTaskSetValidator,
         CommandFactory $commandFactory
     ) {
         $this->taskRegistry = $taskRegistry;
         $this->converterBuilder = $converterBuilder;
-        $this->taskYamlFactory = $taskYamlFactory;
         $this->nestedTaskSetValidator = $nestedTaskSetValidator;
         $this->commandFactory = $commandFactory;
     }
@@ -114,7 +105,7 @@ class CommandBuilder implements CommandBuilderInterface
         $taskListData = $taskYaml->getTaskListData();
         $commands = [];
 
-        if ($data['type'] !== TaskType::TASK_SET_TYPE) {
+        if ($data['type'] !== TaskType::TYPE_TASK_SET) {
             return $commands;
         }
 
@@ -129,9 +120,7 @@ class CommandBuilder implements CommandBuilderInterface
                 continue;
             }
 
-            $converter = $this->converterBuilder->buildConverter(
-                $this->taskYamlFactory->createTaskYaml($taskData, $taskListData),
-            );
+            $converter = $this->converterBuilder->buildConverter(new TaskYaml($taskData, $taskListData, $taskListData));
 
             $commands[] = $this->commandFactory->createFromArray(
                 $taskData,

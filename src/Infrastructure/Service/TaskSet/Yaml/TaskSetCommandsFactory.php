@@ -8,16 +8,16 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml;
 
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
 use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
 class TaskSetCommandsFactory
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder
      */
-    protected ConverterBuilderInterface $converterBuilder;
+    protected ConverterBuilder $converterBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory
@@ -25,10 +25,10 @@ class TaskSetCommandsFactory
     protected CommandFactory $commandFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilderInterface $converterBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder $converterBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory $commandFactory
      */
-    public function __construct(ConverterBuilderInterface $converterBuilder, CommandFactory $commandFactory)
+    public function __construct(ConverterBuilder $converterBuilder, CommandFactory $commandFactory)
     {
         $this->converterBuilder = $converterBuilder;
         $this->commandFactory = $commandFactory;

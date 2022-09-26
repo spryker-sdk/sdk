@@ -14,12 +14,12 @@ interface TaskLoaderInterface
     /**
      * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
-    public function findAll(): array;
+    public function loadAll(): array;
 
     /**
      * @param string $taskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
-    public function findById(string $taskId): ?TaskInterface;
+    public function loadOneById(string $taskId): ?TaskInterface;
 }

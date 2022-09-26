@@ -70,7 +70,7 @@ class LifecycleManager implements LifecycleManagerInterface
      */
     public function update(): void
     {
-        $folderTasks = $this->taskFileLoader->findAll();
+        $folderTasks = $this->taskFileLoader->loadAll();
         $databaseTasks = $this->taskEntityRepository->findAllIndexedCollection(false);
 
         foreach ($this->actions as $action) {

@@ -10,7 +10,6 @@ namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -24,9 +23,9 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 class FileCollectionBuilderTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\FileCollectionBuilder
      */
-    protected FileCollectionBuilderInterface $fileBuilder;
+    protected FileCollectionBuilder $fileBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester

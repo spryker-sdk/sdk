@@ -67,7 +67,7 @@ class Initializer implements InitializerInterface
         $settingDefinition = $this->settingRepository->initSettingDefinition();
 
         $this->initializeSettingValues($settings, $settingDefinition);
-        $this->taskManager->initialize($this->taskFileLoader->findAll());
+        $this->taskManager->initialize($this->taskFileLoader->loadAll());
     }
 
     /**

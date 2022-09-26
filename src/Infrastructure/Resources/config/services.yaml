@@ -52,14 +52,13 @@ services:
     class: Symfony\Component\Yaml\Yaml
 
   converter_builder:
-    class: \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder
+    class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder
 
   command_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder
     arguments:
       - '@sdk_task_registry'
       - '@converter_builder'
-      - '@task_yaml_factory'
       - '@sdk_nested_task_set_validator'
       - '@command_factory'
 
@@ -100,6 +99,7 @@ services:
       - '@placeholder_builder'
       - '@command_builder'
       - '@lifecycle_builder'
+      - '@sdk_task_registry'
 
   task_set_builder:
     class: SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskSetBuilder
@@ -452,3 +452,11 @@ services:
           - "@task.yaml.task_set_override_map_factory"
           - "@task.task_set_placeholders_builder"
           - "@task.task_set_commands_builder"
+
+  sdk_task_registry:
+      class: SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistry
+      arguments:
+          - !tagged_iterator sdk.task
+
+  sdk_nested_task_set_validator:
+      class: SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator

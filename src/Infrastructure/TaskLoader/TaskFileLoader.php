@@ -8,19 +8,13 @@
 namespace SprykerSdk\Sdk\Infrastructure\TaskLoader;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskCollection;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Command;
-use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
+use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\TaskReader\TaskReaderInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
-use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
-use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
@@ -32,9 +26,9 @@ class TaskFileLoader implements TaskLoaderInterface
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder
      */
-    protected TaskBuilderInterface $taskBuilder;
+    protected TaskBuilder $taskBuilder;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface
@@ -42,14 +36,9 @@ class TaskFileLoader implements TaskLoaderInterface
     protected TaskFromYamlTaskSetBuilderInterface $taskSetBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface
      */
     protected TaskRegistryInterface $taskRegistry;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface
-     */
-    protected TaskYamlFactoryInterface $taskYamlFactory;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\TaskReader\TaskReaderInterface
@@ -58,25 +47,22 @@ class TaskFileLoader implements TaskLoaderInterface
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilderInterface $taskBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder $taskBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskSetBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskYamlFactoryInterface $taskYamlFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Infrastructure\TaskReader\TaskReaderInterface $taskFileReader
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
-        TaskBuilderInterface $taskBuilder,
+        TaskBuilder $taskBuilder,
         TaskFromYamlTaskSetBuilderInterface $taskSetBuilder,
         TaskRegistryInterface $taskRegistry,
-        TaskYamlFactoryInterface $taskYamlFactory,
         TaskReaderInterface $taskFileReader
     ) {
         $this->settingRepository = $settingRepository;
         $this->taskBuilder = $taskBuilder;
         $this->taskSetBuilder = $taskSetBuilder;
         $this->taskRegistry = $taskRegistry;
-        $this->taskYamlFactory = $taskYamlFactory;
         $this->taskFileReader = $taskFileReader;
     }
 
@@ -85,7 +71,7 @@ class TaskFileLoader implements TaskLoaderInterface
      *
      * @return array
      */
-    public function findAll(): array
+    public function loadAll(): array
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
 
@@ -113,9 +99,8 @@ class TaskFileLoader implements TaskLoaderInterface
     protected function collectTasks(TaskCollection $taskCollection, array $tasks): array
     {
         foreach ($taskCollection->getTasks() as $taskData) {
-            $task = $this->taskBuilder->buildTask(
-                $this->taskYamlFactory->createTaskYaml($taskData, $taskCollection->getTasks()),
-            );
+            $taskYamlDto = new TaskYaml($taskData, $taskCollection->getTasks());
+            $task = $this->taskBuilder->buildTaskByTaskYaml($taskYamlDto);
             $tasks[$task->getId()] = $task;
         }
 
@@ -131,9 +116,8 @@ class TaskFileLoader implements TaskLoaderInterface
     protected function collectTaskSets(TaskCollection $taskCollection, array $tasks): array
     {
         foreach ($taskCollection->getTaskSets() as $taskData) {
-            $task = $this->taskSetBuilder->buildTaskFromYamlTaskSet(
-                $this->taskYamlFactory->createTaskYaml($taskData, $taskCollection->getTasks(), $tasks),
-            );
+            $taskYamlDto = new TaskYaml($taskData, $taskCollection->getTasks(), $tasks);
+            $task = $this->taskSetBuilder->buildTaskFromYamlTaskSet($taskYamlDto);
             $tasks[$task->getId()] = $task;
         }
 
@@ -152,85 +136,9 @@ class TaskFileLoader implements TaskLoaderInterface
                 continue;
             }
 
-            $this->taskRegistry->set($taskId, new Task(
-                $existingTask->getId(),
-                $existingTask->getShortDescription(),
-                $this->extractCommands($tasks, $existingTask),
-                $existingTask->getLifecycle(),
-                $existingTask->getVersion(),
-                $this->extractPlaceholders($tasks, $existingTask),
-                $existingTask->getHelp(),
-                $existingTask->getSuccessor(),
-                $existingTask->isDeprecated(),
-                ContextInterface::DEFAULT_STAGE,
-                $existingTask->isOptional(),
-                $existingTask->getStages(),
-            ));
+            $task = $this->taskBuilder->buildTaskByTaskSet($existingTask, $tasks);
+            $this->taskRegistry->set($taskId, $task);
         }
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $existingTask
-     *
-     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
-     */
-    protected function extractPlaceholders(array $tasks, TaskSetInterface $existingTask): array
-    {
-        $placeholders = [];
-        foreach ($existingTask->getSubTasks() as $subTask) {
-            if (is_string($subTask)) {
-                $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
-            }
-            $placeholders[] = $subTask->getPlaceholders();
-        }
-
-        return array_merge(...$placeholders);
-    }
-
-    /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $existingTask
-     *
-     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
-     */
-    protected function extractCommands(array $tasks, TaskSetInterface $existingTask): array
-    {
-        $commands = [];
-
-        foreach ($existingTask->getSubTasks() as $subTask) {
-            if (is_string($subTask)) {
-                $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
-            }
-            $commands[] = $this->extractExistingCommands($subTask);
-        }
-
-        return array_merge(...$commands);
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
-     *
-     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
-     */
-    protected function extractExistingCommands(TaskInterface $task): array
-    {
-        $commands = [];
-        foreach ($task->getCommands() as $command) {
-            $commands[] = new Command(
-                $command instanceof ExecutableCommandInterface || $command->getType() === 'php' ?
-                    get_class($command) :
-                    $command->getCommand(),
-                $command->getType(),
-                $command->hasStopOnError(),
-                $command->getTags(),
-                $command->getConverter(),
-                $task instanceof StagedTaskInterface ? $task->getStage() : $command->getStage(),
-                $command instanceof ErrorCommandInterface ? $command->getErrorMessage() : '',
-            );
-        }
-
-        return $commands;
     }
 
     /**
@@ -238,8 +146,8 @@ class TaskFileLoader implements TaskLoaderInterface
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
-    public function findById(string $taskId): ?TaskInterface
+    public function loadOneById(string $taskId): ?TaskInterface
     {
-        return $this->findAll()[$taskId] ?? null;
+        return $this->loadAll()[$taskId] ?? null;
     }
 }

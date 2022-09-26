@@ -8,39 +8,55 @@
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
+use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
+use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
-class TaskBuilder implements TaskBuilderInterface
+class TaskBuilder
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder
      */
-    protected PlaceholderBuilderInterface $placeholderBuilder;
+    protected PlaceholderBuilder $placeholderBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder
      */
-    protected CommandBuilderInterface $commandBuilder;
+    protected CommandBuilder $commandBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder
      */
-    protected LifecycleBuilderInterface $lifecycleBuilder;
+    protected LifecycleBuilder $lifecycleBuilder;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilderInterface $placeholderBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilderInterface $commandBuilder
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilderInterface $lifecycleBuilder
+     * @var \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface
+     */
+    protected TaskRegistryInterface $taskRegistry;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder $placeholderBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder $commandBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleBuilder $lifecycleBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface $taskRegistry
      */
     public function __construct(
-        PlaceholderBuilderInterface $placeholderBuilder,
-        CommandBuilderInterface $commandBuilder,
-        LifecycleBuilderInterface $lifecycleBuilder
+        PlaceholderBuilder $placeholderBuilder,
+        CommandBuilder $commandBuilder,
+        LifecycleBuilder $lifecycleBuilder,
+        TaskRegistryInterface $taskRegistry
     ) {
         $this->placeholderBuilder = $placeholderBuilder;
         $this->commandBuilder = $commandBuilder;
         $this->lifecycleBuilder = $lifecycleBuilder;
+        $this->taskRegistry = $taskRegistry;
     }
 
     /**
@@ -48,7 +64,7 @@ class TaskBuilder implements TaskBuilderInterface
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    public function buildTask(TaskYaml $taskYaml): Task
+    public function buildTaskByTaskYaml(TaskYaml $taskYaml): Task
     {
         $placeholders = $this->placeholderBuilder->buildPlaceholders($taskYaml);
         $commands = $this->commandBuilder->buildCommands($taskYaml);
@@ -70,5 +86,103 @@ class TaskBuilder implements TaskBuilderInterface
             !empty($taskData['optional']),
             $taskData['stages'] ?? [],
         );
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $taskSet
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     */
+    public function buildTaskByTaskSet(TaskSetInterface $taskSet, array $tasks): TaskInterface
+    {
+        return new Task(
+            $taskSet->getId(),
+            $taskSet->getShortDescription(),
+            $this->extractCommands($tasks, $taskSet),
+            $taskSet->getLifecycle(),
+            $taskSet->getVersion(),
+            $this->extractPlaceholders($tasks, $taskSet),
+            $taskSet->getHelp(),
+            $taskSet->getSuccessor(),
+            $taskSet->isDeprecated(),
+            ContextInterface::DEFAULT_STAGE,
+            $taskSet->isOptional(),
+            $taskSet->getStages(),
+        );
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $task
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected function extractCommands(array $tasks, TaskSetInterface $task): array
+    {
+        $commands = [];
+
+        foreach ($task->getSubTasks() as $subTask) {
+            if (is_string($subTask)) {
+                $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
+            }
+            $commands[] = $this->extractExistingCommands($subTask);
+        }
+
+        return array_merge(...$commands);
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected function extractExistingCommands(TaskInterface $task): array
+    {
+        $commands = [];
+        foreach ($task->getCommands() as $command) {
+            $commands[] = new Command(
+                $this->extractCommandStringFromCommand($command),
+                $command->getType(),
+                $command->hasStopOnError(),
+                $command->getTags(),
+                $command->getConverter(),
+                $task instanceof StagedTaskInterface ? $task->getStage() : $command->getStage(),
+                $command instanceof ErrorCommandInterface ? $command->getErrorMessage() : '',
+            );
+        }
+
+        return $commands;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $existingTask
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
+     */
+    protected function extractPlaceholders(array $tasks, TaskSetInterface $existingTask): array
+    {
+        $placeholders = [];
+        foreach ($existingTask->getSubTasks() as $subTask) {
+            if (is_string($subTask)) {
+                $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
+            }
+            $placeholders[] = $subTask->getPlaceholders();
+        }
+
+        return array_merge(...$placeholders);
+    }
+
+    /**
+     * @param mixed $command
+     *
+     * @return string
+     */
+    protected function extractCommandStringFromCommand($command): string
+    {
+        return $command instanceof ExecutableCommandInterface || $command->getType() === TaskType::TYPE_PHP_TASK
+            ? get_class($command)
+            : $command->getCommand();
     }
 }

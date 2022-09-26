@@ -5,9 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Registry;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskRegistry implements TaskRegistryInterface

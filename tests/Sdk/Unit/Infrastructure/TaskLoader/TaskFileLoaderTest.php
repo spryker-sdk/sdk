@@ -12,9 +12,6 @@ use Hello\Task\HelloStagedTaskSet;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
-use SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory;
-use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
@@ -26,10 +23,12 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
 use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
 use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
+use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistry;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\TaskLoader\TaskFileLoader;
 use SprykerSdk\Sdk\Infrastructure\TaskReader\TaskFileReader;
+use SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Finder\Finder;
@@ -88,7 +87,7 @@ class TaskFileLoaderTest extends Unit
         $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator(), new PlaceholderFactory());
         $taskBuilder = new TaskBuilder(
             $placeholderBuilder,
-            new CommandBuilder($taskRegistry, new ConverterBuilder(), new TaskYamlFactory(), new NestedTaskSetValidator(), new CommandFactory()),
+            new CommandBuilder($taskRegistry, new ConverterBuilder(), new NestedTaskSetValidator(), new CommandFactory()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
                     new FileCollectionBuilder(),
@@ -96,6 +95,7 @@ class TaskFileLoaderTest extends Unit
                     $placeholderBuilder,
                 ),
             ),
+            $taskRegistry
         );
 
         $this->settingRepository = $this->createMock(SettingRepository::class);
@@ -105,7 +105,6 @@ class TaskFileLoaderTest extends Unit
             $taskBuilder,
             $this->createTaskFromYamlTaskSetBuilderMock(),
             $taskRegistry,
-            new TaskYamlFactory(),
             new TaskFileReader(new Finder(), new Yaml()),
         );
     }
@@ -126,7 +125,7 @@ class TaskFileLoaderTest extends Unit
         $this->expectExceptionMessage('extension_dirs are not configured properly');
 
         // Act
-        $this->taskFileLoader->findAll();
+        $this->taskFileLoader->loadAll();
     }
 
     /**
@@ -149,7 +148,7 @@ class TaskFileLoaderTest extends Unit
             ->willReturn($setting);
 
         // Act
-        $result = $this->taskFileLoader->findAll();
+        $result = $this->taskFileLoader->loadAll();
 
         // Assert
         $this->assertCount(6, $result);
@@ -175,7 +174,7 @@ class TaskFileLoaderTest extends Unit
             ->willReturn($setting);
 
         // Act
-        $result = $this->taskFileLoader->findById('hello:world');
+        $result = $this->taskFileLoader->loadOneById('hello:world');
 
         // Assert
         $this->assertSame('hello:world', $result->getId());
@@ -204,7 +203,7 @@ class TaskFileLoaderTest extends Unit
             ->willReturn($setting);
 
         // Act
-        $result = $this->taskFileLoader->findById('not exist');
+        $result = $this->taskFileLoader->loadOneById('not exist');
 
         // Assert
         $this->assertNull($result);

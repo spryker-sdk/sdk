@@ -7,18 +7,18 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
+use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class PlaceholderBuilder implements PlaceholderBuilderInterface
+class PlaceholderBuilder
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface
      */
     protected TaskRegistryInterface $taskRegistry;
 
@@ -33,7 +33,7 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
     protected PlaceholderFactory $placeholderFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskRegistryInterface $taskRegistry
+     * @param \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface $nestedTaskSetValidator
      * @param \SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory $placeholderFactory
      */
@@ -85,7 +85,7 @@ class PlaceholderBuilder implements PlaceholderBuilderInterface
     {
         $data = $taskYaml->getTaskData();
 
-        if (!isset($data['type']) || $data['type'] !== TaskType::TASK_SET_TYPE) {
+        if (!isset($data['type']) || $data['type'] !== TaskType::TYPE_TASK_SET) {
             return $taskPlaceholders;
         }
 

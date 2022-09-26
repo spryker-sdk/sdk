@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 
-class ConverterBuilder implements ConverterBuilderInterface
+class ConverterBuilder
 {
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml

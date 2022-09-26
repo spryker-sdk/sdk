@@ -101,7 +101,7 @@ class InitializerTest extends Unit
 
         $this->taskLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->exactly(count($settings)))
@@ -135,7 +135,7 @@ class InitializerTest extends Unit
             ->method('initialize');
         $this->taskLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -169,7 +169,7 @@ class InitializerTest extends Unit
             ->method('initialize');
         $this->taskLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -207,7 +207,7 @@ class InitializerTest extends Unit
             ->method('initialize');
         $this->taskLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -245,7 +245,7 @@ class InitializerTest extends Unit
             ->method('initialize');
         $this->taskLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())

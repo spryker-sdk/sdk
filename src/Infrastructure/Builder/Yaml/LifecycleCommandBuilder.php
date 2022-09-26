@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 
-class LifecycleCommandBuilder implements LifecycleCommandBuilderInterface
+class LifecycleCommandBuilder
 {
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml

@@ -9,7 +9,6 @@ namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilderInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
@@ -24,9 +23,9 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 class LifecycleCommandBuilderTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\LifecycleCommandBuilder
      */
-    protected LifecycleCommandBuilderInterface $builder;
+    protected LifecycleCommandBuilder $builder;
 
     /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester

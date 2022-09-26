@@ -9,9 +9,6 @@ namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\TaskRegistry;
-use SprykerSdk\Sdk\Core\Application\Service\TaskYamlFactory;
-use SprykerSdk\Sdk\Core\Application\TaskValidator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\CommandBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
@@ -23,6 +20,8 @@ use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\PlaceholderBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
 use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
 use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
+use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistry;
+use SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -54,7 +53,7 @@ class TaskBuilderTest extends Unit
         $placeholderBuilder = new PlaceholderBuilder($taskRegistry, new NestedTaskSetValidator(), new PlaceholderFactory());
         $this->taskBuilder = new TaskBuilder(
             $placeholderBuilder,
-            new CommandBuilder($taskRegistry, new ConverterBuilder(), new TaskYamlFactory(), new NestedTaskSetValidator(), new CommandFactory()),
+            new CommandBuilder($taskRegistry, new ConverterBuilder(), new NestedTaskSetValidator(), new CommandFactory()),
             new LifecycleBuilder(
                 new LifecycleEventDataBuilder(
                     new FileCollectionBuilder(),
@@ -62,6 +61,8 @@ class TaskBuilderTest extends Unit
                     $placeholderBuilder,
                 ),
             ),
+
+        $taskRegistry
         );
 
         parent::setUp();
@@ -70,13 +71,13 @@ class TaskBuilderTest extends Unit
     /**
      * @return void
      */
-    public function testBuildTaskShouldReturnBuiltTask(): void
+    public function testBuildTaskByTaskYamlShouldReturnBuiltTask(): void
     {
         // Arrange
         $taskYaml = $this->tester->createTaskData();
 
         // Act
-        $task = $this->taskBuilder->buildTask($taskYaml);
+        $task = $this->taskBuilder->buildTaskByTaskYaml($taskYaml);
 
         // Assert
         $this->assertSame($taskYaml->getTaskData()['id'], $task->getId());
@@ -86,5 +87,19 @@ class TaskBuilderTest extends Unit
         $this->assertSame($taskYaml->getTaskData()['version'], $task->getVersion());
         $this->assertSame($taskYaml->getTaskData()['short_description'], $task->getShortDescription());
         $this->assertSame($taskYaml->getTaskData()['successor'], $task->getSuccessor());
+    }
+    /**
+     * @skip todo
+     *
+     * @return void
+     */
+    public function testBuildTaskByTaskSetReturnsProperTask(): void
+    {
+        // Arrange
+
+        // Act
+//        $task = $this->taskBuilder->buildTaskByTaskSet();
+
+        // Assert
     }
 }
