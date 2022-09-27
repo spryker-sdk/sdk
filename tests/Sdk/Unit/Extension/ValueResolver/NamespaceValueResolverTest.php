@@ -13,6 +13,12 @@ use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\ValueResolver\NamespaceValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group NamespaceValueResolverTest
+ */
 class NamespaceValueResolverTest extends Unit
 {
     /**
@@ -46,16 +52,18 @@ class NamespaceValueResolverTest extends Unit
             'Namespace name',
             'Pyz',
             'string',
-            ['test1', 'test2', 'test3'],
+            ['Pyz', 'test2', 'test3'],
         );
         $this->valueReceiver
             ->expects($this->once())
             ->method('receiveValue')
-            ->with($receiverValue);
+            ->with($receiverValue)
+            ->willReturn('Pyz');
 
         $valueResolver = new NamespaceValueResolver($this->valueReceiver);
+        $valueResolver->configure(['defaultValue' => 'Pyz', 'description' => 'Namespace name']);
 
         // Act
-        $valueResolver->getValue($this->context, ['projectNamespaces' => ['test1', 'test2'], 'coreNamespaces' => ['test3']]);
+        $valueResolver->getValue($this->context, ['projectNamespaces' => ['Pyz', 'test2'], 'coreNamespaces' => ['test3']]);
     }
 }

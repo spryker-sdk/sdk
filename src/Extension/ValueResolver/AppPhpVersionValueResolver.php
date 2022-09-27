@@ -55,16 +55,6 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     /**
      * {@inheritDoc}
      *
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @return string
      */
     public function getType(): string
@@ -103,23 +93,5 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
         return array_keys(static::PHP_VERSIONS);
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
     }
 }

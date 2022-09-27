@@ -64,7 +64,7 @@ class TaskOptionBuilder
                 substr(RunTaskWrapperCommand::OPTION_TAGS, 0, 1),
                 InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
                 'Only execute subtasks that matches at least one of the given tags',
-                array_unique($tags),
+                array_values(array_unique($tags)),
             );
         }
 
@@ -100,8 +100,12 @@ class TaskOptionBuilder
         foreach ($task->getPlaceholders() as $placeholder) {
             $valueResolver = $this->placeholderResolver->getValueResolver($placeholder);
 
+            if ($valueResolver->getAlias() === null) {
+                continue;
+            }
+
             $options[] = new InputOption(
-                $valueResolver->getAlias() ?? $valueResolver->getId(),
+                $valueResolver->getAlias(),
                 null,
                 $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
                 $valueResolver->getDescription(),

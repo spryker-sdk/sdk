@@ -10,6 +10,12 @@ namespace SprykerSdk\Sdk\Unit\Extension\Converter;
 use SprykerSdk\Sdk\Extension\Converter\CheckstyleViolationReportConverter;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group Converter
+ * @group CheckstyleViolationReportConverterTest
+ */
 class CheckstyleViolationReportConverterTest extends ReportConverterTest
 {
     /**

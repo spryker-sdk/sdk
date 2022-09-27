@@ -3,7 +3,7 @@ id: "acp:app:validate"
 short_description: "Create ACP AsyncAPI file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:validate %manifest-path% %configuration-file% %translation-file% -v"
 type: local_cli
 placeholders:
@@ -11,23 +11,26 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%manifest-path%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "manifest-path"
+      alias: "manifest-path"
+      option: "manifest-path"
       description: "Path to save manifest file to"
       type: string
   - name: "%configuration-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "configuration-file"
+      alias: "configuration-file"
+      option: "configuration-file"
       description: "Path to save configuration file to"
       type: string
   - name: "%translation-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "translation-file"
+      alias: "translation-file"
+      option: "translation-file"
       description: "Path to save translation file to"
       type: string

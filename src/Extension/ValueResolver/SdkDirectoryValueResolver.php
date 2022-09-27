@@ -84,25 +84,7 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     public function getAlias(): ?string
     {
-        return 'sdk-dir';
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return string|null
-     */
-    public function getDefaultValue(): ?string
-    {
         return null;
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
     }
 
     /**
@@ -122,6 +104,6 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
             return realpath($settingSdkBasePath);
         }
 
-        return $this->sdkBasePath . '/' . $settingSdkBasePath;
+        return $this->sdkBasePath . DIRECTORY_SEPARATOR . $settingSdkBasePath;
     }
 }

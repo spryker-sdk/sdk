@@ -3,8 +3,27 @@
 The Spryker SDK defines the following conventions.
 
 ## Task
+`id`, `short_description`, `version`, `type`, `command` are  __REQUIRED__ properties.
 
-- MUST have an id following the schema `<group>:<language>:<subgroup>`, where `<group>` is one of validation, generation, `<language>` is php for now  and `<subgroup>` should be a descriptive name. E.g.: `validation:php:architecture`
+- __MUST__ have an `id` following the schema `<group>:<language>:<subgroup>`, where `<group>` is one of validation, generation, `<language>` is php for now  and `<subgroup>` should be a descriptive name. E.g.: `validation:php:architecture`
+
+- __MUST__ have a `version` according to the [semver](https://semver.org/) specification
+
+- __MUST__ have a `short_description` with a short task description
+
+- __MUST__ have a `type` one of a `local_cli`, `local_cli_interactive`, `task-set`, `php`
+
+- __MUST__ have a `command` with executable command string or null
+
+## Task Set
+
+- __MUST__ have a `type` with `task-set` value
+
+- __MUST__ have a `tasks` with the list of the required sub-tasks
+
+- __MUST__ have a sub-task `id` in the `tasks` list
+
+- __MUST__ have null value in `command` property (e.g. `command: ~`)
 
 ## Workflow
 

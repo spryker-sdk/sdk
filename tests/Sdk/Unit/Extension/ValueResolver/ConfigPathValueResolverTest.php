@@ -12,6 +12,12 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\ConfigPathValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group ValueResolver
+ * @group ConfigPathValueResolverTest
+ */
 class ConfigPathValueResolverTest extends Unit
 {
     /**
@@ -50,6 +56,7 @@ class ConfigPathValueResolverTest extends Unit
             ->method('get')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
         $value = $valueResolver->getValue($this->context, ['project_dir' => '.', 'sdk_dir' => 'non_exist']);
 
@@ -68,6 +75,7 @@ class ConfigPathValueResolverTest extends Unit
             ->method('get')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
         $value = $valueResolver->getValue($this->context, ['project_dir' => 'non_exist', 'sdk_dir' => '.']);
 

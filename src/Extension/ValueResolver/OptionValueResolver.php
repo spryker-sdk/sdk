@@ -11,17 +11,15 @@ use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
+/**
+ * @deprecated Use `STATIC` value resolver with option configuration instead.
+ */
 class OptionValueResolver extends StaticValueResolver
 {
     /**
      * @var bool
      */
     protected bool $hasDefaultValue = false;
-
-    /**
-     * @var string
-     */
-    protected string $commandParameter;
 
     /**
      * {@inheritDoc}
@@ -34,10 +32,10 @@ class OptionValueResolver extends StaticValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = true)
     {
-        if ($optional && !$this->hasDefaultValue) {
+        if ($optional && !$this->hasDefaultValue && $this->getAlias()) {
             $optional = !$this->valueReceiver->receiveValue(
                 new ReceiverValue(
-                    sprintf('Would you like to configure `%s` setting? (%s)', $this->getValueName(), $this->getDescription()),
+                    sprintf('Would you like to configure `%s` setting? (%s)', $this->getAlias(), $this->getDescription()),
                     false,
                     ValueTypeEnum::TYPE_BOOLEAN,
                 ),
@@ -46,7 +44,7 @@ class OptionValueResolver extends StaticValueResolver
 
         $value = parent::getValue($context, $settingValues, $optional);
 
-        return $value ? sprintf('--%s=\'%s\'', $this->commandParameter ?? $this->getAlias(), $value) : null;
+        return $value ? sprintf('--%s=%s', $this->getAlias(), $value) : null;
     }
 
     /**
@@ -69,10 +67,6 @@ class OptionValueResolver extends StaticValueResolver
     public function configure(array $values): void
     {
         $this->hasDefaultValue = array_key_exists('defaultValue', $values);
-
-        if (isset($values['param'])) {
-            $this->commandParameter = $values['param'];
-        }
 
         parent::configure($values);
     }

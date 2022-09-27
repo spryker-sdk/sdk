@@ -3,49 +3,71 @@ id: "validation:php:architecture"
 short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
-version: 1.0.0
-command: "%sdk_dir%/vendor/bin/phpmd ./src json %config% %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
+version: 1.1.0
+command: "%executable_command% %path% %format% %config% %strict% %minimum-priority% %priority% %reportDir%"
 type: local_cli
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/phpmd"
+      settingPaths: [ "project_dir", "sdk_dir" ]
+  - name: "%format%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      description: "Output format."
+      type: path
+      defaultValue: 'json'
+  - name: "%path%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      alias: "path"
+      description: "Relative path to module directory in project"
+      type: path
+      defaultValue: 'src'
   - name: "%strict%"
     value_resolver: FLAG
     optional: false
     configuration:
-      name: "strict"
+      alias: "strict"
       description: "Report silent violations"
       defaultValue: false
-      settingPaths: []
-      type: boolean
+  - name: "%minimum-priority%"
+    value_resolver: FLAG
+    optional: false
+    configuration:
+      alias: "minimum-priority"
+      description: "Minimum priority"
+      defaultValue: true
   - name: "%config%"
     value_resolver: CONFIG_PATH
     optional: true
     configuration:
-      param: "config"
-      name: "config"
+      option: "config"
+      alias: "config"
       description: "Config file"
       defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
   - name: "%priority%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "priority"
+      alias: "priority"
       description: "Minimal PHPMD priority of rules to fail the validation"
-      minValue: 1
-      maxValue: 10
       defaultValue: 2
-      settingPaths: []
       type: int
   - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      name: "report_dir"
+      option: "reportfile"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+      defaultValue: "phpmd.static.json"
 report_converter:
   name: PHPMDViolationConverter
   configuration:

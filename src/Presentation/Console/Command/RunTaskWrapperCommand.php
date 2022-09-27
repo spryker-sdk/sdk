@@ -163,12 +163,6 @@ class RunTaskWrapperCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->projectWorkflow->getProjectWorkflows()) {
-            $output->writeln('<error>Your project has initialized workflow. Follow the workflow. See details for `sdk:workflow:run` command.</error>');
-
-            return static::FAILURE;
-        }
-
         $context = $this->buildContext($input);
 
         $context = $this->taskExecutor->execute($context, $this->name);
@@ -267,8 +261,11 @@ class RunTaskWrapperCommand extends Command
         ) {
             $context->setOverwrites($input->getOption(static::OPTION_OVERWRITES));
         }
+        $format = $this->getReportFormat($input);
 
-        $context->setFormat($this->getReportFormat($input));
+        if ($format) {
+            $context->setFormat($format);
+        }
 
         return $context;
     }
@@ -276,9 +273,9 @@ class RunTaskWrapperCommand extends Command
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      *
-     * @return string
+     * @return string|null
      */
-    protected function getReportFormat(InputInterface $input): string
+    protected function getReportFormat(InputInterface $input): ?string
     {
         if (
             $input->hasOption(static::OPTION_FORMAT)
@@ -288,7 +285,7 @@ class RunTaskWrapperCommand extends Command
             return $input->getOption(static::OPTION_FORMAT);
         }
 
-        return $this->projectSettingRepository->getOneByPath('default_violation_output_format')->getValues();
+        return null;
     }
 
     /**

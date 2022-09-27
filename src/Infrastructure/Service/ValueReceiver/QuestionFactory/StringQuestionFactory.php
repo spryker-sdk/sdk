@@ -31,9 +31,19 @@ class StringQuestionFactory implements QuestionFactoryInterface
             return $question;
         }
 
+        return $this->addValidator($question);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Question\Question $question
+     *
+     * @return \Symfony\Component\Console\Question\Question
+     */
+    protected function addValidator(Question $question): Question
+    {
         $question->setValidator(function ($value) {
             if ($value === '' || $value === null) {
-                throw new MissingValueException('Value is required');
+                throw new MissingValueException('Value is required.');
             }
 
             return $value;

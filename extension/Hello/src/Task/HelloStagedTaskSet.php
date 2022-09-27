@@ -521,7 +521,10 @@ class HelloStagedTaskSet implements TaskSetInterface
      */
     public function getTagsMap(): array
     {
-        return [];
+        return [
+            'hello:php:stage_default' => ['stage_default'],
+            'hello:php:stage_b' => ['stage_b'],
+        ];
     }
 
     /**
@@ -531,7 +534,9 @@ class HelloStagedTaskSet implements TaskSetInterface
      */
     public function getStopOnErrorMap(): array
     {
-        return [];
+        return [
+            'hello:php:stage_default' => true,
+        ];
     }
 
     /**
