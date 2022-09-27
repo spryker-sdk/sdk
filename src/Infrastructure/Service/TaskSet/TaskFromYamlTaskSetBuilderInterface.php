@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\TaskSet;
 
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface TaskFromYamlTaskSetBuilderInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Dto\TaskYaml;
+namespace SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml;
 
 class TaskYaml
 {
@@ -63,7 +63,7 @@ class TaskYaml
     /**
      * @param array<string, mixed> $taskData
      *
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function withTaskData(array $taskData)
     {

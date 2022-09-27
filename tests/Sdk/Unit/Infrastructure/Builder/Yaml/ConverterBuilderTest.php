@@ -8,8 +8,8 @@
 namespace Sdk\Unit\Infrastructure\Builder\Yaml;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**

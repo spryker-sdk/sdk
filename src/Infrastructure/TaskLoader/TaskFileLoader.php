@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\TaskLoader;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\TaskCollection;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Builder\Yaml\TaskBuilder;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\TaskReader\TaskReaderInterface;
@@ -69,7 +69,7 @@ class TaskFileLoader implements TaskLoaderInterface
     /**
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
-     * @return array
+     * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function loadAll(): array
     {

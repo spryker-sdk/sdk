@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory;
 use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface;
+use SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -23,9 +23,9 @@ class PlaceholderBuilder
     protected TaskRegistryInterface $taskRegistry;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator
      */
-    protected TaskValidatorInterface $nestedTaskSetValidator;
+    protected NestedTaskSetValidator $nestedTaskSetValidator;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory
@@ -34,12 +34,12 @@ class PlaceholderBuilder
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface $taskRegistry
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface $nestedTaskSetValidator
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator $nestedTaskSetValidator
      * @param \SprykerSdk\Sdk\Infrastructure\Factory\PlaceholderFactory $placeholderFactory
      */
     public function __construct(
         TaskRegistryInterface $taskRegistry,
-        TaskValidatorInterface $nestedTaskSetValidator,
+        NestedTaskSetValidator $nestedTaskSetValidator,
         PlaceholderFactory $placeholderFactory
     ) {
         $this->taskRegistry = $taskRegistry;
@@ -48,7 +48,7 @@ class PlaceholderBuilder
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
@@ -76,7 +76,7 @@ class PlaceholderBuilder
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml $taskYaml
      * @param array<string> $taskPlaceholders
      *
      * @return array
@@ -108,7 +108,7 @@ class PlaceholderBuilder
     protected function getTaskAndValidate(string $id): TaskInterface
     {
         $taskFromRegistry = $this->taskRegistry->get($id);
-        $this->nestedTaskSetValidator->validate($taskFromRegistry);
+        $this->nestedTaskSetValidator->isValid($taskFromRegistry);
 
         return $taskFromRegistry;
     }

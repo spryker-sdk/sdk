@@ -8,16 +8,16 @@
 namespace SprykerSdk\Sdk\Tests\Helper\Infrastructure\Builder\Yaml;
 
 use Codeception\Module;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Core\Domain\Enum\LifecycleName;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskYamlDataHelper extends Module
 {
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createFilesData(): TaskYaml
     {
@@ -36,7 +36,7 @@ class TaskYamlDataHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createLifecycleCommandsData(): TaskYaml
     {
@@ -55,7 +55,7 @@ class TaskYamlDataHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createSingleCommandData(): TaskYaml
     {
@@ -69,7 +69,7 @@ class TaskYamlDataHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createTaskSetData(): TaskYaml
     {
@@ -106,7 +106,7 @@ class TaskYamlDataHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createLifecycleEventData(): TaskYaml
     {
@@ -183,7 +183,7 @@ class TaskYamlDataHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createConverterData(): TaskYaml
     {
@@ -200,7 +200,7 @@ class TaskYamlDataHelper extends Module
 
     /**
      * @param string $lifecycleName
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml $taskYaml
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface $eventData
      *
      * @return void
@@ -223,7 +223,7 @@ class TaskYamlDataHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createPlaceholdersData(): TaskYaml
     {
@@ -246,7 +246,7 @@ class TaskYamlDataHelper extends Module
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createTaskData(): TaskYaml
     {
@@ -289,7 +289,7 @@ class TaskYamlDataHelper extends Module
     /**
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $subTask
      *
-     * @return \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml
      */
     public function createTaskSetYamlData(TaskInterface $subTask): TaskYaml
     {

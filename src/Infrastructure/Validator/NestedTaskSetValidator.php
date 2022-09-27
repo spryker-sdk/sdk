@@ -7,12 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Validator;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
-class NestedTaskSetValidator implements TaskValidatorInterface
+class NestedTaskSetValidator
 {
     /**
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
@@ -21,7 +20,7 @@ class NestedTaskSetValidator implements TaskValidatorInterface
      *
      * @return bool
      */
-    public function validate(TaskInterface $task): bool
+    public function isValid(TaskInterface $task): bool
     {
         if ($task instanceof TaskSetInterface) {
             throw new TaskSetNestingException(sprintf(

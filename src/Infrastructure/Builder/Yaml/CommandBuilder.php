@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\Yaml;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Core\Domain\Enum\CommandType;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml;
 use SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory;
 use SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface;
+use SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -29,9 +29,9 @@ class CommandBuilder
     protected ConverterBuilder $converterBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator
      */
-    protected TaskValidatorInterface $nestedTaskSetValidator;
+    protected NestedTaskSetValidator $nestedTaskSetValidator;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory
@@ -41,13 +41,13 @@ class CommandBuilder
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Registry\TaskRegistryInterface $taskRegistry
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\Yaml\ConverterBuilder $converterBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskValidatorInterface $nestedTaskSetValidator
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\NestedTaskSetValidator $nestedTaskSetValidator
      * @param \SprykerSdk\Sdk\Infrastructure\Factory\CommandFactory $commandFactory
      */
     public function __construct(
         TaskRegistryInterface $taskRegistry,
         ConverterBuilder $converterBuilder,
-        TaskValidatorInterface $nestedTaskSetValidator,
+        NestedTaskSetValidator $nestedTaskSetValidator,
         CommandFactory $commandFactory
     ) {
         $this->taskRegistry = $taskRegistry;
@@ -57,7 +57,7 @@ class CommandBuilder
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
@@ -76,7 +76,7 @@ class CommandBuilder
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return \SprykerSdk\SdkContracts\Entity\CommandInterface|null
      */
@@ -95,7 +95,7 @@ class CommandBuilder
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\TaskYaml\TaskYaml $taskYaml
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYaml $taskYaml
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
@@ -141,7 +141,7 @@ class CommandBuilder
     protected function getTaskAndValidate(string $id): TaskInterface
     {
         $taskFromRegistry = $this->taskRegistry->get($id);
-        $this->nestedTaskSetValidator->validate($taskFromRegistry);
+        $this->nestedTaskSetValidator->isValid($taskFromRegistry);
 
         return $taskFromRegistry;
     }
