@@ -141,7 +141,7 @@ class CommandBuilder
     protected function getTaskAndValidate(string $id): TaskInterface
     {
         $taskFromRegistry = $this->taskRegistry->get($id);
-        $this->nestedTaskSetValidator->isValid($taskFromRegistry);
+        $this->nestedTaskSetValidator->validate($taskFromRegistry);
 
         return $taskFromRegistry;
     }

@@ -18,9 +18,9 @@ class NestedTaskSetValidator
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException
      *
-     * @return bool
+     * @return void
      */
-    public function isValid(TaskInterface $task): bool
+    public function validate(TaskInterface $task): void
     {
         if ($task instanceof TaskSetInterface) {
             throw new TaskSetNestingException(sprintf(
@@ -28,7 +28,5 @@ class NestedTaskSetValidator
                 $task->getId(),
             ));
         }
-
-        return true;
     }
 }
