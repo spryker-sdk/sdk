@@ -114,15 +114,15 @@ class TaskBuilder
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $task
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $taskSet
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    protected function extractCommands(array $tasks, TaskSetInterface $task): array
+    protected function extractCommands(array $tasks, TaskSetInterface $taskSet): array
     {
         $commands = [];
 
-        foreach ($task->getSubTasks() as $subTask) {
+        foreach ($taskSet->getSubTasks() as $subTask) {
             if (is_string($subTask)) {
                 $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
             }
@@ -157,14 +157,14 @@ class TaskBuilder
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $existingTask
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $taskSet
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
-    protected function extractPlaceholders(array $tasks, TaskSetInterface $existingTask): array
+    protected function extractPlaceholders(array $tasks, TaskSetInterface $taskSet): array
     {
         $placeholders = [];
-        foreach ($existingTask->getSubTasks() as $subTask) {
+        foreach ($taskSet->getSubTasks() as $subTask) {
             if (is_string($subTask)) {
                 $subTask = $tasks[$subTask] ?? $this->taskRegistry->get($subTask);
             }

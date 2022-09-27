@@ -95,7 +95,7 @@ class TaskFileLoaderTest extends Unit
                     $placeholderBuilder,
                 ),
             ),
-            $taskRegistry
+            $taskRegistry,
         );
 
         $this->settingRepository = $this->createMock(SettingRepository::class);

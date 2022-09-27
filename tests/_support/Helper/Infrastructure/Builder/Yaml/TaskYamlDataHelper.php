@@ -293,14 +293,18 @@ class TaskYamlDataHelper extends Module
      */
     public function createTaskSetYamlData(TaskInterface $subTask): TaskYaml
     {
-        return new TaskYaml([
-            'tasks' => [
-                [
-                    'id' => $subTask->getId(),
+        return new TaskYaml(
+            [
+                'tasks' => [
+                    [
+                        'id' => $subTask->getId(),
+                    ],
                 ],
             ],
-        ], [], [
-            $subTask->getId() => $subTask,
-        ]);
+            [],
+            [
+                $subTask->getId() => $subTask,
+            ],
+        );
     }
 }
