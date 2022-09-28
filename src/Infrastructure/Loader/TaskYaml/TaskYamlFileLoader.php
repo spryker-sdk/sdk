@@ -5,10 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Repository;
+namespace SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
@@ -29,7 +28,7 @@ use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class TaskYamlRepository implements TaskYamlRepositoryInterface
+class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
 {
     /**
      * @var string
@@ -85,13 +84,11 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     }
 
     /**
-     * @param array $tags
-     *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return array
      */
-    public function findAll(array $tags = []): array
+    public function loadAll(): array
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
 
@@ -119,35 +116,18 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         }
 
         foreach ($taskListData as $taskData) {
-            $task = $this->buildTask($taskData, $taskListData, $tags);
+            $task = $this->buildTask($taskData, $taskListData);
             $tasks[$task->getId()] = $task;
         }
 
         $existingTasks = array_merge($this->existingTasks, $tasks);
 
         foreach ($taskSetsData as $taskData) {
-            $task = $this->buildTaskSet($taskData, $taskListData, $existingTasks, $tags);
+            $task = $this->buildTaskSet($taskData, $taskListData, $existingTasks);
             $tasks[$task->getId()] = $task;
         }
 
         return array_merge($tasks, $this->existingTasks);
-    }
-
-    /**
-     * @param string $taskId
-     * @param array $tags
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
-     */
-    public function findById(string $taskId, array $tags = []): ?TaskInterface
-    {
-        $tasks = $this->findAll($tags);
-
-        if (array_key_exists($taskId, $tasks)) {
-            return $tasks[$taskId];
-        }
-
-        return null;
     }
 
     /**
@@ -175,11 +155,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $data
      * @param array $taskListData
-     * @param array $tags
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
-    protected function buildPlaceholders(array $data, array $taskListData, array $tags = []): array
+    protected function buildPlaceholders(array $data, array $taskListData): array
     {
         $placeholders = [];
         $taskPlaceholders = [];
@@ -187,11 +166,6 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         if (isset($data['type']) && $data['type'] === static::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
-                $taskTags = $task['tags'] ?? [];
-                if ($tags && !array_intersect($tags, $taskTags)) {
-                    continue;
-                }
-
                 $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
                     $taskListData[$task['id']]['placeholders'] :
                     $this->getExistingTask($task['id'])->getPlaceholders();
@@ -221,13 +195,12 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $data
      * @param array $taskListData
-     * @param array<string> $tags
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException
      *
      * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
-    protected function buildCommands(array $data, array $taskListData, array $tags = []): array
+    protected function buildCommands(array $data, array $taskListData): array
     {
         $commands = [];
 
@@ -249,10 +222,6 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         if ($data['type'] === static::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
-                $tasksTags = $task['tags'] ?? [];
-                if ($tags && !array_intersect($tags, $tasksTags)) {
-                    continue;
-                }
                 $taskData = $taskListData[$task['id']] ?? $this->getExistingTask($task['id']);
 
                 if ($taskData instanceof TaskSetInterface) {
@@ -276,7 +245,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                     $taskData['command'],
                     $taskData['type'],
                     $task['stop_on_error'],
-                    $tasksTags,
+                    [],
                     $converter,
                     $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
                     $data['error_message'] ?? '',
@@ -337,27 +306,25 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $taskData
      * @param array $taskListData
-     * @param array $tags
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface
      */
-    protected function buildLifecycle(array $taskData, array $taskListData, array $tags = []): TaskLifecycleInterface
+    protected function buildLifecycle(array $taskData, array $taskListData): TaskLifecycleInterface
     {
         return new Lifecycle(
-            $this->buildInitializedEventData($taskData, $taskListData, $tags),
-            $this->buildUpdatedEventData($taskData, $taskListData, $tags),
-            $this->buildRemovedEventData($taskData, $taskListData, $tags),
+            $this->buildInitializedEventData($taskData, $taskListData),
+            $this->buildUpdatedEventData($taskData, $taskListData),
+            $this->buildRemovedEventData($taskData, $taskListData),
         );
     }
 
     /**
      * @param array $taskData
      * @param array $taskListData
-     * @param array $tags
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
      */
-    protected function buildInitializedEventData(array $taskData, array $taskListData, array $tags = []): InitializedEventData
+    protected function buildInitializedEventData(array $taskData, array $taskListData): InitializedEventData
     {
         if (!isset($taskData['lifecycle']['INITIALIZED'])) {
             return new InitializedEventData();
@@ -367,7 +334,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         return new InitializedEventData(
             $this->buildLifecycleCommands($eventData),
-            $this->buildPlaceholders($eventData, $taskListData, $tags),
+            $this->buildPlaceholders($eventData, $taskListData),
             $this->buildFiles($eventData),
         );
     }
@@ -375,11 +342,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $taskData
      * @param array $taskListData
-     * @param array $tags
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
      */
-    protected function buildRemovedEventData(array $taskData, array $taskListData, array $tags = []): RemovedEventData
+    protected function buildRemovedEventData(array $taskData, array $taskListData): RemovedEventData
     {
         if (!isset($taskData['lifecycle']['REMOVED'])) {
             return new RemovedEventData();
@@ -389,7 +355,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         return new RemovedEventData(
             $this->buildLifecycleCommands($eventData),
-            $this->buildPlaceholders($eventData, $taskListData, $tags),
+            $this->buildPlaceholders($eventData, $taskListData),
             $this->buildFiles($eventData),
         );
     }
@@ -397,11 +363,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $taskData
      * @param array $taskListData
-     * @param array $tags
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
      */
-    protected function buildUpdatedEventData(array $taskData, array $taskListData, array $tags = []): UpdatedEventData
+    protected function buildUpdatedEventData(array $taskData, array $taskListData): UpdatedEventData
     {
         if (!isset($taskData['lifecycle']['UPDATED'])) {
             return new UpdatedEventData();
@@ -411,7 +376,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         return new UpdatedEventData(
             $this->buildLifecycleCommands($eventData),
-            $this->buildPlaceholders($eventData, $taskListData, $tags),
+            $this->buildPlaceholders($eventData, $taskListData),
             $this->buildFiles($eventData),
         );
     }
@@ -419,15 +384,14 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $taskData
      * @param array $taskListData
-     * @param array $tags
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
      */
-    protected function buildTask(array $taskData, array $taskListData, array $tags = []): Task
+    protected function buildTask(array $taskData, array $taskListData): Task
     {
-        $placeholders = $this->buildPlaceholders($taskData, $taskListData, $tags);
-        $commands = $this->buildCommands($taskData, $taskListData, $tags);
-        $lifecycle = $this->buildLifecycle($taskData, $taskListData, $tags);
+        $placeholders = $this->buildPlaceholders($taskData, $taskListData);
+        $commands = $this->buildCommands($taskData, $taskListData);
+        $lifecycle = $this->buildLifecycle($taskData, $taskListData);
 
         return new Task(
             $taskData['id'],
@@ -449,11 +413,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @param array $taskData
      * @param array $taskListData
      * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
-     * @param array $tags
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function buildTaskSet(array $taskData, array $taskListData, array $tasks, array $tags = []): TaskInterface
+    protected function buildTaskSet(array $taskData, array $taskListData, array $tasks): TaskInterface
     {
         return $this->taskFromYamlTaskSetBuilder->buildTaskFromYamlTaskSet($taskData, $taskListData, $tasks);
     }
