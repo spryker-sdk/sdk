@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -24,7 +24,7 @@ class TaskYamlResultDto
     protected array $placeholders = [];
 
     /**
-     * @var array
+     * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     protected array $commands = [];
 
@@ -34,7 +34,7 @@ class TaskYamlResultDto
     protected ?Lifecycle $lifecycle = null;
 
     /**
-     * @return bool[]|null[]|string[]||array[]
+     * @return array<array>|array<string>|array<bool>|array<null>
      */
     public function getScalarParts(): array
     {
@@ -42,11 +42,11 @@ class TaskYamlResultDto
     }
 
     /**
-     * @param bool[]|null[]|string[]|array[] $scalarParts
+     * @param array<array>|array<string>|array<bool>|array<null> $scalarParts
      *
-     * @return TaskYamlResultDto
+     * @return $this
      */
-    public function setScalarParts(array $scalarParts): TaskYamlResultDto
+    public function setScalarParts(array $scalarParts)
     {
         $this->scalarParts = $scalarParts;
 
@@ -55,11 +55,11 @@ class TaskYamlResultDto
 
     /**
      * @param string $name
-     * @param string|bool|null|array $value
+     * @param array|string|bool|null $value
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
+     * @return $this
      */
-    public function addScalarPart(string $name, $value): TaskYamlResultDto
+    public function addScalarPart(string $name, $value)
     {
         $this->scalarParts[$name] = $value;
 
@@ -77,9 +77,9 @@ class TaskYamlResultDto
     /**
      * @param array $placeholders
      *
-     * @return TaskYamlResultDto
+     * @return $this
      */
-    public function setPlaceholders(array $placeholders): TaskYamlResultDto
+    public function setPlaceholders(array $placeholders)
     {
         $this->placeholders = $placeholders;
 
@@ -91,7 +91,7 @@ class TaskYamlResultDto
      *
      * @return $this
      */
-    public function addPlaceholder(Placeholder $placeholder): TaskYamlResultDto
+    public function addPlaceholder(Placeholder $placeholder)
     {
         $this->placeholders[$placeholder->getName()] = $placeholder;
 
@@ -99,7 +99,7 @@ class TaskYamlResultDto
     }
 
     /**
-     * @return array
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
     {
@@ -107,23 +107,11 @@ class TaskYamlResultDto
     }
 
     /**
-     * @param array $commands
-     *
-     * @return TaskYamlResultDto
-     */
-    public function setCommands(array $commands): TaskYamlResultDto
-    {
-        $this->commands = $commands;
-
-        return $this;
-    }
-
-    /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
      * @return $this
      */
-    public function addCommand(CommandInterface $command): TaskYamlResultDto
+    public function addCommand(CommandInterface $command)
     {
         $this->commands[] = $command;
 
@@ -141,9 +129,9 @@ class TaskYamlResultDto
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle $lifecycle
      *
-     * @return TaskYamlResultDto
+     * @return $this
      */
-    public function setLifecycle(Lifecycle $lifecycle): TaskYamlResultDto
+    public function setLifecycle(Lifecycle $lifecycle)
     {
         $this->lifecycle = $lifecycle;
 
@@ -151,9 +139,9 @@ class TaskYamlResultDto
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
+     * @return $this
      */
-    public function reset(): TaskYamlResultDto
+    public function reset()
     {
         $this->scalarParts = [];
         $this->placeholders = [];

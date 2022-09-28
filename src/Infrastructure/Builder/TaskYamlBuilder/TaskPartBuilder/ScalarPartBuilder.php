@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
+namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 
 use SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
@@ -40,8 +40,6 @@ class ScalarPartBuilder implements TaskPartBuilderInterface
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
-     *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException
      */
     public function addPart(
         TaskYamlCriteriaDto $criteriaDto,
@@ -56,9 +54,9 @@ class ScalarPartBuilder implements TaskPartBuilderInterface
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
-     *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException
+     *
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
      */
     protected function addRequiredParts(
         TaskYamlCriteriaDto $criteriaDto,

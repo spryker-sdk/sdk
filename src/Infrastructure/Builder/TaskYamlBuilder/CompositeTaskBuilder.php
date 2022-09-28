@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml;
+namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder;
 
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
@@ -14,12 +14,12 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class CompositeTaskBuilder implements TaskBuilderInterface
 {
     /**
-     * @var iterable|\SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\ApplicableTaskBuilderInterface[]
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\ApplicableTaskBuilderInterface>
      */
     protected iterable $typedTaskBuilders;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\ApplicableTaskBuilderInterface> $typedTaskBuilders
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\ApplicableTaskBuilderInterface> $typedTaskBuilders
      */
     public function __construct(iterable $typedTaskBuilders)
     {
@@ -29,9 +29,9 @@ class CompositeTaskBuilder implements TaskBuilderInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $taskYamlCriteriaDto
      *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
-     *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function build(TaskYamlCriteriaDto $taskYamlCriteriaDto): TaskInterface
     {

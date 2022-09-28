@@ -1,19 +1,29 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
+namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException;
-use SprykerSdk\Sdk\Core\Domain\Enum\YamlTaskType;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\ScalarPartBuilder;
+use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder\ScalarPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
 
+/**
+ * @group YamlTaskLoading
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Builder
+ * @group TaskYamlBuilder
+ * @group TaskPartBuilder
+ * @group ScalarPartBuilderTest
+ */
 class ScalarPartBuilderTest extends Unit
 {
     /**
@@ -30,7 +40,7 @@ class ScalarPartBuilderTest extends Unit
 
         ];
         $criteriaDto = new TaskYamlCriteriaDto(
-            YamlTaskType::TYPE_TASK,
+            TaskType::TASK_TYPE__LOCAL_CLI,
             $requiredTaskData,
             [],
         );
@@ -44,7 +54,7 @@ class ScalarPartBuilderTest extends Unit
             $this->assertSame(
                 $expectedValue,
                 $scalarParts[$key],
-                sprintf('Actual value `%s` must be the same as expected `%s`', $scalarParts[$key], $expectedValue)
+                sprintf('Actual value `%s` must be the same as expected `%s`', $scalarParts[$key], $expectedValue),
             );
         }
     }
@@ -64,7 +74,7 @@ class ScalarPartBuilderTest extends Unit
         // Arrange
         $scalarPartBuilder = new ScalarPartBuilder();
         $criteriaDto = new TaskYamlCriteriaDto(
-            YamlTaskType::TYPE_TASK,
+            TaskType::TASK_TYPE__LOCAL_CLI,
             $invalidTaskData,
             [],
         );
@@ -114,7 +124,7 @@ class ScalarPartBuilderTest extends Unit
             'stages' => ['init', 'test'],
         ];
         $criteriaDto = new TaskYamlCriteriaDto(
-            YamlTaskType::TYPE_TASK,
+            TaskType::TASK_TYPE__LOCAL_CLI,
             array_merge($requiredTaskData, $optionalTaskData),
             [],
         );
@@ -141,7 +151,7 @@ class ScalarPartBuilderTest extends Unit
         // Arrange
         $scalarPartBuilder = new ScalarPartBuilder();
         $criteriaDto = new TaskYamlCriteriaDto(
-            YamlTaskType::TYPE_TASK,
+            TaskType::TASK_TYPE__LOCAL_CLI,
             [
                 'id' => 'test',
                 'short_description' => 'description',

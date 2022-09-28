@@ -1,29 +1,41 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskYaml;
+namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Core\Domain\Enum\YamlTaskType;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\CompositeTaskBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\YamlTaskBuilder;
+use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\CompositeTaskBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\YamlTaskBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
+/**
+ * @group YamlTaskLoading
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Builder
+ * @group TaskYamlBuilder
+ * @group TaskCompositeBuilderTest
+ */
 class TaskCompositeBuilderTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskBuilderInterface
      */
     protected TaskBuilderInterface $compositeTaskBuilder;
 
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -33,7 +45,6 @@ class TaskCompositeBuilderTest extends Unit
         ]);
     }
 
-
     /**
      * @return void
      */
@@ -41,7 +52,7 @@ class TaskCompositeBuilderTest extends Unit
     {
         // Arrange
         $criteriaDto = new TaskYamlCriteriaDto(
-            YamlTaskType::TYPE_TASK,
+            TaskType::TASK_TYPE__LOCAL_CLI,
             [],
             [],
         );
@@ -53,7 +64,7 @@ class TaskCompositeBuilderTest extends Unit
         $this->assertInstanceOf(
             TaskInterface::class,
             $resultTask,
-            sprintf('Result task must be instance of `%s`.', TaskInterface::class)
+            sprintf('Result task must be instance of `%s`.', TaskInterface::class),
         );
     }
 
@@ -78,7 +89,7 @@ class TaskCompositeBuilderTest extends Unit
         $this->assertInstanceOf(
             $criteriaData['instanceOf'],
             $resultTask,
-            sprintf('Result task must be instance of `%s`.', $criteriaData['instanceOf'])
+            sprintf('Result task must be instance of `%s`.', $criteriaData['instanceOf']),
         );
     }
 
@@ -109,7 +120,7 @@ class TaskCompositeBuilderTest extends Unit
     {
         return [
             [[
-                'dto' => new TaskYamlCriteriaDto(YamlTaskType::TYPE_TASK, [], []),
+                'dto' => new TaskYamlCriteriaDto(TaskType::TASK_TYPE__LOCAL_CLI, [], []),
                 'instanceOf' => Task::class,
             ]],
         ];

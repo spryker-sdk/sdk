@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -20,10 +20,9 @@ class MissedTaskRequiredParamException extends Exception
         $message = sprintf(
             'Missed required key `%s` for task `%s`,',
             $requiredParamKey,
-            $taskId)
-        ;
+            $taskId,
+        );
 
         parent::__construct($message);
     }
-
 }

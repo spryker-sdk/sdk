@@ -31,6 +31,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
@@ -75,6 +76,118 @@ class UnitTester extends Actor
             'default',
             true,
         );
+    }
+
+    /**
+     * @param array $seeds
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskSetInterface
+     */
+    public function createTaskSet(array $seeds = []): TaskSetInterface
+    {
+        //@phpcs:disable
+        return new class($seeds) implements TaskSetInterface {
+
+            protected array $seeds = [];
+
+            /**
+             * @param array $seeds
+             */
+            public function __construct(array $seeds)
+            {
+                $this->seeds = $seeds;
+            }
+
+            public function getId(): string
+            {
+                return $this->seeds['id'] ?? '';
+            }
+
+            public function getShortDescription(): string
+            {
+                return $this->seeds['short_description'] ?? '';
+            }
+
+            public function getCommands(): array
+            {
+                return $this->seeds['commands'] ?? [];
+            }
+
+            public function getPlaceholders(): array
+            {
+                return $this->seeds['placeholders'] ?? [];
+            }
+
+            public function getHelp(): ?string
+            {
+                return $this->seeds['help'] ?? null;
+            }
+
+            public function getVersion(): string
+            {
+                return $this->seeds['version'] ?? '0.1.0';
+            }
+
+            public function isDeprecated(): bool
+            {
+                return $this->seeds['deprecated'] ?? false;
+            }
+
+            public function isOptional(): bool
+            {
+                return $this->seeds['optional'] ?? true;
+            }
+
+            public function getSuccessor(): ?string
+            {
+                return $this->seeds['successor'] ?? null;
+            }
+
+            public function getLifecycle(): LifecycleInterface
+            {
+                if ($this->seeds['lifecycle'] instanceof LifecycleInterface) {
+                    return $this->seeds['lifecycle'];
+                }
+
+                return new Lifecycle(
+                    new InitializedEventData(),
+                    new UpdatedEventData(),
+                    new RemovedEventData(),
+                );
+            }
+
+            public function getStages(): array
+            {
+                return $this->seeds['stages'] ?? [];
+
+            }
+
+            public function getSubTasks(array $tags = []): array
+            {
+                return $this->seeds['sub-tasks'] ?? [];
+            }
+
+            public function getTagsMap(): array
+            {
+                return $this->seeds['tags'] ?? [];
+            }
+
+            public function getStopOnErrorMap(): array
+            {
+                return $this->seeds['stopOnErrorMap'] ?? [];
+            }
+
+            public function getOverridePlaceholdersMap(): array
+            {
+                return $this->seeds['OverridePlaceholdersMap'] ?? [];
+            }
+
+            public function getSharedPlaceholdersMap(): array
+            {
+                return $this->seeds['sharedPlaceholdersMap'] ?? [];
+            }
+        };
+        // phpcs:enable
     }
 
     /**
