@@ -129,7 +129,7 @@ services:
     arguments:
       - "@project_setting_repository"
       - "@workflow_repository"
-      - "@project_workflow"
+      - "@workflow.registry"
   SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer:
     tags: [ "sdk.setting_choice_provider" ]
     public: true
