@@ -9,9 +9,8 @@ type: local_cli
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
-    optional: true
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: STATICg
     optional: false
     configuration:
       alias: "path"

@@ -21,17 +21,15 @@ class ErrorCommandListener implements ErrorCommandListenerInterface
      */
     public function handle(ConsoleErrorEvent $event): void
     {
-        if (!($event->getError() instanceof TableNotFoundException) || $event->getOutput()->isDebug()) {
-            return;
+        if ($event->getError() instanceof TableNotFoundException && !$event->getOutput()->isDebug()) {
+            $event->setError(
+                new ProjectWorkflowException(
+                    'You need to init or update the SDK. you need to run \'sdk:init:sdk\' or \'sdk:update:all\' command.',
+                    0,
+                    $event->getError(),
+                ),
+            );
+            $event->setExitCode(0);
         }
-
-        $event->setError(
-            new ProjectWorkflowException(
-                'You need to init or update the SDK. you need to run \'sdk:init:sdk\' or \'sdk:update:all\' command.',
-                0,
-                $event->getError(),
-            ),
-        );
-        $event->setExitCode(0);
     }
 }

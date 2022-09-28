@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -21,6 +22,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestValidator;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -59,20 +61,28 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected array $existingTasks = [];
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface
+     */
+    protected ManifestValidationInterface $manifestValidation;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface $manifestValidation
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
         Finder $fileFinder,
         Yaml $yamlParser,
+        ManifestValidationInterface $manifestValidation,
         iterable $existingTasks = []
     ) {
         $this->yamlParser = $yamlParser;
         $this->fileFinder = $fileFinder;
         $this->settingRepository = $settingRepository;
+        $this->manifestValidation = $manifestValidation;
         foreach ($existingTasks as $existingTask) {
             $this->existingTasks[$existingTask->getId()] = $existingTask;
         }
@@ -106,11 +116,12 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
             $taskData = $this->yamlParser->parse($taskFile->getContents());
 
             if ($taskData['type'] === static::TASK_SET_TYPE) {
-                $taskSetsData[$taskData['id']] = $taskData;
+                $taskSetsData[(string)$taskData['id']] = $taskData;
             } else {
-                $taskListData[$taskData['id']] = $taskData;
+                $taskListData[(string)$taskData['id']] = $taskData;
             }
         }
+        $taskListData = $this->manifestValidation->validate(TaskManifestValidator::NAME, $taskListData);
 
         foreach ($taskListData as $taskData) {
             $task = $this->buildTask($taskData, $taskListData, $tags);

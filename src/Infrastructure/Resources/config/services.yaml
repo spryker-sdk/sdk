@@ -1,4 +1,7 @@
 services:
+  _instanceof:
+    SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface:
+      tags: [ "manifest.validator" ]
   file_finder:
     class: Symfony\Component\Finder\Finder
   event_logger_factory:
@@ -53,6 +56,7 @@ services:
       - "@setting_repository"
       - "@file_finder"
       - "@yaml_parser"
+      - "@manifest_validation"
       - !tagged_iterator sdk.task
   context_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
@@ -332,3 +336,15 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
     arguments:
       - !tagged_iterator workflow.transition_resolver
+
+  # Validators
+  validation_helper:
+    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper
+    arguments:
+      - '@value_resolver_registry'
+      - '@converter_registry'
+      - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
+  task_manifest_validator:
+    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestValidator
+    arguments:
+      - '@validation_helper'

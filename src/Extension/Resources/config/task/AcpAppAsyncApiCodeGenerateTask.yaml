@@ -9,7 +9,6 @@ type: local_cli_interactive
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
-    optional: true
   - name: "%asyncapi-file%"
     value_resolver: STATIC
     optional: true
