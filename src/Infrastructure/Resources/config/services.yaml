@@ -10,8 +10,12 @@ services:
       - "@project_setting_repository"
       - "%project_settings_file%"
   event_logger:
-    class: SprykerSdk\Sdk\Infrastructure\Service\EventLogger
+    class: SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger
     factory: ["@event_logger_factory", "createEventLogger"]
+  default_context_receiver:
+    class: SprykerSdk\Sdk\Infrastructure\Service\DefaultContextReceiver
+    arguments:
+        - '@setting_repository'
   action_approver:
     class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
     arguments:
@@ -56,6 +60,7 @@ services:
       - "@setting_repository"
       - "@file_finder"
       - "@yaml_parser"
+      - "@task.task_from_yaml_builder"
       - "@manifest_validation"
       - !tagged_iterator sdk.task
   context_repository:
@@ -89,6 +94,10 @@ services:
     arguments:
       - "@question_helper"
       - "@value_receiver.question_registry"
+
+  value_receiver.question_factory.int:
+      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\IntQuestionFactory
+      tags: [ "sdk.cli_value_receiver_factory" ]
 
   value_receiver.question_factory.string:
     class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory
@@ -182,6 +191,8 @@ services:
     arguments:
       - "@mapper.task_mapper"
       - "@doctrine"
+      - "@task.task_set_commands_builder"
+      - "@task.task_set_override_map_factory"
       - !tagged_iterator sdk.task
 
   service.task_manager:
@@ -189,6 +200,7 @@ services:
     arguments:
       - "@event_dispatcher"
       - "@task_persistence_repository"
+      - "@task.task_from_task_builder"
 
   service.lifecycle_manager:
     class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
@@ -336,6 +348,45 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
     arguments:
       - !tagged_iterator workflow.transition_resolver
+
+  task.yaml.commands_factory:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetCommandsFactory
+
+  task.yaml.task_set_placeholders_factory:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetPlaceholdersFactory
+
+  task.yaml.task_set_override_map_factory:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetOverrideMapFactory
+      arguments:
+          - "@task.task_set_override_map_builder_factory"
+
+  task.task_set_placeholders_builder:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder
+
+  task.task_set_commands_builder:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder
+
+  task.task_set_override_map_builder_factory:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilderFactory
+
+  task.task_set_override_map_factory:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory
+
+  task.task_from_task_builder:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilder
+      arguments:
+          - "@task.task_set_placeholders_builder"
+          - "@task.task_set_commands_builder"
+          - "@task.task_set_override_map_factory"
+
+  task.task_from_yaml_builder:
+      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilder
+      arguments:
+          - "@task.yaml.commands_factory"
+          - "@task.yaml.task_set_placeholders_factory"
+          - "@task.yaml.task_set_override_map_factory"
+          - "@task.task_set_placeholders_builder"
+          - "@task.task_set_commands_builder"
 
   # Validators
   validation_helper:

@@ -14,3 +14,7 @@ tasks:
   - id: "acp:openapi:generate"
     stop_on_error: true
 placeholders: []
+shared_placeholders:
+    '%sdk_dir%': ~
+    '%openapi-file%':
+        description: "Path to OpenAPI file"

@@ -12,6 +12,8 @@ RUN apk update \
     npm \
     && npm install -g npm@8.4.1
 
+RUN git config --add --system safe.directory /project
+
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php ${srcRoot}/
 ARG SPRYKER_COMPOSER_MODE
 
