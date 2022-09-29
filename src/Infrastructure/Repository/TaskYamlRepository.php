@@ -39,6 +39,16 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected const TASK_SET_TYPE = 'task_set';
 
     /**
+     * @var array<string, array>
+     */
+    protected $taskListData = [];
+
+    /**
+     * @var array<string, array>
+     */
+    protected $taskSetsData = [];
+
+    /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $settingRepository;
@@ -97,51 +107,43 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $tags
      *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
-     *
      * @return array
      */
     public function findAll(array $tags = []): array
     {
-        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
-
-        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
-            throw new MissingSettingException('extension_dirs are not configured properly');
+        if (!$this->taskListData || !$this->taskSetsData) {
+            $this->readTaskYaml();
         }
+
+        $this->taskListData = $this->manifestValidation->validate(TaskManifestValidator::NAME, $this->taskListData);
 
         $tasks = [];
-        $taskListData = [];
-        $taskSetsData = [];
-
-        $finder = $this->fileFinder
-            ->in($this->findExistedDirectories($taskDirSetting->getValues()))
-            ->name('*.yaml');
-
-        //read task from path, parse and create Task, later use DB for querying
-        foreach ($finder->files() as $taskFile) {
-            $taskData = $this->yamlParser->parse($taskFile->getContents());
-
-            if ($taskData['type'] === static::TASK_SET_TYPE) {
-                $taskSetsData[(string)$taskData['id']] = $taskData;
-            } else {
-                $taskListData[(string)$taskData['id']] = $taskData;
-            }
-        }
-        $taskListData = $this->manifestValidation->validate(TaskManifestValidator::NAME, $taskListData);
-
-        foreach ($taskListData as $taskData) {
-            $task = $this->buildTask($taskData, $taskListData, $tags);
+        foreach ($this->taskListData as $taskData) {
+            $task = $this->buildTask($taskData, $this->taskListData, $tags);
             $tasks[$task->getId()] = $task;
         }
 
         $existingTasks = array_merge($this->existingTasks, $tasks);
 
-        foreach ($taskSetsData as $taskData) {
-            $task = $this->buildTaskSet($taskData, $taskListData, $existingTasks, $tags);
+        foreach ($this->taskSetsData as $taskData) {
+            $task = $this->buildTaskSet($taskData, $this->taskListData, $existingTasks, $tags);
             $tasks[$task->getId()] = $task;
         }
 
         return array_merge($tasks, $this->existingTasks);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function isTaskNameExist(string $name): bool
+    {
+        $this->readTaskYaml();
+        $tasks = array_merge($this->existingTasks, $this->taskSetsData, $this->taskListData);
+
+        return isset($tasks[$name]);
     }
 
     /**
@@ -159,6 +161,35 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         }
 
         return null;
+    }
+
+    /**
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
+     *
+     * @return void
+     */
+    protected function readTaskYaml(): void
+    {
+        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
+
+        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
+            throw new MissingSettingException('extension_dirs are not configured properly');
+        }
+
+        $finder = $this->fileFinder
+            ->in($this->findExistedDirectories($taskDirSetting->getValues()))
+            ->name('*.yaml');
+
+        //read task from path, parse and create Task, later use DB for querying
+        foreach ($finder->files() as $taskFile) {
+            $taskData = $this->yamlParser->parse($taskFile->getContents());
+
+            if ($taskData['type'] === static::TASK_SET_TYPE) {
+                $this->taskSetsData[(string)$taskData['id']] = $taskData;
+            } else {
+                $this->taskListData[(string)$taskData['id']] = $taskData;
+            }
+        }
     }
 
     /**

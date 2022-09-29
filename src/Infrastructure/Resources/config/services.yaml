@@ -394,6 +394,7 @@ services:
     arguments:
       - '@value_resolver_registry'
       - '@converter_registry'
+      - '@task_yaml_repository'
       - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
   task_manifest_validator:
     class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestValidator

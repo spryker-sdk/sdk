@@ -138,7 +138,7 @@ class OriginValueResolver extends AbstractValueResolver implements ConfigurableV
     {
         $this->alias = $values['alias'] ?? $values['name'] ?? null;
         $this->description = $values['description'] ?? '';
-        $this->option = $values['option'] ?? true;
+        $this->option = $values['option'] ?? null;
         $this->defaultValue = $values['defaultValue'] ?? null;
         $this->help = $values['help'] ?? null;
         $this->type = $values['type'] ?? 'string';

@@ -69,7 +69,7 @@ abstract class LifecycleEventSubscriber
         $resolvedValues = $context->getResolvedValues();
 
         $placeholdersKeys = array_map(function ($placeholder): string {
-            return '~' . $placeholder . '~';
+            return '#' . $placeholder . '#';
         }, array_keys($resolvedValues));
 
         $placeholdersValues = array_values($resolvedValues);

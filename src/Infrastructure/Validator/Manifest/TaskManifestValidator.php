@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class TaskManifestValidator implements ManifestValidatorInterface
@@ -20,14 +21,14 @@ class TaskManifestValidator implements ManifestValidatorInterface
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper
      */
-    protected ValidationHelper $placeholderValidationHelper;
+    protected ValidationHelper $validationHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper $placeholderValidationHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper $validationHelper
      */
-    public function __construct(ValidationHelper $placeholderValidationHelper)
+    public function __construct(ValidationHelper $validationHelper)
     {
-        $this->placeholderValidationHelper = $placeholderValidationHelper;
+        $this->validationHelper = $validationHelper;
     }
 
     /**
@@ -55,12 +56,43 @@ class TaskManifestValidator implements ManifestValidatorInterface
                     ->isRequired()
                     ->validate()
                         ->ifTrue(function ($value) {
-                            return !preg_match('/^[a-z-]+:[a-z-]+:[a-z-]+$/u', $value);
+                            return !preg_match('/^[a-z-]+(:[a-z-]+)+$/u', $value);
                         })
-                        ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-]+$/` format.')
+                        ->thenInvalid('Task id `%s` should have `/^[a-z-]+(:[a-z-]+)+$/` format.')
                     ->end()
                 ->end()
                 ->scalarNode('stage')->isRequired()->end()
+                ->arrayNode('tags')
+                    ->useAttributeAsKey('name')
+                    ->prototype('variable')->end()
+                ->end()
+                ->scalarNode('successor')
+                    ->defaultNull()
+                    ->validate()
+                        ->ifTrue(function (string $value) {
+                            return !$value || !$this->validationHelper->isTaskNameExist($value);
+                        })
+                        ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
+                    ->end()
+                ->end()
+                ->scalarNode('deprecated')
+                    ->defaultNull()
+                    ->validate()
+                        ->ifTrue(function (string $value) {
+                            return $value && !filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                        })
+                        ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
+                    ->end()
+                ->end()
+                ->scalarNode('optional')
+                    ->defaultNull()
+                    ->validate()
+                        ->ifTrue(function (string $value) {
+                            return $value && !filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                        })
+                        ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
+                    ->end()
+                ->end()
                 ->scalarNode('version')
                     ->isRequired()
                     ->validate()
@@ -101,7 +133,7 @@ class TaskManifestValidator implements ManifestValidatorInterface
                             ->validate()
                                 ->ifTrue(
                                     function ($name) {
-                                        return !$this->placeholderValidationHelper->validateConverter($name);
+                                        return !$this->validationHelper->validateConverter($name);
                                     },
                                 )
                                 ->thenInvalid('Converter name `%s` doesn\'t exist.')
@@ -119,83 +151,11 @@ class TaskManifestValidator implements ManifestValidatorInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('placeholders')
-                    ->arrayPrototype()
-                        ->children()
-                            ->scalarNode('name')
-                                ->isRequired()
-                                ->info('Placeholder has `/^%[a-zA-Z-_]+%$/` format.')
-                                ->validate()
-                                    ->ifTrue(function (string $value) {
-                                        return !preg_match('/^%[a-zA-Z-_]+%$/u', $value);
-                                    })
-                                    ->thenInvalid('Placeholder %s has invalid format.')
-                                ->end()
-                            ->end()
-                            ->scalarNode('value_resolver')
-                                ->isRequired()
-                                ->validate()
-                                    ->ifString()
-                                    ->ifTrue(function (string $placeholder) {
-                                        return !$this->placeholderValidationHelper->validateName($placeholder);
-                                    })
-                                    ->thenInvalid('`%s` placeholder doesn\'t exist.')
-                                ->end()
-                            ->end()
-                            ->scalarNode('optional')
-                                ->validate()
-                                    ->ifTrue(function (string $value) {
-                                        if (!$value) {
-                                            return false;
-                                        }
-
-                                        return !filter_var($value, FILTER_VALIDATE_BOOLEAN);
-                                    })
-                                    ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
-                                ->end()
-                            ->end()
-                            ->arrayNode('configuration')
-                                ->children()
-                                    ->scalarNode('alias')
-                                        ->defaultNull()
-                                    ->end()
-                                    ->scalarNode('option')
-                                        ->defaultNull()
-                                    ->end()
-                                    ->scalarNode('alias')
-                                        ->defaultNull()
-                                    ->end()
-                                    ->scalarNode('description')
-                                        ->defaultNull()
-                                    ->end()
-                                    ->scalarNode('type')
-                                        ->validate()
-                                            ->ifNotInArray($this->placeholderValidationHelper->getSupportedTypes())
-                                            ->thenInvalid('Not supported `%s` type. Available types: ' . implode(',', $this->placeholderValidationHelper->getSupportedTypes()))
-                                        ->end()
-                                    ->end()
-                                    ->scalarNode('defaultValue')
-                                        ->defaultNull()
-                                    ->end()
-                                    ->arrayNode('settingPaths')
-                                        ->useAttributeAsKey('name')
-                                        ->prototype('variable')->end()
-                                    ->end()
-                                    ->arrayNode('choiceValues')
-                                        ->useAttributeAsKey('name')
-                                        ->prototype('variable')->end()
-                                    ->end()
-                                    ->scalarNode('flag')->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
             ->end()
             ->validate()
             ->ifTrue(function (array $task) {
-                return !$this->placeholderValidationHelper
-                    ->validatePlaceholderInCommand(
+                return !$this->validationHelper
+                    ->validatePlaceholderInString(
                         $task['command'],
                         array_map(function (array $placeholder) {
                             return $placeholder['name'];
@@ -205,6 +165,133 @@ class TaskManifestValidator implements ManifestValidatorInterface
             ->thenInvalid('Not all placeholders uses.')
             ->end();
 
+        $this->addPlaceholderDefinition(
+            $node
+            ->children()
+                ->arrayNode('placeholders')
+                ->arrayPrototype()
+                    ->children(),
+        );
+        $lifecycle = $node
+            ->children()
+                ->arrayNode('lifecycle')
+                   ->children();
+
+        foreach (['INITIALIZED', 'UPDATED', 'REMOVED'] as $type) {
+            $event = $lifecycle->arrayNode($type);
+            $event->children()
+                ->arrayNode('files')
+                ->arrayPrototype()
+                ->children()
+                ->scalarNode('path')
+                ->end()
+                ->scalarNode('content')
+                ->end();
+
+            $this->addPlaceholderDefinition(
+                $event->children()
+                    ->arrayNode('placeholders')
+                    ->arrayPrototype()
+                    ->children(),
+            );
+            $event->children()
+                ->arrayNode('commands')
+                ->arrayPrototype()
+                ->children()
+                ->scalarNode('command')
+                    ->isRequired()
+                    ->validate()
+                        ->ifEmpty()
+                        ->thenInvalid('Task command is require.')
+                    ->end()
+                ->end()
+                ->scalarNode('type')
+                    ->isRequired()
+                        ->validate()
+                        ->ifNotInArray(['local_cli', 'local_cli_interactive', 'task_set'])
+                        ->thenInvalid('Task should have local_cli_interactive or local_cli type.')
+                    ->end()
+                ->end();
+        }
+
         return $tree;
+    }
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $placeholder
+     *
+     * @return void
+     */
+    protected function addPlaceholderDefinition(NodeBuilder $placeholder): void
+    {
+        $placeholder
+            ->scalarNode('name')
+                ->isRequired()
+                ->info('Placeholder has `/^%[a-zA-Z-_]+%$/` format.')
+                ->validate()
+                    ->ifTrue(function (string $value) {
+                        return !preg_match('/^%[a-zA-Z-_]+%$/u', $value);
+                    })
+                    ->thenInvalid('Placeholder %s has invalid format.')
+                ->end()
+            ->end()
+            ->scalarNode('value_resolver')
+                ->isRequired()
+                ->validate()
+                    ->ifString()
+                    ->ifTrue(function (string $placeholder) {
+                        return !$this->validationHelper->validateName($placeholder);
+                    })
+                    ->thenInvalid('`%s` placeholder doesn\'t exist.')
+                ->end()
+            ->end()
+            ->scalarNode('optional')
+                ->validate()
+                    ->ifTrue(function (string $value) {
+                        if (!$value) {
+                            return false;
+                        }
+
+                        return !filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                    })
+                    ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
+                ->end()
+            ->end()
+            ->arrayNode('configuration')
+                ->children()
+                ->scalarNode('name')
+                    ->setDeprecated()
+                    ->defaultNull()
+                ->end()
+                ->scalarNode('option')
+                    ->defaultNull()
+                ->end()
+                ->scalarNode('alias')
+                    ->defaultNull()
+                ->end()
+                ->scalarNode('description')
+                    ->defaultNull()
+                ->end()
+                ->scalarNode('help')
+                    ->defaultNull()
+                ->end()
+                ->scalarNode('type')
+                    ->validate()
+                        ->ifNotInArray($this->validationHelper->getSupportedTypes())
+                        ->thenInvalid('Not supported `%s` type. Available types: ' . implode(',', $this->validationHelper->getSupportedTypes()))
+                    ->end()
+                ->end()
+                ->scalarNode('defaultValue')
+                    ->defaultNull()
+                ->end()
+                ->arrayNode('settingPaths')
+                    ->useAttributeAsKey('name')
+                    ->prototype('variable')->end()
+                ->end()
+                ->arrayNode('choiceValues')
+                    ->useAttributeAsKey('name')
+                    ->prototype('variable')->end()
+                ->end()
+                ->scalarNode('flag')->end();
     }
 }

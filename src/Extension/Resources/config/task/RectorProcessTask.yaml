@@ -6,6 +6,7 @@ stage: build
 version: 0.2.0
 command: "php %executable_command% process %path% %config% %is-ansi%"
 type: local_cli
+optional: false
 placeholders:
   - name: "%executable_command%"
     value_resolver: PRIORITY_PATH

@@ -17,6 +17,13 @@ interface TaskYamlRepositoryInterface
     public function findAll();
 
     /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function isTaskNameExist(string $name): bool;
+
+    /**
      * @param string $taskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null

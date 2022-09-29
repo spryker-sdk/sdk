@@ -70,7 +70,7 @@ class PhpStanTaskCest
         $I->cleanReports();
 
         // Act
-        $I->runSdkCommand([
+        $process = $I->runSdkCommand([
             static::COMMAND,
             '--path=src/PhpStan/fail',
             '--format=yaml',

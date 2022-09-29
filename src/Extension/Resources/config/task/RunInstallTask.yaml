@@ -1,5 +1,5 @@
 ---
-id: "install"
+id: "project:install:run"
 short_description: "Runs Sprykers install command."
 help: ~
 stage: build
