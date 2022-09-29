@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -60,6 +61,7 @@ class TaskYamlRepositoryTest extends Unit
             new Finder(),
             new Yaml(),
             $this->createTaskFromYamlTaskSetBuilderMock(),
+            $this->createManifestValidationBuilderMock(),
             [new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))],
         );
     }
@@ -170,5 +172,18 @@ class TaskYamlRepositoryTest extends Unit
     public function createTaskFromYamlTaskSetBuilderMock(): TaskFromYamlTaskSetBuilderInterface
     {
         return $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface
+     */
+    public function createManifestValidationBuilderMock(): ManifestValidationInterface
+    {
+        $manifestValidation = $this->createMock(ManifestValidationInterface::class);
+        $manifestValidation
+            ->method('validate')
+            ->will($this->returnArgument(1));
+
+        return $manifestValidation;
     }
 }
