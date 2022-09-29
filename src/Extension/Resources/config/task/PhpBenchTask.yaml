@@ -3,74 +3,85 @@ id: "validation:php:benchmark"
 short_description: "Check your code efficiency by running a benchmark"
 help: ~
 stage: build
-version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/phpbench run %tests% --bootstrap=%bootstrap% %group% %iterations% %revs% %report% %time-unit% --dump-file=%reportDir%/phpbench.benchmark.xml"
+version: 0.2.0
+command: "php %executable_command% run %tests% %bootstrap% %group% %iterations% %revs% %report% %time-unit% %reportDir%"
 type: local_cli
 optional: false
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
-    optional: true
-  - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      name: "report_dir"
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/phpbench"
+      settingPaths: [ "project_dir", "sdk_dir" ]
+  - name: "%reportDir%"
+    value_resolver: REPORT_DIR
+    optional: true
+    configuration:
+      option: "dump-file"
       description: "Reports directory"
       type: string
       settingPaths: ["report_dir"]
+      defaultValue: "phpbench.benchmark.xml"
   - name: "%tests%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "tests"
+      alias: "tests"
       description: "Relative path to tests directory in project"
       type: path
       defaultValue: "tests"
   - name: "%bootstrap%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "bootstrap"
+      alias: "bootstrap"
+      option: "bootstrap"
       description: "Relative path to bootstrap file in project"
       type: path
       defaultValue: "vendor/autoload.php"
   - name: "%group%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "group"
+      alias: "group"
+      option: "group"
       description: "Group to run"
       type: string
   - name: "%iterations%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "iterations"
+      alias: "iterations"
+      option: "iterations"
       description: "Iterations count"
       type: string
       defaultValue: 1
   - name: "%revs%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "revs"
+      alias: "revs"
+      option: "revs"
       description: "Revolution count"
       type: string
       defaultValue: 1
   - name: "%report%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "report"
+      alias: "report"
+      option: "report"
       description: "Report config"
       type: string
       defaultValue: '{"generator":"expression","cols":["benchmark","subject","best","mean","worst","stdev","revs","its"]}'
   - name: "%time-unit%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "time-unit"
+      alias: "time-unit"
+      option: "time-unit"
       description: "Time unit"
       type: string
       defaultValue: milliseconds

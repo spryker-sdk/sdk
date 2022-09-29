@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterfac
 use SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory;
 use SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader;
 use SprykerSdk\SdkContracts\Report\ReportInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 
@@ -43,7 +43,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
 
     /**
      * @param string $taskId
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface $violationReport
      *
      * @throws \Symfony\Component\Translation\Exception\InvalidResourceException
      *
@@ -63,7 +63,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
     /**
      * @param string $taskId
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function findByTask(string $taskId): ?ViolationReportInterface
     {

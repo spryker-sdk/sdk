@@ -3,7 +3,7 @@ id: "acp:config:validate"
 short_description: "Validate ACP configuration file."
 help: ~
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:configuration:validate %configuration-file%"
 type: local_cli
 placeholders:
@@ -11,9 +11,10 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%configuration-file%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "configuration-file"
+      alias: "configuration-file"
+      option: "configuration-file"
       description: "Path to configuration file"
       type: string

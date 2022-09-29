@@ -58,6 +58,8 @@ class Workflow implements WorkflowInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getProject(): string
@@ -66,6 +68,8 @@ class Workflow implements WorkflowInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array
      */
     public function getStatus(): array
@@ -74,6 +78,8 @@ class Workflow implements WorkflowInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getWorkflow(): string
@@ -82,6 +88,8 @@ class Workflow implements WorkflowInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCode(): string
@@ -90,6 +98,8 @@ class Workflow implements WorkflowInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\WorkflowInterface|null
      */
     public function getParent(): ?WorkflowInterface

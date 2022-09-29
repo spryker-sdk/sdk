@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Extension\Workflow;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\Exception\UniqueValueException;
 use SprykerSdk\Sdk\Extension\Workflow\InteractionAnswerBasedTransitionResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 /**
  * @group Sdk
@@ -27,7 +27,7 @@ class InteractionAnswerBasedTransitionResolverTest extends Unit
     public function testResolveTransitionFailed(): void
     {
         // Arrange
-        $valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $valueReceiver->expects($this->once())
             ->method('receiveValue')
             ->willReturn('Choice two description.');
@@ -60,7 +60,7 @@ class InteractionAnswerBasedTransitionResolverTest extends Unit
     public function testResolveTransitionWithEqualDescription(): void
     {
         // Arrange
-        $valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $context = $this->createMock(ContextInterface::class);
 
         $resolveTransition = new InteractionAnswerBasedTransitionResolver($valueReceiver);

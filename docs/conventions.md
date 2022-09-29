@@ -3,8 +3,27 @@
 The Spryker SDK defines the following conventions.
 
 ## Task
+`id`, `short_description`, `version`, `type`, `command` are  __REQUIRED__ properties.
 
-- MUST have an id following the schema `<group>:<language>:<subgroup>`, where `<group>` is one of validation, generation, `<language>` is php for now  and `<subgroup>` should be a descriptive name. E.g.: `validation:php:architecture`
+- __MUST__ have an `id` following the schema `<group>:<language>:<subgroup>`, where `<group>` is one of validation, generation, `<language>` is php for now  and `<subgroup>` should be a descriptive name. E.g.: `validation:php:architecture`
+
+- __MUST__ have a `version` according to the [semver](https://semver.org/) specification
+
+- __MUST__ have a `short_description` with a short task description
+
+- __MUST__ have a `type` one of a `local_cli`, `local_cli_interactive`, `task-set`, `php`
+
+- __MUST__ have a `command` with executable command string or null
+
+## Task Set
+
+- __MUST__ have a `type` with `task-set` value
+
+- __MUST__ have a `tasks` with the list of the required sub-tasks
+
+- __MUST__ have a sub-task `id` in the `tasks` list
+
+- __MUST__ have null value in `command` property (e.g. `command: ~`)
 
 ## Workflow
 
@@ -69,39 +88,6 @@ No conventions yet
 - Contract is an interface that allows users to customize existing business logic.
 - Contract __MUST__ exist only in case existing logic provides for an extension by the user.
 - Contract is a public API and __MUST__ follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
-- Each method in the Contract's implementation class __MUST__ have the `{@inheritDoc}` tag on the first line of the docblock.
-- Each method in the Contract's implementation class __MAY__ have an additional short description.
-- Short description __MUST__ follow Spryker public API specification.
-- Each method in the Contract's implementation class __MUST NOT__ contain `@api` tag.
-
-Example
-
-```php
-<?php
-
-/**
- * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
-
-namespace SprykerSdk\Sdk\Core\Application\ValueResolver
-
-use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
-
-class AcmeValueResolver implemets ValueResolverInterface
-{
-    /**
-     * {@inheritdoc}
-     * - Short description.
-     *
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param array $settingValues
-     *
-     * @return string
-     */
-    public function resolve(ContextInterface $context, array $settingValues): string { /* ... */ }
-}
-```
 
 ## TODO
 

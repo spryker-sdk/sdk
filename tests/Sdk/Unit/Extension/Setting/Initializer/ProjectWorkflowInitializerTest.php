@@ -17,6 +17,13 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
+/**
+ * @group Sdk
+ * @group Extension
+ * @group Setting
+ * @group Initializer
+ * @group ProjectWorkflowInitializerTest
+ */
 class ProjectWorkflowInitializerTest extends Unit
 {
     /**

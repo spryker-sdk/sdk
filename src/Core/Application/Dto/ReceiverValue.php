@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto;
 
-use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
-
 class ReceiverValue implements ReceiverValueInterface
 {
     /**

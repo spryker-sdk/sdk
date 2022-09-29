@@ -7,15 +7,24 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
 
 class RemovedEventMapper implements RemovedEventMapperInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapperInterface
+     */
     protected PlaceholderMapperInterface $placeholderMapper;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapperInterface
+     */
     protected CommandMapperInterface $commandMapper;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\FileMapperInterface
+     */
     protected FileMapperInterface $fileMapper;
 
     /**
@@ -34,7 +43,7 @@ class RemovedEventMapper implements RemovedEventMapperInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface $lifecycleEventData
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent
      */
@@ -83,7 +92,7 @@ class RemovedEventMapper implements RemovedEventMapperInterface
     }
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\FileInterface> $files
+     * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface> $files
      * @param \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent $event
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent

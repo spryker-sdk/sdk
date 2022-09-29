@@ -3,21 +3,54 @@ id: "pbc:validate"
 short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 stage: build
-version: 0.1.0
+version: 0.2.0
 command: ~
 type: task_set
 tasks:
-  - id: "pbc:validation:php:codestyle-fix"
+  - id: "validation:php:codestyle-fix"
     stop_on_error: true
-  - id: "pbc:validation:php:codestyle-check"
+    placeholder_overrides:
+        '%executable_command%':
+            name: "%executable_command_codestyle_fix%"
+  - id: "validation:php:codestyle-check"
     stop_on_error: true
+    placeholder_overrides:
+        '%executable_command%':
+            name: "%executable_command_codestyle_check%"
+        '%reportDir%':
+            name: "%reportDir_codestyle_check%"
   - id: "validation:php:static"
     stop_on_error: true
+    placeholder_overrides:
+        '%reportDir%':
+            name: "%reportDir_static%"
   - id: "validation:php:architecture"
     stop_on_error: true
+    placeholder_overrides:
+        '%config%':
+            name: "%config_architecture%"
+        '%executable_command%':
+            name: "%executable_command_architecture%"
+        '%reportDir%':
+            name: "%reportDir_architecture%"
   - id: "tests:sdk:codecept"
     stop_on_error: true
+    placeholder_overrides:
+        '%executable_command%':
+            name: "%executable_command_codecept%"
+        '%reportDir%':
+            name: "%reportDir_codecept%"
   - id: "validation:php:rector"
     stop_on_error: true
-
+    placeholder_overrides:
+        '%config%':
+            name: "%config_rector%"
+        '%executable_command%':
+            name: "%executable_command_rector%"
+        '%reportDir%':
+            name: "%reportDir_rector%"
 placeholders: []
+shared_placeholders:
+    '%sdk_dir%': ~
+    '%severity%': ~
+    '%path%': ~

@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 interface ViolationReportFileMapperInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface $violationReport
      *
      * @return array
      */
@@ -22,7 +22,7 @@ interface ViolationReportFileMapperInterface
      * @param array $violationReport
      * @param array<string>|null $includePackages
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface
      */
     public function mapFileStructureToViolationReport(array $violationReport, ?array $includePackages = []): ViolationReportInterface;
 }

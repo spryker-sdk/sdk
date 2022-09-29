@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\SdkContracts\Entity\FileInterface;
-
 class File implements FileInterface
 {
     protected string $path;

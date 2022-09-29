@@ -7,11 +7,10 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
-class ConfigPathValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
+class ConfigPathValueResolver extends OriginValueResolver
 {
     /**
      * @var string
@@ -24,21 +23,8 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     protected const SDK_DIR_SETTING = 'sdk_dir';
 
     /**
-     * @var string
-     */
-    protected string $alias = '';
-
-    /**
-     * @var string
-     */
-    protected string $defaultValue = '';
-
-    /**
-     * @var string
-     */
-    protected string $description = 'Path to the config file';
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -47,53 +33,18 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
     {
-        return 'string';
+        return ValueTypeEnum::TYPE_STRING;
     }
 
     /**
-     * @return string
-     */
-    public function getAlias(): string
-    {
-        return $this->alias;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultValue(): string
-    {
-        return $this->defaultValue;
-    }
-
-    /**
-     * @param array $values
+     * {@inheritDoc}
      *
-     * @return void
-     */
-    public function configure(array $values): void
-    {
-        $this->defaultValue = (string)($values['defaultValue'] ?? '');
-        $this->alias = (string)($values['name'] ?? '');
-
-        if (isset($values['description'])) {
-            $this->description = (string)$values['description'];
-        }
-    }
-
-    /**
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -113,26 +64,16 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     /**
      * @return array<string>
      */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
-    }
-
-    /**
-     * @return array<string>
-     */
     public function getSettingPaths(): array
     {
         return $this->getRequiredSettingPaths();
     }
 
     /**
-     * @param array $settingValues
-     *
-     * @return string|null
+     * @return array<string>
      */
-    protected function getValueFromSettings(array $settingValues): ?string
+    protected function getRequiredSettingPaths(): array
     {
-        return null;
+        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
     }
 }
