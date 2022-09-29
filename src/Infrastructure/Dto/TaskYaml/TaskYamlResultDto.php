@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 class TaskYamlResultDto
 {
@@ -19,7 +19,7 @@ class TaskYamlResultDto
     protected array $scalarParts = [];
 
     /**
-     * @var array
+     * @var array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     protected array $placeholders = [];
 
@@ -67,7 +67,7 @@ class TaskYamlResultDto
     }
 
     /**
-     * @return array
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -75,7 +75,7 @@ class TaskYamlResultDto
     }
 
     /**
-     * @param array $placeholders
+     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      *
      * @return $this
      */
@@ -87,11 +87,11 @@ class TaskYamlResultDto
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Placeholder $placeholder
+     * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
      * @return $this
      */
-    public function addPlaceholder(Placeholder $placeholder)
+    public function addPlaceholder(PlaceholderInterface $placeholder)
     {
         $this->placeholders[$placeholder->getName()] = $placeholder;
 
