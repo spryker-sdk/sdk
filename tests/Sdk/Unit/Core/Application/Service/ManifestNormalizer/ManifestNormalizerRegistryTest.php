@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestValidation\ManifestValidatorFactory;
+use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry;
 
 /**
  * @group Sdk
@@ -20,7 +20,7 @@ use SprykerSdk\Sdk\Core\Application\Service\ManifestValidation\ManifestValidator
  * @group ManifestValidation
  * @group ManifestValidatorFactoryTest
  */
-class ManifestValidatorFactoryTest extends Unit
+class ManifestNormalizerRegistryTest extends Unit
 {
     /**
      * @return void
@@ -28,12 +28,12 @@ class ManifestValidatorFactoryTest extends Unit
     public function testResolve(): void
     {
         // Arrange
-        $manifestValidator = $this->createMock(ManifestValidatorInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getName')
             ->willReturn('task');
 
-        $manifestValidatorFactory = new ManifestValidatorFactory([$manifestValidator]);
+        $manifestValidatorFactory = new ManifestNormaliserRegistry([$manifestValidator]);
 
         // Act
         $result = $manifestValidatorFactory->resolve('task');
@@ -48,12 +48,12 @@ class ManifestValidatorFactoryTest extends Unit
     public function testCanNotResolve(): void
     {
         // Arrange
-        $manifestValidator = $this->createMock(ManifestValidatorInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getName')
             ->willReturn('task');
 
-        $manifestValidatorFactory = new ManifestValidatorFactory([$manifestValidator]);
+        $manifestValidatorFactory = new ManifestNormaliserRegistry([$manifestValidator]);
 
         // Assert
         $this->expectException(ManifestValidatorMissingException::class);

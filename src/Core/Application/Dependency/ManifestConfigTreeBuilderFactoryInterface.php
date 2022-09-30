@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
-interface ManifestValidatorInterface
+interface ManifestConfigTreeBuilderFactoryInterface
 {
     /**
      * Returns manifest name.
@@ -21,9 +21,9 @@ interface ManifestValidatorInterface
     /**
      * Generates the configuration tree builder.
      *
-     * @param string $entityName
+     * @param array $config
      *
      * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
      */
-    public function getConfigTreeBuilder(string $entityName): TreeBuilder;
+    public function getConfigTreeBuilder(array $config): TreeBuilder;
 }

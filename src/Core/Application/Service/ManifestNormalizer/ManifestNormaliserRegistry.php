@@ -5,20 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service\ManifestValidation;
+namespace SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
 
-class ManifestValidatorFactory
+class ManifestNormaliserRegistry
 {
     /**
-     * @var array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface>
+     * @var array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface>
      */
     protected iterable $manifestValidators;
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface> $manifestValidators
+     * @param array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface> $manifestValidators
      */
     public function __construct(iterable $manifestValidators)
     {
@@ -30,9 +30,9 @@ class ManifestValidatorFactory
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException
      *
-     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface
      */
-    public function resolve(string $entity): ManifestValidatorInterface
+    public function resolve(string $entity): ManifestConfigTreeBuilderFactoryInterface
     {
         foreach ($this->manifestValidators as $manifestValidator) {
             if ($manifestValidator->getName() === $entity) {

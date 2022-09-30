@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -22,8 +22,10 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
-use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestValidator;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfigTreeBuilderFactory;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfigTreeBuilderFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -74,16 +76,16 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected array $existingTasks = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface
      */
-    protected ManifestValidationInterface $manifestValidation;
+    protected ManifestNormalizerInterface $manifestValidation;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidationInterface $manifestValidation
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface $manifestValidation
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
@@ -91,7 +93,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         Finder $fileFinder,
         Yaml $yamlParser,
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
-        ManifestValidationInterface $manifestValidation,
+        ManifestNormalizerInterface $manifestValidation,
         iterable $existingTasks = []
     ) {
         $this->yamlParser = $yamlParser;
@@ -115,7 +117,8 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
             $this->readTaskYaml();
         }
 
-        $this->taskListData = $this->manifestValidation->validate(TaskManifestValidator::NAME, $this->taskListData);
+        $this->taskListData = $this->manifestValidation->validateAndNormalize(TaskManifestConfigTreeBuilderFactory::NAME, $this->taskListData);
+        $this->taskSetsData = $this->manifestValidation->validateAndNormalize(TaskSetManifestConfigTreeBuilderFactory::NAME, $this->taskSetsData);
 
         $tasks = [];
         foreach ($this->taskListData as $taskData) {
@@ -134,16 +137,69 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     }
 
     /**
-     * @param string $name
+     * Specific method for task validation
+     *
+     * @param string $taskId
+     * @param bool $includeTaskSet
      *
      * @return bool
      */
-    public function isTaskNameExist(string $name): bool
+    public function isTaskIdExist(string $taskId, bool $includeTaskSet = true): bool
     {
         $this->readTaskYaml();
-        $tasks = array_merge($this->existingTasks, $this->taskSetsData, $this->taskListData);
 
-        return isset($tasks[$name]);
+        return isset($this->taskListData[$taskId]) ?:
+            isset($this->existingTasks[$taskId]) ?:
+            isset($this->taskSetsData[$taskId]) && $includeTaskSet ?:
+            false;
+    }
+
+    /**
+     * Specific method for task set validation
+     *
+     * @param array<string> $taskIds
+     * @param bool $includeTaskSet
+     *
+     * @return array<string, array<string>>
+     */
+    public function returnTaskPlaceholders(array $taskIds, bool $includeTaskSet = false): array
+    {
+        $this->readTaskYaml();
+        $taskPlaceholders = [];
+        foreach ($taskIds as $taskId) {
+            if (isset($this->taskListData[$taskId])) {
+                $taskPlaceholders[$taskId] = array_map(
+                    static function (array $placeholder) {
+                        return $placeholder['name'];
+                    },
+                    $this->taskListData[$taskId]['placeholders'],
+                );
+
+                continue;
+            }
+
+            if (isset($this->existingTasks[$taskId])) {
+                $taskPlaceholders[$taskId] = array_map(
+                    static function (PlaceholderInterface $placeholder) {
+                        return $placeholder->getName();
+                    },
+                    $this->existingTasks[$taskId]->getPlaceholders(),
+                );
+
+                continue;
+            }
+
+            if ($includeTaskSet && isset($this->taskSetsData[$taskId])) {
+                $taskPlaceholders[$taskId] = array_map(
+                    static function (array $placeholder) {
+                        return $placeholder['name'];
+                    },
+                    $this->taskSetsData[$taskId]['placeholders'],
+                );
+            }
+        }
+
+        return $taskPlaceholders;
     }
 
     /**
@@ -164,6 +220,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     }
 
     /**
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
      *
      * @return void
@@ -183,6 +240,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         //read task from path, parse and create Task, later use DB for querying
         foreach ($finder->files() as $taskFile) {
             $taskData = $this->yamlParser->parse($taskFile->getContents());
+
+            if (!isset($taskData['id'])) {
+                throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `id` doesn\'t exist.": ', $taskFile->getFilename()));
+            }
 
             if ($taskData['type'] === static::TASK_SET_TYPE) {
                 $this->taskSetsData[(string)$taskData['id']] = $taskData;

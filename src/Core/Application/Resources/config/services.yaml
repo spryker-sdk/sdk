@@ -152,7 +152,7 @@ services:
       - !tagged_iterator report.generator_resolver
 
   manifest_validator_factory:
-    class: SprykerSdk\Sdk\Core\Application\Service\ManifestValidation\ManifestValidatorFactory
+    class: SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry
     arguments:
       - !tagged_iterator manifest.validator
 
@@ -160,7 +160,7 @@ services:
     class: Symfony\Component\Config\Definition\Processor
 
   manifest_validation:
-    class: SprykerSdk\Sdk\Core\Application\Service\ManifestValidation\ManifestValidation
+    class: SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormalizer
     arguments:
       - '@manifest_validator_factory'
       - '@config_processor'

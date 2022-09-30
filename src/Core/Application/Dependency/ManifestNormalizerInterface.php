@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
-interface ManifestValidationInterface
+interface ManifestNormalizerInterface
 {
     /**
-     * @param string $entity
-     * @param array<string, array> $configs
+     * @param string $type
+     * @param array<array> $configs
      *
      * @return array<string, array>
      */
-    public function validate(string $entity, array $configs): array;
+    public function validateAndNormalize(string $type, array $configs): array;
 }

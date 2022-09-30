@@ -13,5 +13,5 @@ parameters:
         -
             message: '#PHPDoc tag @param has invalid value \(\\Monolog\\Formatter\\JsonFormatter::BATCH_MODE_#'
             path: src/Infrastructure/Logger/JsonFormatter.php
-        - '#Cannot call method scalar.+\(\) on Symfony\\Component\\Config\\Definition\\Builder#'
+        - '#Cannot call method .+\(\) on Symfony\\Component\\Config\\Definition\\Builder#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::.+\(\)#'

@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestValidation\ManifestValidation;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestValidation\ManifestValidatorFactory;
+use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry;
+use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormalizer;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\Processor;
@@ -24,7 +24,7 @@ use Symfony\Component\Config\Definition\Processor;
  * @group ManifestValidation
  * @group ManifestValidatorTest
  */
-class ManifestValidatorTest extends Unit
+class ManifestNormalizerTest extends Unit
 {
     /**
      * @return void
@@ -39,11 +39,11 @@ class ManifestValidatorTest extends Unit
         $treeBuilder->expects($this->once())
             ->method('buildTree')
             ->willReturn($node);
-        $manifestValidator = $this->createMock(ManifestValidatorInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getConfigTreeBuilder')
             ->willReturn($treeBuilder);
-        $manifestValidatorFactory = $this->createMock(ManifestValidatorFactory::class);
+        $manifestValidatorFactory = $this->createMock(ManifestNormaliserRegistry::class);
         $manifestValidatorFactory->expects($this->once())
             ->method('resolve')
             ->with($entity)
@@ -54,10 +54,10 @@ class ManifestValidatorTest extends Unit
             ->with($node, [['test']])
             ->willReturn(['test']);
 
-        $manifestValidation = new ManifestValidation($manifestValidatorFactory, $processor);
+        $manifestValidation = new ManifestNormalizer($manifestValidatorFactory, $processor);
 
         // Act
-        $result = $manifestValidation->validate('task', $data);
+        $result = $manifestValidation->validateAndNormalize('task', $data);
 
         // Assert
         $this->assertSame($data, $result);
@@ -69,12 +69,12 @@ class ManifestValidatorTest extends Unit
     public function testCanNotResolve(): void
     {
         // Arrange
-        $manifestValidator = $this->createMock(ManifestValidatorInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getName')
             ->willReturn('task');
 
-        $manifestValidatorFactory = new ManifestValidatorFactory([$manifestValidator]);
+        $manifestValidatorFactory = new ManifestNormaliserRegistry([$manifestValidator]);
 
         // Assert
         $this->expectException(ManifestValidatorMissingException::class);

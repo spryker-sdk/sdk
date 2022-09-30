@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
-class TaskManifestValidator implements ManifestValidatorInterface
+class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderFactoryInterface
 {
     /**
      * @var string
@@ -42,13 +42,13 @@ class TaskManifestValidator implements ManifestValidatorInterface
     }
 
     /**
-     * @param string $entityName
+     * @param array $config
      *
      * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
      */
-    public function getConfigTreeBuilder(string $entityName): TreeBuilder
+    public function getConfigTreeBuilder(array $config): TreeBuilder
     {
-        $tree = new TreeBuilder($entityName, 'array');
+        $tree = new TreeBuilder($config['id'], 'array');
         $node = $tree->getRootNode();
         $node
             ->children()
@@ -72,7 +72,7 @@ class TaskManifestValidator implements ManifestValidatorInterface
                         ->ifTrue(function (string $value) {
                             return !$value || !$this->validationHelper->isTaskNameExist($value);
                         })
-                        ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
+                        ->thenInvalid('Task %s doesn\'t exist.')
                     ->end()
                 ->end()
                 ->scalarNode('deprecated')

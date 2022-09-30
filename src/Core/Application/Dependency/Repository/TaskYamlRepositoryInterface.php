@@ -21,7 +21,7 @@ interface TaskYamlRepositoryInterface
      *
      * @return bool
      */
-    public function isTaskNameExist(string $name): bool;
+    public function isTaskIdExist(string $name): bool;
 
     /**
      * @param string $taskId

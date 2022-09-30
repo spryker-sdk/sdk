@@ -59,7 +59,7 @@ class ValidationHelper
      */
     public function isTaskNameExist(string $taskId): bool
     {
-        return $this->taskYamlRepository->isTaskNameExist($taskId);
+        return $this->taskYamlRepository->isTaskIdExist($taskId);
     }
 
     /**
