@@ -19,14 +19,14 @@ class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderF
     public const NAME = 'task';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper
+     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
      */
-    protected ValidationHelper $validationHelper;
+    protected ManifestEntriesValidator $validationHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper $validationHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator $validationHelper
      */
-    public function __construct(ValidationHelper $validationHelper)
+    public function __construct(ManifestEntriesValidator $validationHelper)
     {
         $this->validationHelper = $validationHelper;
     }
@@ -133,7 +133,7 @@ class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderF
                             ->validate()
                                 ->ifTrue(
                                     function ($name) {
-                                        return !$this->validationHelper->validateConverter($name);
+                                        return !$this->validationHelper->isConverterValid($name);
                                     },
                                 )
                                 ->thenInvalid('Converter name `%s` doesn\'t exist.')
@@ -153,16 +153,16 @@ class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderF
                 ->end()
             ->end()
             ->validate()
-            ->ifTrue(function (array $task) {
-                return !$this->validationHelper
-                    ->validatePlaceholderInString(
-                        $task['command'],
-                        array_map(function (array $placeholder) {
-                            return $placeholder['name'];
-                        }, $task['placeholders']),
-                    );
-            })
-            ->thenInvalid('Not all placeholders uses.')
+                ->ifTrue(function (array $task) {
+                    return !$this->validationHelper
+                        ->isPlaceholderInStringValid(
+                            $task['command'],
+                            array_map(function (array $placeholder) {
+                                return $placeholder['name'];
+                            }, $task['placeholders']),
+                        );
+                })
+                ->thenInvalid('Not all placeholders uses.')
             ->end();
 
         $this->addPlaceholderDefinition(
@@ -240,7 +240,7 @@ class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderF
                 ->validate()
                     ->ifString()
                     ->ifTrue(function (string $placeholder) {
-                        return !$this->validationHelper->validateName($placeholder);
+                        return !$this->validationHelper->isNameValid($placeholder);
                     })
                     ->thenInvalid('`%s` placeholder doesn\'t exist.')
                 ->end()

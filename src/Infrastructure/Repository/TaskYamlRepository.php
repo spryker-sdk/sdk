@@ -137,7 +137,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     }
 
     /**
-     * Specific method for task validation
+     * {@inheritDoc}
      *
      * @param string $taskId
      * @param bool $includeTaskSet
@@ -148,21 +148,20 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     {
         $this->readTaskYaml();
 
-        return isset($this->taskListData[$taskId]) ?:
-            isset($this->existingTasks[$taskId]) ?:
-            isset($this->taskSetsData[$taskId]) && $includeTaskSet ?:
-            false;
+        return isset($this->taskListData[$taskId]) ||
+            isset($this->existingTasks[$taskId]) ||
+            (isset($this->taskSetsData[$taskId]) && $includeTaskSet);
     }
 
     /**
-     * Specific method for task set validation
+     * {@inheritDoc}
      *
      * @param array<string> $taskIds
      * @param bool $includeTaskSet
      *
      * @return array<string, array<string>>
      */
-    public function returnTaskPlaceholders(array $taskIds, bool $includeTaskSet = false): array
+    public function getTaskPlaceholders(array $taskIds, bool $includeTaskSet = false): array
     {
         $this->readTaskYaml();
         $taskPlaceholders = [];

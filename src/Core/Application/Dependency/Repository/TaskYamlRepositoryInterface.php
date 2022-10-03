@@ -17,11 +17,14 @@ interface TaskYamlRepositoryInterface
     public function findAll();
 
     /**
-     * @param string $name
+     * Specific method for task validation
+     *
+     * @param string $taskId
+     * @param bool $includeTaskSet
      *
      * @return bool
      */
-    public function isTaskIdExist(string $name): bool;
+    public function isTaskIdExist(string $taskId, bool $includeTaskSet = true): bool;
 
     /**
      * @param string $taskId
@@ -29,4 +32,14 @@ interface TaskYamlRepositoryInterface
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
     public function findById(string $taskId): ?TaskInterface;
+
+    /**
+     * Specific method for task set validation
+     *
+     * @param array<string> $taskIds
+     * @param bool $includeTaskSet
+     *
+     * @return array<string, array<string>>
+     */
+    public function getTaskPlaceholders(array $taskIds, bool $includeTaskSet = false): array;
 }

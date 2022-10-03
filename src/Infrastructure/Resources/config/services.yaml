@@ -390,7 +390,7 @@ services:
 
   # Validators
   validation_helper:
-    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper
+    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
     arguments:
       - '@value_resolver_registry'
       - '@converter_registry'

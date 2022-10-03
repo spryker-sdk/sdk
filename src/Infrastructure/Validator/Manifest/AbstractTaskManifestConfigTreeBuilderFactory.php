@@ -13,14 +13,14 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 abstract class AbstractTaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderFactoryInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper
+     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
      */
-    protected ValidationHelper $validationHelper;
+    protected ManifestEntriesValidator $validationHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper $validationHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator $validationHelper
      */
-    public function __construct(ValidationHelper $validationHelper)
+    public function __construct(ManifestEntriesValidator $validationHelper)
     {
         $this->validationHelper = $validationHelper;
     }
@@ -48,7 +48,7 @@ abstract class AbstractTaskManifestConfigTreeBuilderFactory implements ManifestC
                     ->validate()
                     ->ifString()
                     ->ifTrue(function (string $placeholder) {
-                        return !$this->validationHelper->validateName($placeholder);
+                        return !$this->validationHelper->isNameValid($placeholder);
                     })
                     ->thenInvalid('`%s` placeholder doesn\'t exist.')
                 ->end()

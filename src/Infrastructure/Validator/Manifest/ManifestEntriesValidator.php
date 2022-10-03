@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInte
 use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
 use Traversable;
 
-class ValidationHelper
+class ManifestEntriesValidator
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface
@@ -53,6 +53,16 @@ class ValidationHelper
     }
 
     /**
+     * @param array<string> $taskIds
+     *
+     * @return array<string, array<string>>
+     */
+    public function getTaskPlaceholders(array $taskIds): array
+    {
+        return $this->taskYamlRepository->getTaskPlaceholders($taskIds);
+    }
+
+    /**
      * @param string $taskId
      *
      * @return bool
@@ -67,7 +77,7 @@ class ValidationHelper
      *
      * @return bool
      */
-    public function validateName(string $name): bool
+    public function isNameValid(string $name): bool
     {
         return $this->valueResolverRegistry->has($name);
     }
@@ -86,7 +96,7 @@ class ValidationHelper
      *
      * @return bool
      */
-    public function validatePlaceholderInString(string $string, array $placeholderNames): bool
+    public function isPlaceholderInStringValid(string $string, array $placeholderNames): bool
     {
         foreach ($placeholderNames as $name) {
             if (strpos($string, $name) === false) {
@@ -102,7 +112,7 @@ class ValidationHelper
      *
      * @return bool
      */
-    public function validateConverter(string $name): bool
+    public function isConverterValid(string $name): bool
     {
         return $this->converterRegistry->has($name);
     }

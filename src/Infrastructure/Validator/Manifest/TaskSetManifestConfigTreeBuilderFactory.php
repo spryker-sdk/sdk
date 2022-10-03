@@ -19,14 +19,14 @@ class TaskSetManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuild
     public const NAME = 'task-set';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper
+     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
      */
-    protected ValidationHelper $validationHelper;
+    protected ManifestEntriesValidator $validationHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ValidationHelper $validationHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator $validationHelper
      */
-    public function __construct(ValidationHelper $validationHelper)
+    public function __construct(ManifestEntriesValidator $validationHelper)
     {
         $this->validationHelper = $validationHelper;
     }
@@ -80,14 +80,14 @@ class TaskSetManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuild
 
         $tasks = $node->children()
             ->arrayNode('tasks')
-            ->arrayPrototype()
-            ->children();
+                ->arrayPrototype()
+                    ->children();
 
         $tasks->scalarNode('id')->end()
             ->booleanNode('stop_on_error')->end()
             ->arrayNode('tags')
-            ->useAttributeAsKey('name')
-            ->prototype('variable')->end()
+                ->useAttributeAsKey('name')
+                ->prototype('variable')->end()
             ->end();
 
         $this->addPlaceholderDefinition(
@@ -95,8 +95,53 @@ class TaskSetManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuild
                 ->arrayNode('placeholder_overrides')
                 ->arrayPrototype()
                 ->normalizeKeys(false)
-                ->children(),
+                    ->children(),
         );
+
+        $node->validate()
+            ->ifTrue(function (array $task) {
+                $taskIds = [];
+                $placeholderOverrideIds = [];
+                $sharedPlaceholderIds = !empty($task['shared_placeholders']) ? array_keys($task['shared_placeholders']) : [];
+                foreach ($task['tasks'] as $subTask) {
+                    $taskIds[] = $subTask['id'];
+                    if (!isset($placeholderOverrideIds[$subTask['id']])) {
+                        $placeholderOverrideIds[$subTask['id']] = [];
+                    }
+                    if ($subTask['placeholder_overrides']) {
+                        $placeholderOverrideIds[$subTask['id']] = array_keys($subTask['placeholder_overrides']);
+                    }
+                }
+
+                $tasksPlaceholders = $this->validationHelper
+                    ->getTaskPlaceholders(
+                        $taskIds,
+                    );
+
+                $uniquePlaceholders = [];
+
+                foreach ($tasksPlaceholders as $taskId => $taskPlaceholders) {
+                    foreach ($taskPlaceholders as $taskPlaceholder) {
+                        if (!isset($uniquePlaceholders[$taskPlaceholder])) {
+                            $uniquePlaceholders[$taskPlaceholder] = true;
+
+                            continue;
+                        }
+                        if (
+                            in_array($taskPlaceholder, $sharedPlaceholderIds) ||
+                            in_array($taskPlaceholder, $placeholderOverrideIds[$taskId])
+                        ) {
+                            continue;
+                        }
+
+                        return true;
+                    }
+                }
+
+                return false;
+            })
+            ->thenInvalid('You have the same placeholder names in different tasks. You should resolve them.')
+        ->end();
 
         return $tree;
     }
@@ -110,62 +155,62 @@ class TaskSetManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuild
     {
         $placeholder
             ->scalarNode('name')
-            ->isRequired()
-            ->info('Placeholder has `/^%[a-zA-Z-_]+%$/` format.')
-            ->validate()
-            ->ifTrue(function (string $value) {
-                return !preg_match('/^%[a-zA-Z-_]+%$/u', $value);
-            })
-            ->thenInvalid('Placeholder %s has invalid format.')
-            ->end()
+                ->isRequired()
+                ->info('Placeholder has `/^%[a-zA-Z-_]+%$/` format.')
+                ->validate()
+                    ->ifTrue(function (string $value) {
+                        return !preg_match('/^%[a-zA-Z-_]+%$/u', $value);
+                    })
+                    ->thenInvalid('Placeholder %s has invalid format.')
+                ->end()
             ->end()
             ->scalarNode('optional')
-            ->validate()
-            ->ifTrue(function (string $value) {
-                if (!$value) {
-                    return false;
-                }
+                ->validate()
+                    ->ifTrue(function (string $value) {
+                        if (!$value) {
+                            return false;
+                        }
 
-                return !filter_var($value, FILTER_VALIDATE_BOOLEAN);
-            })
-            ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
-            ->end()
+                        return !filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                    })
+                    ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
+                ->end()
             ->end()
             ->arrayNode('configuration')
-            ->children()
-            ->scalarNode('name')
-            ->setDeprecated()
-            ->defaultNull()
-            ->end()
-            ->scalarNode('option')
-            ->defaultNull()
-            ->end()
-            ->scalarNode('alias')
-            ->defaultNull()
-            ->end()
-            ->scalarNode('description')
-            ->defaultNull()
-            ->end()
-            ->scalarNode('help')
-            ->defaultNull()
-            ->end()
-            ->scalarNode('type')
-            ->validate()
-            ->ifNotInArray($this->validationHelper->getSupportedTypes())
-            ->thenInvalid('Not supported `%s` type. Available types: ' . implode(',', $this->validationHelper->getSupportedTypes()))
-            ->end()
-            ->end()
-            ->scalarNode('defaultValue')
-            ->defaultNull()
-            ->end()
-            ->arrayNode('settingPaths')
-            ->useAttributeAsKey('name')
-            ->prototype('variable')->end()
-            ->end()
-            ->arrayNode('choiceValues')
-            ->useAttributeAsKey('name')
-            ->prototype('variable')->end()
-            ->end()
-            ->scalarNode('flag')->end();
+                ->children()
+                    ->scalarNode('name')
+                        ->setDeprecated()
+                        ->defaultNull()
+                    ->end()
+                    ->scalarNode('option')
+                      ->defaultNull()
+                    ->end()
+                    ->scalarNode('alias')
+                        ->defaultNull()
+                    ->end()
+                    ->scalarNode('description')
+                        ->defaultNull()
+                    ->end()
+                    ->scalarNode('help')
+                        ->defaultNull()
+                    ->end()
+                    ->scalarNode('type')
+                        ->validate()
+                            ->ifNotInArray($this->validationHelper->getSupportedTypes())
+                            ->thenInvalid('Not supported `%s` type. Available types: ' . implode(',', $this->validationHelper->getSupportedTypes()))
+                        ->end()
+                    ->end()
+                    ->scalarNode('defaultValue')
+                        ->defaultNull()
+                    ->end()
+                    ->arrayNode('settingPaths')
+                        ->useAttributeAsKey('name')
+                        ->prototype('variable')->end()
+                    ->end()
+                    ->arrayNode('choiceValues')
+                        ->useAttributeAsKey('name')
+                        ->prototype('variable')->end()
+                    ->end()
+                    ->scalarNode('flag')->end();
     }
 }

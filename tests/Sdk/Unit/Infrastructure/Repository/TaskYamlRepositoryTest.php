@@ -114,6 +114,59 @@ class TaskYamlRepositoryTest extends Unit
     /**
      * @return void
      */
+    public function testIsTaskIdExist(): void
+    {
+        // Arrange
+        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
+
+        $setting = $this->tester->createInfrastructureSetting(
+            'extension_dirs',
+            [$pathToTasks],
+        );
+
+        $this->settingRepository
+            ->expects($this->once())
+            ->method('findOneByPath')
+            ->with('extension_dirs')
+            ->willReturn($setting);
+
+        // Act
+        $result = $this->taskYamlRepository->isTaskIdExist('hello:world');
+
+        // Assert
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetTaskPlaceholders(): void
+    {
+        // Arrange
+        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
+
+        $setting = $this->tester->createInfrastructureSetting(
+            'extension_dirs',
+            [$pathToTasks],
+        );
+
+        $this->settingRepository
+            ->expects($this->once())
+            ->method('findOneByPath')
+            ->with('extension_dirs')
+            ->willReturn($setting);
+
+        // Act
+        $result = $this->taskYamlRepository->getTaskPlaceholders(['hello:world']);
+
+        // Assert
+        $this->assertNotEmpty($result);
+        $this->assertCount(2, $result['hello:world']);
+    }
+
+    /**
+     * @return void
+     */
     public function testFindByIdShouldReturnTask(): void
     {
         // Arrange
