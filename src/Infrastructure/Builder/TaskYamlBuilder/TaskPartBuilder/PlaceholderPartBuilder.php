@@ -15,7 +15,7 @@ use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class PlaceholderBuilderPart implements TaskPartBuilderInterface
+class PlaceholderPartBuilder implements TaskPartBuilderInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage

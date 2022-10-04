@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml;
 
-use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
@@ -29,9 +29,9 @@ class TaskYamlResultDto
     protected array $commands = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle|null
+     * @var \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface|null
      */
-    protected ?Lifecycle $lifecycle = null;
+    protected ?TaskLifecycleInterface $lifecycle = null;
 
     /**
      * @return array<array>|array<string>|array<bool>|array<null>
@@ -119,19 +119,19 @@ class TaskYamlResultDto
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle|null
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface|null
      */
-    public function getLifecycle(): ?Lifecycle
+    public function getLifecycle(): ?TaskLifecycleInterface
     {
         return $this->lifecycle;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle $lifecycle
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface $lifecycle
      *
      * @return $this
      */
-    public function setLifecycle(Lifecycle $lifecycle)
+    public function setLifecycle(TaskLifecycleInterface $lifecycle)
     {
         $this->lifecycle = $lifecycle;
 
