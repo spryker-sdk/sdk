@@ -26,8 +26,8 @@ PATH_TO_SDK=$(pwd) \
 && chmod +x installer.sh \
 && ./installer.sh "${PATH_TO_SDK}" \
 && rm -rf installer.sh \
-&& (if [ -e ~/.zshrc ]; then source ~/.zshrc; else source ~/.bashrc; fi;) \
-&& echo "Current SDK version: $(spryker-sdk --version)"
+&& if [ -e ~/.zshrc ]; then source ~/.zshrc; else source ~/.bashrc; fi; \
+echo "Current SDK version: $(spryker-sdk --version)"
 ```
 
 ## Update
