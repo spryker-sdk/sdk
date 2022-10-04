@@ -25,7 +25,7 @@ PATH_TO_SDK=$(pwd) \
 && curl -fL github.com/spryker-sdk/sdk/releases/latest/download/installer.sh -O \
 && chmod +x installer.sh \
 && ./installer.sh "${PATH_TO_SDK}" \
-&& rm -rf installer.sh \
+&& rm -f installer.sh \
 && if [ -e ~/.zshrc ]; then source ~/.zshrc; else source ~/.bashrc; fi; \
 echo "Current SDK version: $(spryker-sdk --version)"
 ```
@@ -37,7 +37,7 @@ Can be executed from any directory. The path will be taken from the `SPRYKER_SDK
 curl -fL github.com/spryker-sdk/sdk/releases/latest/download/installer.sh -O \
 && chmod +x installer.sh \
 && ./installer.sh --self-update \
-&& rm -rf installer.sh
+&& rm -f installer.sh \
 && echo "Current SDK version: $(spryker-sdk --version)"
 ```
 
