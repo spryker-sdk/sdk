@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -69,6 +69,10 @@ class PlaceholderBuilderPart implements TaskPartBuilderInterface
         $taskData = $criteriaDto->getTaskData();
 
         if (isset($taskData['type']) && $taskData['type'] !== TaskType::TASK_TYPE__TASK_SET) {
+            return $taskPlaceholders;
+        }
+
+        if (!array_key_exists('tasks', $taskData)) {
             return $taskPlaceholders;
         }
 
