@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository;
@@ -73,11 +74,11 @@ class TaskYamlRepositoryTest extends Unit
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('extension_dirs')
+            ->with(Setting::PATH_EXTENSION_DIRS)
             ->willReturn(null);
 
         $this->expectException(MissingSettingException::class);
-        $this->expectExceptionMessage('extension_dirs are not configured properly');
+        $this->expectExceptionMessage(sprintf('%s are not configured properly'));
 
         // Act
         $this->taskYamlRepository->findAll();
@@ -92,14 +93,14 @@ class TaskYamlRepositoryTest extends Unit
         $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
 
         $setting = $this->tester->createInfrastructureSetting(
-            'extension_dirs',
+            Setting::PATH_EXTENSION_DIRS,
             [$pathToTasks],
         );
 
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('extension_dirs')
+            ->with(Setting::PATH_EXTENSION_DIRS)
             ->willReturn($setting);
 
         // Act
@@ -118,14 +119,14 @@ class TaskYamlRepositoryTest extends Unit
         $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
 
         $setting = $this->tester->createInfrastructureSetting(
-            'extension_dirs',
+            Setting::PATH_EXTENSION_DIRS,
             [$pathToTasks],
         );
 
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('extension_dirs')
+            ->with(Setting::PATH_EXTENSION_DIRS)
             ->willReturn($setting);
 
         // Act
@@ -147,14 +148,14 @@ class TaskYamlRepositoryTest extends Unit
         $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
 
         $setting = $this->tester->createInfrastructureSetting(
-            'extension_dirs',
+            Setting::PATH_EXTENSION_DIRS,
             [$pathToTasks],
         );
 
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('extension_dirs')
+            ->with(Setting::PATH_EXTENSION_DIRS)
             ->willReturn($setting);
 
         // Act

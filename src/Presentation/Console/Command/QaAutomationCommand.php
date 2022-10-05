@@ -13,20 +13,16 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class QaAutomationCommand extends RunTaskWrapperCommand
 {
-    /**
-     * @var string
-     */
-    protected const TASKS_SETTING_KEY = 'qa_tasks';
-
-    /**
-     * @var string
-     */
+   /**
+    * @var string
+    */
     protected const COMMAND_NAME = 'sdk:qa:run';
 
     /**
@@ -57,7 +53,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
     ) {
         $this->dynamicTaskSetCreator = $dynamicTaskSetCreator;
         try {
-            $taskOptions = $this->dynamicTaskSetCreator->getTaskOptions(static::TASKS_SETTING_KEY);
+            $taskOptions = $this->dynamicTaskSetCreator->getTaskOptions(Setting::PATH_QA_TASKS);
         } catch (TableNotFoundException $e) {
             $this->setHidden(true);
             $taskOptions = [];

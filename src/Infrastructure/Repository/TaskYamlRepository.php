@@ -21,6 +21,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
@@ -93,10 +94,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     public function findAll(array $tags = []): array
     {
-        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
+        $taskDirSetting = $this->settingRepository->findOneByPath(Setting::PATH_EXTENSION_DIRS);
 
         if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
-            throw new MissingSettingException('extension_dirs are not configured properly');
+            throw new MissingSettingException(sprintf('%s are not configured properly', Setting::PATH_EXTENSION_DIRS));
         }
 
         $tasks = [];
@@ -109,7 +110,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         //read task from path, parse and create Task, later use DB for querying
         foreach ($finder->files() as $taskFile) {
-            $taskData = $this->yamlParser->parse($taskFile->getContents());
+            $taskData = $this->yamlParser::parse($taskFile->getContents(), $this->yamlParser::PARSE_CONSTANT);
 
             if ($taskData['type'] === static::TASK_SET_TYPE) {
                 $taskSetsData[$taskData['id']] = $taskData;

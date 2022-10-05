@@ -12,15 +12,11 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
 
 class ContextFileRepository implements ContextRepositoryInterface
 {
-    /**
-     * @var string
-     */
-    protected const PROJECT_DIR_PATH = 'project_dir';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
      */
@@ -128,7 +124,7 @@ class ContextFileRepository implements ContextRepositoryInterface
         }
 
         if (preg_match('/^\//', $filePath) != 1) {
-            $contextDir = (string)$this->settingRepository->getOneByPath(static::PROJECT_DIR_PATH)->getValues();
+            $contextDir = (string)$this->settingRepository->getOneByPath(Setting::PATH_PROJECT_DIR)->getValues();
 
             $filePath = $contextDir . DIRECTORY_SEPARATOR . $filePath;
         }

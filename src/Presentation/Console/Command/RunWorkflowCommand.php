@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -117,7 +118,7 @@ EOT,
     {
         /** @var string|null $workflowName */
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
-        $projectWorkflows = (array)$this->projectSettingRepository->getOneByPath(ProjectWorkflow::WORKFLOW)->getValues();
+        $projectWorkflows = (array)$this->projectSettingRepository->getOneByPath(Setting::PATH_WORKFLOW)->getValues();
 
         if ($workflowName && !in_array($workflowName, $projectWorkflows)) {
             $output->writeln('<error>You don\'t have any active a workflows".</error>');

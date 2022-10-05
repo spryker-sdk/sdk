@@ -212,7 +212,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
      */
     public function initSettingDefinition(): array
     {
-        $settings = $this->yamlParser::parseFile($this->settingsPath)['settings'] ?? [];
+        $settings = $this->yamlParser::parseFile($this->settingsPath, $this->yamlParser::PARSE_CONSTANT)['settings'] ?? [];
         $settingEntities = [];
 
         foreach ($settings as $setting) {

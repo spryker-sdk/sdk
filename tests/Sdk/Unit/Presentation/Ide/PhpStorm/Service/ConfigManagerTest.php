@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Presentation\Ide\PhpStorm\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\ConfigManager;
@@ -99,8 +100,8 @@ XML;
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('project_dir')
-            ->willReturn($this->tester->createSetting('project_dir', static::TEST_PROJECT_PATH));
+            ->with(Setting::PATH_PROJECT_DIR)
+            ->willReturn($this->tester->createSetting(Setting::PATH_PROJECT_DIR, static::TEST_PROJECT_PATH));
 
         $ideCommands = [
             $this->tester->createPhpStormCommand('name1', [], [], 'help'),
@@ -148,7 +149,7 @@ XML;
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('project_dir')
+            ->with(Setting::PATH_PROJECT_DIR)
             ->willReturn(null);
 
         $ideCommands = [
