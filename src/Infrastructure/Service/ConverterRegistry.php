@@ -178,8 +178,7 @@ class ConverterRegistry implements ConverterRegistryInterface
         }
 
         $convertorDirs = [];
-        foreach ($paths->getValues() as $candidateDir)
-        {
+        foreach ($paths->getValues() as $candidateDir) {
             $dir = glob($candidateDir . '/Converter');
 
             if ($dir) {

@@ -37,7 +37,7 @@ class CodeSnifferTaskCest
         $process = $I->runSdkCommand([
             static::COMMAND,
             '--path=src/CodeSniffer/success',
-            '--format=yaml'
+            '--format=yaml',
         ]);
 
         // Assert
