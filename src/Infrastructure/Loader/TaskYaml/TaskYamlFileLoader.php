@@ -9,32 +9,17 @@ namespace SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Command;
-use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
-use SprykerSdk\Sdk\Core\Domain\Entity\File;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
-use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
 {
-    /**
-     * @var string
-     */
-    protected const TASK_SET_TYPE = 'task_set';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
@@ -51,20 +36,27 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     protected Yaml $yamlParser;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface
      */
     protected TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder;
 
     /**
-     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage
      */
-    protected array $existingTasks = [];
+    protected InMemoryTaskStorage $taskStorage;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface
+     */
+    protected TaskBuilderInterface $taskBuilder;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage $taskStorage
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface $taskBuilder
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
@@ -72,14 +64,18 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
         Finder $fileFinder,
         Yaml $yamlParser,
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
+        InMemoryTaskStorage $taskStorage,
+        TaskBuilderInterface $taskBuilder,
         iterable $existingTasks = []
     ) {
         $this->yamlParser = $yamlParser;
         $this->fileFinder = $fileFinder;
         $this->settingRepository = $settingRepository;
         $this->taskFromYamlTaskSetBuilder = $taskFromYamlTaskSetBuilder;
+        $this->taskStorage = $taskStorage;
+        $this->taskBuilder = $taskBuilder;
         foreach ($existingTasks as $existingTask) {
-            $this->existingTasks[$existingTask->getId()] = $existingTask;
+            $this->taskStorage->addTask($existingTask);
         }
     }
 
@@ -96,9 +92,8 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
             throw new MissingSettingException('extension_dirs are not configured properly');
         }
 
-        $tasks = [];
-        $taskListData = [];
-        $taskSetsData = [];
+        $taskCollectionData = [];
+        $taskSetCollectionData = [];
 
         $finder = $this->fileFinder
             ->in($this->findExistedDirectories($taskDirSetting->getValues()))
@@ -108,26 +103,26 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
         foreach ($finder->files() as $taskFile) {
             $taskData = $this->yamlParser->parse($taskFile->getContents());
 
-            if ($taskData['type'] === static::TASK_SET_TYPE) {
-                $taskSetsData[$taskData['id']] = $taskData;
-            } else {
-                $taskListData[$taskData['id']] = $taskData;
+            if ($taskData['type'] === TaskType::TASK_TYPE__TASK_SET) {
+                $taskSetCollectionData[$taskData['id']] = $taskData;
+
+                continue;
             }
+
+            $taskCollectionData[$taskData['id']] = $taskData;
         }
 
-        foreach ($taskListData as $taskData) {
-            $task = $this->buildTask($taskData, $taskListData);
-            $tasks[$task->getId()] = $task;
+        foreach ($taskCollectionData as $taskData) {
+            $task = $this->buildTask($taskData, $taskCollectionData);
+            $this->taskStorage->addTask($task);
         }
 
-        $existingTasks = array_merge($this->existingTasks, $tasks);
-
-        foreach ($taskSetsData as $taskData) {
-            $task = $this->buildTaskSet($taskData, $taskListData, $existingTasks);
-            $tasks[$task->getId()] = $task;
+        foreach ($taskSetCollectionData as $taskData) {
+            $task = $this->buildTaskSet($taskData, $taskCollectionData);
+            $this->taskStorage->addTask($task);
         }
 
-        return array_merge($tasks, $this->existingTasks);
+        return $this->taskStorage->getTaskCollection();
     }
 
     /**
@@ -153,290 +148,30 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     }
 
     /**
-     * @param array $data
-     * @param array $taskListData
-     *
-     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
-     */
-    protected function buildPlaceholders(array $data, array $taskListData): array
-    {
-        $placeholders = [];
-        $taskPlaceholders = [];
-        $taskPlaceholders[] = $data['placeholders'] ?? [];
-
-        if (isset($data['type']) && $data['type'] === static::TASK_SET_TYPE) {
-            foreach ($data['tasks'] as $task) {
-                $taskPlaceholders[] = isset($taskListData[$task['id']]) ?
-                    $taskListData[$task['id']]['placeholders'] :
-                    $this->getExistingTask($task['id'])->getPlaceholders();
-            }
-        }
-        $taskPlaceholders = array_merge(...$taskPlaceholders);
-
-        foreach ($taskPlaceholders as $placeholderData) {
-            if ($placeholderData instanceof PlaceholderInterface) {
-                $placeholders[$placeholderData->getName()] = $placeholderData;
-
-                continue;
-            }
-
-            $placeholderName = $placeholderData['name'];
-            $placeholders[$placeholderName] = new Placeholder(
-                $placeholderName,
-                $placeholderData['value_resolver'],
-                $placeholderData['configuration'] ?? [],
-                $placeholderData['optional'] ?? false,
-            );
-        }
-
-        return $placeholders;
-    }
-
-    /**
-     * @param array $data
-     * @param array $taskListData
-     *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException
-     *
-     * @return array<int, \SprykerSdk\SdkContracts\Entity\CommandInterface>
-     */
-    protected function buildCommands(array $data, array $taskListData): array
-    {
-        $commands = [];
-
-        if (in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
-            $converter = isset($data['report_converter']) ? new Converter(
-                $data['report_converter']['name'],
-                $data['report_converter']['configuration'],
-            ) : null;
-            $commands[] = new Command(
-                $data['command'],
-                $data['type'],
-                false,
-                $data['tags'] ?? [],
-                $converter,
-                $data['stage'] ?? ContextInterface::DEFAULT_STAGE,
-                $data['error_message'] ?? '',
-            );
-        }
-
-        if ($data['type'] === static::TASK_SET_TYPE) {
-            foreach ($data['tasks'] as $task) {
-                $taskData = $taskListData[$task['id']] ?? $this->getExistingTask($task['id']);
-
-                if ($taskData instanceof TaskSetInterface) {
-                    throw new TaskSetNestingException('Task set can\'t have another task set inside.');
-                }
-
-                if ($taskData instanceof TaskInterface) {
-                    foreach ($taskData->getCommands() as $command) {
-                        $commands[] = $command;
-                    }
-
-                    continue;
-                }
-
-                $converter = isset($taskData['report_converter']) ? new Converter(
-                    $taskData['report_converter']['name'],
-                    $taskData['report_converter']['configuration'],
-                ) : null;
-
-                $commands[] = new Command(
-                    $taskData['command'],
-                    $taskData['type'],
-                    $task['stop_on_error'],
-                    [],
-                    $converter,
-                    $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
-                    $data['error_message'] ?? '',
-                );
-            }
-        }
-
-        return $commands;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
-     */
-    protected function buildLifecycleCommands(array $data): array
-    {
-        $commands = [];
-
-        if (!isset($data['commands'])) {
-            return $commands;
-        }
-
-        foreach ($data['commands'] as $command) {
-            $commands[] = new Command(
-                $command['command'],
-                $command['type'],
-                false,
-            );
-        }
-
-        return $commands;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
-     */
-    protected function buildFiles(array $data): array
-    {
-        $files = [];
-
-        if (!isset($data['files'])) {
-            return $files;
-        }
-
-        foreach ($data['files'] as $file) {
-            $files[] = new File(
-                $file['path'],
-                $file['content'],
-            );
-        }
-
-        return $files;
-    }
-
-    /**
      * @param array $taskData
      * @param array $taskListData
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface
-     */
-    protected function buildLifecycle(array $taskData, array $taskListData): TaskLifecycleInterface
-    {
-        return new Lifecycle(
-            $this->buildInitializedEventData($taskData, $taskListData),
-            $this->buildUpdatedEventData($taskData, $taskListData),
-            $this->buildRemovedEventData($taskData, $taskListData),
-        );
-    }
-
-    /**
-     * @param array $taskData
-     * @param array $taskListData
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
-     */
-    protected function buildInitializedEventData(array $taskData, array $taskListData): InitializedEventData
-    {
-        if (!isset($taskData['lifecycle']['INITIALIZED'])) {
-            return new InitializedEventData();
-        }
-
-        $eventData = $taskData['lifecycle']['INITIALIZED'];
-
-        return new InitializedEventData(
-            $this->buildLifecycleCommands($eventData),
-            $this->buildPlaceholders($eventData, $taskListData),
-            $this->buildFiles($eventData),
-        );
-    }
-
-    /**
-     * @param array $taskData
-     * @param array $taskListData
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
-     */
-    protected function buildRemovedEventData(array $taskData, array $taskListData): RemovedEventData
-    {
-        if (!isset($taskData['lifecycle']['REMOVED'])) {
-            return new RemovedEventData();
-        }
-
-        $eventData = $taskData['lifecycle']['REMOVED'];
-
-        return new RemovedEventData(
-            $this->buildLifecycleCommands($eventData),
-            $this->buildPlaceholders($eventData, $taskListData),
-            $this->buildFiles($eventData),
-        );
-    }
-
-    /**
-     * @param array $taskData
-     * @param array $taskListData
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
-     */
-    protected function buildUpdatedEventData(array $taskData, array $taskListData): UpdatedEventData
-    {
-        if (!isset($taskData['lifecycle']['UPDATED'])) {
-            return new UpdatedEventData();
-        }
-
-        $eventData = $taskData['lifecycle']['UPDATED'];
-
-        return new UpdatedEventData(
-            $this->buildLifecycleCommands($eventData),
-            $this->buildPlaceholders($eventData, $taskListData),
-            $this->buildFiles($eventData),
-        );
-    }
-
-    /**
-     * @param array $taskData
-     * @param array $taskListData
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Task
-     */
-    protected function buildTask(array $taskData, array $taskListData): Task
-    {
-        $placeholders = $this->buildPlaceholders($taskData, $taskListData);
-        $commands = $this->buildCommands($taskData, $taskListData);
-        $lifecycle = $this->buildLifecycle($taskData, $taskListData);
-
-        return new Task(
-            $taskData['id'],
-            $taskData['short_description'],
-            $commands,
-            $lifecycle,
-            $taskData['version'],
-            $placeholders,
-            $taskData['help'] ?? null,
-            $taskData['successor'] ?? null,
-            $taskData['deprecated'] ?? false,
-            $taskData['stage'] ?? ContextInterface::DEFAULT_STAGE,
-            !empty($taskData['optional']),
-            $taskData['stages'] ?? [],
-        );
-    }
-
-    /**
-     * @param array $taskData
-     * @param array $taskListData
-     * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function buildTaskSet(array $taskData, array $taskListData, array $tasks): TaskInterface
+    protected function buildTask(array $taskData, array $taskListData): TaskInterface
     {
-        return $this->taskFromYamlTaskSetBuilder->buildTaskFromYamlTaskSet($taskData, $taskListData, $tasks);
+        $criteriaDto = new TaskYamlCriteriaDto(
+            $taskData['type'],
+            $taskData,
+            $taskListData,
+        );
+
+        return $this->taskBuilder->build($criteriaDto);
     }
 
     /**
-     * @param string $taskId
-     *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\TaskSetNestingException
+     * @param array $taskData
+     * @param array $taskListData
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function getExistingTask(string $taskId): TaskInterface
+    protected function buildTaskSet(array $taskData, array $taskListData): TaskInterface
     {
-        if ($this->existingTasks[$taskId] instanceof TaskSetInterface) {
-            throw new TaskSetNestingException(sprintf(
-                'Task set with id %s can\'t have another task set inside.',
-                $taskId,
-            ));
-        }
-
-        return $this->existingTasks[$taskId];
+        return $this->taskFromYamlTaskSetBuilder->buildTaskFromYamlTaskSet($taskData, $taskListData);
     }
 }

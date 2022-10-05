@@ -10,7 +10,7 @@ namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder\ScalarPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\ScalarTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
 
@@ -32,7 +32,7 @@ class ScalarPartBuilderTest extends Unit
     public function testAddPartReturnsDtoWithRequiredParameters(): void
     {
         // Arrange
-        $scalarPartBuilder = new ScalarPartBuilder();
+        $scalarPartBuilder = new ScalarTaskPartBuilder();
         $requiredTaskData = [
             'id' => 'test',
             'short_description' => 'description',
@@ -72,7 +72,7 @@ class ScalarPartBuilderTest extends Unit
         $this->expectException(MissedTaskRequiredParamException::class);
 
         // Arrange
-        $scalarPartBuilder = new ScalarPartBuilder();
+        $scalarPartBuilder = new ScalarTaskPartBuilder();
         $criteriaDto = new TaskYamlCriteriaDto(
             TaskType::TASK_TYPE__LOCAL_CLI,
             $invalidTaskData,
@@ -130,7 +130,7 @@ class ScalarPartBuilderTest extends Unit
         );
 
         // Act
-        $resultTaskDto = (new ScalarPartBuilder())->addPart($criteriaDto, new TaskYamlResultDto());
+        $resultTaskDto = (new ScalarTaskPartBuilder())->addPart($criteriaDto, new TaskYamlResultDto());
         $scalarParts = $resultTaskDto->getScalarParts();
 
         // Assert
@@ -149,7 +149,7 @@ class ScalarPartBuilderTest extends Unit
     public function testAddPartReturnsResultDtoWithDefaultValuesIfNoParamsProvided(): void
     {
         // Arrange
-        $scalarPartBuilder = new ScalarPartBuilder();
+        $scalarPartBuilder = new ScalarTaskPartBuilder();
         $criteriaDto = new TaskYamlCriteriaDto(
             TaskType::TASK_TYPE__LOCAL_CLI,
             [
@@ -165,7 +165,7 @@ class ScalarPartBuilderTest extends Unit
         $scalarParts = $resultTaskDto->getScalarParts();
 
         // Assert
-        foreach (ScalarPartBuilder::OPTIONAL_KEY_TO_DEFAULT_VALUE_MAP as $key => $expectedDefaultValue) {
+        foreach (ScalarTaskPartBuilder::OPTIONAL_KEY_TO_DEFAULT_VALUE_MAP as $key => $expectedDefaultValue) {
             $this->assertSame(
                 $expectedDefaultValue,
                 $scalarParts[$key],

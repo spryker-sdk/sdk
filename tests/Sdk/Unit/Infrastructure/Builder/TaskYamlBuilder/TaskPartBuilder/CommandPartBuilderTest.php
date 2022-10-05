@@ -9,7 +9,7 @@ namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder\CommandPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\CommandTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
@@ -34,7 +34,7 @@ class CommandPartBuilderTest extends Unit
     {
         // Arrange
         $convertorInputDataValidator = new ConverterInputDataValidator();
-        $commandPartBuilder = new CommandPartBuilder($convertorInputDataValidator, new InMemoryTaskStorage());
+        $commandPartBuilder = new CommandTaskPartBuilder($convertorInputDataValidator, new InMemoryTaskStorage());
         $criteriaDto = new TaskYamlCriteriaDto(
             'unsupported_type',
             [],
@@ -60,7 +60,7 @@ class CommandPartBuilderTest extends Unit
     {
         // Arrange
         $convertorInputDataValidator = new ConverterInputDataValidator();
-        $commandPartBuilder = new CommandPartBuilder($convertorInputDataValidator, new InMemoryTaskStorage());
+        $commandPartBuilder = new CommandTaskPartBuilder($convertorInputDataValidator, new InMemoryTaskStorage());
         $criteriaDto = new TaskYamlCriteriaDto(
             $taskData['type'],
             $taskData,

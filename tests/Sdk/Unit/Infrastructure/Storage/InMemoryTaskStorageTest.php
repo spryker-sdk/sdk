@@ -26,15 +26,15 @@ class InMemoryTaskStorageTest extends Unit
     /**
      * @return void
      */
-    public function testAddYamlTaskSetsTaskToCorrectProperty(): void
+    public function testAddTaskSetsTaskToCorrectProperty(): void
     {
         // Arrange
         $task = $this->tester->createTask();
         $storage = new InMemoryTaskStorage();
 
         // Act
-        $actualTask = $storage->addYamlTask($task)
-            ->getYamlTaskById($task->getId());
+        $actualTask = $storage->addTask($task)
+            ->getTaskById($task->getId());
 
         // Assert
         $this->assertEquals($task, $actualTask);
@@ -43,7 +43,7 @@ class InMemoryTaskStorageTest extends Unit
     /**
      * @return void
      */
-    public function testAddYamlTaskOverridesExistingTaskWithSameId(): void
+    public function testAddTaskOverridesExistingTaskWithSameId(): void
     {
         // Arrange
         $command = $this->tester->createCommand();
@@ -52,85 +52,11 @@ class InMemoryTaskStorageTest extends Unit
         $storage = new InMemoryTaskStorage();
 
         // Act
-        $actualTask = $storage->addYamlTask($task1)
-            ->addYamlTask($task2)
-            ->getYamlTaskById($task1->getId());
+        $actualTask = $storage->addTask($task1)
+            ->addTask($task2)
+            ->getTaskById($task1->getId());
 
         // Assert
         $this->assertSame($task2->getCommands(), $actualTask->getCommands());
-    }
-
-    /**
-     * @return void
-     */
-    public function testAddPhpTaskSetsTaskToCorrectProperty(): void
-    {
-        // Arrange
-        $task = $this->tester->createTask();
-        $storage = new InMemoryTaskStorage();
-
-        // Act
-        $actualTask = $storage->addPhpTask($task)
-            ->getPhpTaskById($task->getId());
-
-        // Assert
-        $this->assertEquals($task, $actualTask);
-    }
-
-    /**
-     * @return void
-     */
-    public function testAddPhpTaskOverridesExistingTaskWithSameId(): void
-    {
-        // Arrange
-        $command = $this->tester->createCommand();
-        $task1 = $this->tester->createTask();
-        $task2 = $this->tester->createTask(null, [$command]);
-        $storage = new InMemoryTaskStorage();
-
-        // Act
-        $actualTask = $storage->addPhpTask($task1)
-            ->addPhpTask($task2)
-            ->getPhpTaskById($task1->getId());
-
-        // Assert
-        $this->assertSame($task2->getCommands(), $actualTask->getCommands());
-    }
-
-    /**
-     * @return void
-     */
-    public function testAddTaskSetSetsTaskToCorrectProperty(): void
-    {
-        // Arrange
-        $taskSet = $this->tester->createTaskSet();
-        $storage = new InMemoryTaskStorage();
-
-        // Act
-        $actualTaskSet = $storage->addTaskSet($taskSet)
-            ->getTaskSetById($taskSet->getId());
-
-        // Assert
-        $this->assertEquals($taskSet, $actualTaskSet);
-    }
-
-    /**
-     * @return void
-     */
-    public function testAddTaskSetOverridesExistingTaskWithSameId(): void
-    {
-        // Arrange
-        $command = $this->tester->createCommand();
-        $taskSet1 = $this->tester->createTaskSet();
-        $taskSet2 = $this->tester->createTaskSet(['commands' => [$command]]);
-        $storage = new InMemoryTaskStorage();
-
-        // Act
-        $actualTaskSet = $storage->addTaskSet($taskSet1)
-            ->addTaskSet($taskSet2)
-            ->getTaskSetById($taskSet1->getId());
-
-        // Assert
-        $this->assertSame($taskSet2->getCommands(), $actualTaskSet->getCommands());
     }
 }

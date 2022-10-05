@@ -11,10 +11,16 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\CompositeTaskBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskBuilderInterface;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\YamlTaskBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\CompositeTaskBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\CommandTaskPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\LifecycleTaskPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\ScalarTaskPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\YamlTaskBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
+use SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
@@ -29,7 +35,7 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 class TaskCompositeBuilderTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskBuilderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface
      */
     protected TaskBuilderInterface $compositeTaskBuilder;
 
@@ -40,8 +46,16 @@ class TaskCompositeBuilderTest extends Unit
     {
         parent::setUp();
 
+        $inMemoryStorage = new InMemoryTaskStorage();
+        $commandTaskValidator = new ConverterInputDataValidator();
+
         $this->compositeTaskBuilder = new CompositeTaskBuilder([
-            new YamlTaskBuilder(),
+            new YamlTaskBuilder([
+                new ScalarTaskPartBuilder(),
+                new CommandTaskPartBuilder($commandTaskValidator, $inMemoryStorage),
+                new PlaceholderTaskPartBuilder($inMemoryStorage),
+                new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder($inMemoryStorage)),
+            ]),
         ]);
     }
 
@@ -69,7 +83,7 @@ class TaskCompositeBuilderTest extends Unit
     }
 
     /**
-     * @dataProvider provideCriteriasForTypeBasedCheck
+     * @dataProvider provideCriteriaForTypeBasedCheck
      *
      * @param array $criteriaData
      *
@@ -77,11 +91,6 @@ class TaskCompositeBuilderTest extends Unit
      */
     public function testBuildReturnsResultEntityBasedOnProvidedType($criteriaData): void
     {
-        //Arrange
-        $concreteBuilders = [
-            new YamlTaskBuilder(),
-        ];
-
         // Act
         $resultTask = $this->compositeTaskBuilder->build($criteriaData['dto']);
 
@@ -116,7 +125,7 @@ class TaskCompositeBuilderTest extends Unit
     /**
      * @return array
      */
-    public function provideCriteriasForTypeBasedCheck(): array
+    public function provideCriteriaForTypeBasedCheck(): array
     {
         return [
             [[

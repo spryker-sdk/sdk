@@ -10,7 +10,7 @@ namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder\PlaceholderPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
@@ -51,7 +51,7 @@ class PlaceholderPartBuilderTest extends Unit
         );
 
         // Act
-        $resultDto = (new PlaceholderPartBuilder(new InMemoryTaskStorage()))->addPart($criteriaDto, new TaskYamlResultDto());
+        $resultDto = (new PlaceholderTaskPartBuilder(new InMemoryTaskStorage()))->addPart($criteriaDto, new TaskYamlResultDto());
 
         // Assert
         $this->assertSame([], $resultDto->getPlaceholders());
@@ -79,7 +79,7 @@ class PlaceholderPartBuilderTest extends Unit
         );
 
         // Act
-        $resultDto = (new PlaceholderPartBuilder(new InMemoryTaskStorage()))->addPart($criteriaDto, new TaskYamlResultDto());
+        $resultDto = (new PlaceholderTaskPartBuilder(new InMemoryTaskStorage()))->addPart($criteriaDto, new TaskYamlResultDto());
 
         // Assert
         $placeholder = $taskListData[static::TASK_SET_ID]['placeholders'][0];

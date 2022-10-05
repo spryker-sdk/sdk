@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
+use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 class TaskYamlResultDto
@@ -29,9 +29,9 @@ class TaskYamlResultDto
     protected array $commands = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface|null
+     * @var \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface|null
      */
-    protected ?TaskLifecycleInterface $lifecycle = null;
+    protected ?LifecycleInterface $lifecycle = null;
 
     /**
      * @return array<array>|array<string>|array<bool>|array<null>
@@ -39,6 +39,17 @@ class TaskYamlResultDto
     public function getScalarParts(): array
     {
         return $this->scalarParts;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getScalarPart(string $key, $default = null)
+    {
+        return array_key_exists($key, $this->scalarParts) ? $this->scalarParts[$key] : $default;
     }
 
     /**
@@ -119,34 +130,21 @@ class TaskYamlResultDto
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface|null
      */
-    public function getLifecycle(): ?TaskLifecycleInterface
+    public function getLifecycle(): ?LifecycleInterface
     {
         return $this->lifecycle;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface $lifecycle
+     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface $lifecycle
      *
      * @return $this
      */
-    public function setLifecycle(TaskLifecycleInterface $lifecycle)
+    public function setLifecycle(LifecycleInterface $lifecycle)
     {
         $this->lifecycle = $lifecycle;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function reset()
-    {
-        $this->scalarParts = [];
-        $this->placeholders = [];
-        $this->commands = [];
-        $this->lifecycle = null;
 
         return $this;
     }

@@ -11,8 +11,8 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder\LifecyclePartBuilder;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder\PlaceholderPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\LifecycleTaskPartBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
@@ -37,7 +37,7 @@ class LifecyclePartBuilderTest extends Unit
     {
         // Arrange
         $criteriaDto = new TaskYamlCriteriaDto(TaskType::TASK_TYPE__LOCAL_CLI, [], []);
-        $lifecyclePartBuilder = new LifecyclePartBuilder(new PlaceholderPartBuilder(new InMemoryTaskStorage()));
+        $lifecyclePartBuilder = new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder(new InMemoryTaskStorage()));
 
         // Act
         $resultDto = $lifecyclePartBuilder->addPart($criteriaDto, new TaskYamlResultDto());
@@ -87,7 +87,7 @@ class LifecyclePartBuilderTest extends Unit
             $taskData,
             [],
         );
-        $lifecyclePartBuilder = new LifecyclePartBuilder(new PlaceholderPartBuilder(new InMemoryTaskStorage()));
+        $lifecyclePartBuilder = new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder(new InMemoryTaskStorage()));
 
         // Act
         $resultDto = $lifecyclePartBuilder->addPart($criteriaDto, new TaskYamlResultDto());
