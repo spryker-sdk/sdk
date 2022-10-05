@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormalizer;
+use SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidator;
+use SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\Processor;
@@ -43,7 +43,7 @@ class ManifestNormalizerTest extends Unit
         $manifestValidator->expects($this->once())
             ->method('getConfigTreeBuilder')
             ->willReturn($treeBuilder);
-        $manifestValidatorFactory = $this->createMock(ManifestNormaliserRegistry::class);
+        $manifestValidatorFactory = $this->createMock(ManifestValidatorRegistry::class);
         $manifestValidatorFactory->expects($this->once())
             ->method('resolve')
             ->with($entity)
@@ -54,7 +54,7 @@ class ManifestNormalizerTest extends Unit
             ->with($node, [['test']])
             ->willReturn(['test']);
 
-        $manifestValidation = new ManifestNormalizer($manifestValidatorFactory, $processor);
+        $manifestValidation = new ManifestValidator($manifestValidatorFactory, $processor);
 
         // Act
         $result = $manifestValidation->validate('task', $data);
@@ -74,7 +74,7 @@ class ManifestNormalizerTest extends Unit
             ->method('getName')
             ->willReturn('task');
 
-        $manifestValidatorFactory = new ManifestNormaliserRegistry([$manifestValidator]);
+        $manifestValidatorFactory = new ManifestValidatorRegistry([$manifestValidator]);
 
         // Assert
         $this->expectException(ManifestValidatorMissingException::class);

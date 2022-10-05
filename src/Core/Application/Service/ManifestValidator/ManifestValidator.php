@@ -5,17 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer;
+namespace SprykerSdk\Sdk\Core\Application\Service\ManifestValidator;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use Symfony\Component\Config\Definition\Processor;
 
-class ManifestNormalizer implements ManifestNormalizerInterface
+class ManifestValidator implements ManifestValidatorInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry
      */
-    public ManifestNormaliserRegistry $manifestValidatorFactory;
+    public ManifestValidatorRegistry $manifestValidatorFactory;
 
     /**
      * @var \Symfony\Component\Config\Definition\Processor
@@ -23,10 +23,10 @@ class ManifestNormalizer implements ManifestNormalizerInterface
     public Processor $processor;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry $manifestValidatorFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry $manifestValidatorFactory
      * @param \Symfony\Component\Config\Definition\Processor $processor
      */
-    public function __construct(ManifestNormaliserRegistry $manifestValidatorFactory, Processor $processor)
+    public function __construct(ManifestValidatorRegistry $manifestValidatorFactory, Processor $processor)
     {
         $this->manifestValidatorFactory = $manifestValidatorFactory;
         $this->processor = $processor;

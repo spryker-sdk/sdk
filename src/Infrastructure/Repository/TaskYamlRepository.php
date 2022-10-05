@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -76,16 +76,16 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected array $existingTasks = [];
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface
      */
-    protected ManifestNormalizerInterface $manifestValidation;
+    protected ManifestValidatorInterface $manifestValidation;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface $manifestValidation
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface $manifestValidation
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
@@ -93,7 +93,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         Finder $fileFinder,
         Yaml $yamlParser,
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
-        ManifestNormalizerInterface $manifestValidation,
+        ManifestValidatorInterface $manifestValidation,
         iterable $existingTasks = []
     ) {
         $this->yamlParser = $yamlParser;

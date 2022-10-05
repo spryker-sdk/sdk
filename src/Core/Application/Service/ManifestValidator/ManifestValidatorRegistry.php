@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer;
+namespace SprykerSdk\Sdk\Core\Application\Service\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
 
-class ManifestNormaliserRegistry
+class ManifestValidatorRegistry
 {
     /**
      * @var array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface>

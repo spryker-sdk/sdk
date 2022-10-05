@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -228,11 +228,11 @@ class TaskYamlRepositoryTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestNormalizerInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface
      */
-    public function createManifestValidationBuilderMock(): ManifestNormalizerInterface
+    public function createManifestValidationBuilderMock(): ManifestValidatorInterface
     {
-        $manifestValidation = $this->createMock(ManifestNormalizerInterface::class);
+        $manifestValidation = $this->createMock(ManifestValidatorInterface::class);
         $manifestValidation
             ->method('validate')
             ->will($this->returnArgument(1));

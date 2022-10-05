@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry;
+use SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry;
 
 /**
  * @group Sdk
@@ -33,7 +33,7 @@ class ManifestNormalizerRegistryTest extends Unit
             ->method('getName')
             ->willReturn('task');
 
-        $manifestValidatorFactory = new ManifestNormaliserRegistry([$manifestValidator]);
+        $manifestValidatorFactory = new ManifestValidatorRegistry([$manifestValidator]);
 
         // Act
         $result = $manifestValidatorFactory->resolve('task');
@@ -53,7 +53,7 @@ class ManifestNormalizerRegistryTest extends Unit
             ->method('getName')
             ->willReturn('task');
 
-        $manifestValidatorFactory = new ManifestNormaliserRegistry([$manifestValidator]);
+        $manifestValidatorFactory = new ManifestValidatorRegistry([$manifestValidator]);
 
         // Assert
         $this->expectException(ManifestValidatorMissingException::class);

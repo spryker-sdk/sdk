@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
-interface ManifestNormalizerInterface
+interface ManifestValidatorInterface
 {
     /**
      * @param string $type
