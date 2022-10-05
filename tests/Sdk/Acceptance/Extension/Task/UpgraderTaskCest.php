@@ -45,7 +45,7 @@ class UpgraderTaskCest
         );
 
         // Assert
-        Assert::assertTrue($process->isSuccessful());
+        Assert::assertTrue($process->isTerminated());
         Assert::assertStringContainsString(
             'Please check defined values of environment variables: ACCESS_TOKEN, ORGANIZATION_NAME and REPOSITORY_NAME.',
             $process->getOutput(),
