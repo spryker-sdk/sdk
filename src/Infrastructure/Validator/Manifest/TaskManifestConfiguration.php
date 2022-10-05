@@ -60,7 +60,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                         ->ifTrue(function ($value) {
                             return !preg_match('/^[a-z-]+(:[a-z-]+)+$/u', $value);
                         })
-                        ->thenInvalid('Task id `%s` should have `/^[a-z-]+(:[a-z-]+)+$/` format.')
+                        ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-])+$/` format.')
                     ->end()
                 ->end()
                 ->scalarNode('stage')->isRequired()->end()

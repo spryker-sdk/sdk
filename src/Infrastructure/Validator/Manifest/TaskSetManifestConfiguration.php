@@ -55,13 +55,55 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
         /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node */
         $node = $tree->getRootNode();
         $node->children()
-                ->scalarNode('id')->end()
+                ->scalarNode('id')
+                    ->isRequired()
+                        ->validate()
+                        ->ifTrue(function ($value) {
+                            return !preg_match('/^[a-z-]+:[a-z-]+:[a-z-]+$/u', $value);
+                        })
+                        ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-])+$/` format.')
+                    ->end()
+                ->end()
                 ->scalarNode('help')->defaultNull()->end()
-                ->scalarNode('stage')->end()
-                ->scalarNode('version')->end()
-                ->scalarNode('short_description')->end()
-                ->scalarNode('command')->end()
-                ->scalarNode('type')->end()
+                ->scalarNode('stage')->isRequired()->end()
+                ->scalarNode('version')
+                    ->isRequired()
+                    ->validate()
+                        ->ifTrue(function ($value) {
+                            return !preg_match('/^\d+.\d+.\d+$/u', $value);
+                        })
+                        ->thenInvalid('Task version `%s` should have `/^\d+.\d+.\d+$/` format.')
+                    ->end()
+                ->end()
+                ->scalarNode('short_description')
+                    ->isRequired()
+                    ->validate()
+                        ->ifEmpty()
+                        ->thenInvalid('Task short description is require.')
+                    ->end()
+                ->end()
+                ->scalarNode('command')->defaultNull()->end()
+                ->scalarNode('type')
+                    ->isRequired()
+                    ->validate()
+                        ->ifNotInArray([Task::TASK_SET_TYPE])
+                        ->thenInvalid(
+                            vsprintf(
+                                'Task should have %s.',
+                                [Task::TASK_SET_TYPE],
+                            ),
+                        )
+                    ->end()
+                ->end()
+                ->scalarNode('optional')
+                    ->defaultNull()
+                    ->validate()
+                        ->ifTrue(function (string $value) {
+                            return $value && !filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                        })
+                        ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
+                    ->end()
+                ->end()
                 ->arrayNode('placeholders')->end()
                 ->arrayNode('stages')
                     ->useAttributeAsKey('name')
