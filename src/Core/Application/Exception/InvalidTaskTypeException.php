@@ -17,7 +17,7 @@ class InvalidTaskTypeException extends Exception
     public function __construct(string $taskType)
     {
         $message = sprintf(
-            'Unknown task type `%s` provided',
+            'Invalid task type `%s` provided',
             $taskType,
         );
 

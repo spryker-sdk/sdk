@@ -15,8 +15,8 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle as LifecycleEnum;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 
 class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
 {
@@ -34,10 +34,10 @@ class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
      */
     public function addPart(TaskYamlCriteriaDto $criteriaDto, TaskYamlResultDto $resultDto): TaskYamlResultDto
     {
@@ -55,7 +55,7 @@ class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData
      */
@@ -76,7 +76,7 @@ class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData
      */
@@ -97,7 +97,7 @@ class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData
      */
@@ -166,7 +166,7 @@ class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
 
     /**
      * @param array $placeholdersData
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */

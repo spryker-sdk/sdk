@@ -54,12 +54,10 @@ services:
         public: true
         class: SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader
         arguments:
-            - "@setting_repository"
-            - "@file_finder"
-            - "@yaml_parser"
+            - "@task.reader.yaml"
             - "@task.task_from_yaml_builder"
             - "@task.storage.in_memory"
-            - "@task.builder"
+            - "@task.builder.yaml"
             - !tagged_iterator sdk.task
     context_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
@@ -387,20 +385,21 @@ services:
             - "@task.task_set_commands_builder"
             - "@task.storage.in_memory"
 
+    task.reader.yaml:
+        class: SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader
+        arguments:
+            - "@setting_repository"
+            - "@file_finder"
+            - "@yaml_parser"
+
     task.storage.in_memory:
         class: SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage
 
     task.validator.input_data:
         class: SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator
 
-    task.builder:
-        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\CompositeTaskBuilder
-        arguments:
-            - !tagged_iterator concrete_task_builder
-
     task.builder.yaml:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\YamlTaskBuilder
-        tags: [ "concrete_task_builder" ]
         arguments:
             - !tagged_iterator task_part_builder
 

@@ -13,8 +13,8 @@ use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\LifecycleTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 

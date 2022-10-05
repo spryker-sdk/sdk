@@ -10,8 +10,8 @@ namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\CommandTaskPartBuilder;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator;
 

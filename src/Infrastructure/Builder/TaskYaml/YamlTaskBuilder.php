@@ -7,13 +7,14 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml;
 
+use SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
-class YamlTaskBuilder implements ApplicableTaskBuilderInterface
+class YamlTaskBuilder implements TaskBuilderInterface
 {
     /**
      * @var iterable<\SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\TaskPartBuilderInterface> $taskPartBuilders
@@ -29,26 +30,16 @@ class YamlTaskBuilder implements ApplicableTaskBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $taskYamlCriteriaDto
-     *
-     * @return bool
-     */
-    public function isApplicable(TaskYamlCriteriaDto $taskYamlCriteriaDto): bool
-    {
-        return in_array(
-            $taskYamlCriteriaDto->getType(),
-            [TaskType::TASK_TYPE__LOCAL_CLI, TaskType::TASK_TYPE__LOCAL_CLI_INTERACTIVE],
-            true,
-        );
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $taskYamlCriteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $taskYamlCriteriaDto
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function build(TaskYamlCriteriaDto $taskYamlCriteriaDto): TaskInterface
     {
+        if (!$this->isApplicable($taskYamlCriteriaDto)) {
+            throw new InvalidTaskTypeException($taskYamlCriteriaDto->getType());
+        }
+
         $resultTaskDto = new TaskYamlResultDto();
         foreach ($this->taskPartBuilders as $taskPartBuilder) {
             $resultTaskDto = $taskPartBuilder->addPart($taskYamlCriteriaDto, $resultTaskDto);
@@ -58,7 +49,21 @@ class YamlTaskBuilder implements ApplicableTaskBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $taskYamlCriteriaDto
+     *
+     * @return bool
+     */
+    protected function isApplicable(TaskYamlCriteriaDto $taskYamlCriteriaDto): bool
+    {
+        return in_array(
+            $taskYamlCriteriaDto->getType(),
+            [TaskType::TASK_TYPE__LOCAL_CLI, TaskType::TASK_TYPE__LOCAL_CLI_INTERACTIVE],
+            true,
+        );
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
@@ -79,8 +84,8 @@ class YamlTaskBuilder implements ApplicableTaskBuilderInterface
             $resultDto->getScalarPart('successor', ''),
             $resultDto->getScalarPart('deprecated', false),
             $resultDto->getScalarPart('stage', ''),
-            $resultDto->getScalarPart('optional', true),
-            $resultDto->getScalarPart('stages', ''),
+            $resultDto->getScalarPart('optional', false),
+            $resultDto->getScalarPart('stages', []),
         );
     }
 }

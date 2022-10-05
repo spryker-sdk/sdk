@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
 
 use SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ScalarTaskPartBuilder implements TaskPartBuilderInterface
@@ -36,10 +36,10 @@ class ScalarTaskPartBuilder implements TaskPartBuilderInterface
     ];
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
      */
     public function addPart(
         TaskYamlCriteriaDto $criteriaDto,
@@ -51,12 +51,12 @@ class ScalarTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
+     *@throws \SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
      */
     protected function addRequiredParts(
         TaskYamlCriteriaDto $criteriaDto,
@@ -79,10 +79,10 @@ class ScalarTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
      */
     protected function addOptionalParts(
         TaskYamlCriteriaDto $criteriaDto,

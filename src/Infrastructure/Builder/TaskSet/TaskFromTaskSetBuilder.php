@@ -139,7 +139,7 @@ class TaskFromTaskSetBuilder implements TaskFromTaskSetBuilderInterface
     protected function getTaskFromTaskList(string $taskId, array $existingTasks): TaskInterface
     {
         if (!isset($existingTasks[$taskId])) {
-            throw new InvalidArgumentException(sprintf('Task %s not found', $taskId));
+            throw new InvalidArgumentException(sprintf('TaskYaml %s not found', $taskId));
         }
 
         return $existingTasks[$taskId];

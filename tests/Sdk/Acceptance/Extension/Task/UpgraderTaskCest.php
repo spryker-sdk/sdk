@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Tests\AcceptanceTester;
 /**
  * @group Acceptance
  * @group Extension
- * @group Task
+ * @group TaskYaml
  * @group UpgraderTaskCest
  */
 class UpgraderTaskCest

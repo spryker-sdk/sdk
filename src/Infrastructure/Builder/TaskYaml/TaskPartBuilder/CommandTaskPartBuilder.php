@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator;
@@ -40,25 +40,16 @@ class CommandTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
      */
     public function addPart(
         TaskYamlCriteriaDto $criteriaDto,
         TaskYamlResultDto $resultDto
     ): TaskYamlResultDto {
-        $applicableTaskTypes = [
-            TaskType::TASK_TYPE__LOCAL_CLI,
-            TaskType::TASK_TYPE__LOCAL_CLI_INTERACTIVE,
-        ];
-
-        if (!in_array($criteriaDto->getType(), $applicableTaskTypes, true)) {
-            return $resultDto;
-        }
-
-        if (!$criteriaDto->getTaskData()) {
+        if (!$this->isApplicable($criteriaDto)) {
             return $resultDto;
         }
 
@@ -67,6 +58,29 @@ class CommandTaskPartBuilder implements TaskPartBuilderInterface
         $resultDto->addCommand($this->createCommand($criteriaDto->getTaskData(), $converter));
 
         return $resultDto;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
+     *
+     * @return bool
+     */
+    protected function isApplicable(TaskYamlCriteriaDto $criteriaDto): bool
+    {
+        $applicableTaskTypes = [
+            TaskType::TASK_TYPE__LOCAL_CLI,
+            TaskType::TASK_TYPE__LOCAL_CLI_INTERACTIVE,
+        ];
+
+        if (!in_array($criteriaDto->getType(), $applicableTaskTypes, true)) {
+            return false;
+        }
+
+        if (!$criteriaDto->getTaskData()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

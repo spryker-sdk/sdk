@@ -11,8 +11,8 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
@@ -87,7 +87,7 @@ class PlaceholderPartBuilderTest extends Unit
         $this->assertSame(
             $name,
             $resultDto->getPlaceholders()[static::TASK_SET_PLACEHOLDER_NAME]->getName(),
-            'The result dto contains placeholder from the given Task List',
+            'The result dto contains placeholder from the given TaskYaml List',
         );
     }
 

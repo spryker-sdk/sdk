@@ -16,6 +16,7 @@ use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader;
+use SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -29,6 +30,8 @@ use Symfony\Component\Yaml\Yaml;
  * @group Infrastructure
  * @group Loader
  * @group TaskYamlFileLoaderTest
+ *
+ * @todo :: extract part of the test to the TaskYamlReaderTest and replace it by mock.
  */
 class TaskYamlFileLoaderTest extends Unit
 {
@@ -74,9 +77,11 @@ class TaskYamlFileLoaderTest extends Unit
         $this->taskBuilder = $this->createMock(TaskBuilderInterface::class);
         $taskStorage = new InMemoryTaskStorage();
         $this->taskYamlFileLoader = new TaskYamlFileLoader(
-            $this->settingRepository,
-            new Finder(),
-            new Yaml(),
+            new TaskYamlReader(
+                $this->settingRepository,
+                new Finder(),
+                new Yaml(),
+            ),
             $this->createTaskFromYamlTaskSetBuilderMock(),
             $taskStorage,
             $this->taskBuilder,

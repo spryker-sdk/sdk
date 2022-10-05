@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -31,16 +31,15 @@ class PlaceholderTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto $resultDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
      */
     public function addPart(TaskYamlCriteriaDto $criteriaDto, TaskYamlResultDto $resultDto): TaskYamlResultDto
     {
         $taskPlaceholders = $criteriaDto->getTaskData()['placeholders'] ?? [];
         $taskPlaceholders = $this->addTaskSetPlaceholders($criteriaDto, $taskPlaceholders);
-        $taskPlaceholders = array_merge(...$taskPlaceholders);
 
         foreach ($taskPlaceholders as $taskPlaceholder) {
             if ($taskPlaceholder instanceof PlaceholderInterface) {
@@ -59,7 +58,7 @@ class PlaceholderTaskPartBuilder implements TaskPartBuilderInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $criteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
      * @param array $taskPlaceholders
      *
      * @return array
@@ -93,7 +92,7 @@ class PlaceholderTaskPartBuilder implements TaskPartBuilderInterface
             }
         }
 
-        return $taskPlaceholders;
+        return array_merge(...$taskPlaceholders);
     }
 
     /**

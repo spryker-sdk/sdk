@@ -7,13 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml;
 
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 interface TaskBuilderInterface
 {
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto $taskYamlCriteriaDto
+     * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $taskYamlCriteriaDto
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */

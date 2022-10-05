@@ -241,7 +241,7 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
                 $subTask = $this->findById($subTask);
 
                 if ($subTask === null) {
-                    throw new InvalidArgumentException(sprintf('Task %s not found', $subTask));
+                    throw new InvalidArgumentException(sprintf('TaskYaml %s not found', $subTask));
                 }
             }
             if ($subTask instanceof StagedTaskInterface) {

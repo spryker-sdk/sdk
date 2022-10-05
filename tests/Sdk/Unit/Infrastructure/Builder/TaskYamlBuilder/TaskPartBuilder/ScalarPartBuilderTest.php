@@ -11,8 +11,8 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException;
 use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\ScalarTaskPartBuilder;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 
 /**
  * @group YamlTaskLoading

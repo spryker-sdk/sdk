@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Dto\TaskYaml;
+namespace SprykerSdk\Sdk\Infrastructure\Dto;
 
 class TaskYamlCriteriaDto
 {

@@ -20,7 +20,7 @@ settings:
     type: path
     setting_type: sdk
     values:
-      - src/Extension/Task
+      - src/Extension/TaskYaml
   - path: setting_dirs
     initialization_description: Where can settings be loaded from?
     strategy: merge
