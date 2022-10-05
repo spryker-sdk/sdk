@@ -1,6 +1,6 @@
 services:
   _instanceof:
-    SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface:
+    SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
       tags: [ "manifest.validator" ]
   file_finder:
     class: Symfony\Component\Finder\Finder
@@ -397,10 +397,10 @@ services:
       - '@task_yaml_repository'
       - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
   task_manifest_validator:
-    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfigTreeBuilderFactory
+    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfiguration
     arguments:
       - '@validation_helper'
   task_set_manifest_validator:
-    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfigTreeBuilderFactory
+    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration
     arguments:
       - '@validation_helper'

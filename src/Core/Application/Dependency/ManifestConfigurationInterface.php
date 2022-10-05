@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
-interface ManifestConfigTreeBuilderFactoryInterface
+interface ManifestConfigurationInterface
 {
     /**
      * Returns manifest name.

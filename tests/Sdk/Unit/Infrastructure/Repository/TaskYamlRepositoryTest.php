@@ -234,7 +234,7 @@ class TaskYamlRepositoryTest extends Unit
     {
         $manifestValidation = $this->createMock(ManifestNormalizerInterface::class);
         $manifestValidation
-            ->method('validateAndNormalize')
+            ->method('validate')
             ->will($this->returnArgument(1));
 
         return $manifestValidation;

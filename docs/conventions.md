@@ -11,13 +11,13 @@ The Spryker SDK defines the following conventions.
 
 - __MUST__ have a `short_description` with a short task description
 
-- __MUST__ have a `type` one of a `local_cli`, `local_cli_interactive`, `task-set`, `php`
+- __MUST__ have a `type` one of a `local_cli`, `local_cli_interactive`, `task_set`, `php`
 
 - __MUST__ have a `command` with executable command string or null
 
 ## Task Set
 
-- __MUST__ have a `type` with `task-set` value
+- __MUST__ have a `type` with `task-_et` value
 
 - __MUST__ have a `tasks` with the list of the required sub-tasks
 

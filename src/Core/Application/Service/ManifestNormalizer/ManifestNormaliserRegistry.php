@@ -7,18 +7,18 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
 
 class ManifestNormaliserRegistry
 {
     /**
-     * @var array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface>
+     * @var array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface>
      */
     protected iterable $manifestValidators;
 
     /**
-     * @param array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface> $manifestValidators
+     * @param array<\SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface> $manifestValidators
      */
     public function __construct(iterable $manifestValidators)
     {
@@ -30,9 +30,9 @@ class ManifestNormaliserRegistry
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException
      *
-     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface
      */
-    public function resolve(string $entity): ManifestConfigTreeBuilderFactoryInterface
+    public function resolve(string $entity): ManifestConfigurationInterface
     {
         foreach ($this->manifestValidators as $manifestValidator) {
             if ($manifestValidator->getName() === $entity) {

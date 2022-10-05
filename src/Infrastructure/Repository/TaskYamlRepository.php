@@ -24,8 +24,8 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
-use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfigTreeBuilderFactory;
-use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfigTreeBuilderFactory;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfiguration;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -117,8 +117,8 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
             $this->readTaskYaml();
         }
 
-        $this->taskListData = $this->manifestValidation->validateAndNormalize(TaskManifestConfigTreeBuilderFactory::NAME, $this->taskListData);
-        $this->taskSetsData = $this->manifestValidation->validateAndNormalize(TaskSetManifestConfigTreeBuilderFactory::NAME, $this->taskSetsData);
+        $this->taskListData = $this->manifestValidation->validate(TaskManifestConfiguration::NAME, $this->taskListData);
+        $this->taskSetsData = $this->manifestValidation->validate(TaskSetManifestConfiguration::NAME, $this->taskSetsData);
 
         $tasks = [];
         foreach ($this->taskListData as $taskData) {

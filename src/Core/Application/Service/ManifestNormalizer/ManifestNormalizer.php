@@ -38,7 +38,7 @@ class ManifestNormalizer implements ManifestNormalizerInterface
      *
      * @return array<string, array>
      */
-    public function validateAndNormalize(string $type, array $configs): array
+    public function validate(string $type, array $configs): array
     {
         $manifestValidator = $this->manifestValidatorFactory->resolve($type);
 

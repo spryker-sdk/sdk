@@ -7,11 +7,13 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Enum\Task;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
-class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderFactoryInterface
+class TaskManifestConfiguration implements ManifestConfigurationInterface
 {
     /**
      * @var string
@@ -122,8 +124,13 @@ class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderF
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray(['local_cli', 'local_cli_interactive'])
-                        ->thenInvalid('Task should have local_cli_interactive or local_cli type.')
+                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE])
+                        ->thenInvalid(
+                            vsprintf(
+                                'Task should have %s or %s.',
+                                [Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
+                            ),
+                        )
                     ->end()
                 ->end()
                 ->arrayNode('report_converter')
@@ -177,7 +184,7 @@ class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderF
                 ->arrayNode('lifecycle')
                    ->children();
 
-        foreach (['INITIALIZED', 'UPDATED', 'REMOVED'] as $type) {
+        foreach ([Lifecycle::EVENT_INITIALIZED, Lifecycle::EVENT_UPDATED, Lifecycle::EVENT_REMOVED] as $type) {
             $event = $lifecycle->arrayNode($type);
             $event->children()
                 ->arrayNode('files')
@@ -207,9 +214,14 @@ class TaskManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderF
                 ->end()
                 ->scalarNode('type')
                     ->isRequired()
-                        ->validate()
-                        ->ifNotInArray(['local_cli', 'local_cli_interactive', 'task_set'])
-                        ->thenInvalid('Task should have local_cli_interactive or local_cli type.')
+                    ->validate()
+                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE])
+                        ->thenInvalid(
+                            vsprintf(
+                                'Task should have %s, %s or %s.',
+                                [Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE],
+                            ),
+                        )
                     ->end()
                 ->end();
         }

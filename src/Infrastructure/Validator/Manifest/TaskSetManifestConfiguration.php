@@ -7,16 +7,18 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
+use SprykerSdk\Sdk\Core\Domain\Enum\Task;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
-class TaskSetManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuilderFactoryInterface
+class TaskSetManifestConfiguration implements ManifestConfigurationInterface
 {
     /**
      * @var string
      */
-    public const NAME = 'task-set';
+    public const NAME = 'task_set';
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
@@ -142,6 +144,53 @@ class TaskSetManifestConfigTreeBuilderFactory implements ManifestConfigTreeBuild
             })
             ->thenInvalid('You have the same placeholder names in different tasks. You should resolve them.')
         ->end();
+
+        $lifecycle = $node
+            ->children()
+                ->arrayNode('lifecycle')
+                ->children();
+
+        foreach ([Lifecycle::EVENT_INITIALIZED, Lifecycle::EVENT_UPDATED, Lifecycle::EVENT_REMOVED] as $type) {
+            $event = $lifecycle->arrayNode($type);
+            $event->children()
+                    ->arrayNode('files')
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('path')
+                        ->end()
+                    ->scalarNode('content')
+                ->end();
+
+            $this->addPlaceholderDefinition(
+                $event->children()
+                    ->arrayNode('placeholders')
+                    ->arrayPrototype()
+                        ->children(),
+            );
+            $event->children()
+                ->arrayNode('commands')
+                    ->arrayPrototype()
+                    ->children()
+                        ->scalarNode('command')
+                        ->isRequired()
+                            ->validate()
+                                ->ifEmpty()
+                                ->thenInvalid('Task command is require.')
+                            ->end()
+                        ->end()
+                        ->scalarNode('type')
+                        ->isRequired()
+                            ->validate()
+                                ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE])
+                                ->thenInvalid(
+                                    vsprintf(
+                                        'Task should have %s, %s or %s.',
+                                        [Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE],
+                                    ),
+                                )
+                            ->end()
+                        ->end();
+        }
 
         return $tree;
     }

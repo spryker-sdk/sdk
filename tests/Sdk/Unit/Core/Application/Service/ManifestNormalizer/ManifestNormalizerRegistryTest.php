@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
 use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry;
 
@@ -28,7 +28,7 @@ class ManifestNormalizerRegistryTest extends Unit
     public function testResolve(): void
     {
         // Arrange
-        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigurationInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getName')
             ->willReturn('task');
@@ -48,7 +48,7 @@ class ManifestNormalizerRegistryTest extends Unit
     public function testCanNotResolve(): void
     {
         // Arrange
-        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigurationInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getName')
             ->willReturn('task');

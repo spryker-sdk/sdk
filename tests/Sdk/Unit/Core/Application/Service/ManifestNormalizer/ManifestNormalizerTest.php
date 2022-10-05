@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigTreeBuilderFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
 use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormaliserRegistry;
 use SprykerSdk\Sdk\Core\Application\Service\ManifestNormalizer\ManifestNormalizer;
@@ -39,7 +39,7 @@ class ManifestNormalizerTest extends Unit
         $treeBuilder->expects($this->once())
             ->method('buildTree')
             ->willReturn($node);
-        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigurationInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getConfigTreeBuilder')
             ->willReturn($treeBuilder);
@@ -57,7 +57,7 @@ class ManifestNormalizerTest extends Unit
         $manifestValidation = new ManifestNormalizer($manifestValidatorFactory, $processor);
 
         // Act
-        $result = $manifestValidation->validateAndNormalize('task', $data);
+        $result = $manifestValidation->validate('task', $data);
 
         // Assert
         $this->assertSame($data, $result);
@@ -69,7 +69,7 @@ class ManifestNormalizerTest extends Unit
     public function testCanNotResolve(): void
     {
         // Arrange
-        $manifestValidator = $this->createMock(ManifestConfigTreeBuilderFactoryInterface::class);
+        $manifestValidator = $this->createMock(ManifestConfigurationInterface::class);
         $manifestValidator->expects($this->once())
             ->method('getName')
             ->willReturn('task');

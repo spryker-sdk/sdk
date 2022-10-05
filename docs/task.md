@@ -1,7 +1,7 @@
 # Task
 
 Task is the smallest unit for running commands in SDK.
-It can be used as a single runnable console command or used in more complex structures such as the [workflows](workflow.md) or [task-sets](task_set.md).
+It can be used as a single runnable console command or used in more complex structures such as the [workflows](workflow.md) or [task_sets](task_set.md).
 In another word task is a commands wrapper that makes them extensible, configurable, versionable and provides cli interface for them.
 
 ## How to run task
