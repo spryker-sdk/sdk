@@ -80,7 +80,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $context = $this->buildContext($input);
-        $context->setTask($this->dynamicTaskSetCreator->getTask(static::TASKS_SETTING_KEY));
+        $context->setTask($this->dynamicTaskSetCreator->getTask(Setting::PATH_QA_TASKS));
         $context = $this->taskExecutor->execute($context);
         $this->writeContext($input, $context);
         $this->writeFilteredMessages($output, $context);

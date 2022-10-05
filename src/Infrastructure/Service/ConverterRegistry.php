@@ -153,11 +153,11 @@ class ConverterRegistry implements ConverterRegistryInterface
     {
         $paths = $this->getConvertorDirectories();
 
-        $pathCandidates = array_merge($paths, array_map(function (string $path) {
-            return preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
+        $pathCandidates = array_merge($paths, array_map(function (string $path): string {
+            return (string)preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
         }, $paths));
 
-        $pathCandidates = array_filter($pathCandidates, function (string $path) {
+        $pathCandidates = array_filter($pathCandidates, function (string $path): bool {
             return is_dir($path);
         });
 
