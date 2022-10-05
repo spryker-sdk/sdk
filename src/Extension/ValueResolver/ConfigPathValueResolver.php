@@ -46,7 +46,7 @@ class ConfigPathValueResolver extends OriginValueResolver
     {
         $value = (string)parent::getValue($context, $settingValues, $optional);
 
-        $projectLevelSettings = sprintf('%s/%s', $settingValues[Setting::PATH_SDK_DIR] ?? '', $value);
+        $projectLevelSettings = sprintf('%s/%s', $settingValues[Setting::PATH_PROJECT_DIR] ?? '', $value);
         $sdkLevelSettings = sprintf('%s/%s', $settingValues[Setting::PATH_SDK_DIR] ?? '', $value);
 
         return file_exists($projectLevelSettings) ? $projectLevelSettings : $sdkLevelSettings;

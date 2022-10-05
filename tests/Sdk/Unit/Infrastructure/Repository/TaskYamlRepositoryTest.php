@@ -78,7 +78,7 @@ class TaskYamlRepositoryTest extends Unit
             ->willReturn(null);
 
         $this->expectException(MissingSettingException::class);
-        $this->expectExceptionMessage(sprintf('%s are not configured properly'));
+        $this->expectExceptionMessage(sprintf('%s are not configured properly', Setting::PATH_EXTENSION_DIRS));
 
         // Act
         $this->taskYamlRepository->findAll();
