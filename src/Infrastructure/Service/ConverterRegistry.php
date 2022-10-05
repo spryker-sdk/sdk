@@ -177,9 +177,17 @@ class ConverterRegistry implements ConverterRegistryInterface
             throw new MissingSettingException(sprintf('Setting %s is missing', Setting::PATH_EXTENSION_DIRS));
         }
 
-        return array_map(function (string $directory) {
-            return $directory . '/Converter/';
-        }, $paths->getValues());
+        $convertorDirs = [];
+        foreach ($paths->getValues() as $candidateDir)
+        {
+            $dir = glob($candidateDir . '/Converter');
+
+            if ($dir) {
+                $convertorDirs[] = $dir;
+            }
+        }
+
+        return array_merge(...$convertorDirs);
     }
 
     /**
