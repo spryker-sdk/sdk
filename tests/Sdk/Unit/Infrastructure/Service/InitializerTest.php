@@ -17,6 +17,13 @@ use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group InitializerTest
+ */
 class InitializerTest extends Unit
 {
     /**
@@ -52,7 +59,7 @@ class InitializerTest extends Unit
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface
      */
-    protected TaskYamlFileLoaderInterface $taskYamlRepository;
+    protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
@@ -66,7 +73,7 @@ class InitializerTest extends Unit
     {
         parent::setUp();
 
-        $this->taskYamlRepository = $this->createMock(TaskYamlFileLoaderInterface::class);
+        $this->taskYamlFileLoader = $this->createMock(TaskYamlFileLoaderInterface::class);
         $this->cliValueReceiver = $this->createMock(CliInteractionProcessor::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
@@ -75,7 +82,7 @@ class InitializerTest extends Unit
             $this->cliValueReceiver,
             $this->settingRepository,
             $this->taskManager,
-            $this->taskYamlRepository,
+            $this->taskYamlFileLoader,
         );
     }
 
@@ -99,9 +106,9 @@ class InitializerTest extends Unit
             ->expects($this->once())
             ->method('initialize');
 
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->exactly(count($settings)))
@@ -133,9 +140,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -167,9 +174,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -205,9 +212,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -243,9 +250,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
