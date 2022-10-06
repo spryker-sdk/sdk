@@ -1,8 +1,13 @@
 #!/bin/bash
 
-MODE='prod'
-
 SDK_DIR="$(dirname $(dirname $0))"
+
+if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
+    cat $SDK_DIR/VERSION
+    exit 0
+fi
+
+MODE='prod'
 
 ARGUMENTS=""
 

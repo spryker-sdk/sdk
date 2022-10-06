@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Extension\Setting\Initializer;
 
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\OutputViolationReportFormatter;
-use SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\YamlViolationReportFormatter;
+use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter;
+use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\YamlViolationReportFormatter;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 class ViolationOutputFormatInitializer implements SettingChoicesProviderInterface

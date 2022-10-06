@@ -15,11 +15,11 @@ services:
       SDK_DIR: ${SDK_DIR}
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
     env_file:
-      - .env.prod
+      - infrastructure/.env
     volumes:
       - $PWD:/project:rw
       - ./db:/data/db:rw
-      - ./var:/data/var:rw
+      - ./var/log:/data/var/log:rw
       - ./extension:/data/extension:rw
       - ./VERSION:/data/VERSION:rw
       - ./config/packages/workflow.yaml:/data/config/packages/workflow.yaml:rw
