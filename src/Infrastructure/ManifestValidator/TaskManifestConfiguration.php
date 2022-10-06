@@ -127,8 +127,8 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                         ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE])
                         ->thenInvalid(
                             vsprintf(
-                                'Task should have %s or %s.',
-                                [Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
+                                'Task type `%s` should have %s or %s.',
+                                ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
                             ),
                         )
                     ->end()
@@ -223,11 +223,11 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE])
+                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE])
                         ->thenInvalid(
                             vsprintf(
-                                'Task should have %s, %s or %s.',
-                                [Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE],
+                                'Task type `%s` should have %s or %s.',
+                                ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
                             ),
                         )
                     ->end()

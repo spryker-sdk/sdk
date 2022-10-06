@@ -244,6 +244,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                 throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `id` doesn\'t exist.": ', $taskFile->getFilename()));
             }
 
+            if (!isset($taskData['type'])) {
+                throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `type` doesn\'t exist.": ', $taskFile->getFilename()));
+            }
+
             if ($taskData['type'] === static::TASK_SET_TYPE) {
                 $this->taskSetsData[(string)$taskData['id']] = $taskData;
             } else {

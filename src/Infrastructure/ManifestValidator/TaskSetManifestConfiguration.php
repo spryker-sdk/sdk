@@ -89,8 +89,8 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                         ->ifNotInArray([Task::TASK_SET_TYPE])
                         ->thenInvalid(
                             vsprintf(
-                                'Task should have %s.',
-                                [Task::TASK_SET_TYPE],
+                                'Task type `%s` should have %s.',
+                                ['%s', Task::TASK_SET_TYPE],
                             ),
                         )
                     ->end()
@@ -127,7 +127,14 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                 ->arrayPrototype()
                     ->children();
 
-        $tasks->scalarNode('id')->end()
+        $tasks->scalarNode('id')
+                ->validate()
+                    ->ifTrue(function ($taskId) {
+                        return !$taskId || !$this->validationHelper->isTaskNameExist((string)$taskId);
+                    })
+                    ->thenInvalid('Sub-task `%s` doesn\'t exist in tasks.')
+                ->end()
+            ->end()
             ->booleanNode('stop_on_error')->end()
             ->arrayNode('tags')
                 ->useAttributeAsKey('name')
@@ -234,8 +241,8 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                             ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE])
                             ->thenInvalid(
                                 vsprintf(
-                                    'Task should have %s, %s or %s.',
-                                    [Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE],
+                                    'Task type `%s` should have %s, %s or %s.',
+                                    ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE],
                                 ),
                             )
                         ->end()
