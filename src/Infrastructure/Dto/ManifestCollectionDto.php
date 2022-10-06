@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -20,7 +20,7 @@ class ManifestCollectionDto
     protected array $taskSets = [];
 
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function getTasks(): array
     {
@@ -28,7 +28,9 @@ class ManifestCollectionDto
     }
 
     /**
-     * @param mixed[] $tasks
+     * @param array<mixed> $tasks
+     *
+     * @return void
      */
     public function setTasks(array $tasks): void
     {
@@ -46,7 +48,7 @@ class ManifestCollectionDto
     }
 
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function getTaskSets(): array
     {
@@ -54,7 +56,9 @@ class ManifestCollectionDto
     }
 
     /**
-     * @param mixed[] $taskSets
+     * @param array<mixed> $taskSets
+     *
+     * @return void
      */
     public function setTaskSets(array $taskSets): void
     {

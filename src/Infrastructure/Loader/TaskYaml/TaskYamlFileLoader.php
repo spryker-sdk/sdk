@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\TaskType;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
@@ -61,8 +60,6 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
-     *
      * @return array
      */
     public function loadAll(): array
@@ -86,9 +83,9 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
      * @param array $taskData
      * @param array $taskListData
      *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    protected function buildTask(array $taskData, array $taskListData): ?TaskInterface
+    protected function buildTask(array $taskData, array $taskListData): TaskInterface
     {
         $criteriaDto = new TaskYamlCriteriaDto(
             $taskData['type'],

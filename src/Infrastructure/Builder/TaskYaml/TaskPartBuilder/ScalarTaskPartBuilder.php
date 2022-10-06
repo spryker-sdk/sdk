@@ -54,9 +54,9 @@ class ScalarTaskPartBuilder implements TaskPartBuilderInterface
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
-     *@throws \SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException
      *
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
      */
     protected function addRequiredParts(
         TaskYamlCriteriaDto $criteriaDto,

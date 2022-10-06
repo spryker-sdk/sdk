@@ -32,6 +32,8 @@ class YamlTaskBuilder implements TaskBuilderInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $taskYamlCriteriaDto
      *
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException
+     *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
     public function build(TaskYamlCriteriaDto $taskYamlCriteriaDto): TaskInterface

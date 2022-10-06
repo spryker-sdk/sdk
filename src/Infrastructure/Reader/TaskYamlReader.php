@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -43,6 +43,11 @@ class TaskYamlReader
         $this->yamlParser = $yamlParser;
     }
 
+    /**
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
+     *
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto
+     */
     public function readFiles(): ManifestCollectionDto
     {
         $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');

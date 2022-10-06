@@ -8,20 +8,15 @@
 namespace Sdk\Unit\Infrastructure\Loader;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader;
 use SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader;
-use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @group YamlTaskLoading
@@ -30,8 +25,6 @@ use Symfony\Component\Yaml\Yaml;
  * @group Infrastructure
  * @group Loader
  * @group TaskYamlFileLoaderTest
- *
- * @todo :: extract part of the test to the TaskYamlReaderTest and replace it by mock.
  */
 class TaskYamlFileLoaderTest extends Unit
 {
@@ -39,21 +32,6 @@ class TaskYamlFileLoaderTest extends Unit
      * @var \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader
      */
     protected TaskYamlFileLoader $taskYamlFileLoader;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
-     */
-    protected SettingRepositoryInterface $settingRepository;
-
-    /**
-     * @var \Symfony\Component\Finder\Finder
-     */
-    protected Finder $fileFinder;
-
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface
@@ -66,23 +44,30 @@ class TaskYamlFileLoaderTest extends Unit
     protected UnitTester $tester;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader
+     */
+    protected TaskYamlReader $taskYamlReader;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface
+     */
+    protected TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder;
+
+    /**
      * @return void
      */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->settingRepository = $this->createMock(SettingRepository::class);
-        $this->fileFinder = $this->createMock(Finder::class);
         $this->taskBuilder = $this->createMock(TaskBuilderInterface::class);
         $taskStorage = new InMemoryTaskStorage();
+        $this->taskYamlReader = $this->createMock(TaskYamlReader::class);
+        $this->taskFromYamlTaskSetBuilder = $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
+
         $this->taskYamlFileLoader = new TaskYamlFileLoader(
-            new TaskYamlReader(
-                $this->settingRepository,
-                new Finder(),
-                new Yaml(),
-            ),
-            $this->createTaskFromYamlTaskSetBuilderMock(),
+            $this->taskYamlReader,
+            $this->taskFromYamlTaskSetBuilder,
             $taskStorage,
             $this->taskBuilder,
             [new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))],
@@ -92,41 +77,9 @@ class TaskYamlFileLoaderTest extends Unit
     /**
      * @return void
      */
-    public function testFindAllWithoutDefinedExtensionDirsSettingShouldThrowException(): void
-    {
-        // Arrange
-        $this->settingRepository
-            ->expects($this->once())
-            ->method('findOneByPath')
-            ->with('extension_dirs')
-            ->willReturn(null);
-
-        $this->expectException(MissingSettingException::class);
-        $this->expectExceptionMessage('extension_dirs are not configured properly');
-
-        // Act
-        $this->taskYamlFileLoader->loadAll();
-    }
-
-    /**
-     * @return void
-     */
     public function testFindAllShouldReturnBuiltTasks(): void
     {
         // Arrange
-        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
-
-        $setting = $this->tester->createInfrastructureSetting(
-            'extension_dirs',
-            [$pathToTasks],
-        );
-
-        $this->settingRepository
-            ->expects($this->once())
-            ->method('findOneByPath')
-            ->with('extension_dirs')
-            ->willReturn($setting);
-
         $taskMock = $this->createMock(Task::class);
         $taskMock->expects($this->any())
             ->method('getId')
@@ -139,18 +92,15 @@ class TaskYamlFileLoaderTest extends Unit
             ->method('build')
             ->willReturn($taskMock);
 
+        $this->taskYamlReader
+            ->expects($this->once())
+            ->method('readFiles')
+            ->willReturn($this->tester->createManifestCollectionDto());
+
         // Act
         $result = $this->taskYamlFileLoader->loadAll();
 
         // Assert
         $this->assertCount(4, $result);
-    }
-
-    /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface
-     */
-    public function createTaskFromYamlTaskSetBuilderMock(): TaskFromYamlTaskSetBuilderInterface
-    {
-        return $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
     }
 }
