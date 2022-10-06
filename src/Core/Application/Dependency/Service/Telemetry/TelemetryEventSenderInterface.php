@@ -19,7 +19,7 @@ interface TelemetryEventSenderInterface
     public function send(array $telemetryEvents): void;
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isApplicable(): bool;
+    public function getTransportName(): string;
 }

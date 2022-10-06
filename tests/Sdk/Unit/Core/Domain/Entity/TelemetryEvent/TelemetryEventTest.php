@@ -31,8 +31,8 @@ class TelemetryEventTest extends Unit
         $telemetryEvent = new TelemetryEvent($payload, $metadata);
 
         // Assert
-        $this->assertSame($payload::getEventName(), $telemetryEvent->getName());
-        $this->assertSame($payload::getEventVersion(), $telemetryEvent->getVersion());
+        $this->assertSame($payload->getEventName(), $telemetryEvent->getName());
+        $this->assertSame($payload->getEventVersion(), $telemetryEvent->getVersion());
         $this->assertSame($payload, $telemetryEvent->getPayload());
     }
 

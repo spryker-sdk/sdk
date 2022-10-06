@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Application\Service\Telemetry;
+namespace Sdk\Unit\Core\Application\Telemetry;
 
 use Codeception\Test\Unit;
 use Exception;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TelemetryEventRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
-use SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizer;
+use SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizer;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
@@ -23,7 +23,6 @@ use Symfony\Component\Lock\LockInterface;
  * @group Sdk
  * @group Core
  * @group Application
- * @group Service
  * @group Telemetry
  * @group TelemetryEventsSynchronizerTest
  */

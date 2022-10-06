@@ -12,15 +12,15 @@ interface TelemetryEventPayloadInterface
     /**
      * @return string
      */
-    public static function getEventName(): string;
+    public function getEventName(): string;
 
     /**
      * @return string
      */
-    public static function getEventScope(): string;
+    public function getEventScope(): string;
 
     /**
      * @return int
      */
-    public static function getEventVersion(): int;
+    public function getEventVersion(): int;
 }

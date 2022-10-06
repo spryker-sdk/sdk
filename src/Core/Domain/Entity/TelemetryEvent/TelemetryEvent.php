@@ -63,9 +63,9 @@ class TelemetryEvent implements TelemetryEventInterface
      */
     public function __construct(TelemetryEventPayloadInterface $payload, TelemetryEventMetadataInterface $metadata)
     {
-        $this->name = $payload::getEventName();
-        $this->version = $payload::getEventVersion();
-        $this->scope = $payload::getEventScope();
+        $this->name = $payload->getEventName();
+        $this->version = $payload->getEventVersion();
+        $this->scope = $payload->getEventScope();
         $this->payload = $payload;
         $this->metadata = $metadata;
         $this->triggeredAt = new DateTimeImmutable();

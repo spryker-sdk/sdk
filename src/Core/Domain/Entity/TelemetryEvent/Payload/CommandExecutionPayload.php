@@ -10,24 +10,24 @@ namespace SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload;
 class CommandExecutionPayload implements TelemetryEventPayloadInterface
 {
     /**
+     * @var string
+     */
+    public const DEFAULT_SCOPE = 'SDK';
+
+    /**
+     * @var string
+     */
+    public const EVENT_NAME = 'command_execution';
+
+    /**
+     * @var int
+     */
+    public const EVENT_VERSION = 1;
+
+    /**
      * @var int
      */
     protected const COMMAND_SUCCESS_EXECUTION = 0;
-
-    /**
-     * @var string
-     */
-    protected const DEFAULT_SCOPE = 'SDK';
-
-    /**
-     * @var string
-     */
-    protected const EVENT_NAME = 'command_execution';
-
-    /**
-     * @var int
-     */
-    protected const EVENT_VERSION = 1;
 
     /**
      * @var string
@@ -118,7 +118,7 @@ class CommandExecutionPayload implements TelemetryEventPayloadInterface
     /**
      * @return string
      */
-    public static function getEventName(): string
+    public function getEventName(): string
     {
         return static::EVENT_NAME;
     }
@@ -126,7 +126,7 @@ class CommandExecutionPayload implements TelemetryEventPayloadInterface
     /**
      * @return string
      */
-    public static function getEventScope(): string
+    public function getEventScope(): string
     {
         return static::DEFAULT_SCOPE;
     }
@@ -134,7 +134,7 @@ class CommandExecutionPayload implements TelemetryEventPayloadInterface
     /**
      * @return int
      */
-    public static function getEventVersion(): int
+    public function getEventVersion(): int
     {
         return static::EVENT_VERSION;
     }

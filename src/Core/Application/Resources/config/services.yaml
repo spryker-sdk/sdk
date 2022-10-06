@@ -1,4 +1,5 @@
 parameters:
+  project_log_file: ".ssdk/.ssdk.log"
   project_settings_file: "./.ssdk/settings"
 services:
   path_resolver:
@@ -161,13 +162,13 @@ services:
       - !tagged_iterator report.array_converter
 
   telemetry.event_metadata_factory:
-    class: SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventMetadataFactory
+    class: SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactory
     arguments:
       - "@project_info_fetcher"
       - "@project_setting_repository"
 
   telemetry.command_event_synchronizer:
-    class: SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizer
+    class: SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizer
     arguments:
       - "@telemetry_event_repository"
       - "@telemetry.telemetry_events_sender"

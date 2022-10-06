@@ -9,13 +9,13 @@ namespace SprykerSdk\Sdk\Acceptance\Telemetry;
 
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
-use SprykerSdk\Sdk\Infrastructure\Service\Telemetry\FileReportTelemetryEventSender;
+use SprykerSdk\Sdk\Infrastructure\Telemetry\FileReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 /**
  * @group Acceptance
  * @group Extension
- * @group Tasks
+ * @group Telemetry
  * @group CodeSnifferTaskFixerCest
  */
 class CodeSnifferTaskFixerCest
@@ -39,14 +39,14 @@ class CodeSnifferTaskFixerCest
         $process = $I->runSdkCommand([
             static::COMMAND,
             '--path=src/CodeSniffer/success',
-        ]);
+        ], null, ['TELEMETRY_ENABLED' => 'true', 'TELEMETRY_TRANSPORT' => 'file']);
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
 
         $I->assertTelemetryEventReport(
             static::COMMAND,
-            CommandExecutionPayload::getEventName(),
+            CommandExecutionPayload::EVENT_NAME,
             $I->getPathFromProjectRoot('.ssdk/reports/' . FileReportTelemetryEventSender::REPORT_FILENAME),
         );
     }
@@ -61,7 +61,7 @@ class CodeSnifferTaskFixerCest
         // Arrange
         $I->cleanReports();
         $reportFilename = $I->getPathFromProjectRoot('.ssdk/reports/' . FileReportTelemetryEventSender::REPORT_FILENAME);
-        $errorLogFile = $I->getPathFromProjectRoot('.ssdk.log');
+        $errorLogFile = $I->getPathFromProjectRoot('.ssdk/.ssdk.log');
 
         if (is_file($errorLogFile)) {
             unlink($errorLogFile);
@@ -73,7 +73,7 @@ class CodeSnifferTaskFixerCest
         $process = $I->runSdkCommand([
             static::COMMAND,
             '--path=src/CodeSniffer/success',
-        ]);
+        ], null, ['TELEMETRY_ENABLED' => 'true', 'TELEMETRY_TRANSPORT' => 'file']);
 
         // Assert
         Assert::assertTrue($process->isSuccessful());

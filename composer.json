@@ -42,6 +42,7 @@
         "symfony/dotenv": "^5.0",
         "symfony/event-dispatcher": "^5.0",
         "symfony/expression-language": "^5.0",
+        "symfony/filesystem": "^5.0",
         "symfony/flex": "^1.18.0",
         "symfony/framework-bundle": "^5.3",
         "symfony/lock": "^5.4",
@@ -65,7 +66,6 @@
         "sllh/composer-versions-check": "^2.0",
         "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/security-checker": "^0.1.0",
-        "symfony/filesystem": "^5.0",
         "symfony/var-dumper": "^5.0"
     },
     "config": {

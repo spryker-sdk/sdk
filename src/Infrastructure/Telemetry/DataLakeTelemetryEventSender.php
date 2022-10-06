@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
+namespace SprykerSdk\Sdk\Infrastructure\Telemetry;
 
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Client\NetworkExceptionInterface;
@@ -15,6 +15,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class DataLakeTelemetryEventSender implements TelemetryEventSenderInterface
 {
+    /**
+     * @var string
+     */
+    protected const TRANSPORT_NAME = 'data_lake';
+
     /**
      * @var \GuzzleHttp\ClientInterface
      */
@@ -41,32 +46,24 @@ class DataLakeTelemetryEventSender implements TelemetryEventSenderInterface
     protected int $connectionTimeout;
 
     /**
-     * @var bool
-     */
-    protected bool $isDebug;
-
-    /**
      * @param \GuzzleHttp\ClientInterface $httpClient
      * @param \Symfony\Component\Serializer\SerializerInterface $serializer
      * @param string $dataLakeUrl
      * @param int $timeOut
      * @param int $connectionTimeout
-     * @param bool $isDebug
      */
     public function __construct(
         ClientInterface $httpClient,
         SerializerInterface $serializer,
         string $dataLakeUrl,
         int $timeOut,
-        int $connectionTimeout,
-        bool $isDebug = false
+        int $connectionTimeout
     ) {
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
         $this->dataLakeUrl = trim($dataLakeUrl);
         $this->timeOut = $timeOut;
         $this->connectionTimeout = $connectionTimeout;
-        $this->isDebug = $isDebug;
     }
 
     /**
@@ -95,10 +92,10 @@ class DataLakeTelemetryEventSender implements TelemetryEventSenderInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isApplicable(): bool
+    public function getTransportName(): string
     {
-        return !$this->isDebug && $this->dataLakeUrl !== '';
+        return static::TRANSPORT_NAME;
     }
 }

@@ -1,18 +1,18 @@
 Telemetry
 ========================
 
-Telemetry is a feature that helps us to remotely collect user experience data to make our product better.
-To achieve this it creates, collects and sends the business events to remote server for further analyzing.
-If remote server is not accessible the collector stores all the events in the local DB until the remote server be reachable.
-For now is only the task commands execution events are implemented. It collects all the tasks and sends to the data lake remote server.
-
 ## Config
 All the configuration related to telemetry is place in `config/packages/telemetry.yaml`
 ```yaml
 parameters:
   telemetry_enabled: "%env(default:telemetry_enabled_default:bool:TELEMETRY_ENABLED)%"
   telemetry_enabled_default: true
-  telemetry_data_lake_endpoint_url: "%env(string:TELEMETRY_DATA_LAKE_ENDPOINT_URL)%"
+
+  telemetry_transport: "%env(default:telemetry_transport_default:string:TELEMETRY_TRANSPORT)%"
+  telemetry_transport_default: 'file'
+
+  telemetry_server_url: "%env(default:telemetry_server_url_default:string:TELEMETRY_SERVER_URL)%"
+  telemetry_server_url_default: ''
 
   telemetry_synchronizer_batch_size: 200
   telemetry_synchronizer_max_sync_attempts: 3
@@ -33,7 +33,7 @@ To implement the custom events or extend the current ones you must implement tho
 `SprykerSdk\SdkContracts\Entity\Telemetry\TelemetryEventMetadataInterface` - event metadata.
 
 ## Event transport
-To collect and send events to remote storage `SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizerInterface` is used.
+To collect and send events to remote storage `SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizerInterface` is used.
 It uses `SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface` to send events into the remote server.
 To implement the custom sender you must implement this interface and don't forget throw the `SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException` in case the destination server is unreachable.
 

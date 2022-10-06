@@ -1,7 +1,12 @@
 parameters:
   telemetry_enabled: "%env(default:telemetry_enabled_default:bool:TELEMETRY_ENABLED)%"
   telemetry_enabled_default: true
-  telemetry_data_lake_endpoint_url: "%env(string:TELEMETRY_DATA_LAKE_ENDPOINT_URL)%"
+
+  telemetry_transport: "%env(default:telemetry_transport_default:string:TELEMETRY_TRANSPORT)%"
+  telemetry_transport_default: 'file'
+
+  telemetry_server_url: "%env(default:telemetry_server_url_default:string:TELEMETRY_SERVER_URL)%"
+  telemetry_server_url_default: ''
 
   telemetry_synchronizer_batch_size: 200
   telemetry_synchronizer_max_sync_attempts: 3

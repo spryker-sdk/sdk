@@ -5,12 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service\Telemetry;
+namespace SprykerSdk\Sdk\Infrastructure\Telemetry;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException;
 use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -18,6 +20,11 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
 {
+    /**
+     * @var string
+     */
+    protected const TRANSPORT_NAME = 'file';
+
     /**
      * @var string
      */
@@ -39,6 +46,11 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     protected string $reportFileName;
 
     /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * @var string
      */
     protected string $format;
@@ -51,6 +63,7 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Serializer\SerializerInterface $serializer
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      * @param string $reportFileName
      * @param string $format
      * @param bool $isDebug
@@ -58,12 +71,14 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
         SerializerInterface $serializer,
+        Filesystem $filesystem,
         string $reportFileName,
         string $format,
         bool $isDebug = false
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
         $this->serializer = $serializer;
+        $this->filesystem = $filesystem;
         $this->reportFileName = $reportFileName;
         $this->format = $format;
         $this->isDebug = $isDebug;
@@ -84,25 +99,23 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
             return;
         }
 
-        $reportDir = (string)$reportDirSetting->getValues();
+        $reportFileName = sprintf('%s/%s', $reportDirSetting->getValues(), static::REPORT_FILENAME);
 
-        if (!is_dir($reportDir)) {
-            mkdir($reportDir, 0777, true);
-        }
-
-        $reportFileName = sprintf('%s/%s', $reportDir, static::REPORT_FILENAME);
-
-        // phpcs:ignore
-        if (@file_put_contents($reportFileName, $this->serializer->serialize($telemetryEvents, $this->format)) === false) {
-            throw new TelemetryServerUnreachableException(sprintf('Can\'t write the %s file: %s', $reportFileName, error_get_last()['message'] ?? ''));
+        try {
+            $this->filesystem->appendToFile(
+                $reportFileName,
+                $this->serializer->serialize($telemetryEvents, $this->format) . PHP_EOL,
+            );
+        } catch (IOException $e) {
+            throw new TelemetryServerUnreachableException(sprintf('Can\'t write the %s file: %s', $reportFileName, $e->getMessage()));
         }
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isApplicable(): bool
+    public function getTransportName(): string
     {
-        return $this->isDebug;
+        return static::TRANSPORT_NAME;
     }
 }

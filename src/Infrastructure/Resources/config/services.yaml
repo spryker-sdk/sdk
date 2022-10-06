@@ -21,6 +21,7 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactory
     arguments:
       - "@project_setting_repository"
+      - "%project_log_file%"
   error_logger:
     class: Psr\Log\LoggerInterface
     factory: ["@error_logger_factory", "createLogger"]
@@ -355,33 +356,37 @@ services:
       - "@context_factory"
 
   telemetry.data_lake_sender:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\DataLakeTelemetryEventSender
+    class: SprykerSdk\Sdk\Infrastructure\Telemetry\DataLakeTelemetryEventSender
     arguments:
       - "@guzzle.http_client"
       - "@telemetry.serializer"
-      - "%telemetry_data_lake_endpoint_url%"
+      - "%telemetry_server_url%"
       - "%telemetry_sender_data_lake_timeout_sec%"
       - "%telemetry_sender_data_lake_connection_timeout_sec%"
-      - "%kernel.debug%"
     tags:
       - { name: telemetry.data_sender }
 
   telemetry.report_sender:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\FileReportTelemetryEventSender
+    class: SprykerSdk\Sdk\Infrastructure\Telemetry\FileReportTelemetryEventSender
     arguments:
       - "@project_setting_repository"
       - "@telemetry.serializer"
+      - "@filesystem"
       - "%telemetry_sender_file_report_file_name%"
       - "%telemetry_sender_file_report_format%"
       - "%kernel.debug%"
     tags:
       - { name: telemetry.data_sender }
 
+  telemetry.null_sender:
+      class: SprykerSdk\Sdk\Infrastructure\Telemetry\NullTelemetryEventSender
+      tags:
+          - { name: telemetry.data_sender }
+
   telemetry.data_sender_factory:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Telemetry\TelemetryEventSenderFactory
+    class: SprykerSdk\Sdk\Infrastructure\Telemetry\TelemetryEventSenderFactory
     arguments:
-      - "%kernel.debug%"
-      - "%telemetry_data_lake_endpoint_url%"
+      - "%telemetry_transport%"
       - "%telemetry_enabled%"
       - !tagged_iterator telemetry.data_sender
 

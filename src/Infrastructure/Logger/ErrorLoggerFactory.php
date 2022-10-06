@@ -30,11 +30,18 @@ class ErrorLoggerFactory
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @var string
      */
-    public function __construct(ProjectSettingRepositoryInterface $projectSettingRepository)
+    protected string $projectLogFile;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param string $projectLogFile
+     */
+    public function __construct(ProjectSettingRepositoryInterface $projectSettingRepository, string $projectLogFile)
     {
         $this->projectSettingRepository = $projectSettingRepository;
+        $this->projectLogFile = $projectLogFile;
     }
 
     /**
@@ -63,7 +70,7 @@ class ErrorLoggerFactory
             return new NullHandler();
         }
 
-        $handler = new StreamHandler($projectDirSetting->getValues() . '/.ssdk.log');
+        $handler = new StreamHandler($projectDirSetting->getValues() . DIRECTORY_SEPARATOR . $this->projectLogFile);
         $handler->setFormatter(new JsonFormatter());
 
         return $handler;

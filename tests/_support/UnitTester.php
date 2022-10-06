@@ -339,7 +339,7 @@ class UnitTester extends Actor
             /**
              * @return string
              */
-            public static function getEventName(): string
+            public function getEventName(): string
             {
                 return 'test_event';
             }
@@ -347,7 +347,7 @@ class UnitTester extends Actor
             /**
              * @return string
              */
-            public static function getEventScope(): string
+            public function getEventScope(): string
             {
                 return 'SDK';
             }
@@ -355,7 +355,7 @@ class UnitTester extends Actor
             /**
              * @return int
              */
-            public static function getEventVersion(): int
+            public function getEventVersion(): int
             {
                 return 1;
             }

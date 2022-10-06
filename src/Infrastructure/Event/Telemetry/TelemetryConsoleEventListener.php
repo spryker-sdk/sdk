@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Event\Telemetry;
 
 use Psr\Log\LoggerInterface;
-use SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventMetadataFactoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizerInterface;
+use SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
@@ -20,12 +20,12 @@ use Throwable;
 class TelemetryConsoleEventListener
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizerInterface
      */
     protected TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventMetadataFactoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactoryInterface
      */
     protected TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory;
 
@@ -45,8 +45,8 @@ class TelemetryConsoleEventListener
     protected LoggerInterface $logger;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer
-     * @param \SprykerSdk\Sdk\Core\Application\Service\Telemetry\TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer
+     * @param \SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
      * @param \SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidatorInterface $telemetryConsoleEventValidator
      * @param \Psr\Log\LoggerInterface $logger
      * @param bool $isTelemetryEnabled
