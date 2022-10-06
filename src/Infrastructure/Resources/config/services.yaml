@@ -235,10 +235,10 @@ services:
     arguments:
       - "@service.task_manager"
   output_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\OutputViolationReportFormatter
+    class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter
     tags: ["sdk.violation_formatter", "sdk.cli_receiver_setup"]
   yaml_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\Formatter\YamlViolationReportFormatter
+    class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\YamlViolationReportFormatter
     tags: ["sdk.violation_formatter"]
     arguments:
       - "@violation_report_mapper"
@@ -255,11 +255,11 @@ services:
   violation_report_mapper:
     class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
   violation_path_reader:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\ViolationPathReader
+    class: SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader
     arguments:
       - "@project_setting_repository"
   report_formatter_factory:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\Violation\ReportFormatterFactory
+    class: SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory
     arguments:
       - "@context_factory"
       - !tagged_iterator sdk.violation_formatter

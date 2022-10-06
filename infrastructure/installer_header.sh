@@ -26,7 +26,7 @@ ${DESTINATION}/bin/spryker-sdk.sh sdk:update:all
 
 if [[ -e ~/.zshrc ]]
 then
-    echo "alias spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.zshrc  && source ~/.zshrc
+    echo "alias spryker-sdk=\"${DESTINATION}/bin/spryker-sdk.sh\"" >> ~/.zshrc && zsh && source ~/.zshrc
     echo 'Created alias in ~/.zshrc';
 elif [[ -e ~/.bashrc ]]
 then
