@@ -51,6 +51,6 @@ RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer
 
 ENV APP_ENV=prod
 
-RUN bin/console cache:warmup
+RUN bin/console cache:clear --no-debug
 
 ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]
