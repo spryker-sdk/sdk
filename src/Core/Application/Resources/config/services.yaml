@@ -151,19 +151,8 @@ services:
     arguments:
       - !tagged_iterator report.generator_resolver
 
-  manifest_validator_factory:
-    class: SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry
-    arguments:
-      - !tagged_iterator manifest.validator
-
   config_processor:
     class: Symfony\Component\Config\Definition\Processor
-
-  manifest_validation:
-    class: SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidator
-    arguments:
-      - '@manifest_validator_factory'
-      - '@config_processor'
 
   violation_report_array_converter:
     class: SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter

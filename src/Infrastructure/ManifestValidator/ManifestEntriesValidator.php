@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
+namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;

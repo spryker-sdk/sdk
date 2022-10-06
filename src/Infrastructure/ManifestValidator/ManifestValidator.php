@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service\ManifestValidator;
+namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use Symfony\Component\Config\Definition\Processor;
@@ -13,7 +13,7 @@ use Symfony\Component\Config\Definition\Processor;
 class ManifestValidator implements ManifestValidatorInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry
+     * @var \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry
      */
     public ManifestValidatorRegistry $manifestValidatorFactory;
 
@@ -23,7 +23,7 @@ class ManifestValidator implements ManifestValidatorInterface
     public Processor $processor;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry $manifestValidatorFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry $manifestValidatorFactory
      * @param \Symfony\Component\Config\Definition\Processor $processor
      */
     public function __construct(ManifestValidatorRegistry $manifestValidatorFactory, Processor $processor)
@@ -40,7 +40,7 @@ class ManifestValidator implements ManifestValidatorInterface
      */
     public function validate(string $type, array $configs): array
     {
-        $manifestValidator = $this->manifestValidatorFactory->resolve($type);
+        $manifestValidator = $this->manifestValidatorFactory->getValidator($type);
 
         foreach ($configs as $key => $config) {
             $configs[$key] = $this->processor->process(

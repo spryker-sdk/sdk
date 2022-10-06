@@ -5,26 +5,24 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\ManifestValidator;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidator;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry;
+use SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidator;
+use SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\Processor;
 
 /**
- * @group Sdk
- * @group Core
- * @group Application
- * @group Service
- * @group ManifestValidation
+ * @group Unit
+ * @group Infrastructure
+ * @group ManifestValidator
  * @group ManifestValidatorTest
  */
-class ManifestNormalizerTest extends Unit
+class ManifestValidatorTest extends Unit
 {
     /**
      * @return void
@@ -45,7 +43,7 @@ class ManifestNormalizerTest extends Unit
             ->willReturn($treeBuilder);
         $manifestValidatorFactory = $this->createMock(ManifestValidatorRegistry::class);
         $manifestValidatorFactory->expects($this->once())
-            ->method('resolve')
+            ->method('getValidator')
             ->with($entity)
             ->willReturn($manifestValidator);
         $processor = $this->createMock(Processor::class);
@@ -66,7 +64,7 @@ class ManifestNormalizerTest extends Unit
     /**
      * @return void
      */
-    public function testCanNotResolve(): void
+    public function testGetValidatorMissing(): void
     {
         // Arrange
         $manifestValidator = $this->createMock(ManifestConfigurationInterface::class);
@@ -80,6 +78,6 @@ class ManifestNormalizerTest extends Unit
         $this->expectException(ManifestValidatorMissingException::class);
 
         // Act
-        $result = $manifestValidatorFactory->resolve('none');
+        $result = $manifestValidatorFactory->getValidator('none');
     }
 }

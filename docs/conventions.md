@@ -17,7 +17,7 @@ The Spryker SDK defines the following conventions.
 
 ## Task Set
 
-- __MUST__ have a `type` with `task-_et` value
+- __MUST__ have a `type` with `task_set` value
 
 - __MUST__ have a `tasks` with the list of the required sub-tasks
 

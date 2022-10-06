@@ -390,17 +390,28 @@ services:
 
   # Validators
   validation_helper:
-    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator
     arguments:
       - '@value_resolver_registry'
       - '@converter_registry'
       - '@task_yaml_repository'
       - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
   task_manifest_validator:
-    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfiguration
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration
     arguments:
       - '@validation_helper'
   task_set_manifest_validator:
-    class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration
     arguments:
       - '@validation_helper'
+
+  manifest_validator_factory:
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry
+    arguments:
+        - !tagged_iterator manifest.validator
+
+  manifest_validation:
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidator
+    arguments:
+      - '@manifest_validator_factory'
+      - '@config_processor'

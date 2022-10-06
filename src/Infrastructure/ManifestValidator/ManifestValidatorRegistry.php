@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service\ManifestValidator;
+namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
@@ -32,7 +32,7 @@ class ManifestValidatorRegistry
      *
      * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface
      */
-    public function resolve(string $entity): ManifestConfigurationInterface
+    public function getValidator(string $entity): ManifestConfigurationInterface
     {
         foreach ($this->manifestValidators as $manifestValidator) {
             if ($manifestValidator->getName() === $entity) {

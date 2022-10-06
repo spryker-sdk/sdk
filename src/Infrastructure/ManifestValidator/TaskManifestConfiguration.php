@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
+namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
@@ -21,12 +21,12 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
     public const NAME = 'task';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
+     * @var \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator
      */
     protected ManifestEntriesValidator $validationHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator $validationHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator $validationHelper
      */
     public function __construct(ManifestEntriesValidator $validationHelper)
     {
@@ -179,37 +179,45 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->arrayPrototype()
                     ->children(),
         );
-        $lifecycle = $node
+        $this->addLifecycleDefinition($node
             ->children()
                 ->arrayNode('lifecycle')
-                   ->children();
+                   ->children());
 
+        return $tree;
+    }
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $lifecycle
+     *
+     * @return void
+     */
+    protected function addLifecycleDefinition(NodeBuilder $lifecycle): void
+    {
         foreach ([Lifecycle::EVENT_INITIALIZED, Lifecycle::EVENT_UPDATED, Lifecycle::EVENT_REMOVED] as $type) {
             $event = $lifecycle->arrayNode($type);
             $event->children()
-                ->arrayNode('files')
-                ->arrayPrototype()
-                ->children()
-                ->scalarNode('path')
-                ->end()
-                ->scalarNode('content')
-                ->end();
+                    ->arrayNode('files')
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('path')->end()
+                            ->scalarNode('content')->end();
 
             $this->addPlaceholderDefinition(
                 $event->children()
-                    ->arrayNode('placeholders')
-                    ->arrayPrototype()
-                    ->children(),
+                        ->arrayNode('placeholders')
+                            ->arrayPrototype()
+                                ->children(),
             );
             $event->children()
                 ->arrayNode('commands')
-                ->arrayPrototype()
-                ->children()
-                ->scalarNode('command')
-                    ->isRequired()
-                    ->validate()
-                        ->ifEmpty()
-                        ->thenInvalid('Task command is require.')
+                    ->arrayPrototype()
+                    ->children()
+                    ->scalarNode('command')
+                        ->isRequired()
+                        ->validate()
+                            ->ifEmpty()
+                            ->thenInvalid('Task command is require.')
                     ->end()
                 ->end()
                 ->scalarNode('type')
@@ -225,8 +233,6 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                     ->end()
                 ->end();
         }
-
-        return $tree;
     }
 
     /**

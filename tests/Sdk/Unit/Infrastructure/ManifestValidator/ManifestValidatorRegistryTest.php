@@ -5,27 +5,25 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Core\Application\Service\ManifestValidation;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\ManifestValidator;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
-use SprykerSdk\Sdk\Core\Application\Service\ManifestValidator\ManifestValidatorRegistry;
+use SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry;
 
 /**
- * @group Sdk
- * @group Core
- * @group Application
- * @group Service
- * @group ManifestValidation
- * @group ManifestValidatorFactoryTest
+ * @group Unit
+ * @group Infrastructure
+ * @group ManifestValidator
+ * @group ManifestValidatorRegistryTest
  */
-class ManifestNormalizerRegistryTest extends Unit
+class ManifestValidatorRegistryTest extends Unit
 {
     /**
      * @return void
      */
-    public function testResolve(): void
+    public function testGetValidator(): void
     {
         // Arrange
         $manifestValidator = $this->createMock(ManifestConfigurationInterface::class);
@@ -36,7 +34,7 @@ class ManifestNormalizerRegistryTest extends Unit
         $manifestValidatorFactory = new ManifestValidatorRegistry([$manifestValidator]);
 
         // Act
-        $result = $manifestValidatorFactory->resolve('task');
+        $result = $manifestValidatorFactory->getValidator('task');
 
         // Assert
         $this->assertSame($manifestValidator, $result);
@@ -45,7 +43,7 @@ class ManifestNormalizerRegistryTest extends Unit
     /**
      * @return void
      */
-    public function testCanNotResolve(): void
+    public function testGetValidatorWithException(): void
     {
         // Arrange
         $manifestValidator = $this->createMock(ManifestConfigurationInterface::class);
@@ -59,6 +57,6 @@ class ManifestNormalizerRegistryTest extends Unit
         $this->expectException(ManifestValidatorMissingException::class);
 
         // Act
-        $result = $manifestValidatorFactory->resolve('none');
+        $result = $manifestValidatorFactory->getValidator('none');
     }
 }
