@@ -37,21 +37,21 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
     /**
      * @var \Symfony\Component\Workflow\Registry
      */
-    protected Registry $workflows;
+    protected Registry $workflowRegistry;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
-     * @param \Symfony\Component\Workflow\Registry $workflows
+     * @param \Symfony\Component\Workflow\Registry $workflowRegistry
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
         WorkflowRepositoryInterface $workflowRepository,
-        Registry $workflows
+        Registry $workflowRegistry
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
         $this->workflowRepository = $workflowRepository;
-        $this->workflows = $workflows;
+        $this->workflowRegistry = $workflowRegistry;
     }
 
     /**
@@ -96,7 +96,7 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
     {
         return array_map(
             fn (WorkflowComponent $workflow): string => $workflow->getName(),
-            $this->workflows->all(new WorkflowEntity('', [], '')),
+            $this->workflowRegistry->all(new WorkflowEntity('', [], '')),
         );
     }
 
