@@ -152,6 +152,9 @@ services:
     arguments:
       - !tagged_iterator report.generator_resolver
 
+  config_processor:
+    class: Symfony\Component\Config\Definition\Processor
+
   violation_report_array_converter:
     class: SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConverter
     tags: ["report.array_converter"]
