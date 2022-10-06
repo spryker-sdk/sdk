@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -60,6 +61,7 @@ class TaskYamlRepositoryTest extends Unit
             new Finder(),
             new Yaml(),
             $this->createTaskFromYamlTaskSetBuilderMock(),
+            $this->createManifestValidationBuilderMock(),
             [new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))],
         );
     }
@@ -107,6 +109,59 @@ class TaskYamlRepositoryTest extends Unit
 
         // Assert
         $this->assertCount(4, $result);
+    }
+
+    /**
+     * @return void
+     */
+    public function testIsTaskIdExist(): void
+    {
+        // Arrange
+        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
+
+        $setting = $this->tester->createInfrastructureSetting(
+            'extension_dirs',
+            [$pathToTasks],
+        );
+
+        $this->settingRepository
+            ->expects($this->once())
+            ->method('findOneByPath')
+            ->with('extension_dirs')
+            ->willReturn($setting);
+
+        // Act
+        $result = $this->taskYamlRepository->isTaskIdExist('hello:world');
+
+        // Assert
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetTaskPlaceholders(): void
+    {
+        // Arrange
+        $pathToTasks = realpath(__DIR__ . '/../../../../_support/data/');
+
+        $setting = $this->tester->createInfrastructureSetting(
+            'extension_dirs',
+            [$pathToTasks],
+        );
+
+        $this->settingRepository
+            ->expects($this->once())
+            ->method('findOneByPath')
+            ->with('extension_dirs')
+            ->willReturn($setting);
+
+        // Act
+        $result = $this->taskYamlRepository->getTaskPlaceholders(['hello:world']);
+
+        // Assert
+        $this->assertNotEmpty($result);
+        $this->assertCount(2, $result['hello:world']);
     }
 
     /**
@@ -170,5 +225,18 @@ class TaskYamlRepositoryTest extends Unit
     public function createTaskFromYamlTaskSetBuilderMock(): TaskFromYamlTaskSetBuilderInterface
     {
         return $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface
+     */
+    public function createManifestValidationBuilderMock(): ManifestValidatorInterface
+    {
+        $manifestValidation = $this->createMock(ManifestValidatorInterface::class);
+        $manifestValidation
+            ->method('validate')
+            ->will($this->returnArgument(1));
+
+        return $manifestValidation;
     }
 }

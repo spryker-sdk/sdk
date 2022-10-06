@@ -1,9 +1,9 @@
 ---
-id: "pbc:validate"
+id: "pbc:validate:run"
 short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 stage: build
-version: 0.2.0
+version: 0.3.0
 command: ~
 type: task_set
 tasks:

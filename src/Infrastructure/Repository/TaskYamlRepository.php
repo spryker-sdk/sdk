@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
@@ -21,6 +22,9 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException;
+use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration;
+use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
@@ -35,6 +39,16 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      * @var string
      */
     protected const TASK_SET_TYPE = 'task_set';
+
+    /**
+     * @var array<string, array>
+     */
+    protected $taskListData = [];
+
+    /**
+     * @var array<string, array>
+     */
+    protected $taskSetsData = [];
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
@@ -62,10 +76,16 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     protected array $existingTasks = [];
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface
+     */
+    protected ManifestValidatorInterface $manifestValidation;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \Symfony\Component\Finder\Finder $fileFinder
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface $manifestValidation
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
@@ -73,12 +93,14 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         Finder $fileFinder,
         Yaml $yamlParser,
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
+        ManifestValidatorInterface $manifestValidation,
         iterable $existingTasks = []
     ) {
         $this->yamlParser = $yamlParser;
         $this->fileFinder = $fileFinder;
         $this->settingRepository = $settingRepository;
         $this->taskFromYamlTaskSetBuilder = $taskFromYamlTaskSetBuilder;
+        $this->manifestValidation = $manifestValidation;
         foreach ($existingTasks as $existingTask) {
             $this->existingTasks[$existingTask->getId()] = $existingTask;
         }
@@ -87,50 +109,96 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     /**
      * @param array $tags
      *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
-     *
      * @return array
      */
     public function findAll(array $tags = []): array
     {
-        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
-
-        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
-            throw new MissingSettingException('extension_dirs are not configured properly');
+        if (!$this->taskListData || !$this->taskSetsData) {
+            $this->readTaskYaml();
         }
+
+        $this->taskListData = $this->manifestValidation->validate(TaskManifestConfiguration::NAME, $this->taskListData);
+        $this->taskSetsData = $this->manifestValidation->validate(TaskSetManifestConfiguration::NAME, $this->taskSetsData);
 
         $tasks = [];
-        $taskListData = [];
-        $taskSetsData = [];
-
-        $finder = $this->fileFinder
-            ->in($this->findExistedDirectories($taskDirSetting->getValues()))
-            ->name('*.yaml');
-
-        //read task from path, parse and create Task, later use DB for querying
-        foreach ($finder->files() as $taskFile) {
-            $taskData = $this->yamlParser->parse($taskFile->getContents());
-
-            if ($taskData['type'] === static::TASK_SET_TYPE) {
-                $taskSetsData[$taskData['id']] = $taskData;
-            } else {
-                $taskListData[$taskData['id']] = $taskData;
-            }
-        }
-
-        foreach ($taskListData as $taskData) {
-            $task = $this->buildTask($taskData, $taskListData, $tags);
+        foreach ($this->taskListData as $taskData) {
+            $task = $this->buildTask($taskData, $this->taskListData, $tags);
             $tasks[$task->getId()] = $task;
         }
 
         $existingTasks = array_merge($this->existingTasks, $tasks);
 
-        foreach ($taskSetsData as $taskData) {
-            $task = $this->buildTaskSet($taskData, $taskListData, $existingTasks, $tags);
+        foreach ($this->taskSetsData as $taskData) {
+            $task = $this->buildTaskSet($taskData, $this->taskListData, $existingTasks, $tags);
             $tasks[$task->getId()] = $task;
         }
 
         return array_merge($tasks, $this->existingTasks);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param string $taskId
+     * @param bool $includeTaskSet
+     *
+     * @return bool
+     */
+    public function isTaskIdExist(string $taskId, bool $includeTaskSet = true): bool
+    {
+        $this->readTaskYaml();
+
+        return isset($this->taskListData[$taskId]) ||
+            isset($this->existingTasks[$taskId]) ||
+            (isset($this->taskSetsData[$taskId]) && $includeTaskSet);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array<string> $taskIds
+     * @param bool $includeTaskSet
+     *
+     * @return array<string, array<string>>
+     */
+    public function getTaskPlaceholders(array $taskIds, bool $includeTaskSet = false): array
+    {
+        $this->readTaskYaml();
+        $taskPlaceholders = [];
+        foreach ($taskIds as $taskId) {
+            if (isset($this->taskListData[$taskId])) {
+                $taskPlaceholders[$taskId] = array_map(
+                    static function (array $placeholder) {
+                        return $placeholder['name'];
+                    },
+                    $this->taskListData[$taskId]['placeholders'],
+                );
+
+                continue;
+            }
+
+            if (isset($this->existingTasks[$taskId])) {
+                $taskPlaceholders[$taskId] = array_map(
+                    static function (PlaceholderInterface $placeholder) {
+                        return $placeholder->getName();
+                    },
+                    $this->existingTasks[$taskId]->getPlaceholders(),
+                );
+
+                continue;
+            }
+
+            if ($includeTaskSet && isset($this->taskSetsData[$taskId])) {
+                $taskPlaceholders[$taskId] = array_map(
+                    static function (array $placeholder) {
+                        return $placeholder['name'];
+                    },
+                    $this->taskSetsData[$taskId]['placeholders'],
+                );
+            }
+        }
+
+        return $taskPlaceholders;
     }
 
     /**
@@ -148,6 +216,44 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         }
 
         return null;
+    }
+
+    /**
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
+     *
+     * @return void
+     */
+    protected function readTaskYaml(): void
+    {
+        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
+
+        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
+            throw new MissingSettingException('extension_dirs are not configured properly');
+        }
+
+        $finder = $this->fileFinder
+            ->in($this->findExistedDirectories($taskDirSetting->getValues()))
+            ->name('*.yaml');
+
+        //read task from path, parse and create Task, later use DB for querying
+        foreach ($finder->files() as $taskFile) {
+            $taskData = $this->yamlParser->parse($taskFile->getContents());
+
+            if (!isset($taskData['id'])) {
+                throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `id` doesn\'t exist.": ', $taskFile->getFilename()));
+            }
+
+            if (!isset($taskData['type'])) {
+                throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `type` doesn\'t exist.": ', $taskFile->getFilename()));
+            }
+
+            if ($taskData['type'] === static::TASK_SET_TYPE) {
+                $this->taskSetsData[(string)$taskData['id']] = $taskData;
+            } else {
+                $this->taskListData[(string)$taskData['id']] = $taskData;
+            }
+        }
     }
 
     /**
