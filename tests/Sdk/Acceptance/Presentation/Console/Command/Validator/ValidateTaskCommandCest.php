@@ -29,7 +29,7 @@ class ValidateTaskCommandCest
     /**
      * @var string
      */
-    protected const PROJECT_DIR = 'upgrader_success_project';
+    protected const PROJECT_DIR = 'project';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
