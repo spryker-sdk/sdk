@@ -5,12 +5,18 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Mapper;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Mapper;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TelemetryEventMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * @group Sdk
+ * @group Infrastructure
+ * @group Mapper
+ * @group TelemetryEventMapperTest
+ */
 class TelemetryEventMapperTest extends Unit
 {
     /**

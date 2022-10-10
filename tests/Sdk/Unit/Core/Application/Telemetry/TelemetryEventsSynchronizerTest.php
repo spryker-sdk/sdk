@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Application\Telemetry;
+namespace SprykerSdk\Sdk\Unit\Core\Application\Telemetry;
 
 use Codeception\Test\Unit;
 use Exception;

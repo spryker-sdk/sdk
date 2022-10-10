@@ -5,12 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Domain\Entity\TelemetryEvent;
+namespace SprykerSdk\Sdk\Unit\Core\Domain\Entity\TelemetryEvent;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * @group Sdk
+ * @group Core
+ * @group Domain
+ * @group Entity
+ * @group TelemetryEvent
+ * @group TelemetryEventTest
+ */
 class TelemetryEventTest extends Unit
 {
     /**
