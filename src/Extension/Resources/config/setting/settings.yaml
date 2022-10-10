@@ -7,7 +7,7 @@ settings:
     type: string
     values: ~
   - path: developer_github_account
-    initialization_description: What is your github account if you have the one?
+    initialization_description: What is your github account?
     strategy: overwrite
     init: true
     setting_type: sdk
