@@ -11,19 +11,10 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 
 class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInterface
 {
-    /**
-     * @var string
-     */
-    protected const DEVELOPER_EMAIL_KEY = 'developer_email';
-
-    /**
-     * @var string
-     */
-    protected const DEVELOPER_GITHUB_ACCOUNT_KEY = 'developer_github_account';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface
      */
@@ -49,8 +40,8 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
      */
     public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface
     {
-        $developerEmail = $this->findSettingByKey(static::DEVELOPER_EMAIL_KEY);
-        $developerGithubAccount = $this->findSettingByKey(static::DEVELOPER_GITHUB_ACCOUNT_KEY);
+        $developerEmail = $this->findSettingByKey(Setting::PATH_DEVELOPER_EMAIL);
+        $developerGithubAccount = $this->findSettingByKey(Setting::PATH_DEVELOPER_GITHUB_ACCOUNT);
 
         $projectInfo = $this->projectInfoFetcher->fetchProjectInfo();
         $projectName = $projectInfo !== null ? $projectInfo->getName() : null;

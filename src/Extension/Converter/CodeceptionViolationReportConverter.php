@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
@@ -46,7 +47,7 @@ class CodeceptionViolationReportConverter extends AbstractViolationConverter
      */
     public function convert(): ?ViolationReportInterface
     {
-        $projectDirectory = $this->settingRepository->findOneByPath('project_dir');
+        $projectDirectory = $this->settingRepository->findOneByPath(Setting::PATH_PROJECT_DIR);
 
         if (!$projectDirectory) {
             return null;

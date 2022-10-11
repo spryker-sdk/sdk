@@ -12,6 +12,7 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 abstract class ReportConverterTest extends Unit
@@ -98,8 +99,8 @@ abstract class ReportConverterTest extends Unit
         $settingRepositoryMock
             ->method('findOneByPath')
             ->willReturnMap([
-                    ['project_dir', $projectDirectory],
-                    ['report_dir', $reportDirectory],
+                    [Setting::PATH_PROJECT_DIR, $projectDirectory],
+                    [Setting::PATH_REPORT_DIR, $reportDirectory],
                 ]);
 
         return $settingRepositoryMock;

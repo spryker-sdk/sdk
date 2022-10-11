@@ -22,6 +22,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException;
 use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration;
 use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration;
@@ -226,7 +227,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function readTaskYaml(): void
     {
-        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
+        $taskDirSetting = $this->settingRepository->findOneByPath(Setting::PATH_EXTENSION_DIRS);
 
         if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
             throw new MissingSettingException('extension_dirs are not configured properly');

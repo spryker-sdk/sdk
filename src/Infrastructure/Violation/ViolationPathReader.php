@@ -9,14 +9,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Violation;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 
 class ViolationPathReader
 {
-    /**
-     * @var string
-     */
-    protected const REPORT_DIR_SETTING_NAME = 'report_dir';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
@@ -48,10 +44,10 @@ class ViolationPathReader
      */
     public function getViolationReportDirPath(): string
     {
-        $reportDirSetting = $this->projectSettingRepository->findOneByPath(static::REPORT_DIR_SETTING_NAME);
+        $reportDirSetting = $this->projectSettingRepository->findOneByPath(Setting::PATH_REPORT_DIR);
 
         if (!$reportDirSetting) {
-            throw new MissingSettingException(sprintf('Some of setting definition for %s not found', static::REPORT_DIR_SETTING_NAME));
+            throw new MissingSettingException(sprintf('Some of setting definition for %s not found', Setting::PATH_REPORT_DIR));
         }
 
         return $reportDirSetting->getValues();
