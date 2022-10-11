@@ -67,6 +67,7 @@ final class Setting
 
     /**
      * Path setting key for report project namespaces.
+     *
      * @var string
      */
     public const PATH_PROJECT_NAMESPACES = 'projectNamespaces';
