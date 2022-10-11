@@ -33,6 +33,12 @@ Helpful commands to use during development are
 ### Reset project
 `cd <project> && rm -f .ssdk && rm -f .ssdk.log && spryker-sdk sdk:init:project`
 
+### Environments
+There are three environments in SDK project. You can configure environment variables in files:
+ - .env - for dev
+ - .env.prod - for prod
+ - .env.test - for test
+
 ## Troubleshooting
 
 ### Problems with docker container

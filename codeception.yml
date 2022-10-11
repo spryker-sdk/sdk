@@ -19,6 +19,7 @@ suites:
                 - Asserts
                 - Cli
                 - Filesystem
+                - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\TelemetryEventHelper
         step_decorators: ~
 settings:
     shuffle: true

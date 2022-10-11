@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
-use Doctrine\DBAL\Exception\TableNotFoundException;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
 use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
@@ -54,7 +54,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
         $this->dynamicTaskSetCreator = $dynamicTaskSetCreator;
         try {
             $taskOptions = $this->dynamicTaskSetCreator->getTaskOptions(Setting::PATH_QA_TASKS);
-        } catch (TableNotFoundException $e) {
+        } catch (SettingsNotInitializedException $e) {
             $this->setHidden(true);
             $taskOptions = [];
         }

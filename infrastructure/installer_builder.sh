@@ -20,15 +20,14 @@ cp "${CURRENT_DIR}/bin/spryker-sdk.sh" "${TMP_DIR}/bin/"
 cp "${CURRENT_DIR}/docker-compose."* "${TMP_DIR}/"
 cp "${CURRENT_DIR}/config/packages/workflow.yaml" "${TMP_DIR}/config/packages/workflow.yaml"
 cp -R "${CURRENT_DIR}/extension" "${TMP_DIR}/"
-cp "${CURRENT_DIR}/.env.prod" "${TMP_DIR}/.env.prod"
 cp "${CURRENT_DIR}/.gitmodules" "${TMP_DIR}/.gitmodules"
 cp -R "${CURRENT_DIR}/infrastructure" "${TMP_DIR}/"
 
 echo "${VERSION}" > "${TMP_DIR}/VERSION"
 
 cd "${TMP_DIR}"
-tar cJf spryker-sdk.tar.gz .gitmodules .env.prod bin/ var/ extension/ config/packages/workflow.yaml db/ \
-    infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile infrastructure/sdk.debug.Dockerfile \
+tar cJf spryker-sdk.tar.gz .gitmodules bin/ var/ extension/ config/packages/workflow.yaml db/ \
+    infrastructure/.env infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile infrastructure/sdk.debug.Dockerfile \
     infrastructure/debug/php/69-xdebug.ini VERSION docker-compose.yml docker-compose.debug.yml docker-compose.dev.yml
 cd "$CURRENT_DIR"
 

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
+use DateTimeImmutable as DateTimeImmutableDateTimeImmutable;
 use Monolog\DateTimeImmutable;
 use Monolog\Logger;
 use RecursiveDirectoryIterator;
@@ -18,12 +19,16 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent as DomainTelemetryEvent;
+use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command as InfrastructureCommand;
 use SprykerSdk\Sdk\Infrastructure\Entity\File as InfrastructureFile;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\Placeholder as InfrastructurePlaceholder;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task as InfrastructureTask;
+use SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent as InfrastructureTelemetryEvent;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Command as IdeCommand;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Option;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Dto\Param;
@@ -296,5 +301,97 @@ class UnitTester extends Actor
         }
 
         rmdir($path);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Entity\TelemetryEvent
+     */
+    public function createInfrastructureTelemetryEvent(): InfrastructureTelemetryEvent
+    {
+        $telemetryEvent = new InfrastructureTelemetryEvent($this->createTelemetryEventPayload(), $this->createTelemetryEventMetadata());
+        $telemetryEvent->setId(1);
+        $telemetryEvent->setSynchronizationAttemptsCount(1);
+        $telemetryEvent->setLastSynchronisationTimestamp((int)(new DateTimeImmutableDateTimeImmutable())->format('Uu'));
+
+        return $telemetryEvent;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent
+     */
+    public function createDomainTelemetryEvent(): DomainTelemetryEvent
+    {
+        $telemetryEvent = new DomainTelemetryEvent($this->createTelemetryEventPayload(), $this->createTelemetryEventMetadata());
+        $telemetryEvent->setId(2);
+        $telemetryEvent->setSynchronizationAttemptsCount(2);
+        $telemetryEvent->setLastSynchronisationTimestamp((int)(new DateTimeImmutableDateTimeImmutable())->format('Uu'));
+
+        return $telemetryEvent;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface
+     */
+    public function createTelemetryEventPayload(): TelemetryEventPayloadInterface
+    {
+        return new class () implements TelemetryEventPayloadInterface
+        {
+            /**
+             * @return string
+             */
+            public function getEventName(): string
+            {
+                return 'test_event';
+            }
+
+            /**
+             * @return string
+             */
+            public function getEventScope(): string
+            {
+                return 'SDK';
+            }
+
+            /**
+             * @return int
+             */
+            public function getEventVersion(): int
+            {
+                return 1;
+            }
+        };
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface
+     */
+    public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface
+    {
+        return new class () implements TelemetryEventMetadataInterface
+        {
+            /**
+             * @return string|null
+             */
+            public function getDeveloperEmail(): ?string
+            {
+                return 'test-dev@example.com';
+            }
+
+            /**
+             * @return string|null
+             */
+            public function getDeveloperGithubAccount(): ?string
+            {
+                return bin2hex(random_bytes(6));
+            }
+
+            /**
+             * @return string|null
+             */
+            public function getProjectName(): ?string
+            {
+                return 'spryker/test';
+            }
+        };
     }
 }

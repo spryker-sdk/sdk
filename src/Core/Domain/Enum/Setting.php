@@ -84,4 +84,14 @@ final class Setting
      * @var string
      */
     public const PATH_QA_TASKS = 'qa_tasks';
+
+    /**
+     * @var string
+     */
+    public const PATH_DEVELOPER_EMAIL = 'developer_email';
+
+    /**
+     * @var string
+     */
+    public const PATH_DEVELOPER_GITHUB_ACCOUNT = 'developer_github_account';
 }

@@ -1,4 +1,18 @@
 settings:
+  - path: developer_email
+    initialization_description: What is your email?
+    strategy: overwrite
+    init: true
+    setting_type: sdk
+    type: string
+    values: ~
+  - path: developer_github_account
+    initialization_description: What is your github account?
+    strategy: overwrite
+    init: true
+    setting_type: sdk
+    type: string
+    values: ~
   - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_EXTENSION_DIRS
     initialization_description: Where can extensions be loaded from?
     strategy: merge

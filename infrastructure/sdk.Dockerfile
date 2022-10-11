@@ -43,8 +43,7 @@ COPY --chown=spryker:spryker extension ${srcRoot}/extension
 COPY --chown=spryker:spryker config ${srcRoot}/config
 COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
-COPY --chown=spryker:spryker .env.dist ${srcRoot}/.env
-COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
+COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env
 
 RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
   composer dump-autoload -o
