@@ -42,11 +42,13 @@
         "symfony/dotenv": "^5.0",
         "symfony/event-dispatcher": "^5.0",
         "symfony/expression-language": "^5.0",
+        "symfony/filesystem": "^5.0",
         "symfony/flex": "^1.18.0",
         "symfony/framework-bundle": "^5.3",
         "symfony/monolog-bundle": "^3.8",
         "symfony/process": "^5.0",
         "symfony/runtime": "^5.0",
+        "symfony/twig-bundle": "^5.0",
         "symfony/validator": "^5.0",
         "symfony/workflow": "^5.0",
         "symfony/yaml": "^5.0",
@@ -63,7 +65,6 @@
         "sllh/composer-versions-check": "^2.0",
         "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/security-checker": "^0.1.0",
-        "symfony/filesystem": "^5.0",
         "symfony/var-dumper": "^5.0"
     },
     "config": {
@@ -92,7 +93,8 @@
     "autoload-dev": {
         "psr-4": {
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
-            "Hello\\": "extension/Hello/src/"
+            "Hello\\": "extension/Hello/src/",
+            "Custom\\": "extension/Custom/src/"
         }
     },
     "replace": {

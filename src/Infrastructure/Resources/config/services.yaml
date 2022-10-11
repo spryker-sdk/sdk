@@ -1,3 +1,9 @@
+parameters:
+  manifest_task_yaml_template_path: "manifest/task_manifest_template.yaml.twig"
+  manifest_task_php_template_path: "manifest/task_manifest_template.php.twig"
+  manifest_task_yaml_file_dir: "%kernel.project_dir%/extension/Custom/src/Resources/config/task"
+  manifest_task_php_file_dir: "%kernel.project_dir%/extension/Custom/src/Task/"
+
 services:
   file_finder:
     class: Symfony\Component\Finder\Finder
@@ -383,3 +389,63 @@ services:
           - "@task.yaml.task_set_override_map_factory"
           - "@task.task_set_placeholders_builder"
           - "@task.task_set_commands_builder"
+
+  manifest.interaction.need_to_ask_question:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NeedToAskQuestion
+      arguments:
+          - "@cli_interaction_processor"
+
+  manifest.interaction.new_collection_item_question:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NewCollectionItemQuestion
+      arguments:
+          - "@cli_interaction_processor"
+
+  manifest.interaction.value_question:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\ValueQuestion
+      arguments:
+          - "@cli_interaction_processor"
+
+  manifest.interaction.processor:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\ManifestInteractionProcessor
+      arguments:
+          - "@manifest.interaction.need_to_ask_question"
+          - "@manifest.interaction.value_question"
+          - "@manifest.interaction.new_collection_item_question"
+
+  manifest.task_php_template_format_reader:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\PhpTaskTemplateReader
+      arguments:
+          - "@twig"
+          - "%manifest_task_php_template_path%"
+      tags: [ "manifest_task_format_template_reader" ]
+
+  manifest.task_yaml_template_format_reader:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\YamlTaskTemplateReader
+      arguments:
+          - "@twig"
+          - "%manifest_task_yaml_template_path%"
+      tags: [ "manifest_task_format_template_reader" ]
+
+  manifest.task_template_reader:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\TaskTemplateReader
+      arguments:
+          - !tagged_iterator { tag: 'manifest_task_format_template_reader' }
+
+  manifest.task_php_format_writer:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\PhpTaskManifestWriter
+      arguments:
+          - "@filesystem"
+          - "%manifest_task_php_file_dir%"
+      tags: [ "manifest_task_format_writer" ]
+
+  manifest.task_yaml_format_writer:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\YamlTaskManifestWriter
+      arguments:
+          - "@filesystem"
+          - "%manifest_task_yaml_file_dir%"
+      tags: [ "manifest_task_format_writer" ]
+
+  manifest.task_manifest_writer:
+      class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\TaskManifestWriter
+      arguments:
+          - !tagged_iterator { tag: 'manifest_task_format_writer' }
