@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepo
 use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -24,16 +25,6 @@ use Symfony\Component\Workflow\Workflow;
 
 class ProjectWorkflow
 {
-    /**
-     * @var string
-     */
-    public const PROJECT_KEY = 'project_key';
-
-    /**
-     * @var string
-     */
-    public const WORKFLOW = 'workflow';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
@@ -87,7 +78,7 @@ class ProjectWorkflow
      */
     protected function getProjectId(): string
     {
-        return (string)$this->projectSettingRepository->getOneByPath(static::PROJECT_KEY)->getValues();
+        return (string)$this->projectSettingRepository->getOneByPath(Setting::PATH_PROJECT_KEY)->getValues();
     }
 
     /**
@@ -95,7 +86,7 @@ class ProjectWorkflow
      */
     public function getProjectWorkflows(): array
     {
-        return (array)$this->projectSettingRepository->getOneByPath(static::WORKFLOW)->getValues();
+        return (array)$this->projectSettingRepository->getOneByPath(Setting::PATH_WORKFLOW)->getValues();
     }
 
     /**

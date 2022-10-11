@@ -9,20 +9,16 @@ namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class ConfigManager implements ConfigManagerInterface
 {
-    /**
-     * @var string
-     */
-    protected const PROJECT_DIR_PATH = 'project_dir';
-
-    /**
-     * @var string
-     */
+   /**
+    * @var string
+    */
     protected const IDEA_CONFIG_FOLDER_PATH = DIRECTORY_SEPARATOR . '.idea' . DIRECTORY_SEPARATOR . 'commandlinetools' . DIRECTORY_SEPARATOR;
 
     /**
@@ -87,7 +83,7 @@ class ConfigManager implements ConfigManagerInterface
         $arrayConfig = $this->prepareConfig($ideCommands, $executableFile);
         $xmlConfig = $this->xmlEncoder->encode($arrayConfig, XmlEncoder::FORMAT);
 
-        $projectDirSetting = (string)$this->getSetting(static::PROJECT_DIR_PATH)->getValues();
+        $projectDirSetting = (string)$this->getSetting(Setting::PATH_PROJECT_DIR)->getValues();
         $ideaFolderPath = $projectDirSetting . static::IDEA_CONFIG_FOLDER_PATH;
 
         if (!is_dir($ideaFolderPath)) {

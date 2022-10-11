@@ -229,7 +229,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             return [];
         }
 
-        return (array)$this->yamlParser::parseFile($settingPath);
+        return (array)$this->yamlParser::parseFile($settingPath, $this->yamlParser::PARSE_CONSTANT);
     }
 
     /**

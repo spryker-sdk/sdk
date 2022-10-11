@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Extension\ValueResolver\ConfigPathValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
@@ -58,7 +59,7 @@ class ConfigPathValueResolverTest extends Unit
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
-        $value = $valueResolver->getValue($this->context, ['project_dir' => '.', 'sdk_dir' => 'non_exist']);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_PROJECT_DIR => '.', Setting::PATH_SDK_DIR => 'non_exist']);
 
         // Assert
         $this->assertSame('./composer.json', $value);
@@ -77,7 +78,7 @@ class ConfigPathValueResolverTest extends Unit
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
         // Act
-        $value = $valueResolver->getValue($this->context, ['project_dir' => 'non_exist', 'sdk_dir' => '.']);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_PROJECT_DIR => 'non_exist', Setting::PATH_SDK_DIR => '.']);
 
         // Assert
         $this->assertSame('./composer.json', $value);

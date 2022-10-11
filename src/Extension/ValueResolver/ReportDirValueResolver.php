@@ -7,21 +7,17 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ReportDirValueResolver extends OriginValueResolver
 {
-    /**
-     * @var string
-     */
-    protected const REPORT_DIR_SETTING = 'report_dir';
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return string
-     */
+   /**
+    * {@inheritDoc}
+    *
+    * @return string
+    */
     public function getId(): string
     {
         return 'REPORT_DIR';
@@ -40,7 +36,7 @@ class ReportDirValueResolver extends OriginValueResolver
     {
         $value = parent::getValue($context, $settingValues, $optional);
 
-        $reportDir = $settingValues[static::REPORT_DIR_SETTING];
+        $reportDir = $settingValues[Setting::PATH_REPORT_DIR];
 
         if (!is_dir($reportDir)) {
             mkdir($reportDir, 0777, true);
@@ -56,7 +52,7 @@ class ReportDirValueResolver extends OriginValueResolver
      */
     public function getSettingPaths(): array
     {
-        return [static::REPORT_DIR_SETTING];
+        return [Setting::PATH_REPORT_DIR];
     }
 
     /**
