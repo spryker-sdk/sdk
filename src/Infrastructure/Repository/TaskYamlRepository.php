@@ -116,9 +116,6 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     {
         $this->readTaskYaml();
 
-        $this->taskListData = $this->manifestValidation->validate(TaskManifestConfiguration::NAME, $this->taskListData);
-        $this->taskSetsData = $this->manifestValidation->validate(TaskSetManifestConfiguration::NAME, $this->taskSetsData);
-
         $tasks = [];
         foreach ($this->taskListData as $taskData) {
             $task = $this->buildTask($taskData, $this->taskListData, $tags);
@@ -257,6 +254,9 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                 $this->taskListData[(string)$taskData['id']] = $taskData;
             }
         }
+
+        $this->taskListData = $this->manifestValidation->validate(TaskManifestConfiguration::NAME, $this->taskListData);
+        $this->taskSetsData = $this->manifestValidation->validate(TaskSetManifestConfiguration::NAME, $this->taskSetsData);
     }
 
     /**
