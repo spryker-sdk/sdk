@@ -16,10 +16,30 @@ so you can focus developing exciting features for your business case.
 - ensure docker & docker-compose is installed
 - Download the `installer.sh` from the latest release at https://github.com/spryker-sdk/sdk/releases
 - run `installer.sh </path/to/install/sdk/in>`
-- echo "add alias spryker-sdk='</path/to/install/sdk/in>/bin/spryker-sdk.sh'" >> ~/.bashrc
+- run `source ~/.zshrc` or `source ~/.bashrc` or re-open terminal
+- alias `apryker-sdk` should be set and `SPRYKER_SDK_PATH` env variable should be exported
+
+Installation into the current dir:
+```shell
+PATH_TO_SDK=$(pwd) \
+&& curl -fL github.com/spryker-sdk/sdk/releases/latest/download/installer.sh -O \
+&& chmod +x installer.sh \
+&& ./installer.sh "${PATH_TO_SDK}" \
+&& rm -f installer.sh \
+&& if [ -e ~/.zshrc ]; then source ~/.zshrc; else source ~/.bashrc; fi; \
+echo "Current SDK version: $(spryker-sdk --version)"
+```
 
 ## Update
-- @todo auto update for sdk in spryker-sdk.sh
+Can be executed from any directory. The path will be taken from the `SPRYKER_SDK_PATH` env variable
+
+```shell
+curl -fL github.com/spryker-sdk/sdk/releases/latest/download/installer.sh -O \
+&& chmod +x installer.sh \
+&& ./installer.sh --self-update \
+&& rm -f installer.sh \
+&& echo "Current SDK version: $(spryker-sdk --version)"
+```
 
 ## Getting started
 

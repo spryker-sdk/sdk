@@ -1,0 +1,74 @@
+---
+id: 'hello:world'
+short_description: 'Sends greetings'
+help: 'Will greet the one using it'
+version: 1.0.0
+deprecated: false
+successor: 'hello:php'
+command: '/bin/echo "hello %world% %somebody%"'
+type: local_cli
+placeholders:
+  - name: '%world%'
+    value_resolver: SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver
+    optional: false
+    configuration:
+      name: 'world'
+      description: 'what is the world?'
+      defaultValue: 'World'
+  - name: '%somebody%'
+    value_resolver: STATIC
+    optional: false
+    configuration:
+      name: 'somebody'
+      description: 'Who is somebody'
+lifecycle:
+  INITIALIZED:
+      commands:
+        - command: echo "hello world"
+          type: local_cli
+      files:
+        - path: '%test%'
+          content: "test: 3"
+      placeholders:
+        - name: '%project_dir%'
+          value_resolver: STATIC
+          optional: true
+          configuration:
+            name: 'project_dir'
+            description: 'Project dir, but actually SDK dir'
+            defaultValue: '/root/path'
+  UPDATED:
+      commands:
+        - command: echo "hello world"
+          type: local_cli
+      files:
+        - path: '%test%'
+          content: "test: 3"
+      placeholders:
+        - name: '%project_dir%'
+          value_resolver: STATIC
+          optional: true
+          configuration:
+            name: 'project_dir'
+            description: 'Project dir, but actually SDK dir'
+            defaultValue: '/root/path'
+  REMOVED:
+    commands:
+      - command: echo "hello world"
+        type: local_cli
+    files:
+      - path: '%test%'
+        content: "test: 3"
+    placeholders:
+      - name: '%project_dir%'
+        value_resolver: STATIC
+        optional: true
+        configuration:
+          name: 'project_dir'
+          description: 'Project dir, but actually SDK dir'
+          defaultValue: '/root/path'
+report_converter:
+  name: CheckstyleViolationReportConverter
+  configuration:
+    input_file: phpcs.codestyle.json
+    producer: phpcs

@@ -7,10 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
+use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
 use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as EntitySetting;
@@ -64,13 +66,19 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     /**
      * @param string $settingPath
      *
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException
+     *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
      */
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
-        $setting = $this->findOneBy([
-            'path' => $settingPath,
-        ]);
+        try {
+            $setting = $this->findOneBy([
+                'path' => $settingPath,
+            ]);
+        } catch (TableNotFoundException $e) {
+            throw new SettingsNotInitializedException($e->getMessage(), 0, $e);
+        }
 
         if (!$setting) {
             return null;

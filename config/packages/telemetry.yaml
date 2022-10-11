@@ -1,0 +1,20 @@
+parameters:
+  telemetry_enabled: "%env(default:telemetry_enabled_default:bool:TELEMETRY_ENABLED)%"
+  telemetry_enabled_default: true
+
+  telemetry_transport: "%env(default:telemetry_transport_default:string:TELEMETRY_TRANSPORT)%"
+  telemetry_transport_default: 'file'
+
+  telemetry_server_url: "%env(default:telemetry_server_url_default:string:TELEMETRY_SERVER_URL)%"
+  telemetry_server_url_default: ''
+
+  telemetry_synchronizer_batch_size: 200
+  telemetry_synchronizer_max_sync_attempts: 3
+  telemetry_synchronizer_max_event_ttl_days: 90
+  telemetry_synchronizer_lock_ttl_sec: 300
+
+  telemetry_sender_data_lake_timeout_sec: 10
+  telemetry_sender_data_lake_connection_timeout_sec: 4
+
+  telemetry_sender_file_report_file_name: 'telemetry_events.json'
+  telemetry_sender_file_report_format: 'json'

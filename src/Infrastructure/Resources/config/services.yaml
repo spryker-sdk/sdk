@@ -5,6 +5,9 @@ parameters:
   manifest_task_php_file_dir: "%kernel.project_dir%/extension/Custom/src/Task/"
 
 services:
+  _instanceof:
+    SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
+      tags: [ "manifest.validator" ]
   file_finder:
     class: Symfony\Component\Finder\Finder
   event_logger_factory:
@@ -23,6 +26,14 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
     arguments:
       - "@cli_interaction_processor"
+  error_logger_factory:
+    class: SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactory
+    arguments:
+      - "@project_setting_repository"
+      - "%project_log_file%"
+  error_logger:
+    class: Psr\Log\LoggerInterface
+    factory: ["@error_logger_factory", "createLogger"]
   progress_bar:
     class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
     tags:
@@ -64,6 +75,7 @@ services:
       - "@file_finder"
       - "@yaml_parser"
       - "@task.task_from_yaml_builder"
+      - "@manifest_validation"
       - !tagged_iterator sdk.task
   context_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
@@ -71,6 +83,12 @@ services:
       - "@context_serializer"
       - "@setting_repository"
       - "@context.in_memory_cache_storage"
+  telemetry_event_repository:
+    class: SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - "@mapper.telemetry_event"
+
   initializer_service:
     class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
     arguments:
@@ -187,6 +205,9 @@ services:
 
   mapper.file_mapper:
     class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
+
+  mapper.telemetry_event:
+    class: SprykerSdk\Sdk\Infrastructure\Mapper\TelemetryEventMapper
 
   task_persistence_repository:
     class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
@@ -344,12 +365,123 @@ services:
       - "@service_container"
       - "@context_factory"
 
-  context.in_memory_cache_storage:
-    class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
-  workflow.transition_resolver_registry:
-    class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+  telemetry.data_lake_sender:
+    class: SprykerSdk\Sdk\Infrastructure\Telemetry\DataLakeTelemetryEventSender
     arguments:
-      - !tagged_iterator workflow.transition_resolver
+      - "@guzzle.http_client"
+      - "@telemetry.serializer"
+      - "%telemetry_server_url%"
+      - "%telemetry_sender_data_lake_timeout_sec%"
+      - "%telemetry_sender_data_lake_connection_timeout_sec%"
+    tags:
+      - { name: telemetry.data_sender }
+
+  telemetry.report_sender:
+    class: SprykerSdk\Sdk\Infrastructure\Telemetry\FileReportTelemetryEventSender
+    arguments:
+      - "@project_setting_repository"
+      - "@telemetry.serializer"
+      - "@filesystem"
+      - "%telemetry_sender_file_report_file_name%"
+      - "%telemetry_sender_file_report_format%"
+      - "%kernel.debug%"
+    tags:
+      - { name: telemetry.data_sender }
+
+  telemetry.null_sender:
+      class: SprykerSdk\Sdk\Infrastructure\Telemetry\NullTelemetryEventSender
+      tags:
+          - { name: telemetry.data_sender }
+
+  telemetry.data_sender_factory:
+    class: SprykerSdk\Sdk\Infrastructure\Telemetry\TelemetryEventSenderFactory
+    arguments:
+      - "%telemetry_transport%"
+      - "%telemetry_enabled%"
+      - !tagged_iterator telemetry.data_sender
+
+  telemetry.telemetry_events_sender:
+    class: SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface
+    factory: ["@telemetry.data_sender_factory", "getTelemetryEventSender"]
+
+  lock_data_store:
+    class: Symfony\Component\Lock\Store\DoctrineDbalStore
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - db_table: '%lock.db_name%'
+
+  lock_factory:
+    class: Symfony\Component\Lock\LockFactory
+    arguments:
+      - "@lock_data_store"
+
+  project_info_fetcher.strategy.composer:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ComposerProjectInfoFetcher
+    arguments:
+      - "@project_setting_repository"
+    tags:
+      - { name: project_info_fetcher.fetcher_strategy, priority: 100 }
+
+  project_info_fetcher.strategy.git:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\GitProjectInfoFetcher
+    tags:
+      - { name: project_info_fetcher.fetcher_strategy, priority: 50 }
+
+  project_info_fetcher:
+    class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcher
+    arguments:
+      - !tagged_iterator project_info_fetcher.fetcher_strategy
+      - "@error_logger"
+
+  guzzle.http_client:
+    class: GuzzleHttp\Client
+
+  serializer.json_encoder:
+    class: Symfony\Component\Serializer\Encoder\JsonEncoder
+
+  telemetry.serializer:
+    class: Symfony\Component\Serializer\Serializer
+    arguments:
+      - ["@telemetry.serializer.event_normalizer"]
+      - ["@serializer.json_encoder"]
+
+  telemetry.serializer.event_normalizer:
+    class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\TelemetryEventNormalizer
+    arguments:
+      - !tagged_iterator telemetry.payload_normalizer
+      - "@telemetry.serializer.metadata_normalizer"
+
+  telemetry.serializer.metadata_normalizer:
+    class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\TelemetryEventMetadataNormalizer
+
+  telemetry.serializer.command_execution_payload_normalizer:
+    class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\Payload\CommandExecutionPayloadNormalizer
+    tags:
+      - { name: telemetry.payload_normalizer }
+
+  telemetry.command_event_validator:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidator
+    arguments:
+      - !tagged_iterator telemetry.observable_command
+
+  telemetry.command_event_listener:
+    class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventListener
+    arguments:
+      - "@telemetry.command_event_synchronizer"
+      - "@telemetry.event_metadata_factory"
+      - "@telemetry.command_event_validator"
+      - "@error_logger"
+      - "%telemetry_enabled%"
+    tags:
+      - { name: kernel.event_listener, event: console.terminate }
+      - { name: kernel.event_listener, event: console.error }
+
+  context.in_memory_cache_storage:
+      class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
+  workflow.transition_resolver_registry:
+      class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+      arguments:
+          - !tagged_iterator workflow.transition_resolver
 
   task.yaml.commands_factory:
       class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetCommandsFactory
@@ -449,3 +581,31 @@ services:
       class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\TaskManifestWriter
       arguments:
           - !tagged_iterator { tag: 'manifest_task_format_writer' }
+
+  # Validators
+  validation_helper:
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator
+    arguments:
+      - '@value_resolver_registry'
+      - '@converter_registry'
+      - '@task_yaml_repository'
+      - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
+  task_manifest_validator:
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration
+    arguments:
+      - '@validation_helper'
+  task_set_manifest_validator:
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration
+    arguments:
+      - '@validation_helper'
+
+  manifest_validator_factory:
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry
+    arguments:
+        - !tagged_iterator manifest.validator
+
+  manifest_validation:
+    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidator
+    arguments:
+      - '@manifest_validator_factory'
+      - '@config_processor'
