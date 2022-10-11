@@ -109,9 +109,9 @@ class Initializer implements InitializerInterface
         }
 
         $value = $this->receiveValue($settingEntity);
-        $settingEntity->setValues($value);
 
         if ($value !== $settingEntity->getValues()) {
+            $settingEntity->setValues($value);
             $this->settingRepository->save($settingEntity);
         }
     }
@@ -131,6 +131,6 @@ class Initializer implements InitializerInterface
             ),
         );
 
-        return is_scalar($value) ? $value : json_encode($value);
+        return $value === null || is_scalar($value) ? $value : json_encode($value);
     }
 }
