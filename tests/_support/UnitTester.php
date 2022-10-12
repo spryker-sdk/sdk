@@ -18,10 +18,13 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\TelemetryEventPayloadInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent as DomainTelemetryEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
+use SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto;
+use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command as InfrastructureCommand;
 use SprykerSdk\Sdk\Infrastructure\Entity\File as InfrastructureFile;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
@@ -36,6 +39,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
@@ -393,5 +397,343 @@ class UnitTester extends Actor
                 return 'spryker/test';
             }
         };
+    }
+
+    /**
+     * @param array $seeds
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskSetInterface
+     */
+    public function createTaskSet(array $seeds = []): TaskSetInterface
+    {
+        //@phpcs:disable
+        return new class($seeds) implements TaskSetInterface {
+
+            protected array $seeds = [];
+
+            /**
+             * @param array $seeds
+             */
+            public function __construct(array $seeds)
+            {
+                $this->seeds = $seeds;
+            }
+
+            public function getId(): string
+            {
+                return $this->seeds['id'] ?? '';
+            }
+
+            public function getShortDescription(): string
+            {
+                return $this->seeds['short_description'] ?? '';
+            }
+
+            public function getCommands(): array
+            {
+                return $this->seeds['commands'] ?? [];
+            }
+
+            public function getPlaceholders(): array
+            {
+                return $this->seeds['placeholders'] ?? [];
+            }
+
+            public function getHelp(): ?string
+            {
+                return $this->seeds['help'] ?? null;
+            }
+
+            public function getVersion(): string
+            {
+                return $this->seeds['version'] ?? '0.1.0';
+            }
+
+            public function isDeprecated(): bool
+            {
+                return $this->seeds['deprecated'] ?? false;
+            }
+
+            public function isOptional(): bool
+            {
+                return $this->seeds['optional'] ?? true;
+            }
+
+            public function getSuccessor(): ?string
+            {
+                return $this->seeds['successor'] ?? null;
+            }
+
+            public function getLifecycle(): LifecycleInterface
+            {
+                if ($this->seeds['lifecycle'] instanceof LifecycleInterface) {
+                    return $this->seeds['lifecycle'];
+                }
+
+                return new Lifecycle(
+                    new InitializedEventData(),
+                    new UpdatedEventData(),
+                    new RemovedEventData(),
+                );
+            }
+
+            public function getStages(): array
+            {
+                return $this->seeds['stages'] ?? [];
+
+            }
+
+            public function getSubTasks(array $tags = []): array
+            {
+                return $this->seeds['sub-tasks'] ?? [];
+            }
+
+            public function getTagsMap(): array
+            {
+                return $this->seeds['tags'] ?? [];
+            }
+
+            public function getStopOnErrorMap(): array
+            {
+                return $this->seeds['stopOnErrorMap'] ?? [];
+            }
+
+            public function getOverridePlaceholdersMap(): array
+            {
+                return $this->seeds['OverridePlaceholdersMap'] ?? [];
+            }
+
+            public function getSharedPlaceholdersMap(): array
+            {
+                return $this->seeds['sharedPlaceholdersMap'] ?? [];
+            }
+        };
+        // phpcs:enable
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto
+     */
+    public function createManifestCollectionDto(): ManifestCollectionDto
+    {
+        $collection = new ManifestCollectionDto();
+
+        $collection->addTask(
+            [
+                'id' => 'hello:world',
+                'short_description' => 'Sends greetings',
+                'help' => 'Will greet the one using it',
+                'stage' => 'build',
+                'version' => '1.0.0',
+                'deprecated' => false,
+                'successor' => 'hello:php',
+                'command' => '/bin/echo "hello %world% %somebody%"',
+                'type' => 'local_cli',
+                'placeholders' => [
+                    [
+                        'name' => '%world%',
+                        'value_resolver' => "SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver",
+                        'optional' => false,
+                        'configuration' => [
+                            'name' => 'world',
+                            'description' => 'what is the world?',
+                            'defaultValue' => 'World',
+                        ],
+                    ],
+                    [
+                        'name' => '%somebody%',
+                        'value_resolver' => 'STATIC',
+                        'optional' => false,
+                        'configuration' => [
+                            'name' => 'somebody',
+                            'description' => 'Who is somebody',
+                        ],
+                    ],
+                ],
+                'lifecycle' => [
+                    'INITIALIZED' => [
+                        'commands' => [
+                            [
+                                'command' => 'echo "hello world"',
+                                'type' => 'local_cli',
+                            ],
+                        ],
+                        'files' => [
+                            [
+                                'path' => '%test%',
+                                'content' => 'test: 3',
+                            ],
+                        ],
+                        'placeholders' => [
+                            [
+                                'name' => '%project_dir%',
+                                'value_resolver' => 'STATIC',
+                                'optional' => true,
+                                'configuration' => [
+                                    'name' => 'project_dir',
+                                    'description' => 'Project dir, but actually SDK dir',
+                                    'defaultValue' => '/root/path',
+                                ],
+                            ],
+                        ],
+                    ],
+                    'UPDATED' => [
+                        'commands' => [
+                            [
+                                'command' => 'echo "hello world"',
+                                'type' => 'local_cli',
+                            ],
+                        ],
+                        'files' => [
+                            [
+                                'path' => '%test%',
+                                'content' => 'test: 3',
+                            ],
+                        ],
+                        'placeholders' => [
+                            [
+                                'name' => '%project_dir%',
+                                'value_resolver' => 'STATIC',
+                                'optional' => true,
+                                'configuration' => [
+                                    'name' => 'project_dir',
+                                    'description' => 'Project dir, but actually SDK dir',
+                                    'defaultValue' => '/root/path',
+                                ],
+                            ],
+                        ],
+                    ],
+                    'REMOVED' => [
+                        'commands' => [
+                            [
+                                'command' => 'echo "hello world"',
+                                'type' => 'local_cli',
+                            ],
+                        ],
+                        'files' => [
+                            [
+                                'path' => '%test%',
+                                'content' => 'test: 3',
+                            ],
+                        ],
+                        'placeholders' => [
+                            [
+                                'name' => '%project_dir%',
+                                'value_resolver' => 'STATIC',
+                                'optional' => true,
+                                'configuration' => [
+                                    'name' => 'project_dir',
+                                    'description' => 'Project dir, but actually SDK dir',
+                                    'defaultValue' => '/root/path',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'report_converter' => [
+                    'name' => 'CheckstyleViolationReportConverter',
+                    'configuration' => [
+                        'input_file' => 'phpcs.codestyle.json',
+                        'producer' => 'phpcs',
+                    ],
+                ],
+            ],
+        );
+        $collection->addTask([
+            'id' => 'bye:world',
+            'short_description' => 'Sends greetings',
+            'help' => 'Will greet the one using it',
+            'stage' => 'build',
+            'version' => '1.0.0',
+            'deprecated' => false,
+            'successor' => 'hello:php',
+            'command' => '/bin/echo "hello % world % %somebody % "',
+            'type' => 'local_cli',
+            'placeholders' => [
+                [
+                    'name' => '%world%',
+                    'value_resolver' => "SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver",
+                    'optional' => false,
+                    'configuration' => [
+                        'name' => 'world',
+                        'description' => 'what is the world?',
+                        'defaultValue' => 'World',
+                    ],
+                ],
+                [
+                    'name' => '%somebody%',
+                    'value_resolver' => 'STATIC',
+                    'optional' => false,
+                    'configuration' => [
+                        'name' => 'somebody',
+                        'description' => 'Who is somebody',
+                    ],
+                ],
+            ],
+            'lifecycle' => [
+                'INITIALIZED' => [
+                    'commands' => null,
+                    'files' => null,
+                    'placeholders' => null,
+                ],
+                'UPDATED' => [
+                    'commands' => null,
+                    'files' => null,
+                    'placeholders' => null,
+                ],
+                'REMOVED' => [
+                    'commands' => null,
+                    'files' => null,
+                    'placeholders' => null,
+                ],
+            ],
+        ]);
+        $collection->addTaskSet(
+            [
+                'id' => 'validation:php:codestyle',
+                'short_description' => 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.',
+                'help' => 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.',
+                'stage' => 'build',
+                'version' => '1.0.0',
+                'command' => null,
+                'type' => 'task_set',
+                'tasks' => [
+                    [
+                        'id' => 'hello:world',
+                        'stop_on_error' => false,
+                    ],
+                    [
+                        'id' => 'bye:world',
+                        'stop_on_error' => false,
+                    ],
+                ],
+                'placeholders' => [],
+            ],
+        );
+
+        return $collection;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
+     */
+    public function createTaskYamlResultDto(): TaskYamlResultDto
+    {
+        $taskYamlResultDto = new TaskYamlResultDto();
+
+        $taskYamlResultDto->addScalarPart('id', 'task');
+        $taskYamlResultDto->addScalarPart('short_description', 'Short');
+        $taskYamlResultDto->addScalarPart('version', '1.0.0');
+        $taskYamlResultDto->addScalarPart('help', 'Help');
+        $taskYamlResultDto->addScalarPart('successor', 'successor:task');
+        $taskYamlResultDto->addScalarPart('deprecated', false);
+        $taskYamlResultDto->addScalarPart('stage', 'default');
+        $taskYamlResultDto->addScalarPart('optional', false);
+        $taskYamlResultDto->addScalarPart('stages', []);
+        $taskYamlResultDto->addCommand(new Command('echo 1', 'local_cli'));
+        $taskYamlResultDto->addPlaceholder(new Placeholder('%place%', 'value_resolver', []));
+        $taskYamlResultDto->setLifecycle(new Lifecycle(new InitializedEventData(), new UpdatedEventData(), new RemovedEventData()));
+
+        return $taskYamlResultDto;
     }
 }

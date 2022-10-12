@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
+use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use Traversable;
 
 class ManifestEntriesValidator
@@ -30,25 +30,25 @@ class ManifestEntriesValidator
     protected ConverterRegistryInterface $converterRegistry;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface
      */
-    private TaskYamlRepositoryInterface $taskYamlRepository;
+    protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface $valueResolverRegistry
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface $converterRegistry
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlFileLoader
      * @param iterable<string, \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface> $factoryTypes
      */
     public function __construct(
         ValueResolverRegistryInterface $valueResolverRegistry,
         ConverterRegistryInterface $converterRegistry,
-        TaskYamlRepositoryInterface $taskYamlRepository,
+        TaskYamlFileLoaderInterface $taskYamlFileLoader,
         iterable $factoryTypes
     ) {
         $this->valueResolverRegistry = $valueResolverRegistry;
         $this->converterRegistry = $converterRegistry;
-        $this->taskYamlRepository = $taskYamlRepository;
+        $this->taskYamlFileLoader = $taskYamlFileLoader;
         $this->factoryTypes = $factoryTypes instanceof Traversable ? iterator_to_array($factoryTypes) : $factoryTypes;
     }
 
@@ -59,7 +59,7 @@ class ManifestEntriesValidator
      */
     public function getTaskPlaceholders(array $taskIds): array
     {
-        return $this->taskYamlRepository->getTaskPlaceholders($taskIds);
+        return $this->taskYamlFileLoader->getTaskPlaceholders($taskIds);
     }
 
     /**
@@ -69,7 +69,7 @@ class ManifestEntriesValidator
      */
     public function isTaskNameExist(string $taskId): bool
     {
-        return $this->taskYamlRepository->isTaskIdExist($taskId);
+        return $this->taskYamlFileLoader->isTaskIdExist($taskId);
     }
 
     /**

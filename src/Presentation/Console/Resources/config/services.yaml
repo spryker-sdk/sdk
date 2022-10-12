@@ -9,7 +9,7 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Command\Validator\ValidateTaskCommand
     tags: [ "console.command" ]
     arguments:
-      - "@task_yaml_repository"
+      - "@task_yaml_loader"
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
