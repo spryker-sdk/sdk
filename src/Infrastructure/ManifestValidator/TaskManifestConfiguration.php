@@ -58,7 +58,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                     ->isRequired()
                     ->validate()
                         ->ifTrue(function ($value) {
-                            return !preg_match('/^[a-z-]+(:[a-z-]+)+$/u', $value);
+                            return !preg_match('/^[a-z-]+(:[a-z-]+)+$/u', (string)$value);
                         })
                         ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-])+$/` format.')
                     ->end()
@@ -96,7 +96,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                     ->isRequired()
                     ->validate()
                         ->ifTrue(function ($value) {
-                            return !preg_match('/^\d+.\d+.\d+$/u', $value);
+                            return !preg_match('/^\d+.\d+.\d+$/u', (string)$value);
                         })
                         ->thenInvalid('Task version `%s` should have `/^\d+.\d+.\d+$/` format.')
                     ->end()
@@ -245,7 +245,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->info('Placeholder has `/^%[a-zA-Z-_]+%$/` format.')
                 ->validate()
                     ->ifTrue(function ($value) {
-                        return !preg_match('/^%[a-zA-Z-_]+%$/u', $value);
+                        return !preg_match('/^%[a-zA-Z-_]+%$/u', (string)$value);
                     })
                     ->thenInvalid('Placeholder %s has invalid format.')
                 ->end()
