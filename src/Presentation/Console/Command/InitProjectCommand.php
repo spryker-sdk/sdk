@@ -13,9 +13,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -174,8 +174,8 @@ class InitProjectCommand extends Command
                 $values = $this->askSettingValue($settingEntity, $values);
             }
 
-            $values = ['boolean' => (bool)$values, 'array' => (array)$values][$settingEntity->getType()] ?? (string)$values;
-            if ($settingEntity->getType() !== 'array' && $values === $settingEntity->getValues()) {
+            $values = [ValueTypeEnum::TYPE_BOOLEAN => (bool)$values, ValueTypeEnum::TYPE_ARRAY => (array)$values][$settingEntity->getType()] ?? (string)$values;
+            if ($settingEntity->getType() !== ValueTypeEnum::TYPE_ARRAY && $values === $settingEntity->getValues()) {
                 continue;
             }
             $settingEntity->setValues($values);

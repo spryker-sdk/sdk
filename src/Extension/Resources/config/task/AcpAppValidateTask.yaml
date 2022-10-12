@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:validate %manifest-path% %configuration-file% %translation-file% -v"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -17,7 +17,7 @@ placeholders:
       alias: "manifest-path"
       option: "manifest-path"
       description: "Path to save manifest file to"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%configuration-file%"
     value_resolver: STATIC
     optional: true
@@ -25,7 +25,7 @@ placeholders:
       alias: "configuration-file"
       option: "configuration-file"
       description: "Path to save configuration file to"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%translation-file%"
     value_resolver: STATIC
     optional: true
@@ -33,4 +33,4 @@ placeholders:
       alias: "translation-file"
       option: "translation-file"
       description: "Path to save translation file to"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

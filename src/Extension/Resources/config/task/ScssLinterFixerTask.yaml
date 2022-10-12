@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.0
 command: "node %sdk_dir%/frontend/libs/stylelint.js %fix% %file-path% %config-path% > %reportDir%"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -22,8 +22,8 @@ placeholders:
     optional: true
     configuration:
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "stylelint.codestyle.json"
   - name: "%file-path%"
     value_resolver: STATIC
@@ -32,7 +32,7 @@ placeholders:
       alias: "file-path"
       option: "file-path"
       description: "Execute stylelint only for this file"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%config-path%"
     value_resolver: STATIC
     optional: true
@@ -40,7 +40,7 @@ placeholders:
       alias: "config-path"
       option: "config-path"
       description: "Use this stylelint config instead of default"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
 report_converter:
   name: ScssLinterViolationReportConverter
   configuration:

@@ -13,9 +13,9 @@ use SplFileInfo;
 use SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConverterException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Report\ReportConverterInterface;
 use Symfony\Component\Finder\Finder;
 

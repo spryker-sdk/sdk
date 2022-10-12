@@ -5,7 +5,7 @@ help: ~
 stage: build
 command: "php %sdk_dir%/vendor/bin/spryk-run AddModule %organization% %coreLevel% %module%"
 version: 1.1.0
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -17,7 +17,7 @@ placeholders:
       alias: "namespace"
       option: "organization"
       description: "Namespace name"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'Pyz'
       settingPaths: ["projectNamespaces", "coreNamespaces"]
   - name: "%coreLevel%"
@@ -27,7 +27,7 @@ placeholders:
       alias: "mode"
       option: "mode"
       description: "Core Level"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'project'
       settingPaths: ["coreNamespaces"]
   - name: "%module%"
@@ -37,4 +37,4 @@ placeholders:
       alias: "module"
       option: "module"
       description: "Module name in camelcase format"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

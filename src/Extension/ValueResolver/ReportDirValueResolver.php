@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ReportDirValueResolver extends OriginValueResolver
 {

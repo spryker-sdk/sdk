@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\DefaultContextReceiverInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class DefaultContextReceiver implements DefaultContextReceiverInterface
 {

@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.0
 command: "INSTALLED_ROOT_DIRECTORY=%sdk_dir% php %sdk_dir%/vendor/bin/syncapi code:openapi:generate %project-root% %openapi-file% %application-type% %organization% -v"
-type: local_cli_interactive
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -17,7 +17,7 @@ placeholders:
       alias: "project-root"
       option: "project-root"
       description: "Relative path to project root"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
   - name: "%openapi-file%"
     value_resolver: STATIC
     optional: true
@@ -25,7 +25,7 @@ placeholders:
       alias: "openapi-file"
       option: "openapi-file"
       description: "Path to OpenAPI file"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%organization%"
     value_resolver: STATIC
     optional: true
@@ -33,7 +33,7 @@ placeholders:
       alias: "organization"
       option: "organization"
       description: "The namespace that will be used for code generation e.g. Pyz"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%application-type%"
     value_resolver: STATIC
     optional: true
@@ -41,4 +41,4 @@ placeholders:
       alias: "application-type"
       option: "application-type"
       description: "Application type e.g. JSON"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.1
 command: "INSTALLED_ROOT_DIRECTORY=%sdk_dir% php %sdk_dir%/vendor/bin/asyncapi code:asyncapi:generate %asyncapi-file% -v"
-type: local_cli_interactive
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -17,4 +17,4 @@ placeholders:
       alias: "asyncapi-file"
       option: "asyncapi-file"
       description: "Path to AsyncAPI file"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

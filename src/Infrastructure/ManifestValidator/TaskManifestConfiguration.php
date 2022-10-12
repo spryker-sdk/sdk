@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Enum\Task;
+use SprykerSdk\SdkContracts\Enum\Lifecycle;
+use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
@@ -278,7 +278,6 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
             ->arrayNode('configuration')
                 ->children()
                 ->scalarNode('name')
-                    ->setDeprecated()
                     ->defaultNull()
                 ->end()
                 ->scalarNode('option')

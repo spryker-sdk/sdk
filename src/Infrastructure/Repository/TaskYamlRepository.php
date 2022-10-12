@@ -22,7 +22,6 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException;
 use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration;
 use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration;
@@ -31,16 +30,13 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 class TaskYamlRepository implements TaskYamlRepositoryInterface
 {
-    /**
-     * @var string
-     */
-    protected const TASK_SET_TYPE = 'task_set';
-
     /**
      * @var array<string, array>
      */
@@ -239,7 +235,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
 
         //read task from path, parse and create Task, later use DB for querying
         foreach ($finder->files() as $taskFile) {
-            $taskData = $this->yamlParser->parse($taskFile->getContents());
+            $taskData = $this->yamlParser::parse($taskFile->getContents(), $this->yamlParser::PARSE_CONSTANT);
 
             if (!isset($taskData['id'])) {
                 throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `id` doesn\'t exist.": ', $taskFile->getFilename()));
@@ -249,7 +245,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                 throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `type` doesn\'t exist.": ', $taskFile->getFilename()));
             }
 
-            if ($taskData['type'] === static::TASK_SET_TYPE) {
+            if ($taskData['type'] === EnumTask::TASK_SET_TYPE) {
                 $this->taskSetsData[(string)$taskData['id']] = $taskData;
             } else {
                 $this->taskListData[(string)$taskData['id']] = $taskData;
@@ -292,7 +288,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        if (isset($data['type']) && $data['type'] === static::TASK_SET_TYPE) {
+        if (isset($data['type']) && $data['type'] === EnumTask::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
                 $taskTags = $task['tags'] ?? [];
                 if ($tags && !array_intersect($tags, $taskTags)) {
@@ -338,7 +334,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     {
         $commands = [];
 
-        if (in_array($data['type'], ['local_cli', 'local_cli_interactive'], true)) {
+        if (in_array($data['type'], [EnumTask::TASK_TYPE_LOCAL_CLI, EnumTask::TASK_TYPE_LOCAL_CLI_INTERACTIVE], true)) {
             $converter = isset($data['report_converter']) ? new Converter(
                 $data['report_converter']['name'],
                 $data['report_converter']['configuration'],
@@ -354,7 +350,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
             );
         }
 
-        if ($data['type'] === static::TASK_SET_TYPE) {
+        if ($data['type'] === EnumTask::TASK_SET_TYPE) {
             foreach ($data['tasks'] as $task) {
                 $tasksTags = $task['tags'] ?? [];
                 if ($tags && !array_intersect($tags, $tasksTags)) {

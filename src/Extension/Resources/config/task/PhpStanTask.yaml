@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 1.1.0
 command: "php %sdk_dir%/vendor/bin/phpstan analyze %path% %configuration% %config-path% %error-format% --level=%level% > %reportDir%"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -16,7 +16,7 @@ placeholders:
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: 'src'
   - name: '%configuration%'
     value_resolver: FLAG
@@ -30,21 +30,21 @@ placeholders:
     configuration:
       description: "Executable folder (uses the first existing path)"
       defaultValue: "phpstan.neon"
-      settingPaths: [ "project_dir"]
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR]
   - name: "%error-format%"
     value_resolver: STATIC
     optional: true
     configuration:
       option: "error-format"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: 'json'
   - name: "%reportDir%"
     value_resolver: REPORT_DIR
     optional: true
     configuration:
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "phpstan.static.json"
   - name: "%level%"
     value_resolver: STATIC

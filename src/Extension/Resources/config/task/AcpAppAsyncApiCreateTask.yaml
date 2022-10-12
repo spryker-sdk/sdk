@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:create %asyncapi-file% %api-version% %title% -v"
-type: local_cli_interactive
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -16,7 +16,7 @@ placeholders:
     configuration:
       alias: "title"
       description: "The name of the App"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%asyncapi-file%"
     value_resolver: STATIC
     optional: true
@@ -24,7 +24,7 @@ placeholders:
       alias: "asyncapi-file"
       option: "asyncapi-file"
       description: "Path to save AsyncAPI file to"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%api-version%"
     value_resolver: STATIC
     optional: true
@@ -32,4 +32,4 @@ placeholders:
       alias: "api-version"
       option: "api-version"
       description: "Version number of the AsyncAPI schema"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

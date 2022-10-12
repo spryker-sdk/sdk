@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class SettingManager
 {
@@ -106,7 +107,7 @@ class SettingManager
     {
         $typedValue = is_array($value) ?
             (array)$value :
-            ['array' => (array)$value, 'boolean' => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
+            [ValueTypeEnum::TYPE_ARRAY => (array)$value, ValueTypeEnum::TYPE_BOOLEAN => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
             $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);

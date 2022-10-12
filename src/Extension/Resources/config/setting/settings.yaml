@@ -1,24 +1,24 @@
 settings:
-  - path: developer_email
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_DEVELOPER_EMAIL
     initialization_description: What is your email?
     strategy: overwrite
     init: true
     setting_type: sdk
-    type: string
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
     values: ~
-  - path: developer_github_account
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_DEVELOPER_GITHUB_ACCOUNT
     initialization_description: What is your github account?
     strategy: overwrite
     init: true
     setting_type: sdk
-    type: string
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
     values: ~
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_EXTENSION_DIRS
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_EXTENSION_DIRS
     initialization_description: Where can extensions be loaded from?
     strategy: merge
     init: true
-    type: path
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_SDK
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_SDK
     values:
       - src/*/
       - extension/*/
@@ -27,84 +27,84 @@ settings:
       - extension/SprykerSdk/*/src/
       - src/*/Resources/config/
       - extension/*/config/
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_SDK_DIR
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR
     initialization_description: Where is the sdk directory?
     strategy: overwrite
     init: true
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_SDK
-    type: path
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_SDK
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
     values: "./"
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_PROJECT_DIR
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR
     initialization_description: Where is the project directory?
     strategy: overwrite
     init: false
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
-    type: path
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
     values: "./"
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_REPORT_USAGE_STATISTICS
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_USAGE_STATISTICS
     initialization_description: Do you agree to send anonymous usage reports to help improving the SDK?
     strategy: overwrite
     init: true
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
-    type: boolean
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_BOOLEAN
     values: false
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_CORE_NAMESPACE
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_CORE_NAMESPACE
     initialization_description: Do you approve core namespaces?
     strategy: merge
     init: false
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
-    type: string
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
     values:
       - SprykerShop
       - SprykerEco
       - Spryker
       - SprykerSdk
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_PROJECT_NAMESPACES
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_NAMESPACES
     initialization_description: Do you approve project namespaces?
     strategy: merge
     init: false
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
-    type: string
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
     values:
       - Pyz
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_DEFAULT_VIOLATION_OUTPUT_PATH
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_DEFAULT_VIOLATION_OUTPUT_PATH
     initialization_description: Default qa output report format for the report.
     strategy: overwrite
     init: true
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
-    type: string
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
     values: output
     initializer: violation_output_format_initializer
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_REPORT_DIR
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR
     initialization_description: Where is the project report directory?
     strategy: overwrite
     init: false
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
-    type: path
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
     values: "./.ssdk/reports/"
     initializer: create_directory_initializer
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_PROJECT_KEY
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_KEY
     initialization_description: What is the project unique key?
     strategy: overwrite
     init: true
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
     type: uuid
     values: ""
     initializer: project_uuid_initializer
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_WORKFLOW
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_WORKFLOW
     initialization_description: What is the project workflow?
     strategy: merge
     init: true
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_LOCAL
-    type: array
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_ARRAY
     initializer: project_workflow_initializer
     values: []
-  - path: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::PATH_QA_TASKS
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_QA_TASKS
     initialization_description: List of task for QA automation
     strategy: overwrite
     init: true
-    type: array
-    setting_type: !php/const SprykerSdk\Sdk\Core\Domain\Enum\Setting::SETTING_TYPE_SHARED
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_ARRAY
+    setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_SHARED
     initializer: qa_task_initializer
     values:
       - validation:php:codestyle-check

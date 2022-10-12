@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/acp app:configuration:validate %configuration-file%"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -17,4 +17,4 @@ placeholders:
       alias: "configuration-file"
       option: "configuration-file"
       description: "Path to configuration file"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

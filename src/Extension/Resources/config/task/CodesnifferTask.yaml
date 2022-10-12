@@ -5,7 +5,7 @@ help: "You may need to set default phpcs standard before using it. By default us
 stage: build
 version: 1.1.0
 command: "php %executable_command% %severity% %report_type% %path% %reportDir%"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%executable_command%"
     value_resolver: PRIORITY_PATH
@@ -13,14 +13,14 @@ placeholders:
     configuration:
       description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/phpcs"
-      settingPaths: [ "project_dir", "sdk_dir" ]
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
   - name: "%report_type%"
     value_resolver: STATIC
     optional: true
     configuration:
       option: "report"
       description: "Report Type format"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'json'
   - name: "%path%"
     value_resolver: STATIC
@@ -28,7 +28,7 @@ placeholders:
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: 'src'
   - name: "%reportDir%"
     value_resolver: REPORT_DIR
@@ -36,8 +36,8 @@ placeholders:
     configuration:
       option: "report-file"
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "phpcs.codestyle.json"
   - name: "%severity%"
     value_resolver: STATIC
@@ -46,7 +46,7 @@ placeholders:
       alias: 'severity'
       option: 'severity'
       description: 'Severity level of the CodeSniffer'
-      type: int
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_INT
       defaultValue: null
 report_converter:
     name: CheckstyleViolationReportConverter

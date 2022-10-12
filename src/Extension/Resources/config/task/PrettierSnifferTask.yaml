@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.0
 command: "npx --prefix %sdk_dir% prettier %check% %log-level% %path% > %reportDir% 2>&1"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -25,7 +25,7 @@ placeholders:
       option: "loglevel"
       description: "What level of logs to report (possible values: log, error, warn)"
       help: "What level of logs to report (possible values: log, error, warn)"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'log'
       choiceValues:
         - log
@@ -36,8 +36,8 @@ placeholders:
     optional: true
     configuration:
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "frontend.prettier.log"
   - name: "%path%"
     value_resolver: STATIC
@@ -45,7 +45,7 @@ placeholders:
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: 'src'
 report_converter:
   name: PrettierSnifferViolationReportConverter

@@ -5,4 +5,4 @@ help: ~
 stage: build
 version: 0.3.0
 command: "php ./vendor/bin/install"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI

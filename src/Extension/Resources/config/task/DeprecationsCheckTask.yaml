@@ -5,7 +5,7 @@ help: "By default exits with code `1` in case of critical error and with code `0
 stage: build
 version: 1.1.0
 command: "php %executable_command% --config=%config% %no-progress% %output-format% %reportDir% 1> /dev/null"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 placeholders:
   - name: "%executable_command%"
     value_resolver: PRIORITY_PATH
@@ -13,14 +13,14 @@ placeholders:
     configuration:
       description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/psalm"
-      settingPaths: [ "project_dir", "sdk_dir" ]
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
   - name: "%output-format%"
     value_resolver: STATIC
     optional: true
     configuration:
       option: "output-format"
       description: "Output format"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'json'
   - name: '%no-progress%'
     value_resolver: FLAG
@@ -35,7 +35,7 @@ placeholders:
     configuration:
       option: "output-format"
       description: "Output format"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'json'
   - name: "%reportDir%"
     value_resolver: REPORT_DIR
@@ -43,8 +43,8 @@ placeholders:
     configuration:
       option: "report"
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "psalm.deprecations_report.json"
   - name: "%config%"
     value_resolver: CONFIG_PATH

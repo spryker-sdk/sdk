@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class ConfigManager implements ConfigManagerInterface
