@@ -3,7 +3,7 @@ id: "acp:openapi:validate"
 short_description: "Validate ACP OpenAPI file."
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "php %sdk_dir%/vendor/bin/syncapi schema:openapi:validate %openapi-file% -v"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:

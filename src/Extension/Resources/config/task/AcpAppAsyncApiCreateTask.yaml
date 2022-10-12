@@ -3,7 +3,7 @@ id: "acp:asyncapi:create"
 short_description: "Create ACP AsyncAPI file."
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:create %asyncapi-file% %api-version% %title% -v"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:

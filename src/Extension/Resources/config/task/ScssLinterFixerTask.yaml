@@ -3,7 +3,7 @@ id: "validation:scss:codestyle-fix"
 short_description: "Fixes violations and validates your scss code"
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "node %sdk_dir%/frontend/libs/stylelint.js %fix% %file-path% %config-path% > %reportDir%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:

@@ -3,7 +3,7 @@ id: "pbc:validate:run"
 short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 help: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 stage: build
-version: 0.3.0
+version: 0.3.1
 command: ~
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
 tasks:

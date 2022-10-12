@@ -3,7 +3,7 @@ id: "validation:php:architecture"
 short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
-version: 1.1.0
+version: 1.1.1
 command: "%executable_command% %path% %format% %config% %strict% %minimum-priority% %priority% %reportDir%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:

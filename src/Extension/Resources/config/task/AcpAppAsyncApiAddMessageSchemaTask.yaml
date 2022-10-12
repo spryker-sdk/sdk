@@ -3,7 +3,7 @@ id: "acp:asyncapi:message-add"
 short_description: "Create ACP AsyncAPI file."
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "php %executable_command% schema:asyncapi:message:add %channel-name% %message-name% %operation-id% %asyncapi-file% %property% %from-transfer-class% %message-type% %add-metadata% -v"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:

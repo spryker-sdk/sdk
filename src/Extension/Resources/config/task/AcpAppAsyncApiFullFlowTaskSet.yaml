@@ -3,7 +3,7 @@ id: "acp:asyncapi:full-flow"
 short_description: "Create ACP AsyncAPI"
 help: ~
 stage: build
-version: 1.0.0
+version: 1.0.1
 command: ~
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
 tasks:

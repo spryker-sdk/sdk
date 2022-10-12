@@ -3,7 +3,7 @@ id: "validation:php:security-check"
 short_description: "Check your code by running a static code analysis and generate report with violations"
 help: ~
 stage: build
-version: 1.1.0
+version: 1.1.1
 command: "php %sdk_dir%/bin/console security:check %output-format% > %reportDir%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:

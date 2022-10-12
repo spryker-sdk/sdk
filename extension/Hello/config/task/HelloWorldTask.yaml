@@ -3,7 +3,7 @@ id: 'hello:world'
 short_description: 'Sends greetings'
 help: 'Will greet the one using it'
 stage: hello
-version: 1.0.0
+version: 1.0.1
 deprecated: false
 successor: 'hello:php'
 command: '/bin/echo "hello %world% %somebody%"'

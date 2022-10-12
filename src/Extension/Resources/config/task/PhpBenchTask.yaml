@@ -3,7 +3,7 @@ id: "validation:php:benchmark"
 short_description: "Check your code efficiency by running a benchmark"
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "php %executable_command% run %tests% %bootstrap% %group% %iterations% %revs% %report% %time-unit% %reportDir%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 optional: false
