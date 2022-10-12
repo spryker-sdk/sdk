@@ -75,7 +75,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', true, 'boolean', []);
+        $receiverValue = new ReceiverValue('', true, ValueTypeEnum::TYPE_BOOL, []);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);

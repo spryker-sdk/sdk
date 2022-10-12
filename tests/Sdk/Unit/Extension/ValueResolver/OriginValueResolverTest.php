@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\OriginValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
  * @group Sdk
@@ -53,7 +54,7 @@ class OriginValueResolverTest extends Unit
             'name' => 'alias',
             'description' => 'description',
             'help' => 'help',
-            'type' => 'boolean',
+            'type' => ValueTypeEnum::TYPE_BOOL,
             'settingPaths' => ['setting'],
             'choiceValues' => ['values'],
         ];
