@@ -46,7 +46,7 @@ placeholders:
       alias: 'severity'
       option: 'severity'
       description: 'Severity level of the CodeSniffer'
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_INTEGER
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_INT
       defaultValue: null
 report_converter:
     name: CheckstyleViolationReportConverter

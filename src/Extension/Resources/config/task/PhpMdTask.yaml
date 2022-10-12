@@ -58,7 +58,7 @@ placeholders:
       alias: "priority"
       description: "Minimal PHPMD priority of rules to fail the validation"
       defaultValue: 2
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_INTEGER
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_INT
   - name: "%reportDir%"
     value_resolver: REPORT_DIR
     optional: true

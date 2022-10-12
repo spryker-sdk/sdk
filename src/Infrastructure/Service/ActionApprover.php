@@ -38,7 +38,7 @@ class ActionApprover implements ActionApproverInterface
             new ReceiverValue(
                 $message,
                 true,
-                ValueTypeEnum::TYPE_BOOLEAN,
+                ValueTypeEnum::TYPE_BOOL,
             ),
         );
     }

@@ -107,7 +107,7 @@ class SettingManager
     {
         $typedValue = is_array($value) ?
             (array)$value :
-            [ValueTypeEnum::TYPE_ARRAY => (array)$value, ValueTypeEnum::TYPE_BOOLEAN => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
+            [ValueTypeEnum::TYPE_ARRAY => (array)$value, ValueTypeEnum::TYPE_BOOL => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
             $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);

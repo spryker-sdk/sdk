@@ -177,7 +177,7 @@ class CliInteractionProcessorTest extends Unit
 
         $mockMap = [
             ValueTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,
-            ValueTypeEnum::TYPE_BOOLEAN => BooleanQuestionFactory::class,
+            ValueTypeEnum::TYPE_BOOL => BooleanQuestionFactory::class,
         ];
 
         $questionFactoryRegistryMock->method('getQuestionFactoryByType')->willReturnCallback(

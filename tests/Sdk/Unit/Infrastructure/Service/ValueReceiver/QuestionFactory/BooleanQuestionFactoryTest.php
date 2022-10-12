@@ -47,6 +47,6 @@ class BooleanQuestionFactoryTest extends Unit
         $type = BooleanQuestionFactory::getType();
 
         // Assert
-        $this->assertSame($type, ValueTypeEnum::TYPE_BOOLEAN);
+        $this->assertSame($type, ValueTypeEnum::TYPE_BOOL);
     }
 }

@@ -120,7 +120,7 @@ class InitProjectCommand extends Command
         if (file_exists($this->projectSettingFileName)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
-                    new ReceiverValue('Project settings file already exists, should it be overwritten?', false, ValueTypeEnum::TYPE_BOOLEAN),
+                    new ReceiverValue('Project settings file already exists, should it be overwritten?', false, ValueTypeEnum::TYPE_BOOL),
                 )
             ) {
                 return static::SUCCESS;
@@ -161,7 +161,7 @@ class InitProjectCommand extends Command
                     new ReceiverValue(
                         sprintf('Would you like to change the default value for `%s` setting?', $settingEntity->getPath()),
                         false,
-                        ValueTypeEnum::TYPE_BOOLEAN,
+                        ValueTypeEnum::TYPE_BOOL,
                     ),
                 );
             }
@@ -174,7 +174,7 @@ class InitProjectCommand extends Command
                 $values = $this->askSettingValue($settingEntity, $values);
             }
 
-            $values = [ValueTypeEnum::TYPE_BOOLEAN => (bool)$values, ValueTypeEnum::TYPE_ARRAY => (array)$values][$settingEntity->getType()] ?? (string)$values;
+            $values = [ValueTypeEnum::TYPE_BOOL => (bool)$values, ValueTypeEnum::TYPE_ARRAY => (array)$values][$settingEntity->getType()] ?? (string)$values;
             if ($settingEntity->getType() !== ValueTypeEnum::TYPE_ARRAY && $values === $settingEntity->getValues()) {
                 continue;
             }

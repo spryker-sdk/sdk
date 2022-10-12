@@ -30,6 +30,6 @@ class BooleanQuestionFactory implements QuestionFactoryInterface
      */
     public static function getType(): string
     {
-        return ValueTypeEnum::TYPE_BOOLEAN;
+        return ValueTypeEnum::TYPE_BOOL;
     }
 }

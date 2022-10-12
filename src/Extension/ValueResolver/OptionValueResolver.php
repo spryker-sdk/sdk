@@ -37,7 +37,7 @@ class OptionValueResolver extends StaticValueResolver
                 new ReceiverValue(
                     sprintf('Would you like to configure `%s` setting? (%s)', $this->getAlias(), $this->getDescription()),
                     false,
-                    ValueTypeEnum::TYPE_BOOLEAN,
+                    ValueTypeEnum::TYPE_BOOL,
                 ),
             );
         }

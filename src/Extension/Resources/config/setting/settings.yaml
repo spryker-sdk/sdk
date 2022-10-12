@@ -46,7 +46,7 @@ settings:
     strategy: overwrite
     init: true
     setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
-    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_BOOLEAN
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_BOOL
     values: false
   - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_CORE_NAMESPACES
     initialization_description: Do you approve core namespaces?
