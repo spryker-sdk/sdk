@@ -5,7 +5,7 @@ help: ~
 stage: build
 version: 0.2.0
 command: "php %sdk_dir%/vendor/bin/asyncapi schema:asyncapi:create %asyncapi-file% %api-version% %title% -v"
-type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR

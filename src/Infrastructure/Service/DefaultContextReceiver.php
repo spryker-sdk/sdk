@@ -31,6 +31,6 @@ class DefaultContextReceiver implements DefaultContextReceiverInterface
      */
     public function getFormat(): string
     {
-        return $this->settingRepository->getOneByPath(Setting::PATH_DEFAULT_VIOLATION_OUTPUT_PATH)->getValues();
+        return $this->settingRepository->getOneByPath(Setting::PATH_DEFAULT_VIOLATION_OUTPUT_FORMAT)->getValues();
     }
 }

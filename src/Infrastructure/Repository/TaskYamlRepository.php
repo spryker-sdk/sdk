@@ -246,7 +246,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                 throw new InvalidConfigurationException(sprintf('Invalid configuration for path "%s, `type` doesn\'t exist.": ', $taskFile->getFilename()));
             }
 
-            if ($taskData['type'] === EnumTask::TASK_SET_TYPE) {
+            if ($taskData['type'] === EnumTask::TYPE_TASK_SET) {
                 $this->taskSetsData[(string)$taskData['id']] = $taskData;
             } else {
                 $this->taskListData[(string)$taskData['id']] = $taskData;
@@ -289,7 +289,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
         $taskPlaceholders = [];
         $taskPlaceholders[] = $data['placeholders'] ?? [];
 
-        if (isset($data['type']) && $data['type'] === EnumTask::TASK_SET_TYPE) {
+        if (isset($data['type']) && $data['type'] === EnumTask::TYPE_TASK_SET) {
             foreach ($data['tasks'] as $task) {
                 $taskTags = $task['tags'] ?? [];
                 if ($tags && !array_intersect($tags, $taskTags)) {
@@ -335,7 +335,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
     {
         $commands = [];
 
-        if (in_array($data['type'], [EnumTask::TASK_TYPE_LOCAL_CLI, EnumTask::TASK_TYPE_LOCAL_CLI_INTERACTIVE], true)) {
+        if (in_array($data['type'], [EnumTask::TYPE_LOCAL_CLI, EnumTask::TYPE_LOCAL_CLI_INTERACTIVE], true)) {
             $converter = isset($data['report_converter']) ? new Converter(
                 $data['report_converter']['name'],
                 $data['report_converter']['configuration'],
@@ -351,7 +351,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
             );
         }
 
-        if ($data['type'] === EnumTask::TASK_SET_TYPE) {
+        if ($data['type'] === EnumTask::TYPE_TASK_SET) {
             foreach ($data['tasks'] as $task) {
                 $tasksTags = $task['tags'] ?? [];
                 if ($tags && !array_intersect($tags, $tasksTags)) {

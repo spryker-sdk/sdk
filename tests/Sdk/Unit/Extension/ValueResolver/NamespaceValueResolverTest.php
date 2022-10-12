@@ -65,6 +65,6 @@ class NamespaceValueResolverTest extends Unit
         $valueResolver->configure(['defaultValue' => 'Pyz', 'description' => 'Namespace name']);
 
         // Act
-        $valueResolver->getValue($this->context, [Setting::PATH_PROJECT_NAMESPACES => ['Pyz', 'test2'], Setting::PATH_CORE_NAMESPACE => ['test3']]);
+        $valueResolver->getValue($this->context, [Setting::PATH_PROJECT_NAMESPACES => ['Pyz', 'test2'], Setting::PATH_CORE_NAMESPACES => ['test3']]);
     }
 }

@@ -86,11 +86,11 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TASK_SET_TYPE])
+                        ->ifNotInArray([Task::TYPE_TASK_SET])
                         ->thenInvalid(
                             vsprintf(
                                 'Task type `%s` should have %s.',
-                                ['%s', Task::TASK_SET_TYPE],
+                                ['%s', Task::TYPE_TASK_SET],
                             ),
                         )
                     ->end()
@@ -238,11 +238,11 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                     ->scalarNode('type')
                         ->isRequired()
                         ->validate()
-                            ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE])
+                            ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE, Task::TYPE_TASK_SET])
                             ->thenInvalid(
                                 vsprintf(
                                     'Task type `%s` should have %s, %s or %s.',
-                                    ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE],
+                                    ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE, Task::TYPE_TASK_SET],
                                 ),
                             )
                         ->end()

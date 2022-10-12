@@ -42,7 +42,7 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
      */
     public function getType(): string
     {
-        return EnumTask::TASK_TYPE_LOCAL_CLI;
+        return EnumTask::TYPE_LOCAL_CLI;
     }
 
     /**

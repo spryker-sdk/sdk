@@ -5,7 +5,7 @@ help: "Validates your php code using different approaches like codestyle, archit
 stage: build
 version: 0.3.0
 command: ~
-type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_SET_TYPE
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
 tasks:
   - id: "validation:php:codestyle-fix"
     stop_on_error: true

@@ -76,7 +76,7 @@ class SprykCodeLevelValueResolverTest extends Unit
         $valueResolver->configure(['defaultValue' => 'project']);
 
         // Act
-        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACE => ['test']]);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACES => ['test']]);
 
         // Assert
         $this->assertSame('core', $value);
@@ -97,7 +97,7 @@ class SprykCodeLevelValueResolverTest extends Unit
         $valueResolver->configure(['defaultValue' => 'project']);
 
         // Act
-        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACE => 'none']);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACES => 'none']);
 
         // Assert
         $this->assertSame('project', $value);

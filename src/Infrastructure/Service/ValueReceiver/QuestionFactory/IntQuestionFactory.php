@@ -40,6 +40,6 @@ class IntQuestionFactory extends StringQuestionFactory
      */
     public static function getType(): string
     {
-        return ValueTypeEnum::TYPE_INT;
+        return ValueTypeEnum::TYPE_INTEGER;
     }
 }

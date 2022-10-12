@@ -48,7 +48,7 @@ settings:
     setting_type: !php/const SprykerSdk\SdkContracts\Enum\Setting::SETTING_TYPE_LOCAL
     type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_BOOLEAN
     values: false
-  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_CORE_NAMESPACE
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_CORE_NAMESPACES
     initialization_description: Do you approve core namespaces?
     strategy: merge
     init: false
@@ -67,7 +67,7 @@ settings:
     type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
     values:
       - Pyz
-  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_DEFAULT_VIOLATION_OUTPUT_PATH
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_DEFAULT_VIOLATION_OUTPUT_FORMAT
     initialization_description: Default qa output report format for the report.
     strategy: overwrite
     init: true

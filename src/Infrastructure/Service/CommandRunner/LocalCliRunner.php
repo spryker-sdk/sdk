@@ -91,7 +91,7 @@ class LocalCliRunner implements CliCommandRunnerInterface
      */
     public function canHandle(CommandInterface $command): bool
     {
-        return in_array($command->getType(), [EnumTask::TASK_TYPE_LOCAL_CLI, EnumTask::TASK_TYPE_LOCAL_CLI_INTERACTIVE], true);
+        return in_array($command->getType(), [EnumTask::TYPE_LOCAL_CLI, EnumTask::TYPE_LOCAL_CLI_INTERACTIVE], true);
     }
 
     /**
@@ -126,7 +126,7 @@ class LocalCliRunner implements CliCommandRunnerInterface
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
 
-        if ($command->getType() === EnumTask::TASK_TYPE_LOCAL_CLI_INTERACTIVE) {
+        if ($command->getType() === EnumTask::TYPE_LOCAL_CLI_INTERACTIVE) {
             $process->setTty(true);
         }
 

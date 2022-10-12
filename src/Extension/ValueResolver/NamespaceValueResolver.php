@@ -46,6 +46,6 @@ class NamespaceValueResolver extends OriginValueResolver
      */
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
-        return array_merge($settingValues[Setting::PATH_PROJECT_NAMESPACES], $settingValues[Setting::PATH_CORE_NAMESPACE]);
+        return array_merge($settingValues[Setting::PATH_PROJECT_NAMESPACES], $settingValues[Setting::PATH_CORE_NAMESPACES]);
     }
 }

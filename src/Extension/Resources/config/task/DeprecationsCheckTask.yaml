@@ -5,7 +5,7 @@ help: "By default exits with code `1` in case of critical error and with code `0
 stage: build
 version: 1.1.0
 command: "php %executable_command% --config=%config% %no-progress% %output-format% %reportDir% 1> /dev/null"
-type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
   - name: "%executable_command%"
     value_resolver: PRIORITY_PATH
