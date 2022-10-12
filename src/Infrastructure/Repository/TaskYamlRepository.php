@@ -114,12 +114,7 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     public function findAll(array $tags = []): array
     {
-        if (!$this->taskListData || !$this->taskSetsData) {
-            $this->readTaskYaml();
-        }
-
-        $this->taskListData = $this->manifestValidation->validate(TaskManifestConfiguration::NAME, $this->taskListData);
-        $this->taskSetsData = $this->manifestValidation->validate(TaskSetManifestConfiguration::NAME, $this->taskSetsData);
+        $this->readTaskYaml();
 
         $tasks = [];
         foreach ($this->taskListData as $taskData) {
@@ -227,6 +222,10 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function readTaskYaml(): void
     {
+        if ($this->taskListData && $this->taskSetsData) {
+            return;
+        }
+
         $taskDirSetting = $this->settingRepository->findOneByPath(Setting::PATH_EXTENSION_DIRS);
 
         if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
@@ -255,6 +254,9 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
                 $this->taskListData[(string)$taskData['id']] = $taskData;
             }
         }
+
+        $this->taskListData = $this->manifestValidation->validate(TaskManifestConfiguration::NAME, $this->taskListData);
+        $this->taskSetsData = $this->manifestValidation->validate(TaskSetManifestConfiguration::NAME, $this->taskSetsData);
     }
 
     /**
