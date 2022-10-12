@@ -24,19 +24,19 @@ placeholders:
       name: 'somebody'
       description: 'Who is somebody'
 lifecycle:
-  "!php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_INITIALIZED":
+  "!php/const SprykerSdk\\SdkContracts\\Enum\\Lifecycle::EVENT_INITIALIZED":
       commands:
         - command: echo "hello world"
           type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
       files: ~
       placeholders: ~
-  "!php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_UPDATED":
+  "!php/const SprykerSdk\\SdkContracts\\Enum\\Lifecycle::EVENT_UPDATED":
       commands:
         - command: echo "hello world"
           type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
       files: ~
       placeholders: ~
-  "!php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_REMOVED":
+  "!php/const SprykerSdk\\SdkContracts\\Enum\\Lifecycle::EVENT_REMOVED":
     commands:
       - command: echo "hello world"
         type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
