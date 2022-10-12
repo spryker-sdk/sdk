@@ -7,7 +7,7 @@ version: 1.0.0
 deprecated: false
 successor: 'hello:php'
 command: '/bin/echo "bye %world%"'
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_TYPE_LOCAL_CLI
 tags: ['bye', 'world']
 placeholders:
   - name: '%world%'

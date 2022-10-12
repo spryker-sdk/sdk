@@ -6,7 +6,7 @@ stage: build
 version: 1.1.0
 command: ~
 stages: [hello, bye]
-type: task_set
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TASK_SET_TYPE
 tasks:
   - id: 'bye:world'
     stop_on_error: false

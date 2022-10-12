@@ -30,6 +30,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
+use SprykerSdk\SdkContracts\Enum\Lifecycle as EnumLifecycle;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 use Symfony\Component\Finder\Finder;
@@ -462,11 +463,11 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function buildInitializedEventData(array $taskData, array $taskListData, array $tags = []): InitializedEventData
     {
-        if (!isset($taskData['lifecycle']['INITIALIZED'])) {
+        if (!isset($taskData['lifecycle'][EnumLifecycle::EVENT_INITIALIZED])) {
             return new InitializedEventData();
         }
 
-        $eventData = $taskData['lifecycle']['INITIALIZED'];
+        $eventData = $taskData['lifecycle'][EnumLifecycle::EVENT_INITIALIZED];
 
         return new InitializedEventData(
             $this->buildLifecycleCommands($eventData),
@@ -484,11 +485,11 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function buildRemovedEventData(array $taskData, array $taskListData, array $tags = []): RemovedEventData
     {
-        if (!isset($taskData['lifecycle']['REMOVED'])) {
+        if (!isset($taskData['lifecycle'][EnumLifecycle::EVENT_REMOVED])) {
             return new RemovedEventData();
         }
 
-        $eventData = $taskData['lifecycle']['REMOVED'];
+        $eventData = $taskData['lifecycle'][EnumLifecycle::EVENT_REMOVED];
 
         return new RemovedEventData(
             $this->buildLifecycleCommands($eventData),
@@ -506,11 +507,11 @@ class TaskYamlRepository implements TaskYamlRepositoryInterface
      */
     protected function buildUpdatedEventData(array $taskData, array $taskListData, array $tags = []): UpdatedEventData
     {
-        if (!isset($taskData['lifecycle']['UPDATED'])) {
+        if (!isset($taskData['lifecycle'][EnumLifecycle::EVENT_UPDATED])) {
             return new UpdatedEventData();
         }
 
-        $eventData = $taskData['lifecycle']['UPDATED'];
+        $eventData = $taskData['lifecycle'][EnumLifecycle::EVENT_UPDATED];
 
         return new UpdatedEventData(
             $this->buildLifecycleCommands($eventData),
