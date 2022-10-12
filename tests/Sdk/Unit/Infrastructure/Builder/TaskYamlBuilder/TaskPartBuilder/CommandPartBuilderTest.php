@@ -87,11 +87,11 @@ class CommandPartBuilderTest extends Unit
     {
         return [
             [[
-                'type' => Task::TASK_TYPE_LOCAL_CLI,
+                'type' => Task::TYPE_LOCAL_CLI,
                 'command' => 'echo "test"',
             ]],
             [[
-                'type' => Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE,
+                'type' => Task::TYPE_LOCAL_CLI_INTERACTIVE,
                 'command' => 'echo "test"',
             ]],
         ];

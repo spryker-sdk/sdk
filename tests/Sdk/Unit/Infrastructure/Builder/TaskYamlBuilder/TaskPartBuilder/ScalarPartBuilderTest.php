@@ -40,7 +40,7 @@ class ScalarPartBuilderTest extends Unit
 
         ];
         $criteriaDto = new TaskYamlCriteriaDto(
-            Task::TASK_TYPE_LOCAL_CLI,
+            Task::TYPE_LOCAL_CLI,
             $requiredTaskData,
             [],
         );
@@ -74,7 +74,7 @@ class ScalarPartBuilderTest extends Unit
         // Arrange
         $scalarPartBuilder = new ScalarTaskPartBuilder();
         $criteriaDto = new TaskYamlCriteriaDto(
-            Task::TASK_TYPE_LOCAL_CLI,
+            Task::TYPE_LOCAL_CLI,
             $invalidTaskData,
             [],
         );
@@ -124,7 +124,7 @@ class ScalarPartBuilderTest extends Unit
             'stages' => ['init', 'test'],
         ];
         $criteriaDto = new TaskYamlCriteriaDto(
-            Task::TASK_TYPE_LOCAL_CLI,
+            Task::TYPE_LOCAL_CLI,
             array_merge($requiredTaskData, $optionalTaskData),
             [],
         );
@@ -151,7 +151,7 @@ class ScalarPartBuilderTest extends Unit
         // Arrange
         $scalarPartBuilder = new ScalarTaskPartBuilder();
         $criteriaDto = new TaskYamlCriteriaDto(
-            Task::TASK_TYPE_LOCAL_CLI,
+            Task::TYPE_LOCAL_CLI,
             [
                 'id' => 'test',
                 'short_description' => 'description',

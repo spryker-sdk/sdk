@@ -45,7 +45,7 @@ class PlaceholderPartBuilderTest extends Unit
     {
         // Arrange
         $criteriaDto = new TaskYamlCriteriaDto(
-            Task::TASK_TYPE_LOCAL_CLI,
+            Task::TYPE_LOCAL_CLI,
             [],
             [],
         );
@@ -98,7 +98,7 @@ class PlaceholderPartBuilderTest extends Unit
     {
         return [
             [
-                'type' => Task::TASK_SET_TYPE,
+                'type' => Task::TYPE_TASK_SET,
                 'taskData' => [
                     'tasks' => [
                         [
@@ -118,7 +118,7 @@ class PlaceholderPartBuilderTest extends Unit
                 ],
             ],
             [
-                'type' => Task::TASK_SET_TYPE,
+                'type' => Task::TYPE_TASK_SET,
                 'taskData' => [
                     'tasks' => [
                         [

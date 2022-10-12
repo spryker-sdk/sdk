@@ -36,7 +36,7 @@ class LifecyclePartBuilderTest extends Unit
     public function testAddPartBuildsFreshLifecycleIfNoLifecycleConfigured(): void
     {
         // Arrange
-        $criteriaDto = new TaskYamlCriteriaDto(Task::TASK_TYPE_LOCAL_CLI, [], []);
+        $criteriaDto = new TaskYamlCriteriaDto(Task::TYPE_LOCAL_CLI, [], []);
         $lifecyclePartBuilder = new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder(new InMemoryTaskStorage()));
 
         // Act
@@ -83,7 +83,7 @@ class LifecyclePartBuilderTest extends Unit
         ];
 
         $criteriaDto = new TaskYamlCriteriaDto(
-            Task::TASK_TYPE_LOCAL_CLI,
+            Task::TYPE_LOCAL_CLI,
             $taskData,
             [],
         );
@@ -145,7 +145,7 @@ class LifecyclePartBuilderTest extends Unit
                     'commands' => [
                         [
                             'command' => 'echo "Hello"',
-                            'type' => Task::TASK_TYPE_LOCAL_CLI,
+                            'type' => Task::TYPE_LOCAL_CLI,
                         ],
                     ],
                     'files' => [
