@@ -68,8 +68,8 @@ class CommandTaskPartBuilder implements TaskPartBuilderInterface
     protected function isApplicable(TaskYamlCriteriaDto $criteriaDto): bool
     {
         $applicableTaskTypes = [
-            Task::TASK_TYPE_LOCAL_CLI,
-            Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE,
+            Task::TYPE_LOCAL_CLI,
+            Task::TYPE_LOCAL_CLI_INTERACTIVE,
         ];
 
         if (!in_array($criteriaDto->getType(), $applicableTaskTypes, true)) {

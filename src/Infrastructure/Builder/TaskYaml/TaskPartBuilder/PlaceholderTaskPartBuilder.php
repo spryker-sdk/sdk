@@ -67,7 +67,7 @@ class PlaceholderTaskPartBuilder implements TaskPartBuilderInterface
     {
         $taskData = $criteriaDto->getTaskData();
 
-        if (isset($taskData['type']) && $taskData['type'] !== Task::TASK_SET_TYPE) {
+        if (isset($taskData['type']) && $taskData['type'] !== Task::TYPE_TASK_SET) {
             return $taskPlaceholders;
         }
 

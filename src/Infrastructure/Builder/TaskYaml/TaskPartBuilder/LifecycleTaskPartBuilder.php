@@ -14,9 +14,9 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
-use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle as LifecycleEnum;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
+use SprykerSdk\SdkContracts\Enum\Lifecycle as LifecycleEnum;
 
 class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
 {

@@ -9,7 +9,7 @@ namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
+use SprykerSdk\SdkContracts\Enum\Lifecycle;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\LifecycleTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
