@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Violation;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class ViolationPathReader
 {

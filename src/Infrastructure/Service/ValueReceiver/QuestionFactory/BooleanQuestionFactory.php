@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
@@ -30,6 +30,6 @@ class BooleanQuestionFactory implements QuestionFactoryInterface
      */
     public static function getType(): string
     {
-        return ValueTypeEnum::TYPE_BOOLEAN;
+        return ValueTypeEnum::TYPE_BOOL;
     }
 }

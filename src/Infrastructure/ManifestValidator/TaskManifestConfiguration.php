@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Enum\Task;
+use SprykerSdk\SdkContracts\Enum\Lifecycle;
+use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
@@ -121,11 +121,11 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE])
+                        ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE])
                         ->thenInvalid(
                             vsprintf(
                                 'Task type `%s` should have %s or %s.',
-                                ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
+                                ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
                             ),
                         )
                     ->end()
@@ -220,11 +220,11 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE])
+                        ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE])
                         ->thenInvalid(
                             vsprintf(
                                 'Task type `%s` should have %s or %s.',
-                                ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
+                                ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
                             ),
                         )
                     ->end()

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a85f830c25b02e1ed6b4094c31c59170",
+    "content-hash": "d88fbb8ecac030218b24f5dac31d464a",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6304,16 +6304,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "0.4.1",
+            "version": "dev-feature/sdk-1007-move-enum-to-contracts",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "f97b8b01aa069c4eda0a76f09d3a8f25b488d3c0"
+                "reference": "587ae5dbdcfaeecd952fc536c51142681094d38f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/f97b8b01aa069c4eda0a76f09d3a8f25b488d3c0",
-                "reference": "f97b8b01aa069c4eda0a76f09d3a8f25b488d3c0",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/587ae5dbdcfaeecd952fc536c51142681094d38f",
+                "reference": "587ae5dbdcfaeecd952fc536c51142681094d38f",
                 "shasum": ""
             },
             "require": {
@@ -6337,9 +6337,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.1"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-1007-move-enum-to-contracts"
             },
-            "time": "2022-09-16T13:22:12+00:00"
+            "time": "2022-10-12T10:48:28+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14509,10 +14509,18 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "dev-feature/sdk-1007-move-enum-to-contracts",
+            "alias": "0.4.1",
+            "alias_normalized": "0.4.1.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -14533,5 +14541,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

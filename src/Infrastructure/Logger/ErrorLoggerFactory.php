@@ -15,7 +15,7 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
-use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class ErrorLoggerFactory
 {
@@ -61,7 +61,7 @@ class ErrorLoggerFactory
     protected function createLoggerHandler(): HandlerInterface
     {
         try {
-            $projectDirSetting = $this->projectSettingRepository->findOneByPath(SettingPath::PROJECT_DIR);
+            $projectDirSetting = $this->projectSettingRepository->findOneByPath(Setting::PATH_PROJECT_DIR);
         } catch (SettingsNotInitializedException $e) {
             return new NullHandler();
         }

@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Core\Application\Violation;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationConverterInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 

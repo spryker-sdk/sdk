@@ -3,10 +3,10 @@ id: 'hello:task:set'
 short_description: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
 help: 'Fixes violations and validates your php code using different approaches like codestyle. Generate report in the end.'
 stage: build
-version: 1.1.0
+version: 1.1.1
 command: ~
 stages: [hello, bye]
-type: task_set
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
 tasks:
   - id: 'bye:world'
     stop_on_error: false

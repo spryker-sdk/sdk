@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\Exception\UniqueValueException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
 
 class InteractionAnswerBasedTransitionResolver implements TransitionResolverInterface
@@ -65,7 +66,7 @@ class InteractionAnswerBasedTransitionResolver implements TransitionResolverInte
         $answer = $this->cliValueReceiver->receiveValue(new ReceiverValue(
             $settings[static::QUESTION] ?? '',
             null,
-            'string',
+            ValueTypeEnum::TYPE_STRING,
             array_values($choiceValues),
         ));
 

@@ -12,6 +12,7 @@ use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionProperty;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class DtoProperty
 {
@@ -176,7 +177,7 @@ class DtoProperty
         }
 
         $this->type = $type->getName();
-        $this->isArray = $type->getName() === 'array';
+        $this->isArray = $type->getName() === ValueTypeEnum::TYPE_ARRAY;
         $this->isRequired = !$type->allowsNull() && !isset($class->getDefaultProperties()[$property->getName()]);
 
         $this->parseDocType($property);

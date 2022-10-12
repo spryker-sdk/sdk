@@ -3,15 +3,15 @@ id: 'hello:world'
 short_description: 'Sends greetings'
 help: 'Will greet the one using it'
 stage: hello
-version: 1.0.0
+version: 1.0.1
 deprecated: false
 successor: 'hello:php'
 command: '/bin/echo "hello %world% %somebody%"'
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 tags: ['hello', 'world']
 placeholders:
   - name: '%world%'
-    value_resolver: SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver
+    value_resolver: STATIC
     optional: false
     configuration:
       name: 'world'
@@ -24,21 +24,21 @@ placeholders:
       name: 'somebody'
       description: 'Who is somebody'
 lifecycle:
-  INITIALIZED:
+  !php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_INITIALIZED:
       commands:
         - command: echo "hello world"
-          type: local_cli
+          type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
       files: ~
       placeholders: ~
-  UPDATED:
+  !php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_UPDATED:
       commands:
         - command: echo "hello world"
-          type: local_cli
+          type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
       files: ~
       placeholders: ~
-  REMOVED:
+  !php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_REMOVED:
     commands:
       - command: echo "hello world"
-        type: local_cli
+        type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
     files: ~
     placeholders: ~

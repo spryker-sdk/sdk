@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class SprykCodeLevelValueResolver extends OriginValueResolver
 {
@@ -44,7 +44,7 @@ class SprykCodeLevelValueResolver extends OriginValueResolver
             return $this->formatValue($this->getDefaultValue());
         }
 
-        if (in_array($resolvedValues[$namespaceAlias], (array)$settingValues[Setting::PATH_CORE_NAMESPACE], false)) {
+        if (in_array($resolvedValues[$namespaceAlias], (array)$settingValues[Setting::PATH_CORE_NAMESPACES], false)) {
             return $this->formatValue(static::CORE);
         }
 
