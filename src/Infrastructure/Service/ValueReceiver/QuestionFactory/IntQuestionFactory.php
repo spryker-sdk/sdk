@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\Question;
 
 class IntQuestionFactory extends StringQuestionFactory

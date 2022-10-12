@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Enum\Task;
+use SprykerSdk\SdkContracts\Enum\Lifecycle;
+use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
@@ -58,7 +58,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                     ->isRequired()
                     ->validate()
                         ->ifTrue(function ($value) {
-                            return !preg_match('/^[a-z-]+(:[a-z-]+)+$/u', $value);
+                            return !preg_match('/^[a-z-]+(:[a-z-]+)+$/u', (string)$value);
                         })
                         ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-])+$/` format.')
                     ->end()
@@ -69,27 +69,24 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                     ->prototype('variable')->end()
                 ->end()
                 ->scalarNode('successor')
-                    ->defaultNull()
                     ->validate()
-                        ->ifTrue(function (string $value) {
-                            return !$value || !$this->validationHelper->isTaskNameExist($value);
+                        ->ifTrue(function ($value) {
+                            return !(!$value || $this->validationHelper->isTaskNameExist($value));
                         })
                         ->thenInvalid('Task %s doesn\'t exist.')
                     ->end()
                 ->end()
                 ->scalarNode('deprecated')
-                    ->defaultNull()
                     ->validate()
-                        ->ifTrue(function (string $value) {
+                        ->ifTrue(function ($value) {
                             return $value && !filter_var($value, FILTER_VALIDATE_BOOLEAN);
                         })
                         ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
                     ->end()
                 ->end()
                 ->scalarNode('optional')
-                    ->defaultNull()
                     ->validate()
-                        ->ifTrue(function (string $value) {
+                        ->ifTrue(function ($value) {
                             return $value && !filter_var($value, FILTER_VALIDATE_BOOLEAN);
                         })
                         ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
@@ -99,7 +96,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                     ->isRequired()
                     ->validate()
                         ->ifTrue(function ($value) {
-                            return !preg_match('/^\d+.\d+.\d+$/u', $value);
+                            return !preg_match('/^\d+.\d+.\d+$/u', (string)$value);
                         })
                         ->thenInvalid('Task version `%s` should have `/^\d+.\d+.\d+$/` format.')
                     ->end()
@@ -124,11 +121,11 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE])
+                        ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE])
                         ->thenInvalid(
                             vsprintf(
                                 'Task type `%s` should have %s or %s.',
-                                ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
+                                ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
                             ),
                         )
                     ->end()
@@ -223,11 +220,11 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE])
+                        ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE])
                         ->thenInvalid(
                             vsprintf(
                                 'Task type `%s` should have %s or %s.',
-                                ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
+                                ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
                             ),
                         )
                     ->end()
@@ -247,8 +244,8 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->isRequired()
                 ->info('Placeholder has `/^%[a-zA-Z-_]+%$/` format.')
                 ->validate()
-                    ->ifTrue(function (string $value) {
-                        return !preg_match('/^%[a-zA-Z-_]+%$/u', $value);
+                    ->ifTrue(function ($value) {
+                        return !preg_match('/^%[a-zA-Z-_]+%$/u', (string)$value);
                     })
                     ->thenInvalid('Placeholder %s has invalid format.')
                 ->end()
@@ -257,7 +254,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->isRequired()
                 ->validate()
                     ->ifString()
-                    ->ifTrue(function (string $placeholder) {
+                    ->ifTrue(function ($placeholder) {
                         return !$this->validationHelper->isNameValid($placeholder);
                     })
                     ->thenInvalid('`%s` placeholder doesn\'t exist.')
@@ -265,7 +262,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
             ->end()
             ->scalarNode('optional')
                 ->validate()
-                    ->ifTrue(function (string $value) {
+                    ->ifTrue(function ($value) {
                         if (!$value) {
                             return false;
                         }
@@ -278,7 +275,6 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
             ->arrayNode('configuration')
                 ->children()
                 ->scalarNode('name')
-                    ->setDeprecated()
                     ->defaultNull()
                 ->end()
                 ->scalarNode('option')

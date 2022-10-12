@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
-use SprykerSdk\Sdk\Core\Domain\Enum\Task;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command;
@@ -16,6 +15,7 @@ use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Enum\Task;
 
 class CommandTaskPartBuilder implements TaskPartBuilderInterface
 {

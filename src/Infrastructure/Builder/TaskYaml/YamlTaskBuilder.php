@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml;
 
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Core\Domain\Enum\Task as TaskType;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Enum\Task as TaskType;
 
 class YamlTaskBuilder implements TaskBuilderInterface
 {
@@ -59,7 +59,7 @@ class YamlTaskBuilder implements TaskBuilderInterface
     {
         return in_array(
             $taskYamlCriteriaDto->getType(),
-            [TaskType::TASK_TYPE_LOCAL_CLI, TaskType::TASK_TYPE_LOCAL_CLI_INTERACTIVE],
+            [TaskType::TYPE_LOCAL_CLI, TaskType::TYPE_LOCAL_CLI_INTERACTIVE],
             true,
         );
     }

@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Reader;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Domain\Enum\Task;
 use SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto;
+use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -64,7 +64,7 @@ class TaskYamlReader
 
         foreach ($finder->files() as $taskFile) {
             $taskData = $this->yamlParser->parse($taskFile->getContents());
-            if ($taskData['type'] === Task::TASK_SET_TYPE) {
+            if ($taskData['type'] === Task::TYPE_TASK_SET) {
                 $collection->addTaskSet($taskData);
 
                 continue;

@@ -3,11 +3,11 @@ id: 'bye:world'
 short_description: 'Bye bye'
 help: 'Will greet the one using it'
 stage: bye
-version: 1.0.0
+version: 1.0.1
 deprecated: false
 successor: 'hello:php'
 command: '/bin/echo "bye %world%"'
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 tags: ['bye', 'world']
 placeholders:
   - name: '%world%'

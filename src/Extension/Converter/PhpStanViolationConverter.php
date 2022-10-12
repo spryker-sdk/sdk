@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class PhpStanViolationConverter extends AbstractViolationConverter

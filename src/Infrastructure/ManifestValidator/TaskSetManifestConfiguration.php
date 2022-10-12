@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Lifecycle;
-use SprykerSdk\Sdk\Core\Domain\Enum\Task;
+use SprykerSdk\SdkContracts\Enum\Lifecycle;
+use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
@@ -59,7 +59,7 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                     ->isRequired()
                         ->validate()
                         ->ifTrue(function ($value) {
-                            return !preg_match('/^[a-z-]+:[a-z-]+:[a-z-]+$/u', $value);
+                            return !preg_match('/^[a-z-]+:[a-z-]+:[a-z-]+$/u', (string)$value);
                         })
                         ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-])+$/` format.')
                     ->end()
@@ -70,7 +70,7 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                     ->isRequired()
                     ->validate()
                         ->ifTrue(function ($value) {
-                            return !preg_match('/^\d+.\d+.\d+$/u', $value);
+                            return !preg_match('/^\d+.\d+.\d+$/u', (string)$value);
                         })
                         ->thenInvalid('Task version `%s` should have `/^\d+.\d+.\d+$/` format.')
                     ->end()
@@ -86,19 +86,18 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TASK_SET_TYPE])
+                        ->ifNotInArray([Task::TYPE_TASK_SET])
                         ->thenInvalid(
                             vsprintf(
                                 'Task type `%s` should have %s.',
-                                ['%s', Task::TASK_SET_TYPE],
+                                ['%s', Task::TYPE_TASK_SET],
                             ),
                         )
                     ->end()
                 ->end()
                 ->scalarNode('optional')
-                    ->defaultNull()
                     ->validate()
-                        ->ifTrue(function (string $value) {
+                        ->ifTrue(function ($value) {
                             return $value && !filter_var($value, FILTER_VALIDATE_BOOLEAN);
                         })
                         ->thenInvalid('`%s` is\'t boolean type. Possible values: `true` or `false`.')
@@ -238,11 +237,11 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                     ->scalarNode('type')
                         ->isRequired()
                         ->validate()
-                            ->ifNotInArray([Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE])
+                            ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE, Task::TYPE_TASK_SET])
                             ->thenInvalid(
                                 vsprintf(
                                     'Task type `%s` should have %s, %s or %s.',
-                                    ['%s', Task::TASK_TYPE_LOCAL_CLI, Task::TASK_TYPE_LOCAL_CLI_INTERACTIVE, Task::TASK_SET_TYPE],
+                                    ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE, Task::TYPE_TASK_SET],
                                 ),
                             )
                         ->end()
@@ -262,15 +261,15 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
                 ->isRequired()
                 ->info('Placeholder has `/^%[a-zA-Z-_]+%$/` format.')
                 ->validate()
-                    ->ifTrue(function (string $value) {
-                        return !preg_match('/^%[a-zA-Z-_]+%$/u', $value);
+                    ->ifTrue(function ($value) {
+                        return !preg_match('/^%[a-zA-Z-_]+%$/u', (string)$value);
                     })
                     ->thenInvalid('Placeholder %s has invalid format.')
                 ->end()
             ->end()
             ->scalarNode('optional')
                 ->validate()
-                    ->ifTrue(function (string $value) {
+                    ->ifTrue(function ($value) {
                         if (!$value) {
                             return false;
                         }
@@ -283,7 +282,6 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
             ->arrayNode('configuration')
                 ->children()
                     ->scalarNode('name')
-                        ->setDeprecated()
                         ->defaultNull()
                     ->end()
                     ->scalarNode('option')
