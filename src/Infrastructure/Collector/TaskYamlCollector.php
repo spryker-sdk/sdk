@@ -50,29 +50,28 @@ class TaskYamlCollector
             return $this->collectionDto;
         }
 
-        $this->validate($this->taskYamlReader->readFiles());
+        $this->collectionDto = $this->taskYamlReader->readFiles();
+        $this->validate();
 
         return $this->collectionDto;
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto $collectionDto
-     *
      * @return void
      */
-    protected function validate(ManifestCollectionDto $collectionDto): void
+    protected function validate(): void
     {
         $this->collectionDto->setTasks(
             $this->manifestValidator->validate(
                 TaskManifestConfiguration::NAME,
-                $collectionDto->getTasks(),
+                $this->collectionDto->getTasks(),
             ),
         );
 
         $this->collectionDto->setTaskSets(
             $this->manifestValidator->validate(
                 TaskSetManifestConfiguration::NAME,
-                $collectionDto->getTaskSets(),
+                $this->collectionDto->getTaskSets(),
             ),
         );
     }
