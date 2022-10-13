@@ -7,12 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration;
 use SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
@@ -41,16 +38,10 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     protected TaskBuilderInterface $taskBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface
-     */
-    protected ManifestValidatorInterface $manifestValidator;
-
-    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader $taskYamlReader
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage $taskStorage
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface $taskBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface $manifestValidator
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
@@ -58,7 +49,6 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
         InMemoryTaskStorage $taskStorage,
         TaskBuilderInterface $taskBuilder,
-        ManifestValidatorInterface $manifestValidator,
         iterable $existingTasks = []
     ) {
         $this->taskYamlReader = $taskYamlReader;
@@ -68,7 +58,6 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
         foreach ($existingTasks as $existingTask) {
             $this->taskStorage->addTask($existingTask);
         }
-        $this->manifestValidator = $manifestValidator;
     }
 
     /**
@@ -77,13 +66,6 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     public function loadAll(): array
     {
         $manifestCollection = $this->taskYamlReader->readFiles();
-
-        $manifestCollection->setTasks(
-            $this->manifestValidator->validate(TaskManifestConfiguration::NAME, $manifestCollection->getTasks()),
-        );
-        $manifestCollection->setTaskSets(
-            $this->manifestValidator->validate(TaskSetManifestConfiguration::NAME, $manifestCollection->getTaskSets()),
-        );
 
         foreach ($manifestCollection->getTasks() as $taskData) {
             $task = $this->buildTask($taskData, $manifestCollection->getTasks());

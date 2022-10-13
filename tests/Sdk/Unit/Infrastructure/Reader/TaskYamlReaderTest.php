@@ -8,6 +8,7 @@
 namespace Sdk\Unit\Infrastructure\Reader;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
@@ -17,6 +18,13 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @group YamlTaskLoading
+ * @group Unit
+ * @group Infrastructure
+ * @group Reader
+ * @group TaskYamlReaderTest
+ */
 class TaskYamlReaderTest extends Unit
 {
     /**
@@ -45,6 +53,7 @@ class TaskYamlReaderTest extends Unit
             $this->settingRepository,
             new Finder(),
             new Yaml(),
+            $this->createMock(ManifestValidatorInterface::class)
         );
         parent::setUp();
     }

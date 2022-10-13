@@ -67,6 +67,7 @@ services:
             - "@setting_repository"
             - "@file_finder"
             - "@yaml_parser"
+            - "@manifest_validation"
 
     task.storage.in_memory:
         class: SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage
@@ -110,8 +111,8 @@ services:
             - "@task.task_from_yaml_builder"
             - "@task.storage.in_memory"
             - "@task.builder.yaml"
-            - "@manifest_validation"
             - !tagged_iterator sdk.task
+
     context_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
         arguments:
