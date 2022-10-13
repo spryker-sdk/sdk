@@ -69,7 +69,7 @@ class TaskYamlReader
         foreach ($finder->files() as $taskFile) {
             $taskData = $this->yamlParser->parse($taskFile->getContents(), Yaml::PARSE_CONSTANT);
 
-            $this->addTaskToCollection($collection, $taskData);
+            $collection = $this->addTaskToCollection($collection, $taskData);
         }
 
         return $collection;
@@ -81,23 +81,21 @@ class TaskYamlReader
      *
      * @throws \RuntimeException
      *
-     * @return void
+     * @return \SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto
      */
-    protected function addTaskToCollection(ManifestCollectionDto $collectionDto, array $taskData): void
+    protected function addTaskToCollection(ManifestCollectionDto $collectionDto, array $taskData): ManifestCollectionDto
     {
         if ($taskData['type'] === Task::TYPE_TASK_SET) {
             $collectionDto->addTaskSet($taskData);
 
-            return;
+            return $collectionDto;
         }
 
-        if (in_array($taskData['type'], [Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE])) {
+        if (in_array($taskData['type'], [Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE], true)) {
             $collectionDto->addTask($taskData);
 
-            return;
+            return $collectionDto;
         }
-
-        dump($taskData);
 
         throw new RuntimeException('Invalid task type ' . $taskData['type']);
     }
