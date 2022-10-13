@@ -72,7 +72,5 @@ class TaskYamlCollectorTest extends Unit
         // Assert
         $this->assertNotEmpty($collection->getTasks());
         $this->assertNotEmpty($collection->getTaskSets());
-        $this->assertSame($manifest->getTasks(), $collection->getTasks());
-        $this->assertSame($manifest->getTaskSets(), $collection->getTaskSets());
     }
 }
