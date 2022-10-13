@@ -27,7 +27,7 @@ cd /data
 
 case $OPTION in
     '--refresh'|'-r'|'r')
-        rm -rf var/cache && rm -rf vendor && composer install && bin/console cache:clear && rm -f db/data.db && bin/console sdk:init:sdk
+        rm -rf var/cache && rm -rf vendor && composer install && bin/console cache:clear && rm -f db/data.db && bin/console sdk:init:sdk -n
         ;;
     '--composer'|'-c'|'c')
         composer $ARGS
