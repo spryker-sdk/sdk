@@ -67,7 +67,7 @@ class TaskYamlReader
             ->name('*.yaml');
 
         foreach ($finder->files() as $taskFile) {
-            $taskData = $this->yamlParser->parse($taskFile->getContents());
+            $taskData = $this->yamlParser->parse($taskFile->getContents(), Yaml::PARSE_CONSTANT);
 
             $this->addTaskToCollection($collection, $taskData);
         }
@@ -96,6 +96,8 @@ class TaskYamlReader
 
             return;
         }
+
+        dump($taskData);
 
         throw new RuntimeException('Invalid task type ' . $taskData['type']);
     }
