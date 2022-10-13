@@ -14,6 +14,8 @@ services:
     environment:
       SDK_DIR: ${SDK_DIR}
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
+      APP_ENV: prod
+      APP_DEBUG: 0
     env_file:
       - infrastructure/.env
     volumes:

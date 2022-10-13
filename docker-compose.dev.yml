@@ -6,7 +6,7 @@ x-volumes:
 
 services:
   spryker-sdk:
-    image: spryker/php-sdk-local:${SDK_VERSION:-latest}
+    image: spryker/php-sdk-debug:latest
     build:
       context: ./
       dockerfile: ./infrastructure/sdk.debug.Dockerfile
@@ -14,10 +14,16 @@ services:
         USER_UID: ${USER_UID}
         SDK_VERSION: ${SDK_VERSION:-latest}
     environment:
-      SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
-      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+      SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP:-}
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG:-}
+      APP_ENV: dev
+      APP_DEBUG: 1
     env_file:
         - infrastructure/.env
+    volumes:
+        - $PWD:/project:rw
+        - .:/data:rw
+        - ~/.ssh:/home/spryker/.ssh:ro
 
 volumes:
     spryker_sdk_dev_data_sync:

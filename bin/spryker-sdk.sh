@@ -40,20 +40,25 @@ export SDK_VERSION="$(cat "$SDK_DIR/VERSION")"
 
 case $MODE in
 "debug")
-  echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
-  export SPRYKER_XDEBUG_HOST_IP=${myIp}
-  export PHP_IDE_CONFIG=serverName=spryker-sdk
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.debug.yml" run --rm -e XDEBUG_SESSION=1 -e APP_ENV=dev spryker-sdk "$ARGUMENTS"
+    echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
+
+    docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.dev.yml" run --rm \
+      -e SPRYKER_XDEBUG_HOST_IP="${myIp}" \
+      -e PHP_IDE_CONFIG="serverName=spryker-sdk" \
+      spryker-sdk "$ARGUMENTS"
   ;;
-"dev")
-  echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
-  export SPRYKER_XDEBUG_HOST_IP=${myIp}
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.dev.yml" run --rm --entrypoint="/bin/bash" -e APP_ENV=dev spryker-sdk
-  ;;
-"debug-prod")
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash" --rm spryker-sdk
-  ;;
+"docker")
+    if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
+        docker-compose -f "${SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
+    else
+        docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
+    fi
+    ;;
 *)
-  docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
+    if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
+        docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
+    else
+        docker-compose -f "${SDK_DIR}/docker-compose.yml" -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
+    fi
   ;;
 esac
