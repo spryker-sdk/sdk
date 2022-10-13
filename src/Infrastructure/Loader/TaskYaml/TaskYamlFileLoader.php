@@ -9,19 +9,14 @@ namespace SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml;
 
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
-use SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader;
 use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
 {
-    /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader
-     */
-    protected TaskYamlReader $taskYamlReader;
-
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface
      */
@@ -38,20 +33,25 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     protected TaskBuilderInterface $taskBuilder;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader $taskYamlReader
+     * @var \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector
+     */
+    protected TaskYamlCollector $taskYamlCollector;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector $taskYamlCollector
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage $taskStorage
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface $taskBuilder
      * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
      */
     public function __construct(
-        TaskYamlReader $taskYamlReader,
+        TaskYamlCollector $taskYamlCollector,
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
         InMemoryTaskStorage $taskStorage,
         TaskBuilderInterface $taskBuilder,
         iterable $existingTasks = []
     ) {
-        $this->taskYamlReader = $taskYamlReader;
+        $this->taskYamlCollector = $taskYamlCollector;
         $this->taskFromYamlTaskSetBuilder = $taskFromYamlTaskSetBuilder;
         $this->taskStorage = $taskStorage;
         $this->taskBuilder = $taskBuilder;
@@ -65,7 +65,7 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
      */
     public function loadAll(): array
     {
-        $manifestCollection = $this->taskYamlReader->readFiles();
+        $manifestCollection = $this->taskYamlCollector->collectAll();
 
         foreach ($manifestCollection->getTasks() as $taskData) {
             $task = $this->buildTask($taskData, $manifestCollection->getTasks());
@@ -102,7 +102,7 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
      */
     public function isTaskIdExist(string $taskId, bool $includeTaskSet = true): bool
     {
-        $manifestCollection = $this->taskYamlReader->readFiles();
+        $manifestCollection = $this->taskYamlCollector->collectAll();
 
         return isset($manifestCollection->getTasks()[$taskId]) ||
             $this->taskStorage->getTaskById($taskId) ||
@@ -119,7 +119,7 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
      */
     public function getTaskPlaceholders(array $taskIds, bool $includeTaskSet = false): array
     {
-        $manifestCollection = $this->taskYamlReader->readFiles();
+        $manifestCollection = $this->taskYamlCollector->collectAll();
 
         $taskPlaceholders = [];
         foreach ($taskIds as $taskId) {

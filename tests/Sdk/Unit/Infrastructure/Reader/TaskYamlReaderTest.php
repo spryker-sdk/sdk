@@ -53,7 +53,7 @@ class TaskYamlReaderTest extends Unit
             $this->settingRepository,
             new Finder(),
             new Yaml(),
-            $this->createMock(ManifestValidatorInterface::class)
+            $this->createMock(ManifestValidatorInterface::class),
         );
         parent::setUp();
     }

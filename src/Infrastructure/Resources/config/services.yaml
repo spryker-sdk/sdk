@@ -67,7 +67,6 @@ services:
             - "@setting_repository"
             - "@file_finder"
             - "@yaml_parser"
-            - "@manifest_validation"
 
     task.storage.in_memory:
         class: SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage
@@ -103,11 +102,17 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\ScalarTaskPartBuilder
         tags: [ "task_part_builder" ]
 
+    task_yaml_collector:
+        class: SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector
+        arguments:
+            - "@manifest_validation"
+            - "@task.reader.yaml"
+
     task_yaml_loader:
         public: true
         class: SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader
         arguments:
-            - "@task.reader.yaml"
+            - "@task_yaml_collector"
             - "@task.task_from_yaml_builder"
             - "@task.storage.in_memory"
             - "@task.builder.yaml"
