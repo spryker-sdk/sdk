@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
+namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\SdkContracts\Enum\Lifecycle;
@@ -21,12 +21,12 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
     public const NAME = 'task';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator
+     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
      */
     protected ManifestEntriesValidator $validationHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator $validationHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator $validationHelper
      */
     public function __construct(ManifestEntriesValidator $validationHelper)
     {
@@ -71,7 +71,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('successor')
                     ->validate()
                         ->ifTrue(function ($value) {
-                            return !(!$value || $this->validationHelper->isTaskNameExist($value));
+                            return !(!$value || $this->validationHelper->isTaskIdExist($value));
                         })
                         ->thenInvalid('Task %s doesn\'t exist.')
                     ->end()
@@ -135,11 +135,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                         ->scalarNode('name')
                             ->isRequired()
                             ->validate()
-                                ->ifTrue(
-                                    function ($name) {
-                                        return !$this->validationHelper->isConverterValid($name);
-                                    },
-                                )
+                                ->ifTrue(fn ($name): bool => !$this->validationHelper->isConverterExists($name))
                                 ->thenInvalid('Converter name `%s` doesn\'t exist.')
                             ->end()
                         ->end()
@@ -158,13 +154,10 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
             ->end()
             ->validate()
                 ->ifTrue(function (array $task) {
-                    return !$this->validationHelper
-                        ->isPlaceholderInStringValid(
-                            $task['command'],
-                            array_map(function (array $placeholder) {
-                                return $placeholder['name'];
-                            }, $task['placeholders']),
-                        );
+                    return !$this->validationHelper->isCommandStringContainsAllPlaceholders(
+                        $task['command'],
+                        $task['placeholders'],
+                    );
                 })
                 ->thenInvalid('Not all placeholders uses.')
             ->end();
@@ -255,7 +248,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->validate()
                     ->ifString()
                     ->ifTrue(function ($placeholder) {
-                        return !$this->validationHelper->isNameValid($placeholder);
+                        return !$this->validationHelper->isValueResolverNameValid($placeholder);
                     })
                     ->thenInvalid('`%s` placeholder doesn\'t exist.')
                 ->end()

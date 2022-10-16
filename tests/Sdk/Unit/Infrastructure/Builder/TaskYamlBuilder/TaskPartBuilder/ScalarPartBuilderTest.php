@@ -8,10 +8,10 @@
 namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\ScalarTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Exception\MissedTaskRequiredParamException;
 use SprykerSdk\SdkContracts\Enum\Task;
 
 /**

@@ -8,14 +8,12 @@
 namespace Sdk\Unit\Infrastructure\Loader;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ViolationReportRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
-use SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader;
-use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -54,6 +52,11 @@ class TaskYamlFileLoaderTest extends Unit
     protected TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
+     */
+    protected TaskStorage $taskStorage;
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -61,23 +64,22 @@ class TaskYamlFileLoaderTest extends Unit
         parent::setUp();
 
         $this->taskBuilder = $this->createMock(TaskBuilderInterface::class);
-        $taskStorage = new InMemoryTaskStorage();
+        $this->taskStorage = new TaskStorage();
         $this->taskYamlCollector = $this->createMock(TaskYamlCollector::class);
         $this->taskFromYamlTaskSetBuilder = $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
 
         $this->taskYamlFileLoader = new TaskYamlFileLoader(
             $this->taskYamlCollector,
             $this->taskFromYamlTaskSetBuilder,
-            $taskStorage,
+            $this->taskStorage,
             $this->taskBuilder,
-            [new RemoveRepDirTask($this->createMock(ViolationReportRepositoryInterface::class))],
         );
     }
 
     /**
      * @return void
      */
-    public function testFindAllShouldReturnBuiltTasks(): void
+    public function testLoadAllShouldReturnBuiltTasks(): void
     {
         // Arrange
         $taskMock = $this->createMock(Task::class);
@@ -96,6 +98,8 @@ class TaskYamlFileLoaderTest extends Unit
             ->expects($this->once())
             ->method('collectAll')
             ->willReturn($this->tester->createManifestCollectionDto());
+
+        $this->taskStorage->addTask($this->tester->createTask());
 
         // Act
         $result = $this->taskYamlFileLoader->loadAll();

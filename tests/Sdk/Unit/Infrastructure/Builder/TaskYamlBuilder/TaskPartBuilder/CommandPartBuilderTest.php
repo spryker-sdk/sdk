@@ -11,8 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\CommandTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
-use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
-use SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Enum\Task;
 
 /**
@@ -33,8 +32,7 @@ class CommandPartBuilderTest extends Unit
     public function testAddPartReturnsResultTransferWithoutCommandsIfUnsupportedTaskTypeProvided(): void
     {
         // Arrange
-        $convertorInputDataValidator = new ConverterInputDataValidator();
-        $commandPartBuilder = new CommandTaskPartBuilder($convertorInputDataValidator, new InMemoryTaskStorage());
+        $commandPartBuilder = new CommandTaskPartBuilder(new TaskStorage());
         $criteriaDto = new TaskYamlCriteriaDto(
             'unsupported_type',
             [],
@@ -59,8 +57,7 @@ class CommandPartBuilderTest extends Unit
     public function testAddPartReturnsResultDtoWithTaskCommands(array $taskData): void
     {
         // Arrange
-        $convertorInputDataValidator = new ConverterInputDataValidator();
-        $commandPartBuilder = new CommandTaskPartBuilder($convertorInputDataValidator, new InMemoryTaskStorage());
+        $commandPartBuilder = new CommandTaskPartBuilder(new TaskStorage());
         $criteriaDto = new TaskYamlCriteriaDto(
             $taskData['type'],
             $taskData,
@@ -89,10 +86,12 @@ class CommandPartBuilderTest extends Unit
             [[
                 'type' => Task::TYPE_LOCAL_CLI,
                 'command' => 'echo "test"',
+                'report_converter' => ['name' => 'test', 'configuration' => []],
             ]],
             [[
                 'type' => Task::TYPE_LOCAL_CLI_INTERACTIVE,
                 'command' => 'echo "test"',
+                'report_converter' => ['name' => 'test', 'configuration' => []],
             ]],
         ];
     }

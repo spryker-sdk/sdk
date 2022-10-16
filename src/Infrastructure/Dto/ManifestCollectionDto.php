@@ -74,4 +74,42 @@ class ManifestCollectionDto
     {
         $this->taskSets[$taskSet['id']] = $taskSet;
     }
+
+    /**
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function hasTask(string $id): bool
+    {
+        return array_key_exists($id, $this->tasks);
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function hasTaskSet(string $id): bool
+    {
+        return array_key_exists($id, $this->taskSets);
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return array|null
+     */
+    public function getTaskById(string $id): ?array
+    {
+        return $this->tasks[$id] ?? null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return count($this->tasks) === 0 && count($this->taskSets) === 0;
+    }
 }

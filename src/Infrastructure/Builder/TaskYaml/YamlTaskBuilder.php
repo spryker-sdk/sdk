@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml;
 
-use SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTaskTypeException;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Enum\Task as TaskType;
 
@@ -32,7 +32,7 @@ class YamlTaskBuilder implements TaskBuilderInterface
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $taskYamlCriteriaDto
      *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidTaskTypeException
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */

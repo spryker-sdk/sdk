@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector;
 use SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 class TaskYamlCollectorTest extends Unit
@@ -43,7 +44,11 @@ class TaskYamlCollectorTest extends Unit
         $this->taskYamlReader = $this->createMock(TaskYamlReader::class);
         $this->manifestValidator = $this->createMock(ManifestValidatorInterface::class);
 
-        $this->taskYamlCollector = new TaskYamlCollector($this->manifestValidator, $this->taskYamlReader);
+        $this->taskYamlCollector = new TaskYamlCollector(
+            $this->manifestValidator,
+            $this->taskYamlReader,
+            new TaskStorage(),
+        );
 
         parent::setUp();
     }

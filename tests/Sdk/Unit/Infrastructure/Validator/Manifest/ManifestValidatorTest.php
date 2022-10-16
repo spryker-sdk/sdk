@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Infrastructure\ManifestValidator;
+namespace Sdk\Unit\Infrastructure\Validator\Manifest;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidator;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidator;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidatorRegistry;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\Processor;
@@ -19,7 +19,8 @@ use Symfony\Component\Config\Definition\Processor;
 /**
  * @group Unit
  * @group Infrastructure
- * @group ManifestValidator
+ * @group Validator
+ * @group Manifest
  * @group ManifestValidatorTest
  */
 class ManifestValidatorTest extends Unit

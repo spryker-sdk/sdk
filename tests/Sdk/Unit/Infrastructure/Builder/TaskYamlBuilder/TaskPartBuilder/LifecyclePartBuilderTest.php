@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\LifecycleTask
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
-use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Enum\Lifecycle;
 use SprykerSdk\SdkContracts\Enum\Task;
@@ -37,7 +37,7 @@ class LifecyclePartBuilderTest extends Unit
     {
         // Arrange
         $criteriaDto = new TaskYamlCriteriaDto(Task::TYPE_LOCAL_CLI, [], []);
-        $lifecyclePartBuilder = new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder(new InMemoryTaskStorage()));
+        $lifecyclePartBuilder = new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder(new TaskStorage()));
 
         // Act
         $resultDto = $lifecyclePartBuilder->addPart($criteriaDto, new TaskYamlResultDto());
@@ -87,7 +87,7 @@ class LifecyclePartBuilderTest extends Unit
             $taskData,
             [],
         );
-        $lifecyclePartBuilder = new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder(new InMemoryTaskStorage()));
+        $lifecyclePartBuilder = new LifecycleTaskPartBuilder(new PlaceholderTaskPartBuilder(new TaskStorage()));
 
         // Act
         $resultDto = $lifecyclePartBuilder->addPart($criteriaDto, new TaskYamlResultDto());

@@ -8,10 +8,10 @@
 namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\TaskPartBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\YamlTaskBuilder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**

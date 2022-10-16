@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
-use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Enum\Task;
@@ -18,14 +18,14 @@ use SprykerSdk\SdkContracts\Enum\Task;
 class PlaceholderTaskPartBuilder implements TaskPartBuilderInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage
+     * @var \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
      */
-    protected InMemoryTaskStorage $storage;
+    protected TaskStorage $storage;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage $storage
+     * @param \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage $storage
      */
-    public function __construct(InMemoryTaskStorage $storage)
+    public function __construct(TaskStorage $storage)
     {
         $this->storage = $storage;
     }

@@ -11,8 +11,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
 use SprykerSdk\Sdk\Infrastructure\Entity\Command;
-use SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage;
-use SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Enum\Task;
@@ -20,22 +19,15 @@ use SprykerSdk\SdkContracts\Enum\Task;
 class CommandTaskPartBuilder implements TaskPartBuilderInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator
+     * @var \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
      */
-    protected ConverterInputDataValidator $converterInputDataValidator;
+    protected TaskStorage $storage;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage
+     * @param \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage $storage
      */
-    protected InMemoryTaskStorage $storage;
-
-    /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator $converterInputDataValidator
-     * @param \SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage $storage
-     */
-    public function __construct(ConverterInputDataValidator $converterInputDataValidator, InMemoryTaskStorage $storage)
+    public function __construct(TaskStorage $storage)
     {
-        $this->converterInputDataValidator = $converterInputDataValidator;
         $this->storage = $storage;
     }
 
@@ -53,7 +45,10 @@ class CommandTaskPartBuilder implements TaskPartBuilderInterface
             return $resultDto;
         }
 
-        $converter = $this->createConverter($criteriaDto->getTaskData());
+        $converter = null;
+        if ($this->isConverterInputDataValid($criteriaDto->getTaskData())) {
+            $converter = $this->createConverter($criteriaDto->getTaskData());
+        }
 
         $resultDto->addCommand($this->createCommand($criteriaDto->getTaskData(), $converter));
 
@@ -72,15 +67,8 @@ class CommandTaskPartBuilder implements TaskPartBuilderInterface
             Task::TYPE_LOCAL_CLI_INTERACTIVE,
         ];
 
-        if (!in_array($criteriaDto->getType(), $applicableTaskTypes, true)) {
-            return false;
-        }
-
-        if (!$criteriaDto->getTaskData()) {
-            return false;
-        }
-
-        return true;
+        return in_array($criteriaDto->getType(), $applicableTaskTypes, true)
+            && $criteriaDto->getTaskData();
     }
 
     /**
@@ -90,14 +78,21 @@ class CommandTaskPartBuilder implements TaskPartBuilderInterface
      */
     protected function createConverter(array $inputData): ?ConverterInterface
     {
-        if (!$this->converterInputDataValidator->isValid($inputData)) {
-            return null;
-        }
-
         return new Converter(
             $inputData['report_converter']['name'],
             $inputData['report_converter']['configuration'],
         );
+    }
+
+    /**
+     * @param array $inputData
+     *
+     * @return bool
+     */
+    protected function isConverterInputDataValid(array $inputData): bool
+    {
+        return isset($inputData['report_converter']['name'])
+            && isset($inputData['report_converter']['configuration']);
     }
 
     /**

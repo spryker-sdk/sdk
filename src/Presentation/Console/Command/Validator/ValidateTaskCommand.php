@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command\Validator;
 
-use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
+use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollectorInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,16 +20,16 @@ class ValidateTaskCommand extends Command
     protected const NAME = 'sdk:validate:task';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollectorInterface
      */
-    private TaskYamlFileLoaderInterface $taskYamlFileLoader;
+    protected TaskYamlCollectorInterface $taskYamlCollector;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlFileLoader
+     * @param \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollectorInterface $taskYamlCollector
      */
-    public function __construct(TaskYamlFileLoaderInterface $taskYamlFileLoader)
+    public function __construct(TaskYamlCollectorInterface $taskYamlCollector)
     {
-        $this->taskYamlFileLoader = $taskYamlFileLoader;
+        $this->taskYamlCollector = $taskYamlCollector;
 
         parent::__construct(static::NAME);
     }
@@ -42,7 +42,7 @@ class ValidateTaskCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->taskYamlFileLoader->loadAll();
+        $this->taskYamlCollector->collectAll();
 
         return static::SUCCESS;
     }

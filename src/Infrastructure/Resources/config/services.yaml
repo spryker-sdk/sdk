@@ -61,6 +61,7 @@ services:
             - "@path_resolver"
     yaml_parser:
         class: Symfony\Component\Yaml\Yaml
+
     task.reader.yaml:
         class: SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader
         arguments:
@@ -68,11 +69,15 @@ services:
             - "@file_finder"
             - "@yaml_parser"
 
-    task.storage.in_memory:
-        class: SprykerSdk\Sdk\Infrastructure\Storage\InMemoryTaskStorage
+    task_placeholder.reader:
+        class: SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlPlaceholderReader
+        arguments:
+            - "@task.storage"
 
-    task.validator.input_data:
-        class: SprykerSdk\Sdk\Infrastructure\Validator\ConverterInputDataValidator
+    task.storage:
+        class: SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
+        arguments:
+            - !tagged_iterator sdk.task
 
     task.builder.yaml:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\YamlTaskBuilder
@@ -83,14 +88,13 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\CommandTaskPartBuilder
         tags: [ "task_part_builder" ]
         arguments:
-            - "@task.validator.input_data"
-            - "@task.storage.in_memory"
+            - "@task.storage"
 
     task.builder.placeholder_task_part:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder
         tags: [ "task_part_builder" ]
         arguments:
-            - "@task.storage.in_memory"
+            - "@task.storage"
 
     task.builder.lifecycle_task_part:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\LifecycleTaskPartBuilder
@@ -107,6 +111,7 @@ services:
         arguments:
             - "@manifest_validation"
             - "@task.reader.yaml"
+            - "@task.storage"
 
     task_yaml_loader:
         public: true
@@ -114,9 +119,8 @@ services:
         arguments:
             - "@task_yaml_collector"
             - "@task.task_from_yaml_builder"
-            - "@task.storage.in_memory"
+            - "@task.storage"
             - "@task.builder.yaml"
-            - !tagged_iterator sdk.task
 
     context_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
@@ -257,7 +261,7 @@ services:
             - "@doctrine"
             - "@task.task_set_commands_builder"
             - "@task.task_set_override_map_factory"
-            - !tagged_iterator sdk.task
+            - "@task.storage"
 
     service.task_manager:
         class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
@@ -565,28 +569,29 @@ services:
 
     # Validators
     validation_helper:
-        class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
         arguments:
             - '@value_resolver_registry'
             - '@converter_registry'
-            - '@task_yaml_loader'
+            - '@task.storage'
+            - '@task_placeholder.reader'
             - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
     task_manifest_validator:
-        class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfiguration
         arguments:
             - '@validation_helper'
     task_set_manifest_validator:
-        class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration
         arguments:
             - '@validation_helper'
 
     manifest_validator_factory:
-        class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidatorRegistry
         arguments:
             - !tagged_iterator manifest.validator
 
     manifest_validation:
-        class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidator
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidator
         arguments:
             - '@manifest_validator_factory'
             - '@config_processor'

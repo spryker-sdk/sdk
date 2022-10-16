@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder;
 
-use SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto;
+use SprykerSdk\Sdk\Infrastructure\Exception\MissedTaskRequiredParamException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 class ScalarTaskPartBuilder implements TaskPartBuilderInterface
@@ -54,7 +54,7 @@ class ScalarTaskPartBuilder implements TaskPartBuilderInterface
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto $criteriaDto
      * @param \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto $resultDto
      *
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissedTaskRequiredParamException
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\MissedTaskRequiredParamException
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlResultDto
      */

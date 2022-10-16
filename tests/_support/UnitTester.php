@@ -8,6 +8,8 @@
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
+use Composer\Console\Input\InputArgument;
+use Composer\Console\Input\InputOption;
 use DateTimeImmutable as DateTimeImmutableDateTimeImmutable;
 use Monolog\DateTimeImmutable;
 use Monolog\Logger;
@@ -63,26 +65,24 @@ class UnitTester extends Actor
     use _generated\UnitTesterActions;
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface|null $lifecycle
-     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
-     * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
+     * @param array $seeds
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
      */
-    public function createTask(?LifecycleInterface $lifecycle = null, array $commands = [], array $placeholders = []): TaskInterface
+    public function createTask(array $seeds = []): TaskInterface
     {
         return new Task(
-            'task',
-            'short description',
-            $commands,
-            $lifecycle ?: new Lifecycle(new InitializedEventData(), new UpdatedEventData(), new RemovedEventData()),
-            '0.0.1',
-            $placeholders,
-            'help',
-            'echo "hello"',
-            false,
-            'default',
-            true,
+            $seeds['id'] ?? 'task',
+            $seeds['description'] ?? 'short description',
+            $seeds['commands'] ?? [],
+            $seeds['lifecycle'] ?? $this->createLifecycle(),
+            $seeds['version'] ?? '0.1.0',
+            $seeds['placeholders'] ?? [],
+            $seeds['help'] ?? 'help',
+            $seeds['successor'] ?? 'echo "hello"',
+            $seeds['is_deprecated'] ?? false,
+            $seeds['stage'] ?? 'default',
+            $seeds['is_optional'] ?? true,
         );
     }
 

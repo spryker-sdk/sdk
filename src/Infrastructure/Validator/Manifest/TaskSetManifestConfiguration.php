@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\ManifestValidator;
+namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
 use SprykerSdk\SdkContracts\Enum\Lifecycle;
@@ -21,12 +21,12 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
     public const NAME = 'task_set';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator
+     * @var \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
      */
     protected ManifestEntriesValidator $validationHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator $validationHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator $validationHelper
      */
     public function __construct(ManifestEntriesValidator $validationHelper)
     {
@@ -129,7 +129,7 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
         $tasks->scalarNode('id')
                 ->validate()
                     ->ifTrue(function ($taskId) {
-                        return !$taskId || !$this->validationHelper->isTaskNameExist((string)$taskId);
+                        return !$taskId || !$this->validationHelper->isTaskIdExist((string)$taskId);
                     })
                     ->thenInvalid('Sub-task `%s` doesn\'t exist in tasks.')
                 ->end()
@@ -149,47 +149,7 @@ class TaskSetManifestConfiguration implements ManifestConfigurationInterface
         );
 
         $node->validate()
-            ->ifTrue(function (array $task) {
-                $taskIds = [];
-                $placeholderOverrideIds = [];
-                $sharedPlaceholderIds = !empty($task['shared_placeholders']) ? array_keys($task['shared_placeholders']) : [];
-                foreach ($task['tasks'] as $subTask) {
-                    $taskIds[] = $subTask['id'];
-                    if (!isset($placeholderOverrideIds[$subTask['id']])) {
-                        $placeholderOverrideIds[$subTask['id']] = [];
-                    }
-                    if ($subTask['placeholder_overrides']) {
-                        $placeholderOverrideIds[$subTask['id']] = array_keys($subTask['placeholder_overrides']);
-                    }
-                }
-
-                $tasksPlaceholders = $this->validationHelper
-                    ->getTaskPlaceholders(
-                        $taskIds,
-                    );
-
-                $uniquePlaceholders = [];
-
-                foreach ($tasksPlaceholders as $taskId => $taskPlaceholders) {
-                    foreach ($taskPlaceholders as $taskPlaceholder) {
-                        if (!isset($uniquePlaceholders[$taskPlaceholder])) {
-                            $uniquePlaceholders[$taskPlaceholder] = true;
-
-                            continue;
-                        }
-                        if (
-                            in_array($taskPlaceholder, $sharedPlaceholderIds) ||
-                            in_array($taskPlaceholder, $placeholderOverrideIds[$taskId])
-                        ) {
-                            continue;
-                        }
-
-                        return true;
-                    }
-                }
-
-                return false;
-            })
+            ->ifTrue(fn (array $task): bool => !$this->validationHelper->isPlaceholderExists($task))
             ->thenInvalid('You have the same placeholder names in different tasks. You should resolve them.')
         ->end();
 

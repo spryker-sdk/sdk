@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Infrastructure\ManifestValidator;
+namespace Sdk\Unit\Infrastructure\Validator\Manifest;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Yaml;
@@ -17,7 +17,8 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @group Unit
  * @group Infrastructure
- * @group ManifestValidator
+ * @group Validator
+ * @group Manifest
  * @group TaskSetManifestConfigurationTest
  */
 class TaskSetManifestConfigurationTest extends Unit
@@ -30,23 +31,21 @@ class TaskSetManifestConfigurationTest extends Unit
         // Arrange
         $manifestEntriesValidator = $this->createMock(ManifestEntriesValidator::class);
         $manifestEntriesValidator
-            ->method('isTaskNameExist')
+            ->method('isTaskIdExist')
             ->willReturn(true);
-        $manifestEntriesValidator->method('isPlaceholderInStringValid')
+        $manifestEntriesValidator->method('isPlaceholderExists')
             ->willReturn(true);
         $manifestEntriesValidator->method('getSupportedTypes')
             ->willReturn(['array', 'string', 'int']);
-        $manifestEntriesValidator->method('isNameValid')
+        $manifestEntriesValidator->method('isValueResolverNameValid')
             ->willReturn(true);
-        $manifestEntriesValidator->method('isTaskNameExist')
+        $manifestEntriesValidator->method('isConverterExists')
             ->willReturn(true);
-        $manifestEntriesValidator->method('isConverterValid')
+        $manifestEntriesValidator->method('isCommandStringContainsAllPlaceholders')
             ->willReturn(true);
-        $manifestEntriesValidator->method('getTaskPlaceholders')
-            ->willReturn([]);
 
         $manifestValidation = new TaskSetManifestConfiguration($manifestEntriesValidator);
-        $taskConfig = Yaml::parseFile(realpath(__DIR__ . '/../../../../_support/data/Task/SniffTaskSet.yaml'));
+        $taskConfig = Yaml::parseFile(realpath(__DIR__ . '/../../../../../_support/data/Task/SniffTaskSet.yaml'));
         $treeBuilder = $manifestValidation->getConfigTreeBuilder($taskConfig);
 
         // Act
@@ -66,23 +65,21 @@ class TaskSetManifestConfigurationTest extends Unit
         // Arrange
         $manifestEntriesValidator = $this->createMock(ManifestEntriesValidator::class);
         $manifestEntriesValidator
-            ->method('isTaskNameExist')
+            ->method('isTaskIdExist')
             ->willReturn(true);
-        $manifestEntriesValidator->method('isPlaceholderInStringValid')
+        $manifestEntriesValidator->method('isPlaceholderExists')
             ->willReturn(true);
         $manifestEntriesValidator->method('getSupportedTypes')
             ->willReturn(['array', 'string', 'int']);
-        $manifestEntriesValidator->method('isNameValid')
+        $manifestEntriesValidator->method('isValueResolverNameValid')
             ->willReturn(true);
-        $manifestEntriesValidator->method('isTaskNameExist')
+        $manifestEntriesValidator->method('isConverterExists')
             ->willReturn(true);
-        $manifestEntriesValidator->method('isConverterValid')
+        $manifestEntriesValidator->method('isCommandStringContainsAllPlaceholders')
             ->willReturn(true);
-        $manifestEntriesValidator->method('getTaskPlaceholders')
-            ->willReturn([]);
 
         $manifestValidation = new TaskSetManifestConfiguration($manifestEntriesValidator);
-        $taskConfig = Yaml::parseFile(realpath(__DIR__ . '/../../../../_support/data/WrongTask/SniffTaskSet.yaml'));
+        $taskConfig = Yaml::parseFile(realpath(__DIR__ . '/../../../../../_support/data/WrongTask/SniffTaskSet.yaml'));
         $treeBuilder = $manifestValidation->getConfigTreeBuilder($taskConfig);
 
         // Assert

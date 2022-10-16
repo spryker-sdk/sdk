@@ -18,6 +18,7 @@ use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetOverrideMap\TaskSetOver
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
@@ -43,31 +44,29 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory;
 
     /**
-     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
      */
-    protected array $existingTasks = [];
+    protected TaskStorage $taskStorage;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetCommandsBuilder $taskSetCommandsBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory
-     * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
+     * @param \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage $taskStorage
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
         ManagerRegistry $registry,
         TaskSetCommandsBuilder $taskSetCommandsBuilder,
         TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory,
-        iterable $existingTasks = []
+        TaskStorage $taskStorage
     ) {
         parent::__construct($registry, Task::class);
         $this->taskMapper = $taskMapper;
         $this->taskSetCommandsBuilder = $taskSetCommandsBuilder;
         $this->taskSetOverrideMapFactory = $taskSetOverrideMapFactory;
-        foreach ($existingTasks as $existingTask) {
-            $this->existingTasks[$existingTask->getId()] = $existingTask;
-        }
+        $this->taskStorage = $taskStorage;
     }
 
     /**
@@ -238,12 +237,14 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
 
         foreach ($taskSet->getSubTasks() as $subTask) {
             if (is_string($subTask)) {
+                $subTaskId = $subTask;
                 $subTask = $this->findById($subTask);
 
                 if ($subTask === null) {
-                    throw new InvalidArgumentException(sprintf('Task %s not found', $subTask));
+                    throw new InvalidArgumentException(sprintf('Task %s not found', $subTaskId));
                 }
             }
+
             if ($subTask instanceof StagedTaskInterface) {
                 foreach ($subTask->getCommands() as $command) {
                     $commands[$subTask->getId()][] = new ConfigurableCommand($command, null, null, $subTask->getStage());

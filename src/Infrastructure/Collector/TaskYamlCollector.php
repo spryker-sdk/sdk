@@ -9,11 +9,12 @@ namespace SprykerSdk\Sdk\Infrastructure\Collector;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration;
-use SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration;
 use SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfiguration;
+use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration;
 
-class TaskYamlCollector
+class TaskYamlCollector implements TaskYamlCollectorInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface
@@ -26,6 +27,11 @@ class TaskYamlCollector
     protected TaskYamlReader $taskYamlReader;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
+     */
+    protected TaskStorage $taskStorage;
+
+    /**
      * @var \SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto
      */
     protected ManifestCollectionDto $collectionDto;
@@ -33,11 +39,16 @@ class TaskYamlCollector
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface $manifestValidator
      * @param \SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader $taskYamlReader
+     * @param \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage $taskStorage
      */
-    public function __construct(ManifestValidatorInterface $manifestValidator, TaskYamlReader $taskYamlReader)
-    {
+    public function __construct(
+        ManifestValidatorInterface $manifestValidator,
+        TaskYamlReader $taskYamlReader,
+        TaskStorage $taskStorage
+    ) {
         $this->manifestValidator = $manifestValidator;
         $this->taskYamlReader = $taskYamlReader;
+        $this->taskStorage = $taskStorage;
         $this->collectionDto = new ManifestCollectionDto();
     }
 
@@ -46,11 +57,12 @@ class TaskYamlCollector
      */
     public function collectAll(): ManifestCollectionDto
     {
-        if (count($this->collectionDto->getTasks()) > 0 && count($this->collectionDto->getTaskSets()) > 0) {
+        if (!$this->collectionDto->isEmpty()) {
             return $this->collectionDto;
         }
 
         $this->collectionDto = $this->taskYamlReader->readFiles();
+        $this->taskStorage->setArrTasksCollection($this->collectionDto);
         $this->validate();
 
         return $this->collectionDto;
