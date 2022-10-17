@@ -57,7 +57,6 @@
         "vimeo/psalm": "^4.24"
     },
     "require-dev": {
-        "ext-xhprof": "*",
         "codeception/codeception": "^4.2.1",
         "phpunit/php-timer": "^5.0",
         "codeception/module-asserts": "*",
