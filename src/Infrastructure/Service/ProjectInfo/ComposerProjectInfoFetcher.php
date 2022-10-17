@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo;
-use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
 {
@@ -55,10 +55,10 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
      */
     protected function getProjectInfo(): ProjectInfo
     {
-        $projectDirectory = $this->settingRepository->findOneByPath(SettingPath::PROJECT_DIR);
+        $projectDirectory = $this->settingRepository->findOneByPath(Setting::PATH_PROJECT_DIR);
 
         if ($projectDirectory === null) {
-            throw new FetchDataException(sprintf('%s setting not found', SettingPath::PROJECT_DIR));
+            throw new FetchDataException(sprintf('%s setting not found', Setting::PATH_PROJECT_DIR));
         }
 
         $projectDirectory = rtrim($projectDirectory->getValues(), DIRECTORY_SEPARATOR);

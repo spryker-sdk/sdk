@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class NamespaceValueResolver extends OriginValueResolver
 {
@@ -46,6 +46,6 @@ class NamespaceValueResolver extends OriginValueResolver
      */
     public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
     {
-        return array_merge($settingValues[Setting::PATH_PROJECT_NAMESPACES], $settingValues[Setting::PATH_CORE_NAMESPACE]);
+        return array_merge($settingValues[Setting::PATH_PROJECT_NAMESPACES], $settingValues[Setting::PATH_CORE_NAMESPACES]);
     }
 }

@@ -3,9 +3,9 @@ id: "acp:manifest:create"
 short_description: "Create ACP manifest file."
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "php %sdk_dir%/vendor/bin/acp app:manifest:create %manifest-path% %name% %locale%"
-type: local_cli_interactive
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -16,14 +16,14 @@ placeholders:
     configuration:
       alias: "name"
       description: "The name of the App"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%locale%"
     value_resolver: STATIC
     optional: true
     configuration:
       alias: "locale"
       description: "A valid locale e.g.: en_US"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: "en_US"
   - name: "%manifest-path%"
     value_resolver: STATIC
@@ -32,4 +32,4 @@ placeholders:
       alias: "manifest-path"
       option: "manifest-path"
       description: "Path to save manifest file to"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

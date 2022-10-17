@@ -12,8 +12,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class ContextFileRepository implements ContextRepositoryInterface
 {

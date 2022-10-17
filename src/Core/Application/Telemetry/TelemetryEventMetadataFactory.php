@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInterface
 {

@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class PriorityPathValueResolver extends OriginValueResolver
 {

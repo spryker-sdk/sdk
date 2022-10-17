@@ -10,9 +10,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
@@ -34,25 +34,25 @@ class Initializer implements InitializerInterface
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface
      */
-    protected TaskYamlRepositoryInterface $taskYamlRepository;
+    protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlRepository
      */
     public function __construct(
         InteractionProcessorInterface $cliValueReceiver,
         SettingRepositoryInterface $settingRepository,
         TaskManagerInterface $taskManager,
-        TaskYamlRepositoryInterface $taskYamlRepository
+        TaskYamlFileLoaderInterface $taskYamlRepository
     ) {
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
-        $this->taskYamlRepository = $taskYamlRepository;
+        $this->taskYamlFileLoader = $taskYamlRepository;
         $this->taskManager = $taskManager;
     }
 
@@ -67,7 +67,7 @@ class Initializer implements InitializerInterface
         $settingDefinition = $this->settingRepository->initSettingDefinition();
 
         $this->initializeSettingValues($settings, $settingDefinition);
-        $this->taskManager->initialize($this->taskYamlRepository->findAll());
+        $this->taskManager->initialize($this->taskYamlFileLoader->loadAll());
     }
 
     /**

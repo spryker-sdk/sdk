@@ -14,12 +14,13 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
 use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as EntitySetting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -166,7 +167,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
         if (!$setting instanceof InfrastructureSetting) {
             throw new InvalidTypeException('Setting need to be of type ' . InfrastructureSetting::class);
         }
-        if ($setting->getType() !== 'path') {
+        if ($setting->getType() !== ValueTypeEnum::TYPE_PATH) {
             return $setting;
         }
 
@@ -270,8 +271,8 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     {
         return [
             'path' => $setting['path'],
-            'type' => $setting['type'] ?? 'string',
-            'setting_type' => $setting['setting_type'] ?? 'local',
+            'type' => $setting['type'] ?? ValueTypeEnum::TYPE_STRING,
+            'setting_type' => $setting['setting_type'] ?? Setting::SETTING_TYPE_LOCAL,
             'initialization_description' => $setting['initialization_description'] ?? null,
             'strategy' => $setting['strategy'] ?? 'overwrite',
             'init' => $setting['init'] ?? false,

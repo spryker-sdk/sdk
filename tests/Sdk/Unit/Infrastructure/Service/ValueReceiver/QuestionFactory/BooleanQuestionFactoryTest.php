@@ -8,8 +8,8 @@
 namespace Sdk\Unit\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
@@ -47,6 +47,6 @@ class BooleanQuestionFactoryTest extends Unit
         $type = BooleanQuestionFactory::getType();
 
         // Assert
-        $this->assertSame($type, ValueTypeEnum::TYPE_BOOLEAN);
+        $this->assertSame($type, ValueTypeEnum::TYPE_BOOL);
     }
 }

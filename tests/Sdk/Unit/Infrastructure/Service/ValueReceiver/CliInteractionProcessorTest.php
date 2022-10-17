@@ -9,13 +9,13 @@ namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -75,7 +75,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', true, 'boolean', []);
+        $receiverValue = new ReceiverValue('', true, ValueTypeEnum::TYPE_BOOL, []);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);
@@ -177,7 +177,7 @@ class CliInteractionProcessorTest extends Unit
 
         $mockMap = [
             ValueTypeEnum::TYPE_ARRAY => ArrayQuestionFactory::class,
-            ValueTypeEnum::TYPE_BOOLEAN => BooleanQuestionFactory::class,
+            ValueTypeEnum::TYPE_BOOL => BooleanQuestionFactory::class,
         ];
 
         $questionFactoryRegistryMock->method('getQuestionFactoryByType')->willReturnCallback(
