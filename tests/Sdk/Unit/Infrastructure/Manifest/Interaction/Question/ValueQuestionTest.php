@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\Interaction\Question;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\ValueQuestion;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
  * @group Sdk

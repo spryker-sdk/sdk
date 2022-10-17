@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class CustomExtension extends Extension implements PrependExtensionInterface
+class CustomExtension extends Extension
 {
     /**
      * @param array $configs
@@ -24,15 +24,6 @@ class CustomExtension extends Extension implements PrependExtensionInterface
     public function load(array $configs, ContainerBuilder $container): void
     {
         $this->createYamlFileLoader($container)->load('services.yaml');
-    }
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @return void
-     */
-    public function prepend(ContainerBuilder $container): void
-    {
     }
 
     /**

@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\Interaction;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue as Config;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\CallbackValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\InteractionValueConfig;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ReceivedValue;
@@ -19,6 +18,7 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\ManifestInteractionProces
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NeedToAskQuestion;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NewCollectionItemQuestion;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\ValueQuestion;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
  * @group Sdk

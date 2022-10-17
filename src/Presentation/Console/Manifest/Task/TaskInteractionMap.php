@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Manifest\Task;
 
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue as Config;
-use SprykerSdk\Sdk\Core\Domain\Enum\TaskTypeEnum;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ReceivedValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\StaticValue;
+use SprykerSdk\SdkContracts\Enum\Task;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class TaskInteractionMap
 {
@@ -101,7 +101,7 @@ class TaskInteractionMap
                     'Task type',
                     null,
                     ValueTypeEnum::TYPE_STRING,
-                    [TaskTypeEnum::LOCAL_CLI, TaskTypeEnum::LOCAL_CLI_INTERACTIVE],
+                    [Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
                 ),
             ),
         ];

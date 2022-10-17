@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class NeedToAskQuestion
 {
@@ -37,7 +37,7 @@ class NeedToAskQuestion
              new ReceiverValue(
                  sprintf('Would you like to set value for `%s`?', $valueId),
                  false,
-                 ValueTypeEnum::TYPE_BOOLEAN,
+                 ValueTypeEnum::TYPE_BOOL,
              ),
          );
     }
