@@ -46,7 +46,12 @@ class SettingFetcher implements SettingFetcherInterface
         $setting = $this->settingRepository->findOneByPath($settingPath);
 
         if ($setting === null) {
-            throw new MissingSettingException(sprintf('Setting by path "%s" not found. You need to run `sdk:init:project` command', $settingPath));
+            throw new MissingSettingException(
+                sprintf(
+                    'Setting by path `%s` not found. You need to run `sdk:init:project` command',
+                    $settingPath
+                )
+            );
         }
 
         $initializerName = $setting->getInitializer();

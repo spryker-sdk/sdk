@@ -109,7 +109,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @see \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     * {@inheritDoc}
      *
      * @param string $settingPath
      *
@@ -128,7 +128,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
-     * @see \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     * {@inheritDoc}
      *
      * @param string $settingPath
      *
