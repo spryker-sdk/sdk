@@ -8,37 +8,37 @@ deprecated: false
 successor: 'hello:php'
 command: '/bin/echo "hello %world% %somebody%"'
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
-tags: ['hello', 'world']
+tags: [ 'hello', 'world' ]
 placeholders:
-  - name: '%world%'
-    value_resolver: STATIC
-    optional: false
-    configuration:
-      name: 'world'
-      description: 'what is the world?'
-      defaultValue: 'World'
-  - name: '%somebody%'
-    value_resolver: STATIC
-    optional: false
-    configuration:
-      name: 'somebody'
-      description: 'Who is somebody'
+    -   name: '%world%'
+        value_resolver: STATIC
+        optional: false
+        configuration:
+            name: 'world'
+            description: 'what is the world?'
+            defaultValue: 'World'
+    -   name: '%somebody%'
+        value_resolver: STATIC
+        optional: false
+        configuration:
+            name: 'somebody'
+            description: 'Who is somebody'
 lifecycle:
-  INITIALIZED:
-      commands:
-        - command: echo "hello world"
-          type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
-      files: ~
-      placeholders: ~
-  UPDATED:
-      commands:
-        - command: echo "hello world"
-          type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
-      files: ~
-      placeholders: ~
-  REMOVED:
-    commands:
-      - command: echo "hello world"
-        type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
-    files: ~
-    placeholders: ~
+    !php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_INITIALIZED:
+        commands:
+            -   command: echo "hello world"
+                type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
+        files: ~
+        placeholders: ~
+    !php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_UPDATED:
+        commands:
+            -   command: echo "hello world"
+                type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
+        files: ~
+        placeholders: ~
+    !php/const SprykerSdk\SdkContracts\Enum\Lifecycle::EVENT_REMOVED:
+        commands:
+            -   command: echo "hello world"
+                type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
+        files: ~
+        placeholders: ~
