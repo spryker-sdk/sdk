@@ -55,26 +55,22 @@ class TaskYamlResultDto
     /**
      * @param array<array>|array<string>|array<bool>|array<null> $scalarParts
      *
-     * @return $this
+     * @return void
      */
-    public function setScalarParts(array $scalarParts)
+    public function setScalarParts(array $scalarParts): void
     {
         $this->scalarParts = $scalarParts;
-
-        return $this;
     }
 
     /**
      * @param string $name
      * @param array|string|bool|null $value
      *
-     * @return $this
+     * @return void
      */
-    public function addScalarPart(string $name, $value)
+    public function addScalarPart(string $name, $value): void
     {
         $this->scalarParts[$name] = $value;
-
-        return $this;
     }
 
     /**
@@ -88,25 +84,21 @@ class TaskYamlResultDto
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface> $placeholders
      *
-     * @return $this
+     * @return void
      */
-    public function setPlaceholders(array $placeholders)
+    public function setPlaceholders(array $placeholders): void
     {
         $this->placeholders = $placeholders;
-
-        return $this;
     }
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
      *
-     * @return $this
+     * @return void
      */
-    public function addPlaceholder(PlaceholderInterface $placeholder)
+    public function addPlaceholder(PlaceholderInterface $placeholder): void
     {
         $this->placeholders[$placeholder->getName()] = $placeholder;
-
-        return $this;
     }
 
     /**
@@ -120,13 +112,11 @@ class TaskYamlResultDto
     /**
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
-     * @return $this
+     * @return void
      */
-    public function addCommand(CommandInterface $command)
+    public function addCommand(CommandInterface $command): void
     {
         $this->commands[] = $command;
-
-        return $this;
     }
 
     /**
@@ -140,12 +130,10 @@ class TaskYamlResultDto
     /**
      * @param \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface $lifecycle
      *
-     * @return $this
+     * @return void
      */
-    public function setLifecycle(LifecycleInterface $lifecycle)
+    public function setLifecycle(LifecycleInterface $lifecycle): void
     {
         $this->lifecycle = $lifecycle;
-
-        return $this;
     }
 }

@@ -51,7 +51,9 @@ class LifecycleTaskPartBuilder implements TaskPartBuilderInterface
         $lifecycle->setUpdatedEventData($this->createUpdatedEventData($criteriaDto));
         $lifecycle->setRemovedEventData($this->createRemovedEventData($criteriaDto));
 
-        return $resultDto->setLifecycle($lifecycle);
+        $resultDto->setLifecycle($lifecycle);
+
+        return $resultDto;
     }
 
     /**
