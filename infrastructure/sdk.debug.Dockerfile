@@ -13,6 +13,13 @@ RUN if [[ ! -z "${USER_UID}" ]]; then \
 RUN /usr/bin/install -d -m 777 /var/run/opcache/debug
 COPY --chown=spryker:spryker infrastructure/debug/php/69-xdebug.ini /usr/local/etc/php/conf.d/69-xdebug.ini
 
+RUN apk add autoconf && \
+    apk --update add gcc make g++ zlib-dev && \
+    pecl install xhprof && \
+    docker-php-ext-enable xhprof
+
+COPY infrastructure/debug/php/xhprof.ini /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini
+
 COPY --chown=spryker:spryker infrastructure/debug/.bashrc /home/spryker/.bashrc
 COPY --chown=spryker:spryker infrastructure/debug/sdk.sh /usr/bin/sdk
 RUN chmod +x /usr/bin/sdk

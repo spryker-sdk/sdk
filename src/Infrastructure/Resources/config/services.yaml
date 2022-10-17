@@ -1,3 +1,8 @@
+parameters:
+    profiler_enabled: "%env(default:profiler_enabled_default:bool:SDK_PROFILER_ENABLED)%"
+    profiler_enabled_default: false
+    profiler_dir: "%kernel.project_dir%/var/profiler"
+
 services:
   _instanceof:
     SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
@@ -543,3 +548,13 @@ services:
     arguments:
       - '@manifest_validator_factory'
       - '@config_processor'
+
+  profiler.event_listener:
+      class: SprykerSdk\Sdk\Infrastructure\Event\Profiler\ProfilerEventListener
+      arguments:
+          - "%profiler_enabled%"
+          - "%profiler_dir%"
+          - "@filesystem"
+      tags:
+          - { name: kernel.event_listener, event: console.command }
+          - { name: kernel.event_listener, event: console.terminate }

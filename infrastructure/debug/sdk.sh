@@ -5,17 +5,19 @@ help_message () {
 Commands and helpers that are useful for sdk development process.
 The most of the commands are executed in /data directory.
 
-    --refresh, -r           refreshes cache, vendor and db
-    --composer, -c          runs sdk composer
-                            accepts composer arguments like 'sdk --composer install' 'sdk -c cs-check'
-    --cache-clear, -cl      alias for 'rm -rf var/cache && bin/console cache:clear'
-    --cs-fix, -cf           alias for 'composer cs-fix'
-    --cs-check, -cc         alias for 'composer cs-check'
-    --stan, -s              alias for 'composer stan'
-    --unit, -u              runs codeception unit tests
-                            accepts arguments like 'sdk -u someUnitTest.php'
-    --acceptance, -a        runs codeception acceptance tests
-                            accepts arguments like 'sdk -u someAcceptanceTest.php'
+    --refresh, -r                   refreshes cache, vendor and db
+    --composer, -c                  runs sdk composer
+                                    accepts composer arguments like 'sdk --composer install' 'sdk -c cs-check'
+    --cache-clear, -cl              alias for 'rm -rf var/cache && bin/console cache:clear'
+    --cs-fix, -cf                   alias for 'composer cs-fix'
+    --cs-check, -cc                 alias for 'composer cs-check'
+    --stan, -s                      alias for 'composer stan'
+    --unit, -u                      runs codeception unit tests
+                                    accepts arguments like 'sdk -u someUnitTest.php'
+    --acceptance, -a                runs codeception acceptance tests
+                                    accepts arguments like 'sdk -u someAcceptanceTest.php'
+    --profiler <:port>, -p <:port>  runs the profilers viewer server
+                                    accepts the port number as argument
 EOF
 }
 
@@ -49,6 +51,9 @@ case $OPTION in
         ;;
     '--acceptance'|'-a'|'a')
         vendor/bin/codecept build && vendor/bin/codecept run acceptance $ARGS
+        ;;
+    '--profiler'|'-p'|'p')
+       cd /usr/local/lib/php/xhprof_html && php -S 127.0.0.1:$ARGS
         ;;
     '--help'|'-h'|'h')
         help_message
