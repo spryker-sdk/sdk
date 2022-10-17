@@ -20,8 +20,11 @@ class Lifecycle implements TaskLifecycleInterface
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData $updatedEventData
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData $removedEventData
      */
-    public function __construct(InitializedEventData $initializedEventData, UpdatedEventData $updatedEventData, RemovedEventData $removedEventData)
-    {
+    public function __construct(
+        InitializedEventData $initializedEventData,
+        UpdatedEventData $updatedEventData,
+        RemovedEventData $removedEventData
+    ) {
         $this->initializedEventData = $initializedEventData;
         $this->updatedEventData = $updatedEventData;
         $this->removedEventData = $removedEventData;
@@ -38,13 +41,11 @@ class Lifecycle implements TaskLifecycleInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData $removedEventData
      *
-     * @return $this
+     * @return void
      */
-    public function setRemovedEventData(RemovedEventData $removedEventData)
+    public function setRemovedEventData(RemovedEventData $removedEventData): void
     {
         $this->removedEventData = $removedEventData;
-
-        return $this;
     }
 
     /**
@@ -58,13 +59,11 @@ class Lifecycle implements TaskLifecycleInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData $initializedEventData
      *
-     * @return $this
+     * @return void
      */
-    public function setInitializedEventData(InitializedEventData $initializedEventData)
+    public function setInitializedEventData(InitializedEventData $initializedEventData): void
     {
         $this->initializedEventData = $initializedEventData;
-
-        return $this;
     }
 
     /**
@@ -78,12 +77,10 @@ class Lifecycle implements TaskLifecycleInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData $updatedEventData
      *
-     * @return $this
+     * @return void
      */
-    public function setUpdatedEventData(UpdatedEventData $updatedEventData)
+    public function setUpdatedEventData(UpdatedEventData $updatedEventData): void
     {
         $this->updatedEventData = $updatedEventData;
-
-        return $this;
     }
 }
