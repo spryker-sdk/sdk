@@ -49,8 +49,8 @@ class SettingFetcher implements SettingFetcherInterface
             throw new MissingSettingException(
                 sprintf(
                     'Setting by path `%s` not found. You need to run `sdk:init:project` command',
-                    $settingPath
-                )
+                    $settingPath,
+                ),
             );
         }
 
