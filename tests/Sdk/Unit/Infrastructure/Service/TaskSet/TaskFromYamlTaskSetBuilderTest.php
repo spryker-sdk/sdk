@@ -19,12 +19,14 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
  * @group TaskSet
  * @group TaskFromYamlTaskSetBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskFromYamlTaskSetBuilderTest extends Unit
 {

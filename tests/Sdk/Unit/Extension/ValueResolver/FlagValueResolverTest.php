@@ -13,10 +13,14 @@ use SprykerSdk\Sdk\Extension\ValueResolver\FlagValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group ValueResolver
  * @group FlagValueResolverTest
+ * Add your own group annotations below this line
  */
 class FlagValueResolverTest extends Unit
 {

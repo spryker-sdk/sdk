@@ -17,6 +17,16 @@ use SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group TaskMapperTest
+ * Add your own group annotations below this line
+ */
 class TaskMapperTest extends Unit
 {
     /**

@@ -153,3 +153,9 @@ services:
   uname_env_var_processor:
     class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor
     tags: ['container.env_var_processor']
+  brancho_commit_command:
+    class: SprykerSdk\Sdk\Extension\Command\CommitCommand
+    tags: [ "console.command", "telemetry.observable_command" ]
+  brancho_branch_builder_command:
+    class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
+    tags: [ "console.command", "telemetry.observable_command" ]

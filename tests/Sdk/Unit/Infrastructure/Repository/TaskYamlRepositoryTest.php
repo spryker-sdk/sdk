@@ -21,6 +21,16 @@ use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Repository
+ * @group TaskYamlRepositoryTest
+ * Add your own group annotations below this line
+ */
 class TaskYamlRepositoryTest extends Unit
 {
     /**

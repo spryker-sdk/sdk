@@ -13,6 +13,18 @@ use SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group Ide
+ * @group PhpStorm
+ * @group Service
+ * @group CommandLoaderTest
+ * Add your own group annotations below this line
+ */
 class CommandLoaderTest extends Unit
 {
     /**

@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -38,7 +38,7 @@ class ShowWorkflowCommand extends Command
     protected static $defaultDescription = 'Render workflow as SVG.';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
@@ -58,7 +58,7 @@ class ShowWorkflowCommand extends Command
     protected string $hostVarWorkflowDirectory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param string $varWorkflowDirectory
      * @param string $hostVarWorkflowDirectory

@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
-use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
+use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,12 +32,12 @@ class ListWorkflowCommand extends Command
     protected static $defaultDescription = 'List available workflows.';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
      */
     protected $projectWorkflow;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
      */
     public function __construct(ProjectWorkflow $projectWorkflow)
     {

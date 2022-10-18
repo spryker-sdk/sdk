@@ -11,8 +11,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
+use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
+use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
@@ -46,7 +46,7 @@ class RunWorkflowCommand extends Command
     protected static $defaultDescription = 'Run one of available workflows.';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
@@ -56,7 +56,7 @@ class RunWorkflowCommand extends Command
     protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner
      */
     protected WorkflowRunner $workflowRunner;
 
@@ -71,9 +71,9 @@ class RunWorkflowCommand extends Command
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner $workflowRunner
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      */

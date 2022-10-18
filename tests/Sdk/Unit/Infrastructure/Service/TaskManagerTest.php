@@ -17,6 +17,15 @@ use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilderInterfac
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group TaskManagerTest
+ * Add your own group annotations below this line
+ */
 class TaskManagerTest extends Unit
 {
     /**

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Workflow;
 
 use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
 

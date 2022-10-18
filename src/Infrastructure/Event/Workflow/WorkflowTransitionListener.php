@@ -10,15 +10,15 @@ namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 use DateTime;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition;
 use SprykerSdk\Sdk\Infrastructure\Entity\WorkflowTransition as WorkflowTransitionEntity;
-use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
-use SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry;
+use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
+use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
+use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 use Symfony\Component\Workflow\Event\Event;
@@ -75,12 +75,12 @@ class WorkflowTransitionListener
     protected TaskExecutor $taskExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner
      */
     protected WorkflowRunner $workflowRunner;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
@@ -95,17 +95,17 @@ class WorkflowTransitionListener
     protected WorkflowTransitionRepositoryInterface $workflowTransitionRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry
      */
     protected WorkflowTransitionResolverRegistry $workflowTransitionResolverRegistry;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner $workflowRunner
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface $workflowTransitionRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry $workflowTransitionResolverRegistry
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry $workflowTransitionResolverRegistry
      */
     public function __construct(
         TaskExecutor $taskExecutor,

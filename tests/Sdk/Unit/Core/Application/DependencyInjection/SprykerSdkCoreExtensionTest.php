@@ -12,11 +12,15 @@ use SprykerSdk\Sdk\Core\Application\DependencyInjection\SprykerSdkCoreExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group DependencyInjection
  * @group SprykerSdkCoreExtensionTest
+ * Add your own group annotations below this line
  */
 class SprykerSdkCoreExtensionTest extends Unit
 {

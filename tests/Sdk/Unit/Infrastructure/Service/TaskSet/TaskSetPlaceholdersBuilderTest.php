@@ -13,12 +13,14 @@ use SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
  * @group TaskSet
  * @group TaskSetPlaceholdersBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskSetPlaceholdersBuilderTest extends Unit
 {

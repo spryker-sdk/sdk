@@ -11,10 +11,14 @@ use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 /**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
  * @group Acceptance
  * @group Extension
  * @group Task
  * @group DeprecationsTaskCest
+ * Add your own group annotations below this line
  */
 class DeprecationsTaskCest
 {

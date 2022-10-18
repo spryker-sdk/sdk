@@ -16,6 +16,16 @@ use SprykerSdk\Sdk\Tests\Helper\Command\ExecutableErrorCommand;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group PhpCommandRunnerTest
+ * Add your own group annotations below this line
+ */
 class PhpCommandRunnerTest extends Unit
 {
     /**

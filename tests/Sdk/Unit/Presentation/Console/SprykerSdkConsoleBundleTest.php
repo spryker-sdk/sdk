@@ -12,6 +12,16 @@ use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\SprykerSdkConsoleExt
 use SprykerSdk\Sdk\Presentation\Console\SprykerSdkConsoleBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group Console
+ * @group SprykerSdkConsoleBundleTest
+ * Add your own group annotations below this line
+ */
 class SprykerSdkConsoleBundleTest extends Unit
 {
     /**

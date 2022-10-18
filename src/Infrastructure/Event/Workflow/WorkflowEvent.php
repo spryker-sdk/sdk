@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
 
-use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use Symfony\Component\Workflow\Event\Event;
 

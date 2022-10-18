@@ -13,6 +13,16 @@ use SprykerSdk\Sdk\Core\Domain\Event\TaskExecutedEvent;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Logger
+ * @group JsonFormatterTest
+ * Add your own group annotations below this line
+ */
 class JsonFormatterTest extends Unit
 {
     /**

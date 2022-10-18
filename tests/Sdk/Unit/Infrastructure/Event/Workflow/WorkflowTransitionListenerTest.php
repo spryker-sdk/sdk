@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Event\Workflow;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransition;
@@ -19,8 +18,9 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
-use SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry;
+use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
+use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
+use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -32,12 +32,15 @@ use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\Workflow as SymfonyWorkflow;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Event
  * @group Workflow
  * @group WorkflowTransitionListenerTest
+ * Add your own group annotations below this line
  */
 class WorkflowTransitionListenerTest extends Unit
 {
@@ -621,7 +624,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner
      */
     protected function createWorkflowRunnerMock(): WorkflowRunner
     {
@@ -629,7 +632,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
      */
     protected function createProjectWorkflowMock(): ProjectWorkflow
     {
@@ -661,7 +664,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+     * @return \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry
      */
     protected function createWorkflowTransitionResolverRegistryMock(): WorkflowTransitionResolverRegistry
     {

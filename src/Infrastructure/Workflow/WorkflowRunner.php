@@ -5,12 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Workflow;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
@@ -91,7 +90,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     {
         $context = $context ?? $this->contextFactory->getContext();
 
-        /** @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow */
+        /** @var \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow */
         $projectWorkflow = $this->container->get('project_workflow');
 
         if (!$projectWorkflow->initializeWorkflow($workflowName)) {
@@ -152,7 +151,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
      *
      * @return string|null
      */
@@ -181,7 +180,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
      * @param array<string> $nextEnabledTransitions
      *
      * @return string|null

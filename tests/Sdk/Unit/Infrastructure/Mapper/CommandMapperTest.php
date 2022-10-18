@@ -13,6 +13,16 @@ use SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper;
 use SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group CommandMapperTest
+ * Add your own group annotations below this line
+ */
 class CommandMapperTest extends Unit
 {
     /**

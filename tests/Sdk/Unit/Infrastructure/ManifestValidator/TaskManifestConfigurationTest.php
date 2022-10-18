@@ -15,10 +15,14 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Yaml;
 
 /**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group ManifestValidator
  * @group TaskManifestConfigurationTest
+ * Add your own group annotations below this line
  */
 class TaskManifestConfigurationTest extends Unit
 {

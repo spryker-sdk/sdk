@@ -32,7 +32,7 @@ class ManifestEntriesValidator
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface
      */
-    private TaskYamlRepositoryInterface $taskYamlRepository;
+    protected TaskYamlRepositoryInterface $taskYamlRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface $valueResolverRegistry

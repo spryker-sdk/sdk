@@ -89,7 +89,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "SprykerSdk\\Sdk\\": "src/"
+            "SprykerSdk\\Sdk\\": "src/",
+            "SprykerSdk\\Sniffs\\": "Sniffs/"
         }
     },
     "autoload-dev": {

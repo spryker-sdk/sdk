@@ -10,6 +10,16 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Workflow;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMarking;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Workflow
+ * @group TimestampedMarkingActionTest
+ * Add your own group annotations below this line
+ */
 class TimestampedMarkingActionTest extends Unit
 {
     /**

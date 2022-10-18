@@ -20,12 +20,14 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
  * @group TaskSet
  * @group TaskFromTaskSetBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskFromTaskSetBuilderTest extends Unit
 {

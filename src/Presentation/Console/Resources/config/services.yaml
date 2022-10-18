@@ -133,9 +133,3 @@ services:
   composer_replace_command:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
     tags: [ "console.command", "telemetry.observable_command"]
-  brancho_commit_command:
-    class: SprykerSdk\Sdk\Extension\Command\CommitCommand
-    tags: ["console.command", "telemetry.observable_command"]
-  brancho_branch_builder_command:
-    class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
-    tags: ["console.command", "telemetry.observable_command"]

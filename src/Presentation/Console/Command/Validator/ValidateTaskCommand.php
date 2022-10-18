@@ -22,7 +22,7 @@ class ValidateTaskCommand extends Command
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface
      */
-    private TaskYamlRepositoryInterface $taskYamlRepository;
+    public TaskYamlRepositoryInterface $taskYamlRepository;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface $taskYamlRepository

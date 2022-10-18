@@ -13,10 +13,14 @@ use SprykerSdk\Sdk\Extension\ValueResolver\ArrayOptionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group ValueResolver
  * @group ArrayOptionValueResolverTest
+ * Add your own group annotations below this line
  */
 class ArrayOptionValueResolverTest extends Unit
 {

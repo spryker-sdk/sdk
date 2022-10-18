@@ -5,20 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
+namespace Sdk\Unit\Infrastructure\Workflow;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
+use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
@@ -30,11 +30,13 @@ use Symfony\Component\Workflow\TransitionBlockerList;
 use Symfony\Component\Workflow\Workflow as SymfonyWorkflow;
 
 /**
- * @group Sdk
- * @group Core
- * @group Application
- * @group Service
+ * Auto-generated group annotations
+ *
+ * @group Unit
+ * @group Infrastructure
+ * @group Workflow
  * @group ProjectWorkflowTest
+ * Add your own group annotations below this line
  */
 class ProjectWorkflowTest extends Unit
 {
@@ -150,7 +152,7 @@ class ProjectWorkflowTest extends Unit
         $workflowTransition = $projectWorkflow->getRunningTransition();
 
         // Assert
-        $this->isNull($workflowTransition);
+        $this->assertNull($workflowTransition);
     }
 
     /**

@@ -269,6 +269,15 @@ services:
     class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
     arguments:
       - "@doctrine"
+  project_workflow:
+    public: true
+    shared: false
+    class: SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
+    arguments:
+      - "@project_setting_repository"
+      - "@workflow.registry"
+      - "@workflow_repository"
+      - "@workflow_transition_repository"
   violation_report_mapper:
     class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
   violation_path_reader:
@@ -352,7 +361,7 @@ services:
       - "@logger"
 
   workflow_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+    class: SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner
     tags: [ "sdk.cli_receiver_setup" ]
     arguments:
       - "@cli_interaction_processor"
@@ -473,7 +482,7 @@ services:
   context.in_memory_cache_storage:
       class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
   workflow.transition_resolver_registry:
-      class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+      class: SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry
       arguments:
           - !tagged_iterator workflow.transition_resolver
 
@@ -543,3 +552,14 @@ services:
     arguments:
       - '@manifest_validator_factory'
       - '@config_processor'
+
+  service.command_executor:
+    class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor
+    arguments:
+      - !tagged_iterator command.runner
+      - !tagged_iterator action.after_command_executed
+
+  service.lifecycle_command_executor:
+    class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor
+    arguments:
+      - !tagged_iterator command.runner

@@ -12,13 +12,17 @@ use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Dto;
 use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoClass;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Dto
  * @group Abstraction
  * @group Reflection
  * @group DtoClassTest
+ * Add your own group annotations below this line
  */
 class DtoClassTest extends Unit
 {
@@ -56,6 +60,8 @@ class DtoClassTest extends Unit
             public string $publicString = 'constructor was not called';
 
             /**
+             * @noinspection
+             *
              * @var bool
              */
             private bool $privateBoolean;

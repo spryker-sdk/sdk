@@ -14,11 +14,14 @@ use SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group ReportGeneratorFactoryTest
+ * Add your own group annotations below this line
  */
 class ReportGeneratorFactoryTest extends Unit
 {

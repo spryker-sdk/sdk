@@ -12,6 +12,16 @@ use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskRemovedAction;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group SdkUpdateAction
+ * @group TestRemoveActionTest
+ * Add your own group annotations below this line
+ */
 class TestRemoveActionTest extends Unit
 {
     /**
