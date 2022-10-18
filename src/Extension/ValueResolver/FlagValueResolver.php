@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class FlagValueResolver extends StaticValueResolver
 {
@@ -62,6 +62,6 @@ class FlagValueResolver extends StaticValueResolver
      */
     public function getType(): string
     {
-        return ValueTypeEnum::TYPE_BOOLEAN;
+        return ValueTypeEnum::TYPE_BOOL;
     }
 }

@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Telemetry;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException;
-use SprykerSdk\Sdk\Core\Domain\Enum\SettingPath;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -93,7 +93,7 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
      */
     public function send(array $telemetryEvents): void
     {
-        $reportDirSetting = $this->projectSettingRepository->findOneByPath(SettingPath::REPORT_DIR);
+        $reportDirSetting = $this->projectSettingRepository->findOneByPath(Setting::PATH_REPORT_DIR);
 
         if ($reportDirSetting === null) {
             return;
