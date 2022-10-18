@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
@@ -33,11 +33,6 @@ class ProjectWorkflow
      * @var string
      */
     public const WORKFLOW = 'workflow';
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
-     */
-    protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
      * @var \Symfony\Component\Workflow\Registry
@@ -65,21 +60,26 @@ class ProjectWorkflow
     protected ?WorkflowInterface $currentProjectWorkflow = null;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     */
+    protected SettingFetcherInterface $settingFetcher;
+
+    /**
      * @param \Symfony\Component\Workflow\Registry $workflows
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface $workflowRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface $workflowTransitionRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
      */
     public function __construct(
-        ProjectSettingRepositoryInterface $projectSettingRepository,
         Registry $workflows,
         WorkflowRepositoryInterface $workflowRepository,
-        WorkflowTransitionRepositoryInterface $workflowTransitionRepository
+        WorkflowTransitionRepositoryInterface $workflowTransitionRepository,
+        SettingFetcherInterface $settingFetcher
     ) {
-        $this->projectSettingRepository = $projectSettingRepository;
         $this->workflows = $workflows;
         $this->workflowRepository = $workflowRepository;
         $this->workflowTransitionRepository = $workflowTransitionRepository;
+        $this->settingFetcher = $settingFetcher;
     }
 
     /**
@@ -87,7 +87,7 @@ class ProjectWorkflow
      */
     protected function getProjectId(): string
     {
-        return (string)$this->projectSettingRepository->getOneByPath(static::PROJECT_KEY)->getValues();
+        return (string)$this->settingFetcher->getOneByPath(static::PROJECT_KEY)->getValues();
     }
 
     /**
@@ -95,7 +95,7 @@ class ProjectWorkflow
      */
     public function getProjectWorkflows(): array
     {
-        return (array)$this->projectSettingRepository->getOneByPath(static::WORKFLOW)->getValues();
+        return (array)$this->settingFetcher->getOneByPath(static::WORKFLOW)->getValues();
     }
 
     /**

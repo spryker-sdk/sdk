@@ -76,7 +76,6 @@ class ProjectSettingRepositoryTest extends Unit
         $this->vfsStream = vfsStream::setup();
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
@@ -243,7 +242,6 @@ class ProjectSettingRepositoryTest extends Unit
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
@@ -271,7 +269,6 @@ class ProjectSettingRepositoryTest extends Unit
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
@@ -302,7 +299,6 @@ class ProjectSettingRepositoryTest extends Unit
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
@@ -437,7 +433,6 @@ YAML,
         $this->projectSettingFileName = $settingsFile->url();
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,

@@ -14,8 +14,6 @@ use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
-use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
@@ -24,11 +22,6 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      * @var string
      */
     protected const LOCAL_SUFFIX = 'local';
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected ContainerInterface $container;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
@@ -51,20 +44,17 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected PathResolver $pathResolver;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
      * @param \SprykerSdk\Sdk\Core\Application\Service\PathResolver $pathResolver
      */
     public function __construct(
-        ContainerInterface $container,
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
         string $projectSettingFileName,
         PathResolver $pathResolver
     ) {
-        $this->container = $container;
         $this->projectSettingFileName = $projectSettingFileName;
         $this->yamlParser = $yamlParser;
         $this->coreSettingRepository = $coreSettingRepository;
@@ -119,6 +109,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param string $settingPath
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
@@ -136,6 +128,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param string $settingPath
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
@@ -148,11 +142,6 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 
         if (!$setting) {
             throw new MissingSettingException(sprintf('Setting by path "%s" not found. You need to run `sdk:init:project` command', $settingPath));
-        }
-
-        $initializer = $this->getSettingInitializer($setting);
-        if ($initializer) {
-            $initializer->initialize($setting);
         }
 
         return $setting;
@@ -286,24 +275,6 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         return $setting;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
-     *
-     * @return \SprykerSdk\SdkContracts\Setting\SettingInitializerInterface|null
-     */
-    protected function getSettingInitializer(SettingInterface $setting): ?SettingInitializerInterface
-    {
-        $initializerId = $setting->getInitializer() ?? '';
-
-        $initializer = $this->container->get($initializerId);
-
-        if (!$initializer instanceof SettingInitializerInterface) {
-            return null;
-        }
-
-        return $initializer;
     }
 
     /**
