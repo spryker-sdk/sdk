@@ -1,8 +1,8 @@
 ---
-id: "project:install:run"
+id: "install:project:run"
 short_description: "Runs Sprykers install command."
 help: ~
 stage: build
-version: 0.3.1
+version: 0.3.2
 command: "php ./vendor/bin/install"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
