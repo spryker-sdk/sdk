@@ -90,3 +90,6 @@ If you have problems with:
 - file permissions and ownership on files created by the SDK
 
 You can build you own container from SDK sources. Please refer to [**Building flavored Spryker SDKs**](build.md)
+
+## Useful links
+- [How to use the profiler](profiler.md)
