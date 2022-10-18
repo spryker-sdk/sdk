@@ -136,7 +136,7 @@ class UpdatedEventSubscriberTest extends Unit
             new RemovedEventData(),
         );
 
-        $task = $this->tester->createTask($lifecycle);
+        $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
         $event = new UpdatedEvent($task);
 
         $this->fileManager
@@ -166,7 +166,7 @@ class UpdatedEventSubscriberTest extends Unit
         // Arrange
         $lifecycle = new InfrastructureLifecycle(new RemovedEvent());
 
-        $task = $this->tester->createTask($lifecycle);
+        $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
         $event = new UpdatedEvent($task);
 
         $this->fileManager

@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use GuzzleHttp\Client;
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
+use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use Throwable;
 
@@ -26,11 +26,6 @@ class LifecycleManager implements LifecycleManagerInterface
      * @var string
      */
     public const GITHUB_ENDPOINT = 'https://api.github.com/repos/spryker-sdk/sdk/releases/latest';
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface
-     */
-    protected TaskYamlRepositoryInterface $taskYamlRepository;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
@@ -48,18 +43,23 @@ class LifecycleManager implements LifecycleManagerInterface
     protected string $sdkDirectory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface $taskYamlRepository
+     * @var \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface
+     */
+    protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlFileLoader
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository $taskEntityRepository
      * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface> $actions
      * @param string $sdkDirectory
      */
     public function __construct(
-        TaskYamlRepositoryInterface $taskYamlRepository,
+        TaskYamlFileLoaderInterface $taskYamlFileLoader,
         TaskRepository $taskEntityRepository,
         iterable $actions,
         string $sdkDirectory
     ) {
-        $this->taskYamlRepository = $taskYamlRepository;
+        $this->taskYamlFileLoader = $taskYamlFileLoader;
         $this->taskEntityRepository = $taskEntityRepository;
         $this->actions = $actions;
         $this->sdkDirectory = $sdkDirectory;
@@ -70,7 +70,7 @@ class LifecycleManager implements LifecycleManagerInterface
      */
     public function update(): void
     {
-        $folderTasks = $this->taskYamlRepository->findAll();
+        $folderTasks = $this->taskYamlFileLoader->loadAll();
         $databaseTasks = $this->taskEntityRepository->findAllIndexedCollection(false);
 
         foreach ($this->actions as $action) {
