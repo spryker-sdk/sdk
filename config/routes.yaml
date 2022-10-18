@@ -1,2 +1,2 @@
-web:
-    resource: "@SprykerSdkWebBundle/Resources/config/routing.yaml"
+rest_api:
+    resource: "@SprykerSdkRestApiBundle/Resources/config/routing.yaml"

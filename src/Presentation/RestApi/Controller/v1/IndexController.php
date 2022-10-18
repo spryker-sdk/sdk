@@ -5,19 +5,18 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\Web\Controller;
+namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class IndexController
+class IndexController extends AbstractController
 {
     /**
-     * @Route("/")
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(): Response
     {
-        return new Response('<h1>Hi! SDK is working on Web server.</h1>');
+        return $this->json(['message' => 'Hi! SDK is working on Web server.']);
     }
 }

@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\Web\DependencyInjection;
+namespace SprykerSdk\Sdk\Presentation\RestApi\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class SprykerSdkWebExtension extends Extension
+class SprykerSdkRestApiExtension extends Extension
 {
     /**
      * @param array $configs

@@ -1,0 +1,4 @@
+api_v1_index_index:
+    path: /api/v1/
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:index
+    methods: GET|POST

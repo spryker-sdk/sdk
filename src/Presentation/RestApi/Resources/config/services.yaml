@@ -1,9 +1,8 @@
 parameters: ~
 
 services:
-    SprykerSdk\Sdk\Presentation\Web\Controller\:
-        resource: '../../Controller'
-        lazy: true
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\:
+        resource: '../../Controller/v1'
         tags: ['container.service_subscriber', 'controller.service_arguments']
         calls:
             - method: setContainer
