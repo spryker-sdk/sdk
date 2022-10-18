@@ -3,9 +3,9 @@ id: "acp:openapi:create"
 short_description: "Create ACP OpenAPI file."
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "php %sdk_dir%/vendor/bin/syncapi schema:openapi:create %openapi-file% %api-version% %title% -v"
-type: local_cli_interactive
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
@@ -16,7 +16,7 @@ placeholders:
     configuration:
       alias: "title"
       description: "The name of the App"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%openapi-file%"
     value_resolver: STATIC
     optional: true
@@ -24,7 +24,7 @@ placeholders:
       alias: "openapi-file"
       option: "openapi-file"
       description: "Path to save OpenAPI file to"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%api-version%"
     value_resolver: STATIC
     optional: true
@@ -32,4 +32,4 @@ placeholders:
       alias: "api-version"
       option: "api-version"
       description: "Version number of the OpenAPI schema"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

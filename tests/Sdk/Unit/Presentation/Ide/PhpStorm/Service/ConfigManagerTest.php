@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatterInterf
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoaderInterface;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\ConfigManager;
 use SprykerSdk\Sdk\Tests\UnitTester;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class ConfigManagerTest extends Unit
@@ -99,8 +100,8 @@ XML;
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('project_dir')
-            ->willReturn($this->tester->createSetting('project_dir', static::TEST_PROJECT_PATH));
+            ->with(Setting::PATH_PROJECT_DIR)
+            ->willReturn($this->tester->createSetting(Setting::PATH_PROJECT_DIR, static::TEST_PROJECT_PATH));
 
         $ideCommands = [
             $this->tester->createPhpStormCommand('name1', [], [], 'help'),
@@ -148,7 +149,7 @@ XML;
         $this->settingRepository
             ->expects($this->once())
             ->method('findOneByPath')
-            ->with('project_dir')
+            ->with(Setting::PATH_PROJECT_DIR)
             ->willReturn(null);
 
         $ideCommands = [

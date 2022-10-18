@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\Setting as SettingEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class Setting implements SettingInterface
 {

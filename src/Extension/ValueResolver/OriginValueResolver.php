@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 
 class OriginValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
@@ -50,7 +51,7 @@ class OriginValueResolver extends AbstractValueResolver implements ConfigurableV
     /**
      * @var string
      */
-    protected string $type = 'string';
+    protected string $type = ValueTypeEnum::TYPE_STRING;
 
     /**
      * {@inheritDoc}
@@ -141,7 +142,7 @@ class OriginValueResolver extends AbstractValueResolver implements ConfigurableV
         $this->option = $values['option'] ?? null;
         $this->defaultValue = $values['defaultValue'] ?? null;
         $this->help = $values['help'] ?? null;
-        $this->type = $values['type'] ?? 'string';
+        $this->type = $values['type'] ?? ValueTypeEnum::TYPE_STRING;
         $this->settingPaths = $values['settingPaths'] ?? [];
         $this->choiceValues = $values['choiceValues'] ?? [];
     }

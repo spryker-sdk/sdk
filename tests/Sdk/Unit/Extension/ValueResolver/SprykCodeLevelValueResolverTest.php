@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\SprykCodeLevelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 /**
  * @group Sdk
@@ -75,7 +76,7 @@ class SprykCodeLevelValueResolverTest extends Unit
         $valueResolver->configure(['defaultValue' => 'project']);
 
         // Act
-        $value = $valueResolver->getValue($this->context, ['coreNamespaces' => ['test']]);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACES => ['test']]);
 
         // Assert
         $this->assertSame('core', $value);
@@ -96,7 +97,7 @@ class SprykCodeLevelValueResolverTest extends Unit
         $valueResolver->configure(['defaultValue' => 'project']);
 
         // Act
-        $value = $valueResolver->getValue($this->context, ['coreNamespaces' => 'none']);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACES => 'none']);
 
         // Assert
         $this->assertSame('project', $value);

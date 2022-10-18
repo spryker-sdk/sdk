@@ -16,6 +16,7 @@ use SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 /**
  * @group Sdk
@@ -70,11 +71,11 @@ class ProjectWorkflowInitializerTest extends Unit
         //Arrange
         $setting = $this->createSettingsMock(['test_workflow']);
         $projectWorkflow = $this->createProjectWorkflow();
-        $projectSettingRepository = $this->createProjectSettingRepositoryMock($this->createProjectSettingMock('project_key'));
+        $projectSettingRepository = $this->createProjectSettingRepositoryMock($this->createProjectSettingMock(Setting::PATH_PROJECT_KEY));
         $workflowRepository = $this->createWorkflowRepositoryMock([]);
         $projectWorkflowInitializer = new ProjectWorkflowInitializer($projectSettingRepository, $workflowRepository, $projectWorkflow);
 
-        $this->expectMethodSaveCall($workflowRepository, true, 'project_key', 'test_workflow');
+        $this->expectMethodSaveCall($workflowRepository, true, Setting::PATH_PROJECT_KEY, 'test_workflow');
 
         //Act
         $projectWorkflowInitializer->initialize($setting);
@@ -88,7 +89,7 @@ class ProjectWorkflowInitializerTest extends Unit
         //Arrange
         $setting = $this->createSettingsMock(['test_workflow']);
         $projectWorkflow = $this->createProjectWorkflow();
-        $projectSettingRepository = $this->createProjectSettingRepositoryMock($this->createProjectSettingMock('project_key'));
+        $projectSettingRepository = $this->createProjectSettingRepositoryMock($this->createProjectSettingMock(Setting::PATH_PROJECT_KEY));
         $workflowRepository = $this->createWorkflowRepositoryMock([$this->createWorkflowMock('test_workflow')]);
         $projectWorkflowInitializer = new ProjectWorkflowInitializer($projectSettingRepository, $workflowRepository, $projectWorkflow);
 
@@ -106,11 +107,11 @@ class ProjectWorkflowInitializerTest extends Unit
         //Arrange
         $setting = $this->createSettingsMock(['test_workflow']);
         $projectWorkflow = $this->createProjectWorkflow();
-        $projectSettingRepository = $this->createProjectSettingRepositoryMock($this->createProjectSettingMock('project_key'));
+        $projectSettingRepository = $this->createProjectSettingRepositoryMock($this->createProjectSettingMock(Setting::PATH_PROJECT_KEY));
         $workflowRepository = $this->createWorkflowRepositoryMock([$this->createWorkflowMock('existing_workflow')]);
         $projectWorkflowInitializer = new ProjectWorkflowInitializer($projectSettingRepository, $workflowRepository, $projectWorkflow);
 
-        $this->expectMethodSaveCall($workflowRepository, true, 'project_key', 'test_workflow');
+        $this->expectMethodSaveCall($workflowRepository, true, Setting::PATH_PROJECT_KEY, 'test_workflow');
 
         //Act
         $projectWorkflowInitializer->initialize($setting);

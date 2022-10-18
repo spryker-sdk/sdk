@@ -28,7 +28,7 @@ class AppDockerFileModifier extends AbstractAppFileModifier
      */
     protected function parseContent(string $content): array
     {
-        return $this->yaml->parse($content);
+        return $this->yaml::parse($content);
     }
 
     /**

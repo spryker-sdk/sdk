@@ -5,11 +5,13 @@ parameters:
 services:
   question_helper:
     class: Symfony\Component\Console\Helper\SymfonyQuestionHelper
+
   validate_task_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\Validator\ValidateTaskCommand
     tags: [ "console.command" ]
     arguments:
-      - "@task_yaml_repository"
+      - "@task_yaml_collector"
+
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
@@ -31,7 +33,7 @@ services:
   run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\RunWorkflowCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@project_workflow"
       - "@cli_interaction_processor"
@@ -41,7 +43,7 @@ services:
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@task_executor"
       - "@project_workflow"
@@ -65,7 +67,7 @@ services:
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "@cli_interaction_processor"
       - "@project_setting_manager"
@@ -83,11 +85,11 @@ services:
     tags: ["console.command"]
     arguments:
       - "@service.lifecycle_manager"
-      - "@setting_repository"
       - "@doctrine_migrations.migrate_command"
+      - "@initializer_service"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -100,7 +102,7 @@ services:
       - "@event_logger"
   create_phpstorm_config_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\CreatePhpStormConfig
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "@ide.config_manager"
 
@@ -116,7 +118,7 @@ services:
   ide.command_loader:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader
     arguments:
-      - !tagged_iterator console.command
+      - !tagged_iterator telemetry.observable_command
       - "@console.command_loader"
       - "@task_persistence_repository"
   ide.command_xml_formatter:
@@ -129,13 +131,13 @@ services:
   # Integrations
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
   composer_replace_command:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command"]
   brancho_commit_command:
     class: SprykerSdk\Sdk\Extension\Command\CommitCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
   brancho_branch_builder_command:
     class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]

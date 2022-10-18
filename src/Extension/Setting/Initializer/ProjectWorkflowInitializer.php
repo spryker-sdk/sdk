@@ -13,15 +13,11 @@ use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 
 class ProjectWorkflowInitializer implements SettingInitializerInterface, SettingChoicesProviderInterface
 {
-    /**
-     * @var string
-     */
-    protected const PROJECT_KEY_SETTING = 'project_key';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
      */
@@ -66,7 +62,7 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
         }
         $workflows = $setting->getValues();
 
-        $projectKeySetting = $this->projectSettingRepository->findOneByPath(static::PROJECT_KEY_SETTING);
+        $projectKeySetting = $this->projectSettingRepository->findOneByPath(Setting::PATH_PROJECT_KEY);
         if ($projectKeySetting && $projectKeySetting->getValues()) {
             $projectKey = (string)$projectKeySetting->getValues();
             $existingWorkflows = $this->workflowRepository->getWorkflows($projectKey);

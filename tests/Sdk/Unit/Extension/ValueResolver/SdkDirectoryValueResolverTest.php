@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\SdkDirectoryValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 /**
  * @group Sdk
@@ -65,7 +66,7 @@ class SdkDirectoryValueResolverTest extends Unit
         $valueResolver = new SdkDirectoryValueResolver($this->valueReceiver, '../');
 
         // Act
-        $value = $valueResolver->getValue($this->context, [SdkDirectoryValueResolver::SETTING_SDK_DIR => '../'], true);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_SDK_DIR => '../'], true);
 
         // Assert
         $this->assertSame(realpath('../'), $value);
@@ -80,7 +81,7 @@ class SdkDirectoryValueResolverTest extends Unit
         $valueResolver = new SdkDirectoryValueResolver($this->valueReceiver, '../');
 
         // Act
-        $value = $valueResolver->getValue($this->context, [SdkDirectoryValueResolver::SETTING_SDK_DIR => '../'], true);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_SDK_DIR => '../'], true);
 
         // Assert
         $this->assertSame(realpath('../'), $value);

@@ -1,417 +1,597 @@
 services:
-  _instanceof:
-    SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
-      tags: [ "manifest.validator" ]
-  file_finder:
-    class: Symfony\Component\Finder\Finder
-  event_logger_factory:
-    class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
-    arguments:
-      - "@project_setting_repository"
-      - "%project_settings_file%"
-  event_logger:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger
-    factory: ["@event_logger_factory", "createEventLogger"]
-  default_context_receiver:
-    class: SprykerSdk\Sdk\Infrastructure\Service\DefaultContextReceiver
-    arguments:
-        - '@setting_repository'
-  action_approver:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
-    arguments:
-      - "@cli_interaction_processor"
-  progress_bar:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
-    tags:
-      - {
-          name: kernel.event_listener,
-          event: console.command,
-          method: initProgressBar,
-        }
-  command_error:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
-    tags:
-      - {
-        name: kernel.event_listener,
-        event: console.error,
-        method: handle,
-      }
-  setting_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
-    arguments:
-      - "@doctrine.orm.entity_manager"
-      - "@path_resolver"
-      - "@yaml_parser"
-      - "%sdk_settings%"
-  project_setting_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
-    arguments:
-      - "@service_container"
-      - "@setting_repository"
-      - "@yaml_parser"
-      - "%project_settings_file%"
-      - "@path_resolver"
-  yaml_parser:
-    class: Symfony\Component\Yaml\Yaml
-  task_yaml_repository:
-    public: true
-    class: SprykerSdk\Sdk\Infrastructure\Repository\TaskYamlRepository
-    arguments:
-      - "@setting_repository"
-      - "@file_finder"
-      - "@yaml_parser"
-      - "@task.task_from_yaml_builder"
-      - "@manifest_validation"
-      - !tagged_iterator sdk.task
-  context_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
-    arguments:
-      - "@context_serializer"
-      - "@setting_repository"
-      - "@context.in_memory_cache_storage"
-  initializer_service:
-    class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
-    arguments:
-      - "@cli_interaction_processor"
-      - "@setting_repository"
-      - "@service.task_manager"
-      - "@task_yaml_repository"
-  process_helper:
-    class: Symfony\Component\Console\Helper\ProcessHelper
+    _instanceof:
+        SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
+            tags: [ "manifest.validator" ]
+    file_finder:
+        class: Symfony\Component\Finder\Finder
+    event_logger_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory
+        arguments:
+            - "@project_setting_repository"
+            - "%project_settings_file%"
+    event_logger:
+        class: SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger
+        factory: [ "@event_logger_factory", "createEventLogger" ]
+    default_context_receiver:
+        class: SprykerSdk\Sdk\Infrastructure\Service\DefaultContextReceiver
+        arguments:
+            - '@setting_repository'
+    action_approver:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
+        arguments:
+            - "@cli_interaction_processor"
+    error_logger_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactory
+        arguments:
+            - "@project_setting_repository"
+            - "%project_log_file%"
+    error_logger:
+        class: Psr\Log\LoggerInterface
+        factory: [ "@error_logger_factory", "createLogger" ]
+    progress_bar:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: console.command,
+                method: initProgressBar,
+            }
+    command_error:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: console.error,
+                method: handle,
+            }
+    setting_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@path_resolver"
+            - "@yaml_parser"
+            - "%sdk_settings%"
+    project_setting_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
+        arguments:
+            - "@service_container"
+            - "@setting_repository"
+            - "@yaml_parser"
+            - "%project_settings_file%"
+            - "@path_resolver"
+    yaml_parser:
+        class: Symfony\Component\Yaml\Yaml
 
-  local_cli_command_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner
-    tags: ["command.runner"]
-    arguments:
-      - "@process_helper"
-      - "@progress_bar"
-  php_command_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
-    tags: ["command.runner"]
-  cli_interaction_processor:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
-    tags: ["sdk.cli_receiver_setup"]
-    arguments:
-      - "@question_helper"
-      - "@value_receiver.question_registry"
+    task.reader.yaml:
+        class: SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader
+        arguments:
+            - "@setting_repository"
+            - "@file_finder"
+            - "@yaml_parser"
 
-  value_receiver.question_factory.int:
-      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\IntQuestionFactory
-      tags: [ "sdk.cli_value_receiver_factory" ]
+    task_placeholder.reader:
+        class: SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlPlaceholderReader
+        arguments:
+            - "@task.storage"
 
-  value_receiver.question_factory.string:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory
-    tags: [ "sdk.cli_value_receiver_factory" ]
+    task.storage:
+        class: SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
+        arguments:
+            - !tagged_iterator sdk.task
 
-  value_receiver.question_factory.array:
-      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory
-      tags: [ "sdk.cli_value_receiver_factory" ]
+    task.builder.yaml:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\YamlTaskBuilder
+        arguments:
+            - !tagged_iterator task_part_builder
 
-  value_receiver.question_factory.boolean:
-      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory
-      tags: [ "sdk.cli_value_receiver_factory" ]
+    task.builder.command_task_part:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\CommandTaskPartBuilder
+        tags: [ "task_part_builder" ]
+        arguments:
+            - "@task.storage"
 
-  value_receiver.question_factory.path:
-      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory
-      tags: [ "sdk.cli_value_receiver_factory" ]
+    task.builder.placeholder_task_part:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\PlaceholderTaskPartBuilder
+        tags: [ "task_part_builder" ]
+        arguments:
+            - "@task.storage"
 
-  value_receiver.question_registry:
-      class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry
-      arguments:
-          - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
+    task.builder.lifecycle_task_part:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\LifecycleTaskPartBuilder
+        tags: [ "task_part_builder" ]
+        arguments:
+            - "@task.builder.placeholder_task_part"
 
-  cli_receiver_setup_listener:
-    class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
-    tags:
-      - {
-          name: kernel.event_listener,
-          event: console.command,
-          method: beforeConsoleCommand,
-        }
-    arguments:
-      - !tagged_iterator sdk.cli_receiver_setup
-  cli_runner_setup_listener:
-    class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
-    tags:
-      - {
-          name: kernel.event_listener,
-          event: console.command,
-          method: beforeConsoleCommand,
-        }
-    arguments:
-      - "@local_cli_command_runner"
+    task.builder.scalar_values_task_part:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\ScalarTaskPartBuilder
+        tags: [ "task_part_builder" ]
 
-  value_receiver:
-    alias: "cli_interaction_processor"
-  autoloader_service:
-    class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
-    arguments:
-      - "%kernel.project_dir%"
-  value_resolver_registry:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
-    arguments:
-      - "@setting_repository"
-      - "@value_receiver"
-      - !tagged_iterator sdk.value_resolver
-      - "@autoloader_service"
-      - "%kernel.project_dir%"
-  mapper.converter_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper
-  mapper.command_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper
-    arguments:
-      - "@mapper.converter_mapper"
-  mapper.placeholder_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper
+    task_yaml_collector:
+        class: SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector
+        arguments:
+            - "@manifest_validation"
+            - "@task.reader.yaml"
+            - "@task.storage"
 
-  mapper.task_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapper
-    arguments:
-      - "@mapper.command_mapper"
-      - "@mapper.placeholder_mapper"
-      - "@mapper.lifecycle_mapper"
+    task_yaml_loader:
+        public: true
+        class: SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader
+        arguments:
+            - "@task_yaml_collector"
+            - "@task.task_from_yaml_builder"
+            - "@task.storage"
+            - "@task.builder.yaml"
 
-  mapper.lifecycle_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
-    arguments:
-      - "@mapper.removed_event_mapper"
+    context_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
+        arguments:
+            - "@context_serializer"
+            - "@setting_repository"
+            - "@context.in_memory_cache_storage"
+    telemetry_event_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@mapper.telemetry_event"
 
-  mapper.removed_event_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper
-    arguments:
-      - "@mapper.placeholder_mapper"
-      - "@mapper.command_mapper"
-      - "@mapper.file_mapper"
+    initializer_service:
+        class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
+        arguments:
+            - "@cli_interaction_processor"
+            - "@setting_repository"
+            - "@service.task_manager"
+            - "@task_yaml_loader"
+    process_helper:
+        class: Symfony\Component\Console\Helper\ProcessHelper
 
-  mapper.file_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
+    local_cli_command_runner:
+        class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner
+        tags: [ "command.runner" ]
+        arguments:
+            - "@process_helper"
+            - "@progress_bar"
+    php_command_runner:
+        class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
+        tags: [ "command.runner" ]
+    cli_interaction_processor:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+        tags: [ "sdk.cli_receiver_setup" ]
+        arguments:
+            - "@question_helper"
+            - "@value_receiver.question_registry"
 
-  task_persistence_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
-    arguments:
-      - "@mapper.task_mapper"
-      - "@doctrine"
-      - "@task.task_set_commands_builder"
-      - "@task.task_set_override_map_factory"
-      - !tagged_iterator sdk.task
+    value_receiver.question_factory.int:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\IntQuestionFactory
+        tags: [ "sdk.cli_value_receiver_factory" ]
 
-  service.task_manager:
-    class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
-    arguments:
-      - "@event_dispatcher"
-      - "@task_persistence_repository"
-      - "@task.task_from_task_builder"
+    value_receiver.question_factory.string:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\StringQuestionFactory
+        tags: [ "sdk.cli_value_receiver_factory" ]
 
-  service.lifecycle_manager:
-    class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
-    arguments:
-      - "@task_yaml_repository"
-      - "@task_persistence_repository"
-      - !tagged_iterator sdk.update_action
-      - "%kernel.project_dir%"
+    value_receiver.question_factory.array:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory
+        tags: [ "sdk.cli_value_receiver_factory" ]
 
-  task_created_action:
-    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
-    tags: ["sdk.update_action"]
-    arguments:
-      - "@service.task_manager"
+    value_receiver.question_factory.boolean:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory
+        tags: [ "sdk.cli_value_receiver_factory" ]
 
-  task_deprecated_action:
-    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction
-    tags: ["sdk.update_action"]
-    arguments:
-      - "@task_persistence_repository"
-      - "@service.task_manager"
+    value_receiver.question_factory.path:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory
+        tags: [ "sdk.cli_value_receiver_factory" ]
 
-  task_removed_action:
-    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskRemovedAction
-    tags: ["sdk.update_action"]
-    arguments:
-      - "@service.task_manager"
+    value_receiver.question_registry:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry
+        arguments:
+            - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
 
-  task_updated_action:
-    class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskUpdatedAction
-    tags: ["sdk.update_action"]
-    arguments:
-      - "@service.task_manager"
-  output_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter
-    tags: ["sdk.violation_formatter", "sdk.cli_receiver_setup"]
-  yaml_violation_report_formatter:
-    class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\YamlViolationReportFormatter
-    tags: ["sdk.violation_formatter"]
-    arguments:
-      - "@violation_report_mapper"
-      - "@violation_path_reader"
-      - "@yaml_parser"
-  workflow_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
-    arguments:
-      - "@doctrine"
-  workflow_transition_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
-    arguments:
-      - "@doctrine"
-  violation_report_mapper:
-    class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
-  violation_path_reader:
-    class: SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader
-    arguments:
-      - "@project_setting_repository"
-  report_formatter_factory:
-    class: SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory
-    arguments:
-      - "@context_factory"
-      - !tagged_iterator sdk.violation_formatter
-  violation_report_repository:
-    class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
-    arguments:
-      - "@violation_path_reader"
-      - "@report_formatter_factory"
-  converter_registry:
-    class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
-    arguments:
-      - "@setting_repository"
-      - "%kernel.project_dir%"
+    cli_receiver_setup_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: console.command,
+                method: beforeConsoleCommand,
+            }
+        arguments:
+            - !tagged_iterator sdk.cli_receiver_setup
+    cli_runner_setup_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: console.command,
+                method: beforeConsoleCommand,
+            }
+        arguments:
+            - "@local_cli_command_runner"
 
-  dynamic_task_set_creator:
-    class: SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator
-    arguments:
-      - "@project_setting_repository"
-      - "@task_option_builder"
-      - "@task_persistence_repository"
+    value_receiver:
+        alias: "cli_interaction_processor"
+    autoloader_service:
+        class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
+        arguments:
+            - "%kernel.project_dir%"
+    value_resolver_registry:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
+        arguments:
+            - "@setting_repository"
+            - "@value_receiver"
+            - !tagged_iterator sdk.value_resolver
+            - "@autoloader_service"
+            - "%kernel.project_dir%"
+    mapper.converter_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper
+    mapper.command_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper
+        arguments:
+            - "@mapper.converter_mapper"
+    mapper.placeholder_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper
 
-  task_option_builder:
-    class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
-    arguments:
-     - '@placeholder_resolver'
-  app.event_listener.request_listener:
-    class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
-    arguments:
-      - "@doctrine"
-    tags:
-      - {
-          name: kernel.event_listener,
-          event: console.command,
-          method: beforeConsoleCommand,
-        }
+    mapper.task_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapper
+        arguments:
+            - "@mapper.command_mapper"
+            - "@mapper.placeholder_mapper"
+            - "@mapper.lifecycle_mapper"
 
-  app.workflow.guard_listener:
-    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
-    arguments:
-      - "@service_container"
-    tags:
-      - { name: kernel.event_listener, event: console.command, method: setup }
-      - { name: kernel.event_listener, event: workflow.guard, method: handle }
-      - { name: kernel.event_listener, event: workflow.leave, method: handle }
-      - { name: kernel.event_listener, event: workflow.entered, method: handle }
+    mapper.lifecycle_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
+        arguments:
+            - "@mapper.removed_event_mapper"
 
-  app.workflow.transition_listener:
-    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
-    arguments:
-      - "@task_executor"
-      - "@workflow_runner"
-      - "@project_workflow"
-      - "@workflow_repository"
-      - "@workflow_transition_repository"
-      - "@workflow.transition_resolver_registry"
-    tags:
-      - { name: kernel.event_listener, event: workflow.transition, method: execute }
+    mapper.removed_event_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper
+        arguments:
+            - "@mapper.placeholder_mapper"
+            - "@mapper.command_mapper"
+            - "@mapper.file_mapper"
 
-  app.workflow.started_transitions_guard_listener:
-    class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowStartedTransitionListener
-    arguments:
-      - "@project_workflow"
-    tags:
-      - { name: kernel.event_listener, event: workflow.guard, method: guard }
+    mapper.file_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper
 
-  workflow.marking_store.method:
-    class: SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore
+    mapper.telemetry_event:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\TelemetryEventMapper
 
-  service.tasks_repository_installer:
-    class: SprykerSdk\Sdk\Infrastructure\Service\TasksRepositoryInstaller
-    arguments:
-      - "%kernel.project_dir%/.gitmodules"
-      - "@logger"
+    task_persistence_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository
+        arguments:
+            - "@mapper.task_mapper"
+            - "@doctrine"
+            - "@task.task_set_commands_builder"
+            - "@task.task_set_override_map_factory"
+            - "@task.storage"
 
-  workflow_runner:
-    class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
-    tags: [ "sdk.cli_receiver_setup" ]
-    arguments:
-      - "@cli_interaction_processor"
-      - "@service_container"
-      - "@context_factory"
+    service.task_manager:
+        class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
+        arguments:
+            - "@event_dispatcher"
+            - "@task_persistence_repository"
+            - "@task.task_from_task_builder"
 
-  context.in_memory_cache_storage:
-    class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
-  workflow.transition_resolver_registry:
-    class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
-    arguments:
-      - !tagged_iterator workflow.transition_resolver
+    service.lifecycle_manager:
+        class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
+        arguments:
+            - "@task_yaml_loader"
+            - "@task_persistence_repository"
+            - !tagged_iterator sdk.update_action
+            - "%kernel.project_dir%"
 
-  task.yaml.commands_factory:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetCommandsFactory
+    task_created_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
+        tags: [ "sdk.update_action" ]
+        arguments:
+            - "@service.task_manager"
 
-  task.yaml.task_set_placeholders_factory:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetPlaceholdersFactory
+    task_deprecated_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction
+        tags: [ "sdk.update_action" ]
+        arguments:
+            - "@task_persistence_repository"
+            - "@service.task_manager"
 
-  task.yaml.task_set_override_map_factory:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\Yaml\TaskSetOverrideMapFactory
-      arguments:
-          - "@task.task_set_override_map_builder_factory"
+    task_removed_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskRemovedAction
+        tags: [ "sdk.update_action" ]
+        arguments:
+            - "@service.task_manager"
 
-  task.task_set_placeholders_builder:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetPlaceholdersBuilder
+    task_updated_action:
+        class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskUpdatedAction
+        tags: [ "sdk.update_action" ]
+        arguments:
+            - "@service.task_manager"
+    output_violation_report_formatter:
+        class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter
+        tags: [ "sdk.violation_formatter", "sdk.cli_receiver_setup" ]
+    yaml_violation_report_formatter:
+        class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\YamlViolationReportFormatter
+        tags: [ "sdk.violation_formatter" ]
+        arguments:
+            - "@violation_report_mapper"
+            - "@violation_path_reader"
+            - "@yaml_parser"
+    workflow_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
+        arguments:
+            - "@doctrine"
+    workflow_transition_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
+        arguments:
+            - "@doctrine"
+    violation_report_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
+    violation_path_reader:
+        class: SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader
+        arguments:
+            - "@project_setting_repository"
+    report_formatter_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory
+        arguments:
+            - "@context_factory"
+            - !tagged_iterator sdk.violation_formatter
+    violation_report_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\ViolationReportFileRepository
+        arguments:
+            - "@violation_path_reader"
+            - "@report_formatter_factory"
+    converter_registry:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ConverterRegistry
+        arguments:
+            - "@setting_repository"
+            - "%kernel.project_dir%"
 
-  task.task_set_commands_builder:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetCommandsBuilder
+    dynamic_task_set_creator:
+        class: SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator
+        arguments:
+            - "@project_setting_repository"
+            - "@task_option_builder"
+            - "@task_persistence_repository"
 
-  task.task_set_override_map_builder_factory:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilderFactory
+    task_option_builder:
+        class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
+        arguments:
+            - '@placeholder_resolver'
+    app.event_listener.request_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
+        arguments:
+            - "@doctrine"
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: console.command,
+                method: beforeConsoleCommand,
+            }
 
-  task.task_set_override_map_factory:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory
+    app.workflow.guard_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
+        arguments:
+            - "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: setup }
+            - { name: kernel.event_listener, event: workflow.guard, method: handle }
+            - { name: kernel.event_listener, event: workflow.leave, method: handle }
+            - { name: kernel.event_listener, event: workflow.entered, method: handle }
 
-  task.task_from_task_builder:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromTaskSetBuilder
-      arguments:
-          - "@task.task_set_placeholders_builder"
-          - "@task.task_set_commands_builder"
-          - "@task.task_set_override_map_factory"
+    app.workflow.transition_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener
+        arguments:
+            - "@task_executor"
+            - "@workflow_runner"
+            - "@project_workflow"
+            - "@workflow_repository"
+            - "@workflow_transition_repository"
+            - "@workflow.transition_resolver_registry"
+        tags:
+            - { name: kernel.event_listener, event: workflow.transition, method: execute }
 
-  task.task_from_yaml_builder:
-      class: SprykerSdk\Sdk\Infrastructure\Service\TaskSet\TaskFromYamlTaskSetBuilder
-      arguments:
-          - "@task.yaml.commands_factory"
-          - "@task.yaml.task_set_placeholders_factory"
-          - "@task.yaml.task_set_override_map_factory"
-          - "@task.task_set_placeholders_builder"
-          - "@task.task_set_commands_builder"
+    app.workflow.started_transitions_guard_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowStartedTransitionListener
+        arguments:
+            - "@project_workflow"
+        tags:
+            - { name: kernel.event_listener, event: workflow.guard, method: guard }
 
-  # Validators
-  validation_helper:
-    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestEntriesValidator
-    arguments:
-      - '@value_resolver_registry'
-      - '@converter_registry'
-      - '@task_yaml_repository'
-      - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
-  task_manifest_validator:
-    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskManifestConfiguration
-    arguments:
-      - '@validation_helper'
-  task_set_manifest_validator:
-    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\TaskSetManifestConfiguration
-    arguments:
-      - '@validation_helper'
+    workflow.marking_store.method:
+        class: SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore
 
-  manifest_validator_factory:
-    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidatorRegistry
-    arguments:
-        - !tagged_iterator manifest.validator
+    service.tasks_repository_installer:
+        class: SprykerSdk\Sdk\Infrastructure\Service\TasksRepositoryInstaller
+        arguments:
+            - "%kernel.project_dir%/.gitmodules"
+            - "@logger"
 
-  manifest_validation:
-    class: SprykerSdk\Sdk\Infrastructure\ManifestValidator\ManifestValidator
-    arguments:
-      - '@manifest_validator_factory'
-      - '@config_processor'
+    workflow_runner:
+        class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+        tags: [ "sdk.cli_receiver_setup" ]
+        arguments:
+            - "@cli_interaction_processor"
+            - "@service_container"
+            - "@context_factory"
+
+    telemetry.data_lake_sender:
+        class: SprykerSdk\Sdk\Infrastructure\Telemetry\DataLakeTelemetryEventSender
+        arguments:
+            - "@guzzle.http_client"
+            - "@telemetry.serializer"
+            - "%telemetry_server_url%"
+            - "%telemetry_sender_data_lake_timeout_sec%"
+            - "%telemetry_sender_data_lake_connection_timeout_sec%"
+        tags:
+            - { name: telemetry.data_sender }
+
+    telemetry.report_sender:
+        class: SprykerSdk\Sdk\Infrastructure\Telemetry\FileReportTelemetryEventSender
+        arguments:
+            - "@project_setting_repository"
+            - "@telemetry.serializer"
+            - "@filesystem"
+            - "%telemetry_sender_file_report_file_name%"
+            - "%telemetry_sender_file_report_format%"
+            - "%kernel.debug%"
+        tags:
+            - { name: telemetry.data_sender }
+
+    telemetry.null_sender:
+        class: SprykerSdk\Sdk\Infrastructure\Telemetry\NullTelemetryEventSender
+        tags:
+            - { name: telemetry.data_sender }
+
+    telemetry.data_sender_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Telemetry\TelemetryEventSenderFactory
+        arguments:
+            - "%telemetry_transport%"
+            - "%telemetry_enabled%"
+            - !tagged_iterator telemetry.data_sender
+
+    telemetry.telemetry_events_sender:
+        class: SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetry\TelemetryEventSenderInterface
+        factory: [ "@telemetry.data_sender_factory", "getTelemetryEventSender" ]
+
+    lock_data_store:
+        class: Symfony\Component\Lock\Store\DoctrineDbalStore
+        arguments:
+            - '@doctrine.dbal.default_connection'
+            -   db_table: '%lock.db_name%'
+
+    lock_factory:
+        class: Symfony\Component\Lock\LockFactory
+        arguments:
+            - "@lock_data_store"
+
+    project_info_fetcher.strategy.composer:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ComposerProjectInfoFetcher
+        arguments:
+            - "@project_setting_repository"
+        tags:
+            - { name: project_info_fetcher.fetcher_strategy, priority: 100 }
+
+    project_info_fetcher.strategy.git:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\GitProjectInfoFetcher
+        tags:
+            - { name: project_info_fetcher.fetcher_strategy, priority: 50 }
+
+    project_info_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcher
+        arguments:
+            - !tagged_iterator project_info_fetcher.fetcher_strategy
+            - "@error_logger"
+
+    guzzle.http_client:
+        class: GuzzleHttp\Client
+
+    serializer.json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+
+    telemetry.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            - [ "@telemetry.serializer.event_normalizer" ]
+            - [ "@serializer.json_encoder" ]
+
+    telemetry.serializer.event_normalizer:
+        class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\TelemetryEventNormalizer
+        arguments:
+            - !tagged_iterator telemetry.payload_normalizer
+            - "@telemetry.serializer.metadata_normalizer"
+
+    telemetry.serializer.metadata_normalizer:
+        class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\TelemetryEventMetadataNormalizer
+
+    telemetry.serializer.command_execution_payload_normalizer:
+        class: SprykerSdk\Sdk\Infrastructure\Serializer\Normalizer\TelemetryEvent\Payload\CommandExecutionPayloadNormalizer
+        tags:
+            - { name: telemetry.payload_normalizer }
+
+    telemetry.command_event_validator:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidator
+        arguments:
+            - !tagged_iterator telemetry.observable_command
+
+    telemetry.command_event_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventListener
+        arguments:
+            - "@telemetry.command_event_synchronizer"
+            - "@telemetry.event_metadata_factory"
+            - "@telemetry.command_event_validator"
+            - "@error_logger"
+            - "%telemetry_enabled%"
+        tags:
+            - { name: kernel.event_listener, event: console.terminate }
+            - { name: kernel.event_listener, event: console.error }
+
+    context.in_memory_cache_storage:
+        class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
+    workflow.transition_resolver_registry:
+        class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+        arguments:
+            - !tagged_iterator workflow.transition_resolver
+
+    task.yaml.commands_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\Yaml\TaskSetCommandsFactory
+
+    task.yaml.task_set_placeholders_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\Yaml\TaskSetPlaceholdersFactory
+
+    task.yaml.task_set_override_map_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\Yaml\TaskSetOverrideMapFactory
+        arguments:
+            - "@task.task_set_override_map_builder_factory"
+
+    task.task_set_placeholders_builder:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetPlaceholdersBuilder
+
+    task.task_set_commands_builder:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetCommandsBuilder
+
+    task.task_set_override_map_builder_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoBuilderFactory
+
+    task.task_set_override_map_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory
+
+    task.task_from_task_builder:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilder
+        arguments:
+            - "@task.task_set_placeholders_builder"
+            - "@task.task_set_commands_builder"
+            - "@task.task_set_override_map_factory"
+
+    task.task_from_yaml_builder:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilder
+        arguments:
+            - "@task.yaml.commands_factory"
+            - "@task.yaml.task_set_placeholders_factory"
+            - "@task.yaml.task_set_override_map_factory"
+            - "@task.task_set_placeholders_builder"
+            - "@task.task_set_commands_builder"
+
+    # Validators
+    validation_helper:
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
+        arguments:
+            - '@value_resolver_registry'
+            - '@converter_registry'
+            - '@task.storage'
+            - '@task_placeholder.reader'
+            - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
+    task_manifest_validator:
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskManifestConfiguration
+        arguments:
+            - '@validation_helper'
+    task_set_manifest_validator:
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration
+        arguments:
+            - '@validation_helper'
+
+    manifest_validator_factory:
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidatorRegistry
+        arguments:
+            - !tagged_iterator manifest.validator
+
+    manifest_validation:
+        class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidator
+        arguments:
+            - '@manifest_validator_factory'
+            - '@config_processor'

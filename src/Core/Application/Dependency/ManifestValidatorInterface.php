@@ -13,6 +13,8 @@ interface ManifestValidatorInterface
      * @param string $type
      * @param array<array> $configs
      *
+     * @throws \Symfony\Component\Config\Definition\Exception\InvalidTypeException
+     *
      * @return array<string, array>
      */
     public function validate(string $type, array $configs): array;
