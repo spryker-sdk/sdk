@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\TemplateReader\Task\Format
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestRequestDtoInterface;
+use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader\YamlTaskTemplateFormatReader;
 use Twig\Environment;
 
 /**
