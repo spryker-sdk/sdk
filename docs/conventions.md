@@ -79,7 +79,7 @@ No conventions yet
 - Console command __SHOULD__ have no business logic.
 - Only basic input validation and output formatting __SHOULD__ present in the console command.
 - `protected static $defaultName` __SHOULD NOT__ be used because of performance reasons and future deprecation in Symfony 6.1 version.
-  Instead `protcted const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
+  Instead `protected const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
 
 ## Contracts
 
@@ -88,6 +88,16 @@ No conventions yet
 - Contract is an interface that allows users to customize existing business logic.
 - Contract __MUST__ exist only in case existing logic provides for an extension by the user.
 - Contract is a public API and __MUST__ follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
+
+## REST API
+- Controller __SHOULD__ have no business logic.
+- Controller __SHOULD__ be named by template of task's id.
+For task `validation:php:codestyle` - controller name is `ValidationController` and controller's action name is `validationPhpCodestyle` (task's full id in camelCase).
+- Controller __MUST__ be placed in namespace `SprykerSdk\Sdk\Presentation\RestApi\Controller\v1`. The `v1` is current version of SDK API.
+- Route __MUST__ be placed in `src/Presentation/RestApi/Resources/routing.yaml`
+- Route __SHOULD__ be named by template `api_${version}_${controller_name}_${action_name}`.
+Example: For action `ValidationController::validationPhpCodestyle` route is `api_v1_validation_validation_php_codestyle`
+- Route's path __SHOULD__ be named in hyphen-case. For task `validation:php:codestyle` path is `/api/v1/validation-php-codestyle`
 
 ## TODO
 

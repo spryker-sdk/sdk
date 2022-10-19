@@ -20,6 +20,13 @@ suites:
                 - Cli
                 - Filesystem
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\TelemetryEventHelper
+                - Symfony:
+                      app_path: app
+                      environment: test
+                - REST:
+                    url: http://localhost:8080/api/v1
+                    depends: PhpBrowser
+                    part: Json
         step_decorators: ~
 settings:
     shuffle: true
