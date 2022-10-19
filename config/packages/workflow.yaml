@@ -79,12 +79,12 @@ framework:
             error: Please fix the mentioned issues and re-run the workflow to continue.
         CreateOpenApi:
           from: acp-validated
-          to: endpoints-created
+          to: openapi-created
           metadata:
             task: acp:openapi:full-flow
         CreateEndpoints:
           from: openapi-created
-          to: asyncapi-created
+          to: endpoints-created
           metadata:
             task: acp:endpoints:create
         CreateAsyncapi:
