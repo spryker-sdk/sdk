@@ -14,12 +14,12 @@ use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestRequestDtoInterface;
 class TaskTemplateReader implements TemplateReaderInterface
 {
     /**
-     * @var array<\SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\TemplateFormatReaderInterface>
+     * @var array<\SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader\TemplateFormatReaderInterface>
      */
     protected iterable $formatTemplateReaders;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\TemplateFormatReaderInterface> $formatTemplateReaders
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader\TemplateFormatReaderInterface> $formatTemplateReaders
      */
     public function __construct(iterable $formatTemplateReaders)
     {

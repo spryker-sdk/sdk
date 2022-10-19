@@ -15,7 +15,7 @@ interface ManifestWriterInterface
      * @param string $fileContent
      * @param \SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile $manifestFile
      *
-     * @return string
+     * @return string A relative path to the created file.
      */
     public function write(string $fileContent, ManifestFile $manifestFile): string;
 }

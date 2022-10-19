@@ -573,7 +573,7 @@ services:
             - "@task.task_set_placeholders_builder"
             - "@task.task_set_commands_builder"
 
-    # Validators1
+    # Validators
     validation_helper:
         class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator
         arguments:
@@ -613,14 +613,14 @@ services:
             - "@manifest.interaction.new_collection_item_question"
 
     manifest.task_php_template_format_reader:
-        class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\PhpTaskTemplateReader
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader\PhpTaskTemplateFormatReader
         arguments:
             - "@twig"
             - "%manifest_task_php_template_path%"
         tags: [ "manifest_task_format_template_reader" ]
 
     manifest.task_yaml_template_format_reader:
-        class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\YamlTaskTemplateReader
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader\YamlTaskTemplateFormatReader
         arguments:
             - "@twig"
             - "%manifest_task_yaml_template_path%"
@@ -632,14 +632,14 @@ services:
             - !tagged_iterator { tag: 'manifest_task_format_template_reader' }
 
     manifest.task_php_format_writer:
-        class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\PhpTaskManifestWriter
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter\PhpTaskManifestFormatWriter
         arguments:
             - "@filesystem"
             - "%manifest_task_php_file_dir%"
         tags: [ "manifest_task_format_writer" ]
 
     manifest.task_yaml_format_writer:
-        class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\YamlTaskManifestWriter
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter\YamlTaskManifestFormatWriter
         arguments:
             - "@filesystem"
             - "%manifest_task_yaml_file_dir%"

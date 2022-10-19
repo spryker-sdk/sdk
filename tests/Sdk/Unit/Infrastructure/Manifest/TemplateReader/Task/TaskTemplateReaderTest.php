@@ -11,8 +11,8 @@ use Codeception\Test\Unit;
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestRequestDtoInterface;
+use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader\TemplateFormatReaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\TaskTemplateReader;
-use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\TemplateFormatReaderInterface;
 
 /**
  * @group Sdk
@@ -63,7 +63,7 @@ class TaskTemplateReaderTest extends Unit
      * @param string $format
      * @param bool $shouldCallRead
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\TemplateFormatReaderInterface
+     * @return \SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader\TemplateFormatReaderInterface
      */
     protected function createTemplateFormatReaderMock(string $format, bool $shouldCallRead): TemplateFormatReaderInterface
     {

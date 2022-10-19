@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\TemplateReader\Task;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\TemplateReader\Task\FormatReader;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestRequestDtoInterface;
-use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\YamlTaskTemplateReader;
+use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader\PhpTaskTemplateFormatReader;
 use Twig\Environment;
 
 /**
@@ -20,9 +20,10 @@ use Twig\Environment;
  * @group Manifest
  * @group TemplateReader
  * @group Task
- * @group YamlTaskTemplateReaderTest
+ * @group FormatReader
+ * @group PhpTaskTemplateReaderTest
  */
-class YamlTaskTemplateReaderTest extends Unit
+class PhpTaskTemplateFormatReaderTest extends Unit
 {
     /**
      * @return void
@@ -30,8 +31,8 @@ class YamlTaskTemplateReaderTest extends Unit
     public function testRenderTemplateShouldRenderData(): void
     {
         // Arrange
-        $templateReader = new YamlTaskTemplateReader($this->createTwigMock(), 'some_dir');
-        $manifestFile = new ManifestFile('yaml', '');
+        $templateReader = new PhpTaskTemplateFormatReader($this->createTwigMock(), 'some_dir');
+        $manifestFile = new ManifestFile('php', '');
         $requestDto = $this->createManifestRequestDto($manifestFile);
 
         // Act

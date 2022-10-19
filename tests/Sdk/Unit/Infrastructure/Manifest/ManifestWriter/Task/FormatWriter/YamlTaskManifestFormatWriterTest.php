@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\ManifestWriter\Task;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile;
-use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\YamlTaskManifestWriter;
+use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter\YamlTaskManifestFormatWriter;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -19,9 +19,10 @@ use Symfony\Component\Filesystem\Filesystem;
  * @group Manifest
  * @group ManifestWriter
  * @group Task
+ * @group FormatWriter
  * @group YamlTaskManifestWriterTest
  */
-class YamlTaskManifestWriterTest extends Unit
+class YamlTaskManifestFormatWriterTest extends Unit
 {
     /**
      * @return void
@@ -29,7 +30,7 @@ class YamlTaskManifestWriterTest extends Unit
     public function testWriteShouldWriteFileContent(): void
     {
         // Arrange
-        $writer = new YamlTaskManifestWriter($this->createFilesystemMock(), 'test_dir');
+        $writer = new YamlTaskManifestFormatWriter($this->createFilesystemMock(), 'test_dir');
         $manifestFile = new ManifestFile('yaml', 'task');
 
         // Act

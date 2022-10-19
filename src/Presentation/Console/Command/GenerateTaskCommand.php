@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestResponseDtoInterface;
-use SprykerSdk\Sdk\Core\Application\Enum\Manifest\ManifestFileFormatEnum;
 use SprykerSdk\Sdk\Core\Application\Manifest\ManifestGeneratorInterface;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\ManifestInteractionProcessorInterface;
 use SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskInteractionMap;
@@ -91,7 +90,7 @@ class GenerateTaskCommand extends Command
             null,
             InputOption::VALUE_REQUIRED,
             'Task format',
-            ManifestFileFormatEnum::YAML,
+            'yaml',
         );
     }
 
@@ -135,7 +134,7 @@ class GenerateTaskCommand extends Command
         $application = $this->getApplication();
 
         if ($application === null) {
-            throw new RuntimeException('Ban\'t find current console application');
+            throw new RuntimeException('Can\'t find current console application');
         }
 
         $commandExecutionCode = $application

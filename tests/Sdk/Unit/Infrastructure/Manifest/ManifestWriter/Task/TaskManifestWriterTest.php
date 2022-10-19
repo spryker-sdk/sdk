@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\ManifestWriter\Task;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile;
-use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\ManifestFormatWriterInterface;
+use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Shared\FormatWriter\ManifestFormatWriterInterface;
 use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\TaskManifestWriter;
 
 /**
@@ -62,7 +62,7 @@ class TaskManifestWriterTest extends Unit
      * @param string $format
      * @param bool $shouldCallWrite
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\ManifestFormatWriterInterface
+     * @return \SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Shared\FormatWriter\ManifestFormatWriterInterface
      */
     protected function createManifestFormatWriterMock(string $format, bool $shouldCallWrite): ManifestFormatWriterInterface
     {

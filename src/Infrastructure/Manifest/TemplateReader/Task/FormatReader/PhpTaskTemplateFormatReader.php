@@ -5,17 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task;
+namespace SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader;
 
-use SprykerSdk\Sdk\Core\Application\Enum\Manifest\ManifestFileFormatEnum;
+use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader\AbstractFileTemplateFormatReader;
 
-class YamlTaskTemplateReader extends FormatTaskTemplateReader
+class PhpTaskTemplateFormatReader extends AbstractFileTemplateFormatReader
 {
     /**
      * @return string
      */
     public function getAcceptableFormat(): string
     {
-        return ManifestFileFormatEnum::YAML;
+        return 'php';
     }
 }

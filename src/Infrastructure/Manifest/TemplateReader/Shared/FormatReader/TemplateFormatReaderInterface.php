@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader;
+namespace SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader;
 
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestRequestDtoInterface;
 

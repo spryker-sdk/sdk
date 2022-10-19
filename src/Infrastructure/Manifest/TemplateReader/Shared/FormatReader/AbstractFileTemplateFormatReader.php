@@ -5,13 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task;
+namespace SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader;
 
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestRequestDtoInterface;
-use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\TemplateFormatReaderInterface;
 use Twig\Environment;
 
-abstract class FormatTaskTemplateReader implements TemplateFormatReaderInterface
+abstract class AbstractFileTemplateFormatReader implements TemplateFormatReaderInterface
 {
     /**
      * @var \Twig\Environment

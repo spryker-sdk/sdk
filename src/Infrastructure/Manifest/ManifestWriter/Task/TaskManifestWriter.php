@@ -14,12 +14,12 @@ use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile;
 class TaskManifestWriter implements ManifestWriterInterface
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\ManifestFormatWriterInterface>
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Shared\FormatWriter\ManifestFormatWriterInterface>
      */
     protected iterable $manifestFormatWriters;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\ManifestFormatWriterInterface> $manifestFormatWriters
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Shared\FormatWriter\ManifestFormatWriterInterface> $manifestFormatWriters
      */
     public function __construct(iterable $manifestFormatWriters)
     {

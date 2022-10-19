@@ -63,7 +63,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                         ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-])+$/` format.')
                     ->end()
                 ->end()
-                ->scalarNode('stage')->isRequired()->end()
+                ->scalarNode('stage')->end()
                 ->arrayNode('tags')
                     ->useAttributeAsKey('name')
                     ->prototype('variable')->end()

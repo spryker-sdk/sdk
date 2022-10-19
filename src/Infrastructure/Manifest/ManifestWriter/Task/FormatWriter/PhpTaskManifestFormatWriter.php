@@ -5,17 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task;
+namespace SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter;
 
-use SprykerSdk\Sdk\Core\Application\Enum\Manifest\ManifestFileFormatEnum;
+use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Shared\FormatWriter\AbstractFileManifestFormatWriter;
 
-class PhpTaskTemplateReader extends FormatTaskTemplateReader
+class PhpTaskManifestFormatWriter extends AbstractFileManifestFormatWriter
 {
     /**
      * @return string
      */
     public function getAcceptableFormat(): string
     {
-        return ManifestFileFormatEnum::PHP;
+        return 'php';
     }
 }

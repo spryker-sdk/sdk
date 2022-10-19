@@ -51,7 +51,7 @@ class TaskManifestGeneratorTest extends Unit
      *
      * @return \SprykerSdk\Sdk\Core\Application\Dependency\Manifest\ManifestWriterInterface
      */
-    public function createManifestWriterMock(string $filePath): ManifestWriterInterface
+    protected function createManifestWriterMock(string $filePath): ManifestWriterInterface
     {
         $manifestWriterMock = $this->createMock(ManifestWriterInterface::class);
         $manifestWriterMock->expects($this->once())->method('write')->willReturn($filePath);
@@ -62,7 +62,7 @@ class TaskManifestGeneratorTest extends Unit
     /**
      * @return \SprykerSdk\Sdk\Core\Application\Dependency\Manifest\TemplateReaderInterface
      */
-    public function createTemplateReaderMock(): TemplateReaderInterface
+    protected function createTemplateReaderMock(): TemplateReaderInterface
     {
         $templateReaderMock = $this->createMock(TemplateReaderInterface::class);
         $templateReaderMock->expects($this->once())->method('readTemplate');
