@@ -10,13 +10,16 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * @group tretret
+ */
 class WorkflowRunnerTest extends Unit
 {
     /**
@@ -45,6 +48,11 @@ class WorkflowRunnerTest extends Unit
     protected ContextFactoryInterface $contextFactory;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
+     */
+    protected ContextInterface $context;
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -54,6 +62,7 @@ class WorkflowRunnerTest extends Unit
         $this->projectWorkflow = $this->createMock(ProjectWorkflow::class);
         $this->output = $this->createMock(OutputInterface::class);
         $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
+        $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
     }
@@ -72,20 +81,18 @@ class WorkflowRunnerTest extends Unit
             ->expects($this->once())
             ->method('get')
             ->willReturn($this->projectWorkflow);
-        $this->output
+        $this->context
             ->expects($this->once())
-            ->method('writeln')
+            ->method('addMessage')
             ->with(
-                '<error>Workflow `workflowName` can not be initialized.</error>',
-                OutputInterface::VERBOSITY_NORMAL,
+                'workflowName',
+                new Message('Workflow `workflowName` can not be initialized.', Message::ERROR),
             );
 
         $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
-        $workflowRunner->setInput(new ArrayInput([]));
-        $workflowRunner->setOutput($this->output);
 
         // Act
-        $workflowRunner->execute('workflowName');
+        $workflowRunner->execute('workflowName', $this->context);
     }
 
     /**
@@ -113,20 +120,18 @@ class WorkflowRunnerTest extends Unit
             ->expects($this->once())
             ->method('get')
             ->willReturn($this->projectWorkflow);
-        $this->output
+        $this->context
             ->expects($this->once())
-            ->method('writeln')
+            ->method('addMessage')
             ->with(
-                '<error>The workflow `workflowName` has been finished.</error>',
-                OutputInterface::VERBOSITY_NORMAL,
+                'workflowName',
+                new Message('The workflow `workflowName` has been finished.', Message::ERROR),
             );
 
         $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
-        $workflowRunner->setInput(new ArrayInput([]));
-        $workflowRunner->setOutput($this->output);
 
         // Act
-        $workflowRunner->execute('workflowName');
+        $workflowRunner->execute('workflowName', $this->context);
     }
 
     /**
@@ -154,19 +159,17 @@ class WorkflowRunnerTest extends Unit
             ->expects($this->once())
             ->method('get')
             ->willReturn($this->projectWorkflow);
-        $this->output
-            ->method('writeln')
-            ->withConsecutive(
-                ['<info>Applying transition `workflowName:test`.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
-                ['<info>The `workflowName:test` transition finished successfully.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
-            );
+        $this->context
+            ->method('addMessage')
+            ->withConsecutive([
+                'workflowName', new Message('Applying transition `workflowName:test`.', Message::INFO),
+                'workflowName:test', new Message('The `workflowName:test` transition finished successfully.', Message::INFO),
+            ]);
 
         $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
-        $workflowRunner->setInput(new ArrayInput([]));
-        $workflowRunner->setOutput($this->output);
 
         // Act
-        $workflowRunner->execute('workflowName');
+        $workflowRunner->execute('workflowName', $this->context);
     }
 
     /**
@@ -194,22 +197,17 @@ class WorkflowRunnerTest extends Unit
             ->expects($this->once())
             ->method('get')
             ->willReturn($this->projectWorkflow);
-        $this->output
-            ->method('writeln')
-            ->withConsecutive(
-                ['<info>Applying transition `workflowName:test`.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
-                ['<info>The `workflowName:test` transition finished successfully.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
-                ['<info>Applying transition `workflowName:test`.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
-                ['<info>The `workflowName:test` transition finished successfully.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
-                ['<error>The workflow `workflowName` has been finished.</error>', OutputInterface::VERBOSITY_NORMAL],
+        $this->context
+            ->method('addMessage')
+            ->with(
+                'workflowName',
+                new Message('The workflow `workflowName` has been finished.', Message::ERROR),
             );
 
         $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
-        $workflowRunner->setInput(new ArrayInput([]));
-        $workflowRunner->setOutput($this->output);
 
         // Act
-        $workflowRunner->execute('workflowName');
+        $workflowRunner->execute('workflowName', $this->context);
     }
 
     /**
@@ -218,8 +216,6 @@ class WorkflowRunnerTest extends Unit
     public function testExecuteWithErrorCode(): void
     {
         // Arrange
-        $context = new Context();
-        $context->setExitCode(1);
         $this->projectWorkflow
             ->expects($this->once())
             ->method('initializeWorkflow')
@@ -239,18 +235,20 @@ class WorkflowRunnerTest extends Unit
             ->expects($this->once())
             ->method('get')
             ->willReturn($this->projectWorkflow);
-        $this->output
-            ->method('writeln')
-            ->withConsecutive(
-                ['<info>Applying transition `workflowName:test`.</info>', OutputInterface::VERBOSITY_VERY_VERBOSE],
-                ['<error>The `workflowName:test` transition is failed, see details above.</error>', OutputInterface::VERBOSITY_NORMAL],
+        $this->context
+            ->method('addMessage')
+            ->with(
+                'workflowName',
+                new Message('The `workflowName:test` transition is failed, see details above.', Message::ERROR),
             );
 
+        $this->context
+            ->method('getExitCode')
+            ->willReturn(1);
+
         $workflowRunner = new WorkflowRunner($this->cliValueReceiver, $this->container, $this->contextFactory);
-        $workflowRunner->setInput(new ArrayInput([]));
-        $workflowRunner->setOutput($this->output);
 
         // Act
-        $workflowRunner->execute('workflowName', $context);
+        $workflowRunner->execute('workflowName', $this->context);
     }
 }

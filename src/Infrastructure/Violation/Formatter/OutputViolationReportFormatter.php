@@ -8,14 +8,14 @@
 namespace SprykerSdk\Sdk\Infrastructure\Violation\Formatter;
 
 use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
-class OutputViolationReportFormatter implements ViolationReportFormatterInterface, InputOutputReceiverInterface
+class OutputViolationReportFormatter implements ViolationReportFormatterInterface, OutputReceiverInterface
 {
     /**
      * @var string
@@ -115,16 +115,6 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     public function read(string $name): ?ViolationReportInterface
     {
         return null;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return void
-     */
-    public function setInput(InputInterface $input): void
-    {
-        $this->input = $input;
     }
 
     /**

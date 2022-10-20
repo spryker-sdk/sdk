@@ -9,17 +9,24 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\InputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\RequestDataReceiverInterface;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CliInteractionProcessor implements InteractionProcessorInterface, InputOutputReceiverInterface
+class CliInteractionProcessor implements InteractionProcessorInterface, InputReceiverInterface, OutputReceiverInterface, RequestDataReceiverInterface
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
      */
     protected InputInterface $input;
+
+    /**
+     * @var array
+     */
+    protected array $data;
 
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface
@@ -67,13 +74,23 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputOut
     }
 
     /**
+     * @param array $output
+     *
+     * @return void
+     */
+    public function setRequestData(array $output): void
+    {
+        $this->data = $output;
+    }
+
+    /**
      * @param string $key
      *
      * @return bool
      */
     public function has(string $key): bool
     {
-        return $this->input->hasOption($key) && $this->input->getOption($key) !== null;
+        return !empty($this->data[$key]);
     }
 
     /**
@@ -83,7 +100,7 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputOut
      */
     public function get(string $key)
     {
-        return $this->input->getOption($key);
+        return $this->data[$key];
     }
 
     /**

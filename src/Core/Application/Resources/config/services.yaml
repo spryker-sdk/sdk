@@ -23,9 +23,6 @@ services:
   event_logger:
     abstract: true
     synthetic: true
-  progress_bar:
-    abstract: true
-    synthetic: true
   action_approver:
     abstract: true
     synthetic: true

@@ -12,12 +12,12 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 class CliReceiverSetupListener
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface>
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputReceiverInterface|\SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface>
      */
     protected iterable $inputOutputConnectors;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface> $inputOutputConnectors
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputReceiverInterface|\SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface> $inputOutputConnectors
      */
     public function __construct(iterable $inputOutputConnectors)
     {
@@ -32,8 +32,17 @@ class CliReceiverSetupListener
     public function beforeConsoleCommand(ConsoleCommandEvent $event)
     {
         foreach ($this->inputOutputConnectors as $inputOutputConnector) {
-            $inputOutputConnector->setInput($event->getInput());
-            $inputOutputConnector->setOutput($event->getOutput());
+            if ($inputOutputConnector instanceof InputReceiverInterface) {
+                $inputOutputConnector->setInput($event->getInput());
+            }
+
+            if ($inputOutputConnector instanceof OutputReceiverInterface) {
+                $inputOutputConnector->setOutput($event->getOutput());
+            }
+
+            if ($inputOutputConnector instanceof RequestDataReceiverInterface) {
+                $inputOutputConnector->setRequestData($event->getInput()->getOptions());
+            }
         }
     }
 }

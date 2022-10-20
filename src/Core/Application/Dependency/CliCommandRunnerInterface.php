@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
-use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 
-interface CliCommandRunnerInterface extends CommandRunnerInterface, InputOutputReceiverInterface
+interface CliCommandRunnerInterface extends CommandRunnerInterface, OutputReceiverInterface
 {
     /**
      * @param \Symfony\Component\Console\Helper\HelperSet $helperSet

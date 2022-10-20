@@ -28,14 +28,6 @@ services:
     error_logger:
         class: Psr\Log\LoggerInterface
         factory: [ "@error_logger_factory", "createLogger" ]
-    progress_bar:
-        class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
-        tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: initProgressBar,
-            }
     command_error:
         class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
         tags:
@@ -149,7 +141,6 @@ services:
         tags: [ "command.runner" ]
         arguments:
             - "@process_helper"
-            - "@progress_bar"
     php_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
         tags: [ "command.runner" ]
@@ -368,8 +359,8 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
         arguments:
             - "@service_container"
+            - "@cli_interaction_processor"
         tags:
-            - { name: kernel.event_listener, event: console.command, method: setup }
             - { name: kernel.event_listener, event: workflow.guard, method: handle }
             - { name: kernel.event_listener, event: workflow.leave, method: handle }
             - { name: kernel.event_listener, event: workflow.entered, method: handle }
@@ -404,7 +395,6 @@ services:
 
     workflow_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
-        tags: [ "sdk.cli_receiver_setup" ]
         arguments:
             - "@cli_interaction_processor"
             - "@service_container"
