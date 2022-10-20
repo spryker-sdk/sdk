@@ -1,4 +1,6 @@
-FROM spryker/php-sdk:5.0.0
+ARG SDK_VERSION
+
+FROM spryker/php-sdk:${SDK_VERSION}
 FROM php:8.0-fpm-alpine
 
 CMD ["php-fpm"]

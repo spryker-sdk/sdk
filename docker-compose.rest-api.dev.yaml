@@ -18,6 +18,8 @@ services:
         build:
             context: .
             dockerfile: infrastructure/web/php-fpm.Dockerfile
+            args:
+                SDK_VERSION: latest
         volumes:
             - ./:/data
         restart: always
