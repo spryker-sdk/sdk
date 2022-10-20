@@ -50,6 +50,7 @@
         "symfony/monolog-bundle": "^3.8",
         "symfony/process": "^5.0",
         "symfony/runtime": "^5.0",
+        "symfony/twig-bundle": "^5.0",
         "symfony/serializer": "^5.0",
         "symfony/validator": "^5.0",
         "symfony/workflow": "^5.0",
@@ -95,7 +96,8 @@
     "autoload-dev": {
         "psr-4": {
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
-            "Hello\\": "extension/Hello/src/"
+            "Hello\\": "extension/Hello/src/",
+            "Custom\\": "extension/Custom/src/"
         }
     },
     "replace": {
