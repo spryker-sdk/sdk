@@ -1,0 +1,8 @@
+{% autoescape false %}
+---
+id: {{ data.id }}
+short_description: "{{ data.shortDescription|replace({'\"':'\\\"'}) }}"
+version: {{ data.version }}
+command: "{{ data.command|replace({'\"':'\\\"'}) }}"
+type: {{ data.type }}
+{% endautoescape %}

@@ -1,0 +1,8 @@
+services:
+    Custom\:
+        resource: '../../../src/*'
+
+    custom_tasks:
+        namespace: 'Custom\Task\'
+        resource: '../../../src/Task/*'
+        tags: [ 'sdk.task' ]

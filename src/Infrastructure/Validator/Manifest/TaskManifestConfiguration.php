@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Validator\Manifest;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
+use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Enum\Lifecycle;
 use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
@@ -63,7 +64,7 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                         ->thenInvalid('Task id `%s` should have `/^[a-z-]+:[a-z-]+:[a-z-])+$/` format.')
                     ->end()
                 ->end()
-                ->scalarNode('stage')->isRequired()->end()
+                ->scalarNode('stage')->defaultValue(ContextInterface::DEFAULT_STAGE)->end()
                 ->arrayNode('tags')
                     ->useAttributeAsKey('name')
                     ->prototype('variable')->end()
