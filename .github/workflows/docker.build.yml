@@ -39,7 +39,7 @@ jobs:
                   platforms: ${{ join(matrix.platforms) }}
 
             - name: Build API
-              id: docker_build
+              id: docker_build_api
               uses: docker/build-push-action@v2
               with:
                   push: false
@@ -49,7 +49,7 @@ jobs:
                   platforms: ${{ join(matrix.platforms) }}
 
             - name: Build API server
-              id: docker_build
+              id: docker_build_api_server
               uses: docker/build-push-action@v2
               with:
                   push: false
