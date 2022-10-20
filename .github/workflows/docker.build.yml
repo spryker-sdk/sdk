@@ -44,8 +44,7 @@ jobs:
               with:
                   push: false
                   file: infrastructure/web/php-fpm.Dockerfile
-                  build-args:
-                      - SDK_VERSION=latest
+                  build-args: SDK_VERSION=latest
                   tags: ${{ join(matrix.tags) }}
                   platforms: ${{ join(matrix.platforms) }}
 
