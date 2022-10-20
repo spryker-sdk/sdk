@@ -23,8 +23,8 @@ services:
         restart: always
         environment:
             APP_ENV: dev
-            APP_DEBUG: true
-            TELEMETRY_ENABLED: false
+            APP_DEBUG: 'true'
+            TELEMETRY_ENABLED: 'false'
             TELEMETRY_TRANSPORT: file
             TELEMETRY_SERVER_URL: ''
             GITHUB_AUTH_METHOD: http_password

@@ -27,6 +27,8 @@ class HelloControllerCest
     protected const ENDPOINT = '/hello-world';
 
     /**
+     * @skip Need to fix CI for API
+     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
