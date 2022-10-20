@@ -26,7 +26,7 @@ cp -R "${CURRENT_DIR}/infrastructure" "${TMP_DIR}/"
 echo "${VERSION}" > "${TMP_DIR}/VERSION"
 
 cd "${TMP_DIR}"
-tar cJf spryker-sdk.tar.gz .gitmodules infrastructure/.env infrastructure/sdk.local.Dockerfile \
+tar cJf spryker-sdk.tar.gz .gitmodules infrastructure/sdk.local.Dockerfile \
     bin/ var/ extension/ config/packages/workflow.yaml db/ VERSION docker-compose.yml
 cd "$CURRENT_DIR"
 
