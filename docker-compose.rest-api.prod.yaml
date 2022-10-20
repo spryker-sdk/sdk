@@ -5,28 +5,21 @@ services:
         build:
             context: .
             dockerfile: infrastructure/web/nginx.Dockerfile
-        container_name: sdk-nginx
         ports:
             - '8080:80'
-        volumes:
-            - ./public:/data/public
-            - ./infrastructure/web/nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - php-fpm
         restart: always
 
     php-fpm:
-        container_name: sdk-php-fpm
         build:
             context: .
             dockerfile: infrastructure/web/php-fpm.Dockerfile
             args:
                 SDK_VERSION: latest
-        volumes:
-            - ./:/data
         restart: always
         environment:
-            APP_ENV: dev
+            APP_ENV: prod
             APP_DEBUG: 'true'
             TELEMETRY_ENABLED: 'false'
             TELEMETRY_TRANSPORT: file
@@ -35,4 +28,3 @@ services:
             GITHUB_USERNAME: username
             GITHUB_SECRET: password_or_token
             APPLICATION_ENV:    development
-
