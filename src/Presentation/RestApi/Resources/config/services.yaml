@@ -14,7 +14,7 @@ services:
         arguments:
             - '@kernel'
 
-    SprykerSdk\Sdk\Presentation\RestApi\Service\RestApiTaskExecutor:
-        class: SprykerSdk\Sdk\Presentation\RestApi\Service\RestApiTaskExecutor
+    SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
         arguments:
             - '@symfony.console.application'

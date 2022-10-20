@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
-use SprykerSdk\Sdk\Presentation\RestApi\Service\RestApiTaskExecutor;
+use SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class HelloController extends AbstractController
 {
     /**
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Service\RestApiTaskExecutor $apiTaskExecutor
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor $apiTaskExecutor
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
