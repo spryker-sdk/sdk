@@ -2,9 +2,10 @@ version: '3.0'
 
 services:
     nginx:
-        build:
-            context: .
-            dockerfile: infrastructure/web/nginx.Dockerfile
+#        build:
+#            context: .
+#            dockerfile: infrastructure/web/nginx.Dockerfile
+        image: spryker/php-sdk-api-nginx
         ports:
             - '8080:80'
         depends_on:
@@ -12,11 +13,12 @@ services:
         restart: always
 
     php-fpm:
-        build:
-            context: .
-            dockerfile: infrastructure/web/php-fpm.Dockerfile
-            args:
-                SDK_VERSION: latest
+#        build:
+#            context: .
+#            dockerfile: infrastructure/web/php-fpm.Dockerfile
+#            args:
+#                SDK_VERSION: latest
+        image: spryker/php-sdk-api
         restart: always
         environment:
             APP_ENV: prod

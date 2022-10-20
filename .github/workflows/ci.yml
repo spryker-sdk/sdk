@@ -72,8 +72,14 @@ jobs:
       - name: Install SDK
         run: bin/console sdk:init:hidden-sdk -n
 
+      - name: Set up server
+        run: docker-compose -f docker-compose.rest-api.prod.yaml up -d
+
       - name: Codecept acceptance tests
         run: composer test-qa
+
+      - name: Shut down server
+        run: docker-compose -f docker-compose.rest-api.prod.yaml down
 
       - name: Codecept tests with coverage
         if: ${{ matrix.php-version == '8.0' }}
