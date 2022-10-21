@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,9 +23,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class WorkflowRunnerTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
      */
-    protected CliInteractionProcessor $cliValueReceiver;
+    protected InteractionProcessor $cliValueReceiver;
 
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -57,7 +57,7 @@ class WorkflowRunnerTest extends Unit
      */
     protected function setUp(): void
     {
-        $this->cliValueReceiver = $this->createMock(CliInteractionProcessor::class);
+        $this->cliValueReceiver = $this->createMock(InteractionProcessor::class);
         $this->container = $this->createMock(ContainerInterface::class);
         $this->projectWorkflow = $this->createMock(ProjectWorkflow::class);
         $this->output = $this->createMock(OutputInterface::class);

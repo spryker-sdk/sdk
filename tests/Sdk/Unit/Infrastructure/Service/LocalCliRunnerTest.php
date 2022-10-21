@@ -11,7 +11,6 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner;
-use SprykerSdk\Sdk\Infrastructure\Service\ProgressBar;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -26,11 +25,6 @@ class LocalCliRunnerTest extends Unit
     protected ProcessHelper $processHelper;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
-     */
-    protected ProgressBar $progressBar;
-
-    /**
      * @var \SprykerSdk\SdkContracts\Entity\CommandInterface
      */
     protected CommandInterface $command;
@@ -41,7 +35,6 @@ class LocalCliRunnerTest extends Unit
     protected function setUp(): void
     {
         $this->processHelper = $this->createMock(ProcessHelper::class);
-        $this->progressBar = $this->createMock(ProgressBar::class);
         $this->command = $this->createMock(CommandInterface::class);
 
         parent::setUp();
@@ -55,7 +48,7 @@ class LocalCliRunnerTest extends Unit
         // Arrange
         $this->processHelper->expects($this->once())
             ->method('setHelperSet');
-        $localCliRunner = new LocalCliRunner($this->processHelper, $this->progressBar);
+        $localCliRunner = new LocalCliRunner($this->processHelper);
         $helperSet = $this->createMock(HelperSet::class);
 
         // Act
@@ -68,7 +61,7 @@ class LocalCliRunnerTest extends Unit
     public function testCanHandleLocalCliType(): void
     {
         // Arrange
-        $localCliRunner = new LocalCliRunner($this->processHelper, $this->progressBar);
+        $localCliRunner = new LocalCliRunner($this->processHelper);
         $this->command
             ->expects($this->once())
             ->method('getType')
@@ -87,7 +80,7 @@ class LocalCliRunnerTest extends Unit
     public function testCanHandleLocalCliInteractiveType(): void
     {
         // Arrange
-        $localCliRunner = new LocalCliRunner($this->processHelper, $this->progressBar);
+        $localCliRunner = new LocalCliRunner($this->processHelper);
         $this->command
             ->expects($this->once())
             ->method('getType')
@@ -106,7 +99,7 @@ class LocalCliRunnerTest extends Unit
     public function testCanNotHandle(): void
     {
         // Arrange
-        $localCliRunner = new LocalCliRunner($this->processHelper, $this->progressBar);
+        $localCliRunner = new LocalCliRunner($this->processHelper);
         $this->command
             ->expects($this->once())
             ->method('getType')
@@ -136,7 +129,7 @@ class LocalCliRunnerTest extends Unit
             ->expects($this->once())
             ->method('run')
             ->willReturn($process);
-        $localCliRunner = new LocalCliRunner($this->processHelper, $this->progressBar);
+        $localCliRunner = new LocalCliRunner($this->processHelper);
         $localCliRunner->setOutput($this->createMock(OutputInterface::class));
         $this->command
             ->expects($this->atLeastOnce())
@@ -169,7 +162,7 @@ class LocalCliRunnerTest extends Unit
             ->expects($this->once())
             ->method('run')
             ->willReturn($process);
-        $localCliRunner = new LocalCliRunner($this->processHelper, $this->progressBar);
+        $localCliRunner = new LocalCliRunner($this->processHelper);
         $localCliRunner->setOutput($this->createMock(OutputInterface::class));
         $this->command
             ->expects($this->atLeastOnce())

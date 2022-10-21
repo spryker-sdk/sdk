@@ -5,12 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Dependency;
+namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 
-interface CliCommandRunnerInterface extends CommandRunnerInterface, OutputReceiverInterface
+interface CommandReceiverInterface extends ReceiverInterface
 {
     /**
      * @param \Symfony\Component\Console\Helper\HelperSet $helperSet

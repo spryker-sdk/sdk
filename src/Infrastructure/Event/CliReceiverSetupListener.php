@@ -7,21 +7,42 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class CliReceiverSetupListener
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputReceiverInterface|\SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface>
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\ReceiverInterface>
      */
     protected iterable $inputOutputConnectors;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Event\InputReceiverInterface|\SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface> $inputOutputConnectors
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor
      */
-    public function __construct(iterable $inputOutputConnectors)
-    {
+    protected ApiInteractionProcessor $apiInteractionProcessor;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+     */
+    protected CliInteractionProcessor $cliInteractionProcessor;
+
+    /**
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Event\ReceiverInterface> $inputOutputConnectors
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor $apiInteractionProcessor
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor $cliInteractionProcessor
+     */
+    public function __construct(
+        iterable $inputOutputConnectors,
+        ApiInteractionProcessor $apiInteractionProcessor,
+        CliInteractionProcessor $cliInteractionProcessor
+    ) {
         $this->inputOutputConnectors = $inputOutputConnectors;
+        $this->apiInteractionProcessor = $apiInteractionProcessor;
+        $this->cliInteractionProcessor = $cliInteractionProcessor;
     }
 
     /**
@@ -31,6 +52,10 @@ class CliReceiverSetupListener
      */
     public function beforeConsoleCommand(ConsoleCommandEvent $event)
     {
+        if (!$event->getCommand()) {
+            return;
+        }
+
         foreach ($this->inputOutputConnectors as $inputOutputConnector) {
             if ($inputOutputConnector instanceof InputReceiverInterface) {
                 $inputOutputConnector->setInput($event->getInput());
@@ -43,6 +68,43 @@ class CliReceiverSetupListener
             if ($inputOutputConnector instanceof RequestDataReceiverInterface) {
                 $inputOutputConnector->setRequestData($event->getInput()->getOptions());
             }
+
+            if ($inputOutputConnector instanceof CommandReceiverInterface) {
+                /** @var \Symfony\Component\Console\Helper\HelperSet $helperSet */
+                $helperSet = $event->getCommand()->getHelperSet() ?? $this->getApplicationHelperSet($event);
+                $inputOutputConnector->setHelperSet($helperSet);
+            }
+
+            if ($inputOutputConnector instanceof InteractionProcessorReceiverInterface) {
+                $inputOutputConnector->setInteractionProcessor($this->cliInteractionProcessor);
+            }
         }
+    }
+
+    /**
+     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     *
+     * @return void
+     */
+    public function beforeRequestCommand(RequestEvent $event)
+    {
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Event\ConsoleCommandEvent $event
+     *
+     * @return \Symfony\Component\Console\Helper\HelperSet|null
+     */
+    protected function getApplicationHelperSet(ConsoleCommandEvent $event): ?HelperSet
+    {
+        if (
+            $event->getCommand() !== null
+            && $event->getCommand()->getApplication() !== null
+            && $event->getCommand()->getApplication()->getHelperSet() !== null
+        ) {
+            return $event->getCommand()->getApplication()->getHelperSet();
+        }
+
+        return null;
     }
 }

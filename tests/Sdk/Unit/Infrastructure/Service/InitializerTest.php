@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
@@ -25,9 +25,9 @@ class InitializerTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
      */
-    protected CliInteractionProcessor $cliValueReceiver;
+    protected InteractionProcessor $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
@@ -67,7 +67,7 @@ class InitializerTest extends Unit
         parent::setUp();
 
         $this->taskYamlFileLoader = $this->createMock(TaskYamlFileLoaderInterface::class);
-        $this->cliValueReceiver = $this->createMock(CliInteractionProcessor::class);
+        $this->cliValueReceiver = $this->createMock(InteractionProcessor::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
 

@@ -7,9 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Event\CommandReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
@@ -20,7 +22,7 @@ use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class LocalCliRunner implements CliCommandRunnerInterface
+class LocalCliRunner implements CommandReceiverInterface, CommandRunnerInterface, OutputReceiverInterface
 {
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface

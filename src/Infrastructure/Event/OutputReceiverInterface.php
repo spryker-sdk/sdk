@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
-interface OutputReceiverInterface
+interface OutputReceiverInterface extends ReceiverInterface
 {
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output

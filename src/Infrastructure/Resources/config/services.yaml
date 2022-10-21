@@ -19,7 +19,7 @@ services:
     action_approver:
         class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
         arguments:
-            - "@cli_interaction_processor"
+            - "@interaction_processor"
     error_logger_factory:
         class: SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactory
         arguments:
@@ -129,7 +129,7 @@ services:
     initializer_service:
         class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
         arguments:
-            - "@cli_interaction_processor"
+            - "@interaction_processor"
             - "@setting_repository"
             - "@service.task_manager"
             - "@task_yaml_loader"
@@ -138,7 +138,7 @@ services:
 
     local_cli_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner
-        tags: [ "command.runner" ]
+        tags: [ "command.runner", "sdk.cli_receiver_setup" ]
         arguments:
             - "@process_helper"
     php_command_runner:
@@ -146,6 +146,15 @@ services:
         tags: [ "command.runner" ]
     cli_interaction_processor:
         class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+        tags: [ "sdk.cli_receiver_setup" ]
+        arguments:
+            - "@question_helper"
+            - "@value_receiver.question_registry"
+    api_interaction_processor:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor
+        tags: [ "sdk.cli_receiver_setup" ]
+    interaction_processor:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
         tags: [ "sdk.cli_receiver_setup" ]
         arguments:
             - "@question_helper"
@@ -186,19 +195,10 @@ services:
             }
         arguments:
             - !tagged_iterator sdk.cli_receiver_setup
-    cli_runner_setup_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
-        tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: beforeConsoleCommand,
-            }
-        arguments:
-            - "@local_cli_command_runner"
-
+            - "@api_interaction_processor"
+            - "@cli_interaction_processor"
     value_receiver:
-        alias: "cli_interaction_processor"
+        alias: "interaction_processor"
     autoloader_service:
         class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
         arguments:
@@ -207,7 +207,7 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
         arguments:
             - "@setting_repository"
-            - "@value_receiver"
+            - "@interaction_processor"
             - !tagged_iterator sdk.value_resolver
             - "@autoloader_service"
             - "%kernel.project_dir%"
@@ -359,7 +359,7 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
         arguments:
             - "@service_container"
-            - "@cli_interaction_processor"
+            - "@interaction_processor"
         tags:
             - { name: kernel.event_listener, event: workflow.guard, method: handle }
             - { name: kernel.event_listener, event: workflow.leave, method: handle }
@@ -396,7 +396,7 @@ services:
     workflow_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
         arguments:
-            - "@cli_interaction_processor"
+            - "@interaction_processor"
             - "@service_container"
             - "@context_factory"
 

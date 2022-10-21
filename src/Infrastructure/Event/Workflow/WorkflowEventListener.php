@@ -11,7 +11,7 @@ use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface;
 use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventInterface;
 use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface;
 use SprykerSdk\Sdk\Extension\Exception\InvalidServiceException;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Workflow\Event\EnteredEvent;
 use Symfony\Component\Workflow\Event\Event;
@@ -46,15 +46,15 @@ class WorkflowEventListener
     protected ContainerInterface $container;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
      */
-    protected CliInteractionProcessor $cliInteractionProcessor;
+    protected InteractionProcessor $cliInteractionProcessor;
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor $cliInteractionProcessor
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor $cliInteractionProcessor
      */
-    public function __construct(ContainerInterface $container, CliInteractionProcessor $cliInteractionProcessor)
+    public function __construct(ContainerInterface $container, InteractionProcessor $cliInteractionProcessor)
     {
         $this->container = $container;
         $this->cliInteractionProcessor = $cliInteractionProcessor;

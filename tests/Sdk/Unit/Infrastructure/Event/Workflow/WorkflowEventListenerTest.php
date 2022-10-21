@@ -14,7 +14,7 @@ use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface
 use SprykerSdk\Sdk\Extension\Exception\InvalidServiceException;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEvent;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Workflow\Event\GuardEvent;
@@ -32,7 +32,7 @@ class WorkflowEventListenerTest extends Unit
     public function testGuardIsAppliedOnWorkflow(): void
     {
         // Arrange
-        $cliInteractionProcessorMock = $this->createMock(CliInteractionProcessor::class);
+        $cliInteractionProcessorMock = $this->createMock(InteractionProcessor::class);
         $guardMock = $this->createMock(WorkflowGuardEventHandlerInterface::class);
         $guardMock->method('check')
             ->willReturnCallback(function (GuardEvent $e) {
@@ -76,7 +76,7 @@ class WorkflowEventListenerTest extends Unit
     public function testGuardIsAppliedOnTransition(): void
     {
         // Arrange
-        $cliInteractionProcessorMock = $this->createMock(CliInteractionProcessor::class);
+        $cliInteractionProcessorMock = $this->createMock(InteractionProcessor::class);
         $guardMock = $this->createMock(WorkflowGuardEventHandlerInterface::class);
         $guardMock->method('check')
             ->willReturnCallback(function (GuardEvent $e) {
@@ -122,7 +122,7 @@ class WorkflowEventListenerTest extends Unit
     public function testHandlerIsCalledOnTransition(): void
     {
         // Arrange
-        $cliInteractionProcessorMock = $this->createMock(CliInteractionProcessor::class);
+        $cliInteractionProcessorMock = $this->createMock(InteractionProcessor::class);
         $transition = new Transition('test', [], []);
         $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
         $metadataStoreMock->method('getWorkflowMetadata')
@@ -168,7 +168,7 @@ class WorkflowEventListenerTest extends Unit
     public function testInvalidHandlerThrowsMeaningfulException(): void
     {
         // Arrange
-        $cliInteractionProcessorMock = $this->createMock(CliInteractionProcessor::class);
+        $cliInteractionProcessorMock = $this->createMock(InteractionProcessor::class);
         $transition = new Transition('test', [], []);
         $metadataStoreMock = $this->createMock(MetadataStoreInterface::class);
         $metadataStoreMock->method('getWorkflowMetadata')

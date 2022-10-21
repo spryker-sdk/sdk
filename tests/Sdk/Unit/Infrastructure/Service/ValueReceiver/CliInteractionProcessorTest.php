@@ -9,7 +9,7 @@ namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\QuestionFactoryInterface;
@@ -133,13 +133,13 @@ class CliInteractionProcessorTest extends Unit
      * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
      * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry $questionFactoriesRegistry
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+     * @return \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
      */
     protected function createCliValueReceiver(
         SymfonyQuestionHelper $questionHelper,
         QuestionFactoryRegistry $questionFactoriesRegistry
-    ): CliInteractionProcessor {
-        $cliValueReceiver = new CliInteractionProcessor($questionHelper, $questionFactoriesRegistry);
+    ): InteractionProcessor {
+        $cliValueReceiver = new InteractionProcessor($questionHelper, $questionFactoriesRegistry);
         $cliValueReceiver->setInput($this->createInputMock());
         $cliValueReceiver->setOutput($this->createOutputMock());
 
