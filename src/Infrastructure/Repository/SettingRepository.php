@@ -21,6 +21,7 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**

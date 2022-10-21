@@ -28,7 +28,7 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitCommand
     tags: [ "console.command" ]
     arguments:
-      - "@initializer_service"
+      - "@sdk_initializer.strategy_based_initializer"
       - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
       - "%sdk_settings%"
@@ -88,7 +88,7 @@ services:
     arguments:
       - "@service.lifecycle_manager"
       - "@doctrine_migrations.migrate_command"
-      - "@initializer_service"
+      - "@sdk_initializer.strategy_based_initializer"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
     tags: ["console.command", "telemetry.observable_command"]

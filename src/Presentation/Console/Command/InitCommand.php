@@ -8,7 +8,9 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
-use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
+use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
@@ -23,9 +25,9 @@ class InitCommand extends AbstractInitCommand
     public const NAME = 'sdk:init:hidden-sdk';
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface
      */
-    protected Initializer $initializerService;
+    protected InitializerInterface $initializerService;
 
     /**
      * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand
@@ -33,13 +35,13 @@ class InitCommand extends AbstractInitCommand
     protected MigrateCommand $doctrineMigrationCommand;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Initializer $initializerService
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface $initializerService
      * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
      */
     public function __construct(
-        Initializer $initializerService,
+        InitializerInterface $initializerService,
         MigrateCommand $doctrineMigrationCommand,
         Yaml $yamlParser,
         string $settingsPath
@@ -61,9 +63,11 @@ class InitCommand extends AbstractInitCommand
     {
         $this->runMigration();
 
-        $this->initializerService->initialize($input->getOptions());
+        $criteriaDto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, $input->getOptions());
 
-        return static::SUCCESS;
+        $resultDto = $this->initializerService->initialize($criteriaDto);
+
+        return $resultDto->isSuccessful() ? static::SUCCESS : static::FAILURE;
     }
 
     /**

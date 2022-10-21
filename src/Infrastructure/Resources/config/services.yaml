@@ -140,13 +140,20 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@mapper.telemetry_event"
 
-    initializer_service:
-        class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
+    sdk_initializer.console_based_initalizer:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ConsoleBasedInitializer
+        tags: [ "concrete_sdk_initializer" ]
         arguments:
             - "@cli_interaction_processor"
             - "@setting_repository"
             - "@service.task_manager"
             - "@task_yaml_loader"
+
+# todo :: enable after implementation
+#    sdk_initializer.rest_api_based_initalizer:
+#        class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
+#        tags: [ "concrete_sdk_initializer" ]
+
     process_helper:
         class: Symfony\Component\Console\Helper\ProcessHelper
 

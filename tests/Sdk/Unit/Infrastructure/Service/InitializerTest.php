@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
+use SprykerSdk\Sdk\Infrastructure\Service\ConsoleBasedInitializer;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
@@ -55,9 +55,9 @@ class InitializerTest extends Unit
     protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ConsoleBasedInitializer
      */
-    protected Initializer $initializerService;
+    protected ConsoleBasedInitializer $initializerService;
 
     /**
      * @return void
@@ -71,7 +71,7 @@ class InitializerTest extends Unit
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
 
-        $this->initializerService = new Initializer(
+        $this->initializerService = new ConsoleBasedInitializer(
             $this->cliValueReceiver,
             $this->settingRepository,
             $this->taskManager,

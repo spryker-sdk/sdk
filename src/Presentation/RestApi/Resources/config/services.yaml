@@ -8,7 +8,6 @@ services:
             - method: setContainer
               arguments: [ '@service_container' ]
 
-
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application
         arguments:
@@ -18,3 +17,7 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
         arguments:
             - '@symfony.console.application'
+
+    SprykerSdk\Sdk\Presentation\RestApi\Adapter\Initializer:
+        arguments:
+            - '@sdk_initializer.strategy_based_initializer'

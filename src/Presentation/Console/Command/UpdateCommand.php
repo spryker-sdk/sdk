@@ -10,6 +10,8 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -64,7 +66,12 @@ class UpdateCommand extends AbstractUpdateCommand
     {
         $this->runMigration();
 
-        $this->initializer->initialize([]);
+        $criteriaDto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, []);
+        $resultDto = $this->initializer->initialize($criteriaDto);
+
+        if (!$resultDto->isSuccessful()) {
+            return static::FAILURE;
+        }
 
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);

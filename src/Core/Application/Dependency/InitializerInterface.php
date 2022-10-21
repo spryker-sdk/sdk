@@ -7,12 +7,15 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
+
 interface InitializerInterface
 {
     /**
-     * @param array<string, mixed> $settings
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
      *
-     * @return void
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto
      */
-    public function initialize(array $settings): void;
+    public function initialize(InitializeCriteriaDto $criteriaDto): InitializeResultDto;
 }

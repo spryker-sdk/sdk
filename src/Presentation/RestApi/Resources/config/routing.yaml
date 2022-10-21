@@ -7,3 +7,8 @@ api_v1_hello_hello_world:
     path: /api/v1/hello-world
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:helloWorld
     methods: GET
+
+api_v1_init_sdk:
+    path: /api/v1/init-sdk
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitController::init
+    methods: GET|POST

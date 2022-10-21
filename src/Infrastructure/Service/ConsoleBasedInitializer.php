@@ -7,16 +7,19 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\ApplicableInitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
-class Initializer implements InitializerInterface
+class ConsoleBasedInitializer implements ApplicableInitializerInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
@@ -57,17 +60,19 @@ class Initializer implements InitializerInterface
     }
 
     /**
-     * @param array<string, mixed> $settings
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
      *
-     * @return void
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto
      */
-    public function initialize(array $settings): void
+    public function initialize(InitializeCriteriaDto $criteriaDto): InitializeResultDto
     {
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingDefinition */
         $settingDefinition = $this->settingRepository->initSettingDefinition();
 
-        $this->initializeSettingValues($settings, $settingDefinition);
+        $this->initializeSettingValues($criteriaDto->getSettings(), $settingDefinition);
         $this->taskManager->initialize($this->taskYamlFileLoader->loadAll());
+
+        return new InitializeResultDto();
     }
 
     /**
@@ -132,5 +137,15 @@ class Initializer implements InitializerInterface
         );
 
         return $value === null || is_scalar($value) ? $value : json_encode($value);
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
+     *
+     * @return bool
+     */
+    public function isApplicable(InitializeCriteriaDto $criteriaDto): bool
+    {
+        return $criteriaDto->getSourceType() === CallSource::SOURCE_TYPE_CLI;
     }
 }
