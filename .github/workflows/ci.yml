@@ -76,7 +76,7 @@ jobs:
         run: bin/console sdk:init:hidden-sdk -n
 
       - name: Set up server
-        run: symfony server:start --port=8080
+        run: symfony server:start --port=8080 --daemon
 
       - name: Codecept acceptance tests
         run: composer test-qa
