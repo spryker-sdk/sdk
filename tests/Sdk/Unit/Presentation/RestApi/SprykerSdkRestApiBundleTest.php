@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Unit\Presentation\RestApi;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Presentation\RestApi\DependencyInjection\SprykerSdkRestApiExtension;
 use SprykerSdk\Sdk\Presentation\RestApi\SprykerSdkRestApiBundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SprykerSdkRestApiBundleTest extends Unit
 {
