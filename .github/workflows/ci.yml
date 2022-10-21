@@ -60,11 +60,6 @@ jobs:
       - name: Composer install
         run: composer install
 
-      - name: "Server start"
-        uses: "nucleos/symfony-console-action@1.0.0"
-        env:
-           command: "server:start"
-
       - name: Run PHPStan
         run: composer stan
 
