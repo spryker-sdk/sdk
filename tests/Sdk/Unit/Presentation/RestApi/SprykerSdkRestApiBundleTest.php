@@ -40,19 +40,4 @@ class SprykerSdkRestApiBundleTest extends Unit
         // Assert
         $this->assertInstanceOf(SprykerSdkRestApiExtension::class, $extension);
     }
-
-    /**
-     * @return void
-     */
-    public function testBuildShouldAddCompilerPassToContainer(): void
-    {
-        // Arrange
-        $containerBuilder = new ContainerBuilder();
-
-        // Act
-        $this->sprykerSdkRestApiBundle->build($containerBuilder);
-
-        // Assert
-        $this->assertNotEmpty($containerBuilder->getResources());
-    }
 }
