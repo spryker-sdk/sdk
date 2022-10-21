@@ -61,7 +61,7 @@ jobs:
         run: composer install
 
       - name: Install Symfony CLI
-        run: curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash && apt install symfony-cli
+        run: curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash && sudo apt install symfony-cli
 
       - name: Run PHPStan
         run: composer stan
