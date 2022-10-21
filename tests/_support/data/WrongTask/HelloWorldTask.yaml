@@ -1,5 +1,5 @@
 ---
-id: 'hello:world'
+id: 'hello;world'
 short_description: 'Sends greetings'
 help: 'Will greet the one using it'
 version: 1.0.0
