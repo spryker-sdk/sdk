@@ -60,6 +60,9 @@ jobs:
       - name: Composer install
         run: composer install
 
+      - name: Install Symfony CLI
+        run: curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash && apt install symfony-cli
+
       - name: Run PHPStan
         run: composer stan
 
@@ -73,13 +76,13 @@ jobs:
         run: bin/console sdk:init:hidden-sdk -n
 
       - name: Set up server
-        run: docker-compose -f docker-compose.rest-api.prod.yaml up -d
+        run: symfony server:start --port=8080
 
       - name: Codecept acceptance tests
         run: composer test-qa
 
       - name: Shut down server
-        run: docker-compose -f docker-compose.rest-api.prod.yaml down
+        run: symfony server:stop
 
       - name: Codecept tests with coverage
         if: ${{ matrix.php-version == '8.0' }}
