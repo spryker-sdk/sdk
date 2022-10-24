@@ -15,12 +15,8 @@ else \
   echo 'export SPRYKER_SDK_ENV=dev' >> ~/.bashrc && \
   echo 'alias spryker-sdk="'$PATH_TO_SDK'/bin/spryker-sdk.sh"' >> ~/.bashrc && \
   source ~/.bashrc; \
-fi;
-```
-
-Build containers
-```shell
-docker-compose -f docker-compose.yaml -f docker-compose.dev.yml build
+fi; \
+spryker-sdk --mode=docker sdk r
 ```
 
 ## Usage
