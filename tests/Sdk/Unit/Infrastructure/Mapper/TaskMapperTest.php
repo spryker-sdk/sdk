@@ -51,11 +51,10 @@ class TaskMapperTest extends Unit
     public function testMapToInfrastructureEntityShouldReturnEntity(): void
     {
         // Arrange
-        $task = $this->tester->createTask(
-            $this->tester->createLifecycle(),
-            [$this->tester->createCommand()],
-            [$this->tester->createPlaceholder('name', 'static', true)],
-        );
+        $task = $this->tester->createTask([
+            'commands' => [$this->tester->createCommand()],
+            'placeholders' => [$this->tester->createPlaceholder('name', 'static', true)],
+        ]);
 
         // Act
         $result = $this->taskMapper->mapToInfrastructureEntity($task);
@@ -76,11 +75,10 @@ class TaskMapperTest extends Unit
     public function testupdateInfrastructureEntityShouldReturnEntity(): void
     {
         // Arrange
-        $task = $this->tester->createTask(
-            $this->tester->createLifecycle(),
-            [$this->tester->createCommand()],
-            [$this->tester->createPlaceholder('name', 'static', true)],
-        );
+        $task = $this->tester->createTask([
+            'commands' => [$this->tester->createCommand()],
+            'placeholders' => [$this->tester->createPlaceholder('name', 'static', true)],
+        ]);
 
         $infraTask = $this->tester->createInfrastructureTask();
 

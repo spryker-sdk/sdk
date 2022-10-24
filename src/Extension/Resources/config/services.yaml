@@ -134,11 +134,6 @@ services:
   qa_task_initializer:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer
     public: true
-  option_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolver\OptionValueResolver
-    arguments:
-      - '@value_receiver'
-    tags: ['sdk.value_resolver']
 
   # Transition resolvers
   transition_boolean_resolver:

@@ -18,7 +18,7 @@ class UpdateSdkCommand extends AbstractUpdateCommand
     /**
      * @var string
      */
-    protected const NAME = 'sdk:update:all';
+    public const NAME = 'sdk:update:all';
 
     /**
      * @var string

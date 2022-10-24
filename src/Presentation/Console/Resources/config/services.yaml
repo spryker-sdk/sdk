@@ -2,14 +2,18 @@ parameters:
   local_executable_file_path: '"$PhpExecutable$" %kernel.project_dir%/bin/console'
   executable_file_path: '%env(default:local_executable_file_path:EXECUTABLE_FILE_PATH)%'
   host_sdk_dir: '%env(default:kernel.project_dir:SDK_DIR)%'
+  manifest_default_task_yaml_dir: 'src/Extension/Resources/config/task/'
+  manifest_default_task_php_dir: 'src/Extension/Task/'
 services:
   question_helper:
     class: Symfony\Component\Console\Helper\SymfonyQuestionHelper
+
   validate_task_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\Validator\ValidateTaskCommand
     tags: [ "console.command" ]
     arguments:
-      - "@task_yaml_repository"
+      - "@task_yaml_collector"
+
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
@@ -139,3 +143,22 @@ services:
   brancho_branch_builder_command:
     class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
     tags: ["console.command", "telemetry.observable_command"]
+
+  # Manifests
+  manifest.task_generator_command:
+      class: SprykerSdk\Sdk\Presentation\Console\Command\GenerateTaskCommand
+      arguments:
+          - "@manifest.interaction.processor"
+          - "@manifest.task_interaction_map"
+          - "@manifest.task_manifest_dto_factory"
+          - "@manifest.task_manifest_generator"
+      tags: ["console.command"]
+
+  manifest.task_interaction_map:
+      class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskInteractionMap
+      arguments:
+          - "%manifest_default_task_yaml_dir%"
+          - "%manifest_default_task_php_dir%"
+
+  manifest.task_manifest_dto_factory:
+      class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskManifestRequestDtoFactory

@@ -18,7 +18,7 @@ services:
     synthetic: true
     arguments:
       - "@value_receiver"
-  task_yaml_repository:
+  task_yaml_loader:
     synthetic: true
   event_logger:
     abstract: true
@@ -163,6 +163,12 @@ services:
     class: SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory
     arguments:
       - !tagged_iterator report.array_converter
+
+  manifest.task_manifest_generator:
+      class: SprykerSdk\Sdk\Core\Application\Manifest\Task\TaskManifestGenerator
+      arguments:
+          - "@manifest.task_manifest_writer"
+          - "@manifest.task_template_reader"
 
   telemetry.event_metadata_factory:
     class: SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactory
