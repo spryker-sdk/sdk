@@ -5,13 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
+use SprykerSdk\Sdk\Core\Application\Dto\TaskInit\AfterTaskInitDto;
+use SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
@@ -20,6 +24,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class TaskManager implements TaskManagerInterface
 {
     /**
+     * @todo :: must be replaced by plugin processor
+     *
      * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
      */
     protected EventDispatcherInterface $eventDispatcher;
@@ -35,30 +41,38 @@ class TaskManager implements TaskManagerInterface
     protected TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor
+     */
+    protected AfterTaskInitProcessor $afterTaskInitProcessor;
+
+    /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
+     * @param \SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor $afterTaskInitProcessor
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         TaskRepositoryInterface $taskRepository,
-        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
+        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder,
+        AfterTaskInitProcessor $afterTaskInitProcessor
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;
         $this->taskFromTaskSetBuilder = $taskFromTaskSetBuilder;
+        $this->afterTaskInitProcessor = $afterTaskInitProcessor;
     }
 
     /**
-     * @param array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto
      */
-    public function initialize(array $tasks): array
+    public function initialize(InitializeCriteriaDto $criteriaDto): InitializeResultDto
     {
-        $entities = [];
+        $resultDto = new InitializeResultDto();
 
-        foreach ($tasks as $task) {
+        foreach ($criteriaDto->getTaskCollection() as $task) {
             $existingTask = $this->taskRepository->findById($task->getId());
 
             if ($existingTask) {
@@ -66,14 +80,15 @@ class TaskManager implements TaskManagerInterface
             }
 
             if ($task instanceof TaskSetInterface) {
-                $task = $this->taskFromTaskSetBuilder->buildTaskFromTaskSet($task, $tasks);
+                $task = $this->taskFromTaskSetBuilder->buildTaskFromTaskSet($task, $criteriaDto->getTaskCollection());
             }
 
-            $entities[] = $this->taskRepository->create($task);
-            $this->eventDispatcher->dispatch(new InitializedEvent($task), InitializedEvent::NAME);
+            $resultDto->addTask($this->taskRepository->create($task));
+            $afterTaskInitDto = new AfterTaskInitDto($task, $criteriaDto->getSourceType());
+            $this->afterTaskInitProcessor->processAfterTaskInitialization($afterTaskInitDto);
         }
 
-        return $entities;
+        return $resultDto;
     }
 
     /**

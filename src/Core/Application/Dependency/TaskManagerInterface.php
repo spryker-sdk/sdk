@@ -7,16 +7,22 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
+/**
+ * @todo :: This interface breaks SRP and must be refactored in the future.
+ *      Also, Manager, Handler and the other general class naming forbidden in Spryker.
+ */
 interface TaskManagerInterface
 {
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $tasks
+     * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @return \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto
      */
-    public function initialize(array $tasks): array;
+    public function initialize(InitializeCriteriaDto $criteriaDto): InitializeResultDto;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task

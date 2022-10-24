@@ -1,25 +1,22 @@
 <?php
 
 /**
- * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Initializer;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ApplicableInitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
-use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
-use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
-class ConsoleBasedInitializer implements ApplicableInitializerInterface
+abstract class AbstractInitializer implements ApplicableInitializerInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
@@ -70,7 +67,8 @@ class ConsoleBasedInitializer implements ApplicableInitializerInterface
         $settingDefinition = $this->settingRepository->initSettingDefinition();
 
         $this->initializeSettingValues($criteriaDto->getSettings(), $settingDefinition);
-        $this->taskManager->initialize($this->taskYamlFileLoader->loadAll());
+        $criteriaDto->setTaskCollection($this->taskYamlFileLoader->loadAll());
+        $this->taskManager->initialize($criteriaDto);
 
         return new InitializeResultDto();
     }
@@ -96,56 +94,9 @@ class ConsoleBasedInitializer implements ApplicableInitializerInterface
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
-     * @param array<string, mixed> $settings
+     * @param array $settings
      *
      * @return void
      */
-    protected function initializeSettingValue(SettingInterface $settingEntity, array $settings): void
-    {
-        if (!empty($settings[$settingEntity->getPath()])) {
-            $settingEntity->setValues($settings[$settingEntity->getPath()]);
-            $this->settingRepository->save($settingEntity);
-
-            return;
-        }
-
-        if ($settingEntity->hasInitialization() === false || $settingEntity->getValues() !== null) {
-            return;
-        }
-
-        $value = $this->receiveValue($settingEntity);
-
-        if ($value !== $settingEntity->getValues()) {
-            $settingEntity->setValues($value);
-            $this->settingRepository->save($settingEntity);
-        }
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
-     *
-     * @return mixed
-     */
-    protected function receiveValue(SettingInterface $settingEntity)
-    {
-        $value = $this->cliValueReceiver->receiveValue(
-            new ReceiverValue(
-                $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
-                $settingEntity->getValues(),
-                $settingEntity->getType(),
-            ),
-        );
-
-        return $value === null || is_scalar($value) ? $value : json_encode($value);
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
-     *
-     * @return bool
-     */
-    public function isApplicable(InitializeCriteriaDto $criteriaDto): bool
-    {
-        return $criteriaDto->getSourceType() === CallSource::SOURCE_TYPE_CLI;
-    }
+    abstract protected function initializeSettingValue(EntitySettingInterface $settingEntity, array $settings): void;
 }

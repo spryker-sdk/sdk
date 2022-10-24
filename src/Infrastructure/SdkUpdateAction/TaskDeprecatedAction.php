@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 
 class TaskDeprecatedAction implements SdkUpdateActionInterface
@@ -51,7 +53,11 @@ class TaskDeprecatedAction implements SdkUpdateActionInterface
                 $successor = $this->taskRepository->find($tasksFromDirectory->getSuccessor());
 
                 if (!$successor) {
-                    $this->taskManager->initialize([$tasksFromDirectories[$tasksFromDirectory->getSuccessor()]]);
+                    $dto = new InitializeCriteriaDto(
+                        CallSource::SOURCE_TYPE_CLI,
+                        [$tasksFromDirectories[$tasksFromDirectory->getSuccessor()]]
+                    );
+                    $this->taskManager->initialize($dto);
                 }
             }
 

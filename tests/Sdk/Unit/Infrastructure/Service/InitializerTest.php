@@ -9,10 +9,12 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
+use SprykerSdk\Sdk\Infrastructure\Initializer\ConsoleBasedInitializer;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\ConsoleBasedInitializer;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
@@ -55,7 +57,7 @@ class InitializerTest extends Unit
     protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ConsoleBasedInitializer
+     * @var \SprykerSdk\Sdk\Infrastructure\Initializer\ConsoleBasedInitializer
      */
     protected ConsoleBasedInitializer $initializerService;
 
@@ -109,9 +111,10 @@ class InitializerTest extends Unit
         $this->settingRepository->expects($this->once())
             ->method('initSettingDefinition')
             ->willReturn($settings);
+        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, $optionSettings);
 
         // Act
-        $this->initializerService->initialize($optionSettings);
+        $this->initializerService->initialize($dto);
     }
 
     /**
@@ -144,8 +147,10 @@ class InitializerTest extends Unit
             ->method('initSettingDefinition')
             ->willReturn($settings);
 
+        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, $optionSettings);
+
         // Act
-        $this->initializerService->initialize($optionSettings);
+        $this->initializerService->initialize($dto);
     }
 
     /**
@@ -181,9 +186,10 @@ class InitializerTest extends Unit
             ->expects($this->exactly(count($settings)))
             ->method('receiveValue')
             ->willReturn(null);
+        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, $optionSettings);
 
         // Act
-        $this->initializerService->initialize($optionSettings);
+        $this->initializerService->initialize($dto);
     }
 
     /**
@@ -219,9 +225,10 @@ class InitializerTest extends Unit
             ->expects($this->never())
             ->method('receiveValue')
             ->willReturn(null);
+        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, $optionSettings);
 
         // Act
-        $this->initializerService->initialize($optionSettings);
+        $this->initializerService->initialize($dto);
     }
 
     /**
@@ -257,8 +264,9 @@ class InitializerTest extends Unit
             ->expects($this->never())
             ->method('receiveValue')
             ->willReturn(null);
+        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, $optionSettings);
 
         // Act
-        $this->initializerService->initialize($optionSettings);
+        $this->initializerService->initialize($dto);
     }
 }

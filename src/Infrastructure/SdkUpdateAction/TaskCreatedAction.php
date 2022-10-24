@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\SdkUpdateAction;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 
 class TaskCreatedAction implements SdkUpdateActionInterface
 {
@@ -40,7 +42,13 @@ class TaskCreatedAction implements SdkUpdateActionInterface
             $tasks[] = $tasksFromDirectories[$taskId];
         }
 
-        $this->taskManager->initialize($tasks);
+        /**
+         * @todo :: source must be dynamic value based on the call source.
+         */
+        $criteriaDto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI);
+        $criteriaDto->setTaskCollection($tasks);
+
+        $this->taskManager->initialize($criteriaDto);
     }
 
     /**

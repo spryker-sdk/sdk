@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\SdkInit;
 
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
+
 class InitializeCriteriaDto
 {
     /**
@@ -18,6 +20,11 @@ class InitializeCriteriaDto
      * @var array
      */
     protected array $settings = [];
+
+    /**
+     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     */
+    protected array $taskCollection = [];
 
     /**
      * @param string $sourceType
@@ -59,5 +66,33 @@ class InitializeCriteriaDto
     public function getSourceType(): string
     {
         return $this->sourceType;
+    }
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface[]
+     */
+    public function getTaskCollection(): array
+    {
+        return $this->taskCollection;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface[] $taskCollection
+     */
+    public function setTaskCollection(array $taskCollection): void
+    {
+        foreach ($taskCollection as $task) {
+            $this->addTask($task);
+        }
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
+    public function addTask(TaskInterface $task): void
+    {
+        $this->taskCollection[$task->getId()] = $task;
     }
 }

@@ -7,12 +7,30 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\SdkInit;
 
+use SprykerSdk\SdkContracts\Entity\TaskInterface;
+
 class InitializeResultDto
 {
     /**
      * @var bool
      */
     protected bool $isSuccessful = true;
+
+    /**
+     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     */
+    protected array $taskCollection = [];
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface[] $taskCollection
+     * @param bool $isSuccessful
+     */
+    public function __construct(array $taskCollection = [], bool $isSuccessful = true)
+    {
+        $this->taskCollection = $taskCollection;
+        $this->isSuccessful = $isSuccessful;
+    }
+
 
     /**
      * @return bool
@@ -36,5 +54,34 @@ class InitializeResultDto
     public function fail()
     {
         $this->isSuccessful = false;
+    }
+
+
+    /**
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface[]
+     */
+    public function getTaskCollection(): array
+    {
+        return $this->taskCollection;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface[] $taskCollection
+     */
+    public function setTaskCollection(array $taskCollection): void
+    {
+        foreach ($taskCollection as $task) {
+            $this->addTask($task);
+        }
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return void
+     */
+    public function addTask(TaskInterface $task): void
+    {
+        $this->taskCollection[$task->getId()] = $task;
     }
 }

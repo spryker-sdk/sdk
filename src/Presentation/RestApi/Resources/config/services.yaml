@@ -21,3 +21,5 @@ services:
     SprykerSdk\Sdk\Presentation\RestApi\Adapter\Initializer:
         arguments:
             - '@sdk_initializer.strategy_based_initializer'
+            - "@doctrine_migrations.migrate_command"
+

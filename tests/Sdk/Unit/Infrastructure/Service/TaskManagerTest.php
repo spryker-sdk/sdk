@@ -8,15 +8,20 @@
 namespace Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\Sdk\Core\Application\Service\TaskManager;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\TaskManager;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @group TaskManagerTest
+ */
 class TaskManagerTest extends Unit
 {
     /**
@@ -37,16 +42,20 @@ class TaskManagerTest extends Unit
         //Arrange
         $task = $this->createTaskMock(static::EXISTENT_TASK_ID);
         $taskManager = new TaskManager(
-            $this->createNoCallsEventDispatcherMock(),
+            $this->createEventDispatcherForInitMock(),
             $this->createRepositoryMock($task),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createMock(AfterTaskInitProcessor::class),
         );
 
+        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, []);
+        $dto->addTask($task);
+
         //Act
-        $tasks = $taskManager->initialize([$task]);
+        $resultDto = $taskManager->initialize($dto);
 
         //Assert
-        $this->assertCount(0, $tasks);
+        $this->assertCount(0, $resultDto->getTaskCollection());
     }
 
     /**
@@ -57,16 +66,20 @@ class TaskManagerTest extends Unit
         //Arrange
         $task = $this->createTaskMock(static::NON_EXISTENT_TASK_ID);
         $taskManager = new TaskManager(
-            $this->createEventDispatcherMock(InitializedEvent::class, InitializedEvent::NAME),
+            $this->createEventDispatcherForInitMock(),
             $this->createRepositoryMock($task, 'create'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createMock(AfterTaskInitProcessor::class),
         );
 
+        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, []);
+        $dto->addTask($task);
+
         //Act
-        $tasks = $taskManager->initialize([$task]);
+        $resultDto = $taskManager->initialize($dto);
 
         //Assert
-        $this->assertCount(1, $tasks);
+        $this->assertCount(1, $resultDto->getTaskCollection());
     }
 
     /**
@@ -80,6 +93,7 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(RemovedEvent::class, RemovedEvent::NAME),
             $this->createRepositoryMock($task, 'remove'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createMock(AfterTaskInitProcessor::class),
         );
 
         //Act
@@ -97,6 +111,7 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(UpdatedEvent::class, UpdatedEvent::NAME),
             $this->createRepositoryMock($task, 'update'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createMock(AfterTaskInitProcessor::class),
         );
 
         //Act
@@ -137,6 +152,20 @@ class TaskManagerTest extends Unit
             ->with($this->equalTo($task));
 
         return $repositoryMock;
+    }
+
+    /**
+     * @return \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
+     */
+    protected function createEventDispatcherForInitMock(): EventDispatcherInterface
+    {
+        $eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
+
+        $eventDispatcherMock
+            ->expects($this->never())
+            ->method('dispatch');
+
+        return $eventDispatcherMock;
     }
 
     /**

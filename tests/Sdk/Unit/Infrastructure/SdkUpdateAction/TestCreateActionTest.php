@@ -9,6 +9,8 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\SdkUpdateAction;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
+use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
+use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -37,10 +39,12 @@ class TestCreateActionTest extends Unit
         // Arrange
         $taskIds = ['task1', 'task2', 'task3'];
         $tasksFromDirectories = ['task1' => 'task', 'task2' => 'task', 'task3' => 'task'];
+        $criteriaDto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI);
+        $criteriaDto->setTaskCollection($tasksFromDirectories);
         $this->taskManager
             ->expects($this->once())
             ->method('initialize')
-            ->with(array_values($tasksFromDirectories));
+            ->with($criteriaDto);
         $taskCreatedAction = new TaskCreatedAction($this->taskManager);
 
         // Act
