@@ -18,6 +18,8 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 interface TaskManagerInterface
 {
     /**
+     * @deprecated Will be removed in the future major release. Use \SprykerSdk\Sdk\Core\Application\Creator\TaskCreatorInterface::createTasks() instead.
+     *
      * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
      *
      * @return \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto

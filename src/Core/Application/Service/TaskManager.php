@@ -7,25 +7,19 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
+use SprykerSdk\Sdk\Core\Application\Creator\TaskCreatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskInit\AfterTaskInitDto;
-use SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
-use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskManager implements TaskManagerInterface
 {
     /**
-     * @todo :: must be replaced by plugin processor
-     *
      * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
      */
     protected EventDispatcherInterface $eventDispatcher;
@@ -36,31 +30,23 @@ class TaskManager implements TaskManagerInterface
     protected TaskRepositoryInterface $taskRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Creator\TaskCreatorInterface
      */
-    protected TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor
-     */
-    protected AfterTaskInitProcessor $afterTaskInitProcessor;
+    protected TaskCreatorInterface $taskCreator;
 
     /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor $afterTaskInitProcessor
+     * @param \SprykerSdk\Sdk\Core\Application\Creator\TaskCreatorInterface $taskCreator
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         TaskRepositoryInterface $taskRepository,
-        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder,
-        AfterTaskInitProcessor $afterTaskInitProcessor
+        TaskCreatorInterface $taskCreator
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;
-        $this->taskFromTaskSetBuilder = $taskFromTaskSetBuilder;
-        $this->afterTaskInitProcessor = $afterTaskInitProcessor;
+        $this->taskCreator = $taskCreator;
     }
 
     /**
@@ -70,25 +56,7 @@ class TaskManager implements TaskManagerInterface
      */
     public function initialize(InitializeCriteriaDto $criteriaDto): InitializeResultDto
     {
-        $resultDto = new InitializeResultDto();
-
-        foreach ($criteriaDto->getTaskCollection() as $task) {
-            $existingTask = $this->taskRepository->findById($task->getId());
-
-            if ($existingTask) {
-                continue;
-            }
-
-            if ($task instanceof TaskSetInterface) {
-                $task = $this->taskFromTaskSetBuilder->buildTaskFromTaskSet($task, $criteriaDto->getTaskCollection());
-            }
-
-            $resultDto->addTask($this->taskRepository->create($task));
-            $afterTaskInitDto = new AfterTaskInitDto($task, $criteriaDto->getSourceType());
-            $this->afterTaskInitProcessor->processAfterTaskInitialization($afterTaskInitDto);
-        }
-
-        return $resultDto;
+        return $this->taskCreator->createTasks($criteriaDto);
     }
 
     /**

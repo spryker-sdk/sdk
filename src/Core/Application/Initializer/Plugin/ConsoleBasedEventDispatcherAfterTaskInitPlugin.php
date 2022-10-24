@@ -34,13 +34,9 @@ class ConsoleBasedEventDispatcherAfterTaskInitPlugin implements AfterTaskInitPlu
      */
     public function execute(AfterTaskInitDto $afterTaskInitDto): void
     {
-//        if ($afterTaskInitDto->getCallSource() !== CallSource::SOURCE_TYPE_CLI) {
-//            return;
-//        }
-
-        // fix input-output
-
-        // do the call
+        if ($afterTaskInitDto->getCallSource() !== CallSource::SOURCE_TYPE_CLI) {
+            return;
+        }
 
         $this->eventDispatcher->dispatch(new InitializedEvent($afterTaskInitDto->getTask()), InitializedEvent::NAME);
     }
