@@ -5,6 +5,7 @@ help_message () {
 Commands and helpers that are useful for sdk development process.
 The most of the commands are executed in /data directory.
 
+    --install, -i                   installs cache, vendor and db
     --refresh, -r                   refreshes cache, vendor and db
     --composer, -c                  runs sdk composer
                                     accepts composer arguments like 'sdk --composer install' 'sdk -c cs-check'
@@ -28,6 +29,9 @@ OPTION=$1
 cd /data
 
 case $OPTION in
+    '--install'|'-i'|'i')
+        rm -rf var/cache && rm -rf vendor && composer install && bin/console cache:clear && rm -f db/data.db && bin/console sdk:init:sdk
+        ;;
     '--refresh'|'-r'|'r')
         rm -rf var/cache && rm -rf vendor && composer install && bin/console cache:clear && rm -f db/data.db && bin/console sdk:init:sdk -n
         ;;

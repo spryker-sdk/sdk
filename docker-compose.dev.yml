@@ -7,13 +7,17 @@ x-volumes:
 services:
   spryker-sdk:
     image: spryker/php-sdk-debug:${SDK_VERSION:-latest}
+    network_mode: "host"
     build:
       context: ./
       dockerfile: ./infrastructure/sdk.debug.Dockerfile
       args:
         USER_UID: ${USER_UID}
         SDK_VERSION: ${SDK_VERSION:-latest}
+    working_dir: "/project"
     environment:
+      SDK_DIR: ${SDK_DIR}
+      EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
       SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP:-}
       PHP_IDE_CONFIG: ${PHP_IDE_CONFIG:-}
       APP_ENV: dev

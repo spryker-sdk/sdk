@@ -74,6 +74,9 @@ class ProfilerEventListener
             $this->profilerDir . DIRECTORY_SEPARATOR . $this->getProfilerName($event),
             serialize($profilerData),
         );
+
+        //re-enable to fix an issue with seg fault
+        xhprof_enable();
     }
 
     /**

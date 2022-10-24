@@ -671,5 +671,5 @@ services:
             - "%profiler_dir%"
             - "@filesystem"
         tags:
-            - { name: kernel.event_listener, event: console.command }
-            - { name: kernel.event_listener, event: console.terminate }
+            - { name: kernel.event_listener, event: console.command,  priority: 256 }
+            - { name: kernel.event_listener, event: console.terminate, priority: -256 }

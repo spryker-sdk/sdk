@@ -17,7 +17,7 @@ else \
   source ~/.bashrc; \
 fi; \
 git describe --abbrev=0 --tags > VERSION; \
-spryker-sdk --mode=docker sdk r
+spryker-sdk --mode=docker sdk --install
 ```
 
 ## Usage
