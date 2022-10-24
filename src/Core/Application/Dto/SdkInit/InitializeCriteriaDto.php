@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -46,6 +46,8 @@ class InitializeCriteriaDto
 
     /**
      * @param array $settings
+     *
+     * @return void
      */
     public function setSettings(array $settings): void
     {
@@ -69,7 +71,7 @@ class InitializeCriteriaDto
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface[]
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function getTaskCollection(): array
     {
@@ -77,7 +79,9 @@ class InitializeCriteriaDto
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface[] $taskCollection
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $taskCollection
+     *
+     * @return void
      */
     public function setTaskCollection(array $taskCollection): void
     {

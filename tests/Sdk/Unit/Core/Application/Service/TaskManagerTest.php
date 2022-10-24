@@ -5,21 +5,22 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service;
+namespace Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
-use SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor;
+use SprykerSdk\Sdk\Core\Application\Creator\TaskCreatorInterface;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Core\Application\Service\TaskManager;
-use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
-use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
+ * @group Sdk
+ * @group Core
+ * @group Application
+ * @group Service
  * @group TaskManagerTest
  */
 class TaskManagerTest extends Unit
@@ -37,54 +38,6 @@ class TaskManagerTest extends Unit
     /**
      * @return void
      */
-    public function testSkipInitializeWhenTaskExists(): void
-    {
-        //Arrange
-        $task = $this->createTaskMock(static::EXISTENT_TASK_ID);
-        $taskManager = new TaskManager(
-            $this->createEventDispatcherForInitMock(),
-            $this->createRepositoryMock($task),
-            $this->createTaskFromTaskSetBuilderMock(),
-            $this->createMock(AfterTaskInitProcessor::class),
-        );
-
-        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, []);
-        $dto->addTask($task);
-
-        //Act
-        $resultDto = $taskManager->initialize($dto);
-
-        //Assert
-        $this->assertCount(0, $resultDto->getTaskCollection());
-    }
-
-    /**
-     * @return void
-     */
-    public function testInitializeWhenTaskDoesNotExist(): void
-    {
-        //Arrange
-        $task = $this->createTaskMock(static::NON_EXISTENT_TASK_ID);
-        $taskManager = new TaskManager(
-            $this->createEventDispatcherForInitMock(),
-            $this->createRepositoryMock($task, 'create'),
-            $this->createTaskFromTaskSetBuilderMock(),
-            $this->createMock(AfterTaskInitProcessor::class),
-        );
-
-        $dto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI, []);
-        $dto->addTask($task);
-
-        //Act
-        $resultDto = $taskManager->initialize($dto);
-
-        //Assert
-        $this->assertCount(1, $resultDto->getTaskCollection());
-    }
-
-    /**
-     * @return void
-     */
     public function testTriggerEventWithRepositoryCallWhenTaskRemoved(): void
     {
         //Arrange
@@ -92,8 +45,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(RemovedEvent::class, RemovedEvent::NAME),
             $this->createRepositoryMock($task, 'remove'),
-            $this->createTaskFromTaskSetBuilderMock(),
-            $this->createMock(AfterTaskInitProcessor::class),
+            $this->createMock(TaskCreatorInterface::class),
         );
 
         //Act
@@ -110,8 +62,7 @@ class TaskManagerTest extends Unit
         $taskManager = new TaskManager(
             $this->createEventDispatcherMock(UpdatedEvent::class, UpdatedEvent::NAME),
             $this->createRepositoryMock($task, 'update'),
-            $this->createTaskFromTaskSetBuilderMock(),
-            $this->createMock(AfterTaskInitProcessor::class),
+            $this->createMock(TaskCreatorInterface::class),
         );
 
         //Act
@@ -197,13 +148,5 @@ class TaskManagerTest extends Unit
             ->method('dispatch');
 
         return $eventDispatcherMock;
-    }
-
-    /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface
-     */
-    protected function createTaskFromTaskSetBuilderMock(): TaskFromTaskSetBuilderInterface
-    {
-        return $this->createMock(TaskFromTaskSetBuilderInterface::class);
     }
 }

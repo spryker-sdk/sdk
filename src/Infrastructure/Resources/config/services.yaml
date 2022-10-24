@@ -205,31 +205,16 @@ services:
     cli_receiver_setup_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
         tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: beforeConsoleCommand,
-            }
-            - {
-                name: kernel.event_listener,
-                event: kernel.request
-                method: onKernelRequest,
-            }
+            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
         arguments:
             - !tagged_iterator sdk.cli_receiver_setup
+
     cli_runner_setup_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
         tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: beforeConsoleCommand,
-            }
-            - {
-                name: kernel.event_listener,
-                event: kernel.request
-                method: onKernelRequest,
-            }
+            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand }
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
         arguments:
             - "@local_cli_command_runner"
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -22,7 +22,7 @@ class InitializeResultDto
     protected array $taskCollection = [];
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface[] $taskCollection
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $taskCollection
      * @param bool $isSuccessful
      */
     public function __construct(array $taskCollection = [], bool $isSuccessful = true)
@@ -30,7 +30,6 @@ class InitializeResultDto
         $this->taskCollection = $taskCollection;
         $this->isSuccessful = $isSuccessful;
     }
-
 
     /**
      * @return bool
@@ -56,9 +55,8 @@ class InitializeResultDto
         $this->isSuccessful = false;
     }
 
-
     /**
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface[]
+     * @return array<\SprykerSdk\SdkContracts\Entity\TaskInterface>
      */
     public function getTaskCollection(): array
     {
@@ -66,7 +64,9 @@ class InitializeResultDto
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface[] $taskCollection
+     * @param array<\SprykerSdk\SdkContracts\Entity\TaskInterface> $taskCollection
+     *
+     * @return void
      */
     public function setTaskCollection(array $taskCollection): void
     {

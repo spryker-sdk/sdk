@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -10,8 +10,6 @@ namespace SprykerSdk\Sdk\Core\Application\Creator;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
-use SprykerSdk\Sdk\Core\Application\Dto\TaskInit\AfterTaskInitDto;
-use SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
@@ -29,23 +27,15 @@ class TaskCreator implements TaskCreatorInterface
     protected TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor
-     */
-    protected AfterTaskInitProcessor $afterTaskInitProcessor;
-
-    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
-     * @param \SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor $afterTaskInitProcessor
      */
     public function __construct(
         TaskRepositoryInterface $taskRepository,
-        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder,
-        AfterTaskInitProcessor $afterTaskInitProcessor
+        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
     ) {
         $this->taskRepository = $taskRepository;
         $this->taskFromTaskSetBuilder = $taskFromTaskSetBuilder;
-        $this->afterTaskInitProcessor = $afterTaskInitProcessor;
     }
 
     /**
@@ -59,8 +49,10 @@ class TaskCreator implements TaskCreatorInterface
 
         foreach ($criteriaDto->getTaskCollection() as $task) {
             $task = $this->createTask($criteriaDto, $task);
-            $resultDto->addTask($task);
-       }
+            if ($task !== null) {
+                $resultDto->addTask($task);
+            }
+        }
 
         return $resultDto;
     }
@@ -69,24 +61,20 @@ class TaskCreator implements TaskCreatorInterface
      * @param \SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto $criteriaDto
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
-     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface
+     * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
      */
-    protected function createTask(InitializeCriteriaDto $criteriaDto, TaskInterface $task): TaskInterface
+    protected function createTask(InitializeCriteriaDto $criteriaDto, TaskInterface $task): ?TaskInterface
     {
         $existingTask = $this->taskRepository->findById($task->getId());
 
         if ($existingTask) {
-            return $task;
+            return null;
         }
 
         if ($task instanceof TaskSetInterface) {
             $task = $this->taskFromTaskSetBuilder->buildTaskFromTaskSet($task, $criteriaDto->getTaskCollection());
         }
 
-        $task = $this->taskRepository->create($task);
-        $afterTaskInitDto = new AfterTaskInitDto($task, $criteriaDto->getSourceType());
-        $this->afterTaskInitProcessor->processAfterTaskInitialization($afterTaskInitDto);
-
-        return $task;
+        return $this->taskRepository->create($task);
     }
 }

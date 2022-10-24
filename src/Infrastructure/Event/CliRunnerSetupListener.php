@@ -10,6 +10,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 use SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 class CliRunnerSetupListener
 {
@@ -44,6 +46,16 @@ class CliRunnerSetupListener
         if ($helperSet) {
             $this->cliRunner->setHelperSet($helperSet);
         }
+    }
+
+    /**
+     * @param \Symfony\Component\HttpKernel\Event\ControllerEvent $event
+     *
+     * @return void
+     */
+    public function onKernelController(ControllerEvent $event): void
+    {
+        $this->cliRunner->setOutput(new ConsoleOutput()); // todo :: provide input params from request.
     }
 
     /**

@@ -55,7 +55,7 @@ class TaskDeprecatedAction implements SdkUpdateActionInterface
                 if (!$successor) {
                     $dto = new InitializeCriteriaDto(
                         CallSource::SOURCE_TYPE_CLI,
-                        [$tasksFromDirectories[$tasksFromDirectory->getSuccessor()]]
+                        [$tasksFromDirectories[$tasksFromDirectory->getSuccessor()]],
                     );
                     $this->taskManager->initialize($dto);
                 }

@@ -201,20 +201,8 @@ services:
             - "@task_persistence_repository"
             - "@sdk_task_creator"
 
-    sdk_initializer.after_task_init_processor:
-        class: SprykerSdk\Sdk\Core\Application\Initializer\Processor\AfterTaskInitProcessor
-        arguments:
-            - !tagged_iterator after_task_init_plugin
-
-    sdk_initializer.after_task_init_plugin.console_based_event_dispatcher:
-        class: SprykerSdk\Sdk\Core\Application\Initializer\Plugin\ConsoleBasedEventDispatcherAfterTaskInitPlugin
-        tags: [ "after_task_init_plugin" ]
-        arguments:
-            - "@event_dispatcher"
-
     sdk_task_creator:
         class: SprykerSdk\Sdk\Core\Application\Creator\TaskCreator
         arguments:
             - "@task_persistence_repository"
             - "@task.task_from_task_builder"
-            - "@sdk_initializer.after_task_init_processor"

@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
 use SprykerSdk\Sdk\Core\Domain\Enum\CallSource;
 use SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction;
+use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TestCreateActionTest extends Unit
@@ -20,6 +21,11 @@ class TestCreateActionTest extends Unit
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface
      */
     protected TaskManagerInterface $taskManager;
+
+    /**
+     * @var \SprykerSdk\Sdk\Tests\UnitTester
+     */
+    protected UnitTester $tester;
 
     /**
      * @return void
@@ -38,7 +44,11 @@ class TestCreateActionTest extends Unit
     {
         // Arrange
         $taskIds = ['task1', 'task2', 'task3'];
-        $tasksFromDirectories = ['task1' => 'task', 'task2' => 'task', 'task3' => 'task'];
+        $tasksFromDirectories = [];
+        foreach (['task1' => 'task', 'task2' => 'task', 'task3' => 'task'] as $taskId => $task) {
+            $tasksFromDirectories[$taskId] = $this->tester->createTask(['id' => $taskId]);
+        }
+
         $criteriaDto = new InitializeCriteriaDto(CallSource::SOURCE_TYPE_CLI);
         $criteriaDto->setTaskCollection($tasksFromDirectories);
         $this->taskManager
@@ -66,7 +76,10 @@ class TestCreateActionTest extends Unit
             ->method('getId')
             ->willReturn('task2');
         $tasksFromDirectories = [$task1, $task2];
-        $tasksFromDatabase = ['task1' => 'task'];
+        $tasksFromDatabase = [];
+        foreach (['task1' => 'task'] as $taskId => $task) {
+            $tasksFromDatabase[$taskId] = $this->tester->createTask(['id' => $taskId]);
+        }
         $taskCreatedAction = new TaskCreatedAction($this->taskManager);
 
         // Act
