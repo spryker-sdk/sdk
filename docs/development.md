@@ -16,6 +16,7 @@ else \
   echo 'alias spryker-sdk="'$PATH_TO_SDK'/bin/spryker-sdk.sh"' >> ~/.bashrc && \
   source ~/.bashrc; \
 fi; \
+git describe --abbrev=0 --tags > VERSION; \
 spryker-sdk --mode=docker sdk r
 ```
 
