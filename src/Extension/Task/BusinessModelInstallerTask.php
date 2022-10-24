@@ -78,7 +78,7 @@ class BusinessModelInstallerTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'install:project:business-model';
+        return 'project:installer:business-model';
     }
 
     /**
@@ -98,7 +98,7 @@ class BusinessModelInstallerTask implements TaskInterface
      */
     public function getVersion(): string
     {
-        return '0.1.0';
+        return '0.2.0';
     }
 
     /**
