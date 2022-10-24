@@ -11,6 +11,7 @@ use Exception;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\RequestDataReceiverInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ApiInteractionProcessor implements InteractionProcessorInterface, RequestDataReceiverInterface
 {
@@ -58,11 +59,45 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
      */
     public function receiveValue(ReceiverValueInterface $receiverValue)
     {
-        $key = '';
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
+        $choiceValues = $receiverValue->getChoiceValues() ? $this->prepareChoiceValues($receiverValue->getChoiceValues()) : [];
+        $defaultValue = $receiverValue->getDefaultValue();
+
+        if (!$defaultValue && $choiceValues) {
+            $defaultValue = array_key_first($choiceValues);
         }
 
-        throw new Exception('Request is wrong.');
+        if (count($choiceValues) === 1 && in_array($defaultValue, $choiceValues)) {
+            return $defaultValue;
+        }
+
+        if (isset($this->data[$receiverValue->getAlias()])) {
+            return $this->data[$receiverValue->getAlias()];
+        }
+
+        if ($receiverValue->getType() === ValueTypeEnum::TYPE_BOOL) {
+            return true;
+        }
+
+        throw new Exception(sprintf('Request is wrong, %s is missing', $receiverValue->getAlias()));
+    }
+
+    /**
+     * @param array $choices
+     *
+     * @return array
+     */
+    protected function prepareChoiceValues(array $choices): array
+    {
+        if (count($choices) === 0) {
+            return $choices;
+        }
+
+        $isList = array_keys($choices) === range(0, count($choices) - 1);
+
+        if (!$isList) {
+            return $choices;
+        }
+
+        return array_combine(range(1, count($choices)), $choices) ?: [];
     }
 }

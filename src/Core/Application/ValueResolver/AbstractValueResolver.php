@@ -72,6 +72,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
                     $defaultValue,
                     $this->getType(),
                     $choiceValues,
+                    $this->getAlias(),
                 ),
             );
         }

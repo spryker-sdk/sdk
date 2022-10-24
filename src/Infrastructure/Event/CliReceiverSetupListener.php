@@ -10,7 +10,12 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Helper\DebugFormatterHelper;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class CliReceiverSetupListener
@@ -86,8 +91,30 @@ class CliReceiverSetupListener
      *
      * @return void
      */
-    public function beforeRequestCommand(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
+        foreach ($this->inputOutputConnectors as $inputOutputConnector) {
+            if ($inputOutputConnector instanceof OutputReceiverInterface) {
+                $inputOutputConnector->setOutput(new BufferedOutput());
+            }
+
+            if ($inputOutputConnector instanceof RequestDataReceiverInterface) {
+                $inputOutputConnector->setRequestData($event->getRequest()->request->all());
+            }
+
+            if ($inputOutputConnector instanceof CommandReceiverInterface) {
+                $inputOutputConnector->setHelperSet(new HelperSet([
+                    new FormatterHelper(),
+                    new DebugFormatterHelper(),
+                    new ProcessHelper(),
+                    new QuestionHelper(),
+                ]));
+            }
+
+            if ($inputOutputConnector instanceof InteractionProcessorReceiverInterface) {
+                $inputOutputConnector->setInteractionProcessor($this->apiInteractionProcessor);
+            }
+        }
     }
 
     /**
