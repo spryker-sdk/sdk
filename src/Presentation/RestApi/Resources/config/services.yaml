@@ -1,13 +1,13 @@
 parameters: ~
 
 services:
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\:
-        resource: '../../Controller/v1'
-        tags: ['container.service_subscriber', 'controller.service_arguments']
-        calls:
-            - method: setContainer
-              arguments: [ '@service_container' ]
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
+        public: true
 
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:
+        public: true
+        arguments:
+            - '@SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor'
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application

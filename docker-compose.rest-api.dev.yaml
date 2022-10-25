@@ -2,35 +2,34 @@ version: '3.0'
 
 services:
     nginx:
-        image: nginx:stable-alpine
-        container_name: sdk-nginx
+        image: sdk-nginx:${SDK_VERSION:-latest}
+        build:
+            context: .
+            dockerfile: infrastructure/web/nginx.Dockerfile
         ports:
-            - '8080:80'
+            - ${SDK_REST_API_PORT:-80}:80
         volumes:
             - ./public:/data/public
-            - ./infrastructure/web/nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - php-fpm
         restart: always
 
     php-fpm:
-        container_name: sdk-php-fpm
+        image: sdk-php-fpm:${SDK_VERSION:-latest}
         build:
             context: .
-            dockerfile: infrastructure/web/php-fpm.Dockerfile
+            dockerfile: infrastructure/web/php-fpm.dev.Dockerfile
             args:
-                SDK_VERSION: latest
+                USER_UID: ${USER_UID}
+                SDK_VERSION: ${SDK_VERSION:-latest}
         volumes:
             - ./:/data
         restart: always
         environment:
+            SDK_DIR: ${SDK_DIR}
+            EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
+            SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP:-}
+            PHP_IDE_CONFIG: ${PHP_IDE_CONFIG:-}
             APP_ENV: dev
-            APP_DEBUG: 'true'
-            TELEMETRY_ENABLED: 'false'
-            TELEMETRY_TRANSPORT: file
-            TELEMETRY_SERVER_URL: ''
-            GITHUB_AUTH_METHOD: http_password
-            GITHUB_USERNAME: username
-            GITHUB_SECRET: password_or_token
-            APPLICATION_ENV:    development
+            APP_DEBUG: 1
 
