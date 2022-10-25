@@ -10,6 +10,7 @@ fi
 MODE='prod'
 
 ARGUMENTS=""
+ARGUMENTS_EMPTY=0
 
 for i in "$@"; do
   case "$i" in
@@ -21,6 +22,7 @@ done
 
 if [ "$ARGUMENTS" == '' ]; then
   ARGUMENTS="list"
+  ARGUMENTS_EMPTY=1
 fi
 
 ARGUMENTS="${ARGUMENTS%"${ARGUMENTS##*[![:space:]]}"}"
@@ -48,6 +50,9 @@ case $MODE in
       spryker-sdk "$ARGUMENTS"
   ;;
 "docker")
+    if [[ $ARGUMENTS_EMPTY == 1 ]]; then
+        ARGUMENTS='/bin/bash'
+    fi
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
         docker-compose -f "${SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
     else
