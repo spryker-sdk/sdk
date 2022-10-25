@@ -11,6 +11,18 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Formatter\CommandXmlFormatter;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group Ide
+ * @group PhpStorm
+ * @group Formatter
+ * @group CommandXmlFormatterTest
+ * Add your own group annotations below this line
+ */
 class CommandXmlFormatterTest extends Unit
 {
     /**

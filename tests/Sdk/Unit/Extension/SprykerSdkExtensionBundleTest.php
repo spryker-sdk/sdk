@@ -12,9 +12,13 @@ use SprykerSdk\Sdk\Extension\DependencyInjection\SprykerSdkExtensionExtension;
 use SprykerSdk\Sdk\Extension\SprykerSdkExtensionBundle;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group SprykerSdkExtensionBundleTest
+ * Add your own group annotations below this line
  */
 class SprykerSdkExtensionBundleTest extends Unit
 {

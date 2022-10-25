@@ -15,6 +15,16 @@ use SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper;
 use SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group RemovedEventMapperTest
+ * Add your own group annotations below this line
+ */
 class RemovedEventMapperTest extends Unit
 {
     /**

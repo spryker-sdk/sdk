@@ -19,11 +19,13 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @group YamlTaskLoading
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Reader
  * @group TaskYamlReaderTest
+ * Add your own group annotations below this line
  */
 class TaskYamlReaderTest extends Unit
 {

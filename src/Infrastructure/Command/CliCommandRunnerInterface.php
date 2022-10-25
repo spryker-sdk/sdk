@@ -5,8 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Dependency;
+namespace SprykerSdk\Sdk\Infrastructure\Command;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 

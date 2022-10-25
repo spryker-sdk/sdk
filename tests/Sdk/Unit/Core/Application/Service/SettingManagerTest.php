@@ -17,11 +17,15 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group SettingManagerTest
+ * Add your own group annotations below this line
  */
 class SettingManagerTest extends Unit
 {

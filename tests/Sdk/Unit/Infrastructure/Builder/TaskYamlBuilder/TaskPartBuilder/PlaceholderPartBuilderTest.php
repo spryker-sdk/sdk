@@ -17,14 +17,15 @@ use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Enum\Task;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskYamlBuilder
  * @group TaskPartBuilder
  * @group PlaceholderPartBuilderTest
+ * Add your own group annotations below this line
  */
 class PlaceholderPartBuilderTest extends Unit
 {

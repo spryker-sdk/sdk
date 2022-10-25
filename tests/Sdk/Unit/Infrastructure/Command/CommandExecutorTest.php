@@ -5,22 +5,24 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
+namespace Sdk\Unit\Infrastructure\Command;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use SprykerSdk\Sdk\Core\Application\Dependency\AfterCommandExecutedAction\AfterCommandExecutedActionInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
-use SprykerSdk\Sdk\Core\Application\Service\CommandExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
+use SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 
 /**
- * @group Sdk
- * @group Core
- * @group Application
- * @group Service
+ * Auto-generated group annotations
+ *
+ * @group Unit
+ * @group Infrastructure
+ * @group Command
  * @group CommandExecutorTest
+ * Add your own group annotations below this line
  */
 class CommandExecutorTest extends Unit
 {
@@ -81,7 +83,7 @@ class CommandExecutorTest extends Unit
      * @param bool|true $canHandle
      * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder|null $invocationRule
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\CommandRunner\CommandRunnerInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface
      */
     protected function createCommandRunnerMock(
         ContextInterface $context,

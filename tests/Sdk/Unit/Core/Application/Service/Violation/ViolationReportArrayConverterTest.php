@@ -15,12 +15,15 @@ use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConver
 use SprykerSdk\SdkContracts\Report\ReportInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group Violation
  * @group ViolationReportArrayConverterTest
+ * Add your own group annotations below this line
  */
 class ViolationReportArrayConverterTest extends Unit
 {
