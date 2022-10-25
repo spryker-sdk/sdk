@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
+namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use Symfony\Component\Workflow\Event\GuardEvent;
 

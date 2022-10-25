@@ -9,9 +9,9 @@ namespace Sdk\Unit\Infrastructure\Workflow;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
-use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,7 +39,7 @@ class WorkflowRunnerTest extends Unit
     protected ContainerInterface $container;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 

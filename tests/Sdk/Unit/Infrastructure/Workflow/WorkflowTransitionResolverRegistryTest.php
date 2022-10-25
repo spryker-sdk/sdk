@@ -8,7 +8,7 @@
 namespace Sdk\Unit\Infrastructure\Workflow;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry;
+use SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry;
 use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
 
 /**

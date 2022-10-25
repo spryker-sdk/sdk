@@ -10,7 +10,9 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Event\Workflow;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
+use SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransition;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
@@ -18,9 +20,7 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
-use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
-use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -632,7 +632,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected function createProjectWorkflowMock(): ProjectWorkflow
     {
@@ -664,7 +664,7 @@ class WorkflowTransitionListenerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowTransitionResolverRegistry
+     * @return \SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry
      */
     protected function createWorkflowTransitionResolverRegistryMock(): WorkflowTransitionResolverRegistry
     {

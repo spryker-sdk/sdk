@@ -316,6 +316,7 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
         arguments:
             - "@doctrine"
+            - "@workflow_mapper"
     workflow_transition_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
         arguments:
@@ -323,7 +324,7 @@ services:
     project_workflow:
         public: true
         shared: false
-        class: SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
+        class: SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
         arguments:
             - "@project_setting_repository"
             - "@workflow.registry"
@@ -331,6 +332,8 @@ services:
             - "@workflow_transition_repository"
     violation_report_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
+    workflow_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\WorkflowMapper
     violation_path_reader:
         class: SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader
         arguments:
@@ -374,7 +377,7 @@ services:
             }
 
     app.workflow.guard_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
+        class: SprykerSdk\Sdk\Core\Application\Service\WorkflowEventListener
         arguments:
             - "@service_container"
         tags:
@@ -533,7 +536,7 @@ services:
     context.in_memory_cache_storage:
         class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
     workflow.transition_resolver_registry:
-        class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+        class: SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry
         arguments:
             - !tagged_iterator workflow.transition_resolver
 

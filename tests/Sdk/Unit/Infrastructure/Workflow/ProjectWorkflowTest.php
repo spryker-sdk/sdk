@@ -12,13 +12,13 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Workflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository;
 use SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository;
-use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;

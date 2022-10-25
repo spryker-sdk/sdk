@@ -11,9 +11,9 @@ use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
-use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
@@ -135,7 +135,7 @@ class ProjectWorkflowInitializerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
+     * @return \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected function createProjectWorkflow(): ProjectWorkflow
     {

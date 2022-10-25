@@ -5,15 +5,15 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Workflow;
+namespace SprykerSdk\Sdk\Core\Application\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowTransitionRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Core\Domain\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as WorkflowEntity;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;

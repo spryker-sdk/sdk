@@ -11,9 +11,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
 use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator;
-use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +37,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
-     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory

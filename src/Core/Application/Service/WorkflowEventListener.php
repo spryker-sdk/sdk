@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event\Workflow;
+namespace SprykerSdk\Sdk\Core\Application\Service;
 
-use SprykerSdk\Sdk\Infrastructure\Exception\InvalidServiceException;
+use SprykerSdk\Sdk\Core\Application\Exception\InvalidServiceException;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -166,12 +166,12 @@ class WorkflowEventListener
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventInterface $event
+     * @param \SprykerSdk\Sdk\Core\Application\Service\WorkflowEventInterface $event
      * @param array $handlers
      *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidServiceException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\InvalidServiceException
      *
-     * @return \SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Service\WorkflowEventInterface
      */
     protected function executeHandlers(WorkflowEventInterface $event, array $handlers): WorkflowEventInterface
     {
@@ -194,7 +194,7 @@ class WorkflowEventListener
      * @param \Symfony\Component\Workflow\Event\GuardEvent $event
      * @param array $guards
      *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidServiceException
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\InvalidServiceException
      *
      * @return \Symfony\Component\Workflow\Event\GuardEvent
      */

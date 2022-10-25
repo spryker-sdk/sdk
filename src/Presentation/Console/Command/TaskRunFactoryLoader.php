@@ -14,9 +14,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder;
-use SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
@@ -45,7 +45,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ProjectSettingRepositoryInterface $projectSettingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow
+     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
      */
     protected ProjectWorkflow $projectWorkflow;
 
@@ -72,7 +72,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder $taskOptionBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\ProjectWorkflow $projectWorkflow
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param string $environment
      */
