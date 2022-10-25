@@ -14,6 +14,8 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\ValueQuestion;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
@@ -21,6 +23,7 @@ use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
  * @group Interaction
  * @group Question
  * @group ValueQuestionTest
+ * Add your own group annotations below this line
  */
 class ValueQuestionTest extends Unit
 {

@@ -14,6 +14,8 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader\Yaml
 use Twig\Environment;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
@@ -21,7 +23,8 @@ use Twig\Environment;
  * @group TemplateReader
  * @group Task
  * @group FormatReader
- * @group YamlTaskTemplateReaderTest
+ * @group YamlTaskTemplateFormatReaderTest
+ * Add your own group annotations below this line
  */
 class YamlTaskTemplateFormatReaderTest extends Unit
 {

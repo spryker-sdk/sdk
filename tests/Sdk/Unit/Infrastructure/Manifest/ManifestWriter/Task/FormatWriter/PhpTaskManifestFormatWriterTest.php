@@ -13,6 +13,8 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter\PhpT
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
@@ -20,7 +22,8 @@ use Symfony\Component\Filesystem\Filesystem;
  * @group ManifestWriter
  * @group Task
  * @group FormatWriter
- * @group PhpTaskManifestWriterTest
+ * @group PhpTaskManifestFormatWriterTest
+ * Add your own group annotations below this line
  */
 class PhpTaskManifestFormatWriterTest extends Unit
 {
