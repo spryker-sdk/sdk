@@ -144,6 +144,12 @@ services:
     arguments:
       - !tagged_iterator report.array_converter
 
+  manifest.task_manifest_generator:
+      class: SprykerSdk\Sdk\Core\Application\Manifest\Task\TaskManifestGenerator
+      arguments:
+          - "@manifest.task_manifest_writer"
+          - "@manifest.task_template_reader"
+
   telemetry.event_metadata_factory:
     class: SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactory
     arguments:
