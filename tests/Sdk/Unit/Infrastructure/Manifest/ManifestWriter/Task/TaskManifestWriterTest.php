@@ -14,6 +14,8 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Shared\FormatWriter\Ma
 use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\TaskManifestWriter;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
@@ -21,6 +23,7 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\TaskManifestWrite
  * @group ManifestWriter
  * @group Task
  * @group TaskManifestWriterTest
+ * Add your own group annotations below this line
  */
 class TaskManifestWriterTest extends Unit
 {

@@ -15,13 +15,14 @@ use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskYamlBuilder
- * @group TaskYamlBuilderTest
+ * @group YamlTaskBuilderTest
+ * Add your own group annotations below this line
  */
 class YamlTaskBuilderTest extends Unit
 {

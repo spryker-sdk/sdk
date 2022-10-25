@@ -14,10 +14,14 @@ use SprykerSdk\Sdk\Extension\ValueResolver\BusinessModelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group ValueResolver
  * @group BusinessModelValueResolverTest
+ * Add your own group annotations below this line
  */
 class BusinessModelValueResolverTest extends Unit
 {

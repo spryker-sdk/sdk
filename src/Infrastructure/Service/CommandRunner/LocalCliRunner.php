@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Command\CliCommandRunnerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\Sdk\Infrastructure\Service\ProgressBar;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;

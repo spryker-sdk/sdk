@@ -11,17 +11,21 @@ use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 /**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
  * @group Acceptance
  * @group Extension
  * @group Task
  * @group ESLintTaskCest
+ * Add your own group annotations below this line
  */
 class ESLintTaskCest
 {
     /**
      * @var string
      */
-    private const COMMAND = 'validation:frontend:eslint';
+    protected const COMMAND = 'validation:frontend:eslint';
 
     /**
      * @var string
@@ -31,7 +35,7 @@ class ESLintTaskCest
     /**
      * @var string
      */
-    private const CONFIG_FILE = 'node_modules/@spryker/frontend-config.eslint/.eslintrc.js';
+    protected const CONFIG_FILE = 'node_modules/@spryker/frontend-config.eslint/.eslintrc.js';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I

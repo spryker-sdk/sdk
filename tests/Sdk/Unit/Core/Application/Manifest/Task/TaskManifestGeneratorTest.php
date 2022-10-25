@@ -15,6 +15,8 @@ use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestRequestDtoInterface;
 use SprykerSdk\Sdk\Core\Application\Manifest\Task\TaskManifestGenerator;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Core
@@ -22,6 +24,7 @@ use SprykerSdk\Sdk\Core\Application\Manifest\Task\TaskManifestGenerator;
  * @group Manifest
  * @group Task
  * @group TaskManifestGeneratorTest
+ * Add your own group annotations below this line
  */
 class TaskManifestGeneratorTest extends Unit
 {

@@ -14,13 +14,15 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
  * @group ValueReceiver
  * @group QuestionFactory
  * @group ArrayQuestionFactoryTest
+ * Add your own group annotations below this line
  */
 class ArrayQuestionFactoryTest extends Unit
 {

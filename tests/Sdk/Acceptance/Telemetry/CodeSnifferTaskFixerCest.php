@@ -13,10 +13,13 @@ use SprykerSdk\Sdk\Infrastructure\Telemetry\FileReportTelemetryEventSender;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 /**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
  * @group Acceptance
- * @group Extension
  * @group Telemetry
  * @group CodeSnifferTaskFixerCest
+ * Add your own group annotations below this line
  */
 class CodeSnifferTaskFixerCest
 {

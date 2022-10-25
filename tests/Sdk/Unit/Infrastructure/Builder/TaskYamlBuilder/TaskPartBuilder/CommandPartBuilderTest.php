@@ -15,14 +15,15 @@ use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Enum\Task;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskYamlBuilder
  * @group TaskPartBuilder
  * @group CommandPartBuilderTest
+ * Add your own group annotations below this line
  */
 class CommandPartBuilderTest extends Unit
 {

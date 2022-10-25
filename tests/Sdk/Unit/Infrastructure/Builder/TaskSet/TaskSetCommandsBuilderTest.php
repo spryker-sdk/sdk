@@ -16,12 +16,14 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskSet
  * @group TaskSetCommandsBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskSetCommandsBuilderTest extends Unit
 {

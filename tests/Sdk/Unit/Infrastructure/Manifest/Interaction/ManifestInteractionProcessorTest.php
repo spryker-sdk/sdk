@@ -21,12 +21,15 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\ValueQuestion;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Manifest
  * @group Interaction
  * @group ManifestInteractionProcessorTest
+ * Add your own group annotations below this line
  */
 class ManifestInteractionProcessorTest extends Unit
 {

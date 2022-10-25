@@ -15,11 +15,14 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Report\ReportConverterInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group ConverterResolverTest
+ * Add your own group annotations below this line
  */
 class ConverterResolverTest extends Unit
 {

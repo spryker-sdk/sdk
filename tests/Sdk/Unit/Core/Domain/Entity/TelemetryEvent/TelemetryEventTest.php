@@ -12,12 +12,16 @@ use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Domain
  * @group Entity
  * @group TelemetryEvent
  * @group TelemetryEventTest
+ * Add your own group annotations below this line
  */
 class TelemetryEventTest extends Unit
 {
