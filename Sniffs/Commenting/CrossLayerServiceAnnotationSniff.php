@@ -18,12 +18,12 @@ use SprykerSdk\Sniffs\AbstractSniffs\AbstractCrossLayerServiceSniff;
 class CrossLayerServiceAnnotationSniff extends AbstractCrossLayerServiceSniff
 {
     /**
-     * @return mixed[]|void
+     * @return array
      */
-    public function register()
+    public function register(): array
     {
         return [
-//            T_DOC_COMMENT_OPEN_TAG,
+            T_DOC_COMMENT_OPEN_TAG,
         ];
     }
 

@@ -13,9 +13,9 @@ use SprykerSdk\Sniffs\AbstractSniffs\AbstractCrossLayerServiceSniff;
 class CrossLayerServiceUsageSniff extends AbstractCrossLayerServiceSniff
 {
     /**
-     * @return mixed[]|void
+     * @return array
      */
-    public function register()
+    public function register(): array
     {
         return [
             T_USE,
