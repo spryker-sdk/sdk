@@ -204,5 +204,6 @@ services:
     sdk_task_creator:
         class: SprykerSdk\Sdk\Core\Application\Creator\TaskCreator
         arguments:
+            - "@event_dispatcher"
             - "@task_persistence_repository"
             - "@task.task_from_task_builder"

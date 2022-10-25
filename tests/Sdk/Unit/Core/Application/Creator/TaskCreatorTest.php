@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterfac
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @group Sdk
@@ -55,6 +56,7 @@ class TaskCreatorTest extends Unit
             ->method('buildTaskFromTaskSet');
 
         $taskCreator = new TaskCreator(
+            $this->createEventDispatcherForInitMock(),
             $taskRepositoryMock,
             $taskSetBuilderMock,
         );
@@ -82,6 +84,7 @@ class TaskCreatorTest extends Unit
             ->method('buildTaskFromTaskSet');
 
         $taskCreator = new TaskCreator(
+            $this->createEventDispatcherForInitMock(1),
             $taskRepositoryMock,
             $taskSetBuilderMock,
         );
@@ -119,5 +122,21 @@ class TaskCreatorTest extends Unit
             ->with($this->equalTo($task));
 
         return $repositoryMock;
+    }
+
+    /**
+     * @param int $dispatchCallNum
+     *
+     * @return \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
+     */
+    protected function createEventDispatcherForInitMock(int $dispatchCallNum = 0): EventDispatcherInterface
+    {
+        $eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
+
+        $eventDispatcherMock
+            ->expects($this->exactly($dispatchCallNum))
+            ->method('dispatch');
+
+        return $eventDispatcherMock;
     }
 }

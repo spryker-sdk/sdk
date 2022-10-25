@@ -10,12 +10,19 @@ namespace SprykerSdk\Sdk\Core\Application\Creator;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeCriteriaDto;
 use SprykerSdk\Sdk\Core\Application\Dto\SdkInit\InitializeResultDto;
+use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TaskCreator implements TaskCreatorInterface
 {
+    /**
+     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
+     */
+    protected EventDispatcherInterface $eventDispatcher;
+
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
@@ -27,13 +34,16 @@ class TaskCreator implements TaskCreatorInterface
     protected TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder;
 
     /**
+     * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
      */
     public function __construct(
+        EventDispatcherInterface $eventDispatcher,
         TaskRepositoryInterface $taskRepository,
         TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
     ) {
+        $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;
         $this->taskFromTaskSetBuilder = $taskFromTaskSetBuilder;
     }
@@ -49,9 +59,13 @@ class TaskCreator implements TaskCreatorInterface
 
         foreach ($criteriaDto->getTaskCollection() as $task) {
             $task = $this->createTask($criteriaDto, $task);
-            if ($task !== null) {
-                $resultDto->addTask($task);
+            if (!$task) {
+                continue;
             }
+
+            $resultDto->addTask($task);
+
+            $this->eventDispatcher->dispatch(new InitializedEvent($task), InitializedEvent::NAME);
         }
 
         return $resultDto;

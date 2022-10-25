@@ -106,20 +106,6 @@ class TaskManagerTest extends Unit
     }
 
     /**
-     * @return \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
-     */
-    protected function createEventDispatcherForInitMock(): EventDispatcherInterface
-    {
-        $eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
-
-        $eventDispatcherMock
-            ->expects($this->never())
-            ->method('dispatch');
-
-        return $eventDispatcherMock;
-    }
-
-    /**
      * @param string $eventClass
      * @param string $eventName
      *
