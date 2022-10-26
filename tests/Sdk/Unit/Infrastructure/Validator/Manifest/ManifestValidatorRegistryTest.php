@@ -13,11 +13,14 @@ use SprykerSdk\Sdk\Core\Application\Exception\ManifestValidatorMissingException;
 use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidatorRegistry;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Validator
  * @group Manifest
  * @group ManifestValidatorRegistryTest
+ * Add your own group annotations below this line
  */
 class ManifestValidatorRegistryTest extends Unit
 {

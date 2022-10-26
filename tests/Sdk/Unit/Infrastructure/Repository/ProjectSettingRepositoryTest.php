@@ -21,6 +21,16 @@ use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Repository
+ * @group ProjectSettingRepositoryTest
+ * Add your own group annotations below this line
+ */
 class ProjectSettingRepositoryTest extends Unit
 {
     /**

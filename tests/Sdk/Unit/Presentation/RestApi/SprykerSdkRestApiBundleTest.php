@@ -11,6 +11,16 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Presentation\RestApi\DependencyInjection\SprykerSdkRestApiExtension;
 use SprykerSdk\Sdk\Presentation\RestApi\SprykerSdkRestApiBundle;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group RestApi
+ * @group SprykerSdkRestApiBundleTest
+ * Add your own group annotations below this line
+ */
 class SprykerSdkRestApiBundleTest extends Unit
 {
     /**

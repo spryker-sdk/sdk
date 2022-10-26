@@ -2,23 +2,20 @@ version: '3.0'
 
 services:
     nginx:
-        image: spryker/php-sdk-api-nginx
+        image: spryker/php-sdk-api-nginx:${SDK_VERSION:-latest}
         ports:
-            - '8080:80'
+            - ${SDK_REST_API_PORT:-80}:80
         depends_on:
             - php-fpm
         restart: always
 
     php-fpm:
-        image: spryker/php-sdk-api
+        image: spryker/php-sdk-api:${SDK_VERSION:-latest}
         restart: always
         environment:
+            SDK_DIR: ${SDK_DIR}
+            EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
+            SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP:-}
+            PHP_IDE_CONFIG: ${PHP_IDE_CONFIG:-}
             APP_ENV: prod
-            APP_DEBUG: 'true'
-            TELEMETRY_ENABLED: 'false'
-            TELEMETRY_TRANSPORT: file
-            TELEMETRY_SERVER_URL: ''
-            GITHUB_AUTH_METHOD: http_password
-            GITHUB_USERNAME: username
-            GITHUB_SECRET: password_or_token
-            APPLICATION_ENV:    development
+            APP_DEBUG: 0

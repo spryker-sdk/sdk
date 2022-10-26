@@ -11,13 +11,15 @@ use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Acceptance
  * @group Presentation
  * @group RestApi
  * @group Controller
  * @group v1
  * @group HelloControllerCest
+ * Add your own group annotations below this line
  */
 class HelloControllerCest
 {

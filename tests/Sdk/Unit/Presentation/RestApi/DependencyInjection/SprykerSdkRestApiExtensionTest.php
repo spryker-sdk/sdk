@@ -11,6 +11,17 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Presentation\RestApi\DependencyInjection\SprykerSdkRestApiExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group RestApi
+ * @group DependencyInjection
+ * @group SprykerSdkRestApiExtensionTest
+ * Add your own group annotations below this line
+ */
 class SprykerSdkRestApiExtensionTest extends Unit
 {
     /**

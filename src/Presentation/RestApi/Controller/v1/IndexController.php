@@ -7,16 +7,16 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class IndexController extends AbstractController
+class IndexController
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(): Response
     {
-        return $this->json(['message' => 'Hi! SDK is working on Web server.']);
+        return new JsonResponse(['message' => 'Hi! SDK is working on Web server.']);
     }
 }

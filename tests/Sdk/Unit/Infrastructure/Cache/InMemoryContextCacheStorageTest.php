@@ -12,10 +12,14 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Infrastructure
  * @group Cache
  * @group InMemoryContextCacheStorageTest
+ * Add your own group annotations below this line
  */
 class InMemoryContextCacheStorageTest extends Unit
 {

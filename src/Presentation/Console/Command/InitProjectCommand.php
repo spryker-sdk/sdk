@@ -13,9 +13,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
-use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -262,7 +262,7 @@ class InitProjectCommand extends Command
     /**
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
-     * @return \SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface|null
+     * @return \SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface|null
      */
     protected function getSettingChoiceInitializer(SettingInterface $setting): ?SettingChoicesProviderInterface
     {

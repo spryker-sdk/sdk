@@ -1,7 +1,5 @@
 FROM nginx:stable-alpine
 
-RUN rm /etc/nginx/conf.d/default.conf
-
 COPY infrastructure/web/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY public/index.php /data/public/index.php
 

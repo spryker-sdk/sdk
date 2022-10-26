@@ -37,7 +37,34 @@ export EXECUTABLE_FILE_PATH="$(cd "$(dirname "$0")";pwd)/spryker-sdk.sh"
 export USER_UID="$(id -u)"
 export SDK_DIR="$SDK_DIR"
 export SDK_VERSION="$(cat "$SDK_DIR/VERSION")"
+export UNAME_INFO="$(uname -a)"
 
+### rest api server
+case $ARGUMENTS in
+rest-api-start*)
+    ARGUMENTS_ARR=($ARGUMENTS)
+    export SDK_REST_API_PORT=${ARGUMENTS_ARR[1]:-80}
+    export SPRYKER_XDEBUG_HOST_IP=${myIp}
+    export PHP_IDE_CONFIG=serverName=spryker-sdk
+    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" up -d
+    exit 0
+    ;;
+"rest-api-stop")
+    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" stop
+    exit 0
+    ;;
+"rest-api-status")
+    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" ps
+    exit 0
+    ;;
+
+"rest-api-rm")
+    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" rm -s
+    exit 0
+    ;;
+esac
+
+### cli
 case $MODE in
 "debug")
   echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"

@@ -11,13 +11,15 @@ use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Acceptance
  * @group Presentation
  * @group Console
  * @group Command
  * @group Validator
  * @group ValidateTaskCommandCest
+ * Add your own group annotations below this line
  */
 class ValidateTaskCommandCest
 {
