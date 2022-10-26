@@ -13,6 +13,16 @@ use SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper;
 use SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapperInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group LifecycleMapperTest
+ * Add your own group annotations below this line
+ */
 class LifecycleMapperTest extends Unit
 {
     /**

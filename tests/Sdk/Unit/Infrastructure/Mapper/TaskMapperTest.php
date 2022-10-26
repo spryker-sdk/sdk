@@ -17,6 +17,16 @@ use SprykerSdk\Sdk\Infrastructure\Mapper\RemovedEventMapper;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group TaskMapperTest
+ * Add your own group annotations below this line
+ */
 class TaskMapperTest extends Unit
 {
     /**
@@ -51,11 +61,10 @@ class TaskMapperTest extends Unit
     public function testMapToInfrastructureEntityShouldReturnEntity(): void
     {
         // Arrange
-        $task = $this->tester->createTask(
-            $this->tester->createLifecycle(),
-            [$this->tester->createCommand()],
-            [$this->tester->createPlaceholder('name', 'static', true)],
-        );
+        $task = $this->tester->createTask([
+            'commands' => [$this->tester->createCommand()],
+            'placeholders' => [$this->tester->createPlaceholder('name', 'static', true)],
+        ]);
 
         // Act
         $result = $this->taskMapper->mapToInfrastructureEntity($task);
@@ -76,11 +85,10 @@ class TaskMapperTest extends Unit
     public function testupdateInfrastructureEntityShouldReturnEntity(): void
     {
         // Arrange
-        $task = $this->tester->createTask(
-            $this->tester->createLifecycle(),
-            [$this->tester->createCommand()],
-            [$this->tester->createPlaceholder('name', 'static', true)],
-        );
+        $task = $this->tester->createTask([
+            'commands' => [$this->tester->createCommand()],
+            'placeholders' => [$this->tester->createPlaceholder('name', 'static', true)],
+        ]);
 
         $infraTask = $this->tester->createInfrastructureTask();
 

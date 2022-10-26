@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Task\Command;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 
 class GenerateAppCommand implements CommandInterface
 {
@@ -30,7 +31,7 @@ class GenerateAppCommand implements CommandInterface
      */
     public function getType(): string
     {
-        return 'local_cli';
+        return EnumTask::TYPE_LOCAL_CLI;
     }
 
     /**

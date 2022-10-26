@@ -22,6 +22,18 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Core
+ * @group Application
+ * @group Lifecycle
+ * @group Subscriber
+ * @group InitializedEventSubscriberTest
+ * Add your own group annotations below this line
+ */
 class InitializedEventSubscriberTest extends Unit
 {
     /**
@@ -124,7 +136,7 @@ class InitializedEventSubscriberTest extends Unit
             new RemovedEventData(),
         );
 
-        $task = $this->tester->createTask($lifecycle);
+        $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
         $event = new InitializedEvent($task);
 
         $this->fileManager
@@ -154,7 +166,7 @@ class InitializedEventSubscriberTest extends Unit
         // Arrange
         $lifecycle = new InfrastructureLifecycle(new RemovedEvent());
 
-        $task = $this->tester->createTask($lifecycle);
+        $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
         $event = new InitializedEvent($task);
 
         $this->fileManager

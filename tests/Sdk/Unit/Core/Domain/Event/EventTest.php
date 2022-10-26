@@ -10,6 +10,17 @@ namespace SprykerSdk\Sdk\Unit\Core\Domain\Event;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Event\Event;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Core
+ * @group Domain
+ * @group Event
+ * @group EventTest
+ * Add your own group annotations below this line
+ */
 class EventTest extends Unit
 {
     /**

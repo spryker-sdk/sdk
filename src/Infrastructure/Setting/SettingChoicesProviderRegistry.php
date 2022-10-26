@@ -8,18 +8,18 @@
 namespace SprykerSdk\Sdk\Infrastructure\Setting;
 
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
+use SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface;
 use Traversable;
 
 class SettingChoicesProviderRegistry
 {
     /**
-     * @var array<\SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface>
+     * @var array<\SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface>
      */
     protected array $settingChoicesProviders;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface> $settingChoicesProviders
+     * @param iterable<\SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface> $settingChoicesProviders
      */
     public function __construct(iterable $settingChoicesProviders)
     {
@@ -43,7 +43,7 @@ class SettingChoicesProviderRegistry
      *
      * @throws \InvalidArgumentException
      *
-     * @return \SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface
+     * @return \SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface
      */
     public function getSettingChoicesProvider(string $name): SettingChoicesProviderInterface
     {

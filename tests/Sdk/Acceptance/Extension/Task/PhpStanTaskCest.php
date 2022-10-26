@@ -10,6 +10,16 @@ namespace SprykerSdk\Sdk\Acceptance\Extension\Task;
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Acceptance
+ * @group Extension
+ * @group Task
+ * @group PhpStanTaskCest
+ * Add your own group annotations below this line
+ */
 class PhpStanTaskCest
 {
     /**
@@ -70,7 +80,7 @@ class PhpStanTaskCest
         $I->cleanReports();
 
         // Act
-        $I->runSdkCommand([
+        $process = $I->runSdkCommand([
             static::COMMAND,
             '--path=src/PhpStan/fail',
             '--format=yaml',

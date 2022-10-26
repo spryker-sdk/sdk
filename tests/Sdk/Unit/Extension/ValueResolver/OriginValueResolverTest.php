@@ -11,12 +11,17 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\OriginValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group ValueResolver
  * @group OriginValueResolverTest
+ * Add your own group annotations below this line
  */
 class OriginValueResolverTest extends Unit
 {
@@ -53,7 +58,7 @@ class OriginValueResolverTest extends Unit
             'name' => 'alias',
             'description' => 'description',
             'help' => 'help',
-            'type' => 'boolean',
+            'type' => ValueTypeEnum::TYPE_BOOL,
             'settingPaths' => ['setting'],
             'choiceValues' => ['values'],
         ];

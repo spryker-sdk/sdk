@@ -7,14 +7,15 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\CliCommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Command\CliCommandRunnerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\Sdk\Infrastructure\Service\ProgressBar;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
+use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -90,7 +91,7 @@ class LocalCliRunner implements CliCommandRunnerInterface
      */
     public function canHandle(CommandInterface $command): bool
     {
-        return in_array($command->getType(), ['local_cli', 'local_cli_interactive'], true);
+        return in_array($command->getType(), [EnumTask::TYPE_LOCAL_CLI, EnumTask::TYPE_LOCAL_CLI_INTERACTIVE], true);
     }
 
     /**
@@ -125,7 +126,7 @@ class LocalCliRunner implements CliCommandRunnerInterface
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
 
-        if ($command->getType() === 'local_cli_interactive') {
+        if ($command->getType() === EnumTask::TYPE_LOCAL_CLI_INTERACTIVE) {
             $process->setTty(true);
         }
 

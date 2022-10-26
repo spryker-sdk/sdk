@@ -11,6 +11,7 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 
 class CheckGitCommand implements CommandInterface, ErrorCommandInterface
 {
@@ -41,7 +42,7 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
      */
     public function getType(): string
     {
-        return 'local_cli';
+        return EnumTask::TYPE_LOCAL_CLI;
     }
 
     /**

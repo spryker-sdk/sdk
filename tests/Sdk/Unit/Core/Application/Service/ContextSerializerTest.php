@@ -18,11 +18,15 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group ContextSerializerTest
+ * Add your own group annotations below this line
  */
 class ContextSerializerTest extends Unit
 {

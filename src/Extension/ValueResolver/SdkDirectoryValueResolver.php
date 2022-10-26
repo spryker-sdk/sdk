@@ -9,15 +9,11 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class SdkDirectoryValueResolver extends AbstractValueResolver
 {
-    /**
-     * @var string
-     */
-    public const SETTING_SDK_DIR = 'sdk_dir';
-
     /**
      * @var string
      */
@@ -63,7 +59,7 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     public function getSettingPaths(): array
     {
         return [
-            static::SETTING_SDK_DIR,
+            Setting::PATH_SDK_DIR,
         ];
     }
 
@@ -94,11 +90,11 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     protected function getValueFromSettings(array $settingValues): string
     {
-        if (!isset($settingValues[static::SETTING_SDK_DIR])) {
+        if (!isset($settingValues[Setting::PATH_SDK_DIR])) {
             return $this->sdkBasePath;
         }
 
-        $settingSdkBasePath = $settingValues[static::SETTING_SDK_DIR];
+        $settingSdkBasePath = $settingValues[Setting::PATH_SDK_DIR];
 
         if (realpath($settingSdkBasePath) !== false) {
             return realpath($settingSdkBasePath);

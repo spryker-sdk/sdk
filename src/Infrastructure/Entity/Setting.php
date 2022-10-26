@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Enum\Setting as SettingEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class Setting extends DomainSetting
 {

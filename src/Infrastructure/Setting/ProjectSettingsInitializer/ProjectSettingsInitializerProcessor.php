@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
 use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
@@ -180,7 +180,7 @@ class ProjectSettingsInitializerProcessor implements ProjectSettingsInitializerP
     protected function isValuesChanged(SettingInterface $setting, $values): bool
     {
         $values = [
-            ValueTypeEnum::TYPE_BOOLEAN => (bool)$values,
+            ValueTypeEnum::TYPE_BOOL => (bool)$values,
             ValueTypeEnum::TYPE_ARRAY => (array)$values,
         ][$setting->getType()] ?? (string)$values;
 

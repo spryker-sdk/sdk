@@ -7,21 +7,12 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ConfigPathValueResolver extends OriginValueResolver
 {
-    /**
-     * @var string
-     */
-    protected const PROJECT_DIR_SETTING = 'project_dir';
-
-    /**
-     * @var string
-     */
-    protected const SDK_DIR_SETTING = 'sdk_dir';
-
     /**
      * {@inheritDoc}
      *
@@ -55,8 +46,8 @@ class ConfigPathValueResolver extends OriginValueResolver
     {
         $value = (string)parent::getValue($context, $settingValues, $optional);
 
-        $projectLevelSettings = sprintf('%s/%s', $settingValues[static::PROJECT_DIR_SETTING] ?? '', $value);
-        $sdkLevelSettings = sprintf('%s/%s', $settingValues[static::SDK_DIR_SETTING] ?? '', $value);
+        $projectLevelSettings = sprintf('%s/%s', $settingValues[Setting::PATH_PROJECT_DIR] ?? '', $value);
+        $sdkLevelSettings = sprintf('%s/%s', $settingValues[Setting::PATH_SDK_DIR] ?? '', $value);
 
         return file_exists($projectLevelSettings) ? $projectLevelSettings : $sdkLevelSettings;
     }
@@ -74,6 +65,6 @@ class ConfigPathValueResolver extends OriginValueResolver
      */
     protected function getRequiredSettingPaths(): array
     {
-        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
+        return [Setting::PATH_PROJECT_DIR, Setting::PATH_SDK_DIR];
     }
 }

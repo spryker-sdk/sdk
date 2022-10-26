@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dto\Violation\PackageViolationReport;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 class PhpStanViolationConverter extends AbstractViolationConverter
@@ -45,7 +46,7 @@ class PhpStanViolationConverter extends AbstractViolationConverter
      */
     public function convert(): ?ViolationReportInterface
     {
-        $projectDirectory = $this->settingRepository->findOneByPath('project_dir');
+        $projectDirectory = $this->settingRepository->findOneByPath(Setting::PATH_PROJECT_DIR);
         if (!$projectDirectory) {
             return null;
         }

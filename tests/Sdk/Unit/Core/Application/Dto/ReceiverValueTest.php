@@ -11,11 +11,15 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Dto
  * @group ReceiverValueTest
+ * Add your own group annotations below this line
  */
 class ReceiverValueTest extends Unit
 {

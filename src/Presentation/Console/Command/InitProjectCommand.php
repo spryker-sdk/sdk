@@ -13,7 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializerInterface;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -126,7 +126,7 @@ class InitProjectCommand extends Command
             new ReceiverValue(
                 'Project settings file already exists, should it be overwritten?',
                 false,
-                ValueTypeEnum::TYPE_BOOLEAN,
+                ValueTypeEnum::TYPE_BOOL,
             ),
         );
     }

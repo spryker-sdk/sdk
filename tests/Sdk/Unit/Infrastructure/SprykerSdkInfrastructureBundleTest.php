@@ -11,6 +11,15 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\DependencyInjection\SprykerSdkInfrastructureExtension;
 use SprykerSdk\Sdk\Infrastructure\SprykerSdkInfrastructureBundle;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group SprykerSdkInfrastructureBundleTest
+ * Add your own group annotations below this line
+ */
 class SprykerSdkInfrastructureBundleTest extends Unit
 {
     /**

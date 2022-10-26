@@ -11,10 +11,14 @@ use SprykerSdk\Sdk\Extension\Converter\CheckstyleViolationReportConverter;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group Converter
  * @group CheckstyleViolationReportConverterTest
+ * Add your own group annotations below this line
  */
 class CheckstyleViolationReportConverterTest extends ReportConverterTest
 {
