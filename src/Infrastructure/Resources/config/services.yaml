@@ -1,8 +1,11 @@
 parameters:
-  manifest_task_yaml_template_path: "manifest/task_manifest_template.yaml.twig"
-  manifest_task_php_template_path: "manifest/task_manifest_template.php.twig"
-  manifest_task_yaml_file_dir: "%kernel.project_dir%/extension/Custom/src/Resources/config/task"
-  manifest_task_php_file_dir: "%kernel.project_dir%/extension/Custom/src/Task/"
+    profiler_enabled: "%env(default:profiler_enabled_default:bool:SDK_PROFILER_ENABLED)%"
+    profiler_enabled_default: false
+    profiler_dir: "%kernel.project_dir%/var/profiler"
+    manifest_task_yaml_template_path: "manifest/task_manifest_template.yaml.twig"
+    manifest_task_php_template_path: "manifest/task_manifest_template.php.twig"
+    manifest_task_yaml_file_dir: "%kernel.project_dir%/extension/Custom/src/Resources/config/task"
+    manifest_task_php_file_dir: "%kernel.project_dir%/extension/Custom/src/Task/"
 
 services:
     _instanceof:
@@ -680,6 +683,16 @@ services:
         arguments:
             - '@manifest_validator_factory'
             - '@config_processor'
+
+    profiler.event_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Profiler\ProfilerEventListener
+        arguments:
+            - "%profiler_enabled%"
+            - "%profiler_dir%"
+            - "@filesystem"
+        tags:
+            - { name: kernel.event_listener, event: console.command,  priority: 256 }
+            - { name: kernel.event_listener, event: console.terminate, priority: -256 }
 
     service.command_executor:
         class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor

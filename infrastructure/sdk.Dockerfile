@@ -34,7 +34,8 @@ COPY --chown=spryker:spryker extension ${srcRoot}/extension
 COPY --chown=spryker:spryker config ${srcRoot}/config
 COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
-COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env
+COPY --chown=spryker:spryker .env ${srcRoot}/.env
+COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
 
 WORKDIR ${srcRoot}
