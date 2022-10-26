@@ -22,6 +22,18 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Core
+ * @group Application
+ * @group Lifecycle
+ * @group Subscriber
+ * @group UpdatedEventSubscriberTest
+ * Add your own group annotations below this line
+ */
 class UpdatedEventSubscriberTest extends Unit
 {
     /**

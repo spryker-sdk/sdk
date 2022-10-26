@@ -12,6 +12,16 @@ use SprykerSdk\Sdk\Infrastructure\Workflow\TimestampedMethodMarkingStore;
 use Symfony\Component\Workflow\Exception\LogicException;
 use Symfony\Component\Workflow\Marking;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Workflow
+ * @group TimestampedMethodMarkingStoreActionTest
+ * Add your own group annotations below this line
+ */
 class TimestampedMethodMarkingStoreActionTest extends Unit
 {
     /**

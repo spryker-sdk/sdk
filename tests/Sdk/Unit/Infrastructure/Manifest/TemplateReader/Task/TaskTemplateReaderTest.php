@@ -15,6 +15,8 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Shared\FormatReader\Te
 use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\TaskTemplateReader;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
@@ -22,6 +24,7 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\TaskTemplateReade
  * @group TemplateReader
  * @group Task
  * @group TaskTemplateReaderTest
+ * Add your own group annotations below this line
  */
 class TaskTemplateReaderTest extends Unit
 {

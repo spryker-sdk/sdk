@@ -14,10 +14,14 @@ use SprykerSdk\Sdk\Extension\Workflow\InteractionAnswerBasedTransitionResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group Workflow
  * @group InteractionAnswerBasedTransitionResolverTest
+ * Add your own group annotations below this line
  */
 class InteractionAnswerBasedTransitionResolverTest extends Unit
 {

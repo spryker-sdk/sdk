@@ -13,6 +13,17 @@ use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\DynamicConsoleComman
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group Console
+ * @group DependencyInjection
+ * @group DynamicConsoleCommandsCompilerPassTest
+ * Add your own group annotations below this line
+ */
 class DynamicConsoleCommandsCompilerPassTest extends Unit
 {
     /**

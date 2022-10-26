@@ -13,10 +13,14 @@ use SprykerSdk\Sdk\Extension\ValueResolver\StaticValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group ValueResolver
  * @group StaticValueResolverTest
+ * Add your own group annotations below this line
  */
 class StaticValueResolverTest extends Unit
 {
