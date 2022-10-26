@@ -17,6 +17,16 @@ use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group InitializerTest
+ * Add your own group annotations below this line
+ */
 class InitializerTest extends Unit
 {
     /**

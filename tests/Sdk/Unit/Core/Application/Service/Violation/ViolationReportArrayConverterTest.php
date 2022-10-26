@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Application\Service\Violation;
+namespace SprykerSdk\Unit\Core\Application\Service\Violation;
 
 use Codeception\Test\Unit;
 use InvalidArgumentException;
@@ -15,12 +15,15 @@ use SprykerSdk\Sdk\Core\Application\Service\Violation\ViolationReportArrayConver
 use SprykerSdk\SdkContracts\Report\ReportInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group Violation
  * @group ViolationReportArrayConverterTest
+ * Add your own group annotations below this line
  */
 class ViolationReportArrayConverterTest extends Unit
 {

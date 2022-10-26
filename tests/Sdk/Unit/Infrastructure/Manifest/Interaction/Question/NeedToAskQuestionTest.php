@@ -13,6 +13,8 @@ use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NeedToAskQuestion;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
  * @group Unit
  * @group Infrastructure
@@ -20,6 +22,7 @@ use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NeedToAskQuestio
  * @group Interaction
  * @group Question
  * @group NeedToAskQuestionTest
+ * Add your own group annotations below this line
  */
 class NeedToAskQuestionTest extends Unit
 {

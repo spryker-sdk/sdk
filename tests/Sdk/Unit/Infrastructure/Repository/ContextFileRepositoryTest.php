@@ -18,6 +18,16 @@ use SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Enum\Setting;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Repository
+ * @group ContextFileRepositoryTest
+ * Add your own group annotations below this line
+ */
 class ContextFileRepositoryTest extends Unit
 {
     /**

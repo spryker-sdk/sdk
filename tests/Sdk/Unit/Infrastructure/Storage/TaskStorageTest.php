@@ -5,19 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Storage;
+namespace SprykerSdk\Unit\Infrastructure\Storage;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Storage
  * @group TaskStorageTest
+ * Add your own group annotations below this line
  */
 class TaskStorageTest extends Unit
 {

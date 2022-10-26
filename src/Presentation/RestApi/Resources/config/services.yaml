@@ -1,6 +1,8 @@
 parameters: ~
 
 services:
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
+        public: true
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskRunnerController:
         class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskRunnerController
         public: true
@@ -23,4 +25,3 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
         arguments:
             - '@symfony.console.application'
-

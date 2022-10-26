@@ -17,6 +17,16 @@ use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group LocalCliRunnerTest
+ * Add your own group annotations below this line
+ */
 class LocalCliRunnerTest extends Unit
 {
     /**

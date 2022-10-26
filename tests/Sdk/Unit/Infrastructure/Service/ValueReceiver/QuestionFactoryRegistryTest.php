@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
+namespace SprykerSdk\Unit\Infrastructure\Service\ValueReceiver;
 
 use Codeception\Test\Unit;
 use InvalidArgumentException;
@@ -14,12 +14,14 @@ use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactoryRegistry;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
- * @group CliValueReceiver
+ * @group ValueReceiver
  * @group QuestionFactoryRegistryTest
+ * Add your own group annotations below this line
  */
 class QuestionFactoryRegistryTest extends Unit
 {

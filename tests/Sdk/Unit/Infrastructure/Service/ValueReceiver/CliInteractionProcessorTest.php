@@ -5,10 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\ValueReceiver;
+namespace SprykerSdk\Unit\Infrastructure\Service\ValueReceiver;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\ArrayQuestionFactory;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
@@ -24,12 +25,14 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
  * @group ValueReceiver
  * @group CliInteractionProcessorTest
+ * Add your own group annotations below this line
  */
 class CliInteractionProcessorTest extends Unit
 {
@@ -139,9 +142,11 @@ class CliInteractionProcessorTest extends Unit
         SymfonyQuestionHelper $questionHelper,
         QuestionFactoryRegistry $questionFactoriesRegistry
     ): InteractionProcessor {
-        $cliValueReceiver = new InteractionProcessor($questionHelper, $questionFactoriesRegistry);
-        $cliValueReceiver->setInput($this->createInputMock());
-        $cliValueReceiver->setOutput($this->createOutputMock());
+        $cliValueReceiver = new InteractionProcessor();
+        $cliInteractionProcessor = new CliInteractionProcessor($questionHelper, $questionFactoriesRegistry);
+        $cliInteractionProcessor->setInput($this->createInputMock());
+        $cliInteractionProcessor->setOutput($this->createOutputMock());
+        $cliValueReceiver->setInteractionProcessor($cliInteractionProcessor);
 
         return $cliValueReceiver;
     }

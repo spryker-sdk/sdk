@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Validator\Manifest;
+namespace SprykerSdk\Unit\Infrastructure\Validator\Manifest;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ConverterRegistryInterface;
@@ -16,11 +16,14 @@ use SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestEntriesValidator;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Validator
  * @group Manifest
  * @group ManifestEntriesValidatorTest
+ * Add your own group annotations below this line
  */
 class ManifestEntriesValidatorTest extends Unit
 {

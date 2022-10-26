@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Collector;
+namespace SprykerSdk\Unit\Infrastructure\Collector;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
@@ -14,6 +14,15 @@ use SprykerSdk\Sdk\Infrastructure\Reader\TaskYamlReader;
 use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Unit
+ * @group Infrastructure
+ * @group Collector
+ * @group TaskYamlCollectorTest
+ * Add your own group annotations below this line
+ */
 class TaskYamlCollectorTest extends Unit
 {
     /**

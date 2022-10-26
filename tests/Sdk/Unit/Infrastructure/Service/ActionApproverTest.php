@@ -11,6 +11,16 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Service\ActionApprover;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group ActionApproverTest
+ * Add your own group annotations below this line
+ */
 class ActionApproverTest extends Unit
 {
     /**

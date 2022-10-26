@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Reader;
+namespace SprykerSdk\Unit\Infrastructure\Reader;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
@@ -19,11 +19,13 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @group YamlTaskLoading
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Reader
  * @group TaskYamlReaderTest
+ * Add your own group annotations below this line
  */
 class TaskYamlReaderTest extends Unit
 {

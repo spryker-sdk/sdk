@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskSet;
+namespace SprykerSdk\Unit\Infrastructure\Builder\TaskSet;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetPlaceholdersBuilder;
@@ -13,12 +13,14 @@ use SprykerSdk\Sdk\Infrastructure\Dto\TaskSetOverrideMapDto;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskSet
  * @group TaskSetPlaceholdersBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskSetPlaceholdersBuilderTest extends Unit
 {

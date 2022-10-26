@@ -14,10 +14,14 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group ValueResolver
  * @group OriginValueResolverTest
+ * Add your own group annotations below this line
  */
 class OriginValueResolverTest extends Unit
 {

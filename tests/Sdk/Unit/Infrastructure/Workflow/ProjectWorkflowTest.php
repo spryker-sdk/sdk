@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
+namespace SprykerSdk\Unit\Infrastructure\Workflow;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
@@ -30,11 +30,13 @@ use Symfony\Component\Workflow\TransitionBlockerList;
 use Symfony\Component\Workflow\Workflow as SymfonyWorkflow;
 
 /**
- * @group Sdk
- * @group Core
- * @group Application
- * @group Service
+ * Auto-generated group annotations
+ *
+ * @group Unit
+ * @group Infrastructure
+ * @group Workflow
  * @group ProjectWorkflowTest
+ * Add your own group annotations below this line
  */
 class ProjectWorkflowTest extends Unit
 {
@@ -150,7 +152,7 @@ class ProjectWorkflowTest extends Unit
         $workflowTransition = $projectWorkflow->getRunningTransition();
 
         // Assert
-        $this->isNull($workflowTransition);
+        $this->assertNull($workflowTransition);
     }
 
     /**

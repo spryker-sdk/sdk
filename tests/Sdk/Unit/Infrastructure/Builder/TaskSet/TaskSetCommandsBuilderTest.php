@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskSet;
+namespace SprykerSdk\Unit\Infrastructure\Builder\TaskSet;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -16,12 +16,14 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskSet
  * @group TaskSetCommandsBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskSetCommandsBuilderTest extends Unit
 {

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Application\Service;
+namespace SprykerSdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException;
@@ -15,11 +15,14 @@ use SprykerSdk\SdkContracts\Report\ReportInterface;
 use stdClass;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group ReportArrayConverterFactoryTest
+ * Add your own group annotations below this line
  */
 class ReportArrayConverterFactoryTest extends Unit
 {

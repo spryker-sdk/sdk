@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
+namespace SprykerSdk\Unit\Infrastructure\Builder\TaskYamlBuilder\TaskPartBuilder;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
@@ -19,14 +19,15 @@ use SprykerSdk\SdkContracts\Enum\Lifecycle;
 use SprykerSdk\SdkContracts\Enum\Task;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskYamlBuilder
  * @group TaskPartBuilder
  * @group LifecyclePartBuilderTest
+ * Add your own group annotations below this line
  */
 class LifecyclePartBuilderTest extends Unit
 {

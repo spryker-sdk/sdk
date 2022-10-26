@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Loader;
+namespace SprykerSdk\Unit\Infrastructure\Loader;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
@@ -17,12 +17,13 @@ use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Loader
  * @group TaskYamlFileLoaderTest
+ * Add your own group annotations below this line
  */
 class TaskYamlFileLoaderTest extends Unit
 {

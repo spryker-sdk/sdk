@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Application\Service;
+namespace SprykerSdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\DefaultContextReceiverInterface;
@@ -13,12 +13,14 @@ use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
- * @group Sdk
  * @group Core
  * @group Application
  * @group Service
  * @group ContextFactoryTest
+ * Add your own group annotations below this line
  */
 class ContextFactoryTest extends Unit
 {

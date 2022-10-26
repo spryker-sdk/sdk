@@ -13,12 +13,18 @@ use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
-use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
+use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @group tretret
+ * Auto-generated group annotations
+ *
+ * @group Unit
+ * @group Infrastructure
+ * @group Workflow
+ * @group WorkflowRunnerTest
+ * Add your own group annotations below this line
  */
 class WorkflowRunnerTest extends Unit
 {

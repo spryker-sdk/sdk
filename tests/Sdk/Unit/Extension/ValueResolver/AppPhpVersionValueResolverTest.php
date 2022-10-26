@@ -14,10 +14,14 @@ use SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group ValueResolver
  * @group AppPhpVersionValueResolverTest
+ * Add your own group annotations below this line
  */
 class AppPhpVersionValueResolverTest extends Unit
 {
@@ -53,6 +57,7 @@ class AppPhpVersionValueResolverTest extends Unit
             array_key_first(AppPhpVersionValueResolver::PHP_VERSIONS),
             'string',
             array_keys(AppPhpVersionValueResolver::PHP_VERSIONS),
+            'app_php_version'
         );
         $this->valueReceiver
             ->expects($this->once())

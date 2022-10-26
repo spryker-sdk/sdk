@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Reader;
+namespace SprykerSdk\Unit\Infrastructure\Reader;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
@@ -20,11 +20,13 @@ use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
- * @group YamlTaskLoading
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Reader
  * @group TaskYamlPlaceholderReaderTest
+ * Add your own group annotations below this line
  */
 class TaskYamlPlaceholderReaderTest extends Unit
 {

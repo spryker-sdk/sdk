@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service;
+namespace SprykerSdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use Doctrine\DBAL\Exception\TableNotFoundException;
@@ -16,6 +16,15 @@ use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group ErrorCommandListenerTest
+ * Add your own group annotations below this line
+ */
 class ErrorCommandListenerTest extends Unit
 {
     /**

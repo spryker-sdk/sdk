@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskSet;
+namespace SprykerSdk\Unit\Infrastructure\Builder\TaskSet;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilder;
@@ -19,12 +19,14 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskSet
  * @group TaskFromYamlTaskSetBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskFromYamlTaskSetBuilderTest extends Unit
 {

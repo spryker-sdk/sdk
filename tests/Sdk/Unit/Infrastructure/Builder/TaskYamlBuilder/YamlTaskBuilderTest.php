@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder;
+namespace SprykerSdk\Unit\Infrastructure\Builder\TaskYamlBuilder;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\TaskPartBuilderInterface;
@@ -15,13 +15,14 @@ use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTaskTypeException;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskYamlBuilder
- * @group TaskYamlBuilderTest
+ * @group YamlTaskBuilderTest
+ * Add your own group annotations below this line
  */
 class YamlTaskBuilderTest extends Unit
 {
