@@ -5,12 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service;
+namespace SprykerSdk\Sdk\Core\Application\Initializer;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
-use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor;
+use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializerInterface;
+use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 
 class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
 {
@@ -32,12 +33,12 @@ class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\SettingManager $settingManager
-     * @param \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor $projectSettingsInitializerProcessor
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface $projectSettingsInitializerProcessor
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
         SettingManager $settingManager,
-        ProjectSettingsInitializerProcessor $projectSettingsInitializerProcessor
+        ProjectSettingsInitializerProcessorInterface $projectSettingsInitializerProcessor
     ) {
         $this->settingRepository = $settingRepository;
         $this->settingManager = $settingManager;

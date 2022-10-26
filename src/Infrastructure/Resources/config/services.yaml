@@ -574,6 +574,7 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
         arguments:
             - "%project_settings_file%"
+            - "@filesystem"
 
     project_settings_init.initializer:
         class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor

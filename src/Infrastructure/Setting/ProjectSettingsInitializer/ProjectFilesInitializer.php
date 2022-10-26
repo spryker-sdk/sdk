@@ -7,6 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class ProjectFilesInitializer
 {
     /**
@@ -15,11 +17,18 @@ class ProjectFilesInitializer
     protected string $projectSettingFileName;
 
     /**
-     * @param string $projectSettingFileName
+     * @var \Symfony\Component\Filesystem\Filesystem
      */
-    public function __construct(string $projectSettingFileName)
+    protected Filesystem $filesystem;
+
+    /**
+     * @param string $projectSettingFileName
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(string $projectSettingFileName, Filesystem $filesystem)
     {
         $this->projectSettingFileName = $projectSettingFileName;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -27,7 +36,7 @@ class ProjectFilesInitializer
      */
     public function isProjectSettingsInitialised(): bool
     {
-        return is_file($this->projectSettingFileName);
+        return $this->filesystem->exists($this->projectSettingFileName);
     }
 
     /**
@@ -51,7 +60,7 @@ class ProjectFilesInitializer
         ];
 
         if (realpath($settingsDir) !== realpath('.')) {
-            file_put_contents(
+            $this->filesystem->dumpFile(
                 sprintf('%s/.gitignore', $settingsDir),
                 implode(PHP_EOL, $ignoreRules),
             );

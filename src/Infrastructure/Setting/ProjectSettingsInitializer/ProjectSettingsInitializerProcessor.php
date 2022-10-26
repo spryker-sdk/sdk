@@ -9,11 +9,11 @@ namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
-use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
 use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ProjectSettingsInitializerProcessor implements ProjectSettingsInitializerProcessorInterface
 {

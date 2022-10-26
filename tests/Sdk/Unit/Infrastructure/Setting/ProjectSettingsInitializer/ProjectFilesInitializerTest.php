@@ -11,15 +11,17 @@ use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
- * @group Service
  * @group Setting
  * @group ProjectSettingsInitializer
  * @group ProjectFilesInitializerTest
+ * Add your own group annotations below this line
  */
 class ProjectFilesInitializerTest extends Unit
 {
@@ -33,7 +35,7 @@ class ProjectFilesInitializerTest extends Unit
         $projectSettingsDir->addChild(new vfsStreamFile('settings'));
         $projectSettingsFile = vfsStream::url('.ssdk') . '/settings';
 
-        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile);
+        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile, new Filesystem());
 
         // Act
         $fileInitializer->initProjectFiles();
@@ -52,7 +54,7 @@ class ProjectFilesInitializerTest extends Unit
         $projectSettingsDir->addChild(new vfsStreamFile('settings'));
         $projectSettingsFile = vfsStream::url('.ssdk') . '/settings';
 
-        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile);
+        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile, new Filesystem());
 
         // Act
         $isInitialized = $fileInitializer->isProjectSettingsInitialised();

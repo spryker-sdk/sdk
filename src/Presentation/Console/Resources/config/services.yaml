@@ -73,7 +73,7 @@ services:
     arguments:
       - "@cli_interaction_processor"
       - "@setting_repository"
-      - "@project_settings_handler"
+      - "@project_settings_initializer"
   setting_set_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\SettingSetCommand
     tags: ["console.command"]

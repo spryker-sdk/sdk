@@ -5,22 +5,25 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Application\Service;
+namespace Sdk\Unit\Core\Application\Initializer;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializer;
+use SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializer;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
+ * @group Unit
  * @group Core
  * @group Application
- * @group Service
+ * @group Initializer
  * @group ProjectSettingsInitializerTest
+ * Add your own group annotations below this line
  */
 class ProjectSettingsInitializerTest extends Unit
 {
@@ -90,7 +93,7 @@ class ProjectSettingsInitializerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Core\Application\Service\SettingManager|\Sdk\Unit\Core\Application\Service\MockObject
+     * @return \SprykerSdk\Sdk\Core\Application\Service\SettingManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createSettingManagerMock(): SettingManager
     {
@@ -98,7 +101,7 @@ class ProjectSettingsInitializerTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor|\Sdk\Unit\Core\Application\Service\MockObject
+     * @return \SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createProjectSettingsInitializerProcessorMock(): ProjectSettingsInitializerProcessor
     {

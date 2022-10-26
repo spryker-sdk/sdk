@@ -168,8 +168,9 @@ services:
       - "%telemetry_synchronizer_lock_ttl_sec%"
       - "%kernel.debug%"
       - "%telemetry_enabled%"
-  project_settings_handler:
-      class: SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializer
+
+  project_settings_initializer:
+      class: SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializer
       arguments:
           - "@setting_repository"
           - "@project_setting_manager"

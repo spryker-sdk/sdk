@@ -44,7 +44,7 @@ class InitProjectCommand extends Command
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializer $projectSettingsInitializer
+     * @param \SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializer $projectSettingsInitializer
      */
     public function __construct(
         InteractionProcessorInterface $cliValueReceiver,

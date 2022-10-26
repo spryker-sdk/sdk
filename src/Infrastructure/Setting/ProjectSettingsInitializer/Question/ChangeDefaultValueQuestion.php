@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Quest
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ChangeDefaultValueQuestion
 {
