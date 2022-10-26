@@ -24,7 +24,7 @@ services:
     default_context_receiver:
         class: SprykerSdk\Sdk\Infrastructure\Service\DefaultContextReceiver
         arguments:
-            - '@setting_repository'
+            - '@setting.setting_fetcher'
     action_approver:
         class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
         arguments:
@@ -63,7 +63,6 @@ services:
     project_setting_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
         arguments:
-            - "@service_container"
             - "@setting_repository"
             - "@yaml_parser"
             - "%project_settings_file%"
@@ -135,8 +134,8 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
         arguments:
             - "@context_serializer"
-            - "@setting_repository"
             - "@context.in_memory_cache_storage"
+            - "@setting.setting_fetcher"
     telemetry_event_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
         arguments:
@@ -335,10 +334,10 @@ services:
         shared: false
         class: SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
         arguments:
-            - "@project_setting_repository"
             - "@workflow.registry"
             - "@workflow_repository"
             - "@workflow_transition_repository"
+            - "@setting.setting_fetcher"
     violation_report_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
     workflow_mapper:
@@ -366,9 +365,9 @@ services:
     dynamic_task_set_creator:
         class: SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator
         arguments:
-            - "@project_setting_repository"
             - "@task_option_builder"
             - "@task_persistence_repository"
+            - "@setting.setting_fetcher"
 
     task_option_builder:
         class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
@@ -563,6 +562,12 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
         arguments:
             - "@cli_interaction_processor"
+
+    setting.setting_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\SettingFetcher
+        arguments:
+          - "@project_setting_repository"
+          - "@setting.setting_initializer_registry"
 
     project_settings_init.question.setting_value:
         class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion

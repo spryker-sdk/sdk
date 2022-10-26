@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 
 use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
@@ -23,28 +23,28 @@ class ContextFileRepository implements ContextRepositoryInterface
     protected ContextSerializer $contextSerializer;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
-     */
-    protected SettingRepositoryInterface $settingRepository;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface
      */
     protected ContextCacheStorageInterface $cacheStorage;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     */
+    protected SettingFetcherInterface $settingFetcher;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ContextSerializer $contextSerializer
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface $cacheStorage
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
      */
     public function __construct(
         ContextSerializer $contextSerializer,
-        SettingRepositoryInterface $settingRepository,
-        ContextCacheStorageInterface $cacheStorage
+        ContextCacheStorageInterface $cacheStorage,
+        SettingFetcherInterface $settingFetcher
     ) {
         $this->contextSerializer = $contextSerializer;
-        $this->settingRepository = $settingRepository;
         $this->cacheStorage = $cacheStorage;
+        $this->settingFetcher = $settingFetcher;
     }
 
     /**
@@ -124,7 +124,7 @@ class ContextFileRepository implements ContextRepositoryInterface
         }
 
         if (preg_match('/^\//', $filePath) != 1) {
-            $contextDir = (string)$this->settingRepository->getOneByPath(Setting::PATH_PROJECT_DIR)->getValues();
+            $contextDir = (string)$this->settingFetcher->getOneByPath(Setting::PATH_PROJECT_DIR)->getValues();
 
             $filePath = $contextDir . DIRECTORY_SEPARATOR . $filePath;
         }

@@ -12,6 +12,8 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
 interface SettingRepositoryInterface
 {
     /**
+     * @deprecated Use \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface::getOneByPath() instead.
+     *
      * @param string $settingPath
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException
@@ -21,6 +23,8 @@ interface SettingRepositoryInterface
     public function findOneByPath(string $settingPath): ?SettingInterface;
 
     /**
+     * @deprecated Use \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface::getOneByPath() instead.
+     *
      * @param string $settingPath
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
