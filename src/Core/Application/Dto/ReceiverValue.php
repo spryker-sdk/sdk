@@ -30,18 +30,18 @@ class ReceiverValue implements ReceiverValueInterface
     protected array $choiceValues;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected ?string $alias;
+    protected string $alias;
 
     /**
      * @param string $description
      * @param mixed $defaultValue
      * @param string $type
      * @param array $choiceValues
-     * @param string|null $alias
+     * @param string $alias
      */
-    public function __construct(string $description, $defaultValue, string $type, array $choiceValues = [], ?string $alias = null)
+    public function __construct(string $description, $defaultValue, string $type, array $choiceValues = [], string $alias = '')
     {
         $this->description = $description;
         $this->defaultValue = $defaultValue;
@@ -83,9 +83,9 @@ class ReceiverValue implements ReceiverValueInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getAlias(): ?string
+    public function getAlias(): string
     {
         return $this->alias;
     }

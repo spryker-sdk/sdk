@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
-use Exception;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\RequestDataReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ApiInteractionProcessor implements InteractionProcessorInterface, RequestDataReceiverInterface
@@ -53,7 +53,7 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface $receiverValue
      *
-     * @throws \Exception
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException
      *
      * @return mixed
      */
@@ -78,7 +78,7 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
             return true;
         }
 
-        throw new Exception(sprintf('Request is wrong, %s is missing', $receiverValue->getAlias()));
+        throw new InvalidRequestDataException($receiverValue->getAlias());
     }
 
     /**

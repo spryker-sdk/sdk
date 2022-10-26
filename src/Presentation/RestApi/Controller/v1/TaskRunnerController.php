@@ -40,7 +40,7 @@ class TaskRunnerController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(string $task): Response
+    public function __invoke(string $task): Response
     {
         $context = $this->contextFactory->getContext();
         $context->setFormat('yaml');

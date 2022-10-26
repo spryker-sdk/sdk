@@ -15,6 +15,16 @@ services:
         public: true
         arguments:
             - "@rest_api_task_executor"
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\InitController:
+        public: true
+        arguments:
+            - "@initializer_service"
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\UpdateController:
+        public: true
+        arguments:
+            - "@initializer_service"
+            - "@service.lifecycle_manager"
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application

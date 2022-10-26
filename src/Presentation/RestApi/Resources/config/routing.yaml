@@ -9,5 +9,13 @@ api_v1_hello_hello_world:
     methods: GET
 api_v1_task_runner_controller:
     path: /api/v1/task/{task}
-    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskRunnerController:index
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskRunnerController
+    methods: POST
+api_v1_init_controller:
+    path: /api/v1/init
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\InitController
+    methods: POST
+api_v1_update_controller:
+    path: /api/v1/update
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\UpdateController
     methods: POST

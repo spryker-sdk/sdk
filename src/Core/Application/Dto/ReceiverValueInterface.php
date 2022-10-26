@@ -10,9 +10,9 @@ namespace SprykerSdk\Sdk\Core\Application\Dto;
 interface ReceiverValueInterface
 {
     /**
-     * @return string|null
+     * @return string
      */
-    public function getAlias(): ?string;
+    public function getAlias(): string;
 
     /**
      * @return string

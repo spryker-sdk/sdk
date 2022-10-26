@@ -139,6 +139,7 @@ services:
             - "@setting_repository"
             - "@service.task_manager"
             - "@task_yaml_loader"
+            - "@doctrine_migrations.migrate_command"
     process_helper:
         class: Symfony\Component\Console\Helper\ProcessHelper
 

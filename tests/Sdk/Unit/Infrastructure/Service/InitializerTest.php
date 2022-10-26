@@ -8,6 +8,8 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
+use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
@@ -80,12 +82,14 @@ class InitializerTest extends Unit
         $this->cliValueReceiver = $this->createMock(InteractionProcessor::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
+        $this->migrateCommand = $this->createMock(DoctrineCommand::class);
 
         $this->initializerService = new Initializer(
             $this->cliValueReceiver,
             $this->settingRepository,
             $this->taskManager,
             $this->taskYamlFileLoader,
+            $this->migrateCommand
         );
     }
 
