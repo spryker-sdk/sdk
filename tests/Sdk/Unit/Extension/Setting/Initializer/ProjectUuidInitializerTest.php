@@ -13,11 +13,15 @@ use SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group Setting
  * @group Initializer
  * @group ProjectUuidInitializerTest
+ * Add your own group annotations below this line
  */
 class ProjectUuidInitializerTest extends Unit
 {

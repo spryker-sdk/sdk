@@ -39,6 +39,7 @@ export EXECUTABLE_FILE_PATH="$(cd "$(dirname "$0")";pwd)/spryker-sdk.sh"
 export USER_UID="$(id -u)"
 export SDK_DIR="$SDK_DIR"
 export SDK_VERSION="$(cat "$SDK_DIR/VERSION")"
+export UNAME_INFO="$(uname -a)"
 
 case $MODE in
 "debug")

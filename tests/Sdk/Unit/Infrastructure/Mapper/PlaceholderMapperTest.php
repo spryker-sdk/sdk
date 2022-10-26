@@ -11,6 +11,16 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group PlaceholderMapperTest
+ * Add your own group annotations below this line
+ */
 class PlaceholderMapperTest extends Unit
 {
     /**

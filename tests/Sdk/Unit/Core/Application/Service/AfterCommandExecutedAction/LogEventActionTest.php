@@ -16,11 +16,16 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
+ * @group AfterCommandExecutedAction
  * @group LogEventActionTest
+ * Add your own group annotations below this line
  */
 class LogEventActionTest extends Unit
 {
