@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Unit\Infrastructure\Collector;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Collector;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
@@ -17,6 +17,7 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Collector

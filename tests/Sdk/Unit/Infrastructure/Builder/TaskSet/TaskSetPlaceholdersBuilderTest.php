@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Unit\Infrastructure\Builder\TaskSet;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Builder\TaskSet;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetPlaceholdersBuilder;
@@ -15,6 +15,7 @@ use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Builder

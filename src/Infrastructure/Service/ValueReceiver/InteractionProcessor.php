@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InteractionProcessorReceiverInterface;
 
 class InteractionProcessor implements InteractionProcessorReceiverInterface, InteractionProcessorInterface
 {

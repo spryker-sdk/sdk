@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessorReceiverInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Helper\DebugFormatterHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;

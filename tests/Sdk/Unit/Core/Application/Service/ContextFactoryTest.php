@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Unit\Core\Application\Service;
+namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\DefaultContextReceiverInterface;
@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Core
  * @group Application

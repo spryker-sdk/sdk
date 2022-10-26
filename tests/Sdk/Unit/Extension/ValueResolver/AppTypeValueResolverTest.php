@@ -60,7 +60,7 @@ class AppTypeValueResolverTest extends Unit
             array_key_first($repositories),
             'string',
             array_keys($repositories),
-            'boilerplate_url'
+            'boilerplate_url',
         );
         $this->valueReceiver
             ->expects($this->once())

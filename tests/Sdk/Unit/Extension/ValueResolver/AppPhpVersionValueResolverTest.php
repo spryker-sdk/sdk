@@ -57,7 +57,7 @@ class AppPhpVersionValueResolverTest extends Unit
             array_key_first(AppPhpVersionValueResolver::PHP_VERSIONS),
             'string',
             array_keys(AppPhpVersionValueResolver::PHP_VERSIONS),
-            'app_php_version'
+            'app_php_version',
         );
         $this->valueReceiver
             ->expects($this->once())

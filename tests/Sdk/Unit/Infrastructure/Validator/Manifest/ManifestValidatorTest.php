@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Unit\Infrastructure\Validator\Manifest;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Validator\Manifest;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface;
@@ -19,6 +19,7 @@ use Symfony\Component\Config\Definition\Processor;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Validator

@@ -61,7 +61,7 @@ class BusinessModelValueResolverTest extends Unit
             array_key_first($repositories),
             'string',
             array_keys($repositories),
-            'business_model_url'
+            'business_model_url',
         );
         $this->valueReceiver
             ->expects($this->once())

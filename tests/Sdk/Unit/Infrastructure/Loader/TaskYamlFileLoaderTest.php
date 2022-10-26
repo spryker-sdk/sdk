@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Unit\Infrastructure\Loader;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Loader;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
@@ -19,6 +19,7 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Loader

@@ -20,9 +20,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
- * @group Workflow
+ * @group Service
  * @group WorkflowRunnerTest
  * Add your own group annotations below this line
  */
