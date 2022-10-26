@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
-use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
@@ -89,7 +88,7 @@ class InitializerTest extends Unit
             $this->settingRepository,
             $this->taskManager,
             $this->taskYamlFileLoader,
-            $this->migrateCommand
+            $this->migrateCommand,
         );
     }
 

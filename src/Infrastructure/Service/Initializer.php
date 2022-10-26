@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
-use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
