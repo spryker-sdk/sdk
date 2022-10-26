@@ -17,8 +17,6 @@ services:
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
       APP_ENV: prod
       APP_DEBUG: 0
-    env_file:
-      - infrastructure/.env
     volumes:
       - $PWD:/project:rw
       - ./db:/data/db:rw

@@ -22,8 +22,6 @@ services:
       PHP_IDE_CONFIG: ${PHP_IDE_CONFIG:-}
       APP_ENV: dev
       APP_DEBUG: 1
-    env_file:
-        - infrastructure/.env
     volumes:
         - $PWD:/project:rw
         - .:/data:rw
