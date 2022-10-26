@@ -1,6 +1,21 @@
 # REST SDK API
 
-## Command
+## Installation
+
+To start using rest-api server firstly you need to install the project locally
+
+```shell
+spryker-sdk --mode=docker sdk i
+```
+
+After you can start the web server
+
+```shell
+spryker-sdk rest-api-start # start server
+spryker-sdk rest-api-start 8080 # start server on 8080 port
+```
+
+## Commands
 
 ```shell
 spryker-sdk rest-api-start # start server
