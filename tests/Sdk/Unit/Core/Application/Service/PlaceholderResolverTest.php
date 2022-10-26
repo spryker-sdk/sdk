@@ -21,11 +21,15 @@ use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group PlaceholderResolverTest
+ * Add your own group annotations below this line
  */
 class PlaceholderResolverTest extends Unit
 {

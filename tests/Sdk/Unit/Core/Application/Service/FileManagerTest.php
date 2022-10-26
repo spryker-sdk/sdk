@@ -14,11 +14,15 @@ use SprykerSdk\Sdk\Core\Application\Service\FileManager;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group FileManagerTest
+ * Add your own group annotations below this line
  */
 class FileManagerTest extends Unit
 {

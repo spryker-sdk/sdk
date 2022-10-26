@@ -24,12 +24,14 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
  * @group ValueReceiver
  * @group CliInteractionProcessorTest
+ * Add your own group annotations below this line
  */
 class CliInteractionProcessorTest extends Unit
 {

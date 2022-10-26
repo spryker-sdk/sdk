@@ -17,11 +17,14 @@ use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\Processor;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Validator
  * @group Manifest
  * @group ManifestValidatorTest
+ * Add your own group annotations below this line
  */
 class ManifestValidatorTest extends Unit
 {

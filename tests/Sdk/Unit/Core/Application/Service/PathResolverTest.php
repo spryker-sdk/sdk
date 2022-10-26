@@ -12,11 +12,15 @@ use SprykerSdk\Sdk\Core\Application\Service\Filesystem;
 use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group PathResolverTest
+ * Add your own group annotations below this line
  */
 class PathResolverTest extends Unit
 {

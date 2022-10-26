@@ -17,12 +17,16 @@ use SprykerSdk\SdkContracts\Report\Violation\ViolationReportableInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group Violation
  * @group ViolationReportGeneratorTest
+ * Add your own group annotations below this line
  */
 class ViolationReportGeneratorTest extends Unit
 {

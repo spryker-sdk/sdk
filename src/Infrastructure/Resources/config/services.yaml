@@ -1,3 +1,9 @@
+parameters:
+  manifest_task_yaml_template_path: "manifest/task_manifest_template.yaml.twig"
+  manifest_task_php_template_path: "manifest/task_manifest_template.php.twig"
+  manifest_task_yaml_file_dir: "%kernel.project_dir%/extension/Custom/src/Resources/config/task"
+  manifest_task_php_file_dir: "%kernel.project_dir%/extension/Custom/src/Task/"
+
 services:
     _instanceof:
         SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
@@ -316,12 +322,24 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
         arguments:
             - "@doctrine"
+            - "@workflow_mapper"
     workflow_transition_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowTransitionRepository
         arguments:
             - "@doctrine"
+    project_workflow:
+        public: true
+        shared: false
+        class: SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+        arguments:
+            - "@project_setting_repository"
+            - "@workflow.registry"
+            - "@workflow_repository"
+            - "@workflow_transition_repository"
     violation_report_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
+    workflow_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\WorkflowMapper
     violation_path_reader:
         class: SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader
         arguments:
@@ -365,7 +383,7 @@ services:
             }
 
     app.workflow.guard_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener
+        class: SprykerSdk\Sdk\Core\Application\Service\WorkflowEventListener
         arguments:
             - "@service_container"
         tags:
@@ -403,7 +421,7 @@ services:
             - "@logger"
 
     workflow_runner:
-        class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+        class: SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner
         tags: [ "sdk.cli_receiver_setup" ]
         arguments:
             - "@cli_interaction_processor"
@@ -524,7 +542,7 @@ services:
     context.in_memory_cache_storage:
         class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
     workflow.transition_resolver_registry:
-        class: SprykerSdk\Sdk\Infrastructure\Service\WorkflowTransitionResolverRegistry
+        class: SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry
         arguments:
             - !tagged_iterator workflow.transition_resolver
 
@@ -584,6 +602,65 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\TaskSetManifestConfiguration
         arguments:
             - '@validation_helper'
+    manifest.interaction.need_to_ask_question:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NeedToAskQuestion
+        arguments:
+            - "@cli_interaction_processor"
+
+    manifest.interaction.new_collection_item_question:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\NewCollectionItemQuestion
+        arguments:
+            - "@cli_interaction_processor"
+
+    manifest.interaction.value_question:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Question\ValueQuestion
+        arguments:
+            - "@cli_interaction_processor"
+
+    manifest.interaction.processor:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\ManifestInteractionProcessor
+        arguments:
+            - "@manifest.interaction.need_to_ask_question"
+            - "@manifest.interaction.value_question"
+            - "@manifest.interaction.new_collection_item_question"
+
+    manifest.task_php_template_format_reader:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader\PhpTaskTemplateFormatReader
+        arguments:
+            - "@twig"
+            - "%manifest_task_php_template_path%"
+        tags: [ "manifest_task_format_template_reader" ]
+
+    manifest.task_yaml_template_format_reader:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\FormatReader\YamlTaskTemplateFormatReader
+        arguments:
+            - "@twig"
+            - "%manifest_task_yaml_template_path%"
+        tags: [ "manifest_task_format_template_reader" ]
+
+    manifest.task_template_reader:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\TemplateReader\Task\TaskTemplateReader
+        arguments:
+            - !tagged_iterator { tag: 'manifest_task_format_template_reader' }
+
+    manifest.task_php_format_writer:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter\PhpTaskManifestFormatWriter
+        arguments:
+            - "@filesystem"
+            - "%manifest_task_php_file_dir%"
+        tags: [ "manifest_task_format_writer" ]
+
+    manifest.task_yaml_format_writer:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter\YamlTaskManifestFormatWriter
+        arguments:
+            - "@filesystem"
+            - "%manifest_task_yaml_file_dir%"
+        tags: [ "manifest_task_format_writer" ]
+
+    manifest.task_manifest_writer:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\TaskManifestWriter
+        arguments:
+            - !tagged_iterator { tag: 'manifest_task_format_writer' }
 
     manifest_validator_factory:
         class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidatorRegistry
@@ -595,3 +672,14 @@ services:
         arguments:
             - '@manifest_validator_factory'
             - '@config_processor'
+
+    service.command_executor:
+        class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor
+        arguments:
+            - !tagged_iterator command.runner
+            - !tagged_iterator action.after_command_executed
+
+    service.lifecycle_command_executor:
+        class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor
+        arguments:
+            - !tagged_iterator command.runner

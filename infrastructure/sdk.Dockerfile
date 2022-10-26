@@ -25,6 +25,8 @@ RUN mkdir -p /home/spryker/.ssh && \
     chmod 0700 /home/spryker/.ssh && \
     ssh-keyscan github.com > /home/spryker/.ssh/known_hosts
 
+COPY --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
+COPY --chown=spryker:spryker assets ${srcRoot}/assets
 COPY --chown=spryker:spryker src ${srcRoot}/src
 COPY --chown=spryker:spryker app ${srcRoot}/app
 COPY --chown=spryker:spryker db ${srcRoot}/db

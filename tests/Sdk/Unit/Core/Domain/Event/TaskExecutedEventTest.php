@@ -11,6 +11,17 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Event\TaskExecutedEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Core
+ * @group Domain
+ * @group Event
+ * @group TaskExecutedEventTest
+ * Add your own group annotations below this line
+ */
 class TaskExecutedEventTest extends Unit
 {
  /**

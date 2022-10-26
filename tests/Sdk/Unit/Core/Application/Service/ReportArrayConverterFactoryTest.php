@@ -15,11 +15,14 @@ use SprykerSdk\SdkContracts\Report\ReportInterface;
 use stdClass;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group ReportArrayConverterFactoryTest
+ * Add your own group annotations below this line
  */
 class ReportArrayConverterFactoryTest extends Unit
 {

@@ -20,11 +20,15 @@ use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Telemetry
  * @group TelemetryEventsSynchronizerTest
+ * Add your own group annotations below this line
  */
 class TelemetryEventsSynchronizerTest extends Unit
 {
