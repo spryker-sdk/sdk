@@ -1,0 +1,10 @@
+---
+id: "spryk:build"
+short_description: "Builds a cache for all possible Spryk arguments. This command must only be used if a new argument was supplied."
+version: "0.1.0"
+command: "php %sdk_dir%/vendor/bin/spryk-build"
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
+placeholders:
+    - name: "%sdk_dir%"
+      value_resolver: SDK_DIR
+      optional: true
