@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
     nginx:
-        image: sdk-nginx:${SDK_VERSION:-latest}
+        image: spryker/php-sdk-api-nginx:${SDK_VERSION:-latest}
         build:
             context: .
             dockerfile: infrastructure/web/nginx.Dockerfile
@@ -15,7 +15,7 @@ services:
         restart: always
 
     php-fpm:
-        image: sdk-php-fpm:${SDK_VERSION:-latest}
+        image: spryker/php-sdk-api:${SDK_VERSION:-latest}
         build:
             context: .
             dockerfile: infrastructure/web/php-fpm.dev.Dockerfile
@@ -28,8 +28,9 @@ services:
         environment:
             SDK_DIR: ${SDK_DIR}
             EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
-            SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP:-}
-            PHP_IDE_CONFIG: ${PHP_IDE_CONFIG:-}
+            SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
+            PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+            XDEBUG_MODE: ${SDK_XDEBUG_MODE}
             APP_ENV: dev
             APP_DEBUG: 1
 
