@@ -1,3 +1,8 @@
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
 api_v1_index_index:
     path: /api/v1/
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:index
@@ -7,3 +12,8 @@ api_v1_hello_hello_world:
     path: /api/v1/hello-world
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:helloWorld
     methods: GET
+
+api_v1_sdk_init_sdk:
+    path: /api/v1/sdk-init-sdk
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
+    methods: POST
