@@ -27,9 +27,9 @@ interface WorkflowTransitionRepositoryInterface
     public function findLast(WorkflowInterface $workflow): ?WorkflowTransitionInterface;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $event
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface $workflowTransition
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface
      */
-    public function save(WorkflowTransitionInterface $event): WorkflowTransitionInterface;
+    public function save(WorkflowTransitionInterface $workflowTransition): WorkflowTransitionInterface;
 }

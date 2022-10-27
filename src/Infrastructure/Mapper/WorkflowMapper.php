@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
+use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as InfrastructureWorkflow;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
 class WorkflowMapper implements WorkflowMapperInterface
@@ -17,13 +17,13 @@ class WorkflowMapper implements WorkflowMapperInterface
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Workflow
      */
-    public function mapWorkflow(WorkflowInterface $workflow): Workflow
+    public function mapDomainWorkflowToInfrastructureWorkflow(WorkflowInterface $workflow): InfrastructureWorkflow
     {
-        if ($workflow instanceof Workflow) {
+        if ($workflow instanceof InfrastructureWorkflow) {
             return $workflow;
         }
 
-        return new Workflow(
+        return new InfrastructureWorkflow(
             $workflow->getProject(),
             $workflow->getStatus(),
             $workflow->getWorkflow(),
