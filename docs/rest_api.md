@@ -24,3 +24,10 @@ spryker-sdk rest-api-stop # stop server
 spryker-sdk rest-api-status # docker containers status
 spryker-sdk rest-api-rm # remove docker containers
 ```
+
+## Xdebug
+
+To start server with xdebug enabled need to pass `--xdebug` or `-x` option into the command
+```shell
+spryker-sdk rest-api-start -x 8000
+```

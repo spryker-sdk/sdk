@@ -7,11 +7,11 @@ RUN rm -rf /data
 
 ARG USER_UID
 RUN if [[ ! -z "${USER_UID}" ]]; then \
-        usermod -u "${USER_UID}" spryker; \
+        find /home -not -user "${USER_UID}" -exec chown -h spryker {} \; && usermod -u "${USER_UID}" spryker; \
     fi
 
-RUN /usr/bin/install -d -m 777 /var/run/opcache/debug
-COPY --chown=spryker:spryker infrastructure/debug/php/69-xdebug.ini /usr/local/etc/php/conf.d/69-xdebug.ini
+RUN /usr/bin/install -d -m 777 /var/run/opcache/debug && docker-php-ext-enable xdebug
+COPY infrastructure/debug/php/69-xdebug.ini /usr/local/etc/php/conf.d/69-xdebug.ini
 
 RUN apk add autoconf && \
     apk --update add gcc make g++ zlib-dev && \

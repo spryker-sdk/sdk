@@ -45,9 +45,22 @@ export UNAME_INFO="$(uname -a)"
 case $ARGUMENTS in
 rest-api-start*)
     ARGUMENTS_ARR=($ARGUMENTS)
-    export SDK_REST_API_PORT=${ARGUMENTS_ARR[1]:-80}
+    ARG_PORT=80
+    ARG_XDEBUG_MODE='off'
+
+    for ARG_VAL in ${ARGUMENTS_ARR[@]}; do
+        if [[ "$ARG_VAL" =~ ^[0-9]+$ ]]; then
+            ARG_PORT="$ARG_VAL"
+        fi
+        if [[ "$ARG_VAL" =~ ^--xdebug|-x$ ]]; then
+            ARG_XDEBUG_MODE='debug,coverage'
+        fi
+    done
+
+    export SDK_REST_API_PORT="$ARG_PORT"
     export SPRYKER_XDEBUG_HOST_IP=${myIp}
     export PHP_IDE_CONFIG=serverName=spryker-sdk
+    export SDK_XDEBUG_MODE="$ARG_XDEBUG_MODE"
     docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" up -d
     exit 0
     ;;
