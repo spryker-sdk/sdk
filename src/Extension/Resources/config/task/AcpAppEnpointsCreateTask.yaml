@@ -4,9 +4,27 @@ short_description: "Create ACP default endpoints."
 help: ~
 stage: build
 version: 0.2.1
-command: "php %sdk_dir%/vendor/bin/acp app:default-endpoints:create"
+command: "php %sdk_dir%/vendor/bin/acp app:default-endpoints:create %schema-file% %configuration-file%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
     - name: "%sdk_dir%"
       value_resolver: SDK_DIR
       optional: true
+    - name: "%schema-file%"
+      value_resolver: STATIC
+      optional: true
+      configuration:
+          alias: "schema-file"
+          option: "schema-file"
+          description: "Path to OpenAPI file to update"
+          defaultValue: "resources/api/openapi.yml"
+          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+    - name: "%configuration-file%"
+      value_resolver: STATIC
+      optional: true
+      configuration:
+          alias: "configuration-file"
+          option: "configuration-file"
+          description: "Path to PBC configuration.json file"
+          defaultValue: "config/app/configuration.json"
+          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING

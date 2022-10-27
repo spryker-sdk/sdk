@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf0cbd8cb6d44b6f0ba62cb3055c732e",
+    "content-hash": "bc0f1aa38c0adaf3b782a97f5d7969cd",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6091,16 +6091,16 @@
         },
         {
             "name": "spryker-sdk/acp",
-            "version": "0.2.2",
+            "version": "dev-feature/apps-4380/apps-4846-add-default-endpoints-command",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/acp.git",
-                "reference": "991e7f3aca7c5cb55e0c14157f8075a38f3c28db"
+                "reference": "0f2baedfb0a95783f297369924845aa7c0d18d44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/acp/zipball/991e7f3aca7c5cb55e0c14157f8075a38f3c28db",
-                "reference": "991e7f3aca7c5cb55e0c14157f8075a38f3c28db",
+                "url": "https://api.github.com/repos/spryker-sdk/acp/zipball/0f2baedfb0a95783f297369924845aa7c0d18d44",
+                "reference": "0f2baedfb0a95783f297369924845aa7c0d18d44",
                 "shasum": ""
             },
             "require": {
@@ -6108,7 +6108,7 @@
                 "php": ">=7.4",
                 "spryker-sdk/async-api": "^0.2.3",
                 "spryker-sdk/spryk": "^0.4.0",
-                "spryker-sdk/sync-api": "^0.1.1",
+                "spryker-sdk/sync-api": "dev-feature/apps-4380-components_upgrade",
                 "symfony/console": "^5.3",
                 "symfony/finder": "^5.3"
             },
@@ -6145,9 +6145,9 @@
             "description": "SDK for ACP.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/acp/issues",
-                "source": "https://github.com/spryker-sdk/acp/tree/0.2.2"
+                "source": "https://github.com/spryker-sdk/acp/tree/feature/apps-4380/apps-4846-add-default-endpoints-command"
             },
-            "time": "2022-07-12T10:46:42+00:00"
+            "time": "2022-10-25T13:28:19+00:00"
         },
         {
             "name": "spryker-sdk/async-api",
@@ -6383,16 +6383,16 @@
         },
         {
             "name": "spryker-sdk/sync-api",
-            "version": "0.1.4",
+            "version": "dev-feature/apps-4380-components_upgrade",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sync-api.git",
-                "reference": "db4a9d6a9282ea0333cec7640b23c7f7c2a06f94"
+                "reference": "8dffd99caf2f51979410fd5437f818b759379b32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/db4a9d6a9282ea0333cec7640b23c7f7c2a06f94",
-                "reference": "db4a9d6a9282ea0333cec7640b23c7f7c2a06f94",
+                "url": "https://api.github.com/repos/spryker-sdk/sync-api/zipball/8dffd99caf2f51979410fd5437f818b759379b32",
+                "reference": "8dffd99caf2f51979410fd5437f818b759379b32",
                 "shasum": ""
             },
             "require": {
@@ -6436,9 +6436,9 @@
             "description": "SDK for SyncAPI.",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sync-api/issues",
-                "source": "https://github.com/spryker-sdk/sync-api/tree/0.1.4"
+                "source": "https://github.com/spryker-sdk/sync-api/tree/feature/apps-4380-components_upgrade"
             },
-            "time": "2022-07-12T07:57:55+00:00"
+            "time": "2022-10-25T05:47:25+00:00"
         },
         {
             "name": "spryker-sdk/upgrader",
@@ -14512,7 +14512,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spryker-sdk/acp": 20,
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/sync-api": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -14533,5 +14535,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
