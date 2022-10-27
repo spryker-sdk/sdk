@@ -15,6 +15,8 @@ services:
       SDK_DIR: ${SDK_DIR}
       UNAME_INFO: ${UNAME_INFO}
       EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
+      APP_ENV: prod
+      APP_DEBUG: 0
     volumes:
       - $PWD:/project:rw
       - ./db:/data/db:rw
