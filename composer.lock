@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b78ffc53b1098b758ec0179970a0061a",
+    "content-hash": "be335a44ed7bb0ceb115b96689fe23b7",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6304,16 +6304,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-1012-custom-sdk-codesniffer-sniffs",
+            "version": "0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "875a35e41ea31513ceebdd1aa909a5561dfa0922"
+                "reference": "8686ea78969c4c3ffc1a5cda8a23b370f3abdc17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/875a35e41ea31513ceebdd1aa909a5561dfa0922",
-                "reference": "875a35e41ea31513ceebdd1aa909a5561dfa0922",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/8686ea78969c4c3ffc1a5cda8a23b370f3abdc17",
+                "reference": "8686ea78969c4c3ffc1a5cda8a23b370f3abdc17",
                 "shasum": ""
             },
             "require": {
@@ -6337,9 +6337,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-1012-custom-sdk-codesniffer-sniffs"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.3"
             },
-            "time": "2022-10-17T14:08:22+00:00"
+            "time": "2022-10-25T13:21:55+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -14598,18 +14598,10 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-1012-custom-sdk-codesniffer-sniffs",
-            "alias": "0.4.2",
-            "alias_normalized": "0.4.2.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -14630,5 +14622,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
