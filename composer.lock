@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1919c2fbab19b2c668375b23d7ecc4a3",
+    "content-hash": "14a7ad02696b304104e7219c8651eeab",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6304,16 +6304,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-848-fix-choice-interface",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "ed3ec3687b135523a8da315a05fa39f8ade26cc3"
+                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ed3ec3687b135523a8da315a05fa39f8ade26cc3",
-                "reference": "ed3ec3687b135523a8da315a05fa39f8ade26cc3",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
+                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
                 "shasum": ""
             },
             "require": {
@@ -6323,6 +6323,7 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6337,9 +6338,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-848-fix-choice-interface"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/master"
             },
-            "time": "2022-10-26T14:03:48+00:00"
+            "time": "2022-10-28T11:51:05+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -11774,16 +11775,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.4.1",
+            "version": "v3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e939eae92386b69b49cfa4599dd9bead6bf4a342"
+                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e939eae92386b69b49cfa4599dd9bead6bf4a342",
-                "reference": "e939eae92386b69b49cfa4599dd9bead6bf4a342",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c38fd6b0b7f370c198db91ffd02e23b517426b58",
+                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58",
                 "shasum": ""
             },
             "require": {
@@ -11834,7 +11835,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.4.1"
+                "source": "https://github.com/twigphp/Twig/tree/v3.4.3"
             },
             "funding": [
                 {
@@ -11846,7 +11847,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-17T05:48:52+00:00"
+            "time": "2022-09-28T08:42:51+00:00"
         },
         {
             "name": "vimeo/psalm",
@@ -14601,9 +14602,9 @@
     "aliases": [
         {
             "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-848-fix-choice-interface",
-            "alias": "0.4.2",
-            "alias_normalized": "0.4.2.0"
+            "version": "9999999-dev",
+            "alias": "0.4.3",
+            "alias_normalized": "0.4.3.0"
         }
     ],
     "minimum-stability": "dev",

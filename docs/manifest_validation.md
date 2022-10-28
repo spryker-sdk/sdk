@@ -1,17 +1,21 @@
 ## Manifest validation
 
-Manifest validation is a feature that validate YAML structure definition for task.
-It checks structure, types and related entities.
+The manifest validation feature lets you validate the YAML structure definition for a task.
+It checks the structure, types, and related entities.
 
-### How to use
+### How to use the manifest validation
 
-Simply run `spryker-sdk sdk:validate:task` to validate task yaml definition.
+To validate YAML definition of a task, run the following command:
 
-### How to fix
+```bash
+spryker-sdk sdk:validate:task
+```
 
-Task validation displays all the errors in the output. Use our documentation below to learn more about task and task set structure and conventions:
+### Fixing the errors
+
+Task validation displays all the errors in the output. See the following documents for details about a task, a task set structure, and conventions:
  - Task [conventions](conventions.md#Task)
  - Task [structure](task.md#Task)
- - Task Set [conventions](conventions.md#Task Set)
- - Task Set [structure](task_set.md#Task set)
+ - Task set [conventions](conventions.md#Task Set)
+ - Task set [structure](task_set.md#Task set)
 
