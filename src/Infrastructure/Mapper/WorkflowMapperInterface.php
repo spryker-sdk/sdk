@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
-use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
+use SprykerSdk\Sdk\Infrastructure\Entity\Workflow as DomainWorkflow;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
 interface WorkflowMapperInterface
@@ -17,5 +17,5 @@ interface WorkflowMapperInterface
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\Workflow
      */
-    public function mapWorkflow(WorkflowInterface $workflow): Workflow;
+    public function mapDomainWorkflowToInfrastructureWorkflow(WorkflowInterface $workflow): DomainWorkflow;
 }

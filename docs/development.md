@@ -2,7 +2,8 @@
 
 ## Installation for development
 
-Clone project and export `SPRYKER_SDK_ENV` with dev environment and create an alias
+To install the Spryker SDK for your development needs, clone the project and export `SPRYKER_SDK_ENV` with the `dev` environment and create an alias:
+
 ```shell
 git clone git@github.com:spryker-sdk/sdk.git && \
 cd sdk; \
@@ -22,51 +23,62 @@ spryker-sdk --mode=docker sdk --install
 
 ## Usage
 
-### How to run a task or a command
+- To run a task or a command, execute the following command:
+  
 ```shell
 spryker-sdk <task|command>
 ```
 
-### How to debug a task or a command
-The server name in IDE should be `spryker-sdk`
+- To debug a task or a command, make sure the server name in IDE is `spryker-sdk` and run the following command:
+
 ```shell
 spryker-sdk --mode=debug <task|command>
 ```
 
-### How to run in the production environment
+- To run the Spryker SDK in the production environment, execute the following command:
+  
 ```shell
 SPRYKER_SDK_ENV=prod spryker-sdk <task|command>
 ```
 
-### How to run some command inside the docker container
+- To run any command inside the docker container, execute the following command:
+- 
 ```shell
 spryker-sdk --mode=docker "<command>"
 
 spryker-sdk --mode=docker "cd /data && composer cs-check"
 ```
 
-### How to jump into the docker container
+- To jump into the docker container, execute the following command:
+  
 ```shell
 spryker-sdk --mode=docker /bin/bash
 ```
 
 ## SDK helper
 
-Inside the container you can find the sdk helper with useful commands shortcuts and aliases
+Inside the container, you can find the SDK helper with useful commands, shortcuts, and aliases.
 
-### How to refresh state after the switching to a new branch
+### Refreshing state after switching to a new branch
+
+To refresh state after switching to a new branch, run the following command:
+
 ```shell
 spryker-sdk --mode=docker sdk --refresh
-# or
+```
+or
+
+```shell
 spryker-sdk --mode=docker sdk r
 ```
 
-The full command list
+Here is the full list of commands you can use:
+
 ```shell
 spryker-sdk --mode=docker sdk --help
 
-    --refresh, -r           refreshes cache vendor and db
-    --composer, -c          runs sdk composer
+    --refresh, -r           refreshes cache vendor and DB
+    --composer, -c          runs the SDK composer
                             accepts composer arguments like 'sdk --composer install' 'sdk -c cs-check'
     --cache-clear, -cl      alias for 'rm -rf var/cache && bin/console cache:clear'
     --cs-fix, -cf           alias for 'composer cs-fix'
@@ -78,15 +90,15 @@ spryker-sdk --mode=docker sdk --help
                             accepts arguments like 'sdk -u someAcceptanceTest.php'
 ```
 
-## Manage the configuration
-See [https://symfony.com/doc/current/configuration.html](https://symfony.com/doc/current/configuration.html)
+## Manage the project configuration
+For details on the project configuration management, see the [Symfony configuration docs]()https://symfony.com/doc/current/configuration.html).
 
-## Issues with docker container
-If you have problems with:
-- pulling container from docker registry
-- file permissions and ownership on files created by the SDK
+## Troubleshooting issues with docker container
+If you face issues with:
+- pulling container from the Docker registry,
+- file permissions and ownership on files created by the SDK,
 
-You can build you own container from SDK sources. Please refer to [**Building flavored Spryker SDKs**](build.md)
+you can build your own container from the SDK sources. Refer to [Building flavored Spryker SDKs](/docs/sdk/dev/building-flavored-spryker-sdks.html) for details.
 
 ## Useful links
 - [How to use the profiler](profiler.md)
