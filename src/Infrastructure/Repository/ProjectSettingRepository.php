@@ -10,9 +10,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Service\PathResolver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -46,7 +46,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected string $projectSettingFileName;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\PathResolver
      */
     protected PathResolver $pathResolver;
 
@@ -55,7 +55,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
-     * @param \SprykerSdk\Sdk\Core\Application\Service\PathResolver $pathResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\PathResolver $pathResolver
      */
     public function __construct(
         ContainerInterface $container,

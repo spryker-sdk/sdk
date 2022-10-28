@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
+use SprykerSdk\Sdk\Infrastructure\Service\FilesystemInitInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessorReceiverInterface;
@@ -37,18 +38,26 @@ class CliReceiverSetupListener
     protected CliInteractionProcessor $cliInteractionProcessor;
 
     /**
-     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Event\ReceiverInterface> $inputOutputConnectors
+     * @var string
+     */
+    protected string $sdkPath;
+
+    /**
+     * @param iterable $inputOutputConnectors
      * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor $apiInteractionProcessor
      * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor $cliInteractionProcessor
+     * @param string $sdkPath
      */
     public function __construct(
         iterable $inputOutputConnectors,
         ApiInteractionProcessor $apiInteractionProcessor,
-        CliInteractionProcessor $cliInteractionProcessor
+        CliInteractionProcessor $cliInteractionProcessor,
+        string $sdkPath
     ) {
         $this->inputOutputConnectors = $inputOutputConnectors;
         $this->apiInteractionProcessor = $apiInteractionProcessor;
         $this->cliInteractionProcessor = $cliInteractionProcessor;
+        $this->sdkPath = $sdkPath;
     }
 
     /**
@@ -56,7 +65,7 @@ class CliReceiverSetupListener
      *
      * @return void
      */
-    public function beforeConsoleCommand(ConsoleCommandEvent $event)
+    public function beforeConsoleCommand(ConsoleCommandEvent $event): void
     {
         if (!$event->getCommand()) {
             return;
@@ -83,6 +92,10 @@ class CliReceiverSetupListener
 
             if ($inputOutputConnector instanceof InteractionProcessorReceiverInterface) {
                 $inputOutputConnector->setInteractionProcessor($this->cliInteractionProcessor);
+            }
+
+            if ($inputOutputConnector instanceof FilesystemInitInterface) {
+                $inputOutputConnector->setcwd((string)getcwd());
             }
         }
     }
@@ -114,6 +127,10 @@ class CliReceiverSetupListener
 
             if ($inputOutputConnector instanceof InteractionProcessorReceiverInterface) {
                 $inputOutputConnector->setInteractionProcessor($this->apiInteractionProcessor);
+            }
+
+            if ($inputOutputConnector instanceof FilesystemInitInterface) {
+                $inputOutputConnector->setcwd($this->sdkPath);
             }
         }
     }

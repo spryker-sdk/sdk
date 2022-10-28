@@ -11,6 +11,14 @@ services:
     _instanceof:
         SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
             tags: [ "manifest.validator" ]
+    path_resolver:
+        class: SprykerSdk\Sdk\Infrastructure\Service\PathResolver
+        arguments:
+            - "%kernel.project_dir%"
+            - "@sdk_filesystem"
+    sdk_filesystem:
+        class: SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+        tags: [ "sdk.cli_receiver_setup" ]
     file_finder:
         class: Symfony\Component\Finder\Finder
     event_logger_factory:
@@ -151,6 +159,7 @@ services:
         tags: [ "command.runner", "sdk.cli_receiver_setup" ]
         arguments:
             - "@process_helper"
+            - "@sdk_filesystem"
     php_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
         tags: [ "command.runner" ]
@@ -233,6 +242,7 @@ services:
             - !tagged_iterator sdk.cli_receiver_setup
             - "@api_interaction_processor"
             - "@cli_interaction_processor"
+            - "%kernel.project_dir%"
     value_receiver:
         alias: "interaction_processor"
     autoloader_service:
@@ -392,6 +402,7 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
         arguments:
             - '@placeholder_resolver'
+            - "@sdk_filesystem"
     app.event_listener.request_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
         arguments:
@@ -400,6 +411,11 @@ services:
             - {
                 name: kernel.event_listener,
                 event: console.command,
+                method: beforeConsoleCommand,
+            }
+            - {
+                name: kernel.event_listener,
+                event: kernel.request,
                 method: beforeConsoleCommand,
             }
 
@@ -440,6 +456,7 @@ services:
         arguments:
             - "%kernel.project_dir%/.gitmodules"
             - "@logger"
+            - "%kernel.project_dir%"
 
     workflow_runner:
         class: SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner

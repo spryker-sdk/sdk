@@ -20,11 +20,18 @@ class TaskOptionBuilder
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver $placeholderResolver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
      */
-    public function __construct(PlaceholderResolver $placeholderResolver)
+    protected Filesystem $filesystem;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver $placeholderResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\Filesystem $filesystem
+     */
+    public function __construct(PlaceholderResolver $placeholderResolver, Filesystem $filesystem)
     {
         $this->placeholderResolver = $placeholderResolver;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -122,7 +129,7 @@ class TaskOptionBuilder
      */
     protected function addContextOptions(array $options): array
     {
-        $defaultContextFilePath = getcwd() . DIRECTORY_SEPARATOR . 'sdk.context.json';
+        $defaultContextFilePath = $this->filesystem->getcwd() . DIRECTORY_SEPARATOR . 'sdk.context.json';
 
         $options[] = new InputOption(
             RunTaskWrapperCommand::OPTION_READ_CONTEXT_FROM,

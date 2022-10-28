@@ -51,6 +51,6 @@ class TaskRunnerController
             $result[] = $message->getMessage();
         }
 
-        return new JsonResponse(['result' => $result]);
+        return new JsonResponse(['messages' => $result]);
     }
 }

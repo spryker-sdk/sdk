@@ -2,14 +2,6 @@ parameters:
   project_log_file: ".ssdk/.ssdk.log"
   project_settings_file: "./.ssdk/settings"
 services:
-  path_resolver:
-    class: SprykerSdk\Sdk\Core\Application\Service\PathResolver
-    arguments:
-      - "%kernel.project_dir%"
-      - "@sdk_filesystem"
-  sdk_filesystem:
-    class: SprykerSdk\Sdk\Core\Application\Service\Filesystem
-
   value_receiver:
     abstract: true
     synthetic: true

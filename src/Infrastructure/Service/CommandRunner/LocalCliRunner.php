@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Event\CommandReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
+use SprykerSdk\Sdk\Infrastructure\Service\Filesystem;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -35,11 +36,18 @@ class LocalCliRunner implements CommandReceiverInterface, CommandRunnerInterface
     protected ProcessHelper $processHelper;
 
     /**
-     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
      */
-    public function __construct(ProcessHelper $processHelper)
+    protected Filesystem $filesystem;
+
+    /**
+     * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\Filesystem $filesystem
+     */
+    public function __construct(ProcessHelper $processHelper, Filesystem $filesystem)
     {
         $this->processHelper = $processHelper;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -100,7 +108,7 @@ class LocalCliRunner implements CommandReceiverInterface, CommandRunnerInterface
             ));
         }
 
-        $process = Process::fromShellCommandline($assembledCommand);
+        $process = Process::fromShellCommandline($assembledCommand, $this->filesystem->getcwd());
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
 

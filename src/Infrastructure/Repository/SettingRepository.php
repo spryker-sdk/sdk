@@ -13,10 +13,10 @@ use Doctrine\ORM\EntityRepository;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
-use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as EntitySetting;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Service\PathResolver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
@@ -34,7 +34,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     protected Yaml $yamlParser;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\PathResolver
      */
     protected PathResolver $pathResolver;
 
@@ -45,7 +45,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
 
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
-     * @param \SprykerSdk\Sdk\Core\Application\Service\PathResolver $pathResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\PathResolver $pathResolver
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $settingsPath
      */
