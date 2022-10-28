@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Presentation\Console\Command\RunTaskWrapperCommand;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Input\InputOption;
 
 class TaskOptionBuilder
@@ -104,10 +105,18 @@ class TaskOptionBuilder
                 continue;
             }
 
+            $mode = $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED;
+            if (
+                isset($placeholder->getConfiguration()['type']) &&
+                $placeholder->getConfiguration()['type'] === ValueTypeEnum::TYPE_ARRAY
+            ) {
+                $mode = $mode | InputOption::VALUE_IS_ARRAY;
+            }
+
             $options[] = new InputOption(
                 $valueResolver->getAlias(),
                 null,
-                $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
+                $mode,
                 $valueResolver->getDescription(),
             );
         }

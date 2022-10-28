@@ -1,0 +1,40 @@
+---
+id: "spryk:run"
+short_description: "Runs a Spryk build process."
+version: "0.1.0"
+command: "php %sdk_dir%/vendor/bin/spryk-run %spryk% %targetModule% %dependentModule% %option%"
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
+placeholders:
+    - name: "%sdk_dir%"
+      value_resolver: SDK_DIR
+      optional: true
+    - name: "%spryk%"
+      value_resolver: STATIC
+      optional: false
+      configuration:
+          alias: 'spryk'
+          description: 'Name of the Spryk which should be build.'
+          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+    - name: "%targetModule%"
+      value_resolver: STATIC
+      optional: true
+      configuration:
+          alias: 'targetModule'
+          description: 'Name of the target module in format "[Organization.]ModuleName[.LayerName]".'
+          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+    - name: "%dependentModule%"
+      value_resolver: STATIC
+      optional: true
+      configuration:
+          alias: 'dependentModule'
+          description: 'Name of the dependent module in format "[Organization.]ModuleName[.LayerName]".'
+          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+    - name: "%option%"
+      value_resolver: STATIC
+      optional: true
+      configuration:
+          alias: 'option'
+          description: "Spryk-specific option"
+          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_ARRAY
+
+
