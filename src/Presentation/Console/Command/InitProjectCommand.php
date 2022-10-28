@@ -12,7 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializerInterface;
+use SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializerInterface;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +37,7 @@ class InitProjectCommand extends Command
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializerInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializerInterface
      */
     protected ProjectSettingsInitializerInterface $projectSettingsInitializer;
 

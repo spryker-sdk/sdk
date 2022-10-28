@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Core\Application\Initializer;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingsInitializerProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
-use SprykerSdk\Sdk\Core\Application\Service\ProjectSettingsInitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Service\SettingManager;
 
 class ProjectSettingsInitializer implements ProjectSettingsInitializerInterface
