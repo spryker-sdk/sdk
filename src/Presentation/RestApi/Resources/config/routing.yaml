@@ -6,7 +6,7 @@ app.swagger_ui:
 api_v1_index_index:
     path: /api/v1/
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:index
-    methods: GET|POST
+    methods: GET
 
 api_v1_hello_hello_world:
     path: /api/v1/hello-world
@@ -16,4 +16,9 @@ api_v1_hello_hello_world:
 api_v1_sdk_init_sdk:
     path: /api/v1/sdk-init-sdk
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
+    methods: POST
+
+api_v1_sdk_init_project:
+    path: /api/v1/sdk-init-project
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController
     methods: POST
