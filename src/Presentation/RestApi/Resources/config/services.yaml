@@ -9,6 +9,7 @@ services:
         arguments:
             - "@task_executor"
             - "@context_factory"
+            - "@violation_report_mapper"
 
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:
         class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
