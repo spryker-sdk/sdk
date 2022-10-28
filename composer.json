@@ -33,7 +33,7 @@
         "spryker-sdk/acp": "^0.2.0",
         "spryker-sdk/async-api": "^0.2.3",
         "spryker-sdk/composer-replace": "dev-master",
-        "spryker-sdk/sdk-contracts": "dev-feature/sdk-1012-custom-sdk-codesniffer-sniffs as 0.4.2",
+        "spryker-sdk/sdk-contracts": "^0.4.3",
         "spryker-sdk/spryk": "^0.4.0",
         "spryker-sdk/sync-api": "^0.1.1",
         "spryker-sdk/upgrader": "dev-master",

@@ -90,4 +90,14 @@ class ProjectWorkflowInitializer implements SettingInitializerInterface, Setting
     {
         return $this->projectWorkflow->getAll();
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return 'project_workflow_initializer';
+    }
 }
