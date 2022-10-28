@@ -36,5 +36,3 @@ placeholders:
           alias: 'option'
           description: "Spryk-specific option"
           type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_ARRAY
-
-
