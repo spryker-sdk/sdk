@@ -195,6 +195,16 @@ services:
         arguments:
             - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
 
+    api_exception_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\ApiExceptionListener
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.exception,
+                method: onKernelException,
+                priority: 256
+            }
+
     json_request_transformer_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\RequestTransformerListener
         tags:

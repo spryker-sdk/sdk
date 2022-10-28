@@ -64,6 +64,6 @@ class UpdateController
             $result[] = $message->getMessage();
         }
 
-        return new JsonResponse(['result' => 'OK', 'messages' => $result, 'code' => 200]);
+        return new JsonResponse(['result' => 'OK', 'messages' => $result]);
     }
 }

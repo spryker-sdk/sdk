@@ -36,6 +36,6 @@ class InitController
     {
         $result = $this->initializerService->initialize($request->request->all());
 
-        return new JsonResponse(['result' => $result ? 'OK' : 'FAILED', 'code' => 200]);
+        return new JsonResponse(['result' => $result ? 'OK' : 'FAILED']);
     }
 }
