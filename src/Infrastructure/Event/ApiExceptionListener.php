@@ -7,9 +7,9 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use Codeception\Util\HttpCode;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ApiExceptionListener
@@ -28,7 +28,7 @@ class ApiExceptionListener
                 [
                     'message' => $exception->getMessage(),
                 ],
-                HttpCode::NOT_FOUND,
+                Response::HTTP_NOT_FOUND,
             );
 
             $event->setResponse($response);

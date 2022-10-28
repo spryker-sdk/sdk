@@ -24,7 +24,7 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputRec
     protected InputInterface $input;
 
     /**
-     * @var array
+     * @var array<array>
      */
     protected array $data;
 

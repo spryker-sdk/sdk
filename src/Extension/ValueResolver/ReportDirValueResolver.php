@@ -39,7 +39,7 @@ class ReportDirValueResolver extends OriginValueResolver
         $reportDir = $settingValues[Setting::PATH_REPORT_DIR];
 
         if (!is_dir($reportDir)) {
-//            mkdir($reportDir, 0777, true);
+            mkdir($reportDir, 0777, true);
         }
 
         return $this->formatValue($reportDir . DIRECTORY_SEPARATOR . $value);

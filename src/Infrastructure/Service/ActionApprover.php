@@ -14,9 +14,9 @@ use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ActionApprover implements ActionApproverInterface
 {
- /**
-  * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
-  */
+    /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
+     */
     protected InteractionProcessorInterface $cliValueReceiver;
 
     /**

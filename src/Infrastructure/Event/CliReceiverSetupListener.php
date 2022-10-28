@@ -105,7 +105,7 @@ class CliReceiverSetupListener
      *
      * @return void
      */
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         foreach ($this->inputOutputConnectors as $inputOutputConnector) {
             if ($inputOutputConnector instanceof OutputReceiverInterface) {
