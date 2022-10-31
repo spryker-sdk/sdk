@@ -1,7 +1,7 @@
 # Copied from Extension/Resources/config/task/SprykRunTask.yaml and changed type to `TYPE_LOCAL_CLI`,
 # because CI doesn't support `TYPE_LOCAL_CLI_INTERACTIVE` type.
 ---
-id: "spryk:run"
+id: "spryk:run:local"
 short_description: "Runs a Spryk build process."
 version: "0.1.0"
 command: "php %sdk_dir%/vendor/bin/spryk-run %spryk% %targetModule% %dependentModule% %option%"

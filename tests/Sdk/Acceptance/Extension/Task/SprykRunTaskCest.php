@@ -25,7 +25,7 @@ class SprykRunTaskCest
     /**
      * @var string
      */
-    protected const COMMAND = 'spryk:run';
+    protected const COMMAND = 'spryk:run:local';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
