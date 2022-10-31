@@ -30,14 +30,15 @@ class HelloControllerCest
     protected const ENDPOINT = '/hello-world';
 
     /**
-     * @skip Need to fix CI for API
-     *
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
      */
     public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
     {
+        // TODO: complete it after ci server be available
+        $I->markTestSkipped('Will be added after ci server be installed');
+
         $I->sendGet(static::ENDPOINT);
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
