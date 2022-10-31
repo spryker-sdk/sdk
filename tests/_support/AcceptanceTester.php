@@ -95,6 +95,16 @@ class AcceptanceTester extends Actor
     }
 
     /**
+     * @param string $project
+     *
+     * @return void
+     */
+    public function cleanSprykGenerated(string $project = 'project'): void
+    {
+        $this->cleanDir($this->getPathFromProjectRoot('generated', $project));
+    }
+
+    /**
      * @param array<string> $command
      * @param string|null $cwd
      * @param array|null $env
