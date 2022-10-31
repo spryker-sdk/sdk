@@ -203,6 +203,8 @@ services:
 
     api_exception_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\ApiExceptionListener
+        arguments:
+            - "@logger"
         tags:
             - {
                 name: kernel.event_listener,
@@ -223,7 +225,7 @@ services:
         arguments:
             - ['json']
     cli_receiver_setup_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
+        class: SprykerSdk\Sdk\Infrastructure\Event\ApplicationReceiverSetupListener
         tags:
             - {
                 name: kernel.event_listener,
@@ -401,7 +403,7 @@ services:
             - '@placeholder_resolver'
             - "@sdk_filesystem"
     app.event_listener.request_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
+        class: SprykerSdk\Sdk\Infrastructure\Event\SqliteSettingListener
         arguments:
             - "@doctrine"
         tags:
