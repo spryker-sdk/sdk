@@ -57,8 +57,8 @@ class SprykRunTaskCest
         ]);
 
         // Assert
-        Assert::assertTrue($process->isSuccessful());
         dd($process->getErrorOutput());
+        Assert::assertTrue($process->isSuccessful());
         Assert::assertJsonStringEqualsJsonString(
             json_encode($expectedJson),
             file_get_contents($I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json')),
