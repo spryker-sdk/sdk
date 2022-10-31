@@ -54,11 +54,11 @@ class SprykRunTaskCest
             '--option=--targetPath=src/Pyz/Glue/AuthRestApi/',
             '--option=--target=Object.name',
             '--quiet',
-            '--no-interaction'
+            '--no-interaction',
         ]);
 
         // Assert
-//        dd($process->getErrorOutput());
+        dump($process->getErrorOutput());
         Assert::assertTrue($process->isSuccessful());
         Assert::assertJsonStringEqualsJsonString(
             json_encode($expectedJson),
