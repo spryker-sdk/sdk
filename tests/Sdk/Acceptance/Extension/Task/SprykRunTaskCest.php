@@ -59,7 +59,6 @@ class SprykRunTaskCest
         ]);
 
         // Assert
-        dump($process->getErrorOutput());
         Assert::assertTrue($process->isSuccessful());
         Assert::assertJsonStringEqualsJsonString(
             json_encode($expectedJson),
