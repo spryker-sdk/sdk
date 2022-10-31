@@ -16,6 +16,6 @@ class Filesystem extends SymfonyFilesystem
      */
     public function getcwd(): string
     {
-        return getcwd();
+        return (string)getcwd();
     }
 }
