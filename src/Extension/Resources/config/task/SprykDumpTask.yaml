@@ -2,12 +2,16 @@
 id: "spryk:dump"
 short_description: "Lists all available Spryks"
 version: "0.1.0"
-command: "php %sdk_dir%/vendor/bin/spryk-dump %spryk% --level=%level%"
+command: "php %executable_command% %spryk% %level%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/spryk-dump"
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
   - name: "%spryk%"
     optional: true
     value_resolver: STATIC
@@ -20,4 +24,5 @@ placeholders:
     configuration:
       defaultValue: 1
       alias: "level"
+      option: "level"
       type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_INT
