@@ -76,6 +76,8 @@ class SprykRunTaskTest extends KernelTestCase
         );
 
         // Assert
+        $d = $applicationTester->getDisplay();
+        dd($d);
         $applicationTester->assertCommandIsSuccessful();
     }
 }
