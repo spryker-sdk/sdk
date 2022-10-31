@@ -66,11 +66,11 @@ jobs:
       - name: Run CodeStyle checks
         run: composer cs-check
 
-      - name: Codecept unit tests
-        run: composer test
-
       - name: Install SDK
         run: bin/console sdk:init:hidden-sdk -n
+
+      - name: Codecept unit tests
+        run: composer test
 
       - name: Codecept acceptance tests
         run: composer test-qa
