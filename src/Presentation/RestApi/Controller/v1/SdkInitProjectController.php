@@ -19,7 +19,7 @@ class SdkInitProjectController
      *
      * @OA\RequestBody(
      *
-     * @OA\JsonContent(
+     *      @OA\JsonContent(
      *          type="object",
      *
      *          @OA\Property(

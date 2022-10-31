@@ -19,7 +19,7 @@ class SdkInitSdkController
      *
      * @OA\RequestBody(
      *
-     * @OA\JsonContent(
+     *      @OA\JsonContent(
      *          type="object",
      *          required={"developer_email", "developer_github_account"},
      *
