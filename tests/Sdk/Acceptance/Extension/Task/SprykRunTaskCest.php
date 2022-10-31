@@ -54,6 +54,7 @@ class SprykRunTaskCest
             '--option=--targetPath=src/Pyz/Glue/AuthRestApi/',
             '--option=--target=Object.name',
             '--option=--no-interaction',
+            '--no-interaction',
             '--quiet',
         ]);
 
