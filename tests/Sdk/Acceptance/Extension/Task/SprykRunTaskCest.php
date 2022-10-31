@@ -53,8 +53,8 @@ class SprykRunTaskCest
             '--option=--value=' . $expectedJson['Object']['name']['key'],
             '--option=--targetPath=src/Pyz/Glue/AuthRestApi/',
             '--option=--target=Object.name',
+            '--option=--no-interaction',
             '--quiet',
-            '--no-interaction',
         ]);
 
         // Assert
