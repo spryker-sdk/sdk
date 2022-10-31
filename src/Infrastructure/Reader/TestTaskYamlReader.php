@@ -36,8 +36,6 @@ class TestTaskYamlReader extends TaskYamlReader
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
-     *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
      */
     protected function getExtensionDirsSetting(): SettingInterface
@@ -47,7 +45,6 @@ class TestTaskYamlReader extends TaskYamlReader
             array_merge($this->pathToTestTaskDirs, $taskDirSetting->getValues()),
         );
 
-        dump($taskDirSetting->getValues());
         return $taskDirSetting;
     }
 }
