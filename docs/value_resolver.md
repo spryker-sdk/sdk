@@ -1,23 +1,26 @@
 # Spryker SDK value resolvers
 
-| Value Resolver Name | Description                                                                                          |
-|---------------------|------------------------------------------------------------------------------------------------------|
-| APP_PHP_VERSION     | Uses for resolving php version (7.4, 8.0).                                                           |
-| APP_TYPE            | Uses for resolving repository for creating project.                                                  |
-| ARRAY_OPTION        | Uses for multi-options.                                                                              |
-| B2BC_TYPE           | Uses for resolving repository for public b2b,b2c.                                                    |
-| CONFIG_PATH         | Uses to resolve relative path by priority: `project` path then by default `sdk` path if it's exists. |
-| FLAG                | Uses for flag options, has boolean type.                                                             |
-| NAMESPACE           | Uses for spryk tool to resolve namespcases for tool. Based on settings.                              |
-| PC_SYSTEM           | Uses for resolveing OS. Linux, Mac, Mac (ARM).                                                       |
-| PRIORITY_PATH       | Uses to resolve relative path for tool entrypoint: `project` path then by if exist `sdk` path.       |
-| REPORT_DIR          | Uses for resolving report file path.                                                                 |
-| SDK_DIR             | Uses for resolve path to sdk folder.                                                                 |
-| CORE                | Uses for resolving core level. Based on resolved values from `NAMESPACE` resolver.                   |
-| STATIC              | Uses as universal value resolver with additional settings. Returns formatted value.                  |
-| ORIGIN              | Uses as universal value resolver with additional settings. Returns original value.                   |
+The Spryker SDK has the following value resolvers:
 
-#### Example with placeholder with `STATIC` value resolver with configuration. See [conventions](conventions.md#Placeholder):
+| Value Resolver name | Description                                                                                          |
+|---------------------|------------------------------------------------------------------------------------------------------|
+| APP_PHP_VERSION     | Resolves the PHP version (7.4, 8.0).                                                           |
+| APP_TYPE            | Resolves a repository for creating a project.                                                  |
+| ARRAY_OPTION        | Resolves multi-options.                                                                              |
+| B2BC_TYPE           | Resolves repository for public b2b,b2c.                                                    |
+| CONFIG_PATH         | Resolves a relative path by priority: `project` path, then, by default, the `sdk` path if it exists. |
+| FLAG                | Resolves flag options. This resolver has the boolean type.                                                             |
+| NAMESPACE           | Used for the spryk tool to resolve namespcases for the tool. It is based on settings.                              |
+| PC_SYSTEM           | Resolves operating systems like Linux, Mac, Mac (ARM).                                                       |
+| PRIORITY_PATH       | Resolves relative path for the tool entry point: `project` path, then, by default, the `sdk` path if it exists.       |
+| REPORT_DIR          | Resolves the report file path.                                                                 |
+| SDK_DIR             | Resolves the path to the sdk folder.                             |
+| CORE                | Resolves the core level. This resolver is based on the resolved values of the `NAMESPACE` resolver.                   |
+| STATIC              | This resolver is used as a universal value resolver with additional settings. It returns the formatted value.                  |
+| ORIGIN              | This resolver is used as a universal value resolver with additional settings. It returns the original value.                   |
+
+Example of a placeholder with the `STATIC` value resolver and with the configuration. See [conventions](conventions.md#Placeholder) for details:
+
 ```yaml
   - name: "%shortcode_name%" # For replacing in command.
     value_resolver: STATIC # Value resolver name.

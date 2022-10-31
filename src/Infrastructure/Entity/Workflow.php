@@ -82,15 +82,13 @@ class Workflow extends EntityWorkflow
     }
 
     /**
-     * @param array $status
+     * @param array $statuses
      *
-     * @return $this
+     * @return void
      */
-    public function setStatus(array $status)
+    public function setStatus(array $statuses): void
     {
-        $this->status = $status;
-
-        return $this;
+        $this->status = $statuses;
     }
 
     /**

@@ -41,7 +41,8 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
      */
     public function save(WorkflowInterface $workflow): WorkflowInterface
     {
-        $this->getEntityManager()->persist($this->workflowMapper->mapWorkflow($workflow));
+        $workflow = $this->workflowMapper->mapDomainWorkflowToInfrastructureWorkflow($workflow);
+        $this->getEntityManager()->persist($workflow);
         $this->getEntityManager()->flush();
 
         return $workflow;
@@ -54,7 +55,8 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
      */
     public function remove(WorkflowInterface $workflow): WorkflowInterface
     {
-        $this->getEntityManager()->remove($this->workflowMapper->mapWorkflow($workflow));
+        $workflow = $this->workflowMapper->mapDomainWorkflowToInfrastructureWorkflow($workflow);
+        $this->getEntityManager()->remove($workflow);
         $this->getEntityManager()->flush();
 
         return $workflow;

@@ -106,4 +106,16 @@ class Workflow implements WorkflowInterface
     {
         return $this->parent;
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $statuses
+     *
+     * @return void
+     */
+    public function setStatus(array $statuses): void
+    {
+        $this->status = $statuses;
+    }
 }
