@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use SprykerSdk\Sdk\Infrastructure\Service\FilesystemInitInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessorInjectorInterface;
@@ -38,26 +37,18 @@ class ApplicationReceiverSetupListener
     protected CliInteractionProcessor $cliInteractionProcessor;
 
     /**
-     * @var string
-     */
-    protected string $sdkPath;
-
-    /**
      * @param iterable $inputOutputConnectors
      * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor $apiInteractionProcessor
      * @param \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor $cliInteractionProcessor
-     * @param string $sdkPath
      */
     public function __construct(
         iterable $inputOutputConnectors,
         ApiInteractionProcessor $apiInteractionProcessor,
-        CliInteractionProcessor $cliInteractionProcessor,
-        string $sdkPath
+        CliInteractionProcessor $cliInteractionProcessor
     ) {
         $this->inputOutputConnectors = $inputOutputConnectors;
         $this->apiInteractionProcessor = $apiInteractionProcessor;
         $this->cliInteractionProcessor = $cliInteractionProcessor;
-        $this->sdkPath = $sdkPath;
     }
 
     /**
@@ -93,10 +84,6 @@ class ApplicationReceiverSetupListener
             if ($inputOutputConnector instanceof InteractionProcessorInjectorInterface) {
                 $inputOutputConnector->setInteractionProcessor($this->cliInteractionProcessor);
             }
-
-            if ($inputOutputConnector instanceof FilesystemInitInterface) {
-                $inputOutputConnector->setcwd((string)getcwd());
-            }
         }
     }
 
@@ -127,10 +114,6 @@ class ApplicationReceiverSetupListener
 
             if ($inputOutputConnector instanceof InteractionProcessorInjectorInterface) {
                 $inputOutputConnector->setInteractionProcessor($this->apiInteractionProcessor);
-            }
-
-            if ($inputOutputConnector instanceof FilesystemInitInterface) {
-                $inputOutputConnector->setcwd($this->sdkPath);
             }
         }
     }

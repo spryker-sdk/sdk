@@ -224,7 +224,7 @@ services:
             }
         arguments:
             - ['json']
-    cli_receiver_setup_listener:
+    application_receiver_setup_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\ApplicationReceiverSetupListener
         tags:
             - {
@@ -407,16 +407,8 @@ services:
         arguments:
             - "@doctrine"
         tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: beforeConsoleCommand,
-            }
-            - {
-                name: kernel.event_listener,
-                event: kernel.request,
-                method: beforeConsoleCommand,
-            }
+            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand, priority: 1024 }
+            - { name: kernel.event_listener, event: kernel.request, method: beforeConsoleCommand, priority: 1024 }
 
     app.workflow.guard_listener:
         class: SprykerSdk\Sdk\Core\Application\Service\WorkflowEventListener

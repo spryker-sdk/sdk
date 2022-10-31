@@ -47,7 +47,7 @@ class ApiExceptionListener
                 ),
             );
         }
-\var_dump($exception->getMessage());die;
+
         $this->logger->error($exception->getMessage());
 
         $event->setResponse(

@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
 use SprykerSdk\Sdk\Extension\ValueResolver\PriorityPathValueResolver;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 
 /**
@@ -41,7 +42,6 @@ class PriorityValueResolverTest extends Unit
     public function setUp(): void
     {
         $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
-
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -50,7 +50,7 @@ class PriorityValueResolverTest extends Unit
     /**
      * @return void
      */
-    public function testGetValue(): void
+    public function testGetValueWithoutSettings(): void
     {
         // Arrange
         $this->valueReceiver
@@ -63,11 +63,12 @@ class PriorityValueResolverTest extends Unit
             ->willReturn('./');
         $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);
-        // Act
-        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
 
         // Assert
-        $this->assertSame('./', $value);
+        $this->expectException(InvalidConfigurationException::class);
+
+        // Act
+        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
     }
 
     /**
@@ -108,7 +109,7 @@ class PriorityValueResolverTest extends Unit
             ->method('get')
             ->willReturn('./none');
         $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
-        $valueResolver->configure(['name' => 'key', 'description' => '']);
+        $valueResolver->configure(['name' => 'key', 'description' => '', 'settingPaths' => ['test' => 'test']]);
 
         // Assert
         $this->expectException(UnresolvableValueExceptionException::class);

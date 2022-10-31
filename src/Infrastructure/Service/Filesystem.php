@@ -9,28 +9,13 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
-class Filesystem extends SymfonyFilesystem implements FilesystemInitInterface
+class Filesystem extends SymfonyFilesystem
 {
-    /**
-     * @var string
-     */
-    protected string $cwd;
-
     /**
      * @return string
      */
     public function getcwd(): string
     {
-        return $this->cwd;
-    }
-
-    /**
-     * @param string $cwd
-     *
-     * @return void
-     */
-    public function setcwd(string $cwd): void
-    {
-        $this->cwd = $cwd;
+        return getcwd();
     }
 }
