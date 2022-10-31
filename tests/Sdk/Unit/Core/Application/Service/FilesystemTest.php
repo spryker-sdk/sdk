@@ -35,7 +35,6 @@ class FilesystemTest extends Unit
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
-        $this->filesystem->setcwd(getcwd());
     }
 
     /**
