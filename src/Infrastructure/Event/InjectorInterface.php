@@ -7,12 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-interface RequestDataReceiverInterface extends ReceiverInterface
+interface InjectorInterface
 {
-    /**
-     * @param array $data
-     *
-     * @return void
-     */
-    public function setRequestData(array $data): void;
 }

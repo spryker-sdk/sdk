@@ -70,9 +70,9 @@ class Initializer implements InitializerInterface
     /**
      * @param array<string, mixed> $settings
      *
-     * @return bool
+     * @return void
      */
-    public function initialize(array $settings): bool
+    public function initialize(array $settings): void
     {
         $this->runMigration();
 
@@ -81,8 +81,6 @@ class Initializer implements InitializerInterface
 
         $this->initializeSettingValues($settings, $settingDefinition);
         $this->taskManager->initialize($this->taskYamlFileLoader->loadAll());
-
-        return true;
     }
 
     /**

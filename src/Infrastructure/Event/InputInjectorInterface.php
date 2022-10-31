@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 
 use Symfony\Component\Console\Input\InputInterface;
 
-interface InputReceiverInterface extends ReceiverInterface
+interface InputInjectorInterface extends InjectorInterface
 {
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input

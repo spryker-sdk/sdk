@@ -34,8 +34,8 @@ class InitController
      */
     public function __invoke(Request $request): Response
     {
-        $result = $this->initializerService->initialize($request->request->all());
+        $this->initializerService->initialize($request->request->all());
 
-        return new JsonResponse(['result' => $result ? 'OK' : 'FAILED']);
+        return new JsonResponse([]);
     }
 }

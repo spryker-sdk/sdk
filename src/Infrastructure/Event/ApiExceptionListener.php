@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
+use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,19 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ApiExceptionListener
 {
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected LoggerInterface $logger;
+
+    /**
+     * @param \Psr\Log\LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
      *
@@ -24,14 +38,25 @@ class ApiExceptionListener
         $exception = $event->getThrowable();
 
         if ($exception instanceof InvalidRequestDataException) {
-            $response = new JsonResponse(
-                [
-                    'message' => $exception->getMessage(),
-                ],
-                Response::HTTP_NOT_FOUND,
+            $event->setResponse(
+                new JsonResponse(
+                    [
+                        'message' => $exception->getMessage(),
+                    ],
+                    Response::HTTP_BAD_REQUEST,
+                ),
             );
-
-            $event->setResponse($response);
         }
+
+        $this->logger->error($exception->getMessage());
+
+        $event->setResponse(
+            new JsonResponse(
+                [
+                    'message' => 'Error',
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            ),
+        );
     }
 }

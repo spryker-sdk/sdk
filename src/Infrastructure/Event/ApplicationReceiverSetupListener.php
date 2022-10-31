@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 use SprykerSdk\Sdk\Infrastructure\Service\FilesystemInitInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessorReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessorInjectorInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Helper\DebugFormatterHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -20,10 +20,10 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
-class CliReceiverSetupListener
+class ApplicationReceiverSetupListener
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\ReceiverInterface>
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\InjectorInterface>
      */
     protected iterable $inputOutputConnectors;
 
@@ -72,25 +72,25 @@ class CliReceiverSetupListener
         }
 
         foreach ($this->inputOutputConnectors as $inputOutputConnector) {
-            if ($inputOutputConnector instanceof InputReceiverInterface) {
+            if ($inputOutputConnector instanceof InputInjectorInterface) {
                 $inputOutputConnector->setInput($event->getInput());
             }
 
-            if ($inputOutputConnector instanceof OutputReceiverInterface) {
+            if ($inputOutputConnector instanceof OutputInjectorInterface) {
                 $inputOutputConnector->setOutput($event->getOutput());
             }
 
-            if ($inputOutputConnector instanceof RequestDataReceiverInterface) {
+            if ($inputOutputConnector instanceof RequestDataInjectorInterface) {
                 $inputOutputConnector->setRequestData($event->getInput()->getOptions());
             }
 
-            if ($inputOutputConnector instanceof CommandReceiverInterface) {
+            if ($inputOutputConnector instanceof HelperSetInjectorInterface) {
                 /** @var \Symfony\Component\Console\Helper\HelperSet $helperSet */
                 $helperSet = $event->getCommand()->getHelperSet() ?? $this->getApplicationHelperSet($event);
                 $inputOutputConnector->setHelperSet($helperSet);
             }
 
-            if ($inputOutputConnector instanceof InteractionProcessorReceiverInterface) {
+            if ($inputOutputConnector instanceof InteractionProcessorInjectorInterface) {
                 $inputOutputConnector->setInteractionProcessor($this->cliInteractionProcessor);
             }
 
@@ -108,15 +108,15 @@ class CliReceiverSetupListener
     public function onKernelRequest(RequestEvent $event): void
     {
         foreach ($this->inputOutputConnectors as $inputOutputConnector) {
-            if ($inputOutputConnector instanceof OutputReceiverInterface) {
+            if ($inputOutputConnector instanceof OutputInjectorInterface) {
                 $inputOutputConnector->setOutput(new BufferedOutput());
             }
 
-            if ($inputOutputConnector instanceof RequestDataReceiverInterface) {
+            if ($inputOutputConnector instanceof RequestDataInjectorInterface) {
                 $inputOutputConnector->setRequestData($event->getRequest()->request->all());
             }
 
-            if ($inputOutputConnector instanceof CommandReceiverInterface) {
+            if ($inputOutputConnector instanceof HelperSetInjectorInterface) {
                 $inputOutputConnector->setHelperSet(new HelperSet([
                     new FormatterHelper(),
                     new DebugFormatterHelper(),
@@ -125,7 +125,7 @@ class CliReceiverSetupListener
                 ]));
             }
 
-            if ($inputOutputConnector instanceof InteractionProcessorReceiverInterface) {
+            if ($inputOutputConnector instanceof InteractionProcessorInjectorInterface) {
                 $inputOutputConnector->setInteractionProcessor($this->apiInteractionProcessor);
             }
 

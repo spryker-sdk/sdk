@@ -8,14 +8,14 @@
 namespace SprykerSdk\Sdk\Infrastructure\Violation\Formatter;
 
 use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\OutputInjectorInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
-class OutputViolationReportFormatter implements ViolationReportFormatterInterface, OutputReceiverInterface
+class OutputViolationReportFormatter implements ViolationReportFormatterInterface, OutputInjectorInterface
 {
     /**
      * @var string

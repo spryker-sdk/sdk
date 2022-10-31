@@ -9,11 +9,11 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\RequestDataReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\RequestDataInjectorInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
-class ApiInteractionProcessor implements InteractionProcessorInterface, RequestDataReceiverInterface
+class ApiInteractionProcessor implements InteractionProcessorInterface, RequestDataInjectorInterface
 {
     /**
      * @var array

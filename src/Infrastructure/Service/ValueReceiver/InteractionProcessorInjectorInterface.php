@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\ReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\InjectorInterface;
 
-interface InteractionProcessorReceiverInterface extends ReceiverInterface
+interface InteractionProcessorInjectorInterface extends InjectorInterface
 {
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $interactionProcessor

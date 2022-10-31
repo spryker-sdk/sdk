@@ -7,14 +7,14 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\HelperSet;
 
-interface OutputReceiverInterface extends ReceiverInterface
+interface HelperSetInjectorInterface extends InjectorInterface
 {
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\HelperSet $helperSet
      *
      * @return void
      */
-    public function setOutput(OutputInterface $output): void;
+    public function setHelperSet(HelperSet $helperSet);
 }

@@ -7,14 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
-use Symfony\Component\Console\Helper\HelperSet;
-
-interface CommandReceiverInterface extends ReceiverInterface
+interface RequestDataInjectorInterface extends InjectorInterface
 {
     /**
-     * @param \Symfony\Component\Console\Helper\HelperSet $helperSet
+     * @param array $data
      *
      * @return void
      */
-    public function setHelperSet(HelperSet $helperSet);
+    public function setRequestData(array $data): void;
 }

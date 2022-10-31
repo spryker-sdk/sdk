@@ -12,7 +12,7 @@ interface InitializerInterface
     /**
      * @param array<string, mixed> $settings
      *
-     * @return bool
+     * @return void
      */
-    public function initialize(array $settings): bool;
+    public function initialize(array $settings): void;
 }

@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class CliSqliteListener
+class SqliteSettingListener
 {
     /**
      * @var \Doctrine\Bundle\DoctrineBundle\Registry

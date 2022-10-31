@@ -9,14 +9,14 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InputReceiverInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\OutputReceiverInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\RequestDataReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\InputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\OutputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Event\RequestDataInjectorInterface;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CliInteractionProcessor implements InteractionProcessorInterface, InputReceiverInterface, OutputReceiverInterface, RequestDataReceiverInterface
+class CliInteractionProcessor implements InteractionProcessorInterface, InputInjectorInterface, OutputInjectorInterface, RequestDataInjectorInterface
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
@@ -26,7 +26,7 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputRec
     /**
      * @var array<array>
      */
-    protected array $data;
+    protected array $data = [];
 
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface

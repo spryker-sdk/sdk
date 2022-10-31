@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
 
-class InteractionProcessor implements InteractionProcessorReceiverInterface, InteractionProcessorInterface
+class InteractionProcessor implements InteractionProcessorInjectorInterface, InteractionProcessorInterface
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
