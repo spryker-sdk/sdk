@@ -1,5 +1,8 @@
 # REST SDK API
 
+SDK Rest API enables an easy way to communicate with it via HTTP.
+So far, it is an experimental feature and is available only for local development.
+
 ## Installation
 
 To start using rest-api server firstly you need to install the project locally

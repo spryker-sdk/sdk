@@ -36,9 +36,6 @@ class HelloControllerCest
      */
     public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
     {
-        // TODO: complete it after ci server be available
-        $I->markTestSkipped('Will be added after ci server be installed');
-
         $I->sendGet(static::ENDPOINT);
         $I->seeResponseCodeIs(Response::HTTP_OK);
 

@@ -3,6 +3,8 @@ parameters: ~
 services:
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
         public: true
+        arguments:
+            - "@version.app_version_fetcher"
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController:
         class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController
         public: true

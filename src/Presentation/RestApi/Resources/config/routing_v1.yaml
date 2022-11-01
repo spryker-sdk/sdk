@@ -1,0 +1,21 @@
+index:
+    path: /
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController
+    methods: GET|POST
+
+hello:
+    path: /hello-world
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
+    methods: GET
+init_sdk_controller:
+    path: /init
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\InitSdkController
+    methods: POST
+update_sdk_controller:
+    path: /update
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\UpdateSdkController
+    methods: POST
+run_task_controller:
+    path: /task/{task}
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController
+    methods: POST

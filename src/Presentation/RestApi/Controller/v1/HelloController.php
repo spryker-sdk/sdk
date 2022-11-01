@@ -29,7 +29,7 @@ class HelloController
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function helloWorld(): Response
+    public function __invoke(): Response
     {
         $content = $this->restApiTaskExecutor->execute([
             'command' => 'hello:world',
