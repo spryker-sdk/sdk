@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateSdkController
+class SdkUpdateSdkController
 {
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer

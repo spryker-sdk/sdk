@@ -21,12 +21,12 @@ services:
         public: true
         arguments:
             - "@rest_api_task_executor"
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\InitSdkController:
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController:
         public: true
         arguments:
             - "@initializer_service"
 
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\UpdateSdkController:
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController:
         public: true
         arguments:
             - "@initializer_service"

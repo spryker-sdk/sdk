@@ -9,13 +9,23 @@ hello:
     methods: GET
 init_sdk_controller:
     path: /init
-    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\InitSdkController
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
     methods: POST
 update_sdk_controller:
     path: /update
-    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\UpdateSdkController
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController
     methods: POST
 run_task_controller:
     path: /task/{task}
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController
+    methods: POST
+
+sdk_init_sdk:
+    path: /sdk-init-sdk
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
+    methods: POST
+
+sdk_init_project:
+    path: /sdk-init-project
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController
     methods: POST
