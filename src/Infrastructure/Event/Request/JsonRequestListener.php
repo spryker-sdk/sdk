@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Event\Request;
 
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
@@ -27,12 +28,7 @@ class JsonRequestListener
 
         $request = $event->getRequest();
 
-        if (
-            is_resource($request->getContent())
-            || $request->getContent() === ''
-            || strpos($request->getPathInfo(), '/api/doc') === 0
-            || strpos($request->getPathInfo(), '/api/') !== 0
-        ) {
+        if (!$this->isApplicable($request)) {
             return;
         }
 
@@ -53,5 +49,18 @@ class JsonRequestListener
         if (is_array($requestContent)) {
             $request->request->replace($requestContent);
         }
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return bool
+     */
+    public function isApplicable(Request $request): bool
+    {
+        return is_string($request->getContent())
+            && $request->getContent() !== ''
+            && strpos($request->getPathInfo(), '/api/doc') !== 0
+            && strpos($request->getPathInfo(), '/api/') === 0;
     }
 }
