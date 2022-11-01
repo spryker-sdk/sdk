@@ -49,15 +49,14 @@ class ApiExceptionListener
         }
 
         $this->logger->error($exception->getMessage());
-        var_dump($exception->getMessage());
-        exit;
-//        $event->setResponse(
-//            new JsonResponse(
-//                [
-//                    'message' => 'Error',
-//                ],
-//                Response::HTTP_INTERNAL_SERVER_ERROR,
-//            ),
-//        );
+
+        $event->setResponse(
+            new JsonResponse(
+                [
+                    'message' => 'Error',
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            ),
+        );
     }
 }

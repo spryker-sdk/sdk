@@ -44,7 +44,7 @@ class SdkUpdateSdkProcessor
      */
     public function process(Request $request): Response
     {
-        $this->initializerService->initialize([]);
+        $this->initializerService->initialize($request->request->all());
 
         $messages = [];
         if ($request->request->get(AbstractUpdateCommand::OPTION_NO_CHECK) !== null) {

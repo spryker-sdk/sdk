@@ -36,7 +36,7 @@ class SdkUpdateSdkControllerCest
      */
     public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
     {
-        $I->sendPost(static::ENDPOINT);
+        $I->sendPost(static::ENDPOINT, ['developer_email' => 'test', 'developer_github_account' => 'test']);
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
         $I->seeResponseContainsJson(['messages' => []]);
