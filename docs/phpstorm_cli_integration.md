@@ -1,13 +1,9 @@
 ### Integration to PhpStorm Command Line Tools
 
-Within your project run:
-```bash
-spryker-sdk sdk:php:create-phpstorm-config
-```
+To make all the Spryker SDK commands available to PhpStorm, do the following:
 
-to generate the custom XML file for PhpStorm Command Line Tools that will make all Spryker SDK task available to PHPStorm.
+1. Within your project, run `spryker-sdk sdk:php:create-phpstorm-config`. 
+   This generates the custom XML configuration file for the PhpStorm command line tools. The XML resides in `.idea/commandlinetools/Custom_Spryker_Sdk.xml`.
+2. To enable the Spryker SDK integration, restart PhpStorm.
 
-The xml file that provides the configuration to PHPStorm will be stored in `.idea/commandlinetools/Custom_Spryker_Sdk.xml`.
-After the file was generated a restart of PHPStorm will enable the Spryker SDK integration.
-
-All SDK tasks will be available within PHPStorm from the command line tool `(Shift+Cmd+X)` or (press `Ctrl` twice) with a detailed help.
+Now, all SDK commands should be available within PhpStorm from the command line tool that you can launch by pressing `Shift+Cmd+X` or double-pressing `Ctrl`.

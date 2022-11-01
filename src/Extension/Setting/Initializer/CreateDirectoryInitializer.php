@@ -27,4 +27,14 @@ class CreateDirectoryInitializer implements SettingInitializerInterface
             mkdir($reportPath, 0777, true);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return 'create_directory_initializer';
+    }
 }

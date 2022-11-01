@@ -1,2 +1,4 @@
 rest_api:
-    resource: "@SprykerSdkRestApiBundle/Resources/config/routing.yaml"
+    prefix: '/api/v1'
+    name_prefix: 'api_v1_'
+    resource: "@SprykerSdkRestApiBundle/Resources/config/routing_v1.yaml"

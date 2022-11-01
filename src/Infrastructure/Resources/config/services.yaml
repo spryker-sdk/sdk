@@ -542,6 +542,11 @@ services:
             - { name: kernel.event_listener, event: console.terminate }
             - { name: kernel.event_listener, event: console.error }
 
+    request.json_content_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Request\JsonRequestListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
     context.in_memory_cache_storage:
         class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
     workflow.transition_resolver_registry:
@@ -696,3 +701,8 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor
         arguments:
             - !tagged_iterator command.runner
+
+    version.file_app_version_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\Version\FileAppVersionFetcher
+        arguments:
+            - "%kernel.project_dir%"

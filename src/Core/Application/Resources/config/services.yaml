@@ -168,3 +168,8 @@ services:
       - "%telemetry_synchronizer_lock_ttl_sec%"
       - "%kernel.debug%"
       - "%telemetry_enabled%"
+
+  version.app_version_fetcher:
+    class: SprykerSdk\Sdk\Core\Application\Version\AppVersionFetcher
+    arguments:
+      - "@version.file_app_version_fetcher"

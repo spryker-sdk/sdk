@@ -2,8 +2,14 @@
 
 ## How to initialize and run workflows
 
-To initialize project with specified workflow you need to execute `spryker-sdk init:sdk:project --workflow={workflowName}`.
-If project already has been initialized by a `spryker-sdk init:sdk:project` command you can manually add workflow in project config `{projectDir}/.ssdk/settings`.
+To initialize a project with a specific workflow, execute the following command:
+
+```bash
+spryker-sdk init:sdk:project --workflow={workflowName}
+```
+
+If the project already has been initialized with the `spryker-sdk init:sdk:project` command, you can manually add workflow to the project config file `{projectDir}/.ssdk/settings`:
+
 ```yaml
 # {projectDir}/.ssdk/settings
 project_key: e9abab71-59f3-e9ff-468c-7a6d28e10724
@@ -11,44 +17,67 @@ workflow:
     - app # app workflow
 ```
 
-Project is limited to the workflows specified during initialization.
+---
+**Note:** Project is limited to the workflows specified during initialization.
+---
 
-To run workflow you need to execute `spryker-sdk sdk:workflow:run {workflowName}` in project dir.
-If none was specified, any workflow can be started by providing it's name to the `sdk:workflow:run` command.
-Two identical top-level workflows can't run inside the same project.
+To run a workflow, execute the following command in the project directory:
+
+```bash
+spryker-sdk sdk:workflow:run {workflowName}
+```
+You can start any workflow by providing its name in the `sdk:workflow:run` command.
+
+---
+**Note:** Two identical top-level workflows can't run inside the same project.
+---
 
 ## Commands
 
-```bash
-  # List of available workflows
+There are the following commands for the workflow:
+
+- To list all available workflows:
+  ```bash
   spryker-sdk sdk:workflow:list
-  # Generate svg image for concrete workflow
+  ```
+- To generate and .SVG image for a specific workflow:
+  ```bash
   spryker-sdk sdk:workflow:show {workflowName}
-  # Init project settings with workflow
-  spryker-sdk sdk:init:project --workflow={workflowName} --workflow={workflowName} # If you init workflows for the project you can use only these workflows.
-  # Run workflow process.
+  ```
+- To initialize project settings with a workflow:
+  ```bash
+  spryker-sdk sdk:init:project --workflow={workflowName} --workflow={workflowName}
+  ```
+  ---
+  **Note:** If you initialize workflows for the project, you can use only these workflows.
+  ---
+- To run the workflow process:
+  ```bash
   spryker-sdk sdk:workflow:run {workflowName}
-```
+  ```
 
 ## Configuration reference
 
-In SDK directory workflows are defined in workflow.yaml files either in `config/packages` or in the configuration of extension bundles.
+In the SDK directory, the workflows are defined in the workflow YAML files either in `config/packages`, or in the configuration of extension bundles.
 
-The basic workflow documentation you can find in [symfony docs](https://symfony.com/doc/current/workflow.html).
+See the basic workflow documentation in the [Symfony docs](https://symfony.com/doc/current/workflow.html).
 
-#### Additionally, the workflow behavior can be configured and extended by providing some specific metadata options:
-- `transitionResolver`: `sdk:workflow:run` See example below `service` should implement `\SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface`.
-- `allowToFail: true`: `sdk:workflow:run` will set the next place if task failed.
-- `re-run: true`: `sdk:workflow:run` will run workflow many times when the current one has finished.
-- `run: single`: `sdk:workflow:run` will only run single transition and exit. If omitting this setting, task will run available transitions one by one asking which one to run if multiple possible variants exist.
-- `before: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface` and will be called before transition occurs.
-- `after: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface` and will be called after transition occurs.
-- `guard: service_name`: service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface` and will be called to determine if transition is available.
-- `task: task_name`: task `task_name` will be executed inside the transition and transition may stop depending on it's result.
-- `workflowBefore: workflow_name`: workflow `workflow_name` will run inside the transition and should end before proceeding to the task execution.
-- `workflowAfter: workflow_name`: workflow `workflow_name` will run inside the transition after task is executed and should end before finishing the transition.
+Additionally, you can configure and extend the workflow behavior by providing some specific metadata options:
+- `transitionResolver`: `sdk:workflow:run`. The `service` should implement `\SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface` as shown in the [example workflow definition](example-workflow-definition).
+- `allowToFail: true`: `sdk:workflow:run`. Sets the next place if task failed.
+- `re-run: true`: `sdk:workflow:run`. Runs the workflow multiple times when the current one has finished.
+- `run: single`: `sdk:workflow:run`. Runs only a single transition and exits. If this setting is omitted, the task runs available transitions one by one, asking which one to run if multiple possible variants exist.
+- `before: service_name`. The service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface` and is called before the transition occurs.
+- `after: service_name`. The service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface` and is called after the transition occurs.
+- `guard: service_name`. The service `service_name` should implement `\SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface` and is called to determine if the transition is available.
+- `task: task_name`. The task `task_name` is executed inside the transition, and the transition can stop depending on its result.
+- `workflowBefore: workflow_name`. The workflow `workflow_name` runs inside the transition, and should end before proceeding to the task execution.
+- `workflowAfter: workflow_name`. The workflow `workflow_name` runs inside the transition after the task is executed and should end before finishing the transition.
 
-#### Example workflow definition in `workflow.yaml`:
+<a name="example-workflow-definition"></a>
+<details>
+<summary>Example workflow definition in `workflow.yaml`</summary>
+
 ```yaml
 framework:
   workflows:
@@ -61,7 +90,7 @@ framework:
         re-run: true # Possibility to re-run workflow when the current one is finished
         guard: guard_service_name # checks transition availability for all transitions
         before: handler_service_name # runs before every transition
-        run: single # sdk:workflow:run will only run single transition and exit
+        run: single # sdk:workflow:run will only run a single transition and exit
         after: handler_service_name # runs after every transition
       supports:
         - SprykerSdk\SdkContracts\Entity\WorkflowInterface
@@ -74,12 +103,12 @@ framework:
           from: start
           to: done
           metadata: # in order of execution
-            transitionResolver: # Resolver needs for resolve next transition
+            transitionResolver: # Resolver needs to resolve the next transition
               service: transition_boolean_resolver # Resolver service id. The resolver should implement `\SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface`
               settings: # will be passed to the transition resolver as a second argument
-                  failed: bye # transition name for failed result
+                  failed: bye # transition name for the failed result
                   successful: world # transition name for successful result
-            allowToFail: true # Can go to next place if task failed
+            allowToFail: true # Can go to next place if a task failed
             guard: guard_service_name # checks this transition availability
             before: handler_service_name # runs before this transition
             workflowBefore: hello_php # workflow starts and should end before proceeding to the task
@@ -102,3 +131,4 @@ framework:
           from: start
           to: done
 ```
+</details>
