@@ -27,7 +27,7 @@ class UpdateSdkSdkControllerCest
     /**
      * @var string
      */
-    protected const ENDPOINT = '/update';
+    protected const ENDPOINT = '/sdk-update-sdk';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I

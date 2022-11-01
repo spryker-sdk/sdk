@@ -27,7 +27,7 @@ class InitSdkControllerCest
     /**
      * @var string
      */
-    protected const ENDPOINT = '/init';
+    protected const ENDPOINT = '/sdk-init-sdk';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I

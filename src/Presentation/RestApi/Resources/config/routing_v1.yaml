@@ -11,8 +11,8 @@ init_sdk_controller:
     path: /init
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
     methods: POST
-update_sdk_controller:
-    path: /update
+sdk_update_sdk_controller:
+    path: /sdk-update-sdk
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController
     methods: POST
 run_task_controller:
