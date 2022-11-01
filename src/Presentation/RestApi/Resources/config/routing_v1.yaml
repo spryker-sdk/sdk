@@ -7,3 +7,13 @@ hello:
     path: /hello-world
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
     methods: GET
+
+sdk_init_sdk:
+    path: /sdk-init-sdk
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
+    methods: POST
+
+sdk_init_project:
+    path: /sdk-init-project
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController
+    methods: POST
