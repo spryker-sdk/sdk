@@ -8,12 +8,12 @@ hello:
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
     methods: GET
 
-api_v1_sdk_init_sdk:
-    path: /api/v1/sdk-init-sdk
+sdk_init_sdk:
+    path: /sdk-init-sdk
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
     methods: POST
 
-api_v1_sdk_init_project:
-    path: /api/v1/sdk-init-project
+sdk_init_project:
+    path: /sdk-init-project
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController
     methods: POST
