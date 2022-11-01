@@ -79,7 +79,7 @@ No conventions yet
 - Console command __SHOULD__ have no business logic.
 - Only basic input validation and output formatting __SHOULD__ present in the console command.
 - `protected static $defaultName` __SHOULD NOT__ be used because of performance reasons and future deprecation in Symfony 6.1 version.
-  Instead `protcted const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
+  Instead `protected const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
 
 ## Contracts
 

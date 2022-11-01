@@ -1,0 +1,20 @@
+parameters: ~
+
+services:
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
+        public: true
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:
+        public: true
+        arguments:
+            - '@SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor'
+
+    symfony.console.application:
+        class: Symfony\Bundle\FrameworkBundle\Console\Application
+        arguments:
+            - '@kernel'
+
+    SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
+        arguments:
+            - '@symfony.console.application'

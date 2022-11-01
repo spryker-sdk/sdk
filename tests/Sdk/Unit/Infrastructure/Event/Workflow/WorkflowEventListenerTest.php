@@ -8,12 +8,12 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Event\Workflow;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Exception\InvalidServiceException;
+use SprykerSdk\Sdk\Core\Application\Service\WorkflowEvent;
+use SprykerSdk\Sdk\Core\Application\Service\WorkflowEventHandlerInterface;
+use SprykerSdk\Sdk\Core\Application\Service\WorkflowEventListener;
+use SprykerSdk\Sdk\Core\Application\Service\WorkflowGuardEventHandlerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
-use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowEventHandlerInterface;
-use SprykerSdk\Sdk\Extension\Dependency\Event\WorkflowGuardEventHandlerInterface;
-use SprykerSdk\Sdk\Extension\Exception\InvalidServiceException;
-use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEvent;
-use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowEventListener;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Workflow\Event\GuardEvent;
@@ -23,6 +23,17 @@ use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
 use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\Workflow;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Event
+ * @group Workflow
+ * @group WorkflowEventListenerTest
+ * Add your own group annotations below this line
+ */
 class WorkflowEventListenerTest extends Unit
 {
     /**

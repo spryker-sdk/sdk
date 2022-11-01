@@ -13,12 +13,14 @@ use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
- * @group Sdk
  * @group Core
  * @group Application
  * @group Service
  * @group ContextFactoryTest
+ * Add your own group annotations below this line
  */
 class ContextFactoryTest extends Unit
 {

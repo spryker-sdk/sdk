@@ -15,12 +15,16 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationConverterInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group Violation
  * @group ViolationConverterResolverTest
+ * Add your own group annotations below this line
  */
 class ViolationConverterResolverTest extends Unit
 {

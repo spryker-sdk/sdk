@@ -13,6 +13,16 @@ use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskDeprecatedAction;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group SdkUpdateAction
+ * @group TestDeprecateActionTest
+ * Add your own group annotations below this line
+ */
 class TestDeprecateActionTest extends Unit
 {
     /**

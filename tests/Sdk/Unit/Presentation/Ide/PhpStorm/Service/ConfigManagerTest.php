@@ -17,6 +17,18 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group Ide
+ * @group PhpStorm
+ * @group Service
+ * @group ConfigManagerTest
+ * Add your own group annotations below this line
+ */
 class ConfigManagerTest extends Unit
 {
     /**

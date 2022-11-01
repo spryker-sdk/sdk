@@ -20,11 +20,13 @@ use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
- * @group YamlTaskLoading
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Reader
  * @group TaskYamlPlaceholderReaderTest
+ * Add your own group annotations below this line
  */
 class TaskYamlPlaceholderReaderTest extends Unit
 {

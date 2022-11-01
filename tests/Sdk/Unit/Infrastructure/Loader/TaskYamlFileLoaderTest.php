@@ -17,12 +17,13 @@ use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
- * @group YamlTaskLoading
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Loader
  * @group TaskYamlFileLoaderTest
+ * Add your own group annotations below this line
  */
 class TaskYamlFileLoaderTest extends Unit
 {
