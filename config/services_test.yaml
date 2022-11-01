@@ -1,8 +1,0 @@
-services:
-    task.reader.yaml:
-        class: SprykerSdk\Sdk\Infrastructure\Reader\TestTaskYamlReader
-        arguments:
-            - "@setting_repository"
-            - "@file_finder"
-            - "@yaml_parser"
-            - ['%kernel.project_dir%/tests/*']

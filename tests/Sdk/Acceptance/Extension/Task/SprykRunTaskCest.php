@@ -25,7 +25,7 @@ class SprykRunTaskCest
     /**
      * @var string
      */
-    protected const COMMAND = 'spryk:run:local';
+    protected const COMMAND = 'spryk:run';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
@@ -34,6 +34,7 @@ class SprykRunTaskCest
      */
     public function testSprykRunRunsSuccessfully(AcceptanceTester $I): void
     {
+        $I->skipCliInteractiveTest();
         // Arrange
         $expectedJson = [
             'Object' => [

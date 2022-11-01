@@ -9,9 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Reader;
 
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Finder\Finder;
@@ -54,7 +52,7 @@ class TaskYamlReader
      */
     public function readFiles(): ManifestCollectionDto
     {
-        $taskDirSetting = $this->getExtensionDirsSetting();
+        $taskDirSetting = $this->settingRepository->getOneByPath(Setting::PATH_EXTENSION_DIRS);
 
         $collection = new ManifestCollectionDto();
 
@@ -69,22 +67,6 @@ class TaskYamlReader
         }
 
         return $collection;
-    }
-
-    /**
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
-     *
-     * @return \SprykerSdk\SdkContracts\Entity\SettingInterface
-     */
-    protected function getExtensionDirsSetting(): SettingInterface
-    {
-        $taskDirSetting = $this->settingRepository->findOneByPath(Setting::PATH_EXTENSION_DIRS);
-
-        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
-            throw new MissingSettingException(sprintf('%s are not configured properly', Setting::PATH_EXTENSION_DIRS));
-        }
-
-        return $taskDirSetting;
     }
 
     /**

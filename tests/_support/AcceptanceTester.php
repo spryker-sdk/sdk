@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
+use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Process\Process;
 
 /**
@@ -115,5 +116,17 @@ class AcceptanceTester extends Actor
         $process->run();
 
         return $process;
+    }
+
+    /**
+     * @return void
+     */
+    public function skipCliInteractiveTest(): void
+    {
+        if (!Process::isTtySupported()) {
+            $this->markTestSkipped(
+                sprintf('Task with type "%s" is not supported by CI.', Task::TYPE_LOCAL_CLI_INTERACTIVE),
+            );
+        }
     }
 }
