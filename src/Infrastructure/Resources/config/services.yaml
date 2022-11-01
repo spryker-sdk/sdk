@@ -701,3 +701,8 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor
         arguments:
             - !tagged_iterator command.runner
+
+    version.file_app_version_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\Version\FileAppVersionFetcher
+        arguments:
+            - "%kernel.project_dir%"
