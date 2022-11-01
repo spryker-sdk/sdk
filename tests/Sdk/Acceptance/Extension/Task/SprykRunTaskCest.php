@@ -45,10 +45,8 @@ class SprykRunTaskCest
             ],
         ];
         $expectedJson = json_encode($jsonArray);
-        $I->createFileWithContent(
-            $I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json'),
-            $expectedJson,
-        );
+        $pathToJsonFile = $I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json');
+        $I->createFileWithContent($pathToJsonFile, $expectedJson,);
 
         // Act
         $process = $I->runSdkCommand([
@@ -67,10 +65,7 @@ class SprykRunTaskCest
 
         // Assert
         Assert::assertTrue($process->isSuccessful());
-        Assert::assertJsonStringEqualsJsonString(
-            $expectedJson,
-            file_get_contents($I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json')),
-        );
-        $I->removeFile($I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json'));
+        Assert::assertJsonStringEqualsJsonString($expectedJson, file_get_contents($pathToJsonFile));
+        $I->removeFile($pathToJsonFile);
     }
 }
