@@ -129,4 +129,27 @@ class AcceptanceTester extends Actor
             );
         }
     }
+
+    /**
+     * @param string $path
+     * @param string $content
+     *
+     * @return void
+     */
+    public function createFileWithContent(string $path, string $content): void
+    {
+        file_put_contents($path, $content);
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return void
+     */
+    public function removeFile(string $path): void
+    {
+        if (is_file($path)) {
+            unlink($path);
+        }
+    }
 }

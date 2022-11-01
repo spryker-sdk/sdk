@@ -34,15 +34,21 @@ class SprykRunTaskCest
      */
     public function testSprykRunRunsSuccessfully(AcceptanceTester $I): void
     {
-        $I->skipCliInteractiveTest();
         // Arrange
-        $expectedJson = [
+        $I->skipCliInteractiveTest();
+
+        $jsonArray = [
             'Object' => [
                 'name' => [
                     'key' => 'John',
                 ],
             ],
         ];
+        $expectedJson = json_encode($jsonArray);
+        $I->createFileWithContent(
+            $I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json'),
+            $expectedJson
+        );
 
         // Act
         $process = $I->runSdkCommand([
@@ -51,7 +57,7 @@ class SprykRunTaskCest
             '--targetModule=Pyz.AuthRestApi.Glue',
             '--option=--targetFilename=Object.json',
             '--option=--key=key',
-            '--option=--value=' . $expectedJson['Object']['name']['key'],
+            '--option=--value=' . $jsonArray['Object']['name']['key'],
             '--option=--targetPath=src/Pyz/Glue/AuthRestApi/',
             '--option=--target=Object.name',
             '--option=--no-interaction',
@@ -62,8 +68,9 @@ class SprykRunTaskCest
         // Assert
         Assert::assertTrue($process->isSuccessful());
         Assert::assertJsonStringEqualsJsonString(
-            json_encode($expectedJson),
+            $expectedJson,
             file_get_contents($I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json')),
         );
+        $I->removeFile($I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json'));
     }
 }
