@@ -64,6 +64,6 @@ class UpdateSdkController
             $result[] = $message->getMessage();
         }
 
-        return new JsonResponse(['result' => 'OK', 'messages' => $result]);
+        return new JsonResponse(['messages' => $result]);
     }
 }

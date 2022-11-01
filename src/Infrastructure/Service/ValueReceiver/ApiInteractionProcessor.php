@@ -58,6 +58,10 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
      */
     public function receiveValue(ReceiverValueInterface $receiverValue)
     {
+        if (isset($this->requestData[$receiverValue->getAlias()])) {
+            return $this->requestData[$receiverValue->getAlias()];
+        }
+
         $choiceValues = $this->prepareChoiceValues($receiverValue->getChoiceValues());
         $defaultValue = $receiverValue->getDefaultValue();
 
@@ -69,8 +73,8 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
             return $defaultValue;
         }
 
-        if (isset($this->requestData[$receiverValue->getAlias()])) {
-            return $this->requestData[$receiverValue->getAlias()];
+        if ($receiverValue->getDefaultValue()) {
+            return $receiverValue->getDefaultValue();
         }
 
         throw new InvalidRequestDataException($receiverValue->getAlias());

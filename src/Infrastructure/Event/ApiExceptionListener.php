@@ -49,7 +49,7 @@ class ApiExceptionListener
         }
 
         $this->logger->error($exception->getMessage());
-\var_dump($exception->getMessage());die;
+
         $event->setResponse(
             new JsonResponse(
                 [
