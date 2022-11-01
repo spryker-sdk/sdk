@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Workflow;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @group Sdk
  * @group Unit
  * @group Infrastructure
- * @group Service
+ * @group Workflow
  * @group WorkflowRunnerTest
  * Add your own group annotations below this line
  */

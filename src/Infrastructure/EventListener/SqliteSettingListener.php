@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event;
+namespace SprykerSdk\Sdk\Infrastructure\EventListener;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Contracts\EventDispatcher\Event;

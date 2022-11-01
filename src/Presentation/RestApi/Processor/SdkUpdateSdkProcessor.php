@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
+namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SdkUpdateSdkController
+class SdkUpdateSdkProcessor
 {
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
@@ -42,7 +42,7 @@ class SdkUpdateSdkController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(Request $request): Response
+    public function process(Request $request): Response
     {
         $this->initializerService->initialize([]);
 

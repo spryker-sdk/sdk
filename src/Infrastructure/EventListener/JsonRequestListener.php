@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event\Request;
+namespace SprykerSdk\Sdk\Infrastructure\EventListener;
 
 use JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -49,7 +49,7 @@ class JsonRequestListener
             $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
             $request->request->replace($data);
         } catch (JsonException $exception) {
-            $event->setResponse(new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST));
+            $event->setResponse(new JsonResponse('Invalid request.', Response::HTTP_BAD_REQUEST));
         }
     }
 

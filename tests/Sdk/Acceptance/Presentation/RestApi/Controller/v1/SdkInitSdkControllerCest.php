@@ -19,10 +19,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @group RestApi
  * @group Controller
  * @group v1
- * @group InitSdkControllerCest
+ * @group SdkInitSdkControllerCest
  * Add your own group annotations below this line
  */
-class InitSdkControllerCest
+class SdkInitSdkControllerCest
 {
     /**
      * @var string
