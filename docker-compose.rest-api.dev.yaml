@@ -24,7 +24,7 @@ services:
                 SDK_VERSION: ${SDK_VERSION:-latest}
         volumes:
             - ./:/data
-        restart: always
+        restart: on-failure
         environment:
             SDK_DIR: ${SDK_DIR}
             EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}

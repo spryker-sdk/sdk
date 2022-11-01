@@ -1,0 +1,9 @@
+index:
+    path: /
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController
+    methods: GET|POST
+
+hello:
+    path: /hello-world
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
+    methods: GET
