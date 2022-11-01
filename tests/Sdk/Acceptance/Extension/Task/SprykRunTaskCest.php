@@ -47,7 +47,7 @@ class SprykRunTaskCest
         $expectedJson = json_encode($jsonArray);
         $I->createFileWithContent(
             $I->getPathFromProjectRoot('src/Pyz/Glue/AuthRestApi/Object.json'),
-            $expectedJson
+            $expectedJson,
         );
 
         // Act
