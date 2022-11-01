@@ -94,6 +94,16 @@ Contracts must meet the following conditions:
 - A contract must exist only in case if the existing logic provides for an extension by the user.
 - Contract is a public API and must follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
 
+## REST API
+- Controller __SHOULD__ have no business logic.
+- Controller __SHOULD__ be named by template of task's id.
+  For example, for the task `validation:php:codestyle` - the controller name should be `ValidatePhpCodestyleController` and controller's action should be `__invoke`.
+- Controller __MUST__ be placed in namespace `SprykerSdk\Sdk\Presentation\RestApi\Controller\v1`. The `v1` is current version of SDK API.
+- Route __MUST__ be placed in `src/Presentation/RestApi/Resources/routing.yaml`
+- Route __SHOULD__ be named by template `api_${version}_${controller_name}`.
+  Example: For action `ValidatePhpCodestyleController::__invoke` route is `api_v1_validation_php_codestyle`
+- Route's path __SHOULD__ be named in hyphen-case. For task `validation:php:codestyle` path is `/api/v1/validation-php-codestyle`
+
 ## TODO
 
 - .env usage.
