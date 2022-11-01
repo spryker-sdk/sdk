@@ -97,11 +97,11 @@ Contracts must meet the following conditions:
 ## REST API
 - Controller __SHOULD__ have no business logic.
 - Controller __SHOULD__ be named by template of task's id.
-  For task `validation:php:codestyle` - controller name is `ValidationController` and controller's action name is `validationPhpCodestyle` (task's full id in camelCase).
+  For example, for the task `validation:php:codestyle` - the controller name should be `ValidatePhpCodestyleController` and controller's action should be `__invoke`.
 - Controller __MUST__ be placed in namespace `SprykerSdk\Sdk\Presentation\RestApi\Controller\v1`. The `v1` is current version of SDK API.
 - Route __MUST__ be placed in `src/Presentation/RestApi/Resources/routing.yaml`
 - Route __SHOULD__ be named by template `api_${version}_${controller_name}_${action_name}`.
-  Example: For action `ValidationController::validationPhpCodestyle` route is `api_v1_validation_validation_php_codestyle`
+  Example: For action `ValidatePhpCodestyleController::__invoke` route is `api_v1_validation_php_codestyle`
 - Route's path __SHOULD__ be named in hyphen-case. For task `validation:php:codestyle` path is `/api/v1/validation-php-codestyle`
 
 ## TODO
