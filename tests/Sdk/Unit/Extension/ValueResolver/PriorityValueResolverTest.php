@@ -55,11 +55,11 @@ class PriorityValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->willReturn(true);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn('./');
         $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);
@@ -79,11 +79,11 @@ class PriorityValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->willReturn(true);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn('tests');
         $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '', 'settingPaths' => ['one', 'two']]);
@@ -102,11 +102,11 @@ class PriorityValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->willReturn(true);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn('./none');
         $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '', 'settingPaths' => ['test' => 'test']]);

@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Task\Command;
 
 use SprykerSdk\Sdk\Extension\ValueResolver\PCSystemValueResolver;
-use SprykerSdk\Sdk\Infrastructure\Service\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
@@ -30,13 +30,13 @@ class BusinessModelARMCommand implements ExecutableCommandInterface, ErrorComman
     protected Yaml $yaml;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param \Symfony\Component\Yaml\Yaml $yaml
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Filesystem $filesystem
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(Yaml $yaml, Filesystem $filesystem)
     {

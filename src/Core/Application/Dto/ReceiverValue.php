@@ -35,19 +35,19 @@ class ReceiverValue implements ReceiverValueInterface
     protected string $alias;
 
     /**
+     * @param string $alias
      * @param string $description
      * @param mixed $defaultValue
      * @param string $type
      * @param array $choiceValues
-     * @param string $alias
      */
-    public function __construct(string $description, $defaultValue, string $type, array $choiceValues = [], string $alias = '')
+    public function __construct(string $alias, string $description, $defaultValue, string $type, array $choiceValues = [])
     {
+        $this->alias = $alias;
         $this->description = $description;
         $this->defaultValue = $defaultValue;
         $this->type = $type;
         $this->choiceValues = $choiceValues;
-        $this->alias = $alias;
     }
 
     /**

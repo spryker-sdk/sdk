@@ -10,10 +10,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Infrastructure\Event\HelperSetInjectorInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\OutputInjectorInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
-use SprykerSdk\Sdk\Infrastructure\Service\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Injector\HelperSetInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\OutputInjectorInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -36,13 +36,13 @@ class LocalCliRunner implements HelperSetInjectorInterface, CommandRunnerInterfa
     protected ProcessHelper $processHelper;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Filesystem $filesystem
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(ProcessHelper $processHelper, Filesystem $filesystem)
     {

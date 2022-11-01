@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Presentation\Console\Command\RunTaskWrapperCommand;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,13 +21,13 @@ class TaskOptionBuilder
     protected PlaceholderResolver $placeholderResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver $placeholderResolver
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Filesystem $filesystem
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(PlaceholderResolver $placeholderResolver, Filesystem $filesystem)
     {

@@ -37,16 +37,13 @@ class RequestTransformerListener
     {
         $request = $event->getRequest();
 
-        if ($this->supports($request) === false) {
+        if (!$this->supports($request)) {
             return;
         }
 
         try {
             $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
-
-            if (is_array($data)) {
-                $request->request->replace($data);
-            }
+            $request->request->replace($data);
         } catch (JsonException $exception) {
             $event->setResponse(new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST));
         }

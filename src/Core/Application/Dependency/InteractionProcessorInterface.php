@@ -16,14 +16,14 @@ interface InteractionProcessorInterface
      *
      * @return bool
      */
-    public function has(string $key): bool;
+    public function hasRequestItem(string $key): bool;
 
     /**
      * @param string $key
      *
      * @return mixed
      */
-    public function get(string $key);
+    public function getRequestItem(string $key);
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface $receiverValue

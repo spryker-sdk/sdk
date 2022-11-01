@@ -12,12 +12,12 @@ services:
         SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
             tags: [ "manifest.validator" ]
     path_resolver:
-        class: SprykerSdk\Sdk\Infrastructure\Service\PathResolver
+        class: SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
         arguments:
             - "%kernel.project_dir%"
             - "@sdk_filesystem"
     sdk_filesystem:
-        class: SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+        class: SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
         tags: [ "sdk.cli_receiver_setup" ]
     file_finder:
         class: Symfony\Component\Finder\Finder

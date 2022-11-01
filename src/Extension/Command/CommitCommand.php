@@ -8,17 +8,17 @@
 namespace SprykerSdk\Sdk\Extension\Command;
 
 use Brancho\Command\CommitCommand as BranchoCommitCommand;
-use SprykerSdk\Sdk\Infrastructure\Service\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 
 class CommitCommand extends BranchoCommitCommand
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\Filesystem $filesystem
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      * @param string|null $name
      */
     public function __construct(Filesystem $filesystem, ?string $name = null)

@@ -120,7 +120,7 @@ class InitProjectCommand extends Command
         if (file_exists($this->projectSettingFileName)) {
             if (
                 !$this->cliValueReceiver->receiveValue(
-                    new ReceiverValue('Project settings file already exists, should it be overwritten?', false, ValueTypeEnum::TYPE_BOOL),
+                    new ReceiverValue('overwrite', 'Project settings file already exists, should it be overwritten?', false, ValueTypeEnum::TYPE_BOOL),
                 )
             ) {
                 return static::SUCCESS;
@@ -159,6 +159,7 @@ class InitProjectCommand extends Command
             if (empty($options[$settingEntity->getPath()])) {
                 $needsToAsk = !$this->cliValueReceiver->receiveValue(
                     new ReceiverValue(
+                        'change-default-value',
                         sprintf('Would you like to change the default value for `%s` setting?', $settingEntity->getPath()),
                         false,
                         ValueTypeEnum::TYPE_BOOL,
@@ -214,6 +215,7 @@ class InitProjectCommand extends Command
 
         return $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
+                $settingEntity->getPath(),
                 $questionDescription,
                 is_array($values) ? array_key_first($values) : $values,
                 $settingEntity->getType(),

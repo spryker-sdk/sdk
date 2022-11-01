@@ -131,6 +131,7 @@ class WorkflowRunner
 
             return $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
+                    'next-step',
                     'Select the next step in workflow.',
                     current($nextEnabledTransitions),
                     ValueTypeEnum::TYPE_STRING,

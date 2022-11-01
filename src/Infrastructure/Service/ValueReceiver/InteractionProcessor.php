@@ -32,9 +32,9 @@ class InteractionProcessor implements InteractionProcessorInjectorInterface, Int
      *
      * @return bool
      */
-    public function has(string $key): bool
+    public function hasRequestItem(string $key): bool
     {
-        return $this->interactionProcessor->has($key);
+        return $this->interactionProcessor->hasRequestItem($key);
     }
 
     /**
@@ -42,9 +42,9 @@ class InteractionProcessor implements InteractionProcessorInjectorInterface, Int
      *
      * @return mixed
      */
-    public function get(string $key)
+    public function getRequestItem(string $key)
     {
-        return $this->interactionProcessor->get($key);
+        return $this->interactionProcessor->getRequestItem($key);
     }
 
     /**

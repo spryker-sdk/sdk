@@ -9,25 +9,24 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\RequestDataInjectorInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
-use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
+use SprykerSdk\Sdk\Infrastructure\Injector\RequestDataInjectorInterface;
 
 class ApiInteractionProcessor implements InteractionProcessorInterface, RequestDataInjectorInterface
 {
     /**
      * @var array
      */
-    protected array $data;
+    protected array $requestData = [];
 
     /**
-     * @param array $data
+     * @param array $requestData
      *
      * @return void
      */
-    public function setRequestData(array $data): void
+    public function setRequestData(array $requestData): void
     {
-        $this->data = $data;
+        $this->requestData = $requestData;
     }
 
     /**
@@ -35,9 +34,9 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
      *
      * @return bool
      */
-    public function has(string $key): bool
+    public function hasRequestItem(string $key): bool
     {
-        return !empty($this->data[$key]);
+        return !empty($this->requestData[$key]);
     }
 
     /**
@@ -45,9 +44,9 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
      *
      * @return mixed
      */
-    public function get(string $key)
+    public function getRequestItem(string $key)
     {
-        return $this->data[$key];
+        return $this->requestData[$key];
     }
 
     /**
@@ -59,7 +58,7 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
      */
     public function receiveValue(ReceiverValueInterface $receiverValue)
     {
-        $choiceValues = $receiverValue->getChoiceValues() ? $this->prepareChoiceValues($receiverValue->getChoiceValues()) : [];
+        $choiceValues = $this->prepareChoiceValues($receiverValue->getChoiceValues());
         $defaultValue = $receiverValue->getDefaultValue();
 
         if (!$defaultValue && $choiceValues) {
@@ -70,12 +69,8 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
             return $defaultValue;
         }
 
-        if (isset($this->data[$receiverValue->getAlias()])) {
-            return $this->data[$receiverValue->getAlias()];
-        }
-
-        if ($receiverValue->getType() === ValueTypeEnum::TYPE_BOOL) {
-            return true;
+        if (isset($this->requestData[$receiverValue->getAlias()])) {
+            return $this->requestData[$receiverValue->getAlias()];
         }
 
         throw new InvalidRequestDataException($receiverValue->getAlias());

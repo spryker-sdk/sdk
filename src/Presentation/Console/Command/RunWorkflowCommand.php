@@ -130,6 +130,7 @@ EOT,
             $workflows = $projectWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
             $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
+                    'workflow',
                     'You have more than one initialized workflow. You have to select one.',
                     current(array_keys($workflows)),
                     ValueTypeEnum::TYPE_STRING,

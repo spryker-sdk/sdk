@@ -116,8 +116,8 @@ class WorkflowEventListener
      */
     protected function isForced(): bool
     {
-        return $this->cliInteractionProcessor->has(static::OPTION_FORCE)
-            && $this->cliInteractionProcessor->get(static::OPTION_FORCE);
+        return $this->cliInteractionProcessor->hasRequestItem(static::OPTION_FORCE)
+            && $this->cliInteractionProcessor->getRequestItem(static::OPTION_FORCE);
     }
 
     /**

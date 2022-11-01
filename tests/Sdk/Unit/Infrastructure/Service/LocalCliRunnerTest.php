@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner;
-use SprykerSdk\Sdk\Infrastructure\Service\Filesystem;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
@@ -41,7 +41,7 @@ class LocalCliRunnerTest extends Unit
     protected CommandInterface $command;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 

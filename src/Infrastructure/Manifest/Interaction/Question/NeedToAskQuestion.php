@@ -35,6 +35,7 @@ class NeedToAskQuestion
     {
          return $this->interactionProcessor->receiveValue(
              new ReceiverValue(
+                 'ask-value',
                  sprintf('Would you like to set value for `%s`?', $valueId),
                  false,
                  ValueTypeEnum::TYPE_BOOL,

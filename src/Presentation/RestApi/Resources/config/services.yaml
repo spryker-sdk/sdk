@@ -3,25 +3,28 @@ parameters: ~
 services:
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
         public: true
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskRunnerController:
-        class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskRunnerController
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController
         public: true
+        arguments:
+            - "@run_run_task_processor"
+    run_run_task_processor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor
         arguments:
             - "@task_executor"
             - "@context_factory"
             - "@violation_report_mapper"
-
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:
         class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
         public: true
         arguments:
             - "@rest_api_task_executor"
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\InitController:
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\InitSdkController:
         public: true
         arguments:
             - "@initializer_service"
 
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\UpdateController:
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\UpdateSdkController:
         public: true
         arguments:
             - "@initializer_service"

@@ -64,6 +64,7 @@ class InteractionAnswerBasedTransitionResolver implements TransitionResolverInte
         $flippedValues = array_flip($choiceValues);
 
         $answer = $this->cliValueReceiver->receiveValue(new ReceiverValue(
+            'next-transition',
             $settings[static::QUESTION] ?? '',
             null,
             ValueTypeEnum::TYPE_STRING,

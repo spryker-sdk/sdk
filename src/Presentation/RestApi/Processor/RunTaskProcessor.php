@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
+namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 
 use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 
-class TaskRunnerController
+class RunTaskProcessor
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor
@@ -54,11 +54,9 @@ class TaskRunnerController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(string $task): Response
+    public function process(string $task): Response
     {
-        $context = $this->contextFactory->getContext();
-        $context->setFormat('yaml');
-        $context = $this->taskExecutor->execute($context, $task);
+        $context = $this->taskExecutor->execute($this->contextFactory->getContext(), $task);
 
         $response = [];
         foreach ($context->getMessages() as $message) {

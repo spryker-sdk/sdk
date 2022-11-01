@@ -47,7 +47,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', null, 'array', ['test1' => '']);
+        $receiverValue = new ReceiverValue('', '', null, 'array', ['test1' => '']);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);
@@ -63,7 +63,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', 'test1', 'array', ['test1', 'test2']);
+        $receiverValue = new ReceiverValue('', '', 'test1', 'array', ['test1', 'test2']);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);
@@ -79,7 +79,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', true, ValueTypeEnum::TYPE_BOOL, []);
+        $receiverValue = new ReceiverValue('', '', true, ValueTypeEnum::TYPE_BOOL, []);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);
@@ -95,7 +95,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', 'default', 'some-type', [1, 2, 3]);
+        $receiverValue = new ReceiverValue('', '', 'default', 'some-type', [1, 2, 3]);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);
@@ -111,7 +111,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', 'default', 'array', [1, 2, 3]);
+        $receiverValue = new ReceiverValue('', '', 'default', 'array', [1, 2, 3]);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);
@@ -127,7 +127,7 @@ class CliInteractionProcessorTest extends Unit
         $questionHelper = $this->createQuestionHelperMock($questionAssertion);
         $questionFactoriesRegistry = $this->createQuestionFactoriesRegistryMock();
         $cliValueReceiver = $this->createCliValueReceiver($questionHelper, $questionFactoriesRegistry);
-        $receiverValue = new ReceiverValue('', null, 'array', ['test1' => '']);
+        $receiverValue = new ReceiverValue('', '', null, 'array', ['test1' => '']);
 
         //Act
         $cliValueReceiver->receiveValue($receiverValue);

@@ -138,11 +138,11 @@ class Initializer implements InitializerInterface
     {
         $value = $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
+                $settingEntity->getPath(),
                 $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
                 $settingEntity->getValues(),
                 $settingEntity->getType(),
                 [],
-                $settingEntity->getPath(),
             ),
         );
 

@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event;
+namespace SprykerSdk\Sdk\Infrastructure\Injector;
 
 interface RequestDataInjectorInterface extends InjectorInterface
 {
     /**
-     * @param array $data
+     * @param array $requestData
      *
      * @return void
      */
-    public function setRequestData(array $data): void;
+    public function setRequestData(array $requestData): void;
 }

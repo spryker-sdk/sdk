@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class InitController
+class InitSdkController
 {
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer

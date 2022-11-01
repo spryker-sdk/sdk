@@ -7,6 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event;
 
+use SprykerSdk\Sdk\Infrastructure\Injector\HelperSetInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\InputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\OutputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\RequestDataInjectorInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessorInjectorInterface;
@@ -22,7 +26,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 class ApplicationReceiverSetupListener
 {
     /**
-     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Event\InjectorInterface>
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Injector\InjectorInterface>
      */
     protected iterable $inputOutputConnectors;
 

@@ -9,9 +9,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InputInjectorInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\OutputInjectorInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\RequestDataInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\InputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\OutputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\RequestDataInjectorInterface;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,7 +26,7 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputInj
     /**
      * @var array<array>
      */
-    protected array $data = [];
+    protected array $requestData = [];
 
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface
@@ -74,13 +74,13 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputInj
     }
 
     /**
-     * @param array $output
+     * @param array $requestData
      *
      * @return void
      */
-    public function setRequestData(array $output): void
+    public function setRequestData(array $requestData): void
     {
-        $this->data = $output;
+        $this->requestData = $requestData;
     }
 
     /**
@@ -88,9 +88,9 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputInj
      *
      * @return bool
      */
-    public function has(string $key): bool
+    public function hasRequestItem(string $key): bool
     {
-        return !empty($this->data[$key]);
+        return !empty($this->requestData[$key]);
     }
 
     /**
@@ -98,9 +98,9 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputInj
      *
      * @return mixed
      */
-    public function get(string $key)
+    public function getRequestItem(string $key)
     {
-        return $this->data[$key];
+        return $this->requestData[$key];
     }
 
     /**

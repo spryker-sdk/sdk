@@ -14,7 +14,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\PathResolver;
+use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
@@ -49,7 +49,7 @@ class ProjectSettingRepositoryTest extends Unit
     protected Yaml $yamlParser;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
 

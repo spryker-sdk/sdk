@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\InjectorInterface;
 
 interface InteractionProcessorInjectorInterface extends InjectorInterface
 {

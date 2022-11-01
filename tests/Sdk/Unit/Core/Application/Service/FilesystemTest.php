@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Infrastructure\Service\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 
 /**
  * Auto-generated group annotations
@@ -24,7 +24,7 @@ use SprykerSdk\Sdk\Infrastructure\Service\Filesystem;
 class FilesystemTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
