@@ -146,25 +146,14 @@ class LocalCliRunner implements CliCommandRunnerInterface
         }
 
         $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
+        $verbosity = $process->isSuccessful() ? MessageInterface::INFO : MessageInterface::ERROR;
 
-        foreach (explode(PHP_EOL, $process->getOutput()) as $outputLine) {
-            if (!$outputLine) {
-                continue;
-            }
-            $context->addMessage($command->getCommand(), new Message($outputLine, MessageInterface::INFO));
+        if ($process->getOutput() !== '') {
+            $context->addMessage($command->getCommand(), new Message($process->getOutput(), $verbosity));
         }
 
-        foreach (explode(PHP_EOL, $process->getErrorOutput()) as $errorLine) {
-            if (!$errorLine) {
-                continue;
-            }
-            $context->addMessage(
-                $command->getCommand(),
-                new Message(
-                    $errorLine,
-                    !$process->isSuccessful() ? MessageInterface::ERROR : MessageInterface::INFO,
-                ),
-            );
+        if ($process->getErrorOutput() !== '') {
+            $context->addMessage($command->getCommand(), new Message($process->getErrorOutput(), $verbosity));
         }
 
         return $context;
