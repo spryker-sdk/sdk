@@ -149,11 +149,11 @@ class LocalCliRunner implements CliCommandRunnerInterface
         $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
         $verbosity = $process->isSuccessful() ? MessageInterface::INFO : MessageInterface::ERROR;
 
-        if ($process->getOutput() !== '') {
+        if ($process->getOutput()) {
             $context->addMessage($command->getCommand(), new Message($process->getOutput(), $verbosity));
         }
 
-        if ($process->getErrorOutput() !== '') {
+        if ($process->getErrorOutput()) {
             $context->addMessage($command->getCommand(), new Message($process->getErrorOutput(), $verbosity));
         }
 
