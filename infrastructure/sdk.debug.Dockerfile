@@ -7,7 +7,7 @@ RUN rm -rf /data
 
 ARG USER_UID
 RUN if [[ ! -z "${USER_UID}" ]]; then \
-        usermod -u "${USER_UID}" spryker; \
+        find /home -not -user "${USER_UID}" -exec chown -h spryker {} \; && usermod -u "${USER_UID}" spryker; \
     fi
 
 RUN /usr/bin/install -d -m 777 /var/run/opcache/debug

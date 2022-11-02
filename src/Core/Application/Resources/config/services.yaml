@@ -121,6 +121,15 @@ services:
     arguments:
       - "@event_logger"
     tags: ["action.after_command_executed"]
+  project_workflow:
+    public: true
+    shared: false
+    class: SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
+    arguments:
+      - "@workflow.registry"
+      - "@workflow_repository"
+      - "@workflow_transition_repository"
+      - "@setting.setting_fetcher"
 
   context_factory:
     class: SprykerSdk\Sdk\Core\Application\Service\ContextFactory
@@ -168,3 +177,11 @@ services:
       - "%telemetry_synchronizer_lock_ttl_sec%"
       - "%kernel.debug%"
       - "%telemetry_enabled%"
+
+  project_settings_initializer:
+      class: SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializer
+      arguments:
+          - "@setting_repository"
+          - "@project_setting_manager"
+          - "@project_settings_init.initializer"
+

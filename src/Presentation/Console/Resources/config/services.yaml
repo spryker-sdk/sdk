@@ -41,7 +41,7 @@ services:
       - "@cli_interaction_processor"
       - "@workflow_runner"
       - "@context_factory"
-      - "@project_setting_repository"
+      - "@setting.setting_fetcher"
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
@@ -72,10 +72,8 @@ services:
     tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "@cli_interaction_processor"
-      - "@project_setting_manager"
       - "@setting_repository"
-      - "@service_container"
-      - "%project_settings_file%"
+      - "@project_settings_initializer"
   setting_set_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\SettingSetCommand
     tags: ["console.command"]

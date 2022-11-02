@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
@@ -66,29 +66,29 @@ class RunWorkflowCommand extends Command
     protected ContextFactoryInterface $contextFactory;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
      */
-    protected ProjectSettingRepositoryInterface $projectSettingRepository;
+    protected SettingFetcherInterface $settingFetcher;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner $workflowRunner
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         InteractionProcessorInterface $cliValueReceiver,
         WorkflowRunner $workflowRunner,
         ContextFactoryInterface $contextFactory,
-        ProjectSettingRepositoryInterface $projectSettingRepository
+        SettingFetcherInterface $settingFetcher
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->workflowRunner = $workflowRunner;
         $this->contextFactory = $contextFactory;
-        $this->projectSettingRepository = $projectSettingRepository;
+        $this->settingFetcher = $settingFetcher;
 
         parent::__construct(static::NAME);
     }
@@ -118,7 +118,7 @@ EOT,
     {
         /** @var string|null $workflowName */
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
-        $projectWorkflows = (array)$this->projectSettingRepository->getOneByPath(Setting::PATH_WORKFLOW)->getValues();
+        $projectWorkflows = (array)$this->settingFetcher->getOneByPath(Setting::PATH_WORKFLOW)->getValues();
 
         if ($workflowName && !in_array($workflowName, $projectWorkflows)) {
             $output->writeln('<error>You don\'t have any active a workflows".</error>');
