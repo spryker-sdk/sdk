@@ -11,10 +11,14 @@ use SprykerSdk\Sdk\Extension\Converter\CodeceptionViolationReportConverter;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Extension
  * @group Converter
  * @group CodeceptionViolationReportConverterTest
+ * Add your own group annotations below this line
  */
 class CodeceptionViolationReportConverterTest extends ReportConverterTest
 {

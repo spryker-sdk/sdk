@@ -16,6 +16,16 @@ use SprykerSdk\Sdk\Infrastructure\Violation\ReportFormatterFactory;
 use SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Repository
+ * @group ViolationReportFileRepositoryTest
+ * Add your own group annotations below this line
+ */
 class ViolationReportFileRepositoryTest extends Unit
 {
     /**

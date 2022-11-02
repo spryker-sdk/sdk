@@ -11,6 +11,16 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Mapper\FileMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group FileMapperTest
+ * Add your own group annotations below this line
+ */
 class FileMapperTest extends Unit
 {
     /**

@@ -1,49 +1,104 @@
 # Development
 
-## Running as docker container
+## Installation for development
 
-### Building the dev container
+To install the Spryker SDK for your development needs, clone the project and export `SPRYKER_SDK_ENV` with the `dev` environment and create an alias:
 
-You might need to build the SDK and tag it first:
-
-```bash
-docker pull spryker/php-sdk:latest
-#Create new image with enabled debug spryker/php-sdk-debug:latest image
-docker build -f {path to SDK}/infrastructure/sdk.debug.Dockerfile -t spryker/php-sdk-debug:latest {path to SDK}
-spryker-sdk --mode=dev
+```shell
+git clone git@github.com:spryker-sdk/sdk.git && \
+cd sdk; \
+PATH_TO_SDK=$(pwd) && \
+if [ -e ~/.zshrc ]; then \
+  echo 'export SPRYKER_SDK_ENV=dev' >> ~/.zshrc && \
+  echo 'alias spryker-sdk="$PATH_TO_SDK/bin/spryker-sdk.sh"' >> ~/.zshrc && \
+  source ~/.zshrc; \
+else \
+  echo 'export SPRYKER_SDK_ENV=dev' >> ~/.bashrc && \
+  echo 'alias spryker-sdk="'$PATH_TO_SDK'/bin/spryker-sdk.sh"' >> ~/.bashrc && \
+  source ~/.bashrc; \
+fi; \
+git describe --abbrev=0 --tags > VERSION; \
+spryker-sdk --mode=docker sdk --install
 ```
 
-### Run SDK in development mode
-Requires (mutagen)[https://mutagen.io/documentation/introduction/installation] to be installed.
+## Usage
 
-`spryker-sdk --mode=dev`
+- To run a task or a command, execute the following command:
+  
+```shell
+spryker-sdk <task|command>
+```
 
-### Debug SDK
-This will start a xdebug session with the serverName "spryker-sdk" (needs to be configured in PHPStorm)
+- To debug a task or a command, make sure the server name in IDE is `spryker-sdk` and run the following command:
 
-`spryker-sdk --mode=debug <task>`
+```shell
+spryker-sdk --mode=debug <task|command>
+```
 
-## Handy commands
-debug
-Helpful commands to use during development are
+- To run the Spryker SDK in the production environment, execute the following command:
+  
+```shell
+SPRYKER_SDK_ENV=prod spryker-sdk <task|command>
+```
 
-### Reset SDK
-`rm db/data.db && spryker-sdk sdk:init:sdk`
+- To run any command inside the docker container, execute the following command:
+- 
+```shell
+spryker-sdk --mode=docker "<command>"
 
-### Reset project
-`cd <project> && rm -f .ssdk && rm -f .ssdk.log && spryker-sdk sdk:init:project`
+spryker-sdk --mode=docker "cd /data && composer cs-check"
+```
 
-### Environments
-There are three environments in SDK project. You can configure environment variables in files:
- - .env - for dev
- - .env.prod - for prod
- - .env.test - for test
+- To jump into the docker container, execute the following command:
+  
+```shell
+spryker-sdk --mode=docker /bin/bash
+```
 
-## Troubleshooting
+## SDK helper
 
-### Problems with docker container
-If you have problems with:
-- pulling container from docker registry
-- file permissions and ownership on files created by the SDK
+Inside the container, you can find the SDK helper with useful commands, shortcuts, and aliases.
 
-You can build you own container from SDK sources. Please refer to [**Building flavored Spryker SDKs**](build.md)
+### Refreshing state after switching to a new branch
+
+To refresh state after switching to a new branch, run the following command:
+
+```shell
+spryker-sdk --mode=docker sdk --refresh
+```
+or
+
+```shell
+spryker-sdk --mode=docker sdk r
+```
+
+Here is the full list of commands you can use:
+
+```shell
+spryker-sdk --mode=docker sdk --help
+
+    --refresh, -r           refreshes cache vendor and DB
+    --composer, -c          runs the SDK composer
+                            accepts composer arguments like 'sdk --composer install' 'sdk -c cs-check'
+    --cache-clear, -cl      alias for 'rm -rf var/cache && bin/console cache:clear'
+    --cs-fix, -cf           alias for 'composer cs-fix'
+    --cs-check, -cc         alias for 'composer cs-check'
+    --stan, -s              alias for 'composer stan'
+    --unit, -u              runs codeception unit tests
+                            accepts arguments like 'sdk -u someUnitTest.php'
+    --acceptance, -a        runs codeception acceptance tests
+                            accepts arguments like 'sdk -u someAcceptanceTest.php'
+```
+
+## Manage the project configuration
+For details on the project configuration management, see the [Symfony configuration docs]()https://symfony.com/doc/current/configuration.html).
+
+## Troubleshooting issues with docker container
+If you face issues with:
+- pulling container from the Docker registry,
+- file permissions and ownership on files created by the SDK,
+
+you can build your own container from the SDK sources. Refer to [Building flavored Spryker SDKs](/docs/sdk/dev/building-flavored-spryker-sdks.html) for details.
+
+## Useful links
+- [How to use the profiler](profiler.md)

@@ -13,13 +13,15 @@ use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Service
  * @group ValueReceiver
  * @group QuestionFactory
  * @group BooleanQuestionFactoryTest
+ * Add your own group annotations below this line
  */
 class BooleanQuestionFactoryTest extends Unit
 {

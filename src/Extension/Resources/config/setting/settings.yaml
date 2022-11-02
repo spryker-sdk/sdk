@@ -27,6 +27,7 @@ settings:
       - extension/SprykerSdk/*/src/
       - src/*/Resources/config/
       - extension/*/config/
+      - extension/*/src/Resources/config/
   - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR
     initialization_description: Where is the sdk directory?
     strategy: overwrite

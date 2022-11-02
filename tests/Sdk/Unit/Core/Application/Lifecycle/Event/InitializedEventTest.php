@@ -12,11 +12,16 @@ use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Lifecycle
+ * @group Event
  * @group InitializedEventTest
+ * Add your own group annotations below this line
  */
 class InitializedEventTest extends Unit
 {

@@ -15,6 +15,16 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Extension
+ * @group Converter
+ * @group ReportConverterTest
+ * Add your own group annotations below this line
+ */
 abstract class ReportConverterTest extends Unit
 {
     /**
