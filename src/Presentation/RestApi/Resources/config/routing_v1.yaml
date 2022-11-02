@@ -3,10 +3,6 @@ index:
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController
     methods: GET|POST
 
-hello:
-    path: /hello-world
-    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
-    methods: GET
 init_sdk_controller:
     path: /init
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
@@ -30,7 +26,3 @@ sdk_init_project:
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController
     methods: POST
 
-task:
-    path: /tasks/{id}
-    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskController
-    methods: POST

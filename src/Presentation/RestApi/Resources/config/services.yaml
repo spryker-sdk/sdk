@@ -10,17 +10,14 @@ services:
         public: true
         arguments:
             - "@run_task_processor"
+
     run_task_processor:
         class: SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor
         arguments:
             - "@task_executor"
             - "@context_factory"
             - "@violation_report_mapper"
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:
-        class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
-        public: true
-        arguments:
-            - "@rest_api_task_executor"
+
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController:
         public: true
         arguments:
@@ -30,6 +27,7 @@ services:
         public: true
         arguments:
             - "@sdk_update_sdk_processor"
+
     sdk_update_sdk_processor:
         class: SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor
         arguments:
