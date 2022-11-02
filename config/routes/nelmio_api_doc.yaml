@@ -3,6 +3,11 @@ app.swagger:
     methods: GET
     defaults: { _controller: nelmio_api_doc.controller.swagger }
 
+app.swagger_yaml:
+    path: /api/doc.yaml
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_yaml }
+
 app.swagger_ui:
     path: /api/doc
     methods: GET

@@ -5,5 +5,5 @@ nelmio_api_doc:
             description: Sdk rest api docs
             version: 1.0.0
     areas:
-        path_patterns:
-            - ^/api(?!/doc$)
+        default:
+            with_annotation: true

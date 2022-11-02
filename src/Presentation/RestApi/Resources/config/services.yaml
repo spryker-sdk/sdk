@@ -45,3 +45,7 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
         arguments:
             - '@symfony.console.application'
+
+    api_doc.task_describer:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\TaskApiDocDescriber
+        tags: ['nelmio_api_doc.describer']
