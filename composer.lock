@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a78749d33fee84fd9cf5d9bab28137db",
+    "content-hash": "bc104b1e984497aca18a6d57dfe06bd1",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6431,16 +6431,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "0.4.4",
+            "version": "0.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "7c7ccbaaaf5c95b1831fe005102bb5ea4e72dec9"
+                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/7c7ccbaaaf5c95b1831fe005102bb5ea4e72dec9",
-                "reference": "7c7ccbaaaf5c95b1831fe005102bb5ea4e72dec9",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
+                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
                 "shasum": ""
             },
             "require": {
@@ -6464,9 +6464,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.4"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.5"
             },
-            "time": "2022-10-27T13:23:14+00:00"
+            "time": "2022-10-28T11:51:05+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -15473,5 +15473,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.1.0"
 }
