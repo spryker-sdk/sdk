@@ -118,6 +118,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
         $coreSetting = $this->coreSettingRepository->findOneByPath($settingPath);
+
         if (!$coreSetting) {
             return $coreSetting;
         }
@@ -217,7 +218,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             return [];
         }
 
-        return (array)$this->yamlParser::parseFile($settingPath);
+        return (array)$this->yamlParser::parseFile($settingPath, $this->yamlParser::PARSE_CONSTANT);
     }
 
     /**

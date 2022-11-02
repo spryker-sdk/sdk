@@ -119,7 +119,7 @@ abstract class AbstractValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @param array<string, \SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingValues
+     * @param array<string, \SprykerSdk\SdkContracts\Entity\SettingInterface> $settingValues
      *
      * @return mixed|null
      */

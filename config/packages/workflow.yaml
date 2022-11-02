@@ -95,6 +95,6 @@ framework:
           from: [app-validated, asyncapi-created]
           to: done
           metadata:
-            task: pbc:validate
+            task: pbc:validate:run
             error: Please fix the mentioned issues and re-run the workflow to continue.
 

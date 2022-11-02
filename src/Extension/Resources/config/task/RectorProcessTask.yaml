@@ -3,9 +3,9 @@ id: "validation:php:rector"
 short_description: "Instant Upgrades and Automated Refactoring"
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: "php %executable_command% process %path% %config% %is-ansi%"
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 optional: false
 placeholders:
   - name: "%executable_command%"
@@ -14,14 +14,14 @@ placeholders:
     configuration:
       description: "Executable folder (uses the first existing path)"
       defaultValue: "vendor/bin/rector"
-      settingPaths: [ "project_dir", "sdk_dir" ]
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
   - name: "%path%"
     value_resolver: STATIC
     optional: false
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: "src"
   - name: "%config%"
     value_resolver: STATIC
@@ -30,7 +30,7 @@ placeholders:
       option: "config"
       alias: "config"
       description: "Path to config file"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: "architector.php"
   - name: "%is-ansi%"
     value_resolver: FLAG
@@ -39,5 +39,5 @@ placeholders:
       alias: "is-ansi"
       flag: "ansi"
       description: "Force ANSI output"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: true

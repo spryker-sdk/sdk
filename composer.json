@@ -32,21 +32,26 @@
         "spryker-sdk/acp": "^0.2.0",
         "spryker-sdk/async-api": "^0.2.3",
         "spryker-sdk/composer-replace": "dev-master",
-        "spryker-sdk/sdk-contracts": "dev-feature/sdk-848-refactor-init-project-value as 0.4.1",
+        "spryker-sdk/sdk-contracts": "dev-master as 0.4.3",
         "spryker-sdk/spryk": "^0.4.0",
         "spryker-sdk/sync-api": "^0.1.1",
         "spryker-sdk/upgrader": "dev-master",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.6",
+        "symfony/config": "^5.4.0",
         "symfony/console": "^5.0",
         "symfony/dotenv": "^5.0",
         "symfony/event-dispatcher": "^5.0",
         "symfony/expression-language": "^5.0",
+        "symfony/filesystem": "^5.0",
         "symfony/flex": "^1.18.0",
         "symfony/framework-bundle": "^5.3",
+        "symfony/lock": "^5.4",
         "symfony/monolog-bundle": "^3.8",
         "symfony/process": "^5.0",
         "symfony/runtime": "^5.0",
+        "symfony/twig-bundle": "^5.0",
+        "symfony/serializer": "^5.0",
         "symfony/validator": "^5.0",
         "symfony/workflow": "^5.0",
         "symfony/yaml": "^5.0",
@@ -63,7 +68,6 @@
         "sllh/composer-versions-check": "^2.0",
         "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/security-checker": "^0.1.0",
-        "symfony/filesystem": "^5.0",
         "symfony/var-dumper": "^5.0"
     },
     "config": {
@@ -86,13 +90,15 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "SprykerSdk\\Sdk\\": "src/"
+            "SprykerSdk\\Sdk\\": "src/",
+            "SprykerSdk\\Sniffs\\": "Sniffs/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
-            "Hello\\": "extension/Hello/src/"
+            "Hello\\": "extension/Hello/src/",
+            "Custom\\": "extension/Custom/src/"
         }
     },
     "replace": {

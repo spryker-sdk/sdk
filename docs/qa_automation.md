@@ -1,15 +1,21 @@
 ## QA Automation
 
-Qa automation is a feature that gives an ability to run QA tools such as,
-code style checks, static analysis and unit tests required by the Spryker.
+QA automation is a feature that lets you run QA tools such as code style checks, static analysis, and unit tests required by Spryker.
 
-### How to enable
+### How to enable QA automation
 
-It enables on the project initialization step as an additional setting. Just run `spryker-sdk sdk:init:project`
-and pick steps that you want to be enabled from the list. If none picked the [default list](https://github.com/spryker-sdk/sdk/blob/d6cac0ec997ea3ef067f8af07b8b375f96632a4f/src/Extension/Resources/config/setting/settings.yaml) (check `settings.qa_tasks.values`) will be taken.
-After project initialization qa automation tasks will be saved into `.ssdk/setting` file.
+You can enable the QA automation at the project initialization step as an additional setting. To achieve this, do the following:
+1. Run this command:
+   
+```bash
+spryker-sdk sdk:init:project
+```
+2. Pick the necessary steps from the list. If none is picked, the default list will be used. You can check the default list in the [settings.yaml](https://github.com/spryker-sdk/sdk/blob/d6cac0ec997ea3ef067f8af07b8b375f96632a4f/src/Extension/Resources/config/setting/settings.yaml) file, in `settings.qa_tasks.values`.
+   
+After the project initialization, the QA automation tasks are saved to the `.ssdk/setting` file.
 
-Result example
+Result example:
+
 ```yaml
 qa_tasks:
     - 'validation:php:rector'
@@ -17,14 +23,18 @@ qa_tasks:
     - 'validation:php:static'
 ```
 
-### How to use
+### How to use the QA automation
 
-Simply run `spryker-sdk sdk:qa:run` to execute all configured qa automation tasks.
+To execute all of the QA automation tasks, run the following command:
 
-If you need to customize a list of executable qa automation tasks change `qa_tasks` block into the `.ssdk/setting` file.
-If you want to add custom qa task, your task id name should have the following pattern `validation:*`.
+```bash
+spryker-sdk sdk:qa:run
+```
+
+To customize the list of the executable QA automation tasks, change the `qa_tasks` block in in the `.ssdk/setting` file accordingly.
+
+To add a custom QA task, your task ID name should have the `validation:*` pattern.
 
 ### Tests execution
 
-Qa automation can execute unit tests, but only in case it doesn't require project environment configuration. Otherwise,
-the result might be unpredictable.
+QA automation can execute unit tests, but only if it doesn't require the project environment configuration. Otherwise, the result might be unpredictable.

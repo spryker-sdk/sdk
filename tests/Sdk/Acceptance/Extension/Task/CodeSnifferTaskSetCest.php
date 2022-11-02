@@ -10,6 +10,16 @@ namespace SprykerSdk\Sdk\Acceptance\Extension\Task;
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Acceptance
+ * @group Extension
+ * @group Task
+ * @group CodeSnifferTaskSetCest
+ * Add your own group annotations below this line
+ */
 class CodeSnifferTaskSetCest
 {
     /**

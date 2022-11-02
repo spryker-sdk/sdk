@@ -1,55 +1,28 @@
 # Task
 
-Task is the smallest unit for running commands in SDK.
-It can be used as a single runnable console command or used in more complex structures such as the [workflows](workflow.md) or [task-sets](task_set.md).
-In another word task is a commands wrapper that makes them extensible, configurable, versionable and provides cli interface for them.
+A *task* is the smallest unit for running commands in the SDK.
+You can use the task as a single runnable console command, or you can use it in more complex structures such as [workflows](workflow.md) or [task_sets](task_set.md).
+In other words, a task is a commands wrapper that makes the commands extensible, configurable, versionable, and provides a CLI interface for them.
 
-## How to run task
+## How to run a task
 
-- `spryker-sdk <task-id>` to run task.
-- `spryker-sdk <task-id> --stages=stage_a --stages=stage_b` to run task commands filtered by stages.
-- `spryker-sdk <task-id> --tags=tag_a --tags=tag_b` to run task commands filtered by tags.
-- `spryker-sdk <task-id> --help` or `spryker-sdk <task-id> -h` to get task help info.
+Use the following commands for tasks:
 
-## How to update tasks
+- To run a task: `spryker-sdk <task-id>`
+- To run task commands filtered by stages: `spryker-sdk <task-id> --stages=stage_a --stages=stage_b` 
+- To run task commands filtered by tags: `spryker-sdk <task-id> --tags=tag_a --tags=tag_b` 
+- To get task help info: `spryker-sdk <task-id> --help` or `spryker-sdk <task-id> -h`.
 
-`sdk:update:all` - executes the updates of all existing tasks. The [lifecycle events](lifecycle_management.md) will be triggered after.
+## How to create a task
 
-## How to create task
+Tasks can be created in a declarative way by specifying the task YAML configuration file or by implementing `\SprykerSdk\SdkContracts\Entity\TaskInterface` as a PHP class.
+Whereas the declarative is the preferred way unless a more complex logic is needed.
 
-Task can be created in a declarative way by specifying the task yaml configuration file or by implementing `\SprykerSdk\SdkContracts\Entity\TaskInterface` as a php class.
-The declarative is preferred way unless more complex logic is needed.
+### Task YAML configuration file
 
-### Task yaml configuration reference
+The task configuration file should be placed to the `extension/*/config/task/` or `src/Extension/Resources/config/task/` directory. 
 
-Configuration file should be placed in `extension/*/config/task/` or `src/Extension/Resources/config/task/` directory.
-
-| Property            | Required | Description                                                                                                                   |
-|---------------------|----------|-------------------------------------------------------------------------------------------------------------------------------|
-| `id`                | yes      | __Unique__ task id. Should consist only of `[\w\:]+` symbols                                                                  |
-| `short_description` | yes      | Task description that's displayed in `Description` section in command help                                                    |
-| `version`           | yes      | Task version. Must follow the semver specification                                                                            |
-| `type`              | yes      | Tasks type. `local_cli` or `local_cli_interactive` should be used for yaml task declaration and `php` type for php task class |
-| `command`           | yes      | An executable command string                                                                                                  |
-| `help`              | no       | Help description that's displayed in `Help` section in command help                                                           |
-| `stage`             | no       | Task and command stage                                                                                                        |
-| `deprecated`        | no       | Defines the task deprecation status                                                                                           |
-| `successor`         | no       | Task id that should be used instead if the current one is deprecated                                                          |
-| `tags`              | no       | Task command tags                                                                                                             |
-| `error_message`     | no       | Default command error message that's used in case of non-zero command code return                                             |
-| `placeholders`      | no       | Command placeholders list. [See definition](#placeholders)                                                                    |
-| `lifecycle`         | no       | Lifecycle commands list. [See docs](lifecycle_management.md)                                                                  |
-
-#### Placeholders
-
-| Property         | Required | Description                                                                                                                      |
-|------------------|----------|----------------------------------------------------------------------------------------------------------------------------------|
-| `name`           | yes      | Placeholder name. The same name should be placed in command string for substitution. See [conventions](conventions.md#Placeholder) |
-| `value_resolver` | yes      | Value resolver classname or name. Is used for fetching and processing command values                                             |
-| `optional`       | no       | Defines the placeholder optional or not                                                                                          |
-| `configuration`  | no       | Value resolver configuration. Depends on particular value resolver                                                               |
-
-Checkout the [conventions](conventions.md#Task) for additional info.
+Example of the YAML configuration file: 
 
 ```yaml
 id: 'hello:world'
@@ -96,12 +69,51 @@ lifecycle:
     files: ~
     placeholders: ~
 ```
+The table below describes the configuration file's properties.
 
-### How to use task in the workflows
+| Property            | Required | Description                                                                                                                   |
+|---------------------|----------|-------------------------------------------------------------------------------------------------------------------------------|
+| `id`                | yes      | __Unique__ task id. It should consist only of `[\w\:]+` symbols.                                                                  |
+| `short_description` | yes      | Task description that is displayed in the `Description` section in command help.                                                    |
+| `version`           | yes      | Task version. The version format must comply with the semver specification.                                                                            |
+| `type`              | yes      | Tasks type. `local_cli` or `local_cli_interactive` must be used for YAML task declaration and `php` type for a PHP task class |
+| `command`           | yes      | An executable command. string                                                                                                  |
+| `help`              | no       | Help description that is displayed in the *Help* section of the command help.                                                           |
+| `stage`             | no       | Task and command stage.                                                                                                        |
+| `deprecated`        | no       | Defines the task deprecation status.                                                                                           |
+| `successor`         | no       | Task ID that should be used if the current one is deprecated.                                                          |
+| `tags`              | no       | Task command tags.                                                                                                             |
+| `error_message`     | no       | Default command error message that is used in case of non-zero command code return.                                             |
+| `placeholders`      | no       | Command [placeholders](#placeholders)   list.                                                                  |
+| `lifecycle`         | no       | Lifecycle commands list. See [Task lifecycle management](lifecycle_management.md) for details about the lifecycle.                                                                  |
 
-Tasks can be used in workflow transitions.
-Such tasks must be defined in workflow configuration in `transitions.<transition>.metadata.task` path.
-For more information read the [docs](workflow.md).
+#### Placeholders
+
+The *placeholders* attribute of the task configuration file has the following properties:
+
+| Property         | Required | Description                                                                                                                      |
+|------------------|----------|----------------------------------------------------------------------------------------------------------------------------------|
+| `name`           | yes      | The placeholder name. The same name should be placed in the command string for substitution. See [conventions](conventions.md#Placeholder) |
+| `value_resolver` | yes      | Value resolver class name or name. It is used for fetching and processing command values.                                             |
+| `optional`       | no       | Defines if the placeholder is optional or not.                                                                                          |
+| `configuration`  | no       | Value resolver configuration. Depends on the particular value resolver.                                                               |
+
+Check out the [conventions](conventions.md#Task) for additional information.
+
+## How to update tasks
+
+To update all of the existing tasks, run the following command: 
+
+```bash
+sdk:update:all
+```
+After you run this command, the [lifecycle events](lifecycle_management.md) are triggered.
+
+## How to use tasks in the workflows
+
+You can use tasks in workflow transitions.
+Such tasks must be defined in workflow configuration at `transitions.<transition>.metadata.task`.
+For more information on the workflows, see [Workflow](workflow.md).
 
 ```yaml
   transitions:

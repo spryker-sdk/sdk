@@ -14,12 +14,13 @@ use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
- * @group Service
  * @group Setting
  * @group SettingInitializerRegistryTest
+ * Add your own group annotations below this line
  */
 class SettingInitializerRegistryTest extends Unit
 {

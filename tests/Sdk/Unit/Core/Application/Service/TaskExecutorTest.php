@@ -22,11 +22,15 @@ use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group TaskExecutorTest
+ * Add your own group annotations below this line
  */
 class TaskExecutorTest extends Unit
 {

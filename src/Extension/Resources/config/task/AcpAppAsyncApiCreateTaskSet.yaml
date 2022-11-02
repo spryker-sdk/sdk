@@ -3,9 +3,9 @@ id: "acp:asyncapi:create-full"
 short_description: "Create ACP AsyncAPI file with message"
 help: ~
 stage: build
-version: 1.0.0
+version: 1.0.1
 command: ~
-type: task_set
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
 tasks:
   - id: "acp:asyncapi:create"
     stop_on_error: true

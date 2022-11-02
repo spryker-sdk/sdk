@@ -7,26 +7,22 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
-use Doctrine\DBAL\Exception\TableNotFoundException;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
 use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class QaAutomationCommand extends RunTaskWrapperCommand
 {
-    /**
-     * @var string
-     */
-    protected const TASKS_SETTING_KEY = 'qa_tasks';
-
-    /**
-     * @var string
-     */
+   /**
+    * @var string
+    */
     protected const COMMAND_NAME = 'sdk:qa:run';
 
     /**
@@ -57,8 +53,8 @@ class QaAutomationCommand extends RunTaskWrapperCommand
     ) {
         $this->dynamicTaskSetCreator = $dynamicTaskSetCreator;
         try {
-            $taskOptions = $this->dynamicTaskSetCreator->getTaskOptions(static::TASKS_SETTING_KEY);
-        } catch (TableNotFoundException $e) {
+            $taskOptions = $this->dynamicTaskSetCreator->getTaskOptions(Setting::PATH_QA_TASKS);
+        } catch (SettingsNotInitializedException $e) {
             $this->setHidden(true);
             $taskOptions = [];
         }
@@ -84,7 +80,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $context = $this->buildContext($input);
-        $context->setTask($this->dynamicTaskSetCreator->getTask(static::TASKS_SETTING_KEY));
+        $context->setTask($this->dynamicTaskSetCreator->getTask(Setting::PATH_QA_TASKS));
         $context = $this->taskExecutor->execute($context);
         $this->writeContext($input, $context);
         $this->writeFilteredMessages($output, $context);

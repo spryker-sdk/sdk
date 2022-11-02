@@ -10,24 +10,25 @@ namespace Sdk\Unit\Infrastructure\Setting\ProjectSettingsInitializer;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion;
 use SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion;
 use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\Setting as SettingEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
- * @group Service
  * @group Setting
  * @group ProjectSettingsInitializer
  * @group ProjectSettingsInitializerTest
+ * Add your own group annotations below this line
  */
 class ProjectSettingsInitializerTest extends Unit
 {

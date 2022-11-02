@@ -3,9 +3,9 @@ id: "acp:openapi:full-flow"
 short_description: "Create ACP OpenAPI"
 help: ~
 stage: build
-version: 1.0.0
+version: 1.0.1
 command: ~
-type: task_set
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
 tasks:
   - id: "acp:openapi:create"
     stop_on_error: false

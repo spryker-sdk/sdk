@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\DefaultContextReceiverInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 class DefaultContextReceiver implements DefaultContextReceiverInterface
 {
@@ -30,6 +31,6 @@ class DefaultContextReceiver implements DefaultContextReceiverInterface
      */
     public function getFormat(): string
     {
-        return $this->settingFetcher->getOneByPath('default_violation_output_format')->getValues();
+        return $this->settingFetcher->getOneByPath(Setting::PATH_DEFAULT_VIOLATION_OUTPUT_FORMAT)->getValues();
     }
 }

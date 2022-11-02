@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class GenerateAppTask implements TaskInterface
 {
@@ -65,7 +66,7 @@ class GenerateAppTask implements TaskInterface
                 [
                     'name' => 'app-name',
                     'description' => 'Input name for new App',
-                    'type' => 'string',
+                    'type' => ValueTypeEnum::TYPE_STRING,
                 ],
             ),
             new Placeholder(
@@ -74,7 +75,7 @@ class GenerateAppTask implements TaskInterface
                 [
                     'name' => 'project_url',
                     'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
-                    'type' => 'string',
+                    'type' => ValueTypeEnum::TYPE_STRING,
                 ],
             ),
             new Placeholder(

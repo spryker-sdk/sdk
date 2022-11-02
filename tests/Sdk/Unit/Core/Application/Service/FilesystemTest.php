@@ -11,11 +11,15 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Service\Filesystem;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group FilesystemTest
+ * Add your own group annotations below this line
  */
 class FilesystemTest extends Unit
 {

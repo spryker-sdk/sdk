@@ -10,16 +10,17 @@ namespace Sdk\Unit\Infrastructure\Setting;
 use ArrayIterator;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\Sdk\Infrastructure\Setting\SettingChoicesProviderRegistry;
+use SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface;
 
 /**
- * @group Sdk
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
- * @group Service
  * @group Setting
  * @group SettingChoicesProviderRegistryTest
+ * Add your own group annotations below this line
  */
 class SettingChoicesProviderRegistryTest extends Unit
 {
@@ -77,7 +78,7 @@ class SettingChoicesProviderRegistryTest extends Unit
     }
 
     /**
-     * @return \SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface
+     * @return \SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface
      */
     protected function createChoicesProviderMock(): SettingChoicesProviderInterface
     {

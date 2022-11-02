@@ -12,6 +12,16 @@ use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Domain\Event\EventInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group EventLoggerTest
+ * Add your own group annotations below this line
+ */
 class EventLoggerTest extends Unit
 {
     /**

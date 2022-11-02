@@ -8,8 +8,8 @@
 namespace SprykerSdk\Sdk\Extension\Setting\Initializer;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
-use SprykerSdk\Sdk\Extension\Dependency\Setting\SettingChoicesProviderInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface;
 
 class QaTasksInitializer implements SettingChoicesProviderInterface
 {

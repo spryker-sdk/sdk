@@ -14,22 +14,20 @@ TMP_DIR="${CURRENT_DIR}/tmp"
 mkdir -p "${TMP_DIR}/bin"
 mkdir -p "${TMP_DIR}/config/packages"
 mkdir -p "${TMP_DIR}/db"
-mkdir -p "${TMP_DIR}/var/cache"
+mkdir -p "${TMP_DIR}/var/log"
 
 cp "${CURRENT_DIR}/bin/spryker-sdk.sh" "${TMP_DIR}/bin/"
-cp "${CURRENT_DIR}/docker-compose."* "${TMP_DIR}/"
+cp "${CURRENT_DIR}/docker-compose.yml" "${TMP_DIR}/docker-compose.yml"
 cp "${CURRENT_DIR}/config/packages/workflow.yaml" "${TMP_DIR}/config/packages/workflow.yaml"
 cp -R "${CURRENT_DIR}/extension" "${TMP_DIR}/"
-cp "${CURRENT_DIR}/.env.prod" "${TMP_DIR}/.env.prod"
 cp "${CURRENT_DIR}/.gitmodules" "${TMP_DIR}/.gitmodules"
 cp -R "${CURRENT_DIR}/infrastructure" "${TMP_DIR}/"
 
 echo "${VERSION}" > "${TMP_DIR}/VERSION"
 
 cd "${TMP_DIR}"
-tar cJf spryker-sdk.tar.gz .gitmodules .env.prod bin/ var/ extension/ config/packages/workflow.yaml db/ \
-    infrastructure/sdk.Dockerfile infrastructure/sdk.local.Dockerfile infrastructure/sdk.debug.Dockerfile \
-    infrastructure/debug/php/69-xdebug.ini VERSION docker-compose.yml docker-compose.debug.yml docker-compose.dev.yml
+tar cJf spryker-sdk.tar.gz .gitmodules infrastructure/sdk.local.Dockerfile \
+    bin/ var/ extension/ config/packages/workflow.yaml db/ VERSION docker-compose.yml
 cd "$CURRENT_DIR"
 
 cat "${TMP_DIR}/infrastructure/installer_header.sh" "${TMP_DIR}/spryker-sdk.tar.gz" > "${CURRENT_DIR}/build/installer.sh"

@@ -3,9 +3,9 @@ id: 'validation:frontend:eslint'
 short_description: 'Check your javascript code to avoid errors and enforce conventions.'
 help: ~
 stage: build
-version: 0.2.0
+version: 0.2.1
 command: 'npx %prefix% %sdk_dir% eslint %config% %file% %fix% %output-format% %reportDir%'
-type: local_cli
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
   - name: '%sdk_dir%'
     value_resolver: SDK_DIR
@@ -22,8 +22,8 @@ placeholders:
     configuration:
       option: "output-file"
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "eslint.codestyle.json"
   - name: '%config%'
     value_resolver: STATIC
@@ -32,7 +32,7 @@ placeholders:
       option: 'config'
       name: 'config'
       description: 'Path to configuration file. By default uses .eslint.* config from current directory.'
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: null
   - name: '%fix%'
     value_resolver: FLAG
@@ -44,7 +44,7 @@ placeholders:
     value_resolver: STATIC
     optional: true
     configuration:
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       name: 'file'
       description: 'Full path to file.'
       defaultValue: 'src/**/*.{js,ts,jsx,tsx,html,vue}'
@@ -54,7 +54,7 @@ placeholders:
     configuration:
       option: "format"
       description: "Output format"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'json'
 report_converter:
   name: ESLintViolationReportConverter

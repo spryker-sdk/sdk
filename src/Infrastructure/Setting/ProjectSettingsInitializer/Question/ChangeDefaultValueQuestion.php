@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Quest
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
-use SprykerSdk\Sdk\Core\Domain\Enum\ValueTypeEnum;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ChangeDefaultValueQuestion
 {
@@ -38,7 +38,7 @@ class ChangeDefaultValueQuestion
             new ReceiverValue(
                 sprintf('Would you like to change the default value for `%s` setting?', $setting->getPath()),
                 false,
-                ValueTypeEnum::TYPE_BOOLEAN,
+                ValueTypeEnum::TYPE_BOOL,
             ),
         );
     }

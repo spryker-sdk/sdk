@@ -16,7 +16,7 @@ class SettingInitializerRegistry
     /**
      * @var array<string, \SprykerSdk\SdkContracts\Setting\SettingInitializerInterface>
      */
-    private array $settingInitializers;
+    protected array $settingInitializers;
 
     /**
      * @param iterable<\SprykerSdk\SdkContracts\Setting\SettingInitializerInterface> $settingInitializers
