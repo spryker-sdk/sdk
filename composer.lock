@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c6b554fd552813d31cc26c868431a4d",
+    "content-hash": "a2d217def4b4c1a3ed0bd8d8d438c59b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6471,7 +6471,7 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "0.4.6",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
@@ -6486,6 +6486,7 @@
             "require": {
                 "php": ">=7.4"
             },
+            "default-branch": true,
             "bin": [
                 "bin/spryk-build",
                 "bin/spryk-dump",
@@ -15456,12 +15457,19 @@
             "version": "9999999-dev",
             "alias": "0.4.3",
             "alias_normalized": "0.4.3.0"
+        },
+        {
+            "package": "spryker-sdk/spryk",
+            "version": "9999999-dev",
+            "alias": "0.4.6",
+            "alias_normalized": "0.4.6.0"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/sdk-contracts": 20,
+        "spryker-sdk/spryk": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -15482,5 +15490,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
