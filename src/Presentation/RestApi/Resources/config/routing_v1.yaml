@@ -15,6 +15,10 @@ run_task_controller:
     path: /task/{task}
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController
     methods: POST
+hello:
+    path: /hello-world
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController
+    methods: GET
 
 sdk_init_sdk:
     path: /sdk-init-sdk
@@ -26,3 +30,7 @@ sdk_init_project:
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController
     methods: POST
 
+task:
+    path: /tasks/{id}
+    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\TaskController
+    methods: POST

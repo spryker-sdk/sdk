@@ -39,6 +39,7 @@ services:
         arguments:
             - '@kernel'
 
+    SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor:
     rest_api_task_executor:
         class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
         arguments:

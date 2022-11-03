@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc104b1e984497aca18a6d57dfe06bd1",
+    "content-hash": "5c6b554fd552813d31cc26c868431a4d",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6431,7 +6431,7 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "0.4.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
@@ -6450,6 +6450,7 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -15449,10 +15450,18 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "spryker-sdk/sdk-contracts",
+            "version": "9999999-dev",
+            "alias": "0.4.3",
+            "alias_normalized": "0.4.3.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -15473,5 +15482,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
