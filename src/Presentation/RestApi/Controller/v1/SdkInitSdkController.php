@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
-use Nelmio\ApiDocBundle\Annotation as Nelmio;
-use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,17 +20,17 @@ class SdkInitSdkController
      *
      * @OA\RequestBody(
      *
-     *      @OA\JsonContent(
+     * @OA\JsonContent(
      *          type="object",
      *          required={"developer_email", "developer_github_account"},
      *
-     *          @OA\Property(
+     * @OA\Property(
      *              property="developer_email",
      *              type="string",
      *              description="What is your email?",
      *              example="developer@example.com",
      *          ),
-     *          @OA\Property(
+     * @OA\Property(
      *              property="developer_github_account",
      *              type="string",
      *              description="What is your github account?",

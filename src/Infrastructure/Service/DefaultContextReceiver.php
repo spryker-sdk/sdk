@@ -8,22 +8,22 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\DefaultContextReceiverInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 
 class DefaultContextReceiver implements DefaultContextReceiverInterface
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
      */
-    protected SettingRepositoryInterface $settingRepository;
+    protected SettingFetcherInterface $settingFetcher;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
      */
-    public function __construct(SettingRepositoryInterface $settingRepository)
+    public function __construct(SettingFetcherInterface $settingFetcher)
     {
-        $this->settingRepository = $settingRepository;
+        $this->settingFetcher = $settingFetcher;
     }
 
     /**
@@ -31,6 +31,6 @@ class DefaultContextReceiver implements DefaultContextReceiverInterface
      */
     public function getFormat(): string
     {
-        return $this->settingRepository->getOneByPath(Setting::PATH_DEFAULT_VIOLATION_OUTPUT_FORMAT)->getValues();
+        return $this->settingFetcher->getOneByPath(Setting::PATH_DEFAULT_VIOLATION_OUTPUT_FORMAT)->getValues();
     }
 }
