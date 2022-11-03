@@ -8,7 +8,7 @@ define('APPLICATION_ROOT_DIR', dirname(__DIR__, 1));
 
 
 return function (array $context) {
-    chdir($context['PROJECT_DIR']);
-    
+    chdir(getenv('PROJECT_DIR'));
+
     return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 };
