@@ -128,7 +128,7 @@ class LocalCliRunner implements HelperSetInjectorInterface, CommandRunnerInterfa
         ) {
             $context->addMessage(
                 $command->getCommand(),
-                new Message($command->getErrorMessage(), MessageInterface::ERROR),
+                new Message(trim($command->getErrorMessage()), MessageInterface::ERROR),
             );
         }
 
@@ -136,11 +136,11 @@ class LocalCliRunner implements HelperSetInjectorInterface, CommandRunnerInterfa
         $verbosity = $process->isSuccessful() ? MessageInterface::INFO : MessageInterface::ERROR;
 
         if ($process->getOutput()) {
-            $context->addMessage($command->getCommand(), new Message($process->getOutput(), $verbosity));
+            $context->addMessage($command->getCommand(), new Message(trim($process->getOutput()), $verbosity));
         }
 
         if ($process->getErrorOutput()) {
-            $context->addMessage($command->getCommand(), new Message($process->getErrorOutput(), $verbosity));
+            $context->addMessage($command->getCommand(), new Message(trim($process->getErrorOutput()), $verbosity));
         }
 
         return $context;

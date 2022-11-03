@@ -47,8 +47,6 @@ class RunTaskProcessor
     /**
      * @param string $task
      *
-     * @throws \Symfony\Component\Translation\Exception\InvalidResourceException
-     *
      * @return array
      */
     public function process(string $task): array
