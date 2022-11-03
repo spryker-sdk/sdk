@@ -37,7 +37,7 @@ class RestApiServerHelper extends Module
         echo(sprintf('Starting rest server %s', PHP_EOL));
 
         $command = sprintf(
-            'php -S localhost:%s -t %s > /dev/null 2>&1',
+            'PROJECT_DIR=/project php -S localhost:%s -t %s > /dev/null 2>&1',
             $this->config['port'] ?? static::DEFAULT_PORT,
             __DIR__ . '/../../../public',
         );
