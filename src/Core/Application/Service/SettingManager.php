@@ -38,6 +38,22 @@ class SettingManager
     }
 
     /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
+     *
+     * @return void
+     */
+    public function writeSettings(array $settings): void
+    {
+        $projectValues = [];
+
+        foreach ($settings as $setting) {
+            $projectValues[$setting->getPath()] = $setting->getValues();
+        }
+
+        $this->setSettings($projectValues);
+    }
+
+    /**
      * @param array<string, mixed> $pathValues
      *
      * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
