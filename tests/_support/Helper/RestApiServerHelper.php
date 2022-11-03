@@ -37,12 +37,12 @@ class RestApiServerHelper extends Module
         echo(sprintf('Starting rest server %s', PHP_EOL));
 
         $command = sprintf(
-            'PROJECT_DIR=/project php -d variables_order=EGPCS -S localhost:%s -t %s > /dev/null 2>&1',
+            'php -S localhost:%s -t %s > /dev/null 2>&1',
             $this->config['port'] ?? static::DEFAULT_PORT,
             __DIR__ . '/../../../public',
         );
 
-        $process = Process::fromShellCommandline($command);
+        $process = Process::fromShellCommandline($command, null, ['PROJECT_DIR'=> __DIR__ . '../../']);
         $process->start();
         $this->serverProcess = $process;
         usleep(100000);
