@@ -21,11 +21,18 @@ class ApiExceptionListener
     protected LoggerInterface $logger;
 
     /**
+     * @var bool
+     */
+    protected bool $isDebug;
+
+    /**
+     * @param bool $isDebug
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(bool $isDebug, LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->isDebug = $isDebug;
     }
 
     /**
@@ -53,7 +60,7 @@ class ApiExceptionListener
         $event->setResponse(
             new JsonResponse(
                 [
-                    'message' => 'Error',
+                    'message' => $this->isDebug ? $exception->getMessage() : 'Error',
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
             ),

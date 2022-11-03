@@ -203,6 +203,7 @@ services:
     api_exception_listener:
         class: SprykerSdk\Sdk\Infrastructure\EventListener\ApiExceptionListener
         arguments:
+            - "%kernel.debug%"
             - "@logger"
         tags:
             - {
@@ -566,11 +567,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: console.terminate }
             - { name: kernel.event_listener, event: console.error }
-
-    request.json_content_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\Request\JsonRequestListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
 
     context.in_memory_cache_storage:
         class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
