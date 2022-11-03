@@ -124,7 +124,7 @@ class InitProjectCommand extends Command
     {
         return $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
-                'replace-setting',
+                'ask-value',
                 'Project settings file already exists, should it be overwritten?',
                 false,
                 ValueTypeEnum::TYPE_BOOL,

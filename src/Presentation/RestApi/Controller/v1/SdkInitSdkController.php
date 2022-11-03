@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
+use OpenApi\Annotations as OA;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,8 @@ class SdkInitSdkController
     }
 
     /**
+     * @Nelmio\Areas({"default"})
+     *
      * @OA\Tag(name="sdk init")
      *
      * @OA\RequestBody(

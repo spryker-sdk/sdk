@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class RunTaskController
@@ -32,6 +33,8 @@ class RunTaskController
      */
     public function __invoke(string $task): Response
     {
-        return $this->runTaskProcessor->process($task);
+        $responseData = $this->runTaskProcessor->process($task);
+
+        return new JsonResponse($responseData);
     }
 }

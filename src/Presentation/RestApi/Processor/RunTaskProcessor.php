@@ -11,9 +11,6 @@ use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Translation\Exception\InvalidResourceException;
 
 class RunTaskProcessor
 {
@@ -50,11 +47,9 @@ class RunTaskProcessor
     /**
      * @param string $task
      *
-     * @throws \Symfony\Component\Translation\Exception\InvalidResourceException
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return array
      */
-    public function process(string $task): Response
+    public function process(string $task): array
     {
         $context = $this->taskExecutor->execute($this->contextFactory->getContext(), $task);
 
@@ -64,12 +59,13 @@ class RunTaskProcessor
         }
 
         foreach ($context->getReports() as $report) {
-            if (!($report instanceof ViolationReportInterface)) {
-                throw new InvalidResourceException(sprintf('Invalid report type "%s"', get_class($report)));
+            if (!$report instanceof ViolationReportInterface) {
+                continue;
             }
-            $response['reports'][] = $this->violationReportFileMapperInterface->mapViolationReportToYamlStructure($report);
+            $response['reports'][] = $this->violationReportFileMapperInterface
+                ->mapViolationReportToYamlStructure($report);
         }
 
-        return new JsonResponse($response);
+        return $response;
     }
 }
