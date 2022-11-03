@@ -24,7 +24,7 @@ services:
     default_context_receiver:
         class: SprykerSdk\Sdk\Infrastructure\Service\DefaultContextReceiver
         arguments:
-            - '@setting_repository'
+            - '@setting.setting_fetcher'
     action_approver:
         class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
         arguments:
@@ -63,7 +63,6 @@ services:
     project_setting_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository
         arguments:
-            - "@service_container"
             - "@setting_repository"
             - "@yaml_parser"
             - "%project_settings_file%"
@@ -135,8 +134,8 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
         arguments:
             - "@context_serializer"
-            - "@setting_repository"
             - "@context.in_memory_cache_storage"
+            - "@setting.setting_fetcher"
     telemetry_event_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
         arguments:
@@ -335,10 +334,10 @@ services:
         shared: false
         class: SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow
         arguments:
-            - "@project_setting_repository"
             - "@workflow.registry"
             - "@workflow_repository"
             - "@workflow_transition_repository"
+            - "@setting.setting_fetcher"
     violation_report_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapper
     workflow_mapper:
@@ -366,9 +365,9 @@ services:
     dynamic_task_set_creator:
         class: SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator
         arguments:
-            - "@project_setting_repository"
             - "@task_option_builder"
             - "@task_persistence_repository"
+            - "@setting.setting_fetcher"
 
     task_option_builder:
         class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
@@ -542,12 +541,58 @@ services:
             - { name: kernel.event_listener, event: console.terminate }
             - { name: kernel.event_listener, event: console.error }
 
+    request.json_content_listener:
+        class: SprykerSdk\Sdk\Infrastructure\Event\Request\JsonRequestListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
     context.in_memory_cache_storage:
         class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
     workflow.transition_resolver_registry:
         class: SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry
         arguments:
             - !tagged_iterator workflow.transition_resolver
+
+    setting.setting_choices_provider_registry:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\SettingChoicesProviderRegistry
+        arguments:
+            - !tagged_iterator { tag: 'sdk.setting_choice_provider', default_index_method: 'getName'}
+
+    setting.setting_initializer_registry:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
+        arguments:
+            - !tagged_iterator { tag: 'sdk.setting_initializer', default_index_method: 'getName' }
+
+    project_settings_init.question.change_default_value:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\ChangeDefaultValueQuestion
+        arguments:
+            - "@cli_interaction_processor"
+
+    setting.setting_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\SettingFetcher
+        arguments:
+          - "@project_setting_repository"
+          - "@setting.setting_initializer_registry"
+
+    project_settings_init.question.setting_value:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\Question\SettingValueQuestion
+        arguments:
+            - "@cli_interaction_processor"
+            - "@setting.setting_choices_provider_registry"
+
+    project_settings_init.files_initializer:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectFilesInitializer
+        arguments:
+            - "%project_settings_file%"
+            - "@filesystem"
+
+    project_settings_init.initializer:
+        class: SprykerSdk\Sdk\Infrastructure\Setting\ProjectSettingsInitializer\ProjectSettingsInitializerProcessor
+        arguments:
+            - "@project_settings_init.question.change_default_value"
+            - "@project_settings_init.question.setting_value"
+            - "@setting.setting_initializer_registry"
+            - "@project_settings_init.files_initializer"
 
     task.yaml.commands_factory:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\Yaml\TaskSetCommandsFactory
@@ -696,3 +741,8 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Command\CommandExecutor
         arguments:
             - !tagged_iterator command.runner
+
+    version.file_app_version_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\Version\FileAppVersionFetcher
+        arguments:
+            - "%kernel.project_dir%"

@@ -65,6 +65,8 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
+     * @see \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     *
      * @param string $settingPath
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException
@@ -89,6 +91,8 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
     }
 
     /**
+     * @see \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     *
      * @param string $settingPath
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException

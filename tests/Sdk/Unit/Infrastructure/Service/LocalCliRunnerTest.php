@@ -139,7 +139,7 @@ class LocalCliRunnerTest extends Unit
         $process->expects($this->atLeastOnce())
             ->method('getExitCode')
             ->willReturn(0);
-        $process->expects($this->once())
+        $process->expects($this->exactly(2))
             ->method('getOutput')
             ->willReturn('test' . PHP_EOL . 'test');
         $this->processHelper
@@ -172,7 +172,7 @@ class LocalCliRunnerTest extends Unit
         $process->expects($this->atLeastOnce())
             ->method('getExitCode')
             ->willReturn(1);
-        $process->expects($this->once())
+        $process->expects($this->exactly(2))
             ->method('getOutput')
             ->willReturn('test' . PHP_EOL . 'test');
         $this->processHelper
@@ -196,7 +196,7 @@ class LocalCliRunnerTest extends Unit
         $message = current($messages);
         $commandName = array_key_first($messages);
         $this->assertInstanceOf(Message::class, current($messages));
-        $this->assertSame('test', $message->getMessage());
+        $this->assertSame('test' . PHP_EOL . 'test', $message->getMessage());
         $this->assertSame('php %param1% %param3%', $commandName);
     }
 }
