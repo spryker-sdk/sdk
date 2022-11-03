@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be335a44ed7bb0ceb115b96689fe23b7",
+    "content-hash": "48ef049a51586db7a37261a037910e21",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6343,21 +6343,22 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "0.4.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "8040c877e17cf14e91dd8e5532d7076490dd893b"
+                "reference": "b007dcacebd2a1e6fd48b61006e3c3ac26226b73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/8040c877e17cf14e91dd8e5532d7076490dd893b",
-                "reference": "8040c877e17cf14e91dd8e5532d7076490dd893b",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/b007dcacebd2a1e6fd48b61006e3c3ac26226b73",
+                "reference": "b007dcacebd2a1e6fd48b61006e3c3ac26226b73",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4"
             },
+            "default-branch": true,
             "bin": [
                 "bin/spryk-build",
                 "bin/spryk-dump",
@@ -6377,9 +6378,9 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.4"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.6"
             },
-            "time": "2022-08-08T12:15:51+00:00"
+            "time": "2022-10-18T14:00:10+00:00"
         },
         {
             "name": "spryker-sdk/sync-api",
@@ -14598,10 +14599,18 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "spryker-sdk/spryk",
+            "version": "9999999-dev",
+            "alias": "0.4.6",
+            "alias_normalized": "0.4.6.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/spryk": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
     },
@@ -14622,5 +14631,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

@@ -22,7 +22,7 @@ class ScalarTaskPartBuilder implements TaskPartBuilderInterface
         'successor' => null,
         'deprecated' => false,
         'stage' => ContextInterface::DEFAULT_STAGE,
-        'optional' => true,
+        'optional' => false,
         'stages' => [],
     ];
 
