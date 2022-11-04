@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
+use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Process\Process;
 
 /**
@@ -95,6 +96,16 @@ class AcceptanceTester extends Actor
     }
 
     /**
+     * @param string $project
+     *
+     * @return void
+     */
+    public function cleanSprykGenerated(string $project = 'project'): void
+    {
+        $this->cleanDir($this->getPathFromProjectRoot('generated', $project));
+    }
+
+    /**
      * @param array<string> $command
      * @param string|null $cwd
      * @param array|null $env
@@ -115,5 +126,40 @@ class AcceptanceTester extends Actor
         $process->run();
 
         return $process;
+    }
+
+    /**
+     * @return void
+     */
+    public function skipCliInteractiveTest(): void
+    {
+        if (!Process::isTtySupported()) {
+            $this->markTestSkipped(
+                sprintf('Task with type "%s" is not supported by CI.', Task::TYPE_LOCAL_CLI_INTERACTIVE),
+            );
+        }
+    }
+
+    /**
+     * @param string $path
+     * @param string $content
+     *
+     * @return void
+     */
+    public function createFileWithContent(string $path, string $content): void
+    {
+        file_put_contents($path, $content);
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return void
+     */
+    public function removeFile(string $path): void
+    {
+        if (is_file($path)) {
+            unlink($path);
+        }
     }
 }

@@ -9,8 +9,8 @@ namespace SprykerSdk\Sdk\Infrastructure\Reader;
 
 use RuntimeException;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -48,17 +48,11 @@ class TaskYamlReader
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
-     *
      * @return \SprykerSdk\Sdk\Infrastructure\Dto\ManifestCollectionDto
      */
     public function readFiles(): ManifestCollectionDto
     {
-        $taskDirSetting = $this->settingRepository->findOneByPath('extension_dirs');
-
-        if (!$taskDirSetting || !is_array($taskDirSetting->getValues())) {
-            throw new MissingSettingException('extension_dirs are not configured properly');
-        }
+        $taskDirSetting = $this->settingRepository->getOneByPath(Setting::PATH_EXTENSION_DIRS);
 
         $collection = new ManifestCollectionDto();
 
