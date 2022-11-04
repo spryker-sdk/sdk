@@ -48,3 +48,27 @@ services:
     api_doc.task_describer:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\TaskApiDocDescriber
         tags: ['nelmio_api_doc.describer']
+
+    json_schema_validator:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
+        arguments:
+            - '@json_validator'
+
+    json_validator:
+        class: JsonSchema\Validator
+
+    json_request_transformer_listener:
+        class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\JsonRequestListener
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.request,
+                method: onKernelRequest,
+                priority: 256
+            }
+        arguments:
+            - ['json']
+            - '@json_schema_validator'
+
+    response.builder:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder

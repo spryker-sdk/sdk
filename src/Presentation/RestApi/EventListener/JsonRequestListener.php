@@ -5,9 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\EventListener;
+namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use JsonException;
+use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +22,18 @@ class JsonRequestListener
     protected array $contentTypes;
 
     /**
-     * @param array<string> $contentTypes
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
      */
-    public function __construct(array $contentTypes)
+    protected JsonSchemaValidator $jsonSchemaValidator;
+
+    /**
+     * @param array<string> $contentTypes
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator $jsonSchemaValidator
+     */
+    public function __construct(array $contentTypes, JsonSchemaValidator $jsonSchemaValidator)
     {
         $this->contentTypes = $contentTypes;
+        $this->jsonSchemaValidator = $jsonSchemaValidator;
     }
 
     /**
@@ -47,6 +55,13 @@ class JsonRequestListener
 
         try {
             $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+            $error = $this->jsonSchemaValidator->validate($data);
+            if ($error) {
+                $event->setResponse(new JsonResponse($error, Response::HTTP_BAD_REQUEST));
+
+                return;
+            }
+
             $request->request->replace($data);
         } catch (JsonException $exception) {
             $event->setResponse(new JsonResponse('Invalid request.', Response::HTTP_BAD_REQUEST));

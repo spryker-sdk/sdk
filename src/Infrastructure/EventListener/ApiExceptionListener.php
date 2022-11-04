@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\EventListener;
 
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
@@ -26,13 +26,20 @@ class ApiExceptionListener
     protected bool $isDebug;
 
     /**
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     */
+    protected ResponseBuilder $responseBuilder;
+
+    /**
      * @param bool $isDebug
      * @param \Psr\Log\LoggerInterface $logger
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
      */
-    public function __construct(bool $isDebug, LoggerInterface $logger)
+    public function __construct(bool $isDebug, LoggerInterface $logger, ResponseBuilder $responseBuilder)
     {
         $this->logger = $logger;
         $this->isDebug = $isDebug;
+        $this->responseBuilder = $responseBuilder;
     }
 
     /**
@@ -46,11 +53,10 @@ class ApiExceptionListener
 
         if ($exception instanceof InvalidRequestDataException) {
             $event->setResponse(
-                new JsonResponse(
-                    [
-                        'message' => $exception->getMessage(),
-                    ],
+                $this->responseBuilder->buildErrorResponse(
+                    $exception->getMessage(),
                     Response::HTTP_BAD_REQUEST,
+                    (string)Response::HTTP_BAD_REQUEST,
                 ),
             );
         }
@@ -58,11 +64,10 @@ class ApiExceptionListener
         $this->logger->error($exception->getMessage());
 
         $event->setResponse(
-            new JsonResponse(
-                [
-                    'message' => $this->isDebug ? $exception->getMessage() : 'Error',
-                ],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
+            $this->responseBuilder->buildErrorResponse(
+                $this->isDebug ? $exception->getMessage() : 'Error',
+                Response::HTTP_BAD_REQUEST,
+                (string)Response::HTTP_BAD_REQUEST,
             ),
         );
     }
