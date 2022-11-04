@@ -34,3 +34,8 @@ tests/_support/_generated/
 ###> frontend ###
 node_modules
 ###< frontend ###
+
+
+###> spryk ###
+generated
+###< spryk ###
