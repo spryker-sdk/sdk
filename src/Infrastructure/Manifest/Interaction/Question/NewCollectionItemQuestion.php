@@ -35,6 +35,7 @@ class NewCollectionItemQuestion
     {
         return $this->interactionProcessor->receiveValue(
             new ReceiverValue(
+                'new-value',
                 sprintf('Would you like to add one more `%s`?', $valueId),
                 false,
                 ValueTypeEnum::TYPE_BOOL,

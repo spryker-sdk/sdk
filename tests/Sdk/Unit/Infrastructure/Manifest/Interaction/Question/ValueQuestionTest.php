@@ -35,7 +35,7 @@ class ValueQuestionTest extends Unit
         // Arrange
         $interactionProcessor = $this->createInteractionProcessorMock();
         $question = new ValueQuestion($interactionProcessor);
-        $receiverValue = new ReceiverValue('Test description', '', ValueTypeEnum::TYPE_STRING);
+        $receiverValue = new ReceiverValue('', 'Test description', '', ValueTypeEnum::TYPE_STRING);
 
         // Act
         $question->ask($receiverValue);

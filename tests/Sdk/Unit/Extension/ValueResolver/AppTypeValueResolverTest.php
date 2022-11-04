@@ -56,6 +56,7 @@ class AppTypeValueResolverTest extends Unit
             'boilerplate' => 'https://github.com/spryker-projects/mini-framework',
         ];
         $receiverValue = new ReceiverValue(
+            'boilerplate_url',
             'App template to use for creation',
             array_key_first($repositories),
             'string',

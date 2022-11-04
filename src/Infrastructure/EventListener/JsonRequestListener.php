@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event\Request;
+namespace SprykerSdk\Sdk\Infrastructure\EventListener;
 
-use Symfony\Component\HttpFoundation\Exception\JsonException;
+use JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +15,19 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class JsonRequestListener
 {
+    /**
+     * @var array<string>
+     */
+    protected array $contentTypes;
+
+    /**
+     * @param array<string> $contentTypes
+     */
+    public function __construct(array $contentTypes)
+    {
+        $this->contentTypes = $contentTypes;
+    }
+
     /**
      * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
      *
@@ -28,27 +41,26 @@ class JsonRequestListener
 
         $request = $event->getRequest();
 
-        if (!$this->isApplicable($request)) {
-            return;
-        }
-
-        if ($request->getContentType() !== 'json') {
-            $event->setResponse(new JsonResponse('Invalid content type', Response::HTTP_BAD_REQUEST));
-
+        if (!$this->isApplicable($request) || !$this->supports($request)) {
             return;
         }
 
         try {
-            $requestContent = $request->toArray();
-        } catch (JsonException $e) {
-            $event->setResponse(new JsonResponse('Invalid json string', Response::HTTP_BAD_REQUEST));
-
-            return;
+            $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+            $request->request->replace($data);
+        } catch (JsonException $exception) {
+            $event->setResponse(new JsonResponse('Invalid request.', Response::HTTP_BAD_REQUEST));
         }
+    }
 
-        if (is_array($requestContent)) {
-            $request->request->replace($requestContent);
-        }
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return bool
+     */
+    protected function supports(Request $request): bool
+    {
+        return in_array($request->getContentType(), $this->contentTypes, true) && $request->getContent();
     }
 
     /**

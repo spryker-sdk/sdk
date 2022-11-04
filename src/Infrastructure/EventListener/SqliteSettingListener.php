@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event;
+namespace SprykerSdk\Sdk\Infrastructure\EventListener;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Contracts\EventDispatcher\Event;
 
-class CliSqliteListener
+class SqliteSettingListener
 {
     /**
      * @var \Doctrine\Bundle\DoctrineBundle\Registry
@@ -26,11 +26,11 @@ class CliSqliteListener
     }
 
     /**
-     * @param \Symfony\Component\Console\Event\ConsoleCommandEvent $event
+     * @param \Symfony\Contracts\EventDispatcher\Event $event
      *
      * @return void
      */
-    public function beforeConsoleCommand(ConsoleCommandEvent $event): void
+    public function beforeConsoleCommand(Event $event): void
     {
         /** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
         $connection = $this->doctrine->getConnection();

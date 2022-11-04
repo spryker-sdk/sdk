@@ -53,6 +53,7 @@ class AppPhpVersionValueResolverTest extends Unit
     {
         // Arrange
         $receiverValue = new ReceiverValue(
+            'app_php_version',
             'PHP version to use for the App',
             array_key_first(AppPhpVersionValueResolver::PHP_VERSIONS),
             'string',

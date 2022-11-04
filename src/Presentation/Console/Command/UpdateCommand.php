@@ -7,13 +7,10 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
-use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends AbstractUpdateCommand
@@ -29,28 +26,20 @@ class UpdateCommand extends AbstractUpdateCommand
     protected LifecycleManagerInterface $lifecycleManager;
 
     /**
-     * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand
-     */
-    protected MigrateCommand $doctrineMigrationCommand;
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface
      */
     protected InitializerInterface $initializer;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface $initializer
      */
     public function __construct(
         LifecycleManagerInterface $lifecycleManager,
-        MigrateCommand $doctrineMigrationCommand,
         InitializerInterface $initializer
     ) {
         parent::__construct(static::NAME);
         $this->lifecycleManager = $lifecycleManager;
-        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
         $this->initializer = $initializer;
     }
 
@@ -62,8 +51,6 @@ class UpdateCommand extends AbstractUpdateCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->runMigration();
-
         $this->initializer->initialize([]);
 
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
@@ -95,15 +82,5 @@ class UpdateCommand extends AbstractUpdateCommand
         foreach ($messages as $message) {
             $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
         }
-    }
-
-    /**
-     * @return void
-     */
-    protected function runMigration(): void
-    {
-        $migrationInput = new ArrayInput(['allow-no-migration']);
-        $migrationInput->setInteractive(false);
-        $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }
 }

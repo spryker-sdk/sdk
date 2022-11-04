@@ -7,14 +7,26 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
-use Nelmio\ApiDocBundle\Annotation as Nelmio;
-use OpenApi\Annotations as OA;
+use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SdkInitSdkController
 {
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
+     */
+    protected Initializer $initializerService;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Service\Initializer $initializerService
+     */
+    public function __construct(Initializer $initializerService)
+    {
+        $this->initializerService = $initializerService;
+    }
+
     /**
      * @Nelmio\Areas({"default"})
      *
@@ -51,6 +63,8 @@ class SdkInitSdkController
      */
     public function __invoke(Request $request): Response
     {
-        return new JsonResponse($request->request->all());
+        $this->initializerService->initialize($request->request->all());
+
+        return new JsonResponse([]);
     }
 }

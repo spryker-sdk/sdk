@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Service\ActionApprover;
-use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 
 /**
  * Auto-generated group annotations
@@ -24,16 +24,16 @@ use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 class ActionApproverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
      */
-    protected CliInteractionProcessor $cliValueReceiver;
+    protected InteractionProcessor $cliValueReceiver;
 
     /**
      * @return void
      */
     protected function setUp(): void
     {
-        $this->cliValueReceiver = $this->createMock(CliInteractionProcessor::class);
+        $this->cliValueReceiver = $this->createMock(InteractionProcessor::class);
 
         parent::setUp();
     }

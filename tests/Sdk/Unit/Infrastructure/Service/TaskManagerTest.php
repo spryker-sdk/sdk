@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
@@ -20,6 +20,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Service
