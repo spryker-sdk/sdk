@@ -59,7 +59,7 @@ class YamlTaskBuilder implements TaskBuilderInterface
     {
         return in_array(
             $taskYamlCriteriaDto->getType(),
-            [TaskType::TYPE_LOCAL_CLI, TaskType::TYPE_LOCAL_CLI_INTERACTIVE],
+            [TaskType::TYPE_LOCAL_CLI, TaskType::TYPE_LOCAL_CLI_INTERACTIVE, 'cli_parallel'],
             true,
         );
     }

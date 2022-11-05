@@ -113,6 +113,7 @@ class LocalCliRunner implements CliCommandRunnerInterface
         }, array_values($context->getResolvedValues()));
 
         $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
+        echo $assembledCommand . PHP_EOL;
 
         if (!is_string($assembledCommand)) {
             throw new CommandRunnerException(sprintf(

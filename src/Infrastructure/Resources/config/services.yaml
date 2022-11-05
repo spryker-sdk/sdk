@@ -158,9 +158,17 @@ services:
         arguments:
             - "@process_helper"
             - "@progress_bar"
+
     php_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
         tags: [ "command.runner" ]
+
+    parallel_local_cli_command_runner:
+        class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\ParallelCliCommandRunner
+        tags: [ "command.runner" ]
+        arguments:
+            - "@process_helper"
+
     cli_interaction_processor:
         class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor
         tags: [ "sdk.cli_receiver_setup" ]

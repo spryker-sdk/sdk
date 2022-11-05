@@ -65,6 +65,7 @@ class CommandTaskPartBuilder implements TaskPartBuilderInterface
         $applicableTaskTypes = [
             Task::TYPE_LOCAL_CLI,
             Task::TYPE_LOCAL_CLI_INTERACTIVE,
+            'cli_parallel',
         ];
 
         return in_array($criteriaDto->getType(), $applicableTaskTypes, true)

@@ -85,7 +85,7 @@ class TaskYamlReader
             return $collectionDto;
         }
 
-        if (in_array($taskData['type'], [Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE], true)) {
+        if (in_array($taskData['type'], [Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE, 'cli_parallel'], true)) {
             $collectionDto->addTask($taskData);
 
             return $collectionDto;

@@ -122,11 +122,11 @@ class TaskManifestConfiguration implements ManifestConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE])
+                        ->ifNotInArray([Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE, 'cli_parallel'])
                         ->thenInvalid(
                             vsprintf(
                                 'Task type `%s` should have %s or %s.',
-                                ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
+                                ['%s', Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE, 'cli_parallel'],
                             ),
                         )
                     ->end()
