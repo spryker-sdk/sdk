@@ -200,20 +200,6 @@ services:
         arguments:
             - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
 
-    api_exception_listener:
-        class: SprykerSdk\Sdk\Infrastructure\EventListener\ApiExceptionListener
-        arguments:
-            - "%kernel.debug%"
-            - "@logger"
-            - '@response.builder'
-        tags:
-            - {
-                name: kernel.event_listener,
-                event: kernel.exception,
-                method: onKernelException,
-                priority: 256
-            }
-
     application_receiver_setup_listener:
         class: SprykerSdk\Sdk\Infrastructure\EventListener\ApplicationReceiverSetupListener
         tags:

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\EventListener;
+namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
@@ -66,8 +66,8 @@ class ApiExceptionListener
         $event->setResponse(
             $this->responseBuilder->buildErrorResponse(
                 $this->isDebug ? $exception->getMessage() : 'Error',
-                Response::HTTP_BAD_REQUEST,
-                (string)Response::HTTP_BAD_REQUEST,
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+                (string)Response::HTTP_INTERNAL_SERVER_ERROR,
             ),
         );
     }

@@ -57,6 +57,20 @@ services:
     json_validator:
         class: JsonSchema\Validator
 
+    api_exception_listener:
+        class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\ApiExceptionListener
+        arguments:
+            - "%kernel.debug%"
+            - "@logger"
+            - '@response.builder'
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.exception,
+                method: onKernelException,
+                priority: 256
+            }
+
     json_request_transformer_listener:
         class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\JsonRequestListener
         tags:
