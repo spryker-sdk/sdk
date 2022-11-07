@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -18,7 +18,6 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 class ParallelCliCommandRunner implements CliCommandRunnerInterface
@@ -76,6 +75,8 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
 
     /**
      * @inheritDoc
+     *
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
@@ -127,7 +128,7 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
     }
 
     /**
-     * @param array<Process> $processes
+     * @param array<\Symfony\Component\Process\Process> $processes
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
@@ -145,28 +146,6 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
                 if ($process->isRunning()) {
                     continue;
                 }
-                if (
-                    $process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE &&
-                    $command instanceof ErrorCommandInterface &&
-                    strlen($command->getErrorMessage())
-                ) {
-                    $context->addMessage(
-                        $command->getCommand(),
-                        new Message(trim($command->getErrorMessage()), MessageInterface::ERROR),
-                    );
-                }
-
-                $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
-                $verbosity = $process->isSuccessful() ? MessageInterface::INFO : MessageInterface::ERROR;
-
-                if ($process->getOutput()) {
-                    $context->addMessage($command->getCommand(), new Message(trim($process->getOutput()), $verbosity));
-                }
-
-                if ($process->getErrorOutput()) {
-                    $context->addMessage($command->getCommand(), new Message(trim($process->getErrorOutput()), $verbosity));
-                }
-
                 unset($processes[$index]);
             }
         } while (count($processes) > 0);
