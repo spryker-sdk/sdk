@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use JsonException;
+use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
 use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,13 +28,23 @@ class JsonRequestListener
     protected JsonSchemaValidator $jsonSchemaValidator;
 
     /**
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     */
+    protected ResponseBuilder $responseBuilder;
+
+    /**
      * @param array<string> $contentTypes
      * @param \SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator $jsonSchemaValidator
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
      */
-    public function __construct(array $contentTypes, JsonSchemaValidator $jsonSchemaValidator)
-    {
+    public function __construct(
+        array $contentTypes,
+        JsonSchemaValidator $jsonSchemaValidator,
+        ResponseBuilder $responseBuilder
+    ) {
         $this->contentTypes = $contentTypes;
         $this->jsonSchemaValidator = $jsonSchemaValidator;
+        $this->responseBuilder = $responseBuilder;
     }
 
     /**
@@ -57,7 +68,9 @@ class JsonRequestListener
             $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
             $error = $this->jsonSchemaValidator->validate($data);
             if ($error) {
-                $event->setResponse(new JsonResponse($error, Response::HTTP_BAD_REQUEST));
+                $event->setResponse(
+                    $this->responseBuilder->buildErrorResponse($error['detail'], $error['code'], $error['status']),
+                );
 
                 return;
             }

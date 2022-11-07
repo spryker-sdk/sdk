@@ -19,7 +19,7 @@ abstract class BaseController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function buildResponse(string $id, string $type, array $attributes): JsonResponse
+    public function buildResponse(string $id, string $type, array $attributes = []): JsonResponse
     {
         return (new ResponseBuilder())->buildResponse($id, $type, $attributes);
     }

@@ -10,10 +10,14 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-class SdkInitSdkController
+class SdkInitSdkController extends BaseController
 {
+    /**
+     * @var string
+     */
+    protected const TYPE = 'sdk-init-sdk';
+
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
      */
@@ -59,12 +63,12 @@ class SdkInitSdkController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): JsonResponse
     {
         $this->initializerService->initialize($request->request->all());
 
-        return new JsonResponse([]);
+        return $this->buildResponse(static::TYPE, static::TYPE);
     }
 }

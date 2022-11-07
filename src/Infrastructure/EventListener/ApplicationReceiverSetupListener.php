@@ -104,7 +104,7 @@ class ApplicationReceiverSetupListener
             }
 
             if ($inputOutputConnector instanceof RequestDataInjectorInterface) {
-                $inputOutputConnector->setRequestData($event->getRequest()->request->all()['data']['attributes']);
+                $inputOutputConnector->setRequestData($event->getRequest()->request->all()['data']['attributes'] ?? []);
             }
 
             if ($inputOutputConnector instanceof HelperSetInjectorInterface) {

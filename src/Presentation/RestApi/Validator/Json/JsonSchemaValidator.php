@@ -46,7 +46,7 @@ class JsonSchemaValidator
         return [
             'detail' => sprintf('The property "%s" is required', $error['property']),
             'code' => Response::HTTP_BAD_REQUEST,
-            'status' => Response::HTTP_BAD_REQUEST,
+            'status' => (string)Response::HTTP_BAD_REQUEST,
         ];
     }
 

@@ -13,6 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 class RunTaskController extends BaseController
 {
     /**
+     * @var string
+     */
+    protected const TYPE = 'run-task';
+
+    /**
      * @var \SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor
      */
     protected RunTaskProcessor $runTaskProcessor;
@@ -34,6 +39,6 @@ class RunTaskController extends BaseController
     {
         $responseData = $this->runTaskProcessor->process($task);
 
-        return $this->buildResponse($task, 'run-task', $responseData);
+        return $this->buildResponse($task, static::TYPE, $responseData);
     }
 }

@@ -8,12 +8,10 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Presentation\Console\Command\AbstractUpdateCommand;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class SdkUpdateSdkProcessor
 {
@@ -40,30 +38,23 @@ class SdkUpdateSdkProcessor
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return array<string, array>
      */
-    public function process(Request $request): Response
+    public function process(Request $request): array
     {
         $this->initializerService->initialize($request->request->all());
 
         $messages = [];
         if ($request->request->get(AbstractUpdateCommand::OPTION_NO_CHECK) !== null) {
-            try {
-                $messages = $this->lifecycleManager->checkForUpdate();
-            } catch (SdkVersionNotFoundException $exception) {
-                return new JsonResponse(['result' => 'FAILED', 'messages' => [$exception->getMessage()], 'code' => 400]);
-            }
+            $messages = $this->lifecycleManager->checkForUpdate();
         }
 
         if ($request->request->get(AbstractUpdateCommand::OPTION_CHECK_ONLY) !== null) {
             $this->lifecycleManager->update();
         }
 
-        $result = [];
-        foreach ($messages as $message) {
-            $result[] = $message->getMessage();
-        }
+        $result = array_map(fn (MessageInterface $message): string => $message->getMessage(), $messages);
 
-        return new JsonResponse(['messages' => $result]);
+        return ['messages' => $result];
     }
 }

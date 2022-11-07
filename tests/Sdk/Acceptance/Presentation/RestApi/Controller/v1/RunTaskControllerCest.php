@@ -36,13 +36,28 @@ class RunTaskControllerCest
      */
     public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
     {
-        $I->sendPost(static::ENDPOINT, ['world' => 'World', 'somebody' => 'World']);
+        $I->sendPost(static::ENDPOINT, [
+            'data' => [
+                'type' => 'run-task',
+                'id' => 'hello:world',
+                'attributes' => [
+                    'world' => 'World', 'somebody' => 'World',
+                ],
+            ],
+        ]);
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
         $I->seeResponseContainsJson([
-        'messages' => [
-            'Executing stage: hello',
-            'hello \'World\' \'World\'',
-        ]]);
+            'data' => [
+                'id' => 'hello:world',
+                'type' => 'run-task',
+                'attributes' => [
+                    'messages' => [
+                        'Executing stage: hello',
+                        'hello \'World\' \'World\'',
+                    ],
+                ],
+            ],
+        ]);
     }
 }

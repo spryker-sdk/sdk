@@ -69,6 +69,7 @@ services:
         arguments:
             - ['json']
             - '@json_schema_validator'
+            - '@response.builder'
 
     response.builder:
         class: SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
