@@ -10,7 +10,9 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Presentation\Console\Command\RunTaskWrapperCommand;
+use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Input\InputOption;
 
 class TaskOptionBuilder
@@ -106,21 +108,52 @@ class TaskOptionBuilder
     protected function addPlaceholderOptions(TaskInterface $task, array $options): array
     {
         foreach ($task->getPlaceholders() as $placeholder) {
-            $valueResolver = $this->placeholderResolver->getValueResolver($placeholder);
-
-            if ($valueResolver->getAlias() === null) {
-                continue;
+            $inputOption = $this->buildOption($placeholder);
+            if ($inputOption) {
+                $options[] = $inputOption;
             }
-
-            $options[] = new InputOption(
-                $valueResolver->getAlias(),
-                null,
-                $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED,
-                $valueResolver->getDescription(),
-            );
         }
 
         return $options;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
+     *
+     * @return \Symfony\Component\Console\Input\InputOption|null
+     */
+    protected function buildOption(PlaceholderInterface $placeholder): ?InputOption
+    {
+        $valueResolver = $this->placeholderResolver->getValueResolver($placeholder);
+
+        if ($valueResolver->getAlias() === null) {
+            return null;
+        }
+
+        return new InputOption(
+            $valueResolver->getAlias(),
+            null,
+            $this->calculateMode($placeholder),
+            $valueResolver->getDescription(),
+        );
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\PlaceholderInterface $placeholder
+     *
+     * @return int
+     */
+    protected function calculateMode(PlaceholderInterface $placeholder): int
+    {
+        $mode = $placeholder->isOptional() ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_REQUIRED;
+        if (
+            isset($placeholder->getConfiguration()['type']) &&
+            $placeholder->getConfiguration()['type'] === ValueTypeEnum::TYPE_ARRAY
+        ) {
+            $mode = $mode | InputOption::VALUE_IS_ARRAY;
+        }
+
+        return $mode;
     }
 
     /**

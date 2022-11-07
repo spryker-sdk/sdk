@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Reader;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\ManifestValidatorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\Task;
@@ -56,7 +55,6 @@ class TaskYamlReaderTest extends Unit
             $this->settingRepository,
             new Finder(),
             new Yaml(),
-            $this->createMock(ManifestValidatorInterface::class),
         );
         parent::setUp();
     }
@@ -67,14 +65,16 @@ class TaskYamlReaderTest extends Unit
     public function testFindAllWithoutDefinedExtensionDirsSettingShouldThrowException(): void
     {
         // Arrange
+        $exception = new MissingSettingException('Setting by path "extension_dirs" not found');
+
         $this->settingRepository
             ->expects($this->once())
-            ->method('findOneByPath')
+            ->method('getOneByPath')
             ->with('extension_dirs')
-            ->willReturn(null);
+            ->willThrowException($exception);
 
         $this->expectException(MissingSettingException::class);
-        $this->expectExceptionMessage('extension_dirs are not configured properly');
+        $this->expectExceptionMessage($exception->getMessage());
 
         // Act
         $this->reader->readFiles();
@@ -95,7 +95,7 @@ class TaskYamlReaderTest extends Unit
 
         $this->settingRepository
             ->expects($this->once())
-            ->method('findOneByPath')
+            ->method('getOneByPath')
             ->with('extension_dirs')
             ->willReturn($setting);
 
