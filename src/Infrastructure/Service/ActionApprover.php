@@ -36,6 +36,7 @@ class ActionApprover implements ActionApproverInterface
     {
         return (bool)$this->cliValueReceiver->receiveValue(
             new ReceiverValue(
+                'approve',
                 $message,
                 true,
                 ValueTypeEnum::TYPE_BOOL,

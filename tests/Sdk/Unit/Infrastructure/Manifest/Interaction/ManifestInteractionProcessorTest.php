@@ -41,7 +41,7 @@ class ManifestInteractionProcessorTest extends Unit
         // Arrange
         $map = [
             'id' => new ReceivedValue(
-                new Config('Task id', null, ValueTypeEnum::TYPE_STRING),
+                new Config('', 'Task id', null, ValueTypeEnum::TYPE_STRING),
                 false,
             ),
         ];
@@ -67,7 +67,7 @@ class ManifestInteractionProcessorTest extends Unit
         // Arrange
         $map = [
             'id' => new ReceivedValue(
-                new Config('Task id', null, ValueTypeEnum::TYPE_STRING),
+                new Config('', 'Task id', null, ValueTypeEnum::TYPE_STRING),
                 true,
             ),
         ];
@@ -94,7 +94,7 @@ class ManifestInteractionProcessorTest extends Unit
         $map = [
             'items' => new ValueCollection(
                 [
-                    new ReceivedValue(new Config('item id', null, ValueTypeEnum::TYPE_STRING)),
+                    new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
                 ],
                 false,
             ),
@@ -122,8 +122,8 @@ class ManifestInteractionProcessorTest extends Unit
         $map = [
             'items' => new ValueCollection(
                 [
-                    'id' => new ReceivedValue(new Config('item id', null, ValueTypeEnum::TYPE_STRING)),
-                    'name' => new ReceivedValue(new Config('item name', null, ValueTypeEnum::TYPE_STRING)),
+                    'id' => new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
+                    'name' => new ReceivedValue(new Config('', 'item name', null, ValueTypeEnum::TYPE_STRING)),
                 ],
                 true,
             ),
@@ -159,7 +159,7 @@ class ManifestInteractionProcessorTest extends Unit
         $map = [
             'item' => [
                 'levelOne' => [
-                    'levelTwo' => new ReceivedValue(new Config('item id', null, ValueTypeEnum::TYPE_STRING)),
+                    'levelTwo' => new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
                 ],
             ],
         ];
@@ -208,7 +208,7 @@ class ManifestInteractionProcessorTest extends Unit
         // Arrange
         $map = [
             'id' => new ReceivedValue(
-                new Config('Task id', null, ValueTypeEnum::TYPE_STRING),
+                new Config('', 'Task id', null, ValueTypeEnum::TYPE_STRING),
             ),
             'prefixed_id' => new CallbackValue(static function (array $receivedValues): InteractionValueConfig {
                 return new StaticValue('some_prefix_' . $receivedValues['id']);

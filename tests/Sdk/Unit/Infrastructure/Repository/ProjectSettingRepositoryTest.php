@@ -12,9 +12,9 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
+use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
@@ -49,7 +49,7 @@ class ProjectSettingRepositoryTest extends Unit
     protected Yaml $yamlParser;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
 

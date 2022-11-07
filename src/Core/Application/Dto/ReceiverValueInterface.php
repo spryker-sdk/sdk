@@ -12,6 +12,11 @@ interface ReceiverValueInterface
     /**
      * @return string
      */
+    public function getAlias(): string;
+
+    /**
+     * @return string
+     */
     public function getDescription(): string;
 
     /**

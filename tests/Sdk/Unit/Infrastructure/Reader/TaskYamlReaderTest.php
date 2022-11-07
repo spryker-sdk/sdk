@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Reader;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Reader;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
@@ -20,6 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Reader

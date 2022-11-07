@@ -48,12 +48,15 @@ class NamespaceValueResolverTest extends Unit
     }
 
     /**
+     * @group textttt
+     *
      * @return void
      */
     public function testGetValueIfEmpty(): void
     {
         // Arrange
         $receiverValue = new ReceiverValue(
+            'namespace',
             'Namespace name',
             'Pyz',
             'string',

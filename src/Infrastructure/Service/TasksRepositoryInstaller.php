@@ -24,13 +24,20 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
     protected LoggerInterface $logger;
 
     /**
+     * @var string
+     */
+    protected string $sdkPath;
+
+    /**
      * @param string $gitModulesPath
      * @param \Psr\Log\LoggerInterface $logger
+     * @param string $sdkPath
      */
-    public function __construct(string $gitModulesPath, LoggerInterface $logger)
+    public function __construct(string $gitModulesPath, LoggerInterface $logger, string $sdkPath)
     {
         $this->gitModulesPath = $gitModulesPath;
         $this->logger = $logger;
+        $this->sdkPath = $sdkPath;
     }
 
     /**
@@ -68,7 +75,7 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
      */
     protected function runProcess(string $command): Process
     {
-        $process = Process::fromShellCommandline($command);
+        $process = Process::fromShellCommandline($command, $this->sdkPath);
         $process->run();
 
         return $process;

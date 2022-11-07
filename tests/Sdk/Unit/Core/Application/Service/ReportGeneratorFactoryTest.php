@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Core\Application\Service;
+namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Service\Report\ReportGeneratorInterface;
@@ -16,6 +16,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Core
  * @group Application

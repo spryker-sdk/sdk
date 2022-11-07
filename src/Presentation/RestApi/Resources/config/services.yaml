@@ -5,11 +5,34 @@ services:
         public: true
         arguments:
             - "@version.app_version_fetcher"
-
-    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\HelloController:
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController
         public: true
         arguments:
-            - '@SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor'
+            - "@run_task_processor"
+
+    run_task_processor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor
+        arguments:
+            - "@task_executor"
+            - "@context_factory"
+            - "@violation_report_mapper"
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController:
+        public: true
+        arguments:
+            - "@initializer_service"
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController:
+        public: true
+        arguments:
+            - "@sdk_update_sdk_processor"
+
+    sdk_update_sdk_processor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor
+        arguments:
+            - "@initializer_service"
+            - "@service.lifecycle_manager"
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application
@@ -17,6 +40,7 @@ services:
             - '@kernel'
 
     SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor:
+    rest_api_task_executor:
         class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
         arguments:
             - '@symfony.console.application'

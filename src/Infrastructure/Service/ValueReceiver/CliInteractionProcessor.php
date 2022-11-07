@@ -9,17 +9,24 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValueInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\InputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\OutputInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\RequestDataInjectorInterface;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CliInteractionProcessor implements InteractionProcessorInterface, InputOutputReceiverInterface
+class CliInteractionProcessor implements InteractionProcessorInterface, InputInjectorInterface, OutputInjectorInterface, RequestDataInjectorInterface
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
      */
     protected InputInterface $input;
+
+    /**
+     * @var array<array>
+     */
+    protected array $requestData = [];
 
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface
@@ -67,13 +74,23 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputOut
     }
 
     /**
+     * @param array $requestData
+     *
+     * @return void
+     */
+    public function setRequestData(array $requestData): void
+    {
+        $this->requestData = $requestData;
+    }
+
+    /**
      * @param string $key
      *
      * @return bool
      */
-    public function has(string $key): bool
+    public function hasRequestItem(string $key): bool
     {
-        return $this->input->hasOption($key) && $this->input->getOption($key) !== null;
+        return !empty($this->requestData[$key]);
     }
 
     /**
@@ -81,9 +98,9 @@ class CliInteractionProcessor implements InteractionProcessorInterface, InputOut
      *
      * @return mixed
      */
-    public function get(string $key)
+    public function getRequestItem(string $key)
     {
-        return $this->input->getOption($key);
+        return $this->requestData[$key];
     }
 
     /**

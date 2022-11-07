@@ -60,6 +60,7 @@ class SettingValueQuestion
 
         return $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
+                $setting->getPath(),
                 $questionDescription,
                 is_array($availableValues) ? array_key_first($availableValues) : $availableValues,
                 $setting->getType(),
