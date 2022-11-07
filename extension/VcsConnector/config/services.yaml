@@ -1,0 +1,23 @@
+services:
+    VcsConnector\:
+        resource: '../src/*'
+    _instanceof:
+        VcsConnector\Vcs\Adapter\VcsInterface:
+            tags: [ "vcs.adapter" ]
+
+    vcs_configuration_resolver:
+        class: VcsConnector\Vcs\VcsConfigurationResolver
+        arguments:
+            - !tagged_iterator { tag: 'vcs.adapter', default_index_method: 'getName'}
+    vcs_github_connector:
+        class: VcsConnector\Vcs\Adapter\GithubConnector
+        arguments:
+            - "@github_client"
+
+    vcs_github_vcs_adapter:
+        class: VcsConnector\Vcs\Adapter\GithubVcsAdapter
+        arguments:
+            - "@vcs_github_connector"
+
+    github_client:
+        class: Github\Client
