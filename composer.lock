@@ -14973,7 +14973,7 @@
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.1,<8.0"
+                "php": ">=7.1,<8.2"
             },
             "replace": {
                 "flow/jsonpath": "*"
