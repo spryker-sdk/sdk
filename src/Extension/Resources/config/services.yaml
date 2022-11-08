@@ -123,6 +123,14 @@ services:
   project_uuid_initializer:
     alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer
     public: true
+  sdk_uuid_initializer:
+      class: SprykerSdk\Sdk\Extension\Setting\Initializer\SdkUuidInitializer
+      arguments:
+          - "@setting_repository"
+  execution_env_initializer:
+      class: SprykerSdk\Sdk\Extension\Setting\Initializer\ExecutionEnvInitializer
+      arguments:
+          - "@setting_repository"
   SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer:
     tags: ["sdk.setting_initializer", "sdk.setting_choice_provider"]
     public: true

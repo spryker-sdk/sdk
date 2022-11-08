@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
+use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 
@@ -39,21 +40,29 @@ class Initializer implements InitializerInterface
     protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
+     */
+    protected SettingInitializerRegistry $settingInitializerRegistry;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
      * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlRepository
+     * @param \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry $settingInitializerRegistry
      */
     public function __construct(
         InteractionProcessorInterface $cliValueReceiver,
         SettingRepositoryInterface $settingRepository,
         TaskManagerInterface $taskManager,
-        TaskYamlFileLoaderInterface $taskYamlRepository
+        TaskYamlFileLoaderInterface $taskYamlRepository,
+        SettingInitializerRegistry $settingInitializerRegistry
     ) {
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->taskYamlFileLoader = $taskYamlRepository;
         $this->taskManager = $taskManager;
+        $this->settingInitializerRegistry = $settingInitializerRegistry;
     }
 
     /**
@@ -84,6 +93,14 @@ class Initializer implements InitializerInterface
 
         foreach ($coreEntities as $settingEntity) {
             $this->initializeSettingValue($settingEntity, $settings);
+
+            $initializerName = $settingEntity->getInitializer();
+
+            if ($initializerName === null || !$this->settingInitializerRegistry->hasSettingInitializer($initializerName)) {
+                continue;
+            }
+
+            $this->settingInitializerRegistry->getSettingInitializer($initializerName)->initialize($settingEntity);
         }
 
         return $coreEntities;
@@ -104,7 +121,7 @@ class Initializer implements InitializerInterface
             return;
         }
 
-        if ($settingEntity->hasInitialization() === false || $settingEntity->getValues() !== null) {
+        if (!$this->isValuesShouldBeReceived($settingEntity)) {
             return;
         }
 
@@ -114,6 +131,24 @@ class Initializer implements InitializerInterface
             $settingEntity->setValues($value);
             $this->settingRepository->save($settingEntity);
         }
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     *
+     * @return bool
+     */
+    protected function isValuesShouldBeReceived(SettingInterface $settingEntity): bool
+    {
+        if ($settingEntity->isForceAskValue() && $settingEntity->isFirstInitialization()) {
+            return true;
+        }
+
+        if ($settingEntity->hasInitialization() === false || $settingEntity->getValues() !== null) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

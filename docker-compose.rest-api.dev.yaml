@@ -25,9 +25,9 @@ services:
         volumes:
             - ./:/data
         restart: on-failure
+        env_file:
+            - ./infrastructure/env/.env
         environment:
-            SDK_DIR: ${SDK_DIR}
-            EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
             SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
             PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
             XDEBUG_MODE: ${SDK_XDEBUG_MODE}

@@ -17,23 +17,23 @@ class TelemetryEventMetadata implements TelemetryEventMetadataInterface
     /**
      * @var string|null
      */
-    protected ?string $developerGithubAccount;
+    protected ?string $projectName;
 
     /**
      * @var string|null
      */
-    protected ?string $projectName;
+    protected ?string $executionEnv;
 
     /**
      * @param string|null $developerEmail
-     * @param string|null $developerGithubAccount
      * @param string|null $projectName
+     * @param string|null $executionEnv
      */
-    public function __construct(?string $developerEmail, ?string $developerGithubAccount, ?string $projectName)
+    public function __construct(?string $developerEmail, ?string $projectName, ?string $executionEnv)
     {
         $this->developerEmail = $developerEmail;
-        $this->developerGithubAccount = $developerGithubAccount;
         $this->projectName = $projectName;
+        $this->executionEnv = $executionEnv;
     }
 
     /**
@@ -47,16 +47,16 @@ class TelemetryEventMetadata implements TelemetryEventMetadataInterface
     /**
      * @return string|null
      */
-    public function getDeveloperGithubAccount(): ?string
+    public function getProjectName(): ?string
     {
-        return $this->developerGithubAccount;
+        return $this->projectName;
     }
 
     /**
      * @return string|null
      */
-    public function getProjectName(): ?string
+    public function getExecutionEnv(): ?string
     {
-        return $this->projectName;
+        return $this->executionEnv;
     }
 }

@@ -257,6 +257,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             $settingData['type'],
             $settingData['setting_type'],
             $settingData['init'],
+            $settingData['force_ask_value'] ?? false,
             $settingData['initialization_description'],
             $settingData['initializer'],
         );
@@ -280,6 +281,7 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             'initialization_description' => $setting['initialization_description'] ?? null,
             'strategy' => $setting['strategy'] ?? 'overwrite',
             'init' => $setting['init'] ?? false,
+            'force_ask_value' => $setting['force_ask_value'] ?? false,
             'values' => $setting['values'],
             'initializer' => $setting['initializer'] ?? null,
         ];

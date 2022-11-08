@@ -7,8 +7,9 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Telemetry;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadataInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
@@ -21,18 +22,18 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
     protected ProjectInfoFetcherInterface $projectInfoFetcher;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
      */
-    protected SettingRepositoryInterface $settingRepository;
+    protected SettingFetcherInterface $settingFetcher;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface $projectInfoFetcher
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
      */
-    public function __construct(ProjectInfoFetcherInterface $projectInfoFetcher, SettingRepositoryInterface $settingRepository)
+    public function __construct(ProjectInfoFetcherInterface $projectInfoFetcher, SettingFetcherInterface $settingFetcher)
     {
         $this->projectInfoFetcher = $projectInfoFetcher;
-        $this->settingRepository = $settingRepository;
+        $this->settingFetcher = $settingFetcher;
     }
 
     /**
@@ -40,13 +41,14 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
      */
     public function createTelemetryEventMetadata(): TelemetryEventMetadataInterface
     {
-        $developerEmail = $this->findSettingByKey(Setting::PATH_DEVELOPER_EMAIL);
-        $developerGithubAccount = $this->findSettingByKey(Setting::PATH_DEVELOPER_GITHUB_ACCOUNT);
-
         $projectInfo = $this->projectInfoFetcher->fetchProjectInfo();
         $projectName = $projectInfo !== null ? $projectInfo->getName() : null;
 
-        return new TelemetryEventMetadata($developerEmail, $developerGithubAccount, $projectName);
+        return new TelemetryEventMetadata(
+            $this->findSettingByKey(Setting::PATH_DEVELOPER_EMAIL),
+            $projectName,
+            $this->findSettingByKey(Setting::PATH_EXECUTION_ENV),
+        );
     }
 
     /**
@@ -56,8 +58,12 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
      */
     protected function findSettingByKey(string $settingKey): ?string
     {
-        $setting = $this->settingRepository->findOneByPath($settingKey);
+        $value = null;
+        try {
+            $value = $this->settingFetcher->getOneByPath($settingKey)->getValues();
+        } catch (MissingSettingException $e) {
+        }
 
-        return $setting !== null ? $setting->getValues() : null;
+        return $value;
     }
 }

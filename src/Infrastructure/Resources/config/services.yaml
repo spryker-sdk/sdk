@@ -149,6 +149,8 @@ services:
             - "@setting_repository"
             - "@service.task_manager"
             - "@task_yaml_loader"
+            - "@setting.setting_initializer_registry"
+
     process_helper:
         class: Symfony\Component\Console\Helper\ProcessHelper
 
