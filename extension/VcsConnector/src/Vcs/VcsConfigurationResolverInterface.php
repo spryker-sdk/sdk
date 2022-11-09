@@ -12,9 +12,11 @@ use VcsConnector\Vcs\Adapter\VcsInterface;
 interface VcsConfigurationResolverInterface
 {
     /**
-     * @throws \VcsConnector\Exception\AdapterDoesNotExist
+     * @param string $vcs
+     *
+     * @throws \VcsConnector\Exception\AdapterDoesNotExistException
      *
      * @return \VcsConnector\Vcs\Adapter\VcsInterface
      */
-    public function resolve(): VcsInterface;
+    public function resolve(string $vcs): VcsInterface;
 }

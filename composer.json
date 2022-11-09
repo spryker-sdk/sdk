@@ -105,7 +105,8 @@
         "psr-4": {
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
             "Hello\\": "extension/Hello/src/",
-            "Custom\\": "extension/Custom/src/"
+            "Custom\\": "extension/Custom/src/",
+            "VcsConnector\\": "extension/VcsConnector/src/"
         }
     },
     "replace": {

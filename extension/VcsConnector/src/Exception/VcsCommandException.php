@@ -9,6 +9,6 @@ namespace VcsConnector\Exception;
 
 use Exception;
 
-class AdapterDoesNotExist extends Exception
+class VcsCommandException extends Exception
 {
 }

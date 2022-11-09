@@ -8,7 +8,7 @@
 namespace VcsConnector\Vcs;
 
 use Traversable;
-use VcsConnector\Exception\AdapterDoesNotExist;
+use VcsConnector\Exception\AdapterDoesNotExistException;
 use VcsConnector\Vcs\Adapter\VcsInterface;
 
 class VcsConfigurationResolver implements VcsConfigurationResolverInterface
@@ -19,27 +19,36 @@ class VcsConfigurationResolver implements VcsConfigurationResolverInterface
     protected array $vcsAdapters = [];
 
     /**
-     * @param iterable<\VcsConnector\Vcs\Adapter\VcsInterface> $vcsAdapters
+     * @var \VcsConnector\Vcs\VcsProcessExecutor
      */
-    public function __construct(iterable $vcsAdapters)
+    protected VcsProcessExecutor $vcsProcessExecutor;
+
+    /**
+     * @param iterable $vcsAdapters
+     * @param \VcsConnector\Vcs\VcsProcessExecutor $vcsProcessExecutor
+     */
+    public function __construct(iterable $vcsAdapters, VcsProcessExecutor $vcsProcessExecutor)
     {
         $this->vcsAdapters = $vcsAdapters instanceof Traversable
             ? iterator_to_array($vcsAdapters)
             : $vcsAdapters;
+
+        $this->vcsProcessExecutor = $vcsProcessExecutor;
     }
 
     /**
-     * @throws \VcsConnector\Exception\AdapterDoesNotExist
+     * @param string $vcs
+     *
+     * @throws \VcsConnector\Exception\AdapterDoesNotExistException
      *
      * @return \VcsConnector\Vcs\Adapter\VcsInterface
      */
-    public function resolve(): VcsInterface
+    public function resolve(string $vcs): VcsInterface
     {
-        $name = '';
-        foreach ($this->vcsAdapters as $adapter) {
-            return $adapter;
+        if (!isset($this->vcsAdapters[$vcs])) {
+            throw new AdapterDoesNotExistException(sprintf('`%s` csv adapter doesn\'t not exist.', $vcs));
         }
 
-        throw new AdapterDoesNotExist(sprintf('`%s` csv adapter doesn\'t not exist.', $name));
+        return $this->vcsAdapters[$vcs];
     }
 }

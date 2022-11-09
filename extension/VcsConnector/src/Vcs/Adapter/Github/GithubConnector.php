@@ -7,20 +7,52 @@
 
 namespace VcsConnector\Vcs\Adapter;
 
-use Gitlab\Client;
+use Github\AuthMethod;
+use Github\Client;
+use VcsConnector\Vcs\VcsProcessExecutor;
 
 class GithubConnector
 {
     /**
-     * @var \Gitlab\Client
+     * @var \Github\Client
      */
     protected Client $githubClient;
 
     /**
-     * @param \Gitlab\Client $githubClient
+     * @var \VcsConnector\Vcs\VcsProcessExecutor
      */
-    public function __construct(Client $githubClient)
+    protected VcsProcessExecutor $vcsProcessExecutor;
+
+    /**
+     * @param \Github\Client $githubClient
+     * @param \VcsConnector\Vcs\VcsProcessExecutor $vcsProcessExecutor
+     */
+    public function __construct(Client $githubClient, VcsProcessExecutor $vcsProcessExecutor)
     {
         $this->githubClient = $githubClient;
+        $this->vcsProcessExecutor = $vcsProcessExecutor;
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return void
+     */
+    protected function authenticated(string $token): void
+    {
+        $this->githubClient->authenticate($token, null, AuthMethod::ACCESS_TOKEN);
+    }
+
+    /**
+     * @param string $projectPath
+     * @param string $branch
+     *
+     * @return void
+     */
+    public function clone(string $projectPath, string $branch): void
+    {
+        $command = ['git', 'clone', $branch];
+
+        $this->vcsProcessExecutor->process($projectPath, $command);
     }
 }

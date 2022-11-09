@@ -34,4 +34,15 @@ class GithubVcsAdapter implements VcsInterface
     {
         return static::GITHUB;
     }
+
+    /**
+     * @param string $projectPath
+     * @param string $branch
+     *
+     * @return void
+     */
+    public function clone(string $projectPath, string $branch): void
+    {
+        $this->githubConnector->clone($projectPath, $branch);
+    }
 }
