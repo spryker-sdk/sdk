@@ -20,6 +20,6 @@ services:
         class: VcsConnector\Vcs\VcsProcessExecutor
 
     vcs_github_vcs_adapter:
-        class: VcsConnector\Vcs\Adapter\GithubVcsAdapter
+        class: VcsConnector\Vcs\Adapter\Github\GithubVcsAdapter
         arguments:
             - "@vcs_github_connector"
