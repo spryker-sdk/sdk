@@ -8,15 +8,11 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Core\Application\Version\AppVersionFetcher;
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class IndexController extends BaseController
 {
-    /**
-     * @var string
-     */
-    protected const TYPE = 'version';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Version\AppVersionFetcher
      */
@@ -37,6 +33,6 @@ class IndexController extends BaseController
     {
         $version = $this->appVersionFetcher->fetchAppVersion();
 
-        return $this->buildResponse($version, static::TYPE, ['version' => $version]);
+        return $this->buildResponse($version, OpenApiType::VERSION, ['version' => $version]);
     }
 }

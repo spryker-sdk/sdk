@@ -7,16 +7,12 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class SdkInitProjectController extends BaseController
 {
-    /**
-     * @var string
-     */
-    protected const TYPE = 'sdk-init-project';
-
     /**
      * @Nelmio\Areas({"default"})
      *
@@ -73,6 +69,6 @@ class SdkInitProjectController extends BaseController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return $this->buildResponse(static::TYPE, static::TYPE, $request->request->all());
+        return $this->buildResponse(OpenApiType::SDK_INIT_PROJECT, OpenApiType::SDK_INIT_PROJECT, $request->request->all());
     }
 }

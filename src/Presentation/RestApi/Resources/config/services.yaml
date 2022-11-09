@@ -33,6 +33,7 @@ services:
         arguments:
             - "@initializer_service"
             - "@service.lifecycle_manager"
+            - "@response.builder"
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application

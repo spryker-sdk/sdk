@@ -132,8 +132,11 @@ components:
         RestErrorMessage:
             properties:
                 code:
-                    type: string
-                detail:
-                    type: string
-                status:
                     type: integer
+                details:
+                    type: array
+                    items:
+                        type: string
+                        example: ["The property type is required", "The property attributes is required"]
+                status:
+                    type: string

@@ -7,16 +7,12 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiType;
 use SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RunTaskController extends BaseController
 {
-    /**
-     * @var string
-     */
-    protected const TYPE = 'run-task';
-
     /**
      * @var \SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor
      */
@@ -39,6 +35,6 @@ class RunTaskController extends BaseController
     {
         $responseData = $this->runTaskProcessor->process($task);
 
-        return $this->buildResponse($task, static::TYPE, $responseData);
+        return $this->buildResponse($task, OpenApiType::RUN_TASK, $responseData);
     }
 }

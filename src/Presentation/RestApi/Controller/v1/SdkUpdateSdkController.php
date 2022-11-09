@@ -7,19 +7,12 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
-use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class SdkUpdateSdkController extends BaseController
 {
-    /**
-     * @var string
-     */
-    protected const TYPE = 'sdk-update-sdk';
-
     /**
      * @var \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor
      */
@@ -40,16 +33,6 @@ class SdkUpdateSdkController extends BaseController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        try {
-            $result = $this->sdkUpdateSdkProcessor->process($request);
-
-            return $this->buildResponse(static::TYPE, static::TYPE, $result);
-        } catch (SdkVersionNotFoundException $exception) {
-            return $this->buildErrorResponse(
-                [$exception->getMessage()],
-                Response::HTTP_BAD_REQUEST,
-                (string)Response::HTTP_BAD_REQUEST,
-            );
-        }
+        return $this->sdkUpdateSdkProcessor->process($request);
     }
 }
