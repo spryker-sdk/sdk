@@ -14,7 +14,6 @@ services:
     vcs_github_connector:
         class: VcsConnector\Vcs\Adapter\GithubConnector
         arguments:
-            - "@github_client"
             - "@vcs_process_executor"
 
     vcs_process_executor:
@@ -24,6 +23,3 @@ services:
         class: VcsConnector\Vcs\Adapter\GithubVcsAdapter
         arguments:
             - "@vcs_github_connector"
-
-    github_client:
-        class: Github\Client

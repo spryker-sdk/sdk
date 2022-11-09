@@ -24,7 +24,6 @@
         "doctrine/migrations": "^3.4",
         "doctrine/orm": "^2.11",
         "guzzlehttp/guzzle": "^7.4",
-        "knplabs/github-api": "3.4",
         "monolog/monolog": "^2.3",
         "nelmio/api-doc-bundle": "^4.10",
         "ondrejmirtes/better-reflection": "4.3.*",

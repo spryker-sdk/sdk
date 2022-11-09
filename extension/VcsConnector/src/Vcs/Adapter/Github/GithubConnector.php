@@ -8,28 +8,20 @@
 namespace VcsConnector\Vcs\Adapter;
 
 use Github\AuthMethod;
-use Github\Client;
 use VcsConnector\Vcs\VcsProcessExecutor;
 
 class GithubConnector
 {
-    /**
-     * @var \Github\Client
-     */
-    protected Client $githubClient;
-
     /**
      * @var \VcsConnector\Vcs\VcsProcessExecutor
      */
     protected VcsProcessExecutor $vcsProcessExecutor;
 
     /**
-     * @param \Github\Client $githubClient
      * @param \VcsConnector\Vcs\VcsProcessExecutor $vcsProcessExecutor
      */
-    public function __construct(Client $githubClient, VcsProcessExecutor $vcsProcessExecutor)
+    public function __construct(VcsProcessExecutor $vcsProcessExecutor)
     {
-        $this->githubClient = $githubClient;
         $this->vcsProcessExecutor = $vcsProcessExecutor;
     }
 

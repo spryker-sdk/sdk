@@ -58,10 +58,12 @@ class VcsCloneTask implements TaskInterface
      */
     public function getPlaceholders(): array
     {
+        $vcsList = array_keys($this->vcsAdapters);
+
         return [
             new Placeholder(
                 '%vcs_repository%',
-                'STATIC',
+                'ORIGIN',
                 [
                     'description' => 'Repository link',
                     'type' => ValueTypeEnum::TYPE_STRING,
@@ -72,7 +74,8 @@ class VcsCloneTask implements TaskInterface
                 '%vcs%',
                 'ORIGIN',
                 [
-                    'choiceValues' => array_keys($this->vcsAdapters),
+                    'choiceValues' => array_keys($vcsList),
+                    'defaultValue' => array_key_first($vcsList),
                     'description' => 'Select VCS',
                     'type' => ValueTypeEnum::TYPE_STRING,
                 ],

@@ -7,9 +7,11 @@
 
 namespace SprykerSdk\Sdk\Extension\Task\Command;
 
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
+use VcsConnector\Exception\AdapterDoesNotExistException;
 use VcsConnector\Vcs\VcsConfigurationResolverInterface;
 
 class VcsCloneCommand implements ExecutableCommandInterface
@@ -53,12 +55,21 @@ class VcsCloneCommand implements ExecutableCommandInterface
     {
         $resolvedValues = $context->getResolvedValues();
 
-        $this->vcsConfigurationResolver
-            ->resolve((string)$resolvedValues['%vcs%'])
-            ->clone(
-                $this->sdkPath . DIRECTORY_SEPARATOR . 'var',
-                (string)$resolvedValues['%vcs_repository%'],
-            );
+        try {
+            $this->vcsConfigurationResolver
+                ->resolve((string)$resolvedValues['%vcs%'])
+                ->clone(
+                    $this->sdkPath . DIRECTORY_SEPARATOR . 'var',
+                    (string)$resolvedValues['%vcs_repository%'],
+                );
+        } catch (AdapterDoesNotExistException $exception) {
+            $context->addMessage(static::class, new Message($exception->getMessage(), Message::ERROR));
+            $context->setExitCode(1);
+
+            return $context;
+        }
+
+        $context->setExitCode(0);
 
         return $context;
     }
