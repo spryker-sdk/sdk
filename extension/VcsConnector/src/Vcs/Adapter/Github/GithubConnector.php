@@ -5,9 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace VcsConnector\Vcs\Adapter;
+namespace VcsConnector\Vcs\Adapter\Github;
 
-use Github\AuthMethod;
 use VcsConnector\Vcs\VcsProcessExecutor;
 
 class GithubConnector
@@ -23,16 +22,6 @@ class GithubConnector
     public function __construct(VcsProcessExecutor $vcsProcessExecutor)
     {
         $this->vcsProcessExecutor = $vcsProcessExecutor;
-    }
-
-    /**
-     * @param string $token
-     *
-     * @return void
-     */
-    protected function authenticated(string $token): void
-    {
-        $this->githubClient->authenticate($token, null, AuthMethod::ACCESS_TOKEN);
     }
 
     /**

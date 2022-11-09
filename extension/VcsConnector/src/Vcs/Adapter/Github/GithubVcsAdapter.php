@@ -5,7 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace VcsConnector\Vcs\Adapter;
+namespace VcsConnector\Vcs\Adapter\Github;
+
+use VcsConnector\Vcs\Adapter\VcsInterface;
 
 class GithubVcsAdapter implements VcsInterface
 {
@@ -15,12 +17,12 @@ class GithubVcsAdapter implements VcsInterface
     public const GITHUB = 'github';
 
     /**
-     * @var \VcsConnector\Vcs\Adapter\GithubConnector
+     * @var \VcsConnector\Vcs\Adapter\Github\GithubConnector
      */
     public GithubConnector $githubConnector;
 
     /**
-     * @param \VcsConnector\Vcs\Adapter\GithubConnector $githubConnector
+     * @param \VcsConnector\Vcs\Adapter\Github\GithubConnector $githubConnector
      */
     public function __construct(GithubConnector $githubConnector)
     {
