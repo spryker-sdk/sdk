@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Command\CliCommandRunnerInterface;
-use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -80,44 +80,18 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
-        $placeholders = array_map(function ($placeholder): string {
-            return '/' . preg_quote((string)$placeholder, '/') . '/';
-        }, array_keys($context->getResolvedValues()));
+        if (!$command instanceof MultiProcessCommandInterface) {
+            $this->output->writeln('Incompatible task for parallel execution');
 
-        $values = array_map(function ($value): string {
-            return is_array($value) ? implode(',', $value) : (string)$value;
-        }, array_values($context->getResolvedValues()));
-
-        $pathIndex = array_search('/%path%/', $placeholders);
-        $paths = [
-            '/Pyz/Glue',
-            '/Pyz/Client',
-            '/Pyz/Shared',
-            '/Pyz/Service',
-        ];
-
-        $modules = scandir('src/Pyz/Zed');
-        if (!$modules) {
-            $modules = [];
+            return $context;
         }
-        foreach ($modules as $moduleDir) {
-            if (in_array($moduleDir, ['.', '..'])) {
-                continue;
-            }
-            $paths[] = '/Pyz/Zed/' . $moduleDir;
-        }
+
+        $splitBy = $command->getSplitCallback()();
+
+
         $processes = [];
-
-        foreach ($paths as $path) {
-            $values[$pathIndex] = 'src' . $path;
-            $assembledCommand = preg_replace($placeholders, $values, $command->getCommand());
-            if (!is_string($assembledCommand)) {
-                throw new CommandRunnerException(sprintf(
-                    'Could not assemble command %s with keys %s',
-                    $command->getCommand(),
-                    implode(', ', array_keys($values)),
-                ));
-            }
+        foreach ($splitBy as $splitItem) {
+            $assembledCommand = sprintf('%s %s', $command->getCommand(), $splitItem);
             $process = Process::fromShellCommandline($assembledCommand);
             $process->setTimeout(null);
             $process->setIdleTimeout(null);
@@ -130,27 +104,108 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
     /**
      * @param array<\Symfony\Component\Process\Process> $processes
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
-     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandInterface $command
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
-    protected function runParallel(array $processes, ContextInterface $context, CommandInterface $command): ContextInterface
+    protected function runParallel(
+        array $processes,
+        ContextInterface $context,
+        MultiProcessCommandInterface $command
+    ): ContextInterface {
+        $maxConcurrentWorkers = $command->getProcessesNum();
+
+        $chunks = array_chunk($processes, $maxConcurrentWorkers);
+        foreach ($chunks as $chunk) {
+            $this->runChunk($chunk);
+            foreach ($chunk as $process) {
+                $this->updateContext($context, $process, $command);
+            }
+        }
+
+        return $context;
+    }
+
+    /**
+     * @param array<\Symfony\Component\Process\Process> $processes
+     *
+     * @return void
+     */
+    protected function runChunk(array $processes): void
     {
         foreach ($processes as $process) {
             $process->start();
         }
 
         do {
-            usleep(1000);
+            usleep(300);
             foreach ($processes as $index => $process) {
-                if ($process->isRunning()) {
-                    continue;
+                if (!$process->isRunning()) {
+                    unset($processes[$index]);
                 }
-                unset($processes[$index]);
             }
         } while (count($processes) > 0);
+    }
 
-        return $context;
+    protected function calculateProcessCount(): int
+    {
+        $availableCpuCoresNum = $this->getAvailbaleCpuCoresNum();
+        if ($availableCpuCoresNum == 1) {
+            return $availableCpuCoresNum;
+        }
+
+        if ($availableCpuCoresNum > 1) {
+            return (int)($availableCpuCoresNum / 2);
+        }
+
+        return 1;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getAvailbaleCpuCoresNum(): int
+    {
+        if (is_file('/proc/cpuinfo')) {
+            $cpuinfo = file_get_contents('/proc/cpuinfo');
+            preg_match_all('/^processor/m', $cpuinfo, $matches);
+
+            return count($matches[0]);
+        }
+
+        return 1;
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
+     * @param \Symfony\Component\Process\Process $process
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandInterface $command
+     *
+     * @return void
+     */
+    protected function updateContext(ContextInterface $context, Process $process, MultiProcessCommandInterface $command): void
+    {
+        if (
+            $process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE &&
+            $command instanceof ErrorCommandInterface &&
+            strlen($command->getErrorMessage())
+        ) {
+            $context->addMessage(
+                $command->getCommand(),
+                new Message(trim($command->getErrorMessage()), MessageInterface::ERROR),
+            );
+        }
+
+        $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
+        $verbosity = $process->isSuccessful() ? MessageInterface::INFO : MessageInterface::ERROR;
+
+        if ($process->getOutput()) {
+            $context->addMessage($command->getCommand(), new Message(trim($process->getOutput()), $verbosity));
+        }
+
+        if ($process->getErrorOutput()) {
+            $context->addMessage($command->getCommand(), new Message(trim($process->getErrorOutput()), $verbosity));
+        }
     }
 
     /**
