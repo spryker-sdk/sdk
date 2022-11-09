@@ -82,22 +82,23 @@ class TaskInteractionMap
                 $predefinedValues[static::FILE_FORMAT_KEY],
             ),
             static::FILE_NAME_KEY => new ReceivedValue(
-                new Config('Task file name', null, ValueTypeEnum::TYPE_STRING),
+                new Config(static::FILE_NAME_KEY, 'Task file name', null, ValueTypeEnum::TYPE_STRING),
             ),
             static::ID_KEY => new ReceivedValue(
-                new Config('Task id', null, ValueTypeEnum::TYPE_STRING),
+                new Config(static::ID_KEY, 'Task id', null, ValueTypeEnum::TYPE_STRING),
             ),
             static::SHORT_DESCRIPTION_KEY => new ReceivedValue(
-                new Config('Task short description', null, ValueTypeEnum::TYPE_STRING),
+                new Config(static::SHORT_DESCRIPTION_KEY, 'Task short description', null, ValueTypeEnum::TYPE_STRING),
             ),
             static::VERSION_KEY => new ReceivedValue(
-                new Config('Task version', '0.1.0', ValueTypeEnum::TYPE_STRING),
+                new Config(static::VERSION_KEY, 'Task version', '0.1.0', ValueTypeEnum::TYPE_STRING),
             ),
             static::COMMAND_KEY => new ReceivedValue(
-                new Config('Task command', null, ValueTypeEnum::TYPE_STRING),
+                new Config(static::COMMAND_KEY, 'Task command', null, ValueTypeEnum::TYPE_STRING),
             ),
             static::TYPE_KEY => new ReceivedValue(
                 new Config(
+                    static::TYPE_KEY,
                     'Task type',
                     null,
                     ValueTypeEnum::TYPE_STRING,

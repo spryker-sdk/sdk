@@ -9,6 +9,9 @@ on:
       - feature/[a-z]+-[0-9]+/dev-*
   workflow_dispatch:
 
+env:
+    APP_ENV: test # Symfony application environment
+
 jobs:
   validation:
     name: "CS, PHPStan, Security"

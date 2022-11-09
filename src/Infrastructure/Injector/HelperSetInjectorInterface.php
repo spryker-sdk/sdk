@@ -5,13 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Command;
+namespace SprykerSdk\Sdk\Infrastructure\Injector;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
-use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 
-interface CliCommandRunnerInterface extends CommandRunnerInterface, InputOutputReceiverInterface
+interface HelperSetInjectorInterface extends InjectorInterface
 {
     /**
      * @param \Symfony\Component\Console\Helper\HelperSet $helperSet

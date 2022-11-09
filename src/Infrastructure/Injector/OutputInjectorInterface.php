@@ -5,20 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\Event;
+namespace SprykerSdk\Sdk\Infrastructure\Injector;
 
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-interface InputOutputReceiverInterface
+interface OutputInjectorInterface extends InjectorInterface
 {
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return void
-     */
-    public function setInput(InputInterface $input): void;
-
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *

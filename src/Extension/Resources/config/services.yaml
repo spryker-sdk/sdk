@@ -47,7 +47,7 @@ services:
     class: SprykerSdk\Sdk\Extension\Task\Command\BusinessModelARMCommand
     arguments:
       - '@yaml_parser'
-      - "%kernel.project_dir%"
+      - "@sdk_filesystem"
   check_docker_command:
     class: SprykerSdk\Sdk\Extension\Task\Command\CheckDockerCommand
   docker_init_up_steps_command:
@@ -158,9 +158,13 @@ services:
   brancho_commit_command:
     class: SprykerSdk\Sdk\Extension\Command\CommitCommand
     tags: [ "console.command", "telemetry.observable_command" ]
+    arguments:
+        - "@sdk_filesystem"
   brancho_branch_builder_command:
     class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
     tags: [ "console.command", "telemetry.observable_command" ]
+    arguments:
+        - "@sdk_filesystem"
 
   vcs_clone_task:
       class: SprykerSdk\Sdk\Extension\Task\VcsCloneTask

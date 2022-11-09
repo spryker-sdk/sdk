@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Builder\TaskYamlBuilder;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskPartBuilder\TaskPartBuilderInterface;
@@ -17,6 +17,7 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Builder

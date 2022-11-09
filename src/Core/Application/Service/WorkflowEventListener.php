@@ -7,9 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidServiceException;
-use Symfony\Component\Console\Event\ConsoleEvent;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Workflow\Event\EnteredEvent;
 use Symfony\Component\Workflow\Event\Event;
@@ -44,26 +43,18 @@ class WorkflowEventListener
     protected ContainerInterface $container;
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface|null
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ?InputInterface $input = null;
+    protected InteractionProcessorInterface $cliInteractionProcessor;
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliInteractionProcessor
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, InteractionProcessorInterface $cliInteractionProcessor)
     {
         $this->container = $container;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Event\ConsoleEvent $event
-     *
-     * @return void
-     */
-    public function setup(ConsoleEvent $event): void
-    {
-        $this->input = $event->getInput();
+        $this->cliInteractionProcessor = $cliInteractionProcessor;
     }
 
     /**
@@ -125,9 +116,8 @@ class WorkflowEventListener
      */
     protected function isForced(): bool
     {
-        return $this->input
-            && $this->input->hasOption(static::OPTION_FORCE)
-            && $this->input->getOption(static::OPTION_FORCE);
+        return $this->cliInteractionProcessor->hasRequestItem(static::OPTION_FORCE)
+            && $this->cliInteractionProcessor->getRequestItem(static::OPTION_FORCE);
     }
 
     /**
