@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if ! docker info > /dev/null 2>&1; then
-    echo 'Please run docker daemon or open Docker Desktop'
+    echo -e "\n\033[0;31mPlease run docker daemon or open Docker Desktop.\033[0m\n"
     exit 1
 fi
 
