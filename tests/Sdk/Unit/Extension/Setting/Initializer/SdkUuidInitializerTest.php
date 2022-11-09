@@ -22,6 +22,7 @@ use SprykerSdk\SdkContracts\Entity\SettingInterface;
  * @group Setting
  * @group Initializer
  * @group SdkUuidInitializerTest
+ * Add your own group annotations below this line
  */
 class SdkUuidInitializerTest extends Unit
 {

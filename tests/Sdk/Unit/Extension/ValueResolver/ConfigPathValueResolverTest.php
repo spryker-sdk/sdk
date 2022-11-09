@@ -43,7 +43,7 @@ class ConfigPathValueResolverTest extends Unit
         $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->willReturn(true);
         $this->context = $this->createMock(ContextInterface::class);
 
@@ -58,7 +58,7 @@ class ConfigPathValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);
@@ -77,7 +77,7 @@ class ConfigPathValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn('composer.json');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['alias' => 'test', 'defaultValue' => 'composer.json']);

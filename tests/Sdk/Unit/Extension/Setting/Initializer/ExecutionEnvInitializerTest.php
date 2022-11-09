@@ -23,6 +23,7 @@ use SprykerSdk\SdkContracts\Enum\ExecutionEnv;
  * @group Setting
  * @group Initializer
  * @group ExecutionEnvInitializerTest
+ * Add your own group annotations below this line
  */
 class ExecutionEnvInitializerTest extends Unit
 {

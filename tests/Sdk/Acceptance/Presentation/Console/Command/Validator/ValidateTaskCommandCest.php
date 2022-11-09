@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Acceptance\Presentation\Console\Command\Validator;
+namespace SprykerSdk\Sdk\Acceptance\Presentation\Console\Command\Validator;
 
 use PHPUnit\Framework\Assert;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Tests\AcceptanceTester;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Acceptance
  * @group Presentation
  * @group Console

@@ -11,26 +11,14 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Infrastructure\Event\InputOutputReceiverInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Event\Workflow\WorkflowTransitionListener;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class WorkflowRunner implements InputOutputReceiverInterface
+class WorkflowRunner
 {
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface
-     */
-    protected InputInterface $input;
-
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
-     */
-    protected OutputInterface $output;
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
@@ -62,26 +50,6 @@ class WorkflowRunner implements InputOutputReceiverInterface
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return void
-     */
-    public function setInput(InputInterface $input): void
-    {
-        $this->input = $input;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
-    public function setOutput(OutputInterface $output): void
-    {
-        $this->output = $output;
-    }
-
-    /**
      * @param string $workflowName
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface|null $context
      *
@@ -95,9 +63,12 @@ class WorkflowRunner implements InputOutputReceiverInterface
         $projectWorkflow = $this->container->get('project_workflow');
 
         if (!$projectWorkflow->initializeWorkflow($workflowName)) {
-            $this->output->writeln(
-                sprintf('<error>Workflow `%s` can not be initialized.</error>', $workflowName),
-                OutputInterface::VERBOSITY_NORMAL,
+            $context->addMessage(
+                $workflowName,
+                new Message(
+                    sprintf('Workflow `%s` can not be initialized.', $workflowName),
+                    Message::ERROR,
+                ),
             );
 
             return $context;
@@ -114,38 +85,30 @@ class WorkflowRunner implements InputOutputReceiverInterface
         do {
             $nextTransition = $this->getNextTransition($projectWorkflow);
             if (!$nextTransition) {
-                $this->output->writeln(
-                    sprintf('<error>The workflow `%s` has been finished.</error>', $workflowName),
-                    OutputInterface::VERBOSITY_NORMAL,
+                $context->addMessage(
+                    $workflowName,
+                    new Message(
+                        sprintf('The workflow `%s` has been finished.', $workflowName),
+                        Message::ERROR,
+                    ),
                 );
 
                 return $context;
             }
-
-            $this->output->writeln(
-                sprintf('<info>Applying transition `%s:%s`.</info>', $workflowName, $nextTransition),
-                OutputInterface::VERBOSITY_VERY_VERBOSE,
-            );
 
             $projectWorkflow->applyTransition($nextTransition, $context);
 
             if ($context->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE) {
-                $this->output->writeln(
-                    sprintf(
-                        '<error>The `%s:%s` transition is failed, see details above.</error>',
-                        $workflowName,
-                        $nextTransition,
+                $context->addMessage(
+                    $workflowName,
+                    new Message(
+                        sprintf('The `%s:%s` transition is failed, see details above.', $workflowName, $nextTransition),
+                        Message::ERROR,
                     ),
-                    OutputInterface::VERBOSITY_NORMAL,
                 );
 
                 return $context;
             }
-
-            $this->output->writeln(
-                sprintf('<info>The `%s:%s` transition finished successfully.</info>', $workflowName, $nextTransition),
-                OutputInterface::VERBOSITY_VERY_VERBOSE,
-            );
         } while ($while);
 
         return $context;
@@ -168,6 +131,7 @@ class WorkflowRunner implements InputOutputReceiverInterface
 
             return $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
+                    'next-step',
                     'Select the next step in workflow.',
                     current($nextEnabledTransitions),
                     ValueTypeEnum::TYPE_STRING,

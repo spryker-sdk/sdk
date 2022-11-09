@@ -5,7 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Service;
+namespace SprykerSdk\Sdk\Infrastructure\Resolver;
+
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 
 class PathResolver
 {
@@ -15,13 +17,13 @@ class PathResolver
     protected string $sdkBasePath;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param string $sdkBasePath
-     * @param \SprykerSdk\Sdk\Core\Application\Service\Filesystem $filesystem
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(string $sdkBasePath, Filesystem $filesystem)
     {

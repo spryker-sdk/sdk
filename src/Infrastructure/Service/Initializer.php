@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
+use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
@@ -16,6 +17,8 @@ use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 class Initializer implements InitializerInterface
 {
@@ -45,24 +48,32 @@ class Initializer implements InitializerInterface
     protected SettingInitializerRegistry $settingInitializerRegistry;
 
     /**
+     * @var \Doctrine\Migrations\Tools\Console\Command\DoctrineCommand|\Doctrine\Migrations\Tools\Console\Command\MigrateCommand
+     */
+    protected DoctrineCommand $doctrineMigrationCommand;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface $taskManager
      * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry $settingInitializerRegistry
+     * @param \Doctrine\Migrations\Tools\Console\Command\DoctrineCommand|\Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
      */
     public function __construct(
         InteractionProcessorInterface $cliValueReceiver,
         SettingRepositoryInterface $settingRepository,
         TaskManagerInterface $taskManager,
         TaskYamlFileLoaderInterface $taskYamlRepository,
-        SettingInitializerRegistry $settingInitializerRegistry
+        SettingInitializerRegistry $settingInitializerRegistry,
+        DoctrineCommand $doctrineMigrationCommand
     ) {
         $this->settingRepository = $settingRepository;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->taskYamlFileLoader = $taskYamlRepository;
         $this->taskManager = $taskManager;
         $this->settingInitializerRegistry = $settingInitializerRegistry;
+        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
     }
 
     /**
@@ -72,6 +83,8 @@ class Initializer implements InitializerInterface
      */
     public function initialize(array $settings): void
     {
+        $this->runMigration();
+
         /** @var array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingDefinition */
         $settingDefinition = $this->settingRepository->initSettingDefinition();
 
@@ -160,12 +173,24 @@ class Initializer implements InitializerInterface
     {
         $value = $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
+                $settingEntity->getPath(),
                 $settingEntity->getInitializationDescription() ?? 'Initial value for ' . $settingEntity->getPath(),
                 $settingEntity->getValues(),
                 $settingEntity->getType(),
+                [],
             ),
         );
 
         return $value === null || is_scalar($value) ? $value : json_encode($value);
+    }
+
+    /**
+     * @return void
+     */
+    protected function runMigration(): void
+    {
+        $migrationInput = new ArrayInput(['allow-no-migration']);
+        $migrationInput->setInteractive(false);
+        $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }
 }

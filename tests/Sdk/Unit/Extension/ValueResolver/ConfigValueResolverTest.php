@@ -54,11 +54,11 @@ class ConfigValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->willReturn(true);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn('');
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);

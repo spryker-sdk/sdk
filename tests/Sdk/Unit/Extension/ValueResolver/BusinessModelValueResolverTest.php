@@ -57,6 +57,7 @@ class BusinessModelValueResolverTest extends Unit
             'b2c' => 'https://github.com/spryker-shop/b2c-demo-shop.git',
         ];
         $receiverValue = new ReceiverValue(
+            'business_model_url',
             'Choose project for installation',
             array_key_first($repositories),
             'string',
