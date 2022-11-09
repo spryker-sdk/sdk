@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use JsonException;
 use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,7 +70,11 @@ class JsonRequestListener
             $error = $this->jsonSchemaValidator->validate($data);
             if ($error) {
                 $event->setResponse(
-                    $this->responseBuilder->buildErrorResponse($error['detail'], $error['code'], $error['status']),
+                    $this->responseBuilder->buildErrorResponse(
+                        $error[OpenApiField::DETAILS],
+                        $error[OpenApiField::CODE],
+                        $error[OpenApiField::STATUS],
+                    ),
                 );
 
                 return;

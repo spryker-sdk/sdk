@@ -46,7 +46,7 @@ class SdkUpdateSdkController extends BaseController
             return $this->buildResponse(static::TYPE, static::TYPE, $result);
         } catch (SdkVersionNotFoundException $exception) {
             return $this->buildErrorResponse(
-                $exception->getMessage(),
+                [$exception->getMessage()],
                 Response::HTTP_BAD_REQUEST,
                 (string)Response::HTTP_BAD_REQUEST,
             );

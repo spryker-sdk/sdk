@@ -42,10 +42,10 @@ class JsonSchemaValidator
             return [];
         }
 
-        $error = array_pop($errors);
+        $details = array_map(fn (array $error): string => $error['message'], $errors);
 
         return [
-            OpenApiField::DETAIL => sprintf('The property "%s" is required', $error['property']),
+            OpenApiField::DETAILS => $details,
             OpenApiField::CODE => Response::HTTP_BAD_REQUEST,
             OpenApiField::STATUS => (string)Response::HTTP_BAD_REQUEST,
         ];

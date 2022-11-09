@@ -37,7 +37,7 @@ final class OpenApiField
     /**
      * @var string
      */
-    public const DETAIL = 'detail';
+    public const DETAILS = 'details';
 
     /**
      * @var string

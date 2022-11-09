@@ -73,6 +73,6 @@ class SdkInitProjectController extends BaseController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return $this->buildResponse('', '', $request->request->all());
+        return $this->buildResponse(static::TYPE, static::TYPE, $request->request->all());
     }
 }

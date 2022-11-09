@@ -31,16 +31,16 @@ class ResponseBuilder
     }
 
     /**
-     * @param string $detail
+     * @param array<string> $details
      * @param int $code
      * @param string $status
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function buildErrorResponse(string $detail, int $code, string $status): JsonResponse
+    public function buildErrorResponse(array $details, int $code, string $status): JsonResponse
     {
         return new JsonResponse([
-            OpenApiField::DETAIL => $detail,
+            OpenApiField::DETAILS => $details,
             OpenApiField::CODE => $code,
             OpenApiField::STATUS => $status,
         ], $code);

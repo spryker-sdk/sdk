@@ -54,7 +54,7 @@ class ApiExceptionListener
         if ($exception instanceof InvalidRequestDataException) {
             $event->setResponse(
                 $this->responseBuilder->buildErrorResponse(
-                    $exception->getMessage(),
+                    [$exception->getMessage()],
                     Response::HTTP_BAD_REQUEST,
                     (string)Response::HTTP_BAD_REQUEST,
                 ),
@@ -65,7 +65,7 @@ class ApiExceptionListener
 
         $event->setResponse(
             $this->responseBuilder->buildErrorResponse(
-                $this->isDebug ? $exception->getMessage() : 'Error',
+                $this->isDebug ? [$exception->getMessage()] : ['Error'],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
                 (string)Response::HTTP_INTERNAL_SERVER_ERROR,
             ),
