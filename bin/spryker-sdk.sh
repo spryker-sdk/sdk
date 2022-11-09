@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! docker info > /dev/null 2>&1; then
+    echo 'Please run docker daemon or open Docker Desktop'
+    exit 1
+fi
+
 SDK_DIR="$(dirname $(dirname $0))"
 
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
