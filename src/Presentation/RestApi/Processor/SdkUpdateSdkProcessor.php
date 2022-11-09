@@ -81,7 +81,7 @@ class SdkUpdateSdkProcessor
         return $this->responseBuilder->buildResponse(
             OpenApiType::SDK_UPDATE_SDK,
             OpenApiType::SDK_UPDATE_SDK,
-            $result,
+            ['messages' => $result],
         );
     }
 }
