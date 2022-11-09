@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Builder;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ResponseBuilder
@@ -21,10 +22,10 @@ class ResponseBuilder
     public function buildResponse(string $id, string $type, array $attributes): JsonResponse
     {
         return new JsonResponse([
-            'data' => [
-                'id' => $id,
-                'type' => $type,
-                'attributes' => $attributes,
+            OpenApiField::DATA => [
+                OpenApiField::ID => $id,
+                OpenApiField::TYPE => $type,
+                OpenApiField::ATTRIBUTES => $attributes,
             ],
         ]);
     }
@@ -39,9 +40,9 @@ class ResponseBuilder
     public function buildErrorResponse(string $detail, int $code, string $status): JsonResponse
     {
         return new JsonResponse([
-            'detail' => $detail,
-            'code' => $code,
-            'status' => $status,
+            OpenApiField::DETAIL => $detail,
+            OpenApiField::CODE => $code,
+            OpenApiField::STATUS => $status,
         ], $code);
     }
 }

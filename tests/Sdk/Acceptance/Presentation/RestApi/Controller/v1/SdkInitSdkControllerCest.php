@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,10 +38,10 @@ class SdkInitSdkControllerCest
     public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
     {
         $I->sendPost(static::ENDPOINT, [
-            'data' => [
-                'type' => 'sdk-init-sdk',
-                'id' => 'sdk-init-sdk',
-                'attributes' => [
+            OpenApiField::DATA => [
+                OpenApiField::TYPE => 'sdk-init-sdk',
+                OpenApiField::ID => 'sdk-init-sdk',
+                OpenApiField::ATTRIBUTES => [
                     'developer_email' => 'test',
                     'developer_github_account' => 'test',
                 ],

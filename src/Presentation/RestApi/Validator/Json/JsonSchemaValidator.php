@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Validator\Json;
 
 use JsonSchema\Validator;
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use Symfony\Component\HttpFoundation\Response;
 
 class JsonSchemaValidator
@@ -44,9 +45,9 @@ class JsonSchemaValidator
         $error = array_pop($errors);
 
         return [
-            'detail' => sprintf('The property "%s" is required', $error['property']),
-            'code' => Response::HTTP_BAD_REQUEST,
-            'status' => (string)Response::HTTP_BAD_REQUEST,
+            OpenApiField::DETAIL => sprintf('The property "%s" is required', $error['property']),
+            OpenApiField::CODE => Response::HTTP_BAD_REQUEST,
+            OpenApiField::STATUS => (string)Response::HTTP_BAD_REQUEST,
         ];
     }
 
@@ -58,19 +59,19 @@ class JsonSchemaValidator
         return [
             'type' => 'object',
             'properties' => [
-                'data' => [
+                OpenApiField::DATA => [
                     'type' => 'object',
                     'required' => true,
                     'properties' => [
-                        'id' => [
+                        OpenApiField::ID => [
                             'type' => 'string',
                             'required' => true,
                         ],
                         'type' => [
-                            'type' => 'string',
+                            OpenApiField::TYPE => 'string',
                             'required' => true,
                         ],
-                        'attributes' => [
+                        OpenApiField::ATTRIBUTES => [
                             'type' => 'object',
                             'required' => true,
                         ],

@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Infrastructure\Injector\RequestDataInjectorInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\CliInteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessorInjectorInterface;
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Helper\DebugFormatterHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -104,7 +105,7 @@ class ApplicationReceiverSetupListener
             }
 
             if ($inputOutputConnector instanceof RequestDataInjectorInterface) {
-                $inputOutputConnector->setRequestData($event->getRequest()->request->all()['data']['attributes'] ?? []);
+                $inputOutputConnector->setRequestData($event->getRequest()->request->all()[OpenApiField::DATA][OpenApiField::ATTRIBUTES] ?? []);
             }
 
             if ($inputOutputConnector instanceof HelperSetInjectorInterface) {

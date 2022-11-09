@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,10 +38,10 @@ class RunTaskControllerCest
     public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
     {
         $I->sendPost(static::ENDPOINT, [
-            'data' => [
-                'type' => 'run-task',
-                'id' => 'hello:world',
-                'attributes' => [
+            OpenApiField::DATA => [
+                OpenApiField::TYPE => 'run-task',
+                OpenApiField::ID => 'hello:world',
+                OpenApiField::ATTRIBUTES => [
                     'world' => 'World', 'somebody' => 'World',
                 ],
             ],
@@ -48,10 +49,10 @@ class RunTaskControllerCest
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
         $I->seeResponseContainsJson([
-            'data' => [
-                'id' => 'hello:world',
-                'type' => 'run-task',
-                'attributes' => [
+            OpenApiField::DATA => [
+                OpenApiField::ID => 'hello:world',
+                OpenApiField::TYPE => 'run-task',
+                OpenApiField::ATTRIBUTES => [
                     'messages' => [
                         'Executing stage: hello',
                         'hello \'World\' \'World\'',
