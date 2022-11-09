@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0f30d6ecee94060429f3d71ee1f51ec",
+    "content-hash": "312223f4b00123290955355827021008",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6664,12 +6664,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "0e388834b301a5ea808c5418c5e419a353648a02"
+                "reference": "ae10055beea1f4213abf7740b2101f710fc258a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/0e388834b301a5ea808c5418c5e419a353648a02",
-                "reference": "0e388834b301a5ea808c5418c5e419a353648a02",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ae10055beea1f4213abf7740b2101f710fc258a3",
+                "reference": "ae10055beea1f4213abf7740b2101f710fc258a3",
                 "shasum": ""
             },
             "require": {
@@ -6695,7 +6695,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-1064-telemetry-improvements"
             },
-            "time": "2022-11-04T11:47:35+00:00"
+            "time": "2022-11-08T12:28:42+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -15683,8 +15683,8 @@
         {
             "package": "spryker-sdk/sdk-contracts",
             "version": "dev-feature/sdk-1064-telemetry-improvements",
-            "alias": "0.4.3",
-            "alias_normalized": "0.4.3.0"
+            "alias": "0.4.5",
+            "alias_normalized": "0.4.5.0"
         },
         {
             "package": "spryker-sdk/spryk",
@@ -15696,6 +15696,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/spryk": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
