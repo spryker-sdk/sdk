@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting as SettingEnum;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
@@ -236,8 +235,6 @@ class Setting implements SettingInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return bool
      */
     public function isFirstInitialization(): bool

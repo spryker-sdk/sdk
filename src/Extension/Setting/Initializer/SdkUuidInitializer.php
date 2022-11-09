@@ -36,7 +36,7 @@ class SdkUuidInitializer implements SettingInitializerInterface
     {
         $existingSetting = $this->settingRepository->findOneByPath($setting->getPath());
 
-        if ($existingSetting !== null && trim((string)$existingSetting->getValues()) !== '') {
+        if ($existingSetting !== null && $existingSetting->getValues()) {
             $setting->setValues($existingSetting->getValues());
 
             return;

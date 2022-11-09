@@ -13,10 +13,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
+use SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
-use SprykerSdk\SdkContracts\Entity\SettingInterface as EntitySettingInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -96,11 +95,11 @@ class Initializer implements InitializerInterface
      * @param array<string, mixed> $settings
      * @param array<\SprykerSdk\Sdk\Infrastructure\Entity\Setting> $settingEntities
      *
-     * @return array<\SprykerSdk\SdkContracts\Entity\SettingInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface>
      */
     protected function initializeSettingValues(array $settings, array $settingEntities): array
     {
-        $coreEntities = array_filter($settingEntities, function (EntitySettingInterface $setting): bool {
+        $coreEntities = array_filter($settingEntities, function (SettingInterface $setting): bool {
             return $setting->isSdk();
         });
 
@@ -120,7 +119,7 @@ class Initializer implements InitializerInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $settingEntity
      * @param array<string, mixed> $settings
      *
      * @return void
@@ -147,7 +146,7 @@ class Initializer implements InitializerInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $settingEntity
      *
      * @return bool
      */
@@ -165,7 +164,7 @@ class Initializer implements InitializerInterface
     }
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $settingEntity
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\SettingInterface $settingEntity
      *
      * @return mixed
      */
