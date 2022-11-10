@@ -1,0 +1,142 @@
+---
+swagger: "3.0"
+info:
+    description: "SDK API"
+    version: "1.0.0"
+    title: "SDK API"
+host: "localhost"
+basePath: "/api/v1"
+schemes:
+    - "http"
+
+paths:
+    /sdk-init-sdk:
+        post:
+            summary: "Initialize SDK"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#components/schemas/SdkInitSdkRequest'
+            responses:
+                200:
+                    description: OK
+                400:
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+    /sdk-init-project:
+        post:
+            summary: "Initialize SDK"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#components/schemas/SdkInitProjectRequest'
+            responses:
+                200:
+                    description: OK
+                400:
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestErrorMessage'
+
+components:
+    schemas:
+        SdkInitSdkRequest:
+            properties:
+                data:
+                    $ref: '#/components/schemas/SdkInitSdkRequestData'
+                included:
+                    $ref: '#/components/schemas/SdkInitSdkRequestIncluded'
+
+        SdkInitSdkRequestData:
+            properties:
+                id:
+                    type: string
+                type:
+                    type: string
+                attributes:
+                    $ref: '#/components/schemas/SdkInitSdkRequestDataAttributes'
+                relationships:
+                    $ref: '#/components/schemas/SdkInitSdkRequestRelationships'
+
+        SdkInitSdkRequestDataAttributes:
+            properties:
+                developer_email:
+                    type: string
+                    example: 'developer@example.org'
+                developer_github_account:
+                    type: string
+                    example: 'Developer-Example.org'
+
+        SdkInitProjectRequest:
+            properties:
+                data:
+                    $ref: '#/components/schemas/SdkInitProjectRequestData'
+                included:
+                    $ref: '#/components/schemas/SdkInitProjectRequestIncluded'
+
+        SdkInitProjectRequestData:
+            properties:
+                id:
+                    type: string
+                type:
+                    type: string
+                attributes:
+                    $ref: '#/components/schemas/SdkInitSdkProjectDataAttributes'
+                relationships:
+                    $ref: '#/components/schemas/SdkInitProjectRequestRelationships'
+
+        SdkInitSdkProjectDataAttributes:
+            properties:
+                report_usage_statistics:
+                    type: boolean
+                    example: 'true'
+                    description: 'Do you agree to send anonymous usage reports to help improving the SDK?'
+                default_violation_output_format:
+                    type: string
+                    example: 'output'
+                    description: 'Default qa output report format for the report'
+                workflow:
+                    type: array
+                    description: 'What is the project workflow? (multiple values allowed)'
+                    items:
+                        type: string
+                        example: ["app"]
+                qa_tasks:
+                    type: array
+                    description: 'List of task for QA automation'
+                    items:
+                        type: string
+                        example: ["validation:php:benchmark", "validation:php:static"]
+
+        SdkInitProjectRequestRelationships:
+            properties: ~
+
+        SdkInitSdkRequestRelationships:
+            properties: ~
+
+        SdkInitProjectRequestIncluded:
+            properties: ~
+
+        SdkInitSdkRequestIncluded:
+            properties: ~
+
+        RestErrorMessage:
+            properties:
+                code:
+                    type: integer
+                details:
+                    type: array
+                    items:
+                        type: string
+                        example: ["The property type is required", "The property attributes is required"]
+                status:
+                    type: string

@@ -5,9 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\EventListener;
+namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use JsonException;
+use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
+use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +24,28 @@ class JsonRequestListener
     protected array $contentTypes;
 
     /**
-     * @param array<string> $contentTypes
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
      */
-    public function __construct(array $contentTypes)
-    {
+    protected JsonSchemaValidator $jsonSchemaValidator;
+
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     */
+    protected ResponseBuilder $responseBuilder;
+
+    /**
+     * @param array<string> $contentTypes
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator $jsonSchemaValidator
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
+     */
+    public function __construct(
+        array $contentTypes,
+        JsonSchemaValidator $jsonSchemaValidator,
+        ResponseBuilder $responseBuilder
+    ) {
         $this->contentTypes = $contentTypes;
+        $this->jsonSchemaValidator = $jsonSchemaValidator;
+        $this->responseBuilder = $responseBuilder;
     }
 
     /**
@@ -47,6 +67,19 @@ class JsonRequestListener
 
         try {
             $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+            $error = $this->jsonSchemaValidator->validate($data);
+            if ($error) {
+                $event->setResponse(
+                    $this->responseBuilder->buildErrorResponse(
+                        $error[OpenApiField::DETAILS],
+                        $error[OpenApiField::CODE],
+                        $error[OpenApiField::STATUS],
+                    ),
+                );
+
+                return;
+            }
+
             $request->request->replace($data);
         } catch (JsonException $exception) {
             $event->setResponse(new JsonResponse('Invalid request.', Response::HTTP_BAD_REQUEST));

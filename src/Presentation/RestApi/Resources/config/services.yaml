@@ -39,6 +39,7 @@ services:
         arguments:
             - "@initializer_service"
             - "@service.lifecycle_manager"
+            - "@response.builder"
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application
@@ -52,5 +53,58 @@ services:
             - '@symfony.console.application'
 
     api_doc.task_describer:
-        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\TaskApiDocDescriber
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\RunTaskDescriber
         tags: ['nelmio_api_doc.describer']
+        arguments:
+            - '@console.command_loader'
+
+    api_doc.sdk_init_sdk_describer:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkInitSdkDescriber
+        tags: [ 'nelmio_api_doc.describer' ]
+
+    api_doc.sdk_update_sdk_describer:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkUpdateSdkDescriber
+        tags: [ 'nelmio_api_doc.describer' ]
+
+    api_doc.sdk_init_project_describer:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkInitProjectDescriber
+        tags: [ 'nelmio_api_doc.describer' ]
+
+    json_schema_validator:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
+        arguments:
+            - '@json_validator'
+
+    json_validator:
+        class: JsonSchema\Validator
+
+    api_exception_listener:
+        class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\ApiExceptionListener
+        arguments:
+            - "%kernel.debug%"
+            - "@logger"
+            - '@response.builder'
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.exception,
+                method: onKernelException,
+                priority: 256
+            }
+
+    json_request_transformer_listener:
+        class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\JsonRequestListener
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.request,
+                method: onKernelRequest,
+                priority: 256
+            }
+        arguments:
+            - ['json']
+            - '@json_schema_validator'
+            - '@response.builder'
+
+    response.builder:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder

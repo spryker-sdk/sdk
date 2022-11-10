@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-class SdkUpdateSdkController
+class SdkUpdateSdkController extends BaseController
 {
     /**
      * @var \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor
@@ -29,9 +29,9 @@ class SdkUpdateSdkController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): JsonResponse
     {
         return $this->sdkUpdateSdkProcessor->process($request);
     }
