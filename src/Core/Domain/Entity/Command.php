@@ -45,9 +45,9 @@ class Command implements CommandInterface, ErrorCommandInterface
     protected string $stage = ContextInterface::DEFAULT_STAGE;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected string $errorMessage;
+    protected ?string $errorMessage = '';
 
     /**
      * @param string $command

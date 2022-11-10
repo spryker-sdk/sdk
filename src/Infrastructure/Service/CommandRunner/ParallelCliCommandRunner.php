@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Command\CliCommandRunnerInterface;
@@ -75,52 +74,64 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
 
     /**
      * @inheritDoc
-     *
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
-        if (!$command instanceof MultiProcessCommandInterface) {
-            $this->output->writeln('Incompatible task for parallel execution');
-
-            return $context;
+        $task = $context->getTask();
+        $taskClassName = get_class($task);
+        if (strpos($taskClassName, 'ParallelTask') === false) {
+            $this->output->writeln('Invalid Task provided');
         }
 
-        $splitBy = $command->getSplitCallback()();
+        $splitterClassName = 'SprykerSdk\Sdk\Extension\Task\CommandSplitter\\' . $taskClassName . 'CommandSplitter';
+        if (!class_exists($splitterClassName)) {
+            $this->output->writeln('Couldn\'t find splitter ' . $splitterClassName);
+        }
 
+        /** @var \SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandSplitterInterface $splitter */
+        $splitter = new $splitterClassName();
 
         $processes = [];
-        foreach ($splitBy as $splitItem) {
-            $assembledCommand = sprintf('%s %s', $command->getCommand(), $splitItem);
-            $process = Process::fromShellCommandline($assembledCommand);
-            $process->setTimeout(null);
-            $process->setIdleTimeout(null);
-            $processes[] = $process;
+        foreach ($splitter->split() as $splitItem) {
+            $processes[] = $this->createProcess(sprintf('%s %s', $command->getCommand(), $splitItem));
         }
 
-        return $this->runParallel($processes, $context, $command);
+        return $this->runParallel($processes, $context, $command, $splitter->getConcurrentProcessNum());
     }
 
     /**
-     * @param array<\Symfony\Component\Process\Process> $processes
+     * @param string $command
+     *
+     * @return \Symfony\Component\Process\Process
+     */
+    protected function createProcess(string $command): Process
+    {
+        $process = Process::fromShellCommandline($command);
+        $process->setTimeout(null);
+        $process->setIdleTimeout(null);
+
+        return $process;
+    }
+
+    /**
+     * @param array $processes
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
+     * @param int $concurrentProcessNum
      *
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     protected function runParallel(
         array $processes,
         ContextInterface $context,
-        MultiProcessCommandInterface $command
+        CommandInterface $command,
+        int $concurrentProcessNum
     ): ContextInterface {
-        $maxConcurrentWorkers = $command->getProcessesNum();
+        $maxConcurrentWorkers = $this->calculateProcessCount($concurrentProcessNum);
 
         $chunks = array_chunk($processes, $maxConcurrentWorkers);
         foreach ($chunks as $chunk) {
-            $this->runChunk($chunk);
-            foreach ($chunk as $process) {
-                $this->updateContext($context, $process, $command);
-            }
+            $this->runChunk($chunk, $context, $command);
         }
 
         return $context;
@@ -128,11 +139,16 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
 
     /**
      * @param array<\Symfony\Component\Process\Process> $processes
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
      * @return void
      */
-    protected function runChunk(array $processes): void
-    {
+    protected function runChunk(
+        array $processes,
+        ContextInterface $context,
+        CommandInterface $command
+    ): void {
         foreach ($processes as $process) {
             $process->start();
         }
@@ -141,21 +157,28 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
             usleep(300);
             foreach ($processes as $index => $process) {
                 if (!$process->isRunning()) {
+                    $this->updateContext($context, $process, $command);
                     unset($processes[$index]);
                 }
             }
         } while (count($processes) > 0);
     }
 
-    protected function calculateProcessCount(): int
+    protected function calculateProcessCount(int $providedProcessNum = 0): int
     {
-        $availableCpuCoresNum = $this->getAvailbaleCpuCoresNum();
-        if ($availableCpuCoresNum == 1) {
-            return $availableCpuCoresNum;
+        $availableCpuCoresNum = $this->getAvailableCpuCoresNum();
+        if ($providedProcessNum > $availableCpuCoresNum) {
+            $this->output->writeln(
+                '<waringn>Process num is too big for the current system. Default will be used instead.</waringn>',
+            );
+            $providedProcessNum = $availableCpuCoresNum;
+        }
+        if ($providedProcessNum == 1) {
+            return $providedProcessNum;
         }
 
-        if ($availableCpuCoresNum > 1) {
-            return (int)($availableCpuCoresNum / 2);
+        if ($providedProcessNum > 1) {
+            return (int)($providedProcessNum / 2);
         }
 
         return 1;
@@ -164,7 +187,7 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
     /**
      * @return int
      */
-    protected function getAvailbaleCpuCoresNum(): int
+    protected function getAvailableCpuCoresNum(): int
     {
         if (is_file('/proc/cpuinfo')) {
             $cpuinfo = file_get_contents('/proc/cpuinfo');
@@ -179,11 +202,11 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      * @param \Symfony\Component\Process\Process $process
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandInterface $command
+     * @param \SprykerSdk\SdkContracts\Entity\CommandInterface $command
      *
      * @return void
      */
-    protected function updateContext(ContextInterface $context, Process $process, MultiProcessCommandInterface $command): void
+    protected function updateContext(ContextInterface $context, Process $process, CommandInterface $command): void
     {
         if (
             $process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE &&
@@ -206,22 +229,5 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
         if ($process->getErrorOutput()) {
             $context->addMessage($command->getCommand(), new Message(trim($process->getErrorOutput()), $verbosity));
         }
-    }
-
-    /**
-     * Stub for the passed callback function
-     *
-     * @return callable
-     */
-    protected function callableStub(): callable
-    {
-        return function () {
-            $targetPath = '/project/src';
-            $backOfficePath = '/Pyz/Zed';
-            $gluePath = '/Pyz/Glue';
-            $clientPath = 'Pyz/Client';
-            $sharedPath = 'Pyz/Shared';
-            $servicePath = 'Pyz/Service';
-        };
     }
 }

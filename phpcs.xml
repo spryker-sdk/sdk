@@ -33,6 +33,7 @@
     <exclude-pattern>/tests/_support/data/*</exclude-pattern>
 
     <arg name="extensions" value="php" />
+    <arg name="parallel" value="4" />
     <arg name="colors"/>
     <arg value="sp"/>
 

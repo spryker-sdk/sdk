@@ -103,6 +103,11 @@ services:
     tags: ["sdk.task"]
     arguments:
       - "@violation_report_repository"
+
+  code_sniffer_check_task:
+      class: SprykerSdk\Sdk\Extension\Task\CodeSnifferCheckParallelTask
+      tags: ["sdk.task"]
+
   SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
     tags: ["sdk.setting_initializer"]
     public: true
