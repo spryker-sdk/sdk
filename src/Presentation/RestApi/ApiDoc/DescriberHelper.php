@@ -8,15 +8,11 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\ApiDoc;
 
 use Nelmio\ApiDocBundle\OpenApiPhp\Util;
-use OpenApi\Annotations\Attachable;
 use OpenApi\Annotations\Items;
-use OpenApi\Annotations\JsonContent;
-use OpenApi\Annotations\MediaType;
 use OpenApi\Annotations\Operation;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
-use OpenApi\Annotations\XmlContent;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 
 class DescriberHelper
@@ -121,7 +117,7 @@ class DescriberHelper
      * @param \OpenApi\Annotations\Operation $operation
      * @param int $code
      * @param string $description
-     * @param array<MediaType|JsonContent|XmlContent|Attachable> $content
+     * @param array<(\OpenApi\Annotations\MediaType|\OpenApi\Annotations\JsonContent|\OpenApi\Annotations\XmlContent|\OpenApi\Annotations\Attachable)> $content
      *
      * @return \OpenApi\Annotations\Response
      */
