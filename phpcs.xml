@@ -35,6 +35,5 @@
     <arg name="extensions" value="php" />
     <arg name="colors"/>
     <arg value="sp"/>
-    <arg name="parallel" value="8"/>
 
 </ruleset>
