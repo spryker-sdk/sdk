@@ -45,9 +45,16 @@ class Command implements CommandInterface, ErrorCommandInterface
     protected string $stage = ContextInterface::DEFAULT_STAGE;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected ?string $errorMessage = '';
+    protected string $errorMessage = '';
+
+    /**
+     * @todo :: POC. Interface instead.
+     *
+     * @var \SprykerSdk\Sdk\Core\Domain\Entity\CommandSplitter|null
+     */
+    protected ?CommandSplitter $commandSplitter = null;
 
     /**
      * @param string $command
@@ -57,6 +64,7 @@ class Command implements CommandInterface, ErrorCommandInterface
      * @param \SprykerSdk\SdkContracts\Entity\ConverterInterface|null $converter
      * @param string $stage
      * @param string $errorMessage
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\CommandSplitter|null $commandSplitter
      */
     public function __construct(
         string $command,
@@ -65,7 +73,8 @@ class Command implements CommandInterface, ErrorCommandInterface
         array $tags = [],
         ?ConverterInterface $converter = null,
         string $stage = ContextInterface::DEFAULT_STAGE,
-        string $errorMessage = ''
+        string $errorMessage = '',
+        ?CommandSplitter $commandSplitter = null
     ) {
         $this->hasStopOnError = $hasStopOnError;
         $this->type = $type;
@@ -74,6 +83,7 @@ class Command implements CommandInterface, ErrorCommandInterface
         $this->converter = $converter;
         $this->stage = $stage;
         $this->errorMessage = $errorMessage;
+        $this->commandSplitter = $commandSplitter;
     }
 
     /**
@@ -156,5 +166,13 @@ class Command implements CommandInterface, ErrorCommandInterface
     public function getErrorMessage(): string
     {
         return $this->errorMessage;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\CommandSplitter|null
+     */
+    public function getCommandSplitter(): ?CommandSplitter
+    {
+        return $this->commandSplitter;
     }
 }

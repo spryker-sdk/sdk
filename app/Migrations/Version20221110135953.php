@@ -27,7 +27,7 @@ final class Version20221110135953 extends AbstractMigration
      */
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE sdk_command_splitter (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, class VARCHAR(255) NOT NULL, command_id INTEGER NOT NULL, CONSTRAINT FK_sdk_command_splitter__sdk_command FOREIGN KEY (command_id) REFERENCES sdk_command(id) ON DELETE CASCADE)');
+        $this->addSql('CREATE TABLE sdk_command_splitter (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, class VARCHAR(255) NOT NULL)');
         $this->addSql('CREATE INDEX IDX_sdk_command_splitter_class ON sdk_command_splitter (class)');
 
         $this->addSql('ALTER TABLE sdk_command ADD COLUMN command_splitter_id INT DEFAULT NULL CONSTRAINT FK_sdk_command__sdk_command_splitter REFERENCES sdk_command_splitter(id) ON DELETE SET NULL');

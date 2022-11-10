@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
+use Closure;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Command\CliCommandRunnerInterface;
@@ -77,19 +78,31 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
      */
     public function execute(CommandInterface $command, ContextInterface $context): ContextInterface
     {
-        $task = $context->getTask();
-        $taskClassName = get_class($task);
-        if (strpos($taskClassName, 'ParallelTask') === false) {
-            $this->output->writeln('Invalid Task provided');
+        $property = 'commandSplitter';
+        /** @var \SprykerSdk\Sdk\Infrastructure\Entity\CommandSplitter $splitterEntity */
+        $splitterEntity = Closure::bind(
+            function () use ($property) {
+                return (property_exists($this, $property)) ? $this->$property : null;
+            },
+            $command,
+            $command,
+        )();
+
+        if (!$splitterEntity || !$splitterEntity->getClass()) {
+            $this->output->writeln('No splitter provided. Should be regular execution executed. So far no action.');
+
+            return $context;
         }
 
-        $splitterClassName = 'SprykerSdk\Sdk\Extension\Task\CommandSplitter\\' . $taskClassName . 'CommandSplitter';
-        if (!class_exists($splitterClassName)) {
-            $this->output->writeln('Couldn\'t find splitter ' . $splitterClassName);
+        $className = $splitterEntity->getClass();
+        if (!class_exists($className)) {
+            $this->output->writeln('Splitter class ' . $className . 'does not exist.');
+
+            return $context;
         }
 
         /** @var \SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandSplitterInterface $splitter */
-        $splitter = new $splitterClassName();
+        $splitter = new $className();
 
         $processes = [];
         foreach ($splitter->split() as $splitItem) {
@@ -164,21 +177,24 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
         } while (count($processes) > 0);
     }
 
+    /**
+     * @param int $providedProcessNum
+     *
+     * @return positive-int
+     */
     protected function calculateProcessCount(int $providedProcessNum = 0): int
     {
         $availableCpuCoresNum = $this->getAvailableCpuCoresNum();
-        if ($providedProcessNum > $availableCpuCoresNum) {
-            $this->output->writeln(
-                '<waringn>Process num is too big for the current system. Default will be used instead.</waringn>',
-            );
-            $providedProcessNum = $availableCpuCoresNum;
-        }
-        if ($providedProcessNum == 1) {
+        if ($providedProcessNum > 0 && $providedProcessNum <= $availableCpuCoresNum) {
             return $providedProcessNum;
         }
 
-        if ($providedProcessNum > 1) {
-            return (int)($providedProcessNum / 2);
+        $this->output->writeln(
+            '<waringn>Process num is too big for the current system. Default will be used instead.</waringn>',
+        );
+
+        if ($availableCpuCoresNum > 1) {
+            return (int)($availableCpuCoresNum / 2);
         }
 
         return 1;
@@ -191,6 +207,10 @@ class ParallelCliCommandRunner implements CliCommandRunnerInterface
     {
         if (is_file('/proc/cpuinfo')) {
             $cpuinfo = file_get_contents('/proc/cpuinfo');
+            if (!$cpuinfo) {
+                return 1;
+            }
+
             preg_match_all('/^processor/m', $cpuinfo, $matches);
 
             return count($matches[0]);

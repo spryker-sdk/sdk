@@ -47,3 +47,10 @@ SprykerSdk\Sdk\Infrastructure\Entity\Command:
                 name: converter_id
                 referencedColumnName: id
                 onDelete: CASCADE
+        commandSplitter:
+            targetEntity: CommandSplitter
+            cascade: [ "persist", "remove" ]
+            joinColumn:
+                name: command_splitter_id
+                referencedColumnName: id
+                onDelete: CASCADE

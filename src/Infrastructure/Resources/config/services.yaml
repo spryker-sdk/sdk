@@ -238,10 +238,16 @@ services:
             - "%kernel.project_dir%"
     mapper.converter_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper
+
+    mapper.command_splitter_mapper:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandSplitterMapper
+
     mapper.command_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\CommandMapper
         arguments:
             - "@mapper.converter_mapper"
+            - "@mapper.command_splitter_mapper"
+
     mapper.placeholder_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\PlaceholderMapper
 

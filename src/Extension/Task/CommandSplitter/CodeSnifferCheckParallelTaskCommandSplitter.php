@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Extension\Task\CommandSplitter;
 use ArrayObject;
 use SprykerSdk\Sdk\Core\Application\Dependency\MultiProcessCommandSplitterInterface;
 
-class CodeSnifferCheckParallelTask implements MultiProcessCommandSplitterInterface
+class CodeSnifferCheckParallelTaskCommandSplitter implements MultiProcessCommandSplitterInterface
 {
     /**
      * @param $value
@@ -24,6 +24,7 @@ class CodeSnifferCheckParallelTask implements MultiProcessCommandSplitterInterfa
             'src/Pyz/Client',
             'src/Pyz/Shared',
             'src/Pyz/Service',
+            'src/Pyz/Zed',
             'config',
         ];
 
@@ -48,6 +49,6 @@ class CodeSnifferCheckParallelTask implements MultiProcessCommandSplitterInterfa
      */
     public function getConcurrentProcessNum(): int
     {
-        return 5;
+        return 3;
     }
 }

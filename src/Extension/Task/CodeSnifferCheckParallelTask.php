@@ -8,10 +8,12 @@
 namespace SprykerSdk\Sdk\Extension\Task;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
+use SprykerSdk\Sdk\Core\Domain\Entity\CommandSplitter;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
+use SprykerSdk\Sdk\Extension\Task\CommandSplitter\CodeSnifferCheckParallelTaskCommandSplitter;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
@@ -66,8 +68,14 @@ class CodeSnifferCheckParallelTask implements TaskInterface
     {
         return [
             new Command(
-                'php /data/vendor/bin/phpcs',
+                'php vendor/bin/phpcs',
                 'cli_parallel',
+                false,
+                [],
+                null,
+                '',
+                '',
+                new CommandSplitter(CodeSnifferCheckParallelTaskCommandSplitter::class),
             ),
         ];
     }

@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml;
 
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
-use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector;
+use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollectorInterface;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
@@ -32,18 +32,18 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     protected TaskBuilderInterface $taskBuilder;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector
+     * @var \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollectorInterface
      */
-    protected TaskYamlCollector $taskYamlCollector;
+    protected TaskYamlCollectorInterface $taskYamlCollector;
 
     /**
-     * @param \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector $taskYamlCollector
+     * @param \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollectorInterface $taskYamlCollector
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage $taskStorage
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface $taskBuilder
      */
     public function __construct(
-        TaskYamlCollector $taskYamlCollector,
+        TaskYamlCollectorInterface $taskYamlCollector,
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
         TaskStorage $taskStorage,
         TaskBuilderInterface $taskBuilder

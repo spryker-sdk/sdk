@@ -1,0 +1,15 @@
+SprykerSdk\Sdk\Infrastructure\Entity\CommandSplitter:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\CommandSplitterRepository
+    table: sdk_command_splitter
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        class:
+            type: string
+            nullable: false
+            unique: false
+
