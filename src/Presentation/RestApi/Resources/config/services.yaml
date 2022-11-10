@@ -23,6 +23,12 @@ services:
         arguments:
             - "@initializer_service"
 
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectProcessor:
+        public: true
+        arguments:
+            - "@project_settings_initializer"
+            - "@response.builder"
+
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController:
         public: true
         arguments:

@@ -19,11 +19,6 @@ use Symfony\Component\Yaml\Yaml;
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
     /**
-     * @var string
-     */
-    protected const LOCAL_SUFFIX = 'local';
-
-    /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
     protected SettingRepositoryInterface $coreSettingRepository;
@@ -39,6 +34,11 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected string $projectSettingFileName;
 
     /**
+     * @var string
+     */
+    protected string $localProjectSettingFileName;
+
+    /**
      * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
@@ -47,15 +47,18 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
+     * @param string $localProjectSettingFileName
      * @param \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver $pathResolver
      */
     public function __construct(
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
         string $projectSettingFileName,
+        string $localProjectSettingFileName,
         PathResolver $pathResolver
     ) {
         $this->projectSettingFileName = $projectSettingFileName;
+        $this->localProjectSettingFileName = $localProjectSettingFileName;
         $this->yamlParser = $yamlParser;
         $this->coreSettingRepository = $coreSettingRepository;
         $this->pathResolver = $pathResolver;
@@ -78,7 +81,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     public function saveMultiple(array $settings): array
     {
-        $localProjectValues = $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX);
+        $localProjectValues = $this->fetchProjectValues($this->localProjectSettingFileName);
         $sharedProjectValues = $this->fetchProjectValues($this->projectSettingFileName);
 
         /** @var \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting */
@@ -98,7 +101,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         if ($localProjectValues) {
-            file_put_contents($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX, $this->yamlParser::dump($localProjectValues));
+            file_put_contents($this->localProjectSettingFileName, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {
@@ -203,7 +206,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     {
         return array_merge(
             $this->fetchProjectValues($this->projectSettingFileName),
-            $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX),
+            $this->fetchProjectValues($this->localProjectSettingFileName),
         );
     }
 

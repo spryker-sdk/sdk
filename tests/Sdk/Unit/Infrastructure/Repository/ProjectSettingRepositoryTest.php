@@ -74,6 +74,11 @@ class ProjectSettingRepositoryTest extends Unit
     protected string $projectSettingFileName = '';
 
     /**
+     * @var string
+     */
+    protected string $localProjectSettingFileName = '';
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -89,6 +94,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
         );
     }
@@ -250,11 +256,13 @@ class ProjectSettingRepositoryTest extends Unit
         $sharedSetting = $this->tester->createSetting('pathShared', 'valueShared', SettingInterface::STRATEGY_REPLACE, Setting::SETTING_TYPE_LOCAL);
 
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
+        $this->localProjectSettingFileName = $this->vfsStream->url() . '/settings.local';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
         );
 
@@ -277,11 +285,13 @@ class ProjectSettingRepositoryTest extends Unit
         $setting = $this->tester->createSetting('path', 'value');
 
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
+        $this->localProjectSettingFileName = $this->vfsStream->url() . '/settings.local';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
         );
 
@@ -307,11 +317,13 @@ class ProjectSettingRepositoryTest extends Unit
         ];
 
         $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
+        $this->localProjectSettingFileName = $this->vfsStream->url() . '/settings.local';
 
         $this->projectSettingRepository = new ProjectSettingRepository(
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
         );
 
@@ -446,6 +458,7 @@ YAML,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
         );
 
