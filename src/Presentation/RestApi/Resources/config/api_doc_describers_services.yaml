@@ -1,0 +1,13 @@
+services:
+
+    api_doc.sdk_commands_describer:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkCommandsDescriber
+        tags: [ 'nelmio_api_doc.describer' ]
+        arguments:
+            - '@symfony.console.application'
+
+    api_doc.task_describer:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\RunTaskDescriber
+        tags: [ 'nelmio_api_doc.describer' ]
+        arguments:
+            - '@console.command_loader'
