@@ -19,7 +19,7 @@ class ResponseBuilder
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function buildResponse(string $id, string $type, array $attributes): JsonResponse
+    public function buildResponse(string $id, string $type, array $attributes = []): JsonResponse
     {
         return new JsonResponse([
             OpenApiField::DATA => [

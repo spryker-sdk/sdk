@@ -10,16 +10,17 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializerInterface;
 use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
+use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class SdkInitProjectProcessor
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializerInterface
      */
-    protected ProjectSettingsInitializerInterface $initializerService;
+    protected ProjectSettingsInitializerInterface $projectSettingsInitializer;
 
     /**
      * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
@@ -27,25 +28,25 @@ class SdkInitProjectProcessor
     protected ResponseBuilder $responseBuilder;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializerInterface $initializerService
+     * @param \SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializerInterface $projectSettingsInitializer
      * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
      */
-    public function __construct(ProjectSettingsInitializerInterface $initializerService, ResponseBuilder $responseBuilder)
+    public function __construct(ProjectSettingsInitializerInterface $projectSettingsInitializer, ResponseBuilder $responseBuilder)
     {
-        $this->projectSettingsInitializer = $initializerService;
+        $this->projectSettingsInitializer = $projectSettingsInitializer;
         $this->responseBuilder = $responseBuilder;
     }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function process(Request $request): Response
+    public function process(Request $request): JsonResponse
     {
         $projectSettingsInitDto = new ProjectSettingsInitDto(
-            $request->request->all(),
-            $request->request->get('default', false),
+            $request->request->all()[OpenApiField::DATA][OpenApiField::ATTRIBUTES],
+            (bool)$request->request->get('default', false),
         );
 
         $this->projectSettingsInitializer->initialize($projectSettingsInitDto);

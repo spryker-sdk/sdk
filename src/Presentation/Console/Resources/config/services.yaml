@@ -37,7 +37,7 @@ services:
     tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "@workflow_runner"
       - "@context_factory"
       - "@setting.setting_fetcher"
@@ -62,7 +62,7 @@ services:
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "%kernel.project_dir%/var/workflow"
       - "%host_sdk_dir%/var/workflow"
   init_project_command:
@@ -70,7 +70,7 @@ services:
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand
     tags: ["console.command", "telemetry.observable_command"]
     arguments:
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "@setting_repository"
       - "@project_settings_initializer"
   setting_set_command:
