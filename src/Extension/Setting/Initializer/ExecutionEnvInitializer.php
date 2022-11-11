@@ -20,11 +20,18 @@ class ExecutionEnvInitializer implements SettingInitializerInterface
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @var bool
      */
-    public function __construct(SettingRepositoryInterface $settingRepository)
+    protected bool $sdkCIExecution;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
+     * @param bool $sdkCIExecution
+     */
+    public function __construct(SettingRepositoryInterface $settingRepository, bool $sdkCIExecution)
     {
         $this->settingRepository = $settingRepository;
+        $this->sdkCIExecution = $sdkCIExecution;
     }
 
     /**
@@ -42,18 +49,8 @@ class ExecutionEnvInitializer implements SettingInitializerInterface
             return;
         }
 
-        $setting->setValues($this->getExecutionEnv());
+        $setting->setValues($this->sdkCIExecution ? ExecutionEnv::CI : ExecutionEnv::DEVELOPER);
         $this->settingRepository->save($setting);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getExecutionEnv(): string
-    {
-        $ciExecution = (bool)getenv('SDK_CI_EXECUTION');
-
-        return $ciExecution ? ExecutionEnv::CI : ExecutionEnv::DEVELOPER;
     }
 
     /**

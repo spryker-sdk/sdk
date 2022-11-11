@@ -36,7 +36,7 @@ class ExecutionEnvInitializerTest extends Unit
         $setting = new Setting('soma_path', '');
         $existingSetting = new Setting('soma_path', ExecutionEnv::DEVELOPER);
         $settingRepository = $this->createSettingRepositoryMock(false, $existingSetting);
-        $initializer = new ExecutionEnvInitializer($settingRepository);
+        $initializer = new ExecutionEnvInitializer($settingRepository, true);
 
         //Act
         $initializer->initialize($setting);
@@ -51,10 +51,9 @@ class ExecutionEnvInitializerTest extends Unit
     public function testInitializeSetValueWhenExistingSettingIsNull(): void
     {
         //Arrange
-        putenv('SDK_CI_EXECUTION=1');
         $setting = new Setting('soma_path', '');
         $settingRepository = $this->createSettingRepositoryMock(true);
-        $initializer = new ExecutionEnvInitializer($settingRepository);
+        $initializer = new ExecutionEnvInitializer($settingRepository, true);
 
         //Act
         $initializer->initialize($setting);
@@ -66,20 +65,37 @@ class ExecutionEnvInitializerTest extends Unit
     /**
      * @return void
      */
-    public function testInitializeSetValueWhenExistingSettingIsEmpty(): void
+    public function testInitializeSetValueWhenExistingSettingIsEmptyAndCI(): void
     {
         //Arrange
-        putenv('SDK_CI_EXECUTION=1');
         $setting = new Setting('soma_path', '');
         $existingSetting = new Setting('soma_path', '');
         $settingRepository = $this->createSettingRepositoryMock(true, $existingSetting);
-        $initializer = new ExecutionEnvInitializer($settingRepository);
+        $initializer = new ExecutionEnvInitializer($settingRepository, true);
 
         //Act
         $initializer->initialize($setting);
 
         //Arrange
         $this->assertEquals(ExecutionEnv::CI, $setting->getValues());
+    }
+
+    /**
+     * @return void
+     */
+    public function testInitializeSetValueWhenExistingSettingIsEmptyAndNonCI(): void
+    {
+        //Arrange
+        $setting = new Setting('soma_path', '');
+        $existingSetting = new Setting('soma_path', '');
+        $settingRepository = $this->createSettingRepositoryMock(true, $existingSetting);
+        $initializer = new ExecutionEnvInitializer($settingRepository, false);
+
+        //Act
+        $initializer->initialize($setting);
+
+        //Arrange
+        $this->assertEquals(ExecutionEnv::DEVELOPER, $setting->getValues());
     }
 
     /**
