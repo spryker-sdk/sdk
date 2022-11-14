@@ -79,12 +79,9 @@ abstract class BaseDescriber implements DescriberInterface
         DescriberHelper::getTypeProperty($dataProperty);
 
         $requiredArgumentProperties = $this->createPropertiesFromArguments($command, $attributesProperty);
-        $requiredOptionProperties = $this->createPropertiesFromOptions($command, $attributesProperty);
+        $this->createPropertiesFromOptions($command, $attributesProperty);
 
-        $attributesProperty->required = array_merge(
-            $requiredArgumentProperties,
-            $requiredOptionProperties,
-        );
+        $attributesProperty->required = $requiredArgumentProperties;
     }
 
     /**
@@ -175,13 +172,12 @@ abstract class BaseDescriber implements DescriberInterface
      * @param \Symfony\Component\Console\Command\Command $command
      * @param \OpenApi\Annotations\Property $attributesProperty
      *
-     * @return array<string>
+     * @return void
      */
-    protected function createPropertiesFromOptions(Command $command, Property $attributesProperty): array
+    protected function createPropertiesFromOptions(Command $command, Property $attributesProperty): void
     {
         $commandOptions = $command->getDefinition()->getOptions();
 
-        $requiredAttributes = [];
         foreach ($commandOptions as $option) {
             $this->createProperty(
                 $attributesProperty,
@@ -190,13 +186,7 @@ abstract class BaseDescriber implements DescriberInterface
                 $option->getDefault(),
                 $option->getDescription(),
             );
-
-            if ($option->isValueRequired()) {
-                $requiredAttributes[] = $option->getName();
-            }
         }
-
-        return $requiredAttributes;
     }
 
     /**
