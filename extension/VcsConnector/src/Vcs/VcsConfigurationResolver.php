@@ -19,21 +19,13 @@ class VcsConfigurationResolver implements VcsConfigurationResolverInterface
     protected array $vcsAdapters = [];
 
     /**
-     * @var \VcsConnector\Vcs\VcsProcessExecutor
-     */
-    protected VcsProcessExecutor $vcsProcessExecutor;
-
-    /**
      * @param iterable $vcsAdapters
-     * @param \VcsConnector\Vcs\VcsProcessExecutor $vcsProcessExecutor
      */
-    public function __construct(iterable $vcsAdapters, VcsProcessExecutor $vcsProcessExecutor)
+    public function __construct(iterable $vcsAdapters)
     {
         $this->vcsAdapters = $vcsAdapters instanceof Traversable
             ? iterator_to_array($vcsAdapters)
             : $vcsAdapters;
-
-        $this->vcsProcessExecutor = $vcsProcessExecutor;
     }
 
     /**

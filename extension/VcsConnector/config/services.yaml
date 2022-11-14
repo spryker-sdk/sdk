@@ -9,7 +9,6 @@ services:
         class: VcsConnector\Vcs\VcsConfigurationResolver
         arguments:
             - !tagged_iterator { tag: 'vcs.adapter', default_index_method: 'getName'}
-            - "@vcs_process_executor"
 
     vcs_github_connector:
         class: VcsConnector\Vcs\Adapter\Github\GithubConnector

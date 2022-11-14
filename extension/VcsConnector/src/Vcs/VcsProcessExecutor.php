@@ -8,7 +8,7 @@
 namespace VcsConnector\Vcs;
 
 use Symfony\Component\Process\Process;
-use VcsConnector\Exception\AdapterDoesNotExistException;
+use VcsConnector\Exception\VcsCommandException;
 
 class VcsProcessExecutor
 {
@@ -16,7 +16,7 @@ class VcsProcessExecutor
      * @param string $projectFolder
      * @param array $command
      *
-     * @throws \VcsConnector\Exception\AdapterDoesNotExistException
+     * @throws \VcsConnector\Exception\VcsCommandException
      *
      * @return void
      */
@@ -27,7 +27,7 @@ class VcsProcessExecutor
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            throw new AdapterDoesNotExistException($process->getErrorOutput());
+            throw new VcsCommandException($process->getErrorOutput());
         }
     }
 }
