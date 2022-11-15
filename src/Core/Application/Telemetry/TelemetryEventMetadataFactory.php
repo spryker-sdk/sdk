@@ -59,11 +59,9 @@ class TelemetryEventMetadataFactory implements TelemetryEventMetadataFactoryInte
     protected function findSettingByKey(string $settingKey): ?string
     {
         try {
-            $value = $this->settingFetcher->getOneByPath($settingKey)->getValues();
+            return $this->settingFetcher->getOneByPath($settingKey)->getValues();
         } catch (MissingSettingException $e) {
-            $value = null;
+            return null;
         }
-
-        return $value;
     }
 }
