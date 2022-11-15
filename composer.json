@@ -32,8 +32,10 @@
         "rector/rector": "^0.13.0",
         "spryker-sdk/acp": "^0.2.0",
         "spryker-sdk/async-api": "^0.2.3",
+        "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/composer-replace": "dev-master",
         "spryker-sdk/sdk-contracts": "^0.4.5",
+        "spryker-sdk/security-checker": "^0.1.2",
         "spryker-sdk/spryk": "dev-master as 0.4.6",
         "spryker-sdk/sync-api": "^0.1.1",
         "spryker-sdk/upgrader": "dev-master",
@@ -72,8 +74,6 @@
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/php-timer": "^5.0",
         "sllh/composer-versions-check": "^2.0",
-        "spryker-sdk/brancho": "1.0.x-dev",
-        "spryker-sdk/security-checker": "^0.1.0",
         "symfony/var-dumper": "^5.0"
     },
     "config": {
