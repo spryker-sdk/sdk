@@ -47,7 +47,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
-    private Filesystem $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
