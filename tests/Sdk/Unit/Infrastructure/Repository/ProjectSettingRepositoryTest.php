@@ -13,6 +13,7 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\Sdk\Tests\UnitTester;
@@ -69,6 +70,11 @@ class ProjectSettingRepositoryTest extends Unit
     protected vfsStreamDirectory $vfsStream;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * @var string
      */
     protected string $projectSettingFileName = '';
@@ -88,6 +94,7 @@ class ProjectSettingRepositoryTest extends Unit
         $this->coreSettingRepository = $this->createMock(SettingRepositoryInterface::class);
         $this->yamlParser = $this->createMock(Yaml::class);
         $this->pathResolver = $this->createMock(PathResolver::class);
+        $this->filesystem = new Filesystem();
         $this->vfsStream = vfsStream::setup();
 
         $this->projectSettingRepository = new ProjectSettingRepository(
@@ -96,6 +103,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingFileName,
             $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
     }
 
@@ -264,6 +272,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingFileName,
             $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -293,6 +302,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingFileName,
             $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -325,6 +335,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingFileName,
             $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -460,6 +471,7 @@ YAML,
             $this->projectSettingFileName,
             $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         $this->coreSettingRepository

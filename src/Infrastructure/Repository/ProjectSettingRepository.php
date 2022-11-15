@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -44,24 +45,32 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected PathResolver $pathResolver;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
+     */
+    private Filesystem $filesystem;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
      * @param string $localProjectSettingFileName
      * @param \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver $pathResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
         string $projectSettingFileName,
         string $localProjectSettingFileName,
-        PathResolver $pathResolver
+        PathResolver $pathResolver,
+        Filesystem $filesystem
     ) {
         $this->projectSettingFileName = $projectSettingFileName;
         $this->localProjectSettingFileName = $localProjectSettingFileName;
         $this->yamlParser = $yamlParser;
         $this->coreSettingRepository = $coreSettingRepository;
         $this->pathResolver = $pathResolver;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -94,18 +103,12 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $localProjectValues[$setting->getPath()] = $setting->getValues();
         }
 
-        $projectSettingDir = dirname($this->projectSettingFileName);
-
-        if (!is_dir($projectSettingDir)) {
-            mkdir($projectSettingDir, 0777, true);
-        }
-
         if ($localProjectValues) {
-            file_put_contents($this->localProjectSettingFileName, $this->yamlParser::dump($localProjectValues));
+            $this->filesystem->dumpFile($this->localProjectSettingFileName, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {
-            file_put_contents($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
+            $this->filesystem->dumpFile($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
         }
 
         return $settings;

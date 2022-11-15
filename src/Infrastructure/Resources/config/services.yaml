@@ -70,6 +70,7 @@ services:
             - "%project_settings_file%"
             - "%local_project_settings_file%"
             - "@path_resolver"
+            - "@sdk_filesystem"
     yaml_parser:
         class: Symfony\Component\Yaml\Yaml
 
