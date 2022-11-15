@@ -64,7 +64,7 @@ class GenerateAppTask implements TaskInterface
                 '%app_name%',
                 'STATIC',
                 [
-                    'name' => 'app-name',
+                    'alias' => 'app-name',
                     'description' => 'Input name for new App',
                     'type' => ValueTypeEnum::TYPE_STRING,
                 ],
@@ -73,7 +73,7 @@ class GenerateAppTask implements TaskInterface
                 '%project_url%',
                 'STATIC',
                 [
-                    'name' => 'project_url',
+                    'alias' => 'project_url',
                     'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
                     'type' => ValueTypeEnum::TYPE_STRING,
                 ],
