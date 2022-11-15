@@ -50,6 +50,7 @@ class JsonSchemaValidatorTest extends Unit
      */
     public function testValidateWithValidBodyShouldReturnNull(): void
     {
+        // Arrange
         $this->validator
             ->expects($this->once())
             ->method('validate');
@@ -59,7 +60,6 @@ class JsonSchemaValidatorTest extends Unit
             ->method('getErrors')
             ->willReturn([]);
 
-        // Arrange
         $jsonBody = json_encode([
             'id' => 'test',
             'type' => 'test',
@@ -82,6 +82,7 @@ class JsonSchemaValidatorTest extends Unit
      */
     public function testValidateWithInvalidBodyShouldReturnJsonResponse(): void
     {
+        // Arrange
         $expectedMessage = 'Property "attributes" is required.';
         $this->validator
             ->expects($this->once())
@@ -96,7 +97,6 @@ class JsonSchemaValidatorTest extends Unit
                 ],
             ]);
 
-        // Arrange
         $jsonBody = json_encode([
             'id' => 'test',
             'type' => 'test',
