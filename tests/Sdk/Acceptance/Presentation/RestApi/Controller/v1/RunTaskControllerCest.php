@@ -35,7 +35,7 @@ class RunTaskControllerCest
      *
      * @return void
      */
-    public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
+    public function iSeeJsonResponseAfterCallRunTaskEndpoint(AcceptanceTester $I): void
     {
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [

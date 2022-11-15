@@ -20,45 +20,35 @@ use Symfony\Component\HttpFoundation\Response;
  * @group RestApi
  * @group Controller
  * @group v1
- * @group SdkUpdateSdkControllerCest
+ * @group SdkInitProjectControllerCest
  * Add your own group annotations below this line
  */
-class SdkUpdateSdkControllerCest
+class SdkInitProjectControllerCest
 {
     /**
      * @var string
      */
-    protected const ENDPOINT = '/sdk-update-sdk';
+    protected const ENDPOINT = '/sdk-init-project';
 
     /**
      * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
      *
      * @return void
      */
-    public function iSeeJsonResponseAfterCallSdkUpdateSdkEndpoint(AcceptanceTester $I): void
+    public function iSeeJsonResponseAfterCallSdkInitProjectEndpoint(AcceptanceTester $I): void
     {
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
-                OpenApiField::TYPE => 'sdk-update-sdk',
-                OpenApiField::ID => 'sdk-update-sdk',
+                OpenApiField::TYPE => 'sdk-init-project',
+                OpenApiField::ID => 'sdk-init-project',
                 OpenApiField::ATTRIBUTES => [
-                    'developer_email' => 'test',
-                    'developer_github_account' => 'test',
+                    'report_usage_statistics' => false,
                 ],
             ],
         ]);
+
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
-        $I->seeResponseContainsJson(
-            [
-                OpenApiField::DATA => [
-                    OpenApiField::TYPE => 'sdk-update-sdk',
-                    OpenApiField::ID => 'sdk-update-sdk',
-                    OpenApiField::ATTRIBUTES => [
-                        'messages' => [],
-                    ],
-                ],
-            ],
-        );
+        $I->seeResponseContainsJson([]);
     }
 }

@@ -16,14 +16,14 @@ class SdkInitProjectController extends BaseController
     /**
      * @var \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor
      */
-    protected SdkInitProjectProcessor $sdkInitProject;
+    protected SdkInitProjectProcessor $sdkInitProjectProcessor;
 
     /**
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor $sdkInitProject
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor $sdkInitProjectProcessor
      */
-    public function __construct(SdkInitProjectProcessor $sdkInitProject)
+    public function __construct(SdkInitProjectProcessor $sdkInitProjectProcessor)
     {
-        $this->sdkInitProject = $sdkInitProject;
+        $this->sdkInitProjectProcessor = $sdkInitProjectProcessor;
     }
 
     /**
@@ -33,6 +33,6 @@ class SdkInitProjectController extends BaseController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return $this->sdkInitProject->process($request);
+        return $this->sdkInitProjectProcessor->process($request);
     }
 }

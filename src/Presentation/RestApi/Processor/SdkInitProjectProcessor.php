@@ -44,8 +44,10 @@ class SdkInitProjectProcessor
      */
     public function process(Request $request): JsonResponse
     {
+        /** @var array<string, mixed> $data */
+        $data = $request->request->get(OpenApiField::DATA);
         $projectSettingsInitDto = new ProjectSettingsInitDto(
-            $request->request->all()[OpenApiField::DATA][OpenApiField::ATTRIBUTES],
+            $data[OpenApiField::ATTRIBUTES],
             (bool)$request->request->get('default', false),
         );
 
