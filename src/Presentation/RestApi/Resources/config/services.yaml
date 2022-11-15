@@ -57,24 +57,6 @@ services:
         arguments:
             - '@symfony.console.application'
 
-    api_doc.task_describer:
-        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\RunTaskDescriber
-        tags: ['nelmio_api_doc.describer']
-        arguments:
-            - '@console.command_loader'
-
-    api_doc.sdk_init_sdk_describer:
-        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkInitSdkDescriber
-        tags: [ 'nelmio_api_doc.describer' ]
-
-    api_doc.sdk_update_sdk_describer:
-        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkUpdateSdkDescriber
-        tags: [ 'nelmio_api_doc.describer' ]
-
-    api_doc.sdk_init_project_describer:
-        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkInitProjectDescriber
-        tags: [ 'nelmio_api_doc.describer' ]
-
     json_schema_validator:
         class: SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
         arguments:

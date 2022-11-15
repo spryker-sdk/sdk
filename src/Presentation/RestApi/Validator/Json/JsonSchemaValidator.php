@@ -7,8 +7,12 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Validator\Json;
 
+use JsonException;
 use JsonSchema\Validator;
+use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class JsonSchemaValidator
@@ -19,6 +23,11 @@ class JsonSchemaValidator
     protected Validator $validator;
 
     /**
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     */
+    protected ResponseBuilder $responseBuilder;
+
+    /**
      * @param \JsonSchema\Validator $validator
      */
     public function __construct(Validator $validator)
@@ -27,28 +36,40 @@ class JsonSchemaValidator
     }
 
     /**
-     * @param array $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return array
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|null
      */
-    public function validate(array $request): array
+    public function validate(Request $request): ?JsonResponse
     {
-        $request = json_decode((string)json_encode($request), false);
+        try {
+            $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
 
-        $this->validator->validate($request, $this->getSchema());
+            $validationData = json_decode((string)$request->getContent(), false, 512, \JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            return $this->responseBuilder->buildErrorResponse(
+                ['Invalid request.'],
+                Response::HTTP_BAD_REQUEST,
+                (string)Response::HTTP_BAD_REQUEST,
+            );
+        }
+
+        $this->validator->validate($validationData, $this->getSchema());
 
         $errors = $this->validator->getErrors();
         if (!$errors) {
-            return [];
+            $request->request->replace($data);
+
+            return null;
         }
 
         $details = array_map(fn (array $error): string => $error['message'], $errors);
 
-        return [
-            OpenApiField::DETAILS => $details,
-            OpenApiField::CODE => Response::HTTP_BAD_REQUEST,
-            OpenApiField::STATUS => (string)Response::HTTP_BAD_REQUEST,
-        ];
+        return $this->responseBuilder->buildErrorResponse(
+            $details,
+            Response::HTTP_BAD_REQUEST,
+            (string)Response::HTTP_BAD_REQUEST,
+        );
     }
 
     /**
