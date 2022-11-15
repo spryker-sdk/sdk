@@ -83,14 +83,11 @@ services:
             - "@project_setting_repository"
             - "@setting_repository"
 
-    service.file_manager:
-        class: SprykerSdk\Sdk\Core\Application\Service\FileManager
-
     lifecycle.initialized_subscriber:
         class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\InitializedEventSubscriber
         tags: [ "kernel.event_subscriber" ]
         arguments:
-            - "@service.file_manager"
+            - "@sdk_filesystem"
             - "@placeholder_resolver"
             - "@service.lifecycle_command_executor"
             - "@context_factory"
@@ -99,7 +96,7 @@ services:
         class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\UpdatedEventSubscriber
         tags: [ "kernel.event_subscriber" ]
         arguments:
-            - "@service.file_manager"
+            - "@sdk_filesystem"
             - "@placeholder_resolver"
             - "@service.lifecycle_command_executor"
             - "@context_factory"
@@ -108,7 +105,7 @@ services:
         class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber
         tags: [ "kernel.event_subscriber" ]
         arguments:
-            - "@service.file_manager"
+            - "@sdk_filesystem"
             - "@placeholder_resolver"
             - "@service.lifecycle_command_executor"
             - "@context_factory"

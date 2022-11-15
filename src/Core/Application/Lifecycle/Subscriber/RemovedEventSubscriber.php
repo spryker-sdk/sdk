@@ -51,6 +51,6 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
      */
     protected function doManageFile(FileInterface $file): void
     {
-        $this->fileManager->remove($file);
+        $this->filesystem->remove($file->getPath());
     }
 }

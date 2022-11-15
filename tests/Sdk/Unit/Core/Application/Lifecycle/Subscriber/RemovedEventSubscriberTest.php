@@ -11,7 +11,6 @@ use Codeception\Test\Unit;
 use Doctrine\Common\Collections\ArrayCollection;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent as SubscriberRemovedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
@@ -21,6 +20,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent as InfrastructureRemovedEvent;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -48,9 +48,9 @@ class RemovedEventSubscriberTest extends Unit
     protected RemovedEventSubscriber $subscriber;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
-    protected FileManagerInterface $fileManager;
+    protected Filesystem $filesystem;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
@@ -74,13 +74,13 @@ class RemovedEventSubscriberTest extends Unit
     {
         parent::setUp();
 
-        $this->fileManager = $this->createMock(FileManagerInterface::class);
+        $this->filesystem = $this->createMock(Filesystem::class);
         $this->placeholderResolver = $this->createMock(PlaceholderResolver::class);
         $this->commandExecutor = $this->createMock(CommandExecutorInterface::class);
         $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
 
         $this->subscriber = new RemovedEventSubscriber(
-            $this->fileManager,
+            $this->filesystem,
             $this->placeholderResolver,
             $this->commandExecutor,
             $this->contextFactory,
@@ -141,7 +141,7 @@ class RemovedEventSubscriberTest extends Unit
         $task = $this->tester->createInfrastructureTask($lifecycle);
         $event = new SubscriberRemovedEvent($task);
 
-        $this->fileManager
+        $this->filesystem
             ->expects($this->exactly(count($files)))
             ->method('remove');
 
@@ -171,7 +171,7 @@ class RemovedEventSubscriberTest extends Unit
         $task = $this->tester->createInfrastructureTask($lifecycle);
         $event = new SubscriberRemovedEvent($task);
 
-        $this->fileManager
+        $this->filesystem
             ->expects($this->never())
             ->method('remove');
 

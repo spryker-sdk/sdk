@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Lifecycle\Subscriber;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\UpdatedEventSubscriber;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
@@ -20,6 +19,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
 use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -47,9 +47,9 @@ class UpdatedEventSubscriberTest extends Unit
     protected UpdatedEventSubscriber $subscriber;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
-    protected FileManagerInterface $fileManager;
+    protected Filesystem $filesystem;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
@@ -73,13 +73,13 @@ class UpdatedEventSubscriberTest extends Unit
     {
         parent::setUp();
 
-        $this->fileManager = $this->createMock(FileManagerInterface::class);
+        $this->filesystem = $this->createMock(Filesystem::class);
         $this->placeholderResolver = $this->createMock(PlaceholderResolver::class);
         $this->commandExecutor = $this->createMock(CommandExecutorInterface::class);
         $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
 
         $this->subscriber = new UpdatedEventSubscriber(
-            $this->fileManager,
+            $this->filesystem,
             $this->placeholderResolver,
             $this->commandExecutor,
             $this->contextFactory,
@@ -139,9 +139,9 @@ class UpdatedEventSubscriberTest extends Unit
         $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
         $event = new UpdatedEvent($task);
 
-        $this->fileManager
+        $this->filesystem
             ->expects($this->exactly(count($files)))
-            ->method('create');
+            ->method('dumpFile');
 
         $this->commandExecutor
             ->expects($this->exactly(count($commands)))
@@ -169,9 +169,9 @@ class UpdatedEventSubscriberTest extends Unit
         $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
         $event = new UpdatedEvent($task);
 
-        $this->fileManager
+        $this->filesystem
             ->expects($this->never())
-            ->method('create');
+            ->method('dumpFile');
 
         $this->commandExecutor
             ->expects($this->never())

@@ -51,6 +51,6 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
      */
     protected function doManageFile(FileInterface $file): void
     {
-        $this->fileManager->create($file);
+        $this->filesystem->dumpFile($file->getPath(), $file->getContent());
     }
 }

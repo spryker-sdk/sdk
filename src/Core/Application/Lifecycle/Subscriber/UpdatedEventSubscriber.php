@@ -51,6 +51,6 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
      */
     protected function doManageFile(FileInterface $file): void
     {
-        $this->fileManager->create($file);
+        $this->filesystem->dumpFile($file->getPath(), $file->getContent());
     }
 }
