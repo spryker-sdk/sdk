@@ -12,12 +12,12 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
 use VcsConnector\Exception\AdapterDoesNotExistException;
-use VcsConnector\Vcs\VcsConfigurationResolverInterface;
+use VcsConnector\Resolver\VcsConfigurationResolverInterface;
 
 class VcsCloneCommand implements ExecutableCommandInterface
 {
     /**
-     * @var \VcsConnector\Vcs\VcsConfigurationResolverInterface
+     * @var \VcsConnector\Resolver\VcsConfigurationResolverInterface
      */
     protected VcsConfigurationResolverInterface $vcsConfigurationResolver;
 
@@ -27,7 +27,7 @@ class VcsCloneCommand implements ExecutableCommandInterface
     protected string $sdkPath;
 
     /**
-     * @param \VcsConnector\Vcs\VcsConfigurationResolverInterface $vcsConfigurationResolver
+     * @param \VcsConnector\Resolver\VcsConfigurationResolverInterface $vcsConfigurationResolver
      * @param string $sdkPath
      */
     public function __construct(VcsConfigurationResolverInterface $vcsConfigurationResolver, string $sdkPath)

@@ -25,13 +25,13 @@ class VcsCloneTask implements TaskInterface
     protected array $commands = [];
 
     /**
-     * @var array<string, \VcsConnector\Vcs\Adapter\VcsInterface>
+     * @var array<string, \VcsConnector\Adapter\VcsInterface>
      */
     protected array $vcsAdapters = [];
 
     /**
      * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
-     * @param iterable<string, \VcsConnector\Vcs\Adapter\VcsInterface> $vcsAdapters
+     * @param iterable<string, \VcsConnector\Adapter\VcsInterface> $vcsAdapters
      */
     public function __construct(array $commands, iterable $vcsAdapters)
     {
@@ -58,7 +58,7 @@ class VcsCloneTask implements TaskInterface
      */
     public function getPlaceholders(): array
     {
-        $vcsList = array_keys($this->vcsAdapters);
+        $vcsList = array_flip(array_keys($this->vcsAdapters));
 
         return [
             new Placeholder(
@@ -67,6 +67,7 @@ class VcsCloneTask implements TaskInterface
                 [
                     'description' => 'Repository link',
                     'type' => ValueTypeEnum::TYPE_STRING,
+                    'alias' => 'vcs_repository',
                 ],
                 false,
             ),
@@ -78,6 +79,7 @@ class VcsCloneTask implements TaskInterface
                     'defaultValue' => array_key_first($vcsList),
                     'description' => 'Select VCS',
                     'type' => ValueTypeEnum::TYPE_STRING,
+                    'alias' => 'vcs',
                 ],
                 false,
             ),
