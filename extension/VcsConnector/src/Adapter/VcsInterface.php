@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace VcsConnector\Vcs\Adapter;
+namespace VcsConnector\Adapter;
 
 interface VcsInterface
 {

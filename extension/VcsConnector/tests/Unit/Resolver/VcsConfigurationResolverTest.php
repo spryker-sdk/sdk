@@ -5,20 +5,19 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Extension\VcsConnector;
+namespace VcsConnector\Tests\Unit\Resolver;
 
 use Codeception\Test\Unit;
+use VcsConnector\Adapter\VcsInterface;
 use VcsConnector\Exception\AdapterDoesNotExistException;
-use VcsConnector\Vcs\Adapter\VcsInterface;
-use VcsConnector\Vcs\VcsConfigurationResolver;
+use VcsConnector\Resolver\VcsConfigurationResolver;
 
 /**
  * Auto-generated group annotations
  *
- * @group Sdk
+ * @group Tests
  * @group Unit
- * @group Extension
- * @group VcsConnector
+ * @group Resolver
  * @group VcsConfigurationResolverTest
  * Add your own group annotations below this line
  */

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace VcsConnector\Vcs;
+namespace VcsConnector\Executor;
 
 use Symfony\Component\Process\Process;
 use VcsConnector\Exception\VcsCommandException;

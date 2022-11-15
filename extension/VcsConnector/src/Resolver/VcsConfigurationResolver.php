@@ -5,16 +5,16 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace VcsConnector\Vcs;
+namespace VcsConnector\Resolver;
 
 use Traversable;
+use VcsConnector\Adapter\VcsInterface;
 use VcsConnector\Exception\AdapterDoesNotExistException;
-use VcsConnector\Vcs\Adapter\VcsInterface;
 
 class VcsConfigurationResolver implements VcsConfigurationResolverInterface
 {
  /**
-  * @var iterable<\VcsConnector\Vcs\Adapter\VcsInterface>
+  * @var iterable<\VcsConnector\Adapter\VcsInterface>
   */
     protected array $vcsAdapters = [];
 
@@ -33,7 +33,7 @@ class VcsConfigurationResolver implements VcsConfigurationResolverInterface
      *
      * @throws \VcsConnector\Exception\AdapterDoesNotExistException
      *
-     * @return \VcsConnector\Vcs\Adapter\VcsInterface
+     * @return \VcsConnector\Adapter\VcsInterface
      */
     public function resolve(string $vcs): VcsInterface
     {

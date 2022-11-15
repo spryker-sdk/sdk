@@ -105,7 +105,8 @@
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
             "Hello\\": "extension/Hello/src/",
             "Custom\\": "extension/Custom/src/",
-            "VcsConnector\\": "extension/VcsConnector/src/"
+            "VcsConnector\\": "extension/VcsConnector/src/",
+            "VcsConnector\\Tests\\": "extension/VcsConnector/tests/"
         }
     },
     "replace": {
@@ -123,6 +124,7 @@
             "@stan"
         ],
         "test": "codecept build && codecept run unit",
+        "test-extension": "codecept build -c extension/VcsConnector/codeception.yml && codecept run unit -c extension/VcsConnector/codeception.yml",
         "test-qa": "codecept build && codecept run acceptance",
         "test-cover": "codecept build && codecept run unit --coverage-xml",
         "test-cover-html": "codecept build && codecept run unit --coverage-html",

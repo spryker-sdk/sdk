@@ -5,19 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Extension\VcsConnector\Adapter\Github;
+namespace VcsConnector\Tests\Unit\Adapter\Github;
 
 use Codeception\Test\Unit;
-use VcsConnector\Vcs\Adapter\Github\GithubConnector;
-use VcsConnector\Vcs\Adapter\Github\GithubVcsAdapter;
+use VcsConnector\Adapter\Github\GithubVcsAdapter;
+use VcsConnector\Executor\VcsProcessExecutor;
 
 /**
  * Auto-generated group annotations
  *
- * @group Sdk
+ * @group Tests
  * @group Unit
- * @group Extension
- * @group VcsConnector
  * @group Adapter
  * @group Github
  * @group GithubVcsAdapterTest
@@ -31,11 +29,12 @@ class GithubVcsAdapterTest extends Unit
     public function testClone(): void
     {
         // Arrange
-        $githubConnectorMock = $this->createMock(GithubConnector::class);
-        $githubConnectorMock->expects($this->once())
-            ->method('clone')
-            ->with('./', 'test');
-        $githubVcsAdapter = new GithubVcsAdapter($githubConnectorMock);
+        $vcsProcessExecutorMock = $this->createMock(VcsProcessExecutor::class);
+        $vcsProcessExecutorMock->expects($this->once())
+            ->method('process')
+            ->with('./', ['git', 'clone', 'test']);
+
+        $githubVcsAdapter = new GithubVcsAdapter($vcsProcessExecutorMock);
 
         // Act
         $githubVcsAdapter->clone('./', 'test');

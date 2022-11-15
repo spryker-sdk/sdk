@@ -5,19 +5,18 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Extension\VcsConnector;
+namespace VcsConnector\Tests\Unit\Executor;
 
 use Codeception\Test\Unit;
 use VcsConnector\Exception\VcsCommandException;
-use VcsConnector\Vcs\VcsProcessExecutor;
+use VcsConnector\Executor\VcsProcessExecutor;
 
 /**
  * Auto-generated group annotations
  *
- * @group Sdk
+ * @group Tests
  * @group Unit
- * @group Extension
- * @group VcsConnector
+ * @group Executor
  * @group VcsProcessExecutorTest
  * Add your own group annotations below this line
  */

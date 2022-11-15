@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace VcsConnector\Vcs;
+namespace VcsConnector\Resolver;
 
-use VcsConnector\Vcs\Adapter\VcsInterface;
+use VcsConnector\Adapter\VcsInterface;
 
 interface VcsConfigurationResolverInterface
 {
@@ -16,7 +16,7 @@ interface VcsConfigurationResolverInterface
      *
      * @throws \VcsConnector\Exception\AdapterDoesNotExistException
      *
-     * @return \VcsConnector\Vcs\Adapter\VcsInterface
+     * @return \VcsConnector\Adapter\VcsInterface
      */
     public function resolve(string $vcs): VcsInterface;
 }

@@ -2,23 +2,18 @@ services:
     VcsConnector\:
         resource: '../src/*'
     _instanceof:
-        VcsConnector\Vcs\Adapter\VcsInterface:
+        VcsConnector\Adapter\VcsInterface:
             tags: [ "vcs.adapter" ]
 
     vcs_configuration_resolver:
-        class: VcsConnector\Vcs\VcsConfigurationResolver
+        class: VcsConnector\Resolver\VcsConfigurationResolver
         arguments:
             - !tagged_iterator { tag: 'vcs.adapter', default_index_method: 'getName'}
-
-    vcs_github_connector:
-        class: VcsConnector\Vcs\Adapter\Github\GithubConnector
-        arguments:
-            - "@vcs_process_executor"
-
+            -
     vcs_process_executor:
-        class: VcsConnector\Vcs\VcsProcessExecutor
+        class: VcsConnector\Executor\VcsProcessExecutor
 
     vcs_github_vcs_adapter:
-        class: VcsConnector\Vcs\Adapter\Github\GithubVcsAdapter
+        class: VcsConnector\Adapter\Github\GithubVcsAdapter
         arguments:
-            - "@vcs_github_connector"
+            - "@vcs_process_executor"

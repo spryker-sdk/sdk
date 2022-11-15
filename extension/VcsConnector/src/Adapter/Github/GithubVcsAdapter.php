@@ -5,23 +5,37 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace VcsConnector\Vcs\Adapter\Github;
+namespace VcsConnector\Adapter\Github;
 
-use VcsConnector\Vcs\VcsProcessExecutor;
+use VcsConnector\Adapter\VcsInterface;
+use VcsConnector\Executor\VcsProcessExecutor;
 
-class GithubConnector
+class GithubVcsAdapter implements VcsInterface
 {
     /**
-     * @var \VcsConnector\Vcs\VcsProcessExecutor
+     * @var string
+     */
+    public const GITHUB = 'github';
+
+    /**
+     * @var \VcsConnector\Executor\VcsProcessExecutor
      */
     protected VcsProcessExecutor $vcsProcessExecutor;
 
     /**
-     * @param \VcsConnector\Vcs\VcsProcessExecutor $vcsProcessExecutor
+     * @param \VcsConnector\Executor\VcsProcessExecutor $vcsProcessExecutor
      */
     public function __construct(VcsProcessExecutor $vcsProcessExecutor)
     {
         $this->vcsProcessExecutor = $vcsProcessExecutor;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return static::GITHUB;
     }
 
     /**
