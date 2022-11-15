@@ -13,6 +13,11 @@ use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class ReportDirValueResolver extends OriginValueResolver
 {
+    /**
+     * @var string
+     */
+    public const RESOLVER_ID = 'REPORT_DIR';
+
    /**
     * {@inheritDoc}
     *
@@ -20,7 +25,7 @@ class ReportDirValueResolver extends OriginValueResolver
     */
     public function getId(): string
     {
-        return 'REPORT_DIR';
+        return static::RESOLVER_ID;
     }
 
     /**

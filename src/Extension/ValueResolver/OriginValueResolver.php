@@ -14,6 +14,11 @@ use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
 class OriginValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
 {
     /**
+     * @var string
+     */
+    public const RESOLVER_ID = 'ORIGIN';
+
+    /**
      * @var mixed
      */
     protected $defaultValue;
@@ -60,7 +65,7 @@ class OriginValueResolver extends AbstractValueResolver implements ConfigurableV
      */
     public function getId(): string
     {
-        return 'ORIGIN';
+        return static::RESOLVER_ID;
     }
 
     /**

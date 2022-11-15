@@ -8,8 +8,11 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Manifest\Task;
 
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue as Config;
+use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\CallbackValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ReceivedValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\StaticValue;
+use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ValueCollection;
+use SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValuesResolverMapRegistryInterface;
 use SprykerSdk\SdkContracts\Enum\Task;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
@@ -53,6 +56,36 @@ class TaskInteractionMap
     /**
      * @var string
      */
+    public const PLACEHOLDERS_KEY = 'placeholders';
+
+    /**
+     * @var string
+     */
+    public const PLACEHOLDER_NAME_KEY = 'name';
+
+    /**
+     * @var string
+     */
+    public const PLACEHOLDER_VALUE_RESOLVER_KEY = 'value_resolver';
+
+    /**
+     * @var string
+     */
+    public const PLACEHOLDER_OPTIONAL_KEY = 'optional';
+
+    /**
+     * @var string
+     */
+    public const PLACEHOLDER_CONFIGURATION_IS_NEEDED_KEY = 'is_configuration_needed';
+
+    /**
+     * @var string
+     */
+    public const PLACEHOLDER_CONFIGURATION_KEY = 'configuration';
+
+    /**
+     * @var string
+     */
     protected string $defaultYamlTaskDestinationDir;
 
     /**
@@ -61,13 +94,23 @@ class TaskInteractionMap
     protected string $defaultPhpTaskDestinationDir;
 
     /**
+     * @var \SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValuesResolverMapRegistryInterface
+     */
+    protected ValuesResolverMapRegistryInterface $valuesResolverMapRegistry;
+
+    /**
      * @param string $defaultYamlTaskDestinationDir
      * @param string $defaultPhpTaskDestinationDir
+     * @param \SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValuesResolverMapRegistryInterface $valuesResolverMapRegistry
      */
-    public function __construct(string $defaultYamlTaskDestinationDir, string $defaultPhpTaskDestinationDir)
-    {
+    public function __construct(
+        string $defaultYamlTaskDestinationDir,
+        string $defaultPhpTaskDestinationDir,
+        ValuesResolverMapRegistryInterface $valuesResolverMapRegistry
+    ) {
         $this->defaultYamlTaskDestinationDir = $defaultYamlTaskDestinationDir;
         $this->defaultPhpTaskDestinationDir = $defaultPhpTaskDestinationDir;
+        $this->valuesResolverMapRegistry = $valuesResolverMapRegistry;
     }
 
     /**
@@ -104,6 +147,47 @@ class TaskInteractionMap
                     ValueTypeEnum::TYPE_STRING,
                     [Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
                 ),
+            ),
+            static::PLACEHOLDERS_KEY => new ValueCollection($this->getPlaceholdersConfigs()),
+        ];
+    }
+
+    /**
+     * @return array<\SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\InteractionValueConfig>
+     */
+    protected function getPlaceholdersConfigs(): array
+    {
+        return [
+            static::PLACEHOLDER_NAME_KEY => new ReceivedValue(
+                new Config(static::PLACEHOLDER_NAME_KEY, 'Placeholder name', null, ValueTypeEnum::TYPE_STRING),
+            ),
+            static::PLACEHOLDER_VALUE_RESOLVER_KEY => new ReceivedValue(
+                new Config(
+                    static::PLACEHOLDER_VALUE_RESOLVER_KEY,
+                    'Placeholder value resolver',
+                    null,
+                    ValueTypeEnum::TYPE_STRING,
+                    $this->valuesResolverMapRegistry->getNames(),
+                ),
+            ),
+            static::PLACEHOLDER_OPTIONAL_KEY => new ReceivedValue(
+                new Config(static::PLACEHOLDER_NAME_KEY, 'Is placeholder optional?', true, ValueTypeEnum::TYPE_BOOL),
+            ),
+            static::PLACEHOLDER_CONFIGURATION_IS_NEEDED_KEY => new ReceivedValue(
+                new Config(static::PLACEHOLDER_NAME_KEY, 'Would you like to add config into the placeholder', true, ValueTypeEnum::TYPE_BOOL),
+            ),
+            static::PLACEHOLDER_CONFIGURATION_KEY => new CallbackValue(
+                function (array $receivedValues) {
+                    $lastPlaceholder = end($receivedValues[static::PLACEHOLDERS_KEY]);
+
+                    if (!$lastPlaceholder[static::PLACEHOLDER_CONFIGURATION_IS_NEEDED_KEY]) {
+                        return [];
+                    }
+
+                    $lastResolverId = $lastPlaceholder[static::PLACEHOLDER_VALUE_RESOLVER_KEY];
+
+                    return $this->valuesResolverMapRegistry->get($lastResolverId)->getMap();
+                },
             ),
         ];
     }

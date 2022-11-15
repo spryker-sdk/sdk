@@ -149,6 +149,13 @@ services:
       arguments:
           - "%manifest_default_task_yaml_dir%"
           - "%manifest_default_task_php_dir%"
+          - "@manifest.task_interaction.value_resolver_map.registry"
+
+  manifest.task_interaction.value_resolver_map.registry:
+      class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValuesResolverMapRegistry
+      lazy: true
+      arguments:
+          - !tagged_iterator { tag: 'manifest.task_interaction.value_resolver_map' }
 
   manifest.task_manifest_dto_factory:
       class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskManifestRequestDtoFactory
