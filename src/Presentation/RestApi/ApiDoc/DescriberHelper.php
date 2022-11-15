@@ -46,35 +46,31 @@ class DescriberHelper
     /**
      * @param \OpenApi\Annotations\Property $dataProperty
      *
-     * @return \OpenApi\Annotations\Property
+     * @return void
      */
-    public static function getIdProperty(Property $dataProperty): Property
+    public static function addIdProperty(Property $dataProperty): void
     {
         $property = Util::getProperty($dataProperty, OpenApiField::ID);
         $property->type = 'string';
-
-        return $property;
     }
 
     /**
      * @param \OpenApi\Annotations\Property $dataProperty
      *
-     * @return \OpenApi\Annotations\Property
+     * @return void
      */
-    public static function getTypeProperty(Property $dataProperty): Property
+    public static function addTypeProperty(Property $dataProperty): void
     {
         $property = Util::getProperty($dataProperty, OpenApiField::TYPE);
         $property->type = 'string';
-
-        return $property;
     }
 
     /**
      * @param \OpenApi\Annotations\Schema $responseSchema
      *
-     * @return \OpenApi\Annotations\Property
+     * @return void
      */
-    public static function getDetailsProperty(Schema $responseSchema): Property
+    public static function addDetailsProperty(Schema $responseSchema): void
     {
         $property = Util::getProperty($responseSchema, OpenApiField::DETAILS);
         $property->type = 'array';
@@ -83,34 +79,28 @@ class DescriberHelper
         $items = Util::getChild($property, Items::class);
         $items->type = 'string';
         $property->items = $items;
-
-        return $property;
     }
 
     /**
      * @param \OpenApi\Annotations\Schema $responseSchema
      *
-     * @return \OpenApi\Annotations\Property
+     * @return void
      */
-    public static function getStatusProperty(Schema $responseSchema): Property
+    public static function addStatusProperty(Schema $responseSchema): void
     {
         $property = Util::getProperty($responseSchema, OpenApiField::STATUS);
         $property->type = 'string';
-
-        return $property;
     }
 
     /**
      * @param \OpenApi\Annotations\Schema $responseSchema
      *
-     * @return \OpenApi\Annotations\Property
+     * @return void
      */
-    public static function getCodeProperty(Schema $responseSchema): Property
+    public static function addCodeProperty(Schema $responseSchema): void
     {
         $property = Util::getProperty($responseSchema, OpenApiField::CODE);
         $property->type = 'integer';
-
-        return $property;
     }
 
     /**
