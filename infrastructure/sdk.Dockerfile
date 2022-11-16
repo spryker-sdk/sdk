@@ -32,18 +32,18 @@ RUN mkdir -p /home/spryker/.ssh && \
     chmod 0700 /home/spryker/.ssh && \
     ssh-keyscan github.com > /home/spryker/.ssh/known_hosts
 
-COPY phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
-COPY assets ${srcRoot}/assets
-COPY src ${srcRoot}/src
-COPY app ${srcRoot}/app
-COPY db ${srcRoot}/db
-COPY extension ${srcRoot}/extension
-COPY config ${srcRoot}/config
-COPY frontend ${srcRoot}/frontend
-COPY bin ${srcRoot}/bin
-COPY .env ${srcRoot}/.env
-COPY .env.prod ${srcRoot}/.env.prod
-COPY composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
+COPY  --chown=spryker:spryker phpstan-bootstrap.php ${srcRoot}/phpstan-bootstrap.php
+COPY  --chown=spryker:spryker assets ${srcRoot}/assets
+COPY  --chown=spryker:spryker src ${srcRoot}/src
+COPY  --chown=spryker:spryker app ${srcRoot}/app
+COPY  --chown=spryker:spryker db ${srcRoot}/db
+COPY  --chown=spryker:spryker extension ${srcRoot}/extension
+COPY  --chown=spryker:spryker config ${srcRoot}/config
+COPY  --chown=spryker:spryker frontend ${srcRoot}/frontend
+COPY  --chown=spryker:spryker bin ${srcRoot}/bin
+COPY  --chown=spryker:spryker .env ${srcRoot}/.env
+COPY  --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
+COPY  --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
 
 WORKDIR ${srcRoot}
 
