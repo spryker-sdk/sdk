@@ -6,7 +6,7 @@ on:
 
 jobs:
     docker:
-        name: docker build and bush
+        name: docker build and push
         runs-on: ubuntu-22.04
         steps:
             # https://github.com/actions/checkout
