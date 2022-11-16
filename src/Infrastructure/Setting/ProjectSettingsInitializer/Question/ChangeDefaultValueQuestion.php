@@ -36,6 +36,7 @@ class ChangeDefaultValueQuestion
     {
         return $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
+                'change-value',
                 sprintf('Would you like to change the default value for `%s` setting?', $setting->getPath()),
                 false,
                 ValueTypeEnum::TYPE_BOOL,

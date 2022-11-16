@@ -84,11 +84,11 @@ class OriginValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->willReturn(true);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn('value');
         $valueResolver = new OriginValueResolver($this->valueReceiver);
         $valueResolver->configure(['option' => 'test', 'name' => 'key', 'description' => '']);

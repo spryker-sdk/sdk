@@ -56,12 +56,12 @@ class AbstractValueResolverTest extends Unit
         $valueResolver = $this->createValueResolver();
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->with('test')
             ->willReturn(true);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->with('test')
             ->willReturn(true);
         // Act
@@ -80,7 +80,7 @@ class AbstractValueResolverTest extends Unit
         $valueResolver = $this->createValueResolver();
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->with('test')
             ->willReturn(false);
 
@@ -100,7 +100,7 @@ class AbstractValueResolverTest extends Unit
         $valueResolver = $this->createValueResolver();
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->with('test')
             ->willReturn(false);
         $this->valueReceiver

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Service\ValueReceiver\QuestionFactory;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\BooleanQuestionFactory;
@@ -15,6 +15,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Service

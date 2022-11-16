@@ -9,6 +9,9 @@ on:
       - feature/[a-z]+-[0-9]+/dev-*
   workflow_dispatch:
 
+env:
+    APP_ENV: test # Symfony application environment
+
 jobs:
   validation:
     name: "CS, PHPStan, Security"
@@ -68,6 +71,9 @@ jobs:
 
       - name: Codecept unit tests
         run: composer test
+
+      - name: Codecept unit tests
+        run: composer test-extension
 
       - name: Install SDK
         run: bin/console sdk:init:hidden-sdk -n

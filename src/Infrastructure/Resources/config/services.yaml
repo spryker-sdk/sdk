@@ -11,6 +11,14 @@ services:
     _instanceof:
         SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
             tags: [ "manifest.validator" ]
+    path_resolver:
+        class: SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
+        arguments:
+            - "%kernel.project_dir%"
+            - "@sdk_filesystem"
+    sdk_filesystem:
+        class: SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
+        tags: [ "sdk.cli_receiver_setup" ]
     file_finder:
         class: Symfony\Component\Finder\Finder
     event_logger_factory:
@@ -28,7 +36,7 @@ services:
     action_approver:
         class: SprykerSdk\Sdk\Infrastructure\Service\ActionApprover
         arguments:
-            - "@cli_interaction_processor"
+            - "@interaction_processor"
     error_logger_factory:
         class: SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactory
         arguments:
@@ -37,14 +45,6 @@ services:
     error_logger:
         class: Psr\Log\LoggerInterface
         factory: [ "@error_logger_factory", "createLogger" ]
-    progress_bar:
-        class: SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
-        tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: initProgressBar,
-            }
     command_error:
         class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
         tags:
@@ -145,19 +145,20 @@ services:
     initializer_service:
         class: SprykerSdk\Sdk\Infrastructure\Service\Initializer
         arguments:
-            - "@cli_interaction_processor"
+            - "@interaction_processor"
             - "@setting_repository"
             - "@service.task_manager"
             - "@task_yaml_loader"
+            - "@doctrine_migrations.migrate_command"
     process_helper:
         class: Symfony\Component\Console\Helper\ProcessHelper
 
     local_cli_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\LocalCliRunner
-        tags: [ "command.runner" ]
+        tags: [ "command.runner", "sdk.cli_receiver_setup" ]
         arguments:
             - "@process_helper"
-            - "@progress_bar"
+            - "@sdk_filesystem"
     php_command_runner:
         class: SprykerSdk\Sdk\Infrastructure\Service\CommandRunner\PhpCommandRunner
         tags: [ "command.runner" ]
@@ -167,6 +168,12 @@ services:
         arguments:
             - "@question_helper"
             - "@value_receiver.question_registry"
+    api_interaction_processor:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\ApiInteractionProcessor
+        tags: [ "sdk.cli_receiver_setup" ]
+    interaction_processor:
+        class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
+        tags: [ "sdk.cli_receiver_setup" ]
 
     value_receiver.question_factory.int:
         class: SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\IntQuestionFactory
@@ -193,29 +200,50 @@ services:
         arguments:
             - !tagged_iterator { tag: 'sdk.cli_value_receiver_factory', default_index_method: 'getType' }
 
-    cli_receiver_setup_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\CliReceiverSetupListener
+    api_exception_listener:
+        class: SprykerSdk\Sdk\Infrastructure\EventListener\ApiExceptionListener
+        arguments:
+            - "%kernel.debug%"
+            - "@logger"
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.exception,
+                method: onKernelException,
+                priority: 256
+            }
+
+    json_request_transformer_listener:
+        class: SprykerSdk\Sdk\Infrastructure\EventListener\JsonRequestListener
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.request,
+                method: onKernelRequest,
+                priority: 256
+            }
+        arguments:
+            - ['json']
+    application_receiver_setup_listener:
+        class: SprykerSdk\Sdk\Infrastructure\EventListener\ApplicationReceiverSetupListener
         tags:
             - {
                 name: kernel.event_listener,
                 event: console.command,
                 method: beforeConsoleCommand,
+            }
+            - {
+                name: kernel.event_listener,
+                event: kernel.request,
+                method: onKernelRequest,
             }
         arguments:
             - !tagged_iterator sdk.cli_receiver_setup
-    cli_runner_setup_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\CliRunnerSetupListener
-        tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: beforeConsoleCommand,
-            }
-        arguments:
-            - "@local_cli_command_runner"
-
+            - "@api_interaction_processor"
+            - "@cli_interaction_processor"
+            - "%kernel.project_dir%"
     value_receiver:
-        alias: "cli_interaction_processor"
+        alias: "interaction_processor"
     autoloader_service:
         class: SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService
         arguments:
@@ -224,7 +252,7 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Service\ValueResolverRegistry
         arguments:
             - "@setting_repository"
-            - "@value_receiver"
+            - "@interaction_processor"
             - !tagged_iterator sdk.value_resolver
             - "@autoloader_service"
             - "%kernel.project_dir%"
@@ -373,23 +401,21 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
         arguments:
             - '@placeholder_resolver'
+            - "@sdk_filesystem"
     app.event_listener.request_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\CliSqliteListener
+        class: SprykerSdk\Sdk\Infrastructure\EventListener\SqliteSettingListener
         arguments:
             - "@doctrine"
         tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: beforeConsoleCommand,
-            }
+            - { name: kernel.event_listener, event: console.command, method: beforeConsoleCommand, priority: 1024 }
+            - { name: kernel.event_listener, event: kernel.request, method: beforeConsoleCommand, priority: 1024 }
 
     app.workflow.guard_listener:
         class: SprykerSdk\Sdk\Core\Application\Service\WorkflowEventListener
         arguments:
             - "@service_container"
+            - "@interaction_processor"
         tags:
-            - { name: kernel.event_listener, event: console.command, method: setup }
             - { name: kernel.event_listener, event: workflow.guard, method: handle }
             - { name: kernel.event_listener, event: workflow.leave, method: handle }
             - { name: kernel.event_listener, event: workflow.entered, method: handle }
@@ -421,12 +447,13 @@ services:
         arguments:
             - "%kernel.project_dir%/.gitmodules"
             - "@logger"
+            - "%kernel.project_dir%"
 
     workflow_runner:
         class: SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner
         tags: [ "sdk.cli_receiver_setup" ]
         arguments:
-            - "@cli_interaction_processor"
+            - "@interaction_processor"
             - "@service_container"
             - "@context_factory"
 
@@ -540,11 +567,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: console.terminate }
             - { name: kernel.event_listener, event: console.error }
-
-    request.json_content_listener:
-        class: SprykerSdk\Sdk\Infrastructure\Event\Request\JsonRequestListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
 
     context.in_memory_cache_storage:
         class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage

@@ -48,4 +48,12 @@ class NamespaceValueResolver extends OriginValueResolver
     {
         return array_merge($settingValues[Setting::PATH_PROJECT_NAMESPACES], $settingValues[Setting::PATH_CORE_NAMESPACES]);
     }
+
+    /**
+     * @return string|null
+     */
+    public function getAlias(): ?string
+    {
+        return 'namespace';
+    }
 }
