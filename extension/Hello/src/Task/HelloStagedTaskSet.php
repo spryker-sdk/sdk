@@ -139,7 +139,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                             '%foo%',
                             StaticValueResolver::class,
                             [
-                                'name' => 'foo',
+                                'alias' => 'foo',
                                 'defaultValue' => 'FOO',
                                 'description' => 'Foo description',
                             ],
@@ -274,7 +274,7 @@ class HelloStagedTaskSet implements TaskSetInterface
                             '%bar%',
                             StaticValueResolver::class,
                             [
-                                'name' => 'bar',
+                                'alias' => 'bar',
                                 'defaultValue' => 'BAR',
                                 'description' => 'Bar description',
                             ],
