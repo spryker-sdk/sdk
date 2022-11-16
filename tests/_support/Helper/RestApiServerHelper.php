@@ -42,7 +42,7 @@ class RestApiServerHelper extends Module
             __DIR__ . '/../../../public',
         );
 
-        $process = Process::fromShellCommandline($command);
+        $process = Process::fromShellCommandline($command, null, ['PROJECT_DIR' => __DIR__ . '/../../../']);
         $process->start();
         $this->serverProcess = $process;
         usleep(100000);
