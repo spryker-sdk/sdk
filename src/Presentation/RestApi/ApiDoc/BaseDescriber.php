@@ -75,8 +75,8 @@ abstract class BaseDescriber implements DescriberInterface
 
         $dataProperty = DescriberHelper::getDataProperty($schema);
         $attributesProperty = DescriberHelper::getAttributesProperty($dataProperty);
-        DescriberHelper::getIdProperty($dataProperty);
-        DescriberHelper::getTypeProperty($dataProperty);
+        DescriberHelper::addIdProperty($dataProperty);
+        DescriberHelper::addTypeProperty($dataProperty);
 
         $requiredArgumentProperties = $this->createPropertiesFromArguments($command, $attributesProperty);
         $this->createPropertiesFromOptions($command, $attributesProperty);
@@ -106,8 +106,8 @@ abstract class BaseDescriber implements DescriberInterface
 
         $responseDataProperty = DescriberHelper::getDataProperty($responseSchema);
         DescriberHelper::getAttributesProperty($responseDataProperty);
-        DescriberHelper::getIdProperty($responseDataProperty);
-        DescriberHelper::getTypeProperty($responseDataProperty);
+        DescriberHelper::addIdProperty($responseDataProperty);
+        DescriberHelper::addTypeProperty($responseDataProperty);
 
         return $response;
     }
@@ -133,9 +133,9 @@ abstract class BaseDescriber implements DescriberInterface
         /** @var \OpenApi\Annotations\Schema $responseSchema */
         $responseSchema = Util::getChild($content[static::JSON_TYPE], Schema::class);
 
-        DescriberHelper::getCodeProperty($responseSchema);
-        DescriberHelper::getStatusProperty($responseSchema);
-        DescriberHelper::getDetailsProperty($responseSchema);
+        DescriberHelper::addCodeProperty($responseSchema);
+        DescriberHelper::addStatusProperty($responseSchema);
+        DescriberHelper::addDetailsProperty($responseSchema);
 
         return $errorResponse;
     }

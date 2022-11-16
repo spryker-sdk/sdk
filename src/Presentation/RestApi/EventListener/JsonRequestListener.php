@@ -52,9 +52,9 @@ class JsonRequestListener
             return;
         }
 
-        $jsonResponse = $this->jsonSchemaValidator->validate($request);
-        if ($jsonResponse) {
-            $event->setResponse($jsonResponse);
+        $errorResponse = $this->jsonSchemaValidator->validate($request);
+        if ($errorResponse) {
+            $event->setResponse($errorResponse);
         }
     }
 

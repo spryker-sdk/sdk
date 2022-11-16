@@ -29,10 +29,12 @@ class JsonSchemaValidator
 
     /**
      * @param \JsonSchema\Validator $validator
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
      */
-    public function __construct(Validator $validator)
+    public function __construct(Validator $validator, ResponseBuilder $responseBuilder)
     {
         $this->validator = $validator;
+        $this->responseBuilder = $responseBuilder;
     }
 
     /**
