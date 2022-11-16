@@ -103,7 +103,7 @@ class VcsCloneTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'sdk:git:clone';
+        return 'sdk:vcs:clone';
     }
 
     /**
