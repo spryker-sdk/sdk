@@ -5,37 +5,34 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Core\Application\Lifecycle\Subscriber;
+namespace Sdk\Unit\Infrastructure\Lifecycle\Subscriber;
 
 use Codeception\Test\Unit;
-use Doctrine\Common\Collections\ArrayCollection;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent as SubscriberRemovedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Infrastructure\Entity\Lifecycle as InfrastructureLifecycle;
-use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent as InfrastructureRemovedEvent;
+use SprykerSdk\Sdk\Infrastructure\Entity\RemovedEvent;
 use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber\InitializedEventSubscriber;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group Sdk
  * @group Unit
- * @group Core
- * @group Application
+ * @group Infrastructure
  * @group Lifecycle
  * @group Subscriber
- * @group RemovedEventSubscriberTest
+ * @group InitializedEventSubscriberTest
  * Add your own group annotations below this line
  */
-class RemovedEventSubscriberTest extends Unit
+class InitializedEventSubscriberTest extends Unit
 {
     /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester
@@ -43,9 +40,9 @@ class RemovedEventSubscriberTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber
+     * @var \SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber\InitializedEventSubscriber
      */
-    protected RemovedEventSubscriber $subscriber;
+    protected InitializedEventSubscriber $subscriber;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
@@ -79,7 +76,7 @@ class RemovedEventSubscriberTest extends Unit
         $this->commandExecutor = $this->createMock(CommandExecutorInterface::class);
         $this->contextFactory = $this->createMock(ContextFactoryInterface::class);
 
-        $this->subscriber = new RemovedEventSubscriber(
+        $this->subscriber = new InitializedEventSubscriber(
             $this->filesystem,
             $this->placeholderResolver,
             $this->commandExecutor,
@@ -94,11 +91,11 @@ class RemovedEventSubscriberTest extends Unit
     {
         // Arrange
         $events = [
-            SubscriberRemovedEvent::NAME => 'onRemovedEvent',
+            InitializedEvent::NAME => 'onInitializedEvent',
         ];
 
         // Act
-        $result = RemovedEventSubscriber::getSubscribedEvents();
+        $result = InitializedEventSubscriber::getSubscribedEvents();
 
         // Assert
         $this->assertIsArray($result);
@@ -108,11 +105,11 @@ class RemovedEventSubscriberTest extends Unit
     /**
      * @return void
      */
-    public function testOnRemovedEventShouldRemoveFilesAndExecuteCommands(): void
+    public function testOnInitializedEventShouldCreateFilesAndExecuteCommands(): void
     {
         // Arrange
-        $command = $this->tester->createInfrastructureCommand();
-        $file = $this->tester->createInfrastructureFile('/foo/%path%', 'content');
+        $command = $this->tester->createCommand();
+        $file = $this->tester->createFile('/foo/%path%', 'content');
 
         $placeholderConfig = [
             'name' => 'path',
@@ -120,7 +117,7 @@ class RemovedEventSubscriberTest extends Unit
             'type' => 'path',
         ];
 
-        $placeholder = $this->tester->createInfrastructurePlaceholder(
+        $placeholder = $this->tester->createPlaceholder(
             'path',
             'STATIC',
             false,
@@ -131,19 +128,18 @@ class RemovedEventSubscriberTest extends Unit
         $commands = [$command];
         $placeholders = [$placeholder];
 
-        $removedEvent = new InfrastructureRemovedEvent();
-        $removedEvent->setPlaceholders(new ArrayCollection($placeholders));
-        $removedEvent->setFiles(new ArrayCollection($files));
-        $removedEvent->setCommands(new ArrayCollection($commands));
+        $lifecycle = new Lifecycle(
+            new InitializedEventData($commands, $placeholders, $files),
+            new UpdatedEventData(),
+            new RemovedEventData(),
+        );
 
-        $lifecycle = new InfrastructureLifecycle($removedEvent);
-
-        $task = $this->tester->createInfrastructureTask($lifecycle);
-        $event = new SubscriberRemovedEvent($task);
+        $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
+        $event = new InitializedEvent($task);
 
         $this->filesystem
             ->expects($this->exactly(count($files)))
-            ->method('remove');
+            ->method('dumpFile');
 
         $this->commandExecutor
             ->expects($this->exactly(count($commands)))
@@ -157,23 +153,23 @@ class RemovedEventSubscriberTest extends Unit
             ]);
 
         // Act
-        $this->subscriber->onRemovedEvent($event);
+        $this->subscriber->onInitializedEvent($event);
     }
 
     /**
      * @return void
      */
-    public function testOnRemovedEventWithIncorrectLifecycleShouldDoNothing(): void
+    public function testOnInitializedEventWithIncorrectLifecycleShouldDoNothing(): void
     {
         // Arrange
-        $lifecycle = new Lifecycle(new InitializedEventData(), new UpdatedEventData(), new RemovedEventData());
+        $lifecycle = new InfrastructureLifecycle(new RemovedEvent());
 
-        $task = $this->tester->createInfrastructureTask($lifecycle);
-        $event = new SubscriberRemovedEvent($task);
+        $task = $this->tester->createTask(['lifecycle' => $lifecycle]);
+        $event = new InitializedEvent($task);
 
         $this->filesystem
             ->expects($this->never())
-            ->method('remove');
+            ->method('dumpFile');
 
         $this->commandExecutor
             ->expects($this->never())
@@ -184,6 +180,6 @@ class RemovedEventSubscriberTest extends Unit
             ->method('resolvePlaceholders');
 
         // Act
-        $this->subscriber->onRemovedEvent($event);
+        $this->subscriber->onInitializedEvent($event);
     }
 }

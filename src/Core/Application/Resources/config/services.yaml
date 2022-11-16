@@ -83,33 +83,6 @@ services:
             - "@project_setting_repository"
             - "@setting_repository"
 
-    lifecycle.initialized_subscriber:
-        class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\InitializedEventSubscriber
-        tags: [ "kernel.event_subscriber" ]
-        arguments:
-            - "@sdk_filesystem"
-            - "@placeholder_resolver"
-            - "@service.lifecycle_command_executor"
-            - "@context_factory"
-
-    lifecycle.removed_subscriber:
-        class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\UpdatedEventSubscriber
-        tags: [ "kernel.event_subscriber" ]
-        arguments:
-            - "@sdk_filesystem"
-            - "@placeholder_resolver"
-            - "@service.lifecycle_command_executor"
-            - "@context_factory"
-
-    lifecycle.updated_subscriber:
-        class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber
-        tags: [ "kernel.event_subscriber" ]
-        arguments:
-            - "@sdk_filesystem"
-            - "@placeholder_resolver"
-            - "@service.lifecycle_command_executor"
-            - "@context_factory"
-
     log_event_action_after_command_executed:
         class: SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction\LogEventAction
         arguments:

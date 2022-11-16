@@ -749,3 +749,30 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Version\FileAppVersionFetcher
         arguments:
             - "%kernel.project_dir%"
+
+    lifecycle.initialized_subscriber:
+        class: SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber\InitializedEventSubscriber
+        tags: [ "kernel.event_subscriber" ]
+        arguments:
+            - "@sdk_filesystem"
+            - "@placeholder_resolver"
+            - "@service.lifecycle_command_executor"
+            - "@context_factory"
+
+    lifecycle.removed_subscriber:
+        class: SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber\UpdatedEventSubscriber
+        tags: [ "kernel.event_subscriber" ]
+        arguments:
+            - "@sdk_filesystem"
+            - "@placeholder_resolver"
+            - "@service.lifecycle_command_executor"
+            - "@context_factory"
+
+    lifecycle.updated_subscriber:
+        class: SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber\RemovedEventSubscriber
+        tags: [ "kernel.event_subscriber" ]
+        arguments:
+            - "@sdk_filesystem"
+            - "@placeholder_resolver"
+            - "@service.lifecycle_command_executor"
+            - "@context_factory"

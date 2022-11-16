@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber;
+namespace SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber;
 
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
+class InitializedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
     /**
      * @return array<string, mixed>
@@ -20,28 +20,28 @@ class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSu
     public static function getSubscribedEvents(): array
     {
         return [
-            UpdatedEvent::NAME => 'onUpdatedEvent',
+            InitializedEvent::NAME => 'onInitializedEvent',
         ];
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent $event
+     * @param \SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent $event
      *
      * @return void
      */
-    public function onUpdatedEvent(UpdatedEvent $event): void
+    public function onInitializedEvent(InitializedEvent $event): void
     {
         $lifecycle = $event->getTask()->getLifecycle();
         if (!$lifecycle instanceof TaskLifecycleInterface) {
             return;
         }
 
-        $updatedEvent = $lifecycle->getUpdatedEventData();
-        $context = $this->createContext($updatedEvent, $event->getTask());
+        $initializedEvent = $lifecycle->getInitializedEventData();
+        $context = $this->createContext($initializedEvent, $event->getTask());
 
-        $this->manageFiles($updatedEvent->getFiles(), $context);
+        $this->manageFiles($initializedEvent->getFiles(), $context);
 
-        $this->executeCommands($updatedEvent->getCommands(), $context);
+        $this->executeCommands($initializedEvent->getCommands(), $context);
     }
 
     /**
