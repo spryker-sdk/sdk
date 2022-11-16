@@ -69,6 +69,16 @@ abstract class AbstractRegistry implements RegistryInterface
     }
 
     /**
+     * @return array<string, T>
+     */
+    public function getAll(): array
+    {
+        $this->load();
+
+        return $this->items;
+    }
+
+    /**
      * @param string $name
      *
      * @return T|null

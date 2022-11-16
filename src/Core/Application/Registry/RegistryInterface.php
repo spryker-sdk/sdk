@@ -22,9 +22,16 @@ interface RegistryInterface
     /**
      * @param string $name
      *
+     * @throws \InvalidArgumentException
+     *
      * @return T
      */
     public function get(string $name): RegistryItemInterface;
+
+    /**
+     * @return array<string, T>
+     */
+    public function getAll(): array;
 
     /**
      * @param string $name

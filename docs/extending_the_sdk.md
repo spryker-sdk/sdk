@@ -378,7 +378,7 @@ spryker-sdk sdk:generate:task task-format=yaml
 spryker-sdk sdk:generate:task task-format=php
 ```
 
-After execution of the command task should be created in such directories:
+After execution of the command task will be created in such directories:
 - `extension/Custom/src/Resources/config/task` - for yaml tasks
 - `extension/Custom/src/Task` - for php tasks
 
