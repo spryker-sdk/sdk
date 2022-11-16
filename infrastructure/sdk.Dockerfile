@@ -3,6 +3,7 @@ ARG SPRYKER_PARENT_IMAGE=spryker/php:8.0
 FROM ${SPRYKER_PARENT_IMAGE} AS application-production-dependencies
 
 USER root
+
 RUN apk update \
     && apk add --no-cache \
     curl \
@@ -23,7 +24,7 @@ RUN chown spryker:spryker ${srcRoot}
 ARG USER_UID
 RUN if [[ ! -z "${USER_UID}" ]]; then \
         usermod -u "${USER_UID}" spryker; \
-    fi \
+    fi
 
 USER spryker
 # Authorize SSH Host
