@@ -59,7 +59,7 @@ class VcsCloneCommand implements ExecutableCommandInterface
             $this->vcsConfigurationResolver
                 ->resolve((string)$resolvedValues['%vcs%'])
                 ->clone(
-                    $this->sdkPath . DIRECTORY_SEPARATOR . 'var',
+                    $this->sdkPath . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'tmp',
                     (string)$resolvedValues['%vcs_repository%'],
                 );
         } catch (AdapterDoesNotExistException $exception) {
