@@ -5,19 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Unit\Core\Application\Lifecycle\Event;
+namespace Sdk\Unit\Infrastructure\Lifecycle\Event;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group Sdk
  * @group Unit
- * @group Core
- * @group Application
+ * @group Infrastructure
  * @group Lifecycle
  * @group Event
  * @group InitializedEventTest

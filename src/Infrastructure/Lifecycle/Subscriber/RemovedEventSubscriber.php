@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber;
+namespace SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber;
 
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\PersistentLifecycleInterface;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\RemovedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
@@ -25,7 +25,7 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent $event
+     * @param \SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\RemovedEvent $event
      *
      * @return void
      */
@@ -51,6 +51,6 @@ class RemovedEventSubscriber extends LifecycleEventSubscriber implements EventSu
      */
     protected function doManageFile(FileInterface $file): void
     {
-        $this->fileManager->remove($file);
+        $this->filesystem->remove($file->getPath());
     }
 }

@@ -59,6 +59,8 @@ class ApiExceptionListener
                     (string)Response::HTTP_BAD_REQUEST,
                 ),
             );
+
+            return;
         }
 
         $this->logger->error($exception->getMessage());

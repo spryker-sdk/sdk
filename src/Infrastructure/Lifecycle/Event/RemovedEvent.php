@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Lifecycle\Event;
+namespace SprykerSdk\Sdk\Infrastructure\Lifecycle\Event;
 
-class InitializedEvent extends LifecycleEvent
+class RemovedEvent extends LifecycleEvent
 {
     /**
      * @var string
      */
-    public const NAME = 'sdk.initialized';
+    public const NAME = 'sdk.removed';
 }

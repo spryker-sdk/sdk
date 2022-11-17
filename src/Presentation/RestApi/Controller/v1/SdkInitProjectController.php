@@ -7,12 +7,25 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
-use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiType;
+use SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class SdkInitProjectController extends BaseController
 {
+    /**
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor
+     */
+    protected SdkInitProjectProcessor $sdkInitProjectProcessor;
+
+    /**
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor $sdkInitProjectProcessor
+     */
+    public function __construct(SdkInitProjectProcessor $sdkInitProjectProcessor)
+    {
+        $this->sdkInitProjectProcessor = $sdkInitProjectProcessor;
+    }
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
@@ -20,6 +33,6 @@ class SdkInitProjectController extends BaseController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return $this->createSuccessResponse(OpenApiType::SDK_INIT_PROJECT, OpenApiType::SDK_INIT_PROJECT, $request->request->all());
+        return $this->sdkInitProjectProcessor->process($request);
     }
 }
