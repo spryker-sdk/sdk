@@ -11,4 +11,4 @@ Use the following commands for tasks:
 
 ## Where to find cloned project
 
-All project will be cloned in temporary `var` directory.
+All project will be cloned in temporary `var/tmp` directory.
