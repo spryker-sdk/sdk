@@ -37,6 +37,7 @@ class SdkUpdateSdkControllerCest
      */
     public function iSeeJsonResponseAfterCallSdkUpdateSdkEndpoint(AcceptanceTester $I): void
     {
+        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
                 OpenApiField::TYPE => 'sdk-update-sdk',

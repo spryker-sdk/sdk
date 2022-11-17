@@ -37,6 +37,7 @@ class RunTaskControllerCest
      */
     public function iSeeJsonResponseAfterCallRunTaskEndpoint(AcceptanceTester $I): void
     {
+        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
                 OpenApiField::TYPE => 'run-task',
@@ -60,5 +61,25 @@ class RunTaskControllerCest
                 ],
             ],
         ]);
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
+    public function iSeeBadRequestAfterCallRunTaskEndpoint(AcceptanceTester $I): void
+    {
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPost(static::ENDPOINT, [
+            OpenApiField::DATA => [
+                OpenApiField::TYPE => 'run-task',
+                OpenApiField::ID => 'hello:world',
+                OpenApiField::ATTRIBUTES => [
+                    'world' => 'World',
+                ],
+            ],
+        ]);
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }
 }

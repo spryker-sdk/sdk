@@ -48,7 +48,7 @@ class SdkInitProjectProcessor
         $data = $request->request->get(OpenApiField::DATA);
         $projectSettingsInitDto = new ProjectSettingsInitDto(
             $data[OpenApiField::ATTRIBUTES],
-            (bool)$request->request->get('default', false),
+            $request->request->getBoolean('default'),
         );
 
         $this->projectSettingsInitializer->initialize($projectSettingsInitDto);

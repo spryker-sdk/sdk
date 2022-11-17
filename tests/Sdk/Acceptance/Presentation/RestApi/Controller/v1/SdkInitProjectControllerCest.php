@@ -37,6 +37,7 @@ class SdkInitProjectControllerCest
      */
     public function iSeeJsonResponseAfterCallSdkInitProjectEndpoint(AcceptanceTester $I): void
     {
+        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
                 OpenApiField::TYPE => 'sdk-init-project',
@@ -50,5 +51,23 @@ class SdkInitProjectControllerCest
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
         $I->seeResponseContainsJson([]);
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
+    public function iSeeBadRequestAfterCallSdkInitProjectEndpoint(AcceptanceTester $I): void
+    {
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPost(static::ENDPOINT, [
+            OpenApiField::DATA => [
+                OpenApiField::TYPE => 'sdk-init-project',
+                OpenApiField::ID => 'sdk-init-project',
+            ],
+        ]);
+
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }
 }
