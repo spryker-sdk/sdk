@@ -12,12 +12,12 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
+use Traversable;
 
-class GenerateAppTask implements TaskInterface
+class VcsCloneTask implements TaskInterface
 {
     /**
      * @var array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
@@ -25,11 +25,20 @@ class GenerateAppTask implements TaskInterface
     protected array $commands = [];
 
     /**
-     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     * @var array<string, \VcsConnector\Adapter\VcsInterface>
      */
-    public function __construct(array $commands)
+    protected array $vcsAdapters = [];
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\CommandInterface> $commands
+     * @param iterable<string, \VcsConnector\Adapter\VcsInterface> $vcsAdapters
+     */
+    public function __construct(array $commands, iterable $vcsAdapters)
     {
         $this->commands = $commands;
+        $this->vcsAdapters = $vcsAdapters instanceof Traversable
+            ? iterator_to_array($vcsAdapters)
+            : $vcsAdapters;
     }
 
     /**
@@ -39,7 +48,7 @@ class GenerateAppTask implements TaskInterface
      */
     public function getShortDescription(): string
     {
-        return 'Generate a new App project';
+        return 'Clone project';
     }
 
     /**
@@ -49,40 +58,30 @@ class GenerateAppTask implements TaskInterface
      */
     public function getPlaceholders(): array
     {
+        $vcsList = array_flip(array_keys($this->vcsAdapters));
+
         return [
             new Placeholder(
-                '%sdk_dir%',
-                'SDK_DIR',
-                [],
-                true,
-            ),
-            new Placeholder(
-                '%boilerplate_url%',
-                'APP_TYPE',
-            ),
-            new Placeholder(
-                '%app_name%',
-                'STATIC',
+                '%vcs_repository%',
+                'ORIGIN',
                 [
-                    'alias' => 'app-name',
-                    'description' => 'Input name for new App',
+                    'description' => 'Repository link',
                     'type' => ValueTypeEnum::TYPE_STRING,
+                    'alias' => 'vcs_repository',
                 ],
+                false,
             ),
             new Placeholder(
-                '%project_url%',
-                'STATIC',
+                '%vcs%',
+                'ORIGIN',
                 [
-                    'alias' => 'project_url',
-                    'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
+                    'choiceValues' => array_keys($vcsList),
+                    'defaultValue' => array_key_first($vcsList),
+                    'description' => 'Select VCS',
                     'type' => ValueTypeEnum::TYPE_STRING,
+                    'alias' => 'vcs',
                 ],
-            ),
-            new Placeholder(
-                '%' . AppPhpVersionValueResolver::VALUE_NAME . '%',
-                AppPhpVersionValueResolver::VALUE_RESOLVER_NAME,
-                [],
-                true,
+                false,
             ),
         ];
     }
@@ -104,7 +103,7 @@ class GenerateAppTask implements TaskInterface
      */
     public function getId(): string
     {
-        return 'generate:php:app';
+        return 'vcs:clone';
     }
 
     /**
