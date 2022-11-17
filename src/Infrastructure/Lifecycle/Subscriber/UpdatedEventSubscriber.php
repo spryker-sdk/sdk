@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber;
+namespace SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber;
 
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\TaskLifecycleInterface;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\UpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class InitializedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
+class UpdatedEventSubscriber extends LifecycleEventSubscriber implements EventSubscriberInterface
 {
     /**
      * @return array<string, mixed>
@@ -20,28 +20,28 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
     public static function getSubscribedEvents(): array
     {
         return [
-            InitializedEvent::NAME => 'onInitializedEvent',
+            UpdatedEvent::NAME => 'onUpdatedEvent',
         ];
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent $event
+     * @param \SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\UpdatedEvent $event
      *
      * @return void
      */
-    public function onInitializedEvent(InitializedEvent $event): void
+    public function onUpdatedEvent(UpdatedEvent $event): void
     {
         $lifecycle = $event->getTask()->getLifecycle();
         if (!$lifecycle instanceof TaskLifecycleInterface) {
             return;
         }
 
-        $initializedEvent = $lifecycle->getInitializedEventData();
-        $context = $this->createContext($initializedEvent, $event->getTask());
+        $updatedEvent = $lifecycle->getUpdatedEventData();
+        $context = $this->createContext($updatedEvent, $event->getTask());
 
-        $this->manageFiles($initializedEvent->getFiles(), $context);
+        $this->manageFiles($updatedEvent->getFiles(), $context);
 
-        $this->executeCommands($initializedEvent->getCommands(), $context);
+        $this->executeCommands($updatedEvent->getCommands(), $context);
     }
 
     /**
@@ -51,6 +51,6 @@ class InitializedEventSubscriber extends LifecycleEventSubscriber implements Eve
      */
     protected function doManageFile(FileInterface $file): void
     {
-        $this->fileManager->create($file);
+        $this->filesystem->dumpFile($file->getPath(), $file->getContent());
     }
 }

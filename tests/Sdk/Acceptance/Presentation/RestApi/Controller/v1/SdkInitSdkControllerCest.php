@@ -35,8 +35,9 @@ class SdkInitSdkControllerCest
      *
      * @return void
      */
-    public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
+    public function iSeeJsonResponseAfterCallSdkInitSdkEndpoint(AcceptanceTester $I): void
     {
+        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
                 OpenApiField::TYPE => 'sdk-init-sdk',

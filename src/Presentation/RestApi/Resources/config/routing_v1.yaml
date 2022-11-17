@@ -2,10 +2,6 @@ index:
     path: /
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController
     methods: GET|POST
-init_sdk_controller:
-    path: /init
-    controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController
-    methods: POST
 sdk_update_sdk_controller:
     path: /sdk-update-sdk
     controller: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController

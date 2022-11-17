@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Lifecycle\Event;
+namespace SprykerSdk\Sdk\Infrastructure\Lifecycle\Event;
 
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\Event;

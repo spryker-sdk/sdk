@@ -5,25 +5,25 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber;
+namespace SprykerSdk\Sdk\Infrastructure\Lifecycle\Subscriber;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\File;
 use SprykerSdk\Sdk\Core\Domain\Entity\FileInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\SdkContracts\Entity\ContextInterface as ContractContextInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 abstract class LifecycleEventSubscriber
 {
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
-    protected FileManagerInterface $fileManager;
+    protected Filesystem $filesystem;
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver
@@ -41,18 +41,18 @@ abstract class LifecycleEventSubscriber
     protected ContextFactoryInterface $contextFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\FileManagerInterface $fileManager
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      * @param \SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver $placeholderResolver
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface $commandExecutor
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      */
     public function __construct(
-        FileManagerInterface $fileManager,
+        Filesystem $filesystem,
         PlaceholderResolver $placeholderResolver,
         CommandExecutorInterface $commandExecutor,
         ContextFactoryInterface $contextFactory
     ) {
-        $this->fileManager = $fileManager;
+        $this->filesystem = $filesystem;
         $this->placeholderResolver = $placeholderResolver;
         $this->commandExecutor = $commandExecutor;
         $this->contextFactory = $contextFactory;
