@@ -9,9 +9,8 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\Validator\Json;
 
 use JsonException;
 use JsonSchema\Validator;
-use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use SprykerSdk\Sdk\Presentation\RestApi\Exception\InvalidJsonSchemaException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,33 +22,28 @@ class JsonSchemaValidator
     protected Validator $validator;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
-     */
-    protected ResponseBuilder $responseBuilder;
-
-    /**
      * @param \JsonSchema\Validator $validator
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
      */
-    public function __construct(Validator $validator, ResponseBuilder $responseBuilder)
+    public function __construct(Validator $validator)
     {
         $this->validator = $validator;
-        $this->responseBuilder = $responseBuilder;
     }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|null
+     * @throws \SprykerSdk\Sdk\Presentation\RestApi\Exception\InvalidJsonSchemaException
+     *
+     * @return void
      */
-    public function validate(Request $request): ?JsonResponse
+    public function validate(Request $request): void
     {
         try {
             $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
 
             $validationData = json_decode((string)$request->getContent(), false, 512, \JSON_THROW_ON_ERROR);
         } catch (JsonException $exception) {
-            return $this->responseBuilder->buildErrorResponse(
+            throw new InvalidJsonSchemaException(
                 ['Invalid request.'],
                 Response::HTTP_BAD_REQUEST,
                 (string)Response::HTTP_BAD_REQUEST,
@@ -62,12 +56,12 @@ class JsonSchemaValidator
         if (!$errors) {
             $request->request->replace($data);
 
-            return null;
+            return;
         }
 
         $details = array_map(fn (array $error): string => $error['message'], $errors);
 
-        return $this->responseBuilder->buildErrorResponse(
+        throw new InvalidJsonSchemaException(
             $details,
             Response::HTTP_BAD_REQUEST,
             (string)Response::HTTP_BAD_REQUEST,

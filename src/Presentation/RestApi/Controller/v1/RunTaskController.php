@@ -35,6 +35,6 @@ class RunTaskController extends BaseController
     {
         $responseData = $this->runTaskProcessor->process($task);
 
-        return $this->buildResponse($task, OpenApiType::RUN_TASK, $responseData);
+        return $this->createSuccessResponse($task, OpenApiType::RUN_TASK, $responseData);
     }
 }

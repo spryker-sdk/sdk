@@ -33,6 +33,6 @@ class IndexController extends BaseController
     {
         $version = $this->appVersionFetcher->fetchAppVersion();
 
-        return $this->buildResponse($version, OpenApiType::VERSION, ['version' => $version]);
+        return $this->createSuccessResponse($version, OpenApiType::VERSION, ['version' => $version]);
     }
 }

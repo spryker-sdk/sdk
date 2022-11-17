@@ -19,7 +19,7 @@ class ResponseBuilder
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function buildResponse(string $id, string $type, array $attributes): JsonResponse
+    public function createSuccessResponse(string $id, string $type, array $attributes): JsonResponse
     {
         return new JsonResponse([
             OpenApiField::DATA => [
@@ -37,7 +37,7 @@ class ResponseBuilder
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function buildErrorResponse(array $details, int $code, string $status): JsonResponse
+    public function createErrorResponse(array $details, int $code, string $status): JsonResponse
     {
         return new JsonResponse([
             OpenApiField::DETAILS => $details,

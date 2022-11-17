@@ -1,6 +1,11 @@
 parameters: ~
 
 services:
+    _instanceof:
+        SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\BaseController:
+            calls:
+                - ['setResponseBuilder', ['@response.builder']]
+
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
         public: true
         arguments:

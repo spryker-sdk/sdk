@@ -18,7 +18,7 @@ class RunTaskDescriber extends BaseDescriber
     protected const RUN_TASK_ROUTE = '/api/v1/task/%s';
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected const OPERATION_TAGS = ['Tasks'];
 

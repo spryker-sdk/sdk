@@ -10,6 +10,7 @@ namespace Sdk\Unit\Presentation\RestApi\Validator\Json;
 use Codeception\Test\Unit;
 use JsonSchema\Validator;
 use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
+use SprykerSdk\Sdk\Presentation\RestApi\Exception\InvalidJsonSchemaException;
 use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,7 +49,7 @@ class JsonSchemaValidatorTest extends Unit
     /**
      * @return void
      */
-    public function testValidateWithValidBodyShouldReturnNull(): void
+    public function testValidateWithValidBodyShouldNotThrowException(): void
     {
         // Arrange
         $this->validator
@@ -71,16 +72,13 @@ class JsonSchemaValidatorTest extends Unit
         $request = new Request([], [], [], [], [], [], $jsonBody);
 
         // Act
-        $errorResponse = $this->jsonSchemaValidator->validate($request);
-
-        // Assert
-        $this->assertNull($errorResponse);
+        $this->jsonSchemaValidator->validate($request);
     }
 
     /**
      * @return void
      */
-    public function testValidateWithInvalidBodyShouldReturnJsonResponse(): void
+    public function testValidateWithInvalidBodyShouldThrowException(): void
     {
         // Arrange
         $expectedMessage = 'Property "attributes" is required.';
@@ -104,12 +102,10 @@ class JsonSchemaValidatorTest extends Unit
 
         $request = new Request([], [], [], [], [], [], $jsonBody);
 
+        $this->expectException(InvalidJsonSchemaException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
         // Act
-        $errorResponse = $this->jsonSchemaValidator->validate($request);
-
-        // Assert
-        $parsedContent = json_decode($errorResponse->getContent(), true);
-
-        $this->assertSame($expectedMessage, $parsedContent['details'][0]);
+        $this->jsonSchemaValidator->validate($request);
     }
 }

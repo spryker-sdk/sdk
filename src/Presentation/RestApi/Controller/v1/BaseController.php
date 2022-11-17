@@ -13,15 +13,30 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 abstract class BaseController
 {
     /**
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     */
+    protected ResponseBuilder $responseBuilder;
+
+    /**
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
+     *
+     * @return void
+     */
+    public function setResponseBuilder(ResponseBuilder $responseBuilder): void
+    {
+        $this->responseBuilder = $responseBuilder;
+    }
+
+    /**
      * @param string $id
      * @param string $type
      * @param array $attributes
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function buildResponse(string $id, string $type, array $attributes = []): JsonResponse
+    public function createSuccessResponse(string $id, string $type, array $attributes = []): JsonResponse
     {
-        return (new ResponseBuilder())->buildResponse($id, $type, $attributes);
+        return $this->responseBuilder->createSuccessResponse($id, $type, $attributes);
     }
 
     /**
@@ -31,8 +46,8 @@ abstract class BaseController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function buildErrorResponse(array $details, int $code, string $status): JsonResponse
+    public function createErrorResponse(array $details, int $code, string $status): JsonResponse
     {
-        return (new ResponseBuilder())->buildErrorResponse($details, $code, $status);
+        return $this->responseBuilder->createErrorResponse($details, $code, $status);
     }
 }

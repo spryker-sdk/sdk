@@ -36,6 +36,6 @@ class SdkInitSdkController extends BaseController
     {
         $this->initializerService->initialize($request->request->all());
 
-        return $this->buildResponse(OpenApiType::SDK_INIT_SDK, OpenApiType::SDK_INIT_SDK);
+        return $this->createSuccessResponse(OpenApiType::SDK_INIT_SDK, OpenApiType::SDK_INIT_SDK);
     }
 }

@@ -64,7 +64,7 @@ class SdkUpdateSdkProcessor
             try {
                 $messages = $this->lifecycleManager->checkForUpdate();
             } catch (SdkVersionNotFoundException $exception) {
-                return $this->responseBuilder->buildErrorResponse(
+                return $this->responseBuilder->createErrorResponse(
                     [$exception->getMessage()],
                     Response::HTTP_BAD_REQUEST,
                     (string)Response::HTTP_BAD_REQUEST,
@@ -78,7 +78,7 @@ class SdkUpdateSdkProcessor
 
         $result = array_map(fn (MessageInterface $message): string => $message->getMessage(), $messages);
 
-        return $this->responseBuilder->buildResponse(
+        return $this->responseBuilder->createSuccessResponse(
             OpenApiType::SDK_UPDATE_SDK,
             OpenApiType::SDK_UPDATE_SDK,
             ['messages' => $result],
