@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2efaa22916e21ea7cea6823cd01779c7",
+    "content-hash": "fd4ca5052a6e8b8e72c4598a133bafd0",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6431,16 +6431,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-1110-task-generator-phase-2",
+            "version": "0.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "1ed78f82ed81d4a778b19ccd1f7af52840f4a97b"
+                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/1ed78f82ed81d4a778b19ccd1f7af52840f4a97b",
-                "reference": "1ed78f82ed81d4a778b19ccd1f7af52840f4a97b",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
+                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
                 "shasum": ""
             },
             "require": {
@@ -6464,9 +6464,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-1110-task-generator-phase-2"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.5"
             },
-            "time": "2022-11-11T10:22:05+00:00"
+            "time": "2022-10-28T11:51:05+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -15452,12 +15452,6 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-1110-task-generator-phase-2",
-            "alias": "0.4.5",
-            "alias_normalized": "0.4.5.0"
-        },
-        {
             "package": "spryker-sdk/spryk",
             "version": "9999999-dev",
             "alias": "0.4.6",
@@ -15467,7 +15461,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/spryk": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
