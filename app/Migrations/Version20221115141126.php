@@ -11,7 +11,7 @@ final class Version20221115141126 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Added `force_ask_value` column.';
     }
 
     public function up(Schema $schema): void

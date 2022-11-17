@@ -50,7 +50,8 @@ The project `composer.json` is used to populate the project name. All this data 
 By default, telemetry is enabled. To disable it, set `TELEMETRY_ENABLED=false` in the `env` variable or update the `.env` file.
 
 ## Using in CI
-Need to init sdk with `SDK_CI_EXECUTION=1` env variable and with `-n` (non-interactive) flag
+To run SDK in a CI it must be executed with `SDK_CI_EXECUTION=1` env variable and with `-n` (non-interactive) flag.
+Example:
 ```shell
 SDK_CI_EXECUTION=1 spryker-sdk sdk:init:sdk -n
 ```
