@@ -24,8 +24,10 @@ services:
                 SDK_VERSION: ${SDK_VERSION:-latest}
         volumes:
             - ./:/data
+            - $PWD:/project:rw
         restart: on-failure
         environment:
+            PROJECT_DIR: /project
             SDK_DIR: ${SDK_DIR}
             EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
             SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
