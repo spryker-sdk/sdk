@@ -24,6 +24,7 @@ services:
                 SDK_VERSION: ${SDK_VERSION:-latest}
         volumes:
             - ./:/data
+            - $PWD:/project:rw
         restart: on-failure
         env_file:
             - ./infrastructure/env/.env
