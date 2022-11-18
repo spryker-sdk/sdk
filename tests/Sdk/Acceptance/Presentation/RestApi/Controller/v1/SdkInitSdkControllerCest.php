@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,8 +41,8 @@ class SdkInitSdkControllerCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
-                OpenApiField::TYPE => 'sdk-init-sdk',
-                OpenApiField::ID => 'sdk-init-sdk',
+                OpenApiField::TYPE => SdkInitSdkController::TYPE,
+                OpenApiField::ID => SdkInitSdkController::TYPE,
                 OpenApiField::ATTRIBUTES => [
                     'developer_email' => 'test',
                     'developer_github_account' => 'test',

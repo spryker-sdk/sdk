@@ -12,7 +12,7 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkCommandsDescriber
         tags: [ 'nelmio_api_doc.describer' ]
         arguments:
-            - !tagged_iterator "exposed.command"
+            - !tagged_iterator "rest_api.exposed_command"
 
     api_doc.task_describer:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\RunTaskDescriber

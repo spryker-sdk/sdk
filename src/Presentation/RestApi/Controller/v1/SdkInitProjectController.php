@@ -14,6 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 class SdkInitProjectController extends BaseController
 {
     /**
+     * @var string
+     */
+    public const TYPE = 'sdk-init-project';
+
+    /**
      * @var \SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor
      */
     protected SdkInitProjectProcessor $sdkInitProjectProcessor;
@@ -33,6 +38,11 @@ class SdkInitProjectController extends BaseController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return $this->sdkInitProjectProcessor->process($request);
+        $this->sdkInitProjectProcessor->process($request);
+
+        return $this->createSuccessResponse(
+            static::TYPE,
+            static::TYPE,
+        );
     }
 }

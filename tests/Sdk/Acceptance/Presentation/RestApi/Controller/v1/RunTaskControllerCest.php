@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,7 @@ class RunTaskControllerCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
-                OpenApiField::TYPE => 'run-task',
+                OpenApiField::TYPE => RunTaskController::TYPE,
                 OpenApiField::ID => 'hello:world',
                 OpenApiField::ATTRIBUTES => [
                     'world' => 'World', 'somebody' => 'World',
@@ -52,7 +53,7 @@ class RunTaskControllerCest
         $I->seeResponseContainsJson([
             OpenApiField::DATA => [
                 OpenApiField::ID => 'hello:world',
-                OpenApiField::TYPE => 'run-task',
+                OpenApiField::TYPE => RunTaskController::TYPE,
                 OpenApiField::ATTRIBUTES => [
                     'messages' => [
                         'Executing stage: hello',
@@ -73,7 +74,7 @@ class RunTaskControllerCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
-                OpenApiField::TYPE => 'run-task',
+                OpenApiField::TYPE => RunTaskController::TYPE,
                 OpenApiField::ID => 'hello:world',
                 OpenApiField::ATTRIBUTES => [
                     'world' => 'World',

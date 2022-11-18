@@ -37,7 +37,6 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor
         arguments:
             - "@project_settings_initializer"
-            - "@response.factory"
 
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController:
         public: true
@@ -49,7 +48,6 @@ services:
         arguments:
             - "@initializer_service"
             - "@service.lifecycle_manager"
-            - "@response.factory"
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application

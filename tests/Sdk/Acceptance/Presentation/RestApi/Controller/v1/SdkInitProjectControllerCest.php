@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,8 +41,8 @@ class SdkInitProjectControllerCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
-                OpenApiField::TYPE => 'sdk-init-project',
-                OpenApiField::ID => 'sdk-init-project',
+                OpenApiField::TYPE => SdkInitProjectController::TYPE,
+                OpenApiField::ID => SdkInitProjectController::TYPE,
                 OpenApiField::ATTRIBUTES => [
                     'report_usage_statistics' => false,
                 ],
@@ -63,8 +64,8 @@ class SdkInitProjectControllerCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
             OpenApiField::DATA => [
-                OpenApiField::TYPE => 'sdk-init-project',
-                OpenApiField::ID => 'sdk-init-project',
+                OpenApiField::TYPE => SdkInitProjectController::TYPE,
+                OpenApiField::ID => SdkInitProjectController::TYPE,
             ],
         ]);
 

@@ -17,7 +17,7 @@ services:
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
-    tags: [ "console.command", "exposed.command" ]
+    tags: [ "console.command", "rest_api.exposed_command" ]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -68,7 +68,7 @@ services:
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand
-    tags: ["console.command", "telemetry.observable_command", "exposed.command"]
+    tags: ["console.command", "telemetry.observable_command", "rest_api.exposed_command"]
     arguments:
       - "@interaction_processor"
       - "@setting_repository"
@@ -87,7 +87,7 @@ services:
       - "@initializer_service"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
-    tags: ["console.command", "telemetry.observable_command", "exposed.command"]
+    tags: ["console.command", "telemetry.observable_command", "rest_api.exposed_command"]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"

@@ -105,7 +105,9 @@ class ApplicationReceiverSetupListener
             }
 
             if ($inputOutputConnector instanceof RequestDataInjectorInterface) {
-                $inputOutputConnector->setRequestData($event->getRequest()->request->all()[OpenApiField::DATA][OpenApiField::ATTRIBUTES] ?? []);
+                $requestData = $event->getRequest()->request->get(OpenApiField::DATA, []);
+
+                $inputOutputConnector->setRequestData($requestData[OpenApiField::ATTRIBUTES] ?? []);
             }
 
             if ($inputOutputConnector instanceof HelperSetInjectorInterface) {

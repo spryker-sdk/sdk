@@ -8,12 +8,16 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
-use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class SdkInitSdkController extends BaseController
 {
+    /**
+     * @var string
+     */
+    public const TYPE = 'sdk-init-sdk';
+
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
      */
@@ -36,6 +40,6 @@ class SdkInitSdkController extends BaseController
     {
         $this->initializerService->initialize($request->request->all());
 
-        return $this->createSuccessResponse(OpenApiType::SDK_INIT_SDK, OpenApiType::SDK_INIT_SDK);
+        return $this->createSuccessResponse(static::TYPE, static::TYPE);
     }
 }
