@@ -42,6 +42,10 @@ class SdkCommandsDescriber extends BaseDescriber
     public function describe(OpenApi $api)
     {
         foreach ($this->commands as $command) {
+            if ($command->getName() === null) {
+                continue;
+            }
+
             $route = str_replace(':', '-', $command->getName());
 
             $this->buildRoute(
