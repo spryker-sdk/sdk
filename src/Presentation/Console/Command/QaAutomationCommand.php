@@ -20,10 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class QaAutomationCommand extends RunTaskWrapperCommand
 {
-   /**
-    * @var string
-    */
-    protected const COMMAND_NAME = 'sdk:qa:run';
+    /**
+     * @var string
+     */
+    public const NAME = 'sdk:qa:run';
 
     /**
      * @var string
@@ -67,7 +67,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
             $contextFactory,
             $taskOptions,
             static::DESCRIPTION,
-            static::COMMAND_NAME,
+            static::NAME,
         );
     }
 
