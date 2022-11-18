@@ -40,7 +40,7 @@ class SdkUpdateSdkProcessor
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return array
      */
     public function process(Request $request): array
     {
