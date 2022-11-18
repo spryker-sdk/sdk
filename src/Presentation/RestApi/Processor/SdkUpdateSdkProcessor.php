@@ -11,8 +11,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Presentation\Console\Command\AbstractUpdateCommand;
-use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiType;
+use SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,23 +31,23 @@ class SdkUpdateSdkProcessor
     protected LifecycleManagerInterface $lifecycleManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
      */
-    protected ResponseBuilder $responseBuilder;
+    protected ResponseFactory $responseFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\Initializer $initializerService
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory $responseFactory
      */
     public function __construct(
         Initializer $initializerService,
         LifecycleManagerInterface $lifecycleManager,
-        ResponseBuilder $responseBuilder
+        ResponseFactory $responseFactory
     ) {
         $this->initializerService = $initializerService;
         $this->lifecycleManager = $lifecycleManager;
-        $this->responseBuilder = $responseBuilder;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -64,7 +64,7 @@ class SdkUpdateSdkProcessor
             try {
                 $messages = $this->lifecycleManager->checkForUpdate();
             } catch (SdkVersionNotFoundException $exception) {
-                return $this->responseBuilder->createErrorResponse(
+                return $this->responseFactory->createErrorResponse(
                     [$exception->getMessage()],
                     Response::HTTP_BAD_REQUEST,
                     (string)Response::HTTP_BAD_REQUEST,
@@ -78,7 +78,7 @@ class SdkUpdateSdkProcessor
 
         $result = array_map(fn (MessageInterface $message): string => $message->getMessage(), $messages);
 
-        return $this->responseBuilder->createSuccessResponse(
+        return $this->responseFactory->createSuccessResponse(
             OpenApiType::SDK_UPDATE_SDK,
             OpenApiType::SDK_UPDATE_SDK,
             ['messages' => $result],

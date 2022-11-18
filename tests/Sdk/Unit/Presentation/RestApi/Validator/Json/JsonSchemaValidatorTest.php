@@ -9,7 +9,6 @@ namespace Sdk\Unit\Presentation\RestApi\Validator\Json;
 
 use Codeception\Test\Unit;
 use JsonSchema\Validator;
-use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
 use SprykerSdk\Sdk\Presentation\RestApi\Exception\InvalidJsonSchemaException;
 use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +42,7 @@ class JsonSchemaValidatorTest extends Unit
     protected function setUp(): void
     {
         $this->validator = $this->createMock(Validator::class);
-        $this->jsonSchemaValidator = new JsonSchemaValidator($this->validator, new ResponseBuilder());
+        $this->jsonSchemaValidator = new JsonSchemaValidator($this->validator);
     }
 
     /**

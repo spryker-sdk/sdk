@@ -22,7 +22,7 @@ class DescriberHelper
      *
      * @return \OpenApi\Annotations\Property
      */
-    public static function getDataProperty(Schema $schema): Property
+    public function getDataProperty(Schema $schema): Property
     {
         $property = Util::getProperty($schema, OpenApiField::DATA);
         $property->type = 'object';
@@ -35,7 +35,7 @@ class DescriberHelper
      *
      * @return \OpenApi\Annotations\Property
      */
-    public static function getAttributesProperty(Property $dataProperty): Property
+    public function getAttributesProperty(Property $dataProperty): Property
     {
         $property = Util::getProperty($dataProperty, OpenApiField::ATTRIBUTES);
         $property->type = 'object';
@@ -48,7 +48,7 @@ class DescriberHelper
      *
      * @return void
      */
-    public static function addIdProperty(Property $dataProperty): void
+    public function addIdProperty(Property $dataProperty): void
     {
         $property = Util::getProperty($dataProperty, OpenApiField::ID);
         $property->type = 'string';
@@ -59,7 +59,7 @@ class DescriberHelper
      *
      * @return void
      */
-    public static function addTypeProperty(Property $dataProperty): void
+    public function addTypeProperty(Property $dataProperty): void
     {
         $property = Util::getProperty($dataProperty, OpenApiField::TYPE);
         $property->type = 'string';
@@ -70,7 +70,7 @@ class DescriberHelper
      *
      * @return void
      */
-    public static function addDetailsProperty(Schema $responseSchema): void
+    public function addDetailsProperty(Schema $responseSchema): void
     {
         $property = Util::getProperty($responseSchema, OpenApiField::DETAILS);
         $property->type = 'array';
@@ -86,7 +86,7 @@ class DescriberHelper
      *
      * @return void
      */
-    public static function addStatusProperty(Schema $responseSchema): void
+    public function addStatusProperty(Schema $responseSchema): void
     {
         $property = Util::getProperty($responseSchema, OpenApiField::STATUS);
         $property->type = 'string';
@@ -97,7 +97,7 @@ class DescriberHelper
      *
      * @return void
      */
-    public static function addCodeProperty(Schema $responseSchema): void
+    public function addCodeProperty(Schema $responseSchema): void
     {
         $property = Util::getProperty($responseSchema, OpenApiField::CODE);
         $property->type = 'integer';
@@ -111,7 +111,7 @@ class DescriberHelper
      *
      * @return \OpenApi\Annotations\Response
      */
-    public static function createResponse(Operation $operation, int $code, string $description, array $content): Response
+    public function createResponse(Operation $operation, int $code, string $description, array $content): Response
     {
         /** @var \OpenApi\Annotations\Response $errorResponse */
         $errorResponse = Util::getIndexedCollectionItem($operation, Response::class, ['responses']);

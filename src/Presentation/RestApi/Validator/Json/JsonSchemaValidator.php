@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Validator\Json;
 
 use JsonException;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Presentation\RestApi\Exception\InvalidJsonSchemaException;
@@ -40,8 +41,6 @@ class JsonSchemaValidator
     {
         try {
             $data = json_decode((string)$request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
-
-            $validationData = json_decode((string)$request->getContent(), false, 512, \JSON_THROW_ON_ERROR);
         } catch (JsonException $exception) {
             throw new InvalidJsonSchemaException(
                 ['Invalid request.'],
@@ -50,7 +49,7 @@ class JsonSchemaValidator
             );
         }
 
-        $this->validator->validate($validationData, $this->getSchema());
+        $this->validator->validate($data, $this->getSchema(), Constraint::CHECK_MODE_TYPE_CAST);
 
         $errors = $this->validator->getErrors();
         if (!$errors) {

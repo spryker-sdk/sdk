@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\ApiDoc;
 
 use OpenApi\Annotations\OpenApi;
-use Symfony\Component\Console\Application;
 
 class SdkCommandsDescriber extends BaseDescriber
 {
@@ -23,25 +22,16 @@ class SdkCommandsDescriber extends BaseDescriber
     protected const HTTP_METHOD = 'POST';
 
     /**
-     * @var array<string>
+     * @var iterable<\Symfony\Component\Console\Command\Command>
      */
-    protected const SDK_COMMAND_TO_ROUTE = [
-        'sdk:init:project' => 'sdk-init-project',
-        'sdk:init:sdk' => 'sdk-init-sdk',
-        'sdk:update:all' => 'sdk-update-sdk',
-    ];
+    protected iterable $commands;
 
     /**
-     * @var \Symfony\Component\Console\Application
+     * @param iterable<\Symfony\Component\Console\Command\Command> $commands
      */
-    protected Application $application;
-
-    /**
-     * @param \Symfony\Component\Console\Application $application
-     */
-    public function __construct(Application $application)
+    public function __construct(iterable $commands)
     {
-        $this->application = $application;
+        $this->commands = $commands;
     }
 
     /**
@@ -51,8 +41,8 @@ class SdkCommandsDescriber extends BaseDescriber
      */
     public function describe(OpenApi $api)
     {
-        foreach (static::SDK_COMMAND_TO_ROUTE as $commandName => $route) {
-            $command = $this->application->get($commandName);
+        foreach ($this->commands as $command) {
+            $route = str_replace(':', '-', $command->getName());
 
             $this->buildRoute(
                 $api,

@@ -7,24 +7,24 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
-use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
+use SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class BaseController
 {
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
      */
-    protected ResponseBuilder $responseBuilder;
+    protected ResponseFactory $responseFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory $responseFactory
      *
      * @return void
      */
-    public function setResponseBuilder(ResponseBuilder $responseBuilder): void
+    public function setResponseFactory(ResponseFactory $responseFactory): void
     {
-        $this->responseBuilder = $responseBuilder;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -36,7 +36,7 @@ abstract class BaseController
      */
     public function createSuccessResponse(string $id, string $type, array $attributes = []): JsonResponse
     {
-        return $this->responseBuilder->createSuccessResponse($id, $type, $attributes);
+        return $this->responseFactory->createSuccessResponse($id, $type, $attributes);
     }
 
     /**
@@ -48,6 +48,6 @@ abstract class BaseController
      */
     public function createErrorResponse(array $details, int $code, string $status): JsonResponse
     {
-        return $this->responseBuilder->createErrorResponse($details, $code, $status);
+        return $this->responseFactory->createErrorResponse($details, $code, $status);
     }
 }

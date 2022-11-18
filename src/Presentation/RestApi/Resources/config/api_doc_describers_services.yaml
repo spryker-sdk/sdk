@@ -1,10 +1,18 @@
 services:
 
+    _instanceof:
+        SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\BaseDescriber:
+            calls:
+                - [ 'setDescriberHelper', [ '@describer_helper' ] ]
+
+    describer_helper:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\DescriberHelper
+
     api_doc.sdk_commands_describer:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkCommandsDescriber
         tags: [ 'nelmio_api_doc.describer' ]
         arguments:
-            - '@symfony.console.application'
+            - !tagged_iterator "exposed.command"
 
     api_doc.task_describer:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\RunTaskDescriber

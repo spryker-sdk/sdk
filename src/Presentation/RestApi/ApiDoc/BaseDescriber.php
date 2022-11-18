@@ -28,6 +28,21 @@ abstract class BaseDescriber implements DescriberInterface
     protected const JSON_TYPE = 'application/json';
 
     /**
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\DescriberHelper
+     */
+    protected DescriberHelper $describerHelper;
+
+    /**
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\DescriberHelper $describerHelper
+     *
+     * @return void
+     */
+    public function setDescriberHelper(DescriberHelper $describerHelper): void
+    {
+        $this->describerHelper = $describerHelper;
+    }
+
+    /**
      * @param \OpenApi\Annotations\OpenApi $api
      * @param \Symfony\Component\Console\Command\Command $command
      * @param string $route
@@ -73,10 +88,10 @@ abstract class BaseDescriber implements DescriberInterface
         /** @var \OpenApi\Annotations\Schema $schema */
         $schema = Util::getChild($requestBody->content[static::JSON_TYPE], Schema::class);
 
-        $dataProperty = DescriberHelper::getDataProperty($schema);
-        $attributesProperty = DescriberHelper::getAttributesProperty($dataProperty);
-        DescriberHelper::addIdProperty($dataProperty);
-        DescriberHelper::addTypeProperty($dataProperty);
+        $dataProperty = $this->describerHelper->getDataProperty($schema);
+        $attributesProperty = $this->describerHelper->getAttributesProperty($dataProperty);
+        $this->describerHelper->addIdProperty($dataProperty);
+        $this->describerHelper->addTypeProperty($dataProperty);
 
         $requiredArgumentProperties = $this->createPropertiesFromArguments($command, $attributesProperty);
         $this->createPropertiesFromOptions($command, $attributesProperty);
@@ -94,7 +109,7 @@ abstract class BaseDescriber implements DescriberInterface
         $content = [
             static::JSON_TYPE => new MediaType(['mediaType' => static::JSON_TYPE]),
         ];
-        $response = DescriberHelper::createResponse(
+        $response = $this->describerHelper->createResponse(
             $operation,
             SymfonyResponse::HTTP_OK,
             'OK',
@@ -104,10 +119,10 @@ abstract class BaseDescriber implements DescriberInterface
         /** @var \OpenApi\Annotations\Schema $responseSchema */
         $responseSchema = Util::getChild($content[static::JSON_TYPE], Schema::class);
 
-        $responseDataProperty = DescriberHelper::getDataProperty($responseSchema);
-        DescriberHelper::getAttributesProperty($responseDataProperty);
-        DescriberHelper::addIdProperty($responseDataProperty);
-        DescriberHelper::addTypeProperty($responseDataProperty);
+        $responseDataProperty = $this->describerHelper->getDataProperty($responseSchema);
+        $this->describerHelper->getAttributesProperty($responseDataProperty);
+        $this->describerHelper->addIdProperty($responseDataProperty);
+        $this->describerHelper->addTypeProperty($responseDataProperty);
 
         return $response;
     }
@@ -123,7 +138,7 @@ abstract class BaseDescriber implements DescriberInterface
             static::JSON_TYPE => new MediaType(['mediaType' => static::JSON_TYPE]),
         ];
 
-        $errorResponse = DescriberHelper::createResponse(
+        $errorResponse = $this->describerHelper->createResponse(
             $operation,
             SymfonyResponse::HTTP_BAD_REQUEST,
             'Bad request',
@@ -133,9 +148,9 @@ abstract class BaseDescriber implements DescriberInterface
         /** @var \OpenApi\Annotations\Schema $responseSchema */
         $responseSchema = Util::getChild($content[static::JSON_TYPE], Schema::class);
 
-        DescriberHelper::addCodeProperty($responseSchema);
-        DescriberHelper::addStatusProperty($responseSchema);
-        DescriberHelper::addDetailsProperty($responseSchema);
+        $this->describerHelper->addCodeProperty($responseSchema);
+        $this->describerHelper->addStatusProperty($responseSchema);
+        $this->describerHelper->addDetailsProperty($responseSchema);
 
         return $errorResponse;
     }

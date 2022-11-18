@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
-use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
 use SprykerSdk\Sdk\Presentation\RestApi\Exception\InvalidJsonSchemaException;
+use SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory;
 use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -26,23 +26,23 @@ class JsonRequestListener
     protected JsonSchemaValidator $jsonSchemaValidator;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
      */
-    protected ResponseBuilder $responseBuilder;
+    protected ResponseFactory $responseFactory;
 
     /**
      * @param array<string> $contentTypes
      * @param \SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator $jsonSchemaValidator
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory $responseFactory
      */
     public function __construct(
         array $contentTypes,
         JsonSchemaValidator $jsonSchemaValidator,
-        ResponseBuilder $responseBuilder
+        ResponseFactory $responseFactory
     ) {
         $this->contentTypes = $contentTypes;
         $this->jsonSchemaValidator = $jsonSchemaValidator;
-        $this->responseBuilder = $responseBuilder;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -65,7 +65,7 @@ class JsonRequestListener
         try {
             $this->jsonSchemaValidator->validate($request);
         } catch (InvalidJsonSchemaException $exception) {
-            $errorResponse = $this->responseBuilder->createErrorResponse(
+            $errorResponse = $this->responseFactory->createErrorResponse(
                 $exception->getDetails(),
                 $exception->getCode(),
                 $exception->getStatus(),

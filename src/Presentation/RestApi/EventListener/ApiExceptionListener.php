@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
-use SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder;
+use SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
@@ -26,20 +26,20 @@ class ApiExceptionListener
     protected bool $isDebug;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
      */
-    protected ResponseBuilder $responseBuilder;
+    protected ResponseFactory $responseFactory;
 
     /**
      * @param bool $isDebug
      * @param \Psr\Log\LoggerInterface $logger
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder $responseBuilder
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory $responseFactory
      */
-    public function __construct(bool $isDebug, LoggerInterface $logger, ResponseBuilder $responseBuilder)
+    public function __construct(bool $isDebug, LoggerInterface $logger, ResponseFactory $responseFactory)
     {
         $this->logger = $logger;
         $this->isDebug = $isDebug;
-        $this->responseBuilder = $responseBuilder;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -53,7 +53,7 @@ class ApiExceptionListener
 
         if ($exception instanceof InvalidRequestDataException) {
             $event->setResponse(
-                $this->responseBuilder->createErrorResponse(
+                $this->responseFactory->createErrorResponse(
                     [$exception->getMessage()],
                     Response::HTTP_BAD_REQUEST,
                     (string)Response::HTTP_BAD_REQUEST,
@@ -66,7 +66,7 @@ class ApiExceptionListener
         $this->logger->error($exception->getMessage());
 
         $event->setResponse(
-            $this->responseBuilder->createErrorResponse(
+            $this->responseFactory->createErrorResponse(
                 $this->isDebug ? [$exception->getMessage()] : ['Error'],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
                 (string)Response::HTTP_INTERNAL_SERVER_ERROR,

@@ -4,7 +4,7 @@ services:
     _instanceof:
         SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\BaseController:
             calls:
-                - ['setResponseBuilder', ['@response.builder']]
+                - ['setResponseFactory', ['@response.factory']]
 
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
         public: true
@@ -37,7 +37,7 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor
         arguments:
             - "@project_settings_initializer"
-            - "@response.builder"
+            - "@response.factory"
 
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController:
         public: true
@@ -49,7 +49,7 @@ services:
         arguments:
             - "@initializer_service"
             - "@service.lifecycle_manager"
-            - "@response.builder"
+            - "@response.factory"
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application
@@ -66,7 +66,7 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
         arguments:
             - '@json_validator'
-            - '@response.builder'
+            - '@response.factory'
 
     json_validator:
         class: JsonSchema\Validator
@@ -76,28 +76,24 @@ services:
         arguments:
             - "%kernel.debug%"
             - "@logger"
-            - '@response.builder'
+            - '@response.factory'
         tags:
-            - {
-                name: kernel.event_listener,
-                event: kernel.exception,
-                method: onKernelException,
-                priority: 256
-            }
+            - name: kernel.event_listener
+              event: kernel.exception
+              method: onKernelException
+              priority: 256
 
     json_request_transformer_listener:
         class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\JsonRequestListener
         tags:
-            - {
-                name: kernel.event_listener,
-                event: kernel.request,
-                method: onKernelRequest,
-                priority: 256
-            }
+            - name: kernel.event_listener
+              event: kernel.request
+              method: onKernelRequest
+              priority: 256
         arguments:
             - ['json']
             - '@json_schema_validator'
-            - '@response.builder'
+            - '@response.factory'
 
-    response.builder:
-        class: SprykerSdk\Sdk\Presentation\RestApi\Builder\ResponseBuilder
+    response.factory:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
