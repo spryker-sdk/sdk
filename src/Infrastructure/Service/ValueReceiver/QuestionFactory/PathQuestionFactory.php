@@ -35,7 +35,12 @@ class PathQuestionFactory extends StringQuestionFactory
      */
     public function autocompleteInput(string $userInput): array
     {
-        $inputPath = preg_replace('%(/|^)[^/]*$%', '$1', $userInput);
+        $inputPath = (string)preg_replace('%(/|^)[^/]*$%', '$1', $userInput);
+
+        if (preg_match('/^(\/|..\/)/i', $inputPath)) {
+            return [];
+        }
+
         //Autocompletion is an optional convenience feature that should not fail the whole command run
         //@phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
         $foundFilesAndDirs = @scandir($inputPath ?: '.') ?: [];

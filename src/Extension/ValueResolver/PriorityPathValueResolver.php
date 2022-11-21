@@ -38,10 +38,17 @@ class PriorityPathValueResolver extends OriginValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
+        if (!$this->getSettingPaths()) {
+            throw new InvalidConfigurationException(sprintf('`%s` resolver doesn\'t have any paths in setting.', $this->getId()));
+        }
+
         $relativePath = (string)parent::getValue($context, $settingValues, $optional);
 
-        if (!$this->getSettingPaths()) {
-            throw new InvalidConfigurationException(sprintf('`%s` resolver doesn\'t have any paths', $this->getId()));
+        if (strpos($relativePath, DIRECTORY_SEPARATOR) === 0) {
+            throw new UnresolvableValueExceptionException('Absolute path is forbidden due to security reasons.');
+        }
+        if (strpos($relativePath, '..' . DIRECTORY_SEPARATOR) === 0) {
+            throw new UnresolvableValueExceptionException('Path ../ is forbidden due to security reasons.');
         }
 
         foreach ($this->getSettingPaths() as $settingKey) {
@@ -53,12 +60,13 @@ class PriorityPathValueResolver extends OriginValueResolver
                 $path = rtrim($path, DIRECTORY_SEPARATOR);
             }
             $path = implode(DIRECTORY_SEPARATOR, [$path, $relativePath]);
+
             if (file_exists($path)) {
                 return $this->formatValue($path);
             }
         }
 
-        throw new UnresolvableValueExceptionException('Can\'t resolve path.');
+        throw new UnresolvableValueExceptionException('Invalid path provided.');
     }
 
     /**

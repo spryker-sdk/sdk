@@ -47,6 +47,8 @@ services:
         factory: [ "@error_logger_factory", "createLogger" ]
     command_error:
         class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
+        arguments:
+            - "%kernel.debug%"
         tags:
             - {
                 name: kernel.event_listener,

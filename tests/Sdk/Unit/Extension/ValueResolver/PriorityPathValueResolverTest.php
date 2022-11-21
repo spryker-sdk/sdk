@@ -24,7 +24,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
  * @group PriorityValueResolverTest
  * Add your own group annotations below this line
  */
-class PriorityValueResolverTest extends Unit
+class PriorityPathValueResolverTest extends Unit
 {
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
@@ -53,14 +53,6 @@ class PriorityValueResolverTest extends Unit
     public function testGetValueWithoutSettings(): void
     {
         // Arrange
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('hasRequestItem')
-            ->willReturn(true);
-        $this->valueReceiver
-            ->expects($this->once())
-            ->method('getRequestItem')
-            ->willReturn('./');
         $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);
 
@@ -68,7 +60,7 @@ class PriorityValueResolverTest extends Unit
         $this->expectException(InvalidConfigurationException::class);
 
         // Act
-        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
+        $valueResolver->getValue($this->context, ['defaultValue' => './']);
     }
 
     /**
@@ -113,8 +105,59 @@ class PriorityValueResolverTest extends Unit
 
         // Assert
         $this->expectException(UnresolvableValueExceptionException::class);
+        $this->expectExceptionMessage('Invalid path provided.');
 
         // Act
         $valueResolver->getValue($this->context, ['defaultValue' => './data/file.txt']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetValueExceptionAbsolutePath(): void
+    {
+        // Arrange
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('hasRequestItem')
+            ->willReturn(true);
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('getRequestItem')
+            ->willReturn('/none');
+        $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['name' => 'key', 'description' => '', 'settingPaths' => ['test' => 'test']]);
+
+        // Assert
+        $this->expectException(UnresolvableValueExceptionException::class);
+        $this->expectExceptionMessage('Absolute path is forbidden due to security reasons.');
+
+        // Act
+        $valueResolver->getValue($this->context, []);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetValueExceptionParentLevelPath(): void
+    {
+        // Arrange
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('hasRequestItem')
+            ->willReturn(true);
+        $this->valueReceiver
+            ->expects($this->once())
+            ->method('getRequestItem')
+            ->willReturn('../none');
+        $valueResolver = new PriorityPathValueResolver($this->valueReceiver);
+        $valueResolver->configure(['name' => 'key', 'description' => '', 'settingPaths' => ['test' => 'test']]);
+
+        // Assert
+        $this->expectException(UnresolvableValueExceptionException::class);
+        $this->expectExceptionMessage('Path ../ is forbidden due to security reasons.');
+
+        // Act
+        $valueResolver->getValue($this->context, []);
     }
 }
