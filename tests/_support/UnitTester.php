@@ -395,7 +395,7 @@ class UnitTester extends Actor
              */
             public function getExecutionEnv(): ?string
             {
-                return ExecutionEnv::DEVELOPER;
+                return ExecutionEnv::DEVELOPMENT;
             }
         };
     }

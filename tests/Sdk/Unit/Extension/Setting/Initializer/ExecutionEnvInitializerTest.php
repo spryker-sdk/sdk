@@ -34,7 +34,7 @@ class ExecutionEnvInitializerTest extends Unit
     {
         //Arrange
         $setting = new Setting('soma_path', '');
-        $existingSetting = new Setting('soma_path', ExecutionEnv::DEVELOPER);
+        $existingSetting = new Setting('soma_path', ExecutionEnv::DEVELOPMENT);
         $settingRepository = $this->createSettingRepositoryMock(false, $existingSetting);
         $initializer = new ExecutionEnvInitializer($settingRepository, true);
 
@@ -42,7 +42,7 @@ class ExecutionEnvInitializerTest extends Unit
         $initializer->initialize($setting);
 
         //Arrange
-        $this->assertEquals(ExecutionEnv::DEVELOPER, $setting->getValues());
+        $this->assertEquals(ExecutionEnv::DEVELOPMENT, $setting->getValues());
     }
 
     /**
@@ -95,7 +95,7 @@ class ExecutionEnvInitializerTest extends Unit
         $initializer->initialize($setting);
 
         //Arrange
-        $this->assertEquals(ExecutionEnv::DEVELOPER, $setting->getValues());
+        $this->assertEquals(ExecutionEnv::DEVELOPMENT, $setting->getValues());
     }
 
     /**

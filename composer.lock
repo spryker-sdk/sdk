@@ -6590,12 +6590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "ae10055beea1f4213abf7740b2101f710fc258a3"
+                "reference": "fc83c261b941e9f27696a09786ed20f301c72780"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/ae10055beea1f4213abf7740b2101f710fc258a3",
-                "reference": "ae10055beea1f4213abf7740b2101f710fc258a3",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/fc83c261b941e9f27696a09786ed20f301c72780",
+                "reference": "fc83c261b941e9f27696a09786ed20f301c72780",
                 "shasum": ""
             },
             "require": {
@@ -6621,7 +6621,7 @@
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
                 "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-1064-telemetry-improvements"
             },
-            "time": "2022-11-08T12:28:42+00:00"
+            "time": "2022-11-21T15:34:03+00:00"
         },
         {
             "name": "spryker-sdk/spryk",

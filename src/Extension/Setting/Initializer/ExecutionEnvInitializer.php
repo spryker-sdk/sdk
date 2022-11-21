@@ -49,7 +49,7 @@ class ExecutionEnvInitializer implements SettingInitializerInterface
             return;
         }
 
-        $setting->setValues($this->sdkCIExecution ? ExecutionEnv::CI : ExecutionEnv::DEVELOPER);
+        $setting->setValues($this->sdkCIExecution ? ExecutionEnv::CI : ExecutionEnv::DEVELOPMENT);
         $this->settingRepository->save($setting);
     }
 
