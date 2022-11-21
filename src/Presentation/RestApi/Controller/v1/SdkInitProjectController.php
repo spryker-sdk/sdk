@@ -7,11 +7,13 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand;
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface;
 use SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class SdkInitProjectController extends BaseController
+class SdkInitProjectController extends BaseController implements CommandControllerInterface
 {
     /**
      * @var string
@@ -44,5 +46,13 @@ class SdkInitProjectController extends BaseController
             static::TYPE,
             static::TYPE,
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommandName(): string
+    {
+        return InitProjectCommand::NAME;
     }
 }

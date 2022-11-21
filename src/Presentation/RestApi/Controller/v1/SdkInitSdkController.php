@@ -8,10 +8,12 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
+use SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand;
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class SdkInitSdkController extends BaseController
+class SdkInitSdkController extends BaseController implements CommandControllerInterface
 {
     /**
      * @var string
@@ -41,5 +43,13 @@ class SdkInitSdkController extends BaseController
         $this->initializerService->initialize($request->request->all());
 
         return $this->createSuccessResponse(static::TYPE, static::TYPE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommandName(): string
+    {
+        return InitSdkCommand::NAME;
     }
 }

@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\ApiDoc;
 
 use OpenApi\Annotations\OpenApi;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 
 class RunTaskDescriber extends BaseDescriber
@@ -16,11 +17,6 @@ class RunTaskDescriber extends BaseDescriber
      * @var string
      */
     protected const RUN_TASK_ROUTE = '/api/v1/task/%s';
-
-    /**
-     * @var array<string>
-     */
-    protected const OPERATION_TAGS = ['Tasks'];
 
     /**
      * @var string
@@ -33,11 +29,18 @@ class RunTaskDescriber extends BaseDescriber
     protected CommandLoaderInterface $commandLoader;
 
     /**
-     * @param \Symfony\Component\Console\CommandLoader\CommandLoaderInterface $commandLoader
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface
      */
-    public function __construct(CommandLoaderInterface $commandLoader)
+    protected TaskRepositoryInterface $taskRepository;
+
+    /**
+     * @param \Symfony\Component\Console\CommandLoader\CommandLoaderInterface $commandLoader
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     */
+    public function __construct(CommandLoaderInterface $commandLoader, TaskRepositoryInterface $taskRepository)
     {
         $this->commandLoader = $commandLoader;
+        $this->taskRepository = $taskRepository;
     }
 
     /**
@@ -47,7 +50,7 @@ class RunTaskDescriber extends BaseDescriber
      */
     public function describe(OpenApi $api): void
     {
-        $commandNames = $this->commandLoader->getNames();
+        $commandNames = $this->taskRepository->getTaskIds();
         sort($commandNames);
 
         foreach ($commandNames as $commandName) {
@@ -58,8 +61,20 @@ class RunTaskDescriber extends BaseDescriber
                 $command,
                 sprintf(static::RUN_TASK_ROUTE, $commandName),
                 static::HTTP_METHOD,
-                static::OPERATION_TAGS,
+                [$this->getTaskGroupTag($commandName)],
             );
         }
+    }
+
+    /**
+     * @param string $taskName
+     *
+     * @return string
+     */
+    protected function getTaskGroupTag(string $taskName): string
+    {
+        preg_match('/^(?<group>[^:]*):/', $taskName, $matches);
+
+        return isset($matches['group']) ? sprintf('Tasks: %s', $matches['group']) : 'Tasks';
     }
 }
