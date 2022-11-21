@@ -21,7 +21,7 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
  * @group Unit
  * @group Extension
  * @group ValueResolver
- * @group PriorityValueResolverTest
+ * @group PriorityPathValueResolverTest
  * Add your own group annotations below this line
  */
 class PriorityPathValueResolverTest extends Unit
