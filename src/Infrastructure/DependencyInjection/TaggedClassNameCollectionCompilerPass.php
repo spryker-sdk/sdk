@@ -80,8 +80,7 @@ class TaggedClassNameCollectionCompilerPass implements CompilerPassInterface
         $serviceClasses = [];
 
         foreach ($targetServiceIds as $serviceId => $tags) {
-            $definition = $container->getDefinition($serviceId);
-            $class = $definition->getClass();
+            $class = $container->getDefinition($serviceId)->getClass();
 
             if ($class === null) {
                 continue;

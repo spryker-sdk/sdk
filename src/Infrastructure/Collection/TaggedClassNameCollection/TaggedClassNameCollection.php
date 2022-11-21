@@ -22,7 +22,7 @@ class TaggedClassNameCollection implements TaggedClassNameCollectionInterface
      *
      * @param array<class-string> $classNames
      */
-    public function __construct(array $classNames)
+    public function __construct(array $classNames = [])
     {
         $this->iterator = new ArrayIterator($classNames);
     }

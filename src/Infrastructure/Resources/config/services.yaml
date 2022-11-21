@@ -570,8 +570,6 @@ services:
 
     telemetry.observable_commands_class_name_collection:
         class: SprykerSdk\Sdk\Infrastructure\Collection\TaggedClassNameCollection\TaggedClassNameCollection
-        arguments:
-            - []
         tags:
             - {name: 'tagged_class_name_collection', target_tag: 'telemetry.observable_command'}
 
