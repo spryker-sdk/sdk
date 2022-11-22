@@ -164,7 +164,7 @@ services:
         class: SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactory
         arguments:
             - "@project_info_fetcher"
-            - "@project_setting_repository"
+            - "@setting.setting_fetcher"
 
     telemetry.command_event_synchronizer:
         class: SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizer

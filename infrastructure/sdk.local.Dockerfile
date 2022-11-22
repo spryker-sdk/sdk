@@ -5,9 +5,7 @@ USER root
 
 ARG USER_UID
 RUN if [[ ! -z "${USER_UID}" ]]; then \
-        usermod -u "${USER_UID}" spryker \
-        && find /home -not -user "${USER_UID}" -exec chown -h spryker {} \; \
-        && find /data/var /data/vendor -user root -exec chown -h spryker {} \; ;\
+        usermod -u "${USER_UID}" spryker; \
     fi
 
 USER spryker

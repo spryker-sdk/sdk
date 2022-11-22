@@ -12,7 +12,7 @@ services:
             - ./public:/data/public
         depends_on:
             - php-fpm
-        restart: always
+        restart: on-failure
 
     php-fpm:
         image: spryker/php-sdk-api:${SDK_VERSION:-latest}
@@ -26,10 +26,9 @@ services:
             - ./:/data
             - $PWD:/project:rw
         restart: on-failure
+        env_file:
+            - ./infrastructure/env/.env
         environment:
-            PROJECT_DIR: /project
-            SDK_DIR: ${SDK_DIR}
-            EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
             SPRYKER_XDEBUG_HOST_IP: ${SPRYKER_XDEBUG_HOST_IP}
             PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
             XDEBUG_MODE: ${SDK_XDEBUG_MODE}
