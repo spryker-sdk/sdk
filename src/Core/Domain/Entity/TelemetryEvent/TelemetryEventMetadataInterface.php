@@ -17,10 +17,10 @@ interface TelemetryEventMetadataInterface
     /**
      * @return string|null
      */
-    public function getDeveloperGithubAccount(): ?string;
+    public function getProjectName(): ?string;
 
     /**
      * @return string|null
      */
-    public function getProjectName(): ?string;
+    public function getExecutionEnv(): ?string;
 }
