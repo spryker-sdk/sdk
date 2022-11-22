@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController;
-use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,28 +37,22 @@ class SdkUpdateSdkControllerCest
      */
     public function iSeeJsonResponseAfterCallSdkUpdateSdkEndpoint(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => SdkUpdateSdkController::TYPE,
-                OpenApiField::ID => SdkUpdateSdkController::TYPE,
-                OpenApiField::ATTRIBUTES => [
-                    'developer_email' => 'test',
-                    'developer_github_account' => 'test',
-                ],
-            ],
-        ]);
-        $I->seeResponseCodeIs(Response::HTTP_OK);
-
-        $I->seeResponseContainsJson(
+        $I->sendApiPost(
+            static::ENDPOINT,
+            SdkUpdateSdkController::TYPE,
+            SdkUpdateSdkController::TYPE,
             [
-                OpenApiField::DATA => [
-                    OpenApiField::TYPE => SdkUpdateSdkController::TYPE,
-                    OpenApiField::ID => SdkUpdateSdkController::TYPE,
-                    OpenApiField::ATTRIBUTES => [
-                        'messages' => [],
-                    ],
-                ],
+                'developer_email' => 'test',
+                'developer_github_account' => 'test',
+            ],
+        );
+
+        $I->seeApiResponse(
+            Response::HTTP_OK,
+            SdkUpdateSdkController::TYPE,
+            SdkUpdateSdkController::TYPE,
+            [
+                'messages' => [],
             ],
         );
     }

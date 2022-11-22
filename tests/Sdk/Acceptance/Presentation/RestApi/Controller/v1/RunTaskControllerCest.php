@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController;
-use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,30 +37,27 @@ class RunTaskControllerCest
      */
     public function iSeeJsonResponseAfterCallRunTaskEndpoint(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => RunTaskController::TYPE,
-                OpenApiField::ID => 'hello:world',
-                OpenApiField::ATTRIBUTES => [
-                    'world' => 'World', 'somebody' => 'World',
-                ],
+        $I->sendApiPost(
+            static::ENDPOINT,
+            'hello:world',
+            RunTaskController::TYPE,
+            [
+                'world' => 'World',
+                'somebody' => 'World',
             ],
-        ]);
-        $I->seeResponseCodeIs(Response::HTTP_OK);
+        );
 
-        $I->seeResponseContainsJson([
-            OpenApiField::DATA => [
-                OpenApiField::ID => 'hello:world',
-                OpenApiField::TYPE => RunTaskController::TYPE,
-                OpenApiField::ATTRIBUTES => [
-                    'messages' => [
-                        'Executing stage: hello',
-                        'hello \'World\' \'World\'',
-                    ],
+        $I->seeApiResponse(
+            Response::HTTP_OK,
+            'hello:world',
+            RunTaskController::TYPE,
+            [
+                'messages' => [
+                    'Executing stage: hello',
+                    'hello \'World\' \'World\'',
                 ],
             ],
-        ]);
+        );
     }
 
     /**
@@ -71,16 +67,15 @@ class RunTaskControllerCest
      */
     public function iSeeBadRequestAfterCallRunTaskEndpoint(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => RunTaskController::TYPE,
-                OpenApiField::ID => 'hello:world',
-                OpenApiField::ATTRIBUTES => [
-                    'world' => 'World',
-                ],
+        $I->sendApiPost(
+            static::ENDPOINT,
+            'hello:world',
+            RunTaskController::TYPE,
+            [
+                'world' => 'World',
             ],
-        ]);
+        );
+
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }
 }

@@ -50,13 +50,17 @@ class SdkCommandsDescriber extends BaseDescriber
      * @param iterable<\Symfony\Component\Console\Command\Command> $commands
      * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
      * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\OpenApiDescriberHelper $describerHelper
      */
     public function __construct(
         iterable $controllers,
         iterable $commands,
         RequestStack $requestStack,
-        RouterInterface $router
+        RouterInterface $router,
+        OpenApiDescriberHelper $describerHelper
     ) {
+        parent::__construct($describerHelper);
+
         $this->controllers = $controllers;
         $this->commands = $commands;
         $this->requestStack = $requestStack;

@@ -36,9 +36,15 @@ class RunTaskDescriber extends BaseDescriber
     /**
      * @param \Symfony\Component\Console\CommandLoader\CommandLoaderInterface $commandLoader
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\OpenApiDescriberHelper $describerHelper
      */
-    public function __construct(CommandLoaderInterface $commandLoader, TaskRepositoryInterface $taskRepository)
-    {
+    public function __construct(
+        CommandLoaderInterface $commandLoader,
+        TaskRepositoryInterface $taskRepository,
+        OpenApiDescriberHelper $describerHelper
+    ) {
+        parent::__construct($describerHelper);
+
         $this->commandLoader = $commandLoader;
         $this->taskRepository = $taskRepository;
     }

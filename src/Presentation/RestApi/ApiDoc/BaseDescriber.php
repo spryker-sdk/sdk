@@ -28,16 +28,14 @@ abstract class BaseDescriber implements DescriberInterface
     protected const JSON_TYPE = 'application/json';
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\DescriberHelper
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\OpenApiDescriberHelper
      */
-    protected DescriberHelper $describerHelper;
+    protected OpenApiDescriberHelper $describerHelper;
 
     /**
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\DescriberHelper $describerHelper
-     *
-     * @return void
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\OpenApiDescriberHelper $describerHelper
      */
-    public function setDescriberHelper(DescriberHelper $describerHelper): void
+    public function __construct(OpenApiDescriberHelper $describerHelper)
     {
         $this->describerHelper = $describerHelper;
     }

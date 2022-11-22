@@ -15,7 +15,7 @@ use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 
-class DescriberHelper
+class OpenApiDescriberHelper
 {
     /**
      * @param \OpenApi\Annotations\Schema $schema

@@ -38,19 +38,16 @@ class SdkInitProjectControllerCest
      */
     public function iSeeJsonResponseAfterCallSdkInitProjectEndpoint(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => SdkInitProjectController::TYPE,
-                OpenApiField::ID => SdkInitProjectController::TYPE,
-                OpenApiField::ATTRIBUTES => [
-                    'report_usage_statistics' => false,
-                ],
+        $I->sendApiPost(
+            static::ENDPOINT,
+            SdkInitProjectController::TYPE,
+            SdkInitProjectController::TYPE,
+            [
+                'report_usage_statistics' => false,
             ],
-        ]);
+        );
 
         $I->seeResponseCodeIs(Response::HTTP_OK);
-
         $I->seeResponseContainsJson([]);
     }
 
@@ -63,10 +60,7 @@ class SdkInitProjectControllerCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => SdkInitProjectController::TYPE,
-                OpenApiField::ID => SdkInitProjectController::TYPE,
-            ],
+            OpenApiField::DATA => [],
         ]);
 
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);

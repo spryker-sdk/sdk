@@ -1,12 +1,6 @@
 services:
-
-    _instanceof:
-        SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\BaseDescriber:
-            calls:
-                - [ 'setDescriberHelper', [ '@describer_helper' ] ]
-
-    describer_helper:
-        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\DescriberHelper
+    api_doc.open_api_describer_helper:
+        class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\OpenApiDescriberHelper
 
     api_doc.sdk_commands_describer:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkCommandsDescriber
@@ -16,6 +10,7 @@ services:
             - !tagged_iterator 'console.command'
             - '@request_stack'
             - '@router.default'
+            - '@api_doc.open_api_describer_helper'
 
     api_doc.task_describer:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\RunTaskDescriber
@@ -23,3 +18,4 @@ services:
         arguments:
             - '@console.command_loader'
             - '@task_persistence_repository'
+            - '@api_doc.open_api_describer_helper'
