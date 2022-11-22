@@ -76,6 +76,16 @@ class RunTaskControllerCest
             ],
         );
 
-        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+        $I->seeApiResponse(
+            Response::HTTP_BAD_REQUEST,
+            'hello:world',
+            RunTaskController::TYPE,
+            [
+                'messages' => [
+                    'Executing stage: hello',
+                    'hello \'World\' \'World\'',
+                ],
+            ],
+        );
     }
 }
