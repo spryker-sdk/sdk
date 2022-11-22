@@ -1,18 +1,13 @@
 settings:
   - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_DEVELOPER_EMAIL
-    initialization_description: What is your email?
+    initialization_description: Enter your email or leave it blank to be anonymous
     strategy: overwrite
     init: true
     setting_type: sdk
     type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-    values: ~
-  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_DEVELOPER_GITHUB_ACCOUNT
-    initialization_description: What is your github account?
-    strategy: overwrite
-    init: true
-    setting_type: sdk
-    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-    values: ~
+    values: ''
+    force_ask_value: true
+    initializer: sdk_uuid_initializer
   - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_EXTENSION_DIRS
     initialization_description: Where can extensions be loaded from?
     strategy: merge
@@ -28,6 +23,14 @@ settings:
       - src/*/Resources/config/
       - extension/*/config/
       - extension/*/src/Resources/config/
+  - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_EXECUTION_ENV
+    initialization_description: What is your execution environment?
+    strategy: overwrite
+    init: true
+    setting_type: sdk
+    type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+    values: ''
+    initializer: execution_env_initializer
   - path: !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR
     initialization_description: Where is the sdk directory?
     strategy: overwrite

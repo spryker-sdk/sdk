@@ -42,6 +42,7 @@ use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
+use SprykerSdk\SdkContracts\Enum\ExecutionEnv;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
@@ -384,17 +385,17 @@ class UnitTester extends Actor
             /**
              * @return string|null
              */
-            public function getDeveloperGithubAccount(): ?string
+            public function getProjectName(): ?string
             {
-                return bin2hex(random_bytes(6));
+                return 'spryker/test';
             }
 
             /**
              * @return string|null
              */
-            public function getProjectName(): ?string
+            public function getExecutionEnv(): ?string
             {
-                return 'spryker/test';
+                return ExecutionEnv::DEVELOPMENT;
             }
         };
     }

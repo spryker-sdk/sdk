@@ -38,7 +38,7 @@ This interface uses `SprykerSdk\Sdk\Core\Application\Dependency\Service\Telemetr
 To implement the custom sender, you need to implement this interface and make sure to throw `SprykerSdk\Sdk\Core\Application\Exception\TelemetryServerUnreachableException` when the destination server is unreachable.
 
 ## Task console event collecting
-Currently, only task commands are collected. This behavior is implemented by listening to the generic console events. 
+Currently, only task commands are collected. This behavior is implemented by listening to the generic console events.
 All the event listeners reside in `SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventListener`.
 To filter the appropriate events, `\SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidatorInterface` is used.
 
@@ -48,4 +48,11 @@ The project `composer.json` is used to populate the project name. All this data 
 
 ## How to disable telemetry
 By default, telemetry is enabled. To disable it, set `TELEMETRY_ENABLED=false` in the `env` variable or update the `.env` file.
+
+## Using in CI
+To run SDK in a CI it must be executed with `SDK_CI_EXECUTION=1` env variable and with `-n` (non-interactive) flag.
+Example:
+```shell
+SDK_CI_EXECUTION=1 spryker-sdk sdk:init:sdk -n
+```
 

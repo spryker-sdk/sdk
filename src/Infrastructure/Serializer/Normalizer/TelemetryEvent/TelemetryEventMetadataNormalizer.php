@@ -30,8 +30,8 @@ class TelemetryEventMetadataNormalizer implements NormalizerInterface
 
         return [
             'developer_email' => $object->getDeveloperEmail(),
-            'developer_github_account' => $object->getDeveloperGithubAccount(),
             'project_name' => $object->getProjectName(),
+            'execution_env' => $object->getExecutionEnv(),
         ];
     }
 
