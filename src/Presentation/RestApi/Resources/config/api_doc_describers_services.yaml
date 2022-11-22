@@ -3,9 +3,9 @@ services:
     _instanceof:
         SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\BaseDescriber:
             calls:
-                - [ 'setDescriberHelper', [ '@describer_helper' ] ]
+                - [ 'setDescriberHelper', [ '@api_doc.describer_helper' ] ]
 
-    describer_helper:
+    api_doc.describer_helper:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\DescriberHelper
 
     api_doc.sdk_commands_describer:

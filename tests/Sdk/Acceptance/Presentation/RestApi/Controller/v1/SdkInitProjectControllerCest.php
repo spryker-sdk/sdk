@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController;
-use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,15 +38,14 @@ class SdkInitProjectControllerCest
     public function iSeeJsonResponseAfterCallSdkInitProjectEndpoint(AcceptanceTester $I): void
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => SdkInitProjectController::TYPE,
-                OpenApiField::ID => SdkInitProjectController::TYPE,
-                OpenApiField::ATTRIBUTES => [
-                    'report_usage_statistics' => false,
-                ],
-            ],
-        ]);
+        $I->sendPost(
+            static::ENDPOINT,
+            $I->createSuccessJsonStruct(
+                SdkInitProjectController::TYPE,
+                SdkInitProjectController::TYPE,
+                ['report_usage_statistics' => false],
+            ),
+        );
 
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
@@ -62,12 +60,11 @@ class SdkInitProjectControllerCest
     public function iSeeBadRequestAfterCallSdkInitProjectEndpoint(AcceptanceTester $I): void
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => SdkInitProjectController::TYPE,
-                OpenApiField::ID => SdkInitProjectController::TYPE,
-            ],
-        ]);
+
+        $I->sendPost(
+            static::ENDPOINT,
+            $I->createSuccessJsonStruct(SdkInitProjectController::TYPE, SdkInitProjectController::TYPE),
+        );
 
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }

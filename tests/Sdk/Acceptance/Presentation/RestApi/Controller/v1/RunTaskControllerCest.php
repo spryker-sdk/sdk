@@ -8,7 +8,6 @@
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController;
-use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,29 +38,28 @@ class RunTaskControllerCest
     public function iSeeJsonResponseAfterCallRunTaskEndpoint(AcceptanceTester $I): void
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => RunTaskController::TYPE,
-                OpenApiField::ID => 'hello:world',
-                OpenApiField::ATTRIBUTES => [
-                    'world' => 'World', 'somebody' => 'World',
-                ],
-            ],
-        ]);
+        $I->sendPost(
+            static::ENDPOINT,
+            $I->createSuccessJsonStruct(
+                RunTaskController::TYPE,
+                'hello:world',
+                ['world' => 'World', 'somebody' => 'World'],
+            ),
+        );
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
-        $I->seeResponseContainsJson([
-            OpenApiField::DATA => [
-                OpenApiField::ID => 'hello:world',
-                OpenApiField::TYPE => RunTaskController::TYPE,
-                OpenApiField::ATTRIBUTES => [
+        $I->seeResponseContainsJson(
+            $I->createSuccessJsonStruct(
+                RunTaskController::TYPE,
+                'hello:world',
+                [
                     'messages' => [
                         'Executing stage: hello',
                         'hello \'World\' \'World\'',
                     ],
                 ],
-            ],
-        ]);
+            ),
+        );
     }
 
     /**
@@ -72,15 +70,23 @@ class RunTaskControllerCest
     public function iSeeBadRequestAfterCallRunTaskEndpoint(AcceptanceTester $I): void
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPost(static::ENDPOINT, [
-            OpenApiField::DATA => [
-                OpenApiField::TYPE => RunTaskController::TYPE,
-                OpenApiField::ID => 'hello:world',
-                OpenApiField::ATTRIBUTES => [
-                    'world' => 'World',
-                ],
-            ],
-        ]);
+
+        $I->sendPost(
+            static::ENDPOINT,
+            $I->createSuccessJsonStruct(
+                RunTaskController::TYPE,
+                'hello:world',
+                ['world' => 'World'],
+            ),
+        );
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(
+            $I->createErrorJsonStruct(
+                ['Invalid request. Parameter `somebody` is missing.'],
+                Response::HTTP_BAD_REQUEST,
+                (string)Response::HTTP_BAD_REQUEST,
+            ),
+        );
     }
 }
