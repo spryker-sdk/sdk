@@ -8,6 +8,10 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\ApiDoc;
 
 use OpenApi\Annotations\OpenApi;
+use RuntimeException;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 class SdkCommandsDescriber extends BaseDescriber
 {
@@ -22,16 +26,41 @@ class SdkCommandsDescriber extends BaseDescriber
     protected const HTTP_METHOD = 'POST';
 
     /**
+     * @var iterable<\SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface>
+     */
+    protected iterable $controllers;
+
+    /**
      * @var iterable<\Symfony\Component\Console\Command\Command>
      */
     protected iterable $commands;
 
     /**
-     * @param iterable<\Symfony\Component\Console\Command\Command> $commands
+     * @var \Symfony\Component\HttpFoundation\RequestStack
      */
-    public function __construct(iterable $commands)
-    {
+    protected RequestStack $requestStack;
+
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    protected RouterInterface $router;
+
+    /**
+     * @param iterable<\SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface> $controllers
+     * @param iterable<\Symfony\Component\Console\Command\Command> $commands
+     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     */
+    public function __construct(
+        iterable $controllers,
+        iterable $commands,
+        RequestStack $requestStack,
+        RouterInterface $router
+    ) {
+        $this->controllers = $controllers;
         $this->commands = $commands;
+        $this->requestStack = $requestStack;
+        $this->router = $router;
     }
 
     /**
@@ -39,19 +68,63 @@ class SdkCommandsDescriber extends BaseDescriber
      *
      * @return void
      */
-    public function describe(OpenApi $api)
+    public function describe(OpenApi $api): void
     {
+        $routes = $this->router->getRouteCollection();
+        $commands = $this->getIndexedCommands();
+
+        /** @var \Symfony\Component\Routing\Route $route */
+        foreach ($routes as $route) {
+            $this->processRoute($route, $api, $commands);
+        }
+    }
+
+    /**
+     * @return array<string, \Symfony\Component\Console\Command\Command>
+     */
+    protected function getIndexedCommands(): array
+    {
+        $indexedCommands = [];
+
         foreach ($this->commands as $command) {
-            if ($command->getName() === null) {
+            $indexedCommands[$command->getName()] = $command;
+        }
+
+        return $indexedCommands;
+    }
+
+    /**
+     * @param \Symfony\Component\Routing\Route $route
+     * @param \OpenApi\Annotations\OpenApi $api
+     * @param array<string, \Symfony\Component\Console\Command\Command> $commands
+     *
+     * @throws \RuntimeException
+     *
+     * @return void
+     */
+    protected function processRoute(Route $route, OpenApi $api, array $commands): void
+    {
+        $controllerClass = $route->getDefault('_controller');
+
+        if ($controllerClass === null) {
+            return;
+        }
+
+        foreach ($this->controllers as $controller) {
+            if (!($controller instanceof $controllerClass)) {
                 continue;
             }
 
-            $route = str_replace(':', '-', $command->getName());
+            $commandName = $controller->getCommandName();
+
+            if (!isset($commands[$commandName])) {
+                throw new RuntimeException(sprintf('Commands `%s` not fount', $commandName));
+            }
 
             $this->buildRoute(
                 $api,
-                $command,
-                sprintf('/api/v1/%s', $route),
+                $commands[$commandName],
+                $route->getPath(),
                 static::HTTP_METHOD,
                 static::OPERATION_TAGS,
             );

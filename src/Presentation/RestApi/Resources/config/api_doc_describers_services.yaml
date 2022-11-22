@@ -12,10 +12,14 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\SdkCommandsDescriber
         tags: [ 'nelmio_api_doc.describer' ]
         arguments:
-            - !tagged_iterator "rest_api.exposed_command"
+            - !tagged_iterator 'rest_api.expose_command_api_doc'
+            - !tagged_iterator 'console.command'
+            - '@request_stack'
+            - '@router.default'
 
     api_doc.task_describer:
         class: SprykerSdk\Sdk\Presentation\RestApi\ApiDoc\RunTaskDescriber
         tags: [ 'nelmio_api_doc.describer' ]
         arguments:
             - '@console.command_loader'
+            - '@task_persistence_repository'

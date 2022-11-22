@@ -8,12 +8,14 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
+use SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand;
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface;
 use SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SdkUpdateSdkController extends BaseController
+class SdkUpdateSdkController extends BaseController implements CommandControllerInterface
 {
     /**
      * @var string
@@ -51,5 +53,13 @@ class SdkUpdateSdkController extends BaseController
         }
 
         return $this->createSuccessResponse(static::TYPE, static::TYPE, $attributes);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommandName(): string
+    {
+        return UpdateSdkCommand::NAME;
     }
 }

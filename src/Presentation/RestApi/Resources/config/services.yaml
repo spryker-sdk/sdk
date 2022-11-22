@@ -6,6 +6,9 @@ services:
             calls:
                 - ['setResponseFactory', ['@response.factory']]
 
+        SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface:
+            tags: ['rest_api.expose_command_api_doc']
+
     SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
         public: true
         arguments:

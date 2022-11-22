@@ -98,7 +98,7 @@ services:
       - "@initializer_service"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
-    tags: ["console.command", "telemetry.observable_command", "rest_api.exposed_command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
