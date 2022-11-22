@@ -47,7 +47,7 @@ class SdkUpdateSdkControllerCest
             ],
         );
 
-        $I->seeApiResponse(
+        $I->seeSuccessApiResponse(
             Response::HTTP_OK,
             SdkUpdateSdkController::TYPE,
             SdkUpdateSdkController::TYPE,

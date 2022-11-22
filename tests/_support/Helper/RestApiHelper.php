@@ -46,7 +46,7 @@ class RestApiHelper extends REST
      *
      * @return void
      */
-    public function seeApiResponse(string $responseCode, string $id, string $type, array $attributes = []): void
+    public function seeSuccessApiResponse(string $responseCode, string $id, string $type, array $attributes = []): void
     {
         $this->seeResponseCodeIs($responseCode);
 
@@ -56,6 +56,28 @@ class RestApiHelper extends REST
                 OpenApiField::TYPE => $type,
                 OpenApiField::ATTRIBUTES => $attributes,
             ],
+        ]);
+    }
+
+    /**
+     * @part json
+     * @part xml
+     *
+     * @param string $responseCode
+     * @param array $details
+     * @param int $code
+     * @param string $status
+     *
+     * @return void
+     */
+    public function seeErrorApiResponse(string $responseCode, array $details, int $code, string $status): void
+    {
+        $this->seeResponseCodeIs($responseCode);
+
+        $this->seeResponseContainsJson([
+            OpenApiField::DETAILS => $details,
+            OpenApiField::CODE => $code,
+            OpenApiField::STATUS => $status,
         ]);
     }
 }

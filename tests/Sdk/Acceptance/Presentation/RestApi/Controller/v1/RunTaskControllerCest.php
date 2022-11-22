@@ -47,7 +47,7 @@ class RunTaskControllerCest
             ],
         );
 
-        $I->seeApiResponse(
+        $I->seeSuccessApiResponse(
             Response::HTTP_OK,
             'hello:world',
             RunTaskController::TYPE,
@@ -76,16 +76,11 @@ class RunTaskControllerCest
             ],
         );
 
-        $I->seeApiResponse(
+        $I->seeErrorApiResponse(
             Response::HTTP_BAD_REQUEST,
-            'hello:world',
-            RunTaskController::TYPE,
-            [
-                'messages' => [
-                    'Executing stage: hello',
-                    'hello \'World\' \'World\'',
-                ],
-            ],
+            ['Invalid request. Parameter `somebody` is missing.'],
+            Response::HTTP_BAD_REQUEST,
+            (string)Response::HTTP_BAD_REQUEST,
         );
     }
 }
