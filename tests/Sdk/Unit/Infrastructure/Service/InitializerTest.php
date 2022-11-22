@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use Symfony\Component\Yaml\Yaml;
 
@@ -71,6 +72,11 @@ class InitializerTest extends Unit
     protected Initializer $initializerService;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
+     */
+    protected SettingInitializerRegistry $settingInitializerRegistry;
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -81,6 +87,7 @@ class InitializerTest extends Unit
         $this->cliValueReceiver = $this->createMock(InteractionProcessor::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
+        $this->settingInitializerRegistry = $this->createSettingInitializerRegistryMock();
         $this->migrateCommand = $this->createMock(DoctrineCommand::class);
 
         $this->initializerService = new Initializer(
@@ -88,6 +95,7 @@ class InitializerTest extends Unit
             $this->settingRepository,
             $this->taskManager,
             $this->taskYamlFileLoader,
+            $this->settingInitializerRegistry,
             $this->migrateCommand,
         );
     }
@@ -273,5 +281,16 @@ class InitializerTest extends Unit
 
         // Act
         $this->initializerService->initialize($optionSettings);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
+     */
+    protected function createSettingInitializerRegistryMock(): SettingInitializerRegistry
+    {
+        $settingInitializerRegistry = $this->createMock(SettingInitializerRegistry::class);
+        $settingInitializerRegistry->method('hasSettingInitializer')->willReturn(false);
+
+        return $settingInitializerRegistry;
     }
 }

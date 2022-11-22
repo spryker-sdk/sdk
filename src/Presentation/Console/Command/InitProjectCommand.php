@@ -24,7 +24,7 @@ class InitProjectCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'sdk:init:project';
+    public const NAME = 'sdk:init:project';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface

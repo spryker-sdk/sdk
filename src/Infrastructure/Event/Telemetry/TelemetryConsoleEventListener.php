@@ -7,11 +7,11 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Event\Telemetry;
 
-use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\Payload\CommandExecutionPayload;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
+use SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactoryInterface;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
@@ -40,28 +40,28 @@ class TelemetryConsoleEventListener
     protected TelemetryConsoleEventValidatorInterface $telemetryConsoleEventValidator;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactoryInterface
      */
-    protected LoggerInterface $logger;
+    protected ErrorLoggerFactoryInterface $errorLoggerFactory;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer
      * @param \SprykerSdk\Sdk\Core\Application\Telemetry\TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory
      * @param \SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidatorInterface $telemetryConsoleEventValidator
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactoryInterface $errorLoggerFactory
      * @param bool $isTelemetryEnabled
      */
     public function __construct(
         TelemetryEventsSynchronizerInterface $telemetryEventsSynchronizer,
         TelemetryEventMetadataFactoryInterface $telemetryEventMetadataFactory,
         TelemetryConsoleEventValidatorInterface $telemetryConsoleEventValidator,
-        LoggerInterface $logger,
+        ErrorLoggerFactoryInterface $errorLoggerFactory,
         bool $isTelemetryEnabled
     ) {
         $this->telemetryEventsSynchronizer = $telemetryEventsSynchronizer;
         $this->telemetryEventMetadataFactory = $telemetryEventMetadataFactory;
         $this->telemetryConsoleEventValidator = $telemetryConsoleEventValidator;
-        $this->logger = $logger;
+        $this->errorLoggerFactory = $errorLoggerFactory;
         $this->isTelemetryEnabled = $isTelemetryEnabled;
     }
 
@@ -163,7 +163,7 @@ class TelemetryConsoleEventListener
         try {
             $this->telemetryEventsSynchronizer->synchronize();
         } catch (Throwable $e) {
-            $this->logger->error($e->getMessage());
+            $this->errorLoggerFactory->getErrorLogger()->error($e->getMessage());
             $event->getOutput()->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }
 

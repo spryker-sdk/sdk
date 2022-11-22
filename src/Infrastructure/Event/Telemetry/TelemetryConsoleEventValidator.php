@@ -13,16 +13,16 @@ use Symfony\Component\Console\Event\ConsoleEvent;
 class TelemetryConsoleEventValidator implements TelemetryConsoleEventValidatorInterface
 {
     /**
-     * @var iterable<\Symfony\Component\Console\Command\Command>
+     * @var iterable<class-string>
      */
-    protected iterable $allowedCommands;
+    protected iterable $allowedCommandClasses;
 
     /**
-     * @param iterable<\Symfony\Component\Console\Command\Command> $allowedCommands
+     * @param iterable<class-string> $allowedCommandClasses
      */
-    public function __construct(iterable $allowedCommands)
+    public function __construct(iterable $allowedCommandClasses)
     {
-        $this->allowedCommands = $allowedCommands;
+        $this->allowedCommandClasses = $allowedCommandClasses;
     }
 
     /**
@@ -46,8 +46,8 @@ class TelemetryConsoleEventValidator implements TelemetryConsoleEventValidatorIn
             return true;
         }
 
-        foreach ($this->allowedCommands as $allowedCommand) {
-            if ($targetCommand instanceof $allowedCommand) {
+        foreach ($this->allowedCommandClasses as $allowedCommandClass) {
+            if ($targetCommand instanceof $allowedCommandClass) {
                 return true;
             }
         }

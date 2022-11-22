@@ -153,7 +153,9 @@ services:
             - "@setting_repository"
             - "@service.task_manager"
             - "@task_yaml_loader"
+            - "@setting.setting_initializer_registry"
             - "@doctrine_migrations.migrate_command"
+
     process_helper:
         class: Symfony\Component\Console\Helper\ProcessHelper
 
@@ -503,7 +505,7 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcher
         arguments:
             - !tagged_iterator project_info_fetcher.fetcher_strategy
-            - "@error_logger"
+            - "@error_logger_factory"
 
     guzzle.http_client:
         class: GuzzleHttp\Client
@@ -534,7 +536,7 @@ services:
     telemetry.command_event_validator:
         class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventValidator
         arguments:
-            - !tagged_iterator telemetry.observable_command
+            - "@telemetry.observable_commands_class_name_collection"
 
     telemetry.command_event_listener:
         class: SprykerSdk\Sdk\Infrastructure\Event\Telemetry\TelemetryConsoleEventListener
@@ -542,11 +544,16 @@ services:
             - "@telemetry.command_event_synchronizer"
             - "@telemetry.event_metadata_factory"
             - "@telemetry.command_event_validator"
-            - "@error_logger"
+            - "@error_logger_factory"
             - "%telemetry_enabled%"
         tags:
             - { name: kernel.event_listener, event: console.terminate }
             - { name: kernel.event_listener, event: console.error }
+
+    telemetry.observable_commands_class_name_collection:
+        class: SprykerSdk\Sdk\Infrastructure\Collection\TaggedClassNameCollection\TaggedClassNameCollection
+        tags:
+            - {name: 'tagged_class_name_collection', target_tag: 'telemetry.observable_command'}
 
     context.in_memory_cache_storage:
         class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
