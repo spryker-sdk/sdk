@@ -17,7 +17,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
 use SprykerSdk\SdkContracts\Enum\Setting;
 
-class ErrorLoggerFactory
+class ErrorLoggerFactory implements ErrorLoggerFactoryInterface
 {
     /**
      * @var string
@@ -35,6 +35,11 @@ class ErrorLoggerFactory
     protected string $projectLogFile;
 
     /**
+     * @var \Psr\Log\LoggerInterface|null
+     */
+    protected ?LoggerInterface $logger = null;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param string $projectLogFile
      */
@@ -47,12 +52,14 @@ class ErrorLoggerFactory
     /**
      * @return \Psr\Log\LoggerInterface
      */
-    public function createLogger(): LoggerInterface
+    public function getErrorLogger(): LoggerInterface
     {
-        $logger = new Logger(static::LOGGER_NAME);
-        $logger->pushHandler($this->createLoggerHandler());
+        if ($this->logger === null) {
+            $this->logger = new Logger(static::LOGGER_NAME);
+            $this->logger->pushHandler($this->createLoggerHandler());
+        }
 
-        return $logger;
+        return $this->logger;
     }
 
     /**

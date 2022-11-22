@@ -48,7 +48,7 @@ class SettingFetcher implements SettingFetcherInterface
         if ($setting === null) {
             throw new MissingSettingException(
                 sprintf(
-                    'Setting by path `%s` not found. You need to run `sdk:init:project` command',
+                    'Setting by path `%s` not found. You need to run `sdk:init:sdk` and `sdk:init:project` command',
                     $settingPath,
                 ),
             );

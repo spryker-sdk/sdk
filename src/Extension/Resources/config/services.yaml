@@ -2,6 +2,8 @@ parameters:
     env(UNAME_INFO): ''
     uname_info: '%env(uname:UNAME_INFO)%'
     sdk_settings: "%kernel.project_dir%/src/Extension/Resources/config/setting/settings.yaml"
+    sdk_ci_execution_default: false
+    sdk_ci_execution:  "%env(default:sdk_ci_execution_default:bool:SDK_CI_EXECUTION)%"
 
 services:
     _instanceof:
@@ -142,6 +144,15 @@ services:
     qa_task_initializer:
         alias: SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer
         public: true
+    sdk_uuid_initializer:
+        class: SprykerSdk\Sdk\Extension\Setting\Initializer\SdkUuidInitializer
+        arguments:
+            - "@setting_repository"
+    execution_env_initializer:
+        class: SprykerSdk\Sdk\Extension\Setting\Initializer\ExecutionEnvInitializer
+        arguments:
+            - "@setting_repository"
+            - "%sdk_ci_execution%"
 
     # Transition resolvers
     transition_boolean_resolver:

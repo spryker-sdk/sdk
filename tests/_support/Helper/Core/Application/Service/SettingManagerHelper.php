@@ -45,6 +45,7 @@ class SettingManagerHelper extends Module
      * @param string $type
      * @param string $settingType
      * @param bool $hasInitialization
+     * @param bool $forceAskValue
      * @param string|null $initializationDescription
      * @param string|null $initializer
      *
@@ -58,6 +59,7 @@ class SettingManagerHelper extends Module
         string $type = 'string',
         string $settingType = 'local',
         bool $hasInitialization = false,
+        bool $forceAskValue = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
     ): SettingInterface {
@@ -69,6 +71,7 @@ class SettingManagerHelper extends Module
             $type,
             $settingType,
             $hasInitialization,
+            $forceAskValue,
             $initializationDescription,
             $initializer,
         );

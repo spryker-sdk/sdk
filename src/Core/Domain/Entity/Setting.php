@@ -7,7 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting as SettingEnum;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
@@ -44,6 +43,11 @@ class Setting implements SettingInterface
     protected bool $hasInitialization;
 
     /**
+     * @var bool
+     */
+    protected bool $forceAskValue;
+
+    /**
      * @var string|null
      */
     protected ?string $initializationDescription;
@@ -54,12 +58,18 @@ class Setting implements SettingInterface
     protected ?string $initializer;
 
     /**
+     * @var bool
+     */
+    protected bool $isFirstInitialization = false;
+
+    /**
      * @param string $path
      * @param mixed $values
      * @param string $strategy
      * @param string $type
      * @param string $settingType
      * @param bool $hasInitialization
+     * @param bool $forceAskValue
      * @param string|null $initializationDescription
      * @param string|null $initializer
      */
@@ -70,6 +80,7 @@ class Setting implements SettingInterface
         string $type = ValueTypeEnum::TYPE_STRING,
         string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
+        bool $forceAskValue = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
     ) {
@@ -81,6 +92,8 @@ class Setting implements SettingInterface
         $this->values = $values;
         $this->path = $path;
         $this->initializer = $initializer;
+        $this->forceAskValue = $forceAskValue;
+        $this->isFirstInitialization = true;
     }
 
     /**
@@ -150,6 +163,16 @@ class Setting implements SettingInterface
      *
      * @return bool
      */
+    public function isForceAskValue(): bool
+    {
+        return $this->forceAskValue;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return bool
+     */
     public function hasInitialization(): bool
     {
         return $this->hasInitialization;
@@ -209,5 +232,13 @@ class Setting implements SettingInterface
     public function isLocal(): bool
     {
         return $this->getSettingType() === SettingEnum::SETTING_TYPE_LOCAL;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFirstInitialization(): bool
+    {
+        return $this->isFirstInitialization;
     }
 }
