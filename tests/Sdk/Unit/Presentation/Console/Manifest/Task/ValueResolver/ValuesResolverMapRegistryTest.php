@@ -34,14 +34,15 @@ class ValuesResolverMapRegistryTest extends Unit
         // Arrange
         $item = $this->createRegistryItem('one');
         $registry = new ValuesResolverMapRegistry([$item]);
+        $missedItemName = 'two';
 
         // Act
         $itemOneStatus = $registry->has('one');
-        $itemTwoStatus = $registry->has('two');
+        $itemTwoStatus = $registry->has($missedItemName);
 
         // Assert
-        $this->assertTrue($itemOneStatus);
-        $this->assertFalse($itemTwoStatus);
+        $this->assertTrue($itemOneStatus, sprintf('Item `%s` should be in registry', $item->getName()));
+        $this->assertFalse($itemTwoStatus, sprintf('Item `%s` shouldn\'t be in registry', $missedItemName));
     }
 
     /**
@@ -52,14 +53,15 @@ class ValuesResolverMapRegistryTest extends Unit
         // Arrange
         $item = $this->createRegistryItem('one');
         $registry = new ValuesResolverMapRegistry([$item]);
+        $missedItemName = 'two';
 
         // Act
         $itemOne = $registry->find('one');
-        $itemTwo = $registry->find('two');
+        $itemTwo = $registry->find($missedItemName);
 
         // Assert
-        $this->assertSame($item, $itemOne);
-        $this->assertNull($itemTwo);
+        $this->assertSame($item, $itemOne, sprintf('Item `%s` should be fount in registry', $item->getName()));
+        $this->assertNull($itemTwo, sprintf('Item `%s` shouldn\'t be in registry', $missedItemName));
     }
 
     /**

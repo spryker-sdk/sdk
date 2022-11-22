@@ -77,14 +77,6 @@ services:
             - "@service.command_executor"
             - "@report_generator_factory"
             - "@action_approver"
-    no_approver_task_executor:
-        public: true
-        class: SprykerSdk\Sdk\Core\Application\Service\TaskExecutor
-        arguments:
-            - "@placeholder_resolver"
-            - "@task_persistence_repository"
-            - "@service.command_executor"
-            - "@report_generator_factory"
     project_setting_repository:
         abstract: true
         synthetic: true

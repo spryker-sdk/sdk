@@ -55,8 +55,8 @@ class {{ data.manifestFile.fileName }} implements TaskInterface
                     ],
                     {%~ else %}
                         {%~ if key == 'type' %}
-                            {%~ set constValue = class_const('\\SprykerSdk\\SdkContracts\\Enum\\ValueTypeEnum', configItem) %}
-                            {%~ set configValue = constValue is null ? '\'' ~ configItem ~ '\'' : constValue %}
+                            {%~ set constCodeDefinition = class_const('\\SprykerSdk\\SdkContracts\\Enum\\ValueTypeEnum', configItem) %}
+                            {%~ set configValue = constCodeDefinition is null ? '\'' ~ configItem ~ '\'' : constCodeDefinition %}
                         {%~ else %}
                             {%~ set configValue = '\'' ~ configItem ~ '\'' %}
                         {%~ endif %}

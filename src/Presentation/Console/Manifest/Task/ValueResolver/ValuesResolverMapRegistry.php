@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\Registry\AbstractRegistry;
+use SprykerSdk\Sdk\Core\Application\Registry\AbstractLazyRegistry;
 
-class ValuesResolverMapRegistry extends AbstractRegistry implements ValuesResolverMapRegistryInterface
+class ValuesResolverMapRegistry extends AbstractLazyRegistry implements ValuesResolverMapRegistryInterface
 {
 }

@@ -13,7 +13,7 @@ use InvalidArgumentException;
  * @template T of \SprykerSdk\Sdk\Core\Application\Registry\RegistryItemInterface
  * @implements \SprykerSdk\Sdk\Core\Application\Registry\RegistryInterface<T>
  */
-abstract class AbstractRegistry implements RegistryInterface
+abstract class AbstractLazyRegistry implements RegistryInterface
 {
     /**
      * @var bool
