@@ -21,11 +21,6 @@ FROM application-production-dependencies AS application-production-codebase
 
 RUN chown spryker:spryker ${srcRoot}
 
-ARG USER_UID
-RUN if [[ ! -z "${USER_UID}" ]]; then \
-        usermod -u "${USER_UID}" spryker; \
-    fi
-
 USER spryker
 # Authorize SSH Host
 RUN mkdir -p /home/spryker/.ssh && \

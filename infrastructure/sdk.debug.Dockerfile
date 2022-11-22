@@ -18,6 +18,11 @@ COPY infrastructure/debug/sdk.sh /usr/bin/sdk
 
 RUN chmod +x /usr/bin/sdk
 
+ARG USER_UID
+RUN if [[ ! -z "${USER_UID}" ]]; then \
+        usermod -u "${USER_UID}" spryker; \
+    fi
+
 USER spryker
 
 COPY infrastructure/debug/.bashrc /home/spryker/.bashrc
