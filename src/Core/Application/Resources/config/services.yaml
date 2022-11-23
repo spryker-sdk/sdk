@@ -1,6 +1,7 @@
 parameters:
     project_log_file: ".ssdk/.ssdk.log"
     project_settings_file: "./.ssdk/settings"
+    project_local_settings_file: "./.ssdk/settings.local"
 services:
     path_resolver:
         class: SprykerSdk\Sdk\Core\Application\Service\PathResolver

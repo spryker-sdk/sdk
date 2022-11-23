@@ -66,6 +66,7 @@ services:
             - "@setting_repository"
             - "@yaml_parser"
             - "%project_settings_file%"
+            - "%project_local_settings_file%"
             - "@path_resolver"
     yaml_parser:
         class: Symfony\Component\Yaml\Yaml

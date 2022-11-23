@@ -41,6 +41,8 @@ services:
       - "@workflow_runner"
       - "@context_factory"
       - "@setting.setting_fetcher"
+      - "%project_settings_file%"
+      - "%project_local_settings_file%"
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
