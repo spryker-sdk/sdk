@@ -52,18 +52,20 @@ if [[ -e ~/.zshrc ]]
 then
     echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ~/.zshrc && \
     echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ~/.zshrc && \
-    source ~/.zshrc
     echo 'Created alias in ~/.zshrc'
+    echo "Run \`source ~/.zshrc\` re-open terminal"
 elif [[ -e ~/.bashrc ]]
 then
     echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ~/.bashrc && \
     echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ~/.bashrc && \
-    source ~/.bashrc
-    echo 'Created alias in ~/.bashrc'
+    echo 'Created alias in ~/.bashrc' && \
+    echo "Run \`source ~/.bashrc\` or re-open terminal"
 else
   echo ""
   echo "Installation complete."
-  echo "Add alias for your system spryker-sdk=\"$DESTINATION/bin/spryker-sdk.sh\""
+  echo "Run \`export SPRYKER_SDK_PATH=\"$DESTINATION\"\`"
+  echo "Add alias for your system \`spryker-sdk=\"$DESTINATION/bin/spryker-sdk.sh\"\`"
+  echo 'Re-open terminal for apply changes.'
   echo ""
 fi
 
