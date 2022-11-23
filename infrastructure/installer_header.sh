@@ -52,7 +52,7 @@ if [[ -e ~/.zshrc ]]
 then
     echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ~/.zshrc && \
     echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ~/.zshrc && \
-    echo 'Created alias in ~/.zshrc'
+    echo 'Created alias in ~/.zshrc' && \
     echo "Run \`source ~/.zshrc\` re-open terminal"
 elif [[ -e ~/.bashrc ]]
 then
