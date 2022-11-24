@@ -20,6 +20,11 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     /**
      * @var string
      */
+    public const NOT_AVAILABLE = 'n/a';
+
+    /**
+     * @var string
+     */
     public const FORMAT = 'output';
 
     /**
@@ -75,12 +80,12 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                     foreach ($fileViolations as $fileViolation) {
                         $violations[] = [
                             $fileViolation->getId(),
-                            $fileViolation->getMessage() ?: 'n/a',
+                            $fileViolation->getMessage() ?: static::NOT_AVAILABLE,
                             $fileViolation->isFixable() ? 'true' : 'false',
                             $path,
-                            $fileViolation->getStartLine() ?: 'n/a',
-                            $fileViolation->getClass() ?: 'n/a',
-                            $fileViolation->getMethod() ?: 'n/a',
+                            $fileViolation->getStartLine() ?: static::NOT_AVAILABLE,
+                            $fileViolation->getClass() ?: static::NOT_AVAILABLE,
+                            $fileViolation->getMethod() ?: static::NOT_AVAILABLE,
                         ];
                     }
                 }
