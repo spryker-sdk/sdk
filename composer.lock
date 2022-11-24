@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec90c1dfbf2e210801d6a4c91e1d7f99",
+    "content-hash": "2862c2a692b39dae5d019c99b2ea050c",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6534,12 +6534,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "80235c6fc2b6fb269b43a76d24c4085cfca0ca8c"
+                "reference": "dde4e8721ba8b1449f6af8602fb507e88cb6981d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/80235c6fc2b6fb269b43a76d24c4085cfca0ca8c",
-                "reference": "80235c6fc2b6fb269b43a76d24c4085cfca0ca8c",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/dde4e8721ba8b1449f6af8602fb507e88cb6981d",
+                "reference": "dde4e8721ba8b1449f6af8602fb507e88cb6981d",
                 "shasum": ""
             },
             "require": {
@@ -6582,20 +6582,20 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2022-11-07T13:03:28+00:00"
+            "time": "2022-11-24T10:49:16+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-1064-telemetry-improvements",
+            "version": "0.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "fc83c261b941e9f27696a09786ed20f301c72780"
+                "reference": "36e5c4777dc230e9671a72006f3e669a09872443"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/fc83c261b941e9f27696a09786ed20f301c72780",
-                "reference": "fc83c261b941e9f27696a09786ed20f301c72780",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/36e5c4777dc230e9671a72006f3e669a09872443",
+                "reference": "36e5c4777dc230e9671a72006f3e669a09872443",
                 "shasum": ""
             },
             "require": {
@@ -6619,9 +6619,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-1064-telemetry-improvements"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.6"
             },
-            "time": "2022-11-21T15:34:03+00:00"
+            "time": "2022-11-22T16:03:10+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -6729,12 +6729,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "d86d32b94b65d225c9c131ba75b7f4e948004457"
+                "reference": "1e2203b3e8e465ab40d0c40d8a940daa6a1177c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/d86d32b94b65d225c9c131ba75b7f4e948004457",
-                "reference": "d86d32b94b65d225c9c131ba75b7f4e948004457",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/1e2203b3e8e465ab40d0c40d8a940daa6a1177c3",
+                "reference": "1e2203b3e8e465ab40d0c40d8a940daa6a1177c3",
                 "shasum": ""
             },
             "require": {
@@ -6750,7 +6750,7 @@
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-master",
-                "spryker-sdk/sdk-contracts": "^0.4.0",
+                "spryker-sdk/sdk-contracts": "^0.4.6",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
                 "symfony/dependency-injection": "^5.0",
@@ -6791,7 +6791,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2022-11-07T16:55:46+00:00"
+            "time": "2022-11-24T10:55:10+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -15607,12 +15607,6 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-1064-telemetry-improvements",
-            "alias": "0.4.5",
-            "alias_normalized": "0.4.5.0"
-        },
-        {
             "package": "spryker-sdk/spryk",
             "version": "9999999-dev",
             "alias": "0.4.6",
@@ -15622,7 +15616,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/spryk": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
@@ -15644,5 +15637,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.1.0"
 }
