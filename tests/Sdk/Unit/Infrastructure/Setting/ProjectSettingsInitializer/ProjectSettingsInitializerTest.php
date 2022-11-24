@@ -76,6 +76,7 @@ class ProjectSettingsInitializerTest extends Unit
             ValueTypeEnum::TYPE_UUID,
             SettingEnum::SETTING_TYPE_LOCAL,
             false,
+            false,
             null,
             'uuid_initializer',
         );

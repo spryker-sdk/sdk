@@ -248,40 +248,21 @@ class SettingRepository extends EntityRepository implements SettingRepositoryInt
             return $settingEntity;
         }
 
-        $settingData = $this->prepereSettingData($setting);
         $settingEntity = new EntitySetting(
             null,
-            $settingData['path'],
-            $settingData['values'],
-            $settingData['strategy'],
-            $settingData['type'],
-            $settingData['setting_type'],
-            $settingData['init'],
-            $settingData['initialization_description'],
-            $settingData['initializer'],
+            $setting['path'],
+            $setting['values'],
+            $setting['strategy'] ?? 'overwrite',
+            $setting['type'] ?? ValueTypeEnum::TYPE_STRING,
+            $setting['setting_type'] ?? Setting::SETTING_TYPE_LOCAL,
+            $setting['init'] ?? false,
+            $setting['force_ask_value'] ?? false,
+            $setting['initialization_description'] ?? null,
+            $setting['initializer'] ?? null,
         );
 
         $this->save($settingEntity);
 
         return $settingEntity;
-    }
-
-    /**
-     * @param array $setting
-     *
-     * @return array
-     */
-    protected function prepereSettingData(array $setting): array
-    {
-        return [
-            'path' => $setting['path'],
-            'type' => $setting['type'] ?? ValueTypeEnum::TYPE_STRING,
-            'setting_type' => $setting['setting_type'] ?? Setting::SETTING_TYPE_LOCAL,
-            'initialization_description' => $setting['initialization_description'] ?? null,
-            'strategy' => $setting['strategy'] ?? 'overwrite',
-            'init' => $setting['init'] ?? false,
-            'values' => $setting['values'],
-            'initializer' => $setting['initializer'] ?? null,
-        ];
     }
 }

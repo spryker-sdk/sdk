@@ -11,10 +11,9 @@ services:
         USER_UID: ${USER_UID}
         SDK_VERSION: ${SDK_VERSION:-latest}
     working_dir: "/project"
+    env_file:
+        - ./infrastructure/env/.env
     environment:
-      SDK_DIR: ${SDK_DIR}
-      UNAME_INFO: ${UNAME_INFO}
-      EXECUTABLE_FILE_PATH: ${EXECUTABLE_FILE_PATH}
       APP_ENV: prod
       APP_DEBUG: 0
     volumes:
