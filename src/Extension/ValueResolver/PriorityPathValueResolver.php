@@ -47,7 +47,8 @@ class PriorityPathValueResolver extends OriginValueResolver
         if (strpos($relativePath, DIRECTORY_SEPARATOR) === 0) {
             throw new UnresolvableValueExceptionException('Absolute path is forbidden due to security reasons.');
         }
-        if (strpos($relativePath, '..' . DIRECTORY_SEPARATOR) === 0) {
+
+        if (strpos($relativePath, '..') !== false) {
             throw new UnresolvableValueExceptionException('Path ../ is forbidden due to security reasons.');
         }
 

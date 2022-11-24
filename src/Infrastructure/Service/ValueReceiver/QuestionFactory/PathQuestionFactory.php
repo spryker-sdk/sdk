@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
+use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\Question;
 
@@ -25,6 +26,28 @@ class PathQuestionFactory extends StringQuestionFactory
 
         $question->setAutocompleterCallback([$this, 'autocompleteInput']);
 
+        return $this->addValidator($question);
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Question\Question $question
+     *
+     * @return \Symfony\Component\Console\Question\Question
+     */
+    protected function addValidator(Question $question): Question
+    {
+        $question->setValidator(function ($value) {
+            if (!$this->isPassValid($value)) {
+                throw new MissingValueException('Path ../ is forbidden due to security reasons.');
+            }
+
+            if (!$this->isAbsolutePath($value)) {
+                throw new MissingValueException('Absolute path is forbidden due to security reasons.');
+            }
+
+            return $value;
+        });
+
         return $question;
     }
 
@@ -37,7 +60,11 @@ class PathQuestionFactory extends StringQuestionFactory
     {
         $inputPath = (string)preg_replace('%(/|^)[^/]*$%', '$1', $userInput);
 
-        if (preg_match('/^(\/|..\/)/i', $inputPath)) {
+        if (!$this->isPassValid($inputPath)) {
+            return [];
+        }
+
+        if (!$this->isAbsolutePath($inputPath)) {
             return [];
         }
 
@@ -56,5 +83,25 @@ class PathQuestionFactory extends StringQuestionFactory
     public static function getType(): string
     {
         return ValueTypeEnum::TYPE_PATH;
+    }
+
+    /**
+     * @param string $inputPath
+     *
+     * @return bool
+     */
+    protected function isPassValid(string $inputPath): bool
+    {
+        return strpos($inputPath, '..') === false;
+    }
+
+    /**
+     * @param string $inputPath
+     *
+     * @return bool
+     */
+    protected function isAbsolutePath(string $inputPath): bool
+    {
+        return strpos($inputPath, '/') === false;
     }
 }
