@@ -62,12 +62,12 @@ class VcsCloneTask implements TaskInterface
 
         return [
             new Placeholder(
-                '%vcs_repository%',
+                '%vcs-repository%',
                 'ORIGIN',
                 [
                     'description' => 'Repository link',
                     'type' => ValueTypeEnum::TYPE_STRING,
-                    'alias' => 'vcs_repository',
+                    'alias' => 'vcs-repository',
                 ],
                 false,
             ),
