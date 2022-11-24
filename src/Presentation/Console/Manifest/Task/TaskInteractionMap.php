@@ -11,10 +11,10 @@ use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue as Config;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\CallbackValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ReceivedValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\StaticValue;
-use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ValueCollection;
 use SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValuesResolverMapRegistryInterface;
 use SprykerSdk\SdkContracts\Enum\Task;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class TaskInteractionMap
 {
@@ -76,12 +76,12 @@ class TaskInteractionMap
     /**
      * @var string
      */
-    public const PLACEHOLDER_CONFIGURATION_IS_NEEDED_KEY = 'is_configuration_needed';
+    public const PLACEHOLDER_CONFIGURATION_KEY = 'configuration';
 
     /**
-     * @var string
+     * @var int
      */
-    public const PLACEHOLDER_CONFIGURATION_KEY = 'configuration';
+    protected const HEADER_WIDTH_IN_CHARS = 50;
 
     /**
      * @var string
@@ -115,10 +115,11 @@ class TaskInteractionMap
 
     /**
      * @param array<string, mixed> $predefinedValues
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return array
      */
-    public function getInteractionMap(array $predefinedValues): array
+    public function getInteractionMap(array $predefinedValues, OutputInterface $output): array
     {
         return [
             static::FILE_FORMAT_KEY => new StaticValue(
@@ -148,19 +149,38 @@ class TaskInteractionMap
                     [Task::TYPE_LOCAL_CLI, Task::TYPE_LOCAL_CLI_INTERACTIVE],
                 ),
             ),
-            static::PLACEHOLDERS_KEY => new ValueCollection($this->getPlaceholdersConfigs()),
+            static::PLACEHOLDERS_KEY => new CallbackValue(
+                function (array $receivedValues) use ($output): array {
+                    $command = $receivedValues[static::COMMAND_KEY];
+                    if (!preg_match_all('/(?<placeholder>%[a-zA-Z-_]+%)/', $command, $matches)) {
+                        return [];
+                    }
+
+                    return array_map(
+                        fn (string $placeholderName): array => $this->getPlaceholdersConfigs($placeholderName, $output),
+                        $matches['placeholder'],
+                    );
+                },
+            ),
         ];
     }
 
     /**
+     * @param string $placeholderName
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
      * @return array<\SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\InteractionValueConfig>
      */
-    protected function getPlaceholdersConfigs(): array
+    protected function getPlaceholdersConfigs(string $placeholderName, OutputInterface $output): array
     {
         return [
-            static::PLACEHOLDER_NAME_KEY => new ReceivedValue(
-                new Config(static::PLACEHOLDER_NAME_KEY, 'Placeholder name', null, ValueTypeEnum::TYPE_STRING),
-            ),
+            new CallbackValue(function () use ($output, $placeholderName): array {
+                $this->writePlaceholderHeader($output, $placeholderName);
+
+                return [];
+            }),
+
+            static::PLACEHOLDER_NAME_KEY => new StaticValue($placeholderName),
             static::PLACEHOLDER_VALUE_RESOLVER_KEY => new ReceivedValue(
                 new Config(
                     static::PLACEHOLDER_VALUE_RESOLVER_KEY,
@@ -171,18 +191,16 @@ class TaskInteractionMap
                 ),
             ),
             static::PLACEHOLDER_OPTIONAL_KEY => new ReceivedValue(
-                new Config(static::PLACEHOLDER_NAME_KEY, 'Is placeholder optional?', true, ValueTypeEnum::TYPE_BOOL),
-            ),
-            static::PLACEHOLDER_CONFIGURATION_IS_NEEDED_KEY => new ReceivedValue(
-                new Config(static::PLACEHOLDER_NAME_KEY, 'Would you like to add config into the placeholder', true, ValueTypeEnum::TYPE_BOOL),
+                new Config(
+                    static::PLACEHOLDER_NAME_KEY,
+                    'Is placeholder optional?',
+                    true,
+                    ValueTypeEnum::TYPE_BOOL,
+                ),
             ),
             static::PLACEHOLDER_CONFIGURATION_KEY => new CallbackValue(
-                function (array $receivedValues) {
+                function (array $receivedValues): array {
                     $lastPlaceholder = end($receivedValues[static::PLACEHOLDERS_KEY]);
-
-                    if (!$lastPlaceholder[static::PLACEHOLDER_CONFIGURATION_IS_NEEDED_KEY]) {
-                        return [];
-                    }
 
                     $lastResolverId = $lastPlaceholder[static::PLACEHOLDER_VALUE_RESOLVER_KEY];
 
@@ -190,5 +208,20 @@ class TaskInteractionMap
                 },
             ),
         ];
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string $placeholderName
+     *
+     * @return void
+     */
+    protected function writePlaceholderHeader(OutputInterface $output, string $placeholderName): void
+    {
+        $line = sprintf('<comment>%s</comment>', str_repeat('=', static::HEADER_WIDTH_IN_CHARS));
+
+        $output->writeln(PHP_EOL . $line);
+        $output->writeln(sprintf('<comment>Populate <info>%s</info> placeholder</comment>', $placeholderName));
+        $output->writeln($line . PHP_EOL);
     }
 }

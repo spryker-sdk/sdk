@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Extension\Manifest\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue as Config;
 use SprykerSdk\Sdk\Extension\ValueResolver\OriginValueResolver;
+use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\CallbackValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ReceivedValue;
 use SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\ValueCollection;
 use SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValueResolverMapInterface;
@@ -67,15 +68,6 @@ class OriginValueResolverMap implements ValueResolverMapInterface
     public function getMap(): array
     {
         return [
-            static::ALIAS_KEY => new ReceivedValue(
-                new Config(
-                    static::ALIAS_KEY,
-                    sprintf('%s %s', static::DESCRIPTION_PREFIX, static::ALIAS_KEY),
-                    null,
-                    ValueTypeEnum::TYPE_STRING,
-                ),
-                false,
-            ),
             static::DESCRIPTION_KEY => new ReceivedValue(
                 new Config(
                     static::DESCRIPTION_KEY,
@@ -83,25 +75,6 @@ class OriginValueResolverMap implements ValueResolverMapInterface
                     null,
                     ValueTypeEnum::TYPE_STRING,
                 ),
-                false,
-            ),
-            static::OPTION_KEY => new ReceivedValue(
-                new Config(
-                    static::OPTION_KEY,
-                    sprintf('%s %s', static::DESCRIPTION_PREFIX, static::OPTION_KEY),
-                    null,
-                    ValueTypeEnum::TYPE_STRING,
-                ),
-                false,
-            ),
-            static::DEFAULT_VALUE_KEY => new ReceivedValue(
-                new Config(
-                    static::DEFAULT_VALUE_KEY,
-                    sprintf('%s %s', static::DESCRIPTION_PREFIX, static::DEFAULT_VALUE_KEY),
-                    null,
-                    ValueTypeEnum::TYPE_STRING,
-                ),
-                false,
             ),
             static::TYPE_KEY => new ReceivedValue(
                 new Config(
@@ -115,6 +88,23 @@ class OriginValueResolverMap implements ValueResolverMapInterface
                         ValueTypeEnum::TYPE_STRING,
                         ValueTypeEnum::TYPE_INT,
                     ],
+                ),
+            ),
+            static::ALIAS_KEY => new ReceivedValue(
+                new Config(
+                    static::ALIAS_KEY,
+                    sprintf('%s %s', static::DESCRIPTION_PREFIX, static::ALIAS_KEY),
+                    null,
+                    ValueTypeEnum::TYPE_STRING,
+                ),
+                false,
+            ),
+            static::OPTION_KEY => new ReceivedValue(
+                new Config(
+                    static::OPTION_KEY,
+                    sprintf('%s %s', static::DESCRIPTION_PREFIX, static::OPTION_KEY),
+                    null,
+                    ValueTypeEnum::TYPE_STRING,
                 ),
                 false,
             ),
@@ -145,6 +135,27 @@ class OriginValueResolverMap implements ValueResolverMapInterface
                 ],
                 false,
                 true,
+            ),
+            static::DEFAULT_VALUE_KEY => new CallbackValue(
+                function (array $receivedValues): ReceivedValue {
+                    $choiceValues = [];
+                    $lastPlaceholder = end($receivedValues['placeholders']);
+
+                    if (isset($lastPlaceholder['configuration'][static::CHOICE_VALUES_KEY])) {
+                        $choiceValues = $lastPlaceholder['configuration'][static::CHOICE_VALUES_KEY];
+                    }
+
+                    return new ReceivedValue(
+                        new Config(
+                            static::DEFAULT_VALUE_KEY,
+                            sprintf('%s %s', static::DESCRIPTION_PREFIX, static::DEFAULT_VALUE_KEY),
+                            null,
+                            ValueTypeEnum::TYPE_STRING,
+                            $choiceValues,
+                        ),
+                        false,
+                    );
+                },
             ),
         ];
     }
