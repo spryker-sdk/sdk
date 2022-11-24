@@ -189,3 +189,4 @@ services:
       arguments:
           - "@vcs_configuration_resolver"
           - "%kernel.project_dir%"
+          - "@sdk_filesystem"
