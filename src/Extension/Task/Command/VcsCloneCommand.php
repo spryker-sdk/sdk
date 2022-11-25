@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\Task\Command;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ExecutableCommandInterface;
@@ -27,13 +28,23 @@ class VcsCloneCommand implements ExecutableCommandInterface
     protected string $sdkPath;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * @param \VcsConnector\Resolver\VcsConfigurationResolverInterface $vcsConfigurationResolver
      * @param string $sdkPath
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
-    public function __construct(VcsConfigurationResolverInterface $vcsConfigurationResolver, string $sdkPath)
-    {
+    public function __construct(
+        VcsConfigurationResolverInterface $vcsConfigurationResolver,
+        string $sdkPath,
+        Filesystem $filesystem
+    ) {
         $this->vcsConfigurationResolver = $vcsConfigurationResolver;
         $this->sdkPath = $sdkPath;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -54,13 +65,16 @@ class VcsCloneCommand implements ExecutableCommandInterface
     public function execute(ContextInterface $context): ContextInterface
     {
         $resolvedValues = $context->getResolvedValues();
+        $projectDirectory = $this->sdkPath . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'tmp';
+
+        $this->filesystem->mkdir($projectDirectory);
 
         try {
             $this->vcsConfigurationResolver
                 ->resolve((string)$resolvedValues['%vcs%'])
                 ->clone(
-                    $this->sdkPath . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'tmp',
-                    (string)$resolvedValues['%vcs_repository%'],
+                    $projectDirectory,
+                    (string)$resolvedValues['%vcs-repository%'],
                 );
         } catch (AdapterDoesNotExistException $exception) {
             $context->addMessage(static::class, new Message($exception->getMessage(), Message::ERROR));
