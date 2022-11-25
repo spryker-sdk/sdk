@@ -13,13 +13,18 @@ use SprykerSdk\SdkContracts\Enum\Setting;
 class NamespaceValueResolver extends OriginValueResolver
 {
     /**
+     * @var string
+     */
+    public const RESOLVER_ID = 'NAMESPACE';
+
+    /**
      * {@inheritDoc}
      *
      * @return string
      */
     public function getId(): string
     {
-        return 'NAMESPACE';
+        return static::RESOLVER_ID;
     }
 
     /**
