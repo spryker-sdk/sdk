@@ -178,17 +178,8 @@ services:
         arguments:
             - "@sdk_filesystem"
 
-    manifest.task_interaction.value_resolver_map.sdk_dir:
-        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\SdkDirectoryValueResolverMap
-
-    manifest.task_interaction.value_resolver_map.report_dir:
-        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\ReportDirValueResolverMap
-
     manifest.task_interaction.value_resolver_map.priority_path:
         class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\PriorityPathValueResolverMap
-
-    manifest.task_interaction.value_resolver_map.namespace:
-        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\NamespaceValueResolverMap
 
     manifest.task_interaction.value_resolver_map.flag:
         class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\FlagValueResolverMap
@@ -214,3 +205,4 @@ services:
         arguments:
             - "@vcs_configuration_resolver"
             - "%kernel.project_dir%"
+            - "@sdk_filesystem"
