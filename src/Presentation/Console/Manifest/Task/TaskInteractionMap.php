@@ -138,7 +138,7 @@ class TaskInteractionMap
                 new Config(static::VERSION_KEY, 'Task version', '0.1.0', ValueTypeEnum::TYPE_STRING),
             ),
             static::COMMAND_KEY => new ReceivedValue(
-                new Config(static::COMMAND_KEY, 'Task command', null, ValueTypeEnum::TYPE_STRING),
+                new Config(static::COMMAND_KEY, 'Task command (placeholder format %name%)', null, ValueTypeEnum::TYPE_STRING),
             ),
             static::TYPE_KEY => new ReceivedValue(
                 new Config(
