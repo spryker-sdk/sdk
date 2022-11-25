@@ -20,7 +20,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     /**
      * @var string
      */
-    public const NOT_AVAILABLE = 'n/a';
+    public const FALLBACK_VALUE_NOT_AVAILABLE = 'n/a';
 
     /**
      * @var string
@@ -80,12 +80,12 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                     foreach ($fileViolations as $fileViolation) {
                         $violations[] = [
                             $fileViolation->getId(),
-                            $fileViolation->getMessage() ?: static::NOT_AVAILABLE,
+                            $fileViolation->getMessage() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                             $fileViolation->isFixable() ? 'true' : 'false',
                             $path,
-                            $fileViolation->getStartLine() ?: static::NOT_AVAILABLE,
-                            $fileViolation->getClass() ?: static::NOT_AVAILABLE,
-                            $fileViolation->getMethod() ?: static::NOT_AVAILABLE,
+                            $fileViolation->getStartLine() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
+                            $fileViolation->getClass() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
+                            $fileViolation->getMethod() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                         ];
                     }
                 }
