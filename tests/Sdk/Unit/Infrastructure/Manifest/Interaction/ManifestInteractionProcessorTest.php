@@ -153,6 +153,40 @@ class ManifestInteractionProcessorTest extends Unit
     /**
      * @return void
      */
+    public function testReceiveValuesShouldReturnFlatListWhenFlatCollectionItemSet(): void
+    {
+        // Arrange
+        $map = [
+            'items' => new ValueCollection(
+                [
+                    new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
+                ],
+                true,
+                true,
+            ),
+        ];
+
+        $manifestInteractionProcessor = new ManifestInteractionProcessor(
+            $this->createNeedToAskQuestionMock(),
+            $this->createValueQuestionMock(['itemIdOne', 'itemIdTwo', 'itemIdThree']),
+            $this->createNewCollectionItemQuestionMock([true, true, false]),
+        );
+
+        // Act
+        $receivedValues = $manifestInteractionProcessor->receiveValues($map);
+
+        // Assert
+        $this->assertSame(
+            [
+                'items' => ['itemIdOne', 'itemIdTwo', 'itemIdThree'],
+            ],
+            $receivedValues,
+        );
+    }
+
+    /**
+     * @return void
+     */
     public function testReceiveValuesShouldReturnNestedArrayWhenNestedConfigSet(): void
     {
         // Arrange

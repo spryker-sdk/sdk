@@ -15,13 +15,18 @@ use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 class PriorityPathValueResolver extends OriginValueResolver
 {
     /**
+     * @var string
+     */
+    public const RESOLVER_ID = 'PRIORITY_PATH';
+
+    /**
      * {@inheritDoc}
      *
      * @return string
      */
     public function getId(): string
     {
-        return 'PRIORITY_PATH';
+        return static::RESOLVER_ID;
     }
 
     /**
