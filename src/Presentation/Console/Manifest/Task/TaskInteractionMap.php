@@ -86,6 +86,11 @@ class TaskInteractionMap
     /**
      * @var string
      */
+    protected const PLACEHOLDER_REG_EXP = '%[a-zA-Z-_]+%';
+
+    /**
+     * @var string
+     */
     protected string $defaultYamlTaskDestinationDir;
 
     /**
@@ -138,7 +143,7 @@ class TaskInteractionMap
                 new Config(static::VERSION_KEY, 'Task version', '0.1.0', ValueTypeEnum::TYPE_STRING),
             ),
             static::COMMAND_KEY => new ReceivedValue(
-                new Config(static::COMMAND_KEY, 'Task command (placeholder format %name%)', null, ValueTypeEnum::TYPE_STRING),
+                new Config(static::COMMAND_KEY, sprintf('Task command (placeholder format %s)', static::PLACEHOLDER_REG_EXP), null, ValueTypeEnum::TYPE_STRING),
             ),
             static::TYPE_KEY => new ReceivedValue(
                 new Config(
@@ -152,7 +157,7 @@ class TaskInteractionMap
             static::PLACEHOLDERS_KEY => new CallbackValue(
                 function (array $receivedValues) use ($output): array {
                     $command = $receivedValues[static::COMMAND_KEY];
-                    if (!preg_match_all('/(?<placeholder>%[a-zA-Z-_]+%)/', $command, $matches)) {
+                    if (!preg_match_all(sprintf('/(?<placeholder>%s)/', static::PLACEHOLDER_REG_EXP), $command, $matches)) {
                         return [];
                     }
 

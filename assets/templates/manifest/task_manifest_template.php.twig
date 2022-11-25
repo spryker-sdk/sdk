@@ -100,8 +100,10 @@ class {{ data.manifestFile.fileName }} implements TaskInterface
      */
     public function getCommands(): array
     {
+        {%~ set constTypeDefinition = class_const('\\SprykerSdk\\SdkContracts\\Enum\\Task', data.type) %}
+        {%~ set typeValue = constTypeDefinition is null ? '\'' ~ data.type ~ '\'' : constTypeDefinition %}
         return [
-            new Command('{{ data.command|replace({'\'':'\\\''}) }}', '{{ data.type }}'),
+            new Command('{{ data.command|replace({'\'':'\\\''}) }}', {{ typeValue }}),
         ];
     }
 
