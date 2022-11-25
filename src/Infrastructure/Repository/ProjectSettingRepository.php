@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
@@ -44,24 +45,32 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected PathResolver $pathResolver;
 
     /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingsFileName
      * @param string $projectLocalSettingsFileName
      * @param \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver $pathResolver
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
         string $projectSettingsFileName,
         string $projectLocalSettingsFileName,
-        PathResolver $pathResolver
+        PathResolver $pathResolver,
+        Filesystem $filesystem
     ) {
         $this->coreSettingRepository = $coreSettingRepository;
         $this->yamlParser = $yamlParser;
         $this->projectSettingsFileName = $projectSettingsFileName;
         $this->projectLocalSettingsFileName = $projectLocalSettingsFileName;
         $this->pathResolver = $pathResolver;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -101,11 +110,11 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         if ($localProjectValues) {
-            file_put_contents($this->projectLocalSettingsFileName, $this->yamlParser::dump($localProjectValues));
+            $this->filesystem->dumpFile($this->projectLocalSettingsFileName, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {
-            file_put_contents($this->projectSettingsFileName, $this->yamlParser::dump($sharedProjectValues));
+            $this->filesystem->dumpFile($this->projectSettingsFileName, $this->yamlParser::dump($sharedProjectValues));
         }
 
         return $settings;
