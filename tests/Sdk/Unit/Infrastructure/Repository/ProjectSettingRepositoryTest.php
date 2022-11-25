@@ -19,6 +19,7 @@ use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -69,6 +70,11 @@ class ProjectSettingRepositoryTest extends Unit
     protected vfsStreamDirectory $vfsStream;
 
     /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * @var string
      */
     protected string $projectSettingsFileName = '';
@@ -88,6 +94,7 @@ class ProjectSettingRepositoryTest extends Unit
         $this->coreSettingRepository = $this->createMock(SettingRepositoryInterface::class);
         $this->yamlParser = $this->createMock(Yaml::class);
         $this->pathResolver = $this->createMock(PathResolver::class);
+        $this->filesystem = new Filesystem();
         $this->vfsStream = vfsStream::setup();
 
         $this->projectSettingRepository = new ProjectSettingRepository(
@@ -96,6 +103,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingsFileName,
             $this->projectLocalSettingsFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
     }
 
@@ -264,6 +272,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingsFileName,
             $this->projectLocalSettingsFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -293,6 +302,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingsFileName,
             $this->projectLocalSettingsFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -325,6 +335,7 @@ class ProjectSettingRepositoryTest extends Unit
             $this->projectSettingsFileName,
             $this->projectLocalSettingsFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -460,6 +471,7 @@ YAML,
             $this->projectSettingsFileName,
             $this->projectLocalSettingsFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         $this->coreSettingRepository
