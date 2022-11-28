@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Workflow;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Workflow;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry;
@@ -14,6 +14,7 @@ use SprykerSdk\SdkContracts\Workflow\TransitionResolverInterface;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Workflow

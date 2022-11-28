@@ -19,7 +19,7 @@ class TestGroupDocBlockSniff extends DocBlockTestGroupAnnotation2Sniff
     {
         $filename = $phpCsFile->getFilename();
 
-        preg_match('#/tests/Sdk/(.+)(Test|Cest).php$#', $filename, $matches);
+        preg_match('#/tests/(.+)(Test|Cest).php$#', $filename, $matches);
         if (!$matches) {
             return;
         }

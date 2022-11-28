@@ -24,7 +24,7 @@ class InitProjectCommand extends Command
     /**
      * @var string
      */
-    protected const NAME = 'sdk:init:project';
+    public const NAME = 'sdk:init:project';
 
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
@@ -124,6 +124,7 @@ class InitProjectCommand extends Command
     {
         return $this->cliValueReceiver->receiveValue(
             new ReceiverValue(
+                'ask-value',
                 'Project settings file already exists, should it be overwritten?',
                 false,
                 ValueTypeEnum::TYPE_BOOL,

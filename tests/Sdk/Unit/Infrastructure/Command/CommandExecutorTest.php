@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Sdk\Unit\Infrastructure\Command;
+namespace SprykerSdk\Sdk\Unit\Infrastructure\Command;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
@@ -18,6 +18,7 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 /**
  * Auto-generated group annotations
  *
+ * @group Sdk
  * @group Unit
  * @group Infrastructure
  * @group Command

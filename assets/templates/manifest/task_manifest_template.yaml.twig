@@ -5,4 +5,29 @@ short_description: "{{ data.shortDescription|replace({'\"':'\\\"'}) }}"
 version: {{ data.version }}
 command: "{{ data.command|replace({'\"':'\\\"'}) }}"
 type: {{ data.type }}
+{% if data.placeholders %}
+placeholders:
+    {%~ for placeholder in data.placeholders %}
+    - name: "{{ placeholder.name }}"
+      value_resolver: {{ placeholder.valueResolver }}
+      optional: {{ placeholder.optional ? 'true' : 'false' }}
+      {%~ if placeholder.configuration %}
+      configuration:
+        {%~ for key, configItem in placeholder.configuration %}
+          {%~ if configItem is iterable %}
+          {{ key }}:
+            {%~ for key, configSubItem in configItem %}
+              {%~ if key matches '/\\d+/'  %}
+              - "{{ configSubItem }}"
+              {%~ else %}
+              {{ key }}: "{{ configSubItem }}"
+              {%~ endif %}
+            {%~ endfor %}
+          {%~ else %}
+          {{ key }}: "{{ configItem }}"
+          {%~ endif %}
+        {%~ endfor %}
+      {%~ endif %}
+    {%~ endfor %}
+{% endif %}
 {% endautoescape %}

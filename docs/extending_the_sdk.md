@@ -32,9 +32,10 @@ help: string|null #e.g: Fix codestyle violations, lorem ipsum, etc.
 stage: string #e.g.: build
 command: string #e.g.: php %project_dir%/vendor/bin/phpcs -f --standard=%project_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %module_dir%
 type: string #e.g.: local_cli
+version: string #e.g.: 1.0.0
 placeholders:
 - name: string #e.g.: %project_dir%
-  valueResolver: string #e.g.: PROJECT_DIR, mapping to a value resolver with id PROJECT_DIR or  a FQCN
+  value_resolver: string #e.g.: PROJECT_DIR, mapping to a value resolver with id PROJECT_DIR or  a FQCN
   optional: bool
 ```
 
@@ -49,7 +50,7 @@ You can add the tasks located in `extension/<your extension name>/Task` to the S
 In case when a task is more than just a call to an existing tool, you can implement the task as a PHP class and register the task using the Symfony service tagging feature.
 This requires you to make the task a part of the Symfony bundle. To achieve this, follow these steps:
 
-1. Create s Symfony bundle.<br> 
+1. Create s Symfony bundle.<br>
 Refer to the [official Symfony documentation](https://symfony.com/doc/current/bundles.html) for details on how to do that.
 
 {% info_block infoBox "Info" %}
@@ -208,7 +209,7 @@ For more complex bundles that require additional dependencies, follow the guidel
 
 ## 2. Add a value resolver
 
-Most placeholders need a solution to resolve their values during runtime. This can be reading some settings and assembling a value based on the settings content, or any solution that turns a placeholder into a resolved value. 
+Most placeholders need a solution to resolve their values during runtime. This can be reading some settings and assembling a value based on the settings content, or any solution that turns a placeholder into a resolved value.
 
 {% info_block warningBox "" %}
 
@@ -363,3 +364,23 @@ Optionally, you can overwrite the existing command runners with a more suitable 
   local_cli_command_runner:
     class: <YourNamespace>\CommandRunners\BetterLocalCliRunner
 ```
+
+## 5. Generate task by a CLI command
+
+It might be useful to generate task via CLI command.
+
+```shell
+# generate yaml task
+spryker-sdk sdk:generate:task
+spryker-sdk sdk:generate:task task-format=yaml
+
+# generate php task
+spryker-sdk sdk:generate:task task-format=php
+```
+
+After execution of the command task will be created in such directories:
+- `extension/Custom/src/Resources/config/task` - for yaml tasks
+- `extension/Custom/src/Task` - for php tasks
+
+You can manually update it if it's needed (don't forget increase task version and run  `spryker-sdk sdk:update:all` to make new updates available).
+

@@ -17,6 +17,11 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
     /**
      * @var string
      */
+    public const RESOLVER_ID = 'SDK_DIR';
+
+    /**
+     * @var string
+     */
     protected string $sdkBasePath;
 
     /**
@@ -38,7 +43,7 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
      */
     public function getId(): string
     {
-        return 'SDK_DIR';
+        return static::RESOLVER_ID;
     }
 
     /**

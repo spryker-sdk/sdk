@@ -196,8 +196,10 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
      */
     protected function changePhpCommand(TaskInterface $task, bool $realCommand = true): TaskInterface
     {
-        if ($realCommand && isset($this->existingTasks[$task->getId()])) {
-            $task->setCommands(new ArrayCollection($this->getTaskCommands($this->existingTasks[$task->getId()])));
+        $storageTask = $this->taskStorage->getTaskById($task->getId());
+
+        if ($realCommand && $storageTask) {
+            $task->setCommands(new ArrayCollection($this->getTaskCommands($storageTask)));
 
             return $task;
         }

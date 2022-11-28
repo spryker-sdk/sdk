@@ -40,12 +40,18 @@ class TaskManifestRequestDto implements ManifestRequestDtoInterface
     protected ManifestFile $manifestFile;
 
     /**
+     * @var array<\SprykerSdk\Sdk\Core\Application\Dto\Manifest\TaskManifestPlaceholderDto>
+     */
+    protected array $placeholders;
+
+    /**
      * @param string $id
      * @param string $shortDescription
      * @param string $version
      * @param string $type
      * @param string $command
      * @param \SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile $manifestFile
+     * @param array<\SprykerSdk\Sdk\Core\Application\Dto\Manifest\TaskManifestPlaceholderDto> $placeholders
      */
     public function __construct(
         string $id,
@@ -53,7 +59,8 @@ class TaskManifestRequestDto implements ManifestRequestDtoInterface
         string $version,
         string $type,
         string $command,
-        ManifestFile $manifestFile
+        ManifestFile $manifestFile,
+        array $placeholders = []
     ) {
         $this->id = $id;
         $this->shortDescription = $shortDescription;
@@ -61,6 +68,7 @@ class TaskManifestRequestDto implements ManifestRequestDtoInterface
         $this->type = $type;
         $this->command = $command;
         $this->manifestFile = $manifestFile;
+        $this->placeholders = $placeholders;
     }
 
     /**
@@ -109,5 +117,13 @@ class TaskManifestRequestDto implements ManifestRequestDtoInterface
     public function getManifestFile(): ManifestFile
     {
         return $this->manifestFile;
+    }
+
+    /**
+     * @return array<\SprykerSdk\Sdk\Core\Application\Dto\Manifest\TaskManifestPlaceholderDto>
+     */
+    public function getPlaceholders(): array
+    {
+        return $this->placeholders;
     }
 }

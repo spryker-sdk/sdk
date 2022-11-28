@@ -134,11 +134,15 @@ class ManifestInteractionProcessor implements ManifestInteractionProcessorInterf
 
         while (
             ($index === 0 && $valuesCollection->isMinOneItemRequired())
-            || $this->newCollectionItemQuestion->ask($id)
+            || $this->newCollectionItemQuestion->ask($id, $index === 0)
         ) {
             $keyStack->push($index);
 
-            $receivedValues = $this->receiveValue($id, $valuesCollection->getValueConfigs(), $keyStack, $receivedValues);
+            $itemConfig = $valuesCollection->isFlatList()
+                ? $valuesCollection->getValueConfigs()[0] ?? []
+                : $valuesCollection->getValueConfigs();
+
+            $receivedValues = $this->receiveValue($id, $itemConfig, $keyStack, $receivedValues);
 
             $keyStack->pop();
 

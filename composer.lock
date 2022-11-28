@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2d217def4b4c1a3ed0bd8d8d438c59b",
+    "content-hash": "2862c2a692b39dae5d019c99b2ea050c",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3286,16 +3286,16 @@
         },
         {
             "name": "knplabs/github-api",
-            "version": "v3.8.0",
+            "version": "v3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "a43662d7c9d4032768ec829dde2cf143878a4104"
+                "reference": "665ba275dbf36f9e9ef78876f27ca87796e3599c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/a43662d7c9d4032768ec829dde2cf143878a4104",
-                "reference": "a43662d7c9d4032768ec829dde2cf143878a4104",
+                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/665ba275dbf36f9e9ef78876f27ca87796e3599c",
+                "reference": "665ba275dbf36f9e9ef78876f27ca87796e3599c",
                 "shasum": ""
             },
             "require": {
@@ -3329,7 +3329,7 @@
             "extra": {
                 "branch-alias": {
                     "dev-2.x": "2.20.x-dev",
-                    "dev-master": "3.4.x-dev"
+                    "dev-master": "3.9.x-dev"
                 }
             },
             "autoload": {
@@ -3362,7 +3362,7 @@
             ],
             "support": {
                 "issues": "https://github.com/KnpLabs/php-github-api/issues",
-                "source": "https://github.com/KnpLabs/php-github-api/tree/v3.8.0"
+                "source": "https://github.com/KnpLabs/php-github-api/tree/v3.9.0"
             },
             "funding": [
                 {
@@ -3370,7 +3370,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-01T18:58:16+00:00"
+            "time": "2022-10-24T12:42:09+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -4087,16 +4087,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.14.0",
+            "version": "v4.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1"
+                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/34bea19b6e03d8153165d8f30bba4c3be86184c1",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
+                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
                 "shasum": ""
             },
             "require": {
@@ -4137,9 +4137,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.14.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.1"
             },
-            "time": "2022-05-31T20:59:12+00:00"
+            "time": "2022-09-04T07:30:47+00:00"
         },
         {
             "name": "ondrejmirtes/better-reflection",
@@ -4263,6 +4263,56 @@
                 "source": "https://github.com/nullivex/lib-array2xml/tree/master"
             },
             "time": "2019-03-29T20:06:56+00:00"
+        },
+        {
+            "name": "paragonie/random_compat",
+            "version": "v9.99.100",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*",
+                "vimeo/psalm": "^1"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "polyfill",
+                "pseudorandom",
+                "random"
+            ],
+            "support": {
+                "email": "info@paragonie.com",
+                "issues": "https://github.com/paragonie/random_compat/issues",
+                "source": "https://github.com/paragonie/random_compat"
+            },
+            "time": "2020-10-15T08:29:30+00:00"
         },
         {
             "name": "pdepend/pdepend",
@@ -5777,6 +5827,111 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
+            "name": "ramsey/uuid",
+            "version": "3.9.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "ffa80ab953edd85d5b6c004f96181a538aad35a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/ffa80ab953edd85d5b6c004f96181a538aad35a3",
+                "reference": "ffa80ab953edd85d5b6c004f96181a538aad35a3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "paragonie/random_compat": "^1 | ^2 | ^9.99.99",
+                "php": "^5.4 | ^7.0 | ^8.0",
+                "symfony/polyfill-ctype": "^1.8"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "codeception/aspect-mock": "^1 | ^2",
+                "doctrine/annotations": "^1.2",
+                "goaop/framework": "1.0.0-alpha.2 | ^1 | >=2.1.0 <=2.3.2",
+                "mockery/mockery": "^0.9.11 | ^1",
+                "moontoast/math": "^1.1",
+                "nikic/php-parser": "<=4.5.0",
+                "paragonie/random-lib": "^2",
+                "php-mock/php-mock-phpunit": "^0.3 | ^1.1 | ^2.6",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpunit/phpunit": ">=4.8.36 <9.0.0 | >=9.3.0",
+                "squizlabs/php_codesniffer": "^3.5",
+                "yoast/phpunit-polyfills": "^1.0"
+            },
+            "suggest": {
+                "ext-ctype": "Provides support for PHP Ctype functions",
+                "ext-libsodium": "Provides the PECL libsodium extension for use with the SodiumRandomGenerator",
+                "ext-openssl": "Provides the OpenSSL extension for use with the OpenSslGenerator",
+                "ext-uuid": "Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator",
+                "moontoast/math": "Provides support for converting UUID to 128-bit integer (in string form).",
+                "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                },
+                {
+                    "name": "Marijn Huizendveld",
+                    "email": "marijn.huizendveld@gmail.com"
+                },
+                {
+                    "name": "Thibaud Fabre",
+                    "email": "thibaud@aztech.io"
+                }
+            ],
+            "description": "Formerly rhumsaa/uuid. A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID).",
+            "homepage": "https://github.com/ramsey/uuid",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/uuid/issues",
+                "rss": "https://github.com/ramsey/uuid/releases.atom",
+                "source": "https://github.com/ramsey/uuid",
+                "wiki": "https://github.com/ramsey/uuid/wiki"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ramsey",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ramsey/uuid",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-09-25T23:07:42+00:00"
+        },
+        {
             "name": "react/promise",
             "version": "v2.9.0",
             "source": {
@@ -6379,12 +6534,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "32c4a360b28384dd914bb5cc69e63e9aaafe90c5"
+                "reference": "dde4e8721ba8b1449f6af8602fb507e88cb6981d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/32c4a360b28384dd914bb5cc69e63e9aaafe90c5",
-                "reference": "32c4a360b28384dd914bb5cc69e63e9aaafe90c5",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/dde4e8721ba8b1449f6af8602fb507e88cb6981d",
+                "reference": "dde4e8721ba8b1449f6af8602fb507e88cb6981d",
                 "shasum": ""
             },
             "require": {
@@ -6427,20 +6582,20 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2022-10-20T10:55:26+00:00"
+            "time": "2022-11-24T10:49:16+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-master",
+            "version": "0.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2"
+                "reference": "36e5c4777dc230e9671a72006f3e669a09872443"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
-                "reference": "704ad1fd98087c5564d37ff9b0d3e60e1bad4cb2",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/36e5c4777dc230e9671a72006f3e669a09872443",
+                "reference": "36e5c4777dc230e9671a72006f3e669a09872443",
                 "shasum": ""
             },
             "require": {
@@ -6450,7 +6605,6 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker/code-sniffer": "^0.17.1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6465,9 +6619,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.5"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.6"
             },
-            "time": "2022-10-28T11:51:05+00:00"
+            "time": "2022-11-22T16:03:10+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -6575,12 +6729,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "8a4126006b838077197e6be724c52dcad5d57471"
+                "reference": "1e2203b3e8e465ab40d0c40d8a940daa6a1177c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/8a4126006b838077197e6be724c52dcad5d57471",
-                "reference": "8a4126006b838077197e6be724c52dcad5d57471",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/1e2203b3e8e465ab40d0c40d8a940daa6a1177c3",
+                "reference": "1e2203b3e8e465ab40d0c40d8a940daa6a1177c3",
                 "shasum": ""
             },
             "require": {
@@ -6592,11 +6746,11 @@
                 "http-interop/http-factory-guzzle": "^1.0",
                 "knplabs/github-api": "^3.4",
                 "m4tthumphrey/php-gitlab-api": "^11.5",
-                "nikic/php-parser": "4.14.*",
+                "nikic/php-parser": "4.15.*",
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/integrator": "dev-master",
-                "spryker-sdk/sdk-contracts": "^0.4.0",
+                "spryker-sdk/sdk-contracts": "^0.4.6",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
                 "symfony/dependency-injection": "^5.0",
@@ -6637,7 +6791,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2022-10-25T14:16:38+00:00"
+            "time": "2022-11-24T10:55:10+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -15453,12 +15607,6 @@
     ],
     "aliases": [
         {
-            "package": "spryker-sdk/sdk-contracts",
-            "version": "9999999-dev",
-            "alias": "0.4.3",
-            "alias_normalized": "0.4.3.0"
-        },
-        {
             "package": "spryker-sdk/spryk",
             "version": "9999999-dev",
             "alias": "0.4.6",
@@ -15468,7 +15616,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/spryk": 20,
         "spryker-sdk/upgrader": 20,
         "spryker-sdk/brancho": 20
@@ -15490,5 +15637,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

@@ -227,7 +227,11 @@ class TaskExecutor
         $reportGenerators = $this->reportGeneratorFactory->getReportGeneratorsByContext($context);
 
         foreach ($reportGenerators as $reportGenerator) {
-            $reportGenerator->collectReports($context->getTask()->getId(), $commands);
+            $report = $reportGenerator->collectReports($context->getTask()->getId(), $commands);
+
+            if ($report) {
+                $context->addReport($report);
+            }
         }
 
         return $context;

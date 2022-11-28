@@ -7,22 +7,23 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Infrastructure\Command\CliCommandRunnerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\CommandRunnerException;
-use SprykerSdk\Sdk\Infrastructure\Service\ProgressBar;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Injector\HelperSetInjectorInterface;
+use SprykerSdk\Sdk\Infrastructure\Injector\OutputInjectorInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProcessHelper;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class LocalCliRunner implements CliCommandRunnerInterface
+class LocalCliRunner implements HelperSetInjectorInterface, CommandRunnerInterface, OutputInjectorInterface
 {
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface
@@ -30,28 +31,23 @@ class LocalCliRunner implements CliCommandRunnerInterface
     protected OutputInterface $output;
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface
-     */
-    protected InputInterface $input;
-
-    /**
      * @var \Symfony\Component\Console\Helper\ProcessHelper
      */
     protected ProcessHelper $processHelper;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\ProgressBar
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
-    protected ProgressBar $progressBar;
+    protected Filesystem $filesystem;
 
     /**
      * @param \Symfony\Component\Console\Helper\ProcessHelper $processHelper
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\ProgressBar $progressBar
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
-    public function __construct(ProcessHelper $processHelper, ProgressBar $progressBar)
+    public function __construct(ProcessHelper $processHelper, Filesystem $filesystem)
     {
         $this->processHelper = $processHelper;
-        $this->progressBar = $progressBar;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -62,16 +58,6 @@ class LocalCliRunner implements CliCommandRunnerInterface
     public function setOutput(OutputInterface $output): void
     {
         $this->output = $output;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return void
-     */
-    public function setInput(InputInterface $input): void
-    {
-        $this->input = $input;
     }
 
     /**
@@ -123,7 +109,7 @@ class LocalCliRunner implements CliCommandRunnerInterface
             ));
         }
 
-        $process = Process::fromShellCommandline($assembledCommand);
+        $process = Process::fromShellCommandline($assembledCommand, $this->filesystem->getcwd());
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
 

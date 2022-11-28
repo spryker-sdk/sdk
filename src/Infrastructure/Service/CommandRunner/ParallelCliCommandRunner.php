@@ -8,9 +8,9 @@
 namespace SprykerSdk\Sdk\Infrastructure\Service\CommandRunner;
 
 use Closure;
+use SprykerSdk\Sdk\Core\Application\Dependency\CommandRunnerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
-use SprykerSdk\Sdk\Infrastructure\Command\CliCommandRunnerInterface;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class ParallelCliCommandRunner implements CliCommandRunnerInterface
+class ParallelCliCommandRunner implements CommandRunnerInterface
 {
     protected HelperSet $helperSet;
 

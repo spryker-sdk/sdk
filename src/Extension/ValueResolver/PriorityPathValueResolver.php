@@ -8,11 +8,17 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException;
+use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class PriorityPathValueResolver extends OriginValueResolver
 {
+    /**
+     * @var string
+     */
+    public const RESOLVER_ID = 'PRIORITY_PATH';
+
     /**
      * {@inheritDoc}
      *
@@ -20,7 +26,7 @@ class PriorityPathValueResolver extends OriginValueResolver
      */
     public function getId(): string
     {
-        return 'PRIORITY_PATH';
+        return static::RESOLVER_ID;
     }
 
     /**
@@ -31,6 +37,7 @@ class PriorityPathValueResolver extends OriginValueResolver
      * @param bool $optional
      *
      * @throws \SprykerSdk\Sdk\Extension\Exception\UnresolvableValueExceptionException
+     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\InvalidConfigurationException
      *
      * @return string
      */
@@ -39,14 +46,13 @@ class PriorityPathValueResolver extends OriginValueResolver
         $relativePath = (string)parent::getValue($context, $settingValues, $optional);
 
         if (!$this->getSettingPaths()) {
-            $path = implode(DIRECTORY_SEPARATOR, [getcwd(), $relativePath]);
-
-            if (file_exists($path)) {
-                return $this->formatValue($relativePath);
-            }
+            throw new InvalidConfigurationException(sprintf('`%s` resolver doesn\'t have any paths', $this->getId()));
         }
 
         foreach ($this->getSettingPaths() as $settingKey) {
+            if (!isset($settingValues[$settingKey])) {
+                continue;
+            }
             $path = $settingValues[$settingKey];
             if ($path && strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
                 $path = rtrim($path, DIRECTORY_SEPARATOR);

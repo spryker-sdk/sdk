@@ -41,7 +41,7 @@ class ManifestInteractionProcessorTest extends Unit
         // Arrange
         $map = [
             'id' => new ReceivedValue(
-                new Config('Task id', null, ValueTypeEnum::TYPE_STRING),
+                new Config('', 'Task id', null, ValueTypeEnum::TYPE_STRING),
                 false,
             ),
         ];
@@ -67,7 +67,7 @@ class ManifestInteractionProcessorTest extends Unit
         // Arrange
         $map = [
             'id' => new ReceivedValue(
-                new Config('Task id', null, ValueTypeEnum::TYPE_STRING),
+                new Config('', 'Task id', null, ValueTypeEnum::TYPE_STRING),
                 true,
             ),
         ];
@@ -94,7 +94,7 @@ class ManifestInteractionProcessorTest extends Unit
         $map = [
             'items' => new ValueCollection(
                 [
-                    new ReceivedValue(new Config('item id', null, ValueTypeEnum::TYPE_STRING)),
+                    new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
                 ],
                 false,
             ),
@@ -122,8 +122,8 @@ class ManifestInteractionProcessorTest extends Unit
         $map = [
             'items' => new ValueCollection(
                 [
-                    'id' => new ReceivedValue(new Config('item id', null, ValueTypeEnum::TYPE_STRING)),
-                    'name' => new ReceivedValue(new Config('item name', null, ValueTypeEnum::TYPE_STRING)),
+                    'id' => new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
+                    'name' => new ReceivedValue(new Config('', 'item name', null, ValueTypeEnum::TYPE_STRING)),
                 ],
                 true,
             ),
@@ -153,13 +153,47 @@ class ManifestInteractionProcessorTest extends Unit
     /**
      * @return void
      */
+    public function testReceiveValuesShouldReturnFlatListWhenFlatCollectionItemSet(): void
+    {
+        // Arrange
+        $map = [
+            'items' => new ValueCollection(
+                [
+                    new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
+                ],
+                true,
+                true,
+            ),
+        ];
+
+        $manifestInteractionProcessor = new ManifestInteractionProcessor(
+            $this->createNeedToAskQuestionMock(),
+            $this->createValueQuestionMock(['itemIdOne', 'itemIdTwo', 'itemIdThree']),
+            $this->createNewCollectionItemQuestionMock([true, true, false]),
+        );
+
+        // Act
+        $receivedValues = $manifestInteractionProcessor->receiveValues($map);
+
+        // Assert
+        $this->assertSame(
+            [
+                'items' => ['itemIdOne', 'itemIdTwo', 'itemIdThree'],
+            ],
+            $receivedValues,
+        );
+    }
+
+    /**
+     * @return void
+     */
     public function testReceiveValuesShouldReturnNestedArrayWhenNestedConfigSet(): void
     {
         // Arrange
         $map = [
             'item' => [
                 'levelOne' => [
-                    'levelTwo' => new ReceivedValue(new Config('item id', null, ValueTypeEnum::TYPE_STRING)),
+                    'levelTwo' => new ReceivedValue(new Config('', 'item id', null, ValueTypeEnum::TYPE_STRING)),
                 ],
             ],
         ];
@@ -208,7 +242,7 @@ class ManifestInteractionProcessorTest extends Unit
         // Arrange
         $map = [
             'id' => new ReceivedValue(
-                new Config('Task id', null, ValueTypeEnum::TYPE_STRING),
+                new Config('', 'Task id', null, ValueTypeEnum::TYPE_STRING),
             ),
             'prefixed_id' => new CallbackValue(static function (array $receivedValues): InteractionValueConfig {
                 return new StaticValue('some_prefix_' . $receivedValues['id']);

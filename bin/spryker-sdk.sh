@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! docker info > /dev/null 2>&1; then
+    echo -e "\n\033[0;31mPlease run docker daemon or open Docker Desktop.\033[0m\n"
+    exit 1
+fi
+
 SDK_DIR="$(dirname $(dirname $0))"
 
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
@@ -79,11 +84,21 @@ rest-api-start*)
     ;;
 esac
 
+install_composer () {
+    if [[ ! -d "$SDK_DIR/vendor" ]]; then
+       composer install --no-scripts --no-interaction --optimize-autoloader --ignore-platform-reqs;
+    fi;
+}
+
 ### cli
 case $MODE in
 "debug")
+    if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
+       echo "This mode is not available for production."
+       exit 1
+    fi
     echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
-
+    install_composer
     docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --rm \
       -e SPRYKER_XDEBUG_HOST_IP="${myIp}" \
       -e PHP_IDE_CONFIG="serverName=spryker-sdk" \
@@ -96,6 +111,7 @@ case $MODE in
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
         docker-compose -f "${SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
     else
+        install_composer
         docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off -w /data spryker-sdk "$ARGUMENTS"
     fi
     ;;
@@ -103,6 +119,7 @@ case $MODE in
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
         docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
     else
+        install_composer
         docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
     fi
   ;;

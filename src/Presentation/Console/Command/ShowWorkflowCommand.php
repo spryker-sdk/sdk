@@ -123,6 +123,7 @@ class ShowWorkflowCommand extends Command
         return count($workflows) > 1
             ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
+                    'workflow',
                     'Select workflow to show',
                     current(array_keys($workflows)),
                     ValueTypeEnum::TYPE_STRING,

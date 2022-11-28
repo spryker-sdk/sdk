@@ -26,9 +26,13 @@ SprykerSdk\Sdk\Infrastructure\Entity\Setting:
             default: string
         settingType:
             type: string
-            columnDefinition: CHECK(setting_type IN ('sdk','local','shared'))
+            columnDefinition: VARCHAR(30) CHECK(setting_type IN ('sdk','local','shared')) NOT NULL
             nullable: false
             default: 'local'
+        forceAskValue:
+            type: boolean
+            nullable: false
+            default: false
         hasInitialization:
             type: boolean
             nullable: false

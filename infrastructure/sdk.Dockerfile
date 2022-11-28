@@ -3,6 +3,7 @@ ARG SPRYKER_PARENT_IMAGE=spryker/php:8.0
 FROM ${SPRYKER_PARENT_IMAGE} AS application-production-dependencies
 
 USER root
+
 RUN apk update \
     && apk add --no-cache \
     curl \
@@ -20,6 +21,7 @@ FROM application-production-dependencies AS application-production-codebase
 
 RUN chown spryker:spryker ${srcRoot}
 
+USER spryker
 # Authorize SSH Host
 RUN mkdir -p /home/spryker/.ssh && \
     chmod 0700 /home/spryker/.ssh && \
@@ -42,13 +44,9 @@ WORKDIR ${srcRoot}
 
 ENV APP_ENV=prod
 
-RUN --mount=type=cache,id=composer,sharing=locked,target=/home/spryker/.composer/cache,uid=1000 \
-  --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
-    composer install --no-scripts --no-interaction --optimize-autoloader -vvv
+RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv
 
-RUN --mount=type=cache,id=npm,sharing=locked,target=/home/spryker/.npm,uid=1000 \
-    --mount=type=ssh,uid=1000 --mount=type=secret,id=secrets-env,uid=1000 \
-    npm install
+RUN npm install
 
 RUN composer dump-env prod
 

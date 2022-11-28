@@ -72,6 +72,9 @@ jobs:
       - name: Codecept unit tests
         run: composer test
 
+      - name: Codecept unit tests
+        run: composer test-extension
+
       - name: Install SDK
         run: bin/console sdk:init:hidden-sdk -n
 
