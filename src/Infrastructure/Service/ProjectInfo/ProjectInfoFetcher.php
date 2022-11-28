@@ -20,9 +20,8 @@ class ProjectInfoFetcher implements ProjectInfoFetcherInterface
 
     /**
      * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcherStrategyInterface> $projectInfoFetcherStrategies
-     * @param \SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactoryInterface $errorLoggerFactory
      */
-    public function __construct(iterable $projectInfoFetcherStrategies, ErrorLoggerFactoryInterface $errorLoggerFactory)
+    public function __construct(iterable $projectInfoFetcherStrategies)
     {
         $this->projectInfoFetcherStrategies = $projectInfoFetcherStrategies;
     }
