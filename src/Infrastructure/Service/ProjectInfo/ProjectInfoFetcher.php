@@ -9,7 +9,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Service\ProjectInfo\ProjectInfoFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectInfo\ProjectInfo;
-use SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactoryInterface;
 
 class ProjectInfoFetcher implements ProjectInfoFetcherInterface
 {
