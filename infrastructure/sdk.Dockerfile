@@ -44,7 +44,7 @@ WORKDIR ${srcRoot}
 
 ENV APP_ENV=prod
 
-RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv
+RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
 
 RUN npm install
 
