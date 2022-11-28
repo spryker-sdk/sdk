@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Manifest\ManifestWriter\Task\Format
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\Manifest\ManifestFile;
 use SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\FormatWriter\PhpTaskManifestFormatWriter;
+use SprykerSdk\Sdk\Infrastructure\Manifest\Normalizer\ManifestNormalizerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -33,7 +34,11 @@ class PhpTaskManifestFormatWriterTest extends Unit
     public function testWriteShouldWriteFileContent(): void
     {
         // Arrange
-        $writer = new PhpTaskManifestFormatWriter($this->createFilesystemMock(), 'test_dir');
+        $writer = new PhpTaskManifestFormatWriter(
+            $this->createFilesystemMock(),
+            'test_dir',
+            $this->createManifestNormalizerInterfaceMock(),
+        );
         $manifestFile = new ManifestFile('php', 'task');
 
         // Act
@@ -52,5 +57,18 @@ class PhpTaskManifestFormatWriterTest extends Unit
         $fileSystemMock->expects($this->once())->method('dumpFile');
 
         return $fileSystemMock;
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Manifest\Normalizer\ManifestNormalizerInterface
+     */
+    protected function createManifestNormalizerInterfaceMock(): ManifestNormalizerInterface
+    {
+        $manifestNormalizer = $this->createMock(ManifestNormalizerInterface::class);
+        $manifestNormalizer
+            ->expects($this->once())
+            ->method('normalize');
+
+        return $manifestNormalizer;
     }
 }

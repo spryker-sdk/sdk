@@ -364,3 +364,23 @@ Optionally, you can overwrite the existing command runners with a more suitable 
   local_cli_command_runner:
     class: <YourNamespace>\CommandRunners\BetterLocalCliRunner
 ```
+
+## 5. Generate task by a CLI command
+
+It might be useful to generate task via CLI command.
+
+```shell
+# generate yaml task
+spryker-sdk sdk:generate:task
+spryker-sdk sdk:generate:task task-format=yaml
+
+# generate php task
+spryker-sdk sdk:generate:task task-format=php
+```
+
+After execution of the command task will be created in such directories:
+- `extension/Custom/src/Resources/config/task` - for yaml tasks
+- `extension/Custom/src/Task` - for php tasks
+
+You can manually update it if it's needed (don't forget increase task version and run  `spryker-sdk sdk:update:all` to make new updates available).
+

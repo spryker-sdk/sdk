@@ -15,13 +15,18 @@ use SprykerSdk\SdkContracts\Enum\Setting;
 class ConfigPathValueResolver extends PriorityPathValueResolver
 {
     /**
+     * @var string
+     */
+    public const RESOLVER_ID = 'CONFIG_PATH';
+
+    /**
      * {@inheritDoc}
      *
      * @return string
      */
     public function getId(): string
     {
-        return 'CONFIG_PATH';
+        return static::RESOLVER_ID;
     }
 
     /**

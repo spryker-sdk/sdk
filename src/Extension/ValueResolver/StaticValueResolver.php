@@ -12,13 +12,18 @@ use SprykerSdk\SdkContracts\Entity\ContextInterface;
 class StaticValueResolver extends OriginValueResolver
 {
     /**
+     * @var string
+     */
+    public const RESOLVER_ID = 'STATIC';
+
+    /**
      * {@inheritDoc}
      *
      * @return string
      */
     public function getId(): string
     {
-        return 'STATIC';
+        return static::RESOLVER_ID;
     }
 
     /**
