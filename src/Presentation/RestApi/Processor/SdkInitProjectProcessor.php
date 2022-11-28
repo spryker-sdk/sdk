@@ -35,7 +35,7 @@ class SdkInitProjectProcessor
     {
         $projectSettingsInitDto = new ProjectSettingsInitDto(
             $request->getAttributes(),
-            $request->getAttribute('default'),
+            $request->getAttribute('default', false),
         );
 
         $this->projectSettingsInitializer->initialize($projectSettingsInitDto);
