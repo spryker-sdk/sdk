@@ -40,7 +40,7 @@ class SdkInitProjectController extends BaseController implements CommandControll
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $this->sdkInitProjectProcessor->process($request);
+        $this->sdkInitProjectProcessor->process($this->createOpenApiRequest($request));
 
         return $this->createSuccessResponse(
             static::TYPE,

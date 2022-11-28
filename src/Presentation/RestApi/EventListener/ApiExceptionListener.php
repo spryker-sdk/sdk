@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidRequestDataException;
-use SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory;
+use SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
@@ -26,16 +26,16 @@ class ApiExceptionListener
     protected bool $isDebug;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory
      */
-    protected ResponseFactory $responseFactory;
+    protected OpenApiResponseFactory $responseFactory;
 
     /**
      * @param bool $isDebug
      * @param \Psr\Log\LoggerInterface $logger
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory $responseFactory
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory $responseFactory
      */
-    public function __construct(bool $isDebug, LoggerInterface $logger, ResponseFactory $responseFactory)
+    public function __construct(bool $isDebug, LoggerInterface $logger, OpenApiResponseFactory $responseFactory)
     {
         $this->logger = $logger;
         $this->isDebug = $isDebug;

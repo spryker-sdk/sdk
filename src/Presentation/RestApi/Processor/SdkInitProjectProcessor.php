@@ -9,8 +9,7 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 
 use SprykerSdk\Sdk\Core\Application\Dto\ProjectSettingsInitDto;
 use SprykerSdk\Sdk\Core\Application\Initializer\ProjectSettingsInitializerInterface;
-use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
-use Symfony\Component\HttpFoundation\Request;
+use SprykerSdk\Sdk\Presentation\RestApi\OpenApi\OpenApiRequest;
 
 class SdkInitProjectProcessor
 {
@@ -28,17 +27,15 @@ class SdkInitProjectProcessor
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\OpenApi\OpenApiRequest $request
      *
      * @return void
      */
-    public function process(Request $request)
+    public function process(OpenApiRequest $request): void
     {
-        /** @var array<string, mixed> $data */
-        $data = $request->request->get(OpenApiField::DATA);
         $projectSettingsInitDto = new ProjectSettingsInitDto(
-            $data[OpenApiField::ATTRIBUTES],
-            $request->request->getBoolean('default'),
+            $request->getAttributes(),
+            $request->getAttribute('default'),
         );
 
         $this->projectSettingsInitializer->initialize($projectSettingsInitDto);

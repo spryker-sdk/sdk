@@ -4,7 +4,8 @@ services:
     _instanceof:
         SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\BaseController:
             calls:
-                - ['setResponseFactory', ['@response.factory']]
+                - ['setResponseFactory', ['@open_api.factory.response']]
+                - ['setRequestFactory', ['@open_api.factory.request']]
 
         SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface:
             tags: ['rest_api.expose_command_api_doc']
@@ -67,7 +68,7 @@ services:
         class: SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
         arguments:
             - '@json_validator'
-            - '@response.factory'
+            - '@open_api.factory.response'
 
     json_validator:
         class: JsonSchema\Validator
@@ -77,12 +78,12 @@ services:
         arguments:
             - "%kernel.debug%"
             - "@logger"
-            - '@response.factory'
+            - '@open_api.factory.response'
         tags:
             - name: kernel.event_listener
               event: kernel.exception
               method: onKernelException
-              priority: 256
+              priority: 10
 
     json_request_transformer_listener:
         class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\JsonRequestListener
@@ -90,11 +91,14 @@ services:
             - name: kernel.event_listener
               event: kernel.request
               method: onKernelRequest
-              priority: 256
+              priority: 10
         arguments:
             - ['json']
             - '@json_schema_validator'
-            - '@response.factory'
+            - '@open_api.factory.response'
 
-    response.factory:
-        class: SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
+    open_api.factory.response:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory
+
+    open_api.factory.request:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiRequestFactory

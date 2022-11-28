@@ -209,16 +209,13 @@ services:
     application_receiver_setup_listener:
         class: SprykerSdk\Sdk\Infrastructure\EventListener\ApplicationReceiverSetupListener
         tags:
-            - {
-                name: kernel.event_listener,
-                event: console.command,
-                method: beforeConsoleCommand,
-            }
-            - {
-                name: kernel.event_listener,
-                event: kernel.request,
-                method: onKernelRequest,
-            }
+            - name: kernel.event_listener
+              event: console.command
+              method: beforeConsoleCommand
+            - name: kernel.event_listener
+              event: kernel.request
+              method: onKernelRequest
+
         arguments:
             - !tagged_iterator sdk.cli_receiver_setup
             - "@api_interaction_processor"

@@ -10,8 +10,8 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Presentation\Console\Command\AbstractUpdateCommand;
+use SprykerSdk\Sdk\Presentation\RestApi\OpenApi\OpenApiRequest;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class SdkUpdateSdkProcessor
 {
@@ -38,20 +38,20 @@ class SdkUpdateSdkProcessor
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\OpenApi\OpenApiRequest $request
      *
      * @return array
      */
-    public function process(Request $request): array
+    public function process(OpenApiRequest $request): array
     {
-        $this->initializerService->initialize($request->request->all());
+        $this->initializerService->initialize($request->getAttributes());
 
         $messages = [];
-        if ($request->request->get(AbstractUpdateCommand::OPTION_NO_CHECK) !== null) {
+        if ($request->getAttribute(AbstractUpdateCommand::OPTION_NO_CHECK, false)) {
             $messages = $this->lifecycleManager->checkForUpdate();
         }
 
-        if ($request->request->get(AbstractUpdateCommand::OPTION_CHECK_ONLY) !== null) {
+        if ($request->getAttribute(AbstractUpdateCommand::OPTION_CHECK_ONLY, false)) {
             $this->lifecycleManager->update();
         }
 

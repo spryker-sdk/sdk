@@ -40,7 +40,7 @@ class SdkInitSdkController extends BaseController implements CommandControllerIn
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $this->initializerService->initialize($request->request->all());
+        $this->initializerService->initialize($this->createOpenApiRequest($request)->getAttributes());
 
         return $this->createSuccessResponse(static::TYPE, static::TYPE);
     }

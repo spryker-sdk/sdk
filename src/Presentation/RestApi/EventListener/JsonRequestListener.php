@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\EventListener;
 
 use SprykerSdk\Sdk\Presentation\RestApi\Exception\InvalidJsonSchemaException;
-use SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory;
+use SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory;
 use SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -26,19 +26,19 @@ class JsonRequestListener
     protected JsonSchemaValidator $jsonSchemaValidator;
 
     /**
-     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory
+     * @var \SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory
      */
-    protected ResponseFactory $responseFactory;
+    protected OpenApiResponseFactory $responseFactory;
 
     /**
      * @param array<string> $contentTypes
      * @param \SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator $jsonSchemaValidator
-     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\ResponseFactory $responseFactory
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory $responseFactory
      */
     public function __construct(
         array $contentTypes,
         JsonSchemaValidator $jsonSchemaValidator,
-        ResponseFactory $responseFactory
+        OpenApiResponseFactory $responseFactory
     ) {
         $this->contentTypes = $contentTypes;
         $this->jsonSchemaValidator = $jsonSchemaValidator;
@@ -94,7 +94,6 @@ class JsonRequestListener
     {
         return is_string($request->getContent())
             && $request->getContent() !== ''
-            && strpos($request->getPathInfo(), '/api/doc') !== 0
-            && strpos($request->getPathInfo(), '/api/') === 0;
+            && $request->attributes->has('_rest_api');
     }
 }

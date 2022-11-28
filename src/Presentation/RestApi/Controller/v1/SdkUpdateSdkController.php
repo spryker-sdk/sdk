@@ -43,7 +43,7 @@ class SdkUpdateSdkController extends BaseController implements CommandController
     public function __invoke(Request $request): JsonResponse
     {
         try {
-            $attributes = $this->sdkUpdateSdkProcessor->process($request);
+            $attributes = $this->sdkUpdateSdkProcessor->process($this->createOpenApiRequest($request));
         } catch (SdkVersionNotFoundException $exception) {
             return $this->responseFactory->createErrorResponse(
                 [$exception->getMessage()],

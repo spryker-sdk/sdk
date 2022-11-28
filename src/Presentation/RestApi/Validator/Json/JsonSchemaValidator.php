@@ -83,8 +83,8 @@ class JsonSchemaValidator
                             'type' => 'string',
                             'required' => true,
                         ],
-                        'type' => [
-                            OpenApiField::TYPE => 'string',
+                        OpenApiField::TYPE => [
+                            'type' => 'string',
                             'required' => true,
                         ],
                         OpenApiField::ATTRIBUTES => [

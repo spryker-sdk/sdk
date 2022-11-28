@@ -10,7 +10,7 @@ namespace SprykerSdk\Sdk\Presentation\RestApi\Factory;
 use SprykerSdk\Sdk\Presentation\RestApi\Enum\OpenApiField;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ResponseFactory
+class OpenApiResponseFactory
 {
     /**
      * @param string $id
