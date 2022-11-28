@@ -36,7 +36,7 @@ class NewCollectionItemQuestionTest extends Unit
         $question = new NewCollectionItemQuestion($interactionProcessor);
 
         // Act
-        $question->ask('test id');
+        $question->ask('test id', false);
     }
 
     /**

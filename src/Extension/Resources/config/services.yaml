@@ -1,191 +1,208 @@
 parameters:
-  env(UNAME_INFO): ''
-  uname_info: '%env(uname:UNAME_INFO)%'
-  sdk_settings: "%kernel.project_dir%/src/Extension/Resources/config/setting/settings.yaml"
-  sdk_ci_execution_default: false
-  sdk_ci_execution:  "%env(default:sdk_ci_execution_default:bool:SDK_CI_EXECUTION)%"
+    env(UNAME_INFO): ''
+    uname_info: '%env(uname:UNAME_INFO)%'
+    sdk_settings: "%kernel.project_dir%/src/Extension/Resources/config/setting/settings.yaml"
+    sdk_ci_execution_default: false
+    sdk_ci_execution:  "%env(default:sdk_ci_execution_default:bool:SDK_CI_EXECUTION)%"
 
 services:
-  _instanceof:
-    SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface:
-        tags: [ "sdk.setting_choice_provider" ]
+    _instanceof:
+        SprykerSdk\SdkContracts\Setting\SettingChoicesProviderInterface:
+            tags: [ "sdk.setting_choice_provider" ]
 
-    SprykerSdk\SdkContracts\Setting\SettingInitializerInterface:
+        SprykerSdk\SdkContracts\Setting\SettingInitializerInterface:
+            tags: [ "sdk.setting_initializer" ]
+
+        SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValueResolverMapInterface:
+            tags: [ "manifest.task_interaction.value_resolver_map" ]
+
+    app_modify_docker_file:
+        class: SprykerSdk\Sdk\Extension\Service\AppDockerFileModifier
+        arguments:
+            - '@yaml_parser'
+    app_modify_composer_file:
+        class: SprykerSdk\Sdk\Extension\Service\AppComposerFileModifier
+    generate_app_change_name_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\ChangeNamesCommand
+        arguments:
+            - '@app_modify_composer_file'
+            - '@app_modify_docker_file'
+    check_git_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\CheckGitCommand
+    generate_app_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\GenerateAppCommand
+    generate_app_change_php_version_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\ChangePhpVersionCommand
+        arguments:
+            - '@app_modify_composer_file'
+            - '@app_modify_docker_file'
+    generate_app_allow_default_composer_plugins_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\AllowDefaultComposerPluginCommand
+        arguments:
+            - '@app_modify_composer_file'
+    generate_app_update_dependencies_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\UpdateDependenciesCommand
+    add_docker_sdk_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\AddDockerSdkCommand
+    check_mutagen_for_mac_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\CheckMutagenCommand
+    generate_app_next_steps_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\NextAppStepsCommand
+    business_model_arm_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\BusinessModelARMCommand
+        arguments:
+            - '@yaml_parser'
+            - "@sdk_filesystem"
+    check_docker_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\CheckDockerCommand
+    docker_init_up_steps_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\DockerInitUpStepsCommand
+    generate_app:
+        class: SprykerSdk\Sdk\Extension\Task\GenerateAppTask
+        tags: [ 'sdk.task' ]
+        arguments:
+            $commands:
+                - '@check_git_command'
+                - '@generate_app_command'
+                - '@generate_app_change_name_command'
+                - '@generate_app_change_php_version_command'
+                - '@generate_app_allow_default_composer_plugins_command'
+                - '@generate_app_update_dependencies_command'
+                - '@add_docker_sdk_command'
+                - '@generate_app_next_steps_command'
+    clone_business_model_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\CloneBusinessModelRepositoryCommand
+    business_model_installer_task:
+        class: SprykerSdk\Sdk\Extension\Task\BusinessModelInstallerTask
+        tags: [ 'sdk.task' ]
+        arguments:
+            $commands:
+                - '@check_git_command'
+                - '@clone_business_model_command'
+                - '@add_docker_sdk_command'
+                - '@business_model_arm_command'
+                - '@docker_init_up_steps_command'
+    sdk_directory_value_resolver:
+        class: SprykerSdk\Sdk\Extension\ValueResolver\SdkDirectoryValueResolver
+        tags: [ "sdk.value_resolver" ]
+        arguments:
+            - '@value_receiver'
+            - '%kernel.project_dir%'
+    pc_system_value_resolver:
+        class: SprykerSdk\Sdk\Extension\ValueResolver\PCSystemValueResolver
+        tags: [ "sdk.value_resolver" ]
+        arguments:
+            - '@value_receiver'
+            - '%uname_info%'
+
+    app_php_version_value_resolver:
+        class: SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver
+        tags: [ 'sdk.value_resolver' ]
+        arguments:
+            - '@value_receiver'
+
+    remove_report_dir:
+        class: SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask
+        tags: [ "sdk.task" ]
+        arguments:
+            - "@violation_report_repository"
+    SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
         tags: [ "sdk.setting_initializer" ]
+        public: true
+    violation_output_format_initializer:
+        alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer
+        public: true
+    SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer:
+        tags: [ "sdk.setting_choice_provider" ]
+        public: true
+    create_directory_initializer:
+        alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
+        public: true
+    SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer:
+        tags: [ "sdk.setting_initializer" ]
+        public: true
+        arguments:
+            - "@project_setting_repository"
+    project_uuid_initializer:
+        alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer
+        public: true
+    SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer:
+        tags: [ "sdk.setting_initializer", "sdk.setting_choice_provider" ]
+        public: true
+        arguments:
+            - "@project_setting_repository"
+            - "@workflow_repository"
+            - "@workflow.registry"
+    SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer:
+        tags: [ "sdk.setting_choice_provider" ]
+        public: true
+        arguments:
+            - "@task_persistence_repository"
+    project_workflow_initializer:
+        alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer
+        public: true
+    qa_task_initializer:
+        alias: SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer
+        public: true
+    sdk_uuid_initializer:
+        class: SprykerSdk\Sdk\Extension\Setting\Initializer\SdkUuidInitializer
+        arguments:
+            - "@setting_repository"
+    execution_env_initializer:
+        class: SprykerSdk\Sdk\Extension\Setting\Initializer\ExecutionEnvInitializer
+        arguments:
+            - "@setting_repository"
+            - "%sdk_ci_execution%"
 
-  app_modify_docker_file:
-    class: SprykerSdk\Sdk\Extension\Service\AppDockerFileModifier
-    arguments:
-      - '@yaml_parser'
-  app_modify_composer_file:
-    class: SprykerSdk\Sdk\Extension\Service\AppComposerFileModifier
-  generate_app_change_name_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\ChangeNamesCommand
-    arguments:
-      - '@app_modify_composer_file'
-      - '@app_modify_docker_file'
-  check_git_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\CheckGitCommand
-  generate_app_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\GenerateAppCommand
-  generate_app_change_php_version_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\ChangePhpVersionCommand
-    arguments:
-      - '@app_modify_composer_file'
-      - '@app_modify_docker_file'
-  generate_app_allow_default_composer_plugins_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\AllowDefaultComposerPluginCommand
-    arguments:
-      - '@app_modify_composer_file'
-  generate_app_update_dependencies_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\UpdateDependenciesCommand
-  add_docker_sdk_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\AddDockerSdkCommand
-  check_mutagen_for_mac_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\CheckMutagenCommand
-  generate_app_next_steps_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\NextAppStepsCommand
-  business_model_arm_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\BusinessModelARMCommand
-    arguments:
-      - '@yaml_parser'
-      - "@sdk_filesystem"
-  check_docker_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\CheckDockerCommand
-  docker_init_up_steps_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\DockerInitUpStepsCommand
-  generate_app:
-    class: SprykerSdk\Sdk\Extension\Task\GenerateAppTask
-    tags: [ 'sdk.task' ]
-    arguments:
-      $commands:
-        - '@check_git_command'
-        - '@generate_app_command'
-        - '@generate_app_change_name_command'
-        - '@generate_app_change_php_version_command'
-        - '@generate_app_allow_default_composer_plugins_command'
-        - '@generate_app_update_dependencies_command'
-        - '@add_docker_sdk_command'
-        - '@generate_app_next_steps_command'
-  clone_business_model_command:
-    class: SprykerSdk\Sdk\Extension\Task\Command\CloneBusinessModelRepositoryCommand
-  business_model_installer_task:
-    class: SprykerSdk\Sdk\Extension\Task\BusinessModelInstallerTask
-    tags: [ 'sdk.task' ]
-    arguments:
-      $commands:
-        - '@check_git_command'
-#        - '@check_docker_command'
-#        - '@check_mutagen_for_mac_command'
-        - '@clone_business_model_command'
-        - '@add_docker_sdk_command'
-        - '@business_model_arm_command'
-        - '@docker_init_up_steps_command'
-  sdk_directory_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolver\SdkDirectoryValueResolver
-    tags: ["sdk.value_resolver"]
-    arguments:
-      - '@value_receiver'
-      - '%kernel.project_dir%'
-  pc_system_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolver\PCSystemValueResolver
-    tags: [ "sdk.value_resolver" ]
-    arguments:
-      - '@value_receiver'
-      - '%uname_info%'
+    # Transition resolvers
+    transition_boolean_resolver:
+        class: SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver
+        tags: [ 'workflow.transition_resolver' ]
+    interaction_answer_based_transition_resolver:
+        class: SprykerSdk\Sdk\Extension\Workflow\InteractionAnswerBasedTransitionResolver
+        arguments:
+            - '@cli_interaction_processor'
+        tags: [ 'workflow.transition_resolver' ]
 
-  app_php_version_value_resolver:
-    class: SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver
-    tags: [ 'sdk.value_resolver' ]
-    arguments:
-      - '@value_receiver'
+    uname_env_var_processor:
+        class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor
+        tags: [ 'container.env_var_processor' ]
+    brancho_commit_command:
+        class: SprykerSdk\Sdk\Extension\Command\CommitCommand
+        tags: [ "console.command", "telemetry.observable_command" ]
+        arguments:
+            - "@sdk_filesystem"
+    brancho_branch_builder_command:
+        class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
+        tags: [ "console.command", "telemetry.observable_command" ]
+        arguments:
+            - "@sdk_filesystem"
 
-  remove_report_dir:
-    class: SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask
-    tags: ["sdk.task"]
-    arguments:
-      - "@violation_report_repository"
-  SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer:
-    tags: ["sdk.setting_initializer"]
-    public: true
-  violation_output_format_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer
-    public: true
-  SprykerSdk\Sdk\Extension\Setting\Initializer\ViolationOutputFormatInitializer:
-    tags: [ "sdk.setting_choice_provider" ]
-    public: true
-  create_directory_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer
-    public: true
-  SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer:
-    tags: ["sdk.setting_initializer"]
-    public: true
-    arguments:
-      - "@project_setting_repository"
-  project_uuid_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectUuidInitializer
-    public: true
-  sdk_uuid_initializer:
-      class: SprykerSdk\Sdk\Extension\Setting\Initializer\SdkUuidInitializer
-      arguments:
-          - "@setting_repository"
-  execution_env_initializer:
-      class: SprykerSdk\Sdk\Extension\Setting\Initializer\ExecutionEnvInitializer
-      arguments:
-          - "@setting_repository"
-          - "%sdk_ci_execution%"
-  SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer:
-    tags: ["sdk.setting_initializer", "sdk.setting_choice_provider"]
-    public: true
-    arguments:
-      - "@project_setting_repository"
-      - "@workflow_repository"
-      - "@workflow.registry"
-  SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer:
-    tags: [ "sdk.setting_choice_provider" ]
-    public: true
-    arguments:
-      - "@task_persistence_repository"
-  project_workflow_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\ProjectWorkflowInitializer
-    public: true
-  qa_task_initializer:
-    alias: SprykerSdk\Sdk\Extension\Setting\Initializer\QaTasksInitializer
-    public: true
+    manifest.task_interaction.value_resolver_map.priority_path:
+        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\PriorityPathValueResolverMap
 
-  # Transition resolvers
-  transition_boolean_resolver:
-    class: SprykerSdk\Sdk\Extension\Workflow\TransitionBooleanResolver
-    tags: ['workflow.transition_resolver']
-  interaction_answer_based_transition_resolver:
-    class: SprykerSdk\Sdk\Extension\Workflow\InteractionAnswerBasedTransitionResolver
-    arguments:
-      - '@cli_interaction_processor'
-    tags: [ 'workflow.transition_resolver' ]
+    manifest.task_interaction.value_resolver_map.flag:
+        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\FlagValueResolverMap
 
-  uname_env_var_processor:
-    class: SprykerSdk\Sdk\Extension\DependencyInjection\EnvVarProcessor\UnameEnvVarProcessor
-    tags: ['container.env_var_processor']
-  brancho_commit_command:
-    class: SprykerSdk\Sdk\Extension\Command\CommitCommand
-    tags: [ "console.command", "telemetry.observable_command" ]
-    arguments:
-        - "@sdk_filesystem"
-  brancho_branch_builder_command:
-    class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
-    tags: [ "console.command", "telemetry.observable_command" ]
-    arguments:
-        - "@sdk_filesystem"
+    manifest.task_interaction.value_resolver_map.config_path:
+        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\ConfigPathValueResolverMap
 
-  vcs_clone_task:
-      class: SprykerSdk\Sdk\Extension\Task\VcsCloneTask
-      tags: [ 'sdk.task' ]
-      arguments:
-          $commands:
-              - '@clone_command'
-          $vcsAdapters: !tagged_iterator { tag: 'vcs.adapter', default_index_method: 'getName'}
-  clone_command:
-      class: SprykerSdk\Sdk\Extension\Task\Command\VcsCloneCommand
-      arguments:
-          - "@vcs_configuration_resolver"
-          - "%kernel.project_dir%"
+    manifest.task_interaction.value_resolver_map.origin:
+        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\OriginValueResolverMap
+
+    manifest.task_interaction.value_resolver_map.static:
+        class: SprykerSdk\Sdk\Extension\Manifest\ValueResolver\StaticValueResolverMap
+
+    vcs_clone_task:
+        class: SprykerSdk\Sdk\Extension\Task\VcsCloneTask
+        tags: [ 'sdk.task' ]
+        arguments:
+            $commands:
+                - '@clone_command'
+            $vcsAdapters: !tagged_iterator { tag: 'vcs.adapter', default_index_method: 'getName' }
+    clone_command:
+        class: SprykerSdk\Sdk\Extension\Task\Command\VcsCloneCommand
+        arguments:
+            - "@vcs_configuration_resolver"
+            - "%kernel.project_dir%"
+            - "@sdk_filesystem"

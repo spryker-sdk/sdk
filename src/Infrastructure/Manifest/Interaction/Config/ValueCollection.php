@@ -20,13 +20,20 @@ class ValueCollection implements InteractionValueConfig
     protected bool $minOneItemRequired;
 
     /**
+     * @var bool
+     */
+    protected bool $isFlatList;
+
+    /**
      * @param array<(array|\SprykerSdk\Sdk\Infrastructure\Manifest\Interaction\Config\InteractionValueConfig)> $valueConfigs
      * @param bool $minOneItemRequired
+     * @param bool $isFlatList
      */
-    public function __construct(array $valueConfigs, bool $minOneItemRequired = false)
+    public function __construct(array $valueConfigs, bool $minOneItemRequired = false, bool $isFlatList = false)
     {
         $this->valueConfigs = $valueConfigs;
         $this->minOneItemRequired = $minOneItemRequired;
+        $this->isFlatList = $isFlatList;
     }
 
     /**
@@ -43,5 +50,13 @@ class ValueCollection implements InteractionValueConfig
     public function isMinOneItemRequired(): bool
     {
         return $this->minOneItemRequired;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFlatList(): bool
+    {
+        return $this->isFlatList;
     }
 }
