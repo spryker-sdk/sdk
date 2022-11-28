@@ -706,6 +706,7 @@ services:
         arguments:
             - "@filesystem"
             - "%manifest_task_php_file_dir%"
+            - "@manifest.normalizer.php_normalizer"
         tags: [ "manifest_task_format_writer" ]
 
     manifest.task_yaml_format_writer:
@@ -719,6 +720,11 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Manifest\ManifestWriter\Task\TaskManifestWriter
         arguments:
             - !tagged_iterator { tag: 'manifest_task_format_writer' }
+
+    manifest.normalizer.php_normalizer:
+        class: SprykerSdk\Sdk\Infrastructure\Manifest\Normalizer\PhpManifestNormalizer
+        arguments:
+            - "@setting.setting_fetcher"
 
     manifest_validator_factory:
         class: SprykerSdk\Sdk\Infrastructure\Validator\Manifest\ManifestValidatorRegistry
@@ -783,3 +789,7 @@ services:
             - "@placeholder_resolver"
             - "@service.lifecycle_command_executor"
             - "@context_factory"
+
+    twig.extension.class_constant_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\Twig\Extension\ClassConstantFetcher
+        tags: ['twig.extension']

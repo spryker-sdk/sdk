@@ -101,6 +101,8 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     public function get(string $id): ?ValueResolverInterface
     {
+        $this->loadValueResolvers();
+
         if ($this->hasId($id)) {
             return $this->valueResolvers[$id];
         }
