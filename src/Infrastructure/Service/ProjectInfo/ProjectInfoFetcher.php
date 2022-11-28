@@ -19,18 +19,12 @@ class ProjectInfoFetcher implements ProjectInfoFetcherInterface
     protected iterable $projectInfoFetcherStrategies;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactoryInterface
-     */
-    protected ErrorLoggerFactoryInterface $errorLoggerFactory;
-
-    /**
      * @param iterable<\SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcherStrategyInterface> $projectInfoFetcherStrategies
      * @param \SprykerSdk\Sdk\Infrastructure\Logger\ErrorLoggerFactoryInterface $errorLoggerFactory
      */
     public function __construct(iterable $projectInfoFetcherStrategies, ErrorLoggerFactoryInterface $errorLoggerFactory)
     {
         $this->projectInfoFetcherStrategies = $projectInfoFetcherStrategies;
-        $this->errorLoggerFactory = $errorLoggerFactory;
     }
 
     /**
@@ -42,8 +36,6 @@ class ProjectInfoFetcher implements ProjectInfoFetcherInterface
             try {
                 return $projectInfoFetcherStrategy->fetchProjectInfo();
             } catch (FetchDataException $e) {
-                $this->errorLoggerFactory->getErrorLogger()->error($e->getMessage());
-
                 continue;
             }
         }
