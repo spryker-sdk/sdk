@@ -52,6 +52,33 @@ class PriorityPathValueResolver extends OriginValueResolver
             throw new UnresolvableValueExceptionException('Path ../ is forbidden due to security reasons.');
         }
 
+        $pathValue = $this->extractFormattedPathValue($relativePath, $settingValues);
+
+        if ($pathValue === null) {
+            throw new UnresolvableValueExceptionException('Invalid path provided.');
+        }
+
+        return $pathValue;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return ValueTypeEnum::TYPE_PATH;
+    }
+
+    /**
+     * @param string $relativePath
+     * @param array<string, string> $settingValues
+     *
+     * @return string|null
+     */
+    protected function extractFormattedPathValue(string $relativePath, array $settingValues): ?string
+    {
         foreach ($this->getSettingPaths() as $settingKey) {
             if (!isset($settingValues[$settingKey])) {
                 continue;
@@ -67,17 +94,7 @@ class PriorityPathValueResolver extends OriginValueResolver
             }
         }
 
-        throw new UnresolvableValueExceptionException('Invalid path provided.');
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return ValueTypeEnum::TYPE_PATH;
+        return null;
     }
 
     /**
