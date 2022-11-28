@@ -119,11 +119,11 @@ case $MODE in
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
         docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
     else
-        install_composer
         if [[ ! -f "${SDK_DIR}/docker-compose.dev.yml" ]]; then
            echo "SPRYKER_SDK_ENV=$SPRYKER_SDK_ENV environment is not available for installer. Remove or set ENV variable \"export SPRYKER_SDK_ENV=prod\""
            exit 1
         fi;
+        install_composer
         docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
     fi
   ;;
