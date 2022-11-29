@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
+use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Presentation\Console\Command\AbstractUpdateCommand;
 use SprykerSdk\Sdk\Presentation\RestApi\OpenApi\OpenApiRequest;
@@ -48,7 +49,10 @@ class SdkUpdateSdkProcessor
 
         $messages = [];
         if (!$request->getAttribute(AbstractUpdateCommand::OPTION_NO_CHECK, false)) {
-            $messages = $this->lifecycleManager->checkForUpdate();
+            try {
+                $messages = $this->lifecycleManager->checkForUpdate();
+            } catch (SdkVersionNotFoundException $exception) {
+            }
         }
 
         if (!$request->getAttribute(AbstractUpdateCommand::OPTION_CHECK_ONLY, false)) {
