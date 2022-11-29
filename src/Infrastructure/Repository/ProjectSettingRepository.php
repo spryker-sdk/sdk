@@ -12,17 +12,13 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
-    /**
-     * @var string
-     */
-    protected const LOCAL_SUFFIX = 'local';
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
@@ -39,26 +35,42 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected string $projectSettingFileName;
 
     /**
+     * @var string
+     */
+    protected string $localProjectSettingFileName;
+
+    /**
      * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
+     * @param string $localProjectSettingFileName
      * @param \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver $pathResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
         string $projectSettingFileName,
-        PathResolver $pathResolver
+        string $localProjectSettingFileName,
+        PathResolver $pathResolver,
+        Filesystem $filesystem
     ) {
         $this->projectSettingFileName = $projectSettingFileName;
+        $this->localProjectSettingFileName = $localProjectSettingFileName;
         $this->yamlParser = $yamlParser;
         $this->coreSettingRepository = $coreSettingRepository;
         $this->pathResolver = $pathResolver;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -78,7 +90,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     public function saveMultiple(array $settings): array
     {
-        $localProjectValues = $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX);
+        $localProjectValues = $this->fetchProjectValues($this->localProjectSettingFileName);
         $sharedProjectValues = $this->fetchProjectValues($this->projectSettingFileName);
 
         /** @var \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting */
@@ -91,18 +103,12 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $localProjectValues[$setting->getPath()] = $setting->getValues();
         }
 
-        $projectSettingDir = dirname($this->projectSettingFileName);
-
-        if (!is_dir($projectSettingDir)) {
-            mkdir($projectSettingDir, 0777, true);
-        }
-
         if ($localProjectValues) {
-            file_put_contents($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX, $this->yamlParser::dump($localProjectValues));
+            $this->filesystem->dumpFile($this->localProjectSettingFileName, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {
-            file_put_contents($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
+            $this->filesystem->dumpFile($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
         }
 
         return $settings;
@@ -203,7 +209,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     {
         return array_merge(
             $this->fetchProjectValues($this->projectSettingFileName),
-            $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX),
+            $this->fetchProjectValues($this->localProjectSettingFileName),
         );
     }
 

@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,15 +35,52 @@ class RunTaskControllerCest
      *
      * @return void
      */
-    public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
+    public function iSeeJsonResponseAfterCallRunTaskEndpoint(AcceptanceTester $I): void
     {
-        $I->sendPost(static::ENDPOINT, ['world' => 'World', 'somebody' => 'World']);
-        $I->seeResponseCodeIs(Response::HTTP_OK);
+        $I->sendApiPost(
+            static::ENDPOINT,
+            'hello:world',
+            RunTaskController::TYPE,
+            [
+                'world' => 'World',
+                'somebody' => 'World',
+            ],
+        );
 
-        $I->seeResponseContainsJson([
-        'messages' => [
-            'Executing stage: hello',
-            'hello \'World\' \'World\'',
-        ]]);
+        $I->seeSuccessApiResponse(
+            Response::HTTP_OK,
+            'hello:world',
+            RunTaskController::TYPE,
+            [
+                'messages' => [
+                    'Executing stage: hello',
+                    'hello \'World\' \'World\'',
+                ],
+            ],
+        );
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
+    public function iSeeBadRequestAfterCallRunTaskEndpoint(AcceptanceTester $I): void
+    {
+        $I->sendApiPost(
+            static::ENDPOINT,
+            'hello:world',
+            RunTaskController::TYPE,
+            [
+                'world' => 'World',
+            ],
+        );
+
+        $I->seeErrorApiResponse(
+            Response::HTTP_BAD_REQUEST,
+            ['Invalid request. Parameter `somebody` is missing.'],
+            Response::HTTP_BAD_REQUEST,
+            (string)Response::HTTP_BAD_REQUEST,
+        );
     }
 }

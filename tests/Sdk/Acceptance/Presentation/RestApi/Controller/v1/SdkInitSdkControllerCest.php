@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,9 +35,18 @@ class SdkInitSdkControllerCest
      *
      * @return void
      */
-    public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
+    public function iSeeJsonResponseAfterCallSdkInitSdkEndpoint(AcceptanceTester $I): void
     {
-        $I->sendPost(static::ENDPOINT, ['developer_email' => 'test', 'developer_github_account' => 'test']);
+        $I->sendApiPost(
+            static::ENDPOINT,
+            SdkInitSdkController::TYPE,
+            SdkInitSdkController::TYPE,
+            [
+                'developer_email' => 'test',
+                'developer_github_account' => 'test',
+            ],
+        );
+
         $I->seeResponseCodeIs(Response::HTTP_OK);
 
         $I->seeResponseContainsJson([]);

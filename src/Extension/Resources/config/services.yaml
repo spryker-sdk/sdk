@@ -161,7 +161,7 @@ services:
     interaction_answer_based_transition_resolver:
         class: SprykerSdk\Sdk\Extension\Workflow\InteractionAnswerBasedTransitionResolver
         arguments:
-            - '@cli_interaction_processor'
+            - '@interaction_processor'
         tags: [ 'workflow.transition_resolver' ]
 
     uname_env_var_processor:
