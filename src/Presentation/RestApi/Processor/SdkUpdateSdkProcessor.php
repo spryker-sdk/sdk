@@ -47,11 +47,11 @@ class SdkUpdateSdkProcessor
         $this->initializerService->initialize($request->getAttributes());
 
         $messages = [];
-        if ($request->getAttribute(AbstractUpdateCommand::OPTION_NO_CHECK, false)) {
+        if (!$request->getAttribute(AbstractUpdateCommand::OPTION_NO_CHECK, false)) {
             $messages = $this->lifecycleManager->checkForUpdate();
         }
 
-        if ($request->getAttribute(AbstractUpdateCommand::OPTION_CHECK_ONLY, false)) {
+        if (!$request->getAttribute(AbstractUpdateCommand::OPTION_CHECK_ONLY, false)) {
             $this->lifecycleManager->update();
         }
 
