@@ -15,6 +15,11 @@ class FlagValueResolver extends StaticValueResolver
     /**
      * @var string
      */
+    public const RESOLVER_ID = 'FLAG';
+
+    /**
+     * @var string
+     */
     protected string $flag;
 
     /**
@@ -24,7 +29,7 @@ class FlagValueResolver extends StaticValueResolver
      */
     public function getId(): string
     {
-        return 'FLAG';
+        return static::RESOLVER_ID;
     }
 
     /**

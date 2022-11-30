@@ -15,7 +15,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-
+use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 class {{ data.manifestFile.fileName }} implements TaskInterface
 {
     /**
@@ -35,7 +35,42 @@ class {{ data.manifestFile.fileName }} implements TaskInterface
      */
     public function getPlaceholders(): array
     {
+        {%~ if data.placeholders %}
+        return [
+            {%~ for placeholder in data.placeholders %}
+            new Placeholder(
+                '{{ placeholder.name }}',
+                '{{ placeholder.valueResolver }}',
+                [
+                {%~ for key, configItem in placeholder.configuration %}
+                    {%~ if configItem is iterable %}
+                    '{{ key }}' => [
+                        {%~ for key, configSubItem in configItem %}
+                            {%~ if key matches '/\\d+/'  %}
+                        '{{ configSubItem }}',
+                            {%~ else %}
+                        '{{ key }}' => '{{ configSubItem }}',
+                            {%~ endif %}
+                        {%~ endfor %}
+                    ],
+                    {%~ else %}
+                        {%~ if key == 'type' %}
+                            {%~ set constCodeDefinition = class_const('\\SprykerSdk\\SdkContracts\\Enum\\ValueTypeEnum', configItem) %}
+                            {%~ set configValue = constCodeDefinition is null ? '\'' ~ configItem ~ '\'' : constCodeDefinition %}
+                        {%~ else %}
+                            {%~ set configValue = '\'' ~ configItem ~ '\'' %}
+                        {%~ endif %}
+                    '{{ key }}' => {{ configValue }},
+                    {%~ endif %}
+                {%~ endfor %}
+                ],
+                {{ placeholder.optional ? 'true' : 'false' }},
+            ),
+            {%~ endfor  %}
+        ];
+        {%~ else %}
         return [];
+        {%~ endif %}
     }
 
     /**
@@ -65,8 +100,10 @@ class {{ data.manifestFile.fileName }} implements TaskInterface
      */
     public function getCommands(): array
     {
+        {%~ set constTypeDefinition = class_const('\\SprykerSdk\\SdkContracts\\Enum\\Task', data.type) %}
+        {%~ set typeValue = constTypeDefinition is null ? '\'' ~ data.type ~ '\'' : constTypeDefinition %}
         return [
-            new Command('{{ data.command|replace({'\'':'\\\''}) }}', '{{ data.type }}'),
+            new Command('{{ data.command|replace({'\'':'\\\''}) }}', {{ typeValue }}),
         ];
     }
 

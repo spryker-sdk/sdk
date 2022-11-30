@@ -20,12 +20,13 @@ suites:
                 - Cli
                 - Filesystem
                 - \SprykerSdk\Sdk\Tests\Helper\Core\Application\Service\TelemetryEventHelper
+                - \SprykerSdk\Sdk\Tests\Helper\Presentation\RestApi\RestApiHelper
                 - SprykerSdk\Sdk\Tests\Helper\RestApiServerHelper:
                     port: 8000
                 - Symfony:
                       app_path: app
                       environment: test
-                - REST:
+                - SprykerSdk\Sdk\Tests\Helper\RestApiHelper:
                     url: http://localhost:8000/api/v1
                     depends: PhpBrowser
                     part: Json

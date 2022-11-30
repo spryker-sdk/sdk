@@ -20,6 +20,11 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     /**
      * @var string
      */
+    public const FALLBACK_VALUE_NOT_AVAILABLE = 'n/a';
+
+    /**
+     * @var string
+     */
     public const FORMAT = 'output';
 
     /**
@@ -57,9 +62,9 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
             $table = new Table($this->output);
             $table
                 ->setHeaderTitle('Violations found on project level')
-                ->setHeaders(['Violation', 'Priority', 'Fixable']);
+                ->setHeaders(['Violation', 'Fixable']);
             foreach ($violationReport->getViolations() as $violation) {
-                $table->addRow([$violation->getMessage(), $violation->priority(), $violation->isFixable() ? 'true' : 'false']);
+                $table->addRow([$violation->getMessage(), $violation->isFixable() ? 'true' : 'false']);
             }
             $table->render();
         }
@@ -69,19 +74,18 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
             $violations = [];
             foreach ($violationReport->getPackages() as $package) {
                 foreach ($package->getViolations() as $violation) {
-                    $packages[] = [$violation->getId(), $violation->priority(), $violation->isFixable() ? 'true' : 'false', $package->getPackage()];
+                    $packages[] = [$violation->getId(), $violation->isFixable() ? 'true' : 'false', $package->getPackage()];
                 }
                 foreach ($package->getFileViolations() as $path => $fileViolations) {
                     foreach ($fileViolations as $fileViolation) {
                         $violations[] = [
                             $fileViolation->getId(),
-                            $fileViolation->getMessage(),
-                            $fileViolation->priority(),
+                            $fileViolation->getMessage() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                             $fileViolation->isFixable() ? 'true' : 'false',
                             $path,
-                            $fileViolation->getStartLine(),
-                            $fileViolation->getClass(),
-                            $fileViolation->getMethod(),
+                            $fileViolation->getStartLine() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
+                            $fileViolation->getClass() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
+                            $fileViolation->getMethod() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                         ];
                     }
                 }
@@ -91,7 +95,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                 $table = new Table($this->output);
                 $table
                     ->setHeaderTitle('Violations found on package level')
-                    ->setHeaders(['Violation', 'Priority', 'Fixable', 'Package'])
+                    ->setHeaders(['Violation', 'Fixable', 'Package'])
                     ->setRows($packages);
                 $table->render();
             }
@@ -100,7 +104,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                 $table = new Table($this->output);
                 $table
                     ->setHeaderTitle('Violations found in files')
-                    ->setHeaders(['Violation', 'Message', 'Priority', 'Fixable', 'File', 'Line', 'Class', 'Method'])
+                    ->setHeaders(['Violation', 'Message', 'Fixable', 'File', 'Line', 'Class', 'Method'])
                     ->setRows($violations);
                 $table->render();
             }

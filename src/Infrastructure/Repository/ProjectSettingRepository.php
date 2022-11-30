@@ -12,9 +12,9 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
@@ -32,12 +32,12 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     /**
      * @var string
      */
-    protected string $projectSettingsFileName;
+    protected string $projectSettingFileName;
 
     /**
      * @var string
      */
-    protected string $projectLocalSettingsFileName;
+    protected string $localProjectSettingFileName;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
@@ -45,30 +45,30 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected PathResolver $pathResolver;
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
-     * @param string $projectSettingsFileName
-     * @param string $projectLocalSettingsFileName
+     * @param string $projectSettingFileName
+     * @param string $localProjectSettingFileName
      * @param \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver $pathResolver
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
-        string $projectSettingsFileName,
-        string $projectLocalSettingsFileName,
+        string $projectSettingFileName,
+        string $localProjectSettingFileName,
         PathResolver $pathResolver,
         Filesystem $filesystem
     ) {
-        $this->coreSettingRepository = $coreSettingRepository;
+        $this->projectSettingFileName = $projectSettingFileName;
+        $this->localProjectSettingFileName = $localProjectSettingFileName;
         $this->yamlParser = $yamlParser;
-        $this->projectSettingsFileName = $projectSettingsFileName;
-        $this->projectLocalSettingsFileName = $projectLocalSettingsFileName;
+        $this->coreSettingRepository = $coreSettingRepository;
         $this->pathResolver = $pathResolver;
         $this->filesystem = $filesystem;
     }
@@ -90,8 +90,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     public function saveMultiple(array $settings): array
     {
-        $localProjectValues = $this->fetchProjectValues($this->projectLocalSettingsFileName);
-        $sharedProjectValues = $this->fetchProjectValues($this->projectSettingsFileName);
+        $localProjectValues = $this->fetchProjectValues($this->localProjectSettingFileName);
+        $sharedProjectValues = $this->fetchProjectValues($this->projectSettingFileName);
 
         /** @var \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting */
         foreach ($settings as $setting) {
@@ -103,18 +103,12 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $localProjectValues[$setting->getPath()] = $setting->getValues();
         }
 
-        $projectSettingDir = dirname($this->projectSettingsFileName);
-
-        if (!is_dir($projectSettingDir)) {
-            mkdir($projectSettingDir, 0777, true);
-        }
-
         if ($localProjectValues) {
-            $this->filesystem->dumpFile($this->projectLocalSettingsFileName, $this->yamlParser::dump($localProjectValues));
+            $this->filesystem->dumpFile($this->localProjectSettingFileName, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {
-            $this->filesystem->dumpFile($this->projectSettingsFileName, $this->yamlParser::dump($sharedProjectValues));
+            $this->filesystem->dumpFile($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
         }
 
         return $settings;
@@ -214,8 +208,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected function getProjectValues(): array
     {
         return array_merge(
-            $this->fetchProjectValues($this->projectSettingsFileName),
-            $this->fetchProjectValues($this->projectLocalSettingsFileName),
+            $this->fetchProjectValues($this->projectSettingFileName),
+            $this->fetchProjectValues($this->localProjectSettingFileName),
         );
     }
 
