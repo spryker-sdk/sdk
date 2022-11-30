@@ -34,6 +34,10 @@ class ContextOutputCommandListener
      */
     public function handle(ConsoleTerminateEvent $event): void
     {
+        if (!$this->contextFactory->hasContext()) {
+            return;
+        }
+
         $messages = $this->contextFactory->getContext()->getMessages();
 
         if (!$messages) {
