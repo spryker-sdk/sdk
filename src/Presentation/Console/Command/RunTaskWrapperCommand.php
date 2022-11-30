@@ -13,7 +13,6 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -167,67 +166,8 @@ class RunTaskWrapperCommand extends Command
 
         $context = $this->taskExecutor->execute($context, $this->name);
         $this->writeContext($input, $context);
-        $this->writeFilteredMessages($output, $context);
 
         return $context->getExitCode();
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
-     *
-     * @return void
-     */
-    protected function writeFilteredMessages(
-        OutputInterface $output,
-        ContextInterface $context
-    ): void {
-        $verbosity = $this->getVerbosity($output);
-
-        foreach ($context->getMessages() as $message) {
-            if ($message->getVerbosity() <= $verbosity) {
-                $output->writeln($this->formatMessage($message));
-            }
-        }
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\MessageInterface $message
-     *
-     * @return string
-     */
-    protected function formatMessage(MessageInterface $message): string
-    {
-        $template = [
-            MessageInterface::INFO => '<info>Info: %s</info>',
-            MessageInterface::ERROR => '<error>Error: %s</error>',
-            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
-            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
-        ][$message->getVerbosity()] ?? '%s';
-
-        return sprintf($template, $message->getMessage());
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
-    protected function getVerbosity(OutputInterface $output): int
-    {
-        if ($output->isVerbose()) {
-            return MessageInterface::SUCCESS;
-        }
-
-        if ($output->isVeryVerbose()) {
-            return MessageInterface::INFO;
-        }
-
-        if ($output->isDebug()) {
-            return MessageInterface::DEBUG;
-        }
-
-        return MessageInterface::ERROR;
     }
 
     /**

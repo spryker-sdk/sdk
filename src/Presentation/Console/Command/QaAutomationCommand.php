@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\SettingsNotInitializedException;
-use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator;
@@ -40,7 +40,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface $contextRepository
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param \SprykerSdk\Sdk\Infrastructure\Service\DynamicTaskSetCreator $dynamicTaskSetCreator
      */
     public function __construct(
@@ -48,7 +48,7 @@ class QaAutomationCommand extends RunTaskWrapperCommand
         ProjectWorkflow $projectWorkflow,
         ContextRepositoryInterface $contextRepository,
         ProjectSettingRepositoryInterface $projectSettingRepository,
-        ContextFactory $contextFactory,
+        ContextFactoryInterface $contextFactory,
         DynamicTaskSetCreator $dynamicTaskSetCreator
     ) {
         $this->dynamicTaskSetCreator = $dynamicTaskSetCreator;

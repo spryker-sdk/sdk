@@ -53,6 +53,16 @@ services:
                 event: console.error,
                 method: handle,
             }
+    command_context_output:
+        class: SprykerSdk\Sdk\Infrastructure\EventListener\ContextOutputCommandListener
+        arguments:
+            - "@context_factory"
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: console.terminate,
+                method: handle,
+            }
     setting_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
         arguments:
@@ -134,7 +144,6 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
         arguments:
             - "@context_serializer"
-            - "@context.in_memory_cache_storage"
             - "@setting.setting_fetcher"
     telemetry_event_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
@@ -315,6 +324,7 @@ services:
             - "@task_persistence_repository"
             - !tagged_iterator sdk.update_action
             - "%kernel.project_dir%"
+            - "%kernel.environment%"
 
     task_created_action:
         class: SprykerSdk\Sdk\Infrastructure\SdkUpdateAction\TaskCreatedAction
@@ -478,7 +488,6 @@ services:
             - "@filesystem"
             - "%telemetry_sender_file_report_file_name%"
             - "%telemetry_sender_file_report_format%"
-            - "%kernel.debug%"
         tags:
             - { name: telemetry.data_sender }
 
@@ -575,8 +584,6 @@ services:
         tags:
             - {name: 'tagged_class_name_collection', target_tag: 'telemetry.observable_command'}
 
-    context.in_memory_cache_storage:
-        class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
     workflow.transition_resolver_registry:
         class: SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry
         arguments:

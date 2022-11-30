@@ -48,21 +48,29 @@ class LifecycleManager implements LifecycleManagerInterface
     protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
+     * @var string
+     */
+    protected string $environment;
+
+    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlFileLoader
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository $taskEntityRepository
      * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface> $actions
      * @param string $sdkDirectory
+     * @param string $environment
      */
     public function __construct(
         TaskYamlFileLoaderInterface $taskYamlFileLoader,
         TaskRepository $taskEntityRepository,
         iterable $actions,
-        string $sdkDirectory
+        string $sdkDirectory,
+        string $environment
     ) {
         $this->taskYamlFileLoader = $taskYamlFileLoader;
         $this->taskEntityRepository = $taskEntityRepository;
         $this->actions = $actions;
         $this->sdkDirectory = $sdkDirectory;
+        $this->environment = $environment;
     }
 
     /**
@@ -81,27 +89,25 @@ class LifecycleManager implements LifecycleManagerInterface
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException
-     *
      * @return array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
      */
     public function checkForUpdate(): array
     {
+        if ($this->environment !== 'prod') {
+            return [new Message('Not possible to check updates for development version.')];
+        }
+
         $versionFilePath = $this->sdkDirectory . '/VERSION';
 
         if (!is_file($versionFilePath)) {
-            throw new SdkVersionNotFoundException(
-                sprintf('Could not find %s file, skip updatable check', $versionFilePath),
-            );
+            return [new Message('Could not find `VERSION` file, skip updatable check')];
         }
 
         $currentVersion = (string)file_get_contents($versionFilePath);
         $currentVersion = trim($currentVersion);
 
         if (!$currentVersion) {
-            throw new SdkVersionNotFoundException(
-                sprintf('Could not find version in the file "%s". File is empty.', $versionFilePath),
-            );
+            return [new Message('Could not find version in the file `VERSION`. File is empty.')];
         }
 
         $messages = [];

@@ -95,6 +95,7 @@ services:
     arguments:
       - "@service.lifecycle_manager"
       - "@initializer_service"
+      - '@context_factory'
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
     tags: ["console.command", "telemetry.observable_command"]

@@ -56,32 +56,24 @@ class FileReportTelemetryEventSender implements TelemetryEventSenderInterface
     protected string $format;
 
     /**
-     * @var bool
-     */
-    protected bool $isDebug;
-
-    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \Symfony\Component\Serializer\SerializerInterface $serializer
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      * @param string $reportFileName
      * @param string $format
-     * @param bool $isDebug
      */
     public function __construct(
         ProjectSettingRepositoryInterface $projectSettingRepository,
         SerializerInterface $serializer,
         Filesystem $filesystem,
         string $reportFileName,
-        string $format,
-        bool $isDebug = false
+        string $format
     ) {
         $this->projectSettingRepository = $projectSettingRepository;
         $this->serializer = $serializer;
         $this->filesystem = $filesystem;
         $this->reportFileName = $reportFileName;
         $this->format = $format;
-        $this->isDebug = $isDebug;
     }
 
     /**
