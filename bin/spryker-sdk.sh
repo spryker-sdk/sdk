@@ -7,11 +7,6 @@ fi
 
 SDK_DIR="$(dirname $(dirname $0))"
 
-if [[ ! -f $SDK_DIR/VERSION ]]; then
-    echo "0.0.0" > $SDK_DIR/VERSION
-    exit 0
-fi
-
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
     cat $SDK_DIR/VERSION
     exit 0
@@ -21,6 +16,11 @@ MODE='prod'
 
 ARGUMENTS=""
 ARGUMENTS_EMPTY=0
+
+if [[ ! -f $SDK_DIR/VERSION ]]; then
+    echo "0.0.0" > $SDK_DIR/VERSION
+    exit 0
+fi
 
 for i in "$@"; do
   case "$i" in
