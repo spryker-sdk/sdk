@@ -11,9 +11,8 @@ use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Presentation\Console\Command\AbstractUpdateCommand;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use SprykerSdk\Sdk\Presentation\RestApi\OpenApi\OpenApiRequest;
+use SprykerSdk\SdkContracts\Entity\MessageInterface;
 
 class SdkUpdateSdkProcessor
 {
@@ -31,39 +30,37 @@ class SdkUpdateSdkProcessor
      * @param \SprykerSdk\Sdk\Infrastructure\Service\Initializer $initializerService
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface $lifecycleManager
      */
-    public function __construct(Initializer $initializerService, LifecycleManagerInterface $lifecycleManager)
-    {
+    public function __construct(
+        Initializer $initializerService,
+        LifecycleManagerInterface $lifecycleManager
+    ) {
         $this->initializerService = $initializerService;
         $this->lifecycleManager = $lifecycleManager;
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \SprykerSdk\Sdk\Presentation\RestApi\OpenApi\OpenApiRequest $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return array
      */
-    public function process(Request $request): Response
+    public function process(OpenApiRequest $request): array
     {
-        $this->initializerService->initialize($request->request->all());
+        $this->initializerService->initialize($request->getAttributes());
 
         $messages = [];
-        if ($request->request->get(AbstractUpdateCommand::OPTION_NO_CHECK) !== null) {
+        if (!$request->getAttribute(AbstractUpdateCommand::OPTION_NO_CHECK, false)) {
             try {
                 $messages = $this->lifecycleManager->checkForUpdate();
             } catch (SdkVersionNotFoundException $exception) {
-                return new JsonResponse(['result' => 'FAILED', 'messages' => [$exception->getMessage()], 'code' => 400]);
             }
         }
 
-        if ($request->request->get(AbstractUpdateCommand::OPTION_CHECK_ONLY) !== null) {
+        if (!$request->getAttribute(AbstractUpdateCommand::OPTION_CHECK_ONLY, false)) {
             $this->lifecycleManager->update();
         }
 
-        $result = [];
-        foreach ($messages as $message) {
-            $result[] = $message->getMessage();
-        }
+        $result = array_map(fn (MessageInterface $message): string => $message->getMessage(), $messages);
 
-        return new JsonResponse(['messages' => $result]);
+        return ['messages' => $result];
     }
 }

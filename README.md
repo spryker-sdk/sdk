@@ -16,8 +16,8 @@ so you can focus developing exciting features for your business case.
 - ensure docker & docker-compose is installed
 - Download the `installer.sh` from the latest release at https://github.com/spryker-sdk/sdk/releases
 - run `installer.sh </path/to/install/sdk/in>`
-- run `source ~/.zshrc` or `source ~/.bashrc` or re-open terminal
-- alias `apryker-sdk` should be set and `SPRYKER_SDK_PATH` env variable should be exported
+- follow the installer's instructions.
+- alias `apryker-sdk` should be set and `SPRYKER_SDK_PATH` env variable should be exported. If not check our troubleshooting doc.
 
 Installation into the current dir:
 ```shell

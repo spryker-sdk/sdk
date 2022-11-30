@@ -12,6 +12,11 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 interface TaskRepositoryInterface
 {
     /**
+     * @return array<string>
+     */
+    public function getTaskIds(): array;
+
+    /**
      * @param bool $realCommand
      *
      * @return array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
