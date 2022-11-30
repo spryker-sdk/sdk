@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskSetTaskRelationRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
@@ -64,6 +65,8 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected ContextFactoryInterface $contextFactory;
 
+    protected TaskSetTaskRelationRepositoryInterface $taskSetTaskRelationRepository;
+
     /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
@@ -74,6 +77,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskSetTaskRelationRepositoryInterface $taskSetTaskRelationRepository
      * @param string $environment
      */
     public function __construct(
@@ -86,6 +90,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         ProjectSettingRepositoryInterface $projectSettingRepository,
         ProjectWorkflow $projectWorkflow,
         ContextFactoryInterface $contextFactory,
+        TaskSetTaskRelationRepositoryInterface $taskSetTaskRelationRepository,
         string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
@@ -96,6 +101,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $this->contextRepository = $contextRepository;
         $this->projectWorkflow = $projectWorkflow;
         $this->environment = $environment;
+        $this->taskSetTaskRelationRepository = $taskSetTaskRelationRepository;
         $this->contextFactory = $contextFactory;
     }
 
@@ -150,7 +156,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         );
 
         if (!$command->getHelp()) {
-            $command->setHelp((string)$task->getHelp());
+            $command->setHelp($this->getHelpMessage($task));
         }
 
         return $command;
@@ -183,5 +189,31 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
             //need to be executable to make the init:sdk command available
             return parent::getNames();
         }
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return string
+     */
+    protected function getHelpMessage(TaskInterface $task): string
+    {
+        $helpMessages = $task->getHelp() !== null ? [(string)$task->getHelp()] : [];
+
+        $taskSetTaskRelations = $this->taskSetTaskRelationRepository->getByTaskSetId($task->getId());
+
+        if (count($taskSetTaskRelations) > 0) {
+            $helpMessages[] = '<comment>Task set sub-tasks:</comment>';
+        }
+
+        foreach ($taskSetTaskRelations as $taskSetTaskRelation) {
+            $helpMessages[] = sprintf(
+                "<info> - %s</info>\t%s",
+                $taskSetTaskRelation->getSubTask()->getId(),
+                $taskSetTaskRelation->getSubTask()->getHelp(),
+            );
+        }
+
+        return implode(PHP_EOL, $helpMessages);
     }
 }

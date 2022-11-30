@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskManager;
+use SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -50,6 +51,7 @@ class TaskManagerTest extends Unit
             $this->createNoCallsEventDispatcherMock(),
             $this->createRepositoryMock($task),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock(),
         );
 
         //Act
@@ -70,6 +72,7 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(InitializedEvent::class, InitializedEvent::NAME),
             $this->createRepositoryMock($task, 'create'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock(),
         );
 
         //Act
@@ -90,6 +93,7 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(RemovedEvent::class, RemovedEvent::NAME),
             $this->createRepositoryMock($task, 'remove'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock(),
         );
 
         //Act
@@ -107,6 +111,7 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(UpdatedEvent::class, UpdatedEvent::NAME),
             $this->createRepositoryMock($task, 'update'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock(),
         );
 
         //Act
@@ -186,5 +191,13 @@ class TaskManagerTest extends Unit
     protected function createTaskFromTaskSetBuilderMock(): TaskFromTaskSetBuilderInterface
     {
         return $this->createMock(TaskFromTaskSetBuilderInterface::class);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface
+     */
+    protected function createTaskSetTaskRelationFacadeMock(): TaskSetTaskRelationFacadeInterface
+    {
+        return $this->createMock(TaskSetTaskRelationFacadeInterface::class);
     }
 }

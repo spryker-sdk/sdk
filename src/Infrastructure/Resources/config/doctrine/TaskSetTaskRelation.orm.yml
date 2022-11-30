@@ -1,0 +1,30 @@
+SprykerSdk\Sdk\Infrastructure\Entity\TaskSetTaskRelation:
+    type: entity
+    repositoryClass: \SprykerSdk\Sdk\Infrastructure\Repository\TaskSetTaskRelationRepository
+    changeTrackingPolicy: DEFERRED_EXPLICIT
+    table: sdk_task_set_task_relation
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    manyToOne:
+        taskSet:
+            targetEntity: SprykerSdk\Sdk\Infrastructure\Entity\Task
+            joinColumn:
+                name: task_set_id
+                referencedColumnName: id
+                onDelete: cascade
+
+        subTask:
+            targetEntity: SprykerSdk\Sdk\Infrastructure\Entity\Task
+            joinColumn:
+                name: sub_task_id
+                referencedColumnName: id
+                onDelete: cascade
+
+    uniqueConstraints:
+        task_set_sub_task:
+            columns:
+                - task_set_id
+                - sub_task_id
