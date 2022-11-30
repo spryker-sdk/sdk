@@ -23,5 +23,6 @@ class SprykerSdkRestApiExtension extends Extension
     public function load(array $configs, ContainerBuilder $container): void
     {
         (new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config')))->load('services.yaml');
+        (new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config')))->load('api_doc_describers_services.yaml');
     }
 }

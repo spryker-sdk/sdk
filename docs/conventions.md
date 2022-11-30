@@ -70,10 +70,6 @@ A console command must meet the following conditions:
 - `protected static $defaultName` __SHOULD NOT__ be used because of performance reasons and future deprecation in Symfony 6.1 version.
   Instead `protected const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
 
-## Controller
-
-- Controller __MUST__ have only one method `__invoke`
-
 ## Naming conventions
 
 There are the following conventions for naming entities:
@@ -96,8 +92,7 @@ Contracts must meet the following conditions:
 
 ## REST API
 - Controller __SHOULD__ have no business logic.
-- Controller __SHOULD__ be named by template of task's id.
-  For example, for the task `validation:php:codestyle` - the controller name should be `ValidatePhpCodestyleController` and controller's action should be `__invoke`.
+- Controller __MUST__ have only one action method `__invoke`.
 - Controller __MUST__ be placed in namespace `SprykerSdk\Sdk\Presentation\RestApi\Controller\v1`. The `v1` is current version of SDK API.
 - Route __MUST__ be placed in `src/Presentation/RestApi/Resources/routing.yaml`
 - Route __SHOULD__ be named by template `api_${version}_${controller_name}`.
