@@ -120,7 +120,7 @@ case $MODE in
         docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
     else
         if [[ ! -f "${SDK_DIR}/docker-compose.dev.yml" ]]; then
-           echo "SPRYKER_SDK_ENV=$SPRYKER_SDK_ENV environment is not available for installer. Remove SPRYKER_SDK_ENV env variable if it exists or set it value to \"prod\" by running \"export SPRYKER_SDK_ENV=prod\""
+           echo "\"SPRYKER_SDK_ENV=$SPRYKER_SDK_ENV\" environment is not available for installer. Remove \"SPRYKER_SDK_ENV\" env variable if it exists or set it value to \"prod\" by running \"export SPRYKER_SDK_ENV=prod\""
            exit 1
         fi;
         install_composer
