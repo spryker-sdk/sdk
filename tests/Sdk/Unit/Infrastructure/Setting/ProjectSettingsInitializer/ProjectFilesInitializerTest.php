@@ -33,9 +33,11 @@ class ProjectFilesInitializerTest extends Unit
         // Arrange
         $projectSettingsDir = vfsStream::setup('.ssdk');
         $projectSettingsDir->addChild(new vfsStreamFile('settings'));
+        $projectSettingsDir->addChild(new vfsStreamFile('settings.local'));
         $projectSettingsFile = vfsStream::url('.ssdk') . '/settings';
+        $localProjectSettingsFile = vfsStream::url('.ssdk') . '/settings.local';
 
-        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile, new Filesystem());
+        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile, $localProjectSettingsFile, new Filesystem());
 
         // Act
         $fileInitializer->initProjectFiles();
@@ -52,9 +54,11 @@ class ProjectFilesInitializerTest extends Unit
         // Arrange
         $projectSettingsDir = vfsStream::setup('.ssdk');
         $projectSettingsDir->addChild(new vfsStreamFile('settings'));
+        $projectSettingsDir->addChild(new vfsStreamFile('settings.local'));
         $projectSettingsFile = vfsStream::url('.ssdk') . '/settings';
+        $localProjectSettingsFile = vfsStream::url('.ssdk') . '/settings.local';
 
-        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile, new Filesystem());
+        $fileInitializer = new ProjectFilesInitializer($projectSettingsFile, $localProjectSettingsFile, new Filesystem());
 
         // Act
         $isInitialized = $fileInitializer->isProjectSettingsInitialised();

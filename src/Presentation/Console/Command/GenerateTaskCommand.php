@@ -105,7 +105,7 @@ class GenerateTaskCommand extends Command
         $predefinedValue = [TaskInteractionMap::FILE_FORMAT_KEY => $input->getOption(static::TASK_FORMAT_OPTION)];
 
         $receivedValues = $this->manifestInteractionProcessor->receiveValues(
-            $this->taskInteractionMap->getInteractionMap($predefinedValue),
+            $this->taskInteractionMap->getInteractionMap($predefinedValue, $output),
         );
 
         $taskManifestRequestDto = $this->taskManifestRequestDtoFactory->createFromReceivedValues($receivedValues);
