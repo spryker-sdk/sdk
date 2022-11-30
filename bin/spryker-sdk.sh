@@ -110,11 +110,10 @@ case $MODE in
 *)
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
         docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
+    elif [[ ! -f "${SDK_DIR}/docker-compose.dev.yml" ]]; then
+        echo "\"SPRYKER_SDK_ENV=$SPRYKER_SDK_ENV\" environment is not available for installer. Remove \"SPRYKER_SDK_ENV\" env variable if it exists or set it value to \"prod\" by running \"export SPRYKER_SDK_ENV=prod\""
+        exit 1
     else
-        if [[ ! -f "${SDK_DIR}/docker-compose.dev.yml" ]]; then
-           echo "\"SPRYKER_SDK_ENV=$SPRYKER_SDK_ENV\" environment is not available for installer. Remove \"SPRYKER_SDK_ENV\" env variable if it exists or set it value to \"prod\" by running \"export SPRYKER_SDK_ENV=prod\""
-           exit 1
-        fi;
         docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
     fi
   ;;
