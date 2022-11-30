@@ -13,11 +13,14 @@ use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetTaskRelationsFromYamlBu
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskSet
  * @group TaskSetTaskRelationsFromYamlBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskSetTaskRelationsFromYamlBuilderTest extends Unit
 {

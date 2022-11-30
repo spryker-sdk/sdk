@@ -14,11 +14,14 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Builder
  * @group TaskSet
  * @group TaskSetTaskRelationsBuilderTest
+ * Add your own group annotations below this line
  */
 class TaskSetTaskRelationsBuilderTest extends Unit
 {

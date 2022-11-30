@@ -13,10 +13,13 @@ use SprykerSdk\Sdk\Infrastructure\Storage\TaskSetTaskRelationStorage;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Unit
  * @group Infrastructure
  * @group Storage
  * @group TaskSetTaskRelationStorageTest
+ * Add your own group annotations below this line
  */
 class TaskSetTaskRelationStorageTest extends Unit
 {
