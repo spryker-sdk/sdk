@@ -32,11 +32,19 @@ class HelloPhpTaskCest
      *
      * @return void
      */
+    public function _before(AcceptanceTester $I): void
+    {
+        $I->skipCliInteractiveTest();
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
     public function testHelloPhpRunSuccessfully(AcceptanceTester $I): void
     {
         // Arrange
-        $I->skipCliInteractiveTest();
-
         $process = $I->runSdkCommand([static::COMMAND]);
 
         // Assert

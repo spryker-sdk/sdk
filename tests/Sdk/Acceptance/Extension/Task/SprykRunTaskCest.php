@@ -32,11 +32,19 @@ class SprykRunTaskCest
      *
      * @return void
      */
+    public function _before(AcceptanceTester $I): void
+    {
+        $I->skipCliInteractiveTest();
+    }
+
+    /**
+     * @param \SprykerSdk\Sdk\Tests\AcceptanceTester $I
+     *
+     * @return void
+     */
     public function testSprykRunRunsSuccessfully(AcceptanceTester $I): void
     {
         // Arrange
-        $I->skipCliInteractiveTest();
-
         $jsonArray = [
             'Object' => [
                 'name' => [
