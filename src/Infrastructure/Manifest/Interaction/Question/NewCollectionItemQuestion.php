@@ -28,15 +28,16 @@ class NewCollectionItemQuestion
 
     /**
      * @param string $valueId
+     * @param bool $isFirstItem
      *
      * @return bool
      */
-    public function ask(string $valueId): bool
+    public function ask(string $valueId, bool $isFirstItem): bool
     {
         return $this->interactionProcessor->receiveValue(
             new ReceiverValue(
                 'new-value',
-                sprintf('Would you like to add one more `%s`?', $valueId),
+                sprintf($isFirstItem ? 'Would you like to add `%s`?' : 'Would you like to add more `%s`?', $valueId),
                 false,
                 ValueTypeEnum::TYPE_BOOL,
             ),

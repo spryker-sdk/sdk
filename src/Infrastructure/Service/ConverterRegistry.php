@@ -174,7 +174,7 @@ class ConverterRegistry implements ConverterRegistryInterface
         $paths = $this->settingRepository->findOneByPath(Setting::PATH_EXTENSION_DIRS);
 
         if (!$paths) {
-            throw new MissingSettingException(sprintf('Setting %s is missing', Setting::PATH_EXTENSION_DIRS));
+            throw new MissingSettingException(sprintf('Setting `%s` is missing', Setting::PATH_EXTENSION_DIRS));
         }
 
         $convertorDirs = [];

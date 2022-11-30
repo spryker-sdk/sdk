@@ -8,10 +8,10 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\RemovedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskManager;
 use SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface;

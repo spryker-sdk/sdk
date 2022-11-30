@@ -19,7 +19,7 @@ class InitSdkCommand extends AbstractInitCommand
     /**
      * @var string
      */
-    protected const NAME = 'sdk:init:sdk';
+    public const NAME = 'sdk:init:sdk';
 
     /**
      * @var string
