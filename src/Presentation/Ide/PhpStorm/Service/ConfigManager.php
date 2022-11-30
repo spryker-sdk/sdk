@@ -126,7 +126,7 @@ class ConfigManager implements ConfigManagerInterface
         $setting = $this->settingRepository->findOneByPath($settingName);
 
         if (!$setting) {
-            throw new MissingSettingException(sprintf('Setting "%s" is missing', $settingName));
+            throw new MissingSettingException(sprintf('Setting `%s` is missing', $settingName));
         }
 
         return $setting;

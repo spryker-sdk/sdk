@@ -17,7 +17,7 @@ services:
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "rest_api.exposed_command" ]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -37,10 +37,12 @@ services:
     tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "@workflow_runner"
       - "@context_factory"
       - "@setting.setting_fetcher"
+      - "%project_settings_file%"
+      - "%local_project_settings_file%"
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
@@ -65,7 +67,7 @@ services:
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "%kernel.project_dir%/var/workflow"
       - "%host_sdk_dir%/var/workflow"
   init_project_command:
@@ -75,8 +77,9 @@ services:
         - name: 'console.command'
           command: !php/const SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand::NAME
         - 'telemetry.observable_command'
+        - 'rest_api.exposed_command'
     arguments:
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "@setting_repository"
       - "@project_settings_initializer"
 

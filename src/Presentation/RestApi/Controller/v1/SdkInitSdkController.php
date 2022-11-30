@@ -8,12 +8,18 @@
 namespace SprykerSdk\Sdk\Presentation\RestApi\Controller\v1;
 
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
+use SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand;
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-class SdkInitSdkController
+class SdkInitSdkController extends BaseController implements CommandControllerInterface
 {
+    /**
+     * @var string
+     */
+    public const TYPE = 'sdk-init-sdk';
+
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
      */
@@ -30,12 +36,20 @@ class SdkInitSdkController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): JsonResponse
     {
-        $this->initializerService->initialize($request->request->all());
+        $this->initializerService->initialize($this->createOpenApiRequest($request)->getAttributes());
 
-        return new JsonResponse([]);
+        return $this->createSuccessResponse(static::TYPE, static::TYPE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommandName(): string
+    {
+        return InitSdkCommand::NAME;
     }
 }

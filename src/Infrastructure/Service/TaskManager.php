@@ -9,10 +9,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\RemovedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
