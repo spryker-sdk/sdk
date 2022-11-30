@@ -73,7 +73,7 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
             return $defaultValue;
         }
 
-        if ($receiverValue->getDefaultValue()) {
+        if ($receiverValue->getDefaultValue() !== null) {
             return $receiverValue->getDefaultValue();
         }
 
