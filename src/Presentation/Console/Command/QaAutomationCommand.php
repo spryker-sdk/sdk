@@ -83,7 +83,6 @@ class QaAutomationCommand extends RunTaskWrapperCommand
         $context->setTask($this->dynamicTaskSetCreator->getTask(Setting::PATH_QA_TASKS));
         $context = $this->taskExecutor->execute($context);
         $this->writeContext($input, $context);
-        $this->writeFilteredMessages($output, $context);
 
         return $context->getExitCode();
     }
