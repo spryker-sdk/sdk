@@ -7,10 +7,8 @@ fi
 
 SDK_DIR="$(dirname $(dirname $(realpath $0)))"
 
-cd $SDK_DIR
-
 if [[ ! -f $SDK_DIR/VERSION ]]; then
-    git describe --abbrev=0 --tags > $SDK_DIR/VERSION
+    git --git-dir=$SDK_DIR/.git describe --abbrev=0 --tags > $SDK_DIR/VERSION
 fi
 
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
