@@ -7,11 +7,12 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
-use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
-class ConfigPathValueResolver extends OriginValueResolver
+/**
+ * @deprecated Use \SprykerSdk\Sdk\Extension\ValueResolverPriorityPathValueResolver instead.
+ */
+class ConfigPathValueResolver extends PriorityPathValueResolver
 {
     /**
      * @var string
@@ -26,35 +27,6 @@ class ConfigPathValueResolver extends OriginValueResolver
     public function getId(): string
     {
         return static::RESOLVER_ID;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return ValueTypeEnum::TYPE_STRING;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param array $settingValues
-     * @param bool $optional
-     *
-     * @return string
-     */
-    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
-    {
-        $value = (string)parent::getValue($context, $settingValues, $optional);
-
-        $projectLevelSettings = sprintf('%s/%s', $settingValues[Setting::PATH_PROJECT_DIR] ?? '', $value);
-        $sdkLevelSettings = sprintf('%s/%s', $settingValues[Setting::PATH_SDK_DIR] ?? '', $value);
-
-        return file_exists($projectLevelSettings) ? $projectLevelSettings : $sdkLevelSettings;
     }
 
     /**

@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\ConfigPathValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
 /**
  * Auto-generated group annotations
@@ -63,7 +64,7 @@ class ConfigValueResolverTest extends Unit
         $valueResolver = new ConfigPathValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);
         // Act
-        $value = $valueResolver->getValue($this->context, ['defaultValue' => 'value']);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_PROJECT_DIR => '', Setting::PATH_SDK_DIR => '']);
 
         // Assert
         $this->assertSame('/', $value);

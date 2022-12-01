@@ -3,8 +3,8 @@ id: "validation:php:architecture"
 short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
-version: 1.1.1
-command: "%executable_command% %path% %format% %config% %strict% %minimum-priority% %priority% %reportDir%"
+version: 1.1.3
+command: "%executable_command% %path% %format% %config% %strict% %minimum-priority% %priority%  %reportDir%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
   - name: "%executable_command%"
@@ -22,12 +22,12 @@ placeholders:
       type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: 'json'
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
       defaultValue: 'src'
   - name: "%strict%"
     value_resolver: FLAG
@@ -38,19 +38,19 @@ placeholders:
       defaultValue: false
   - name: "%minimum-priority%"
     value_resolver: FLAG
-    optional: false
+    optional: true
     configuration:
       alias: "minimum-priority"
       description: "Minimum priority"
       defaultValue: true
   - name: "%config%"
-    value_resolver: CONFIG_PATH
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      option: "config"
       alias: "config"
       description: "Config file"
       defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
   - name: "%priority%"
     value_resolver: STATIC
     optional: false

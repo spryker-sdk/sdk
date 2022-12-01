@@ -53,7 +53,7 @@ class ArchitectureSnifferTaskCest
         );
 
         // Assert
-        Assert::assertTrue($process->isSuccessful());
+        Assert::assertTrue($process->isSuccessful(), $process->getErrorOutput() ?: $process->getOutput());
     }
 
     /**
@@ -77,6 +77,6 @@ class ArchitectureSnifferTaskCest
         );
 
         // Assert
-        Assert::assertFalse($process->isSuccessful());
+        Assert::assertFalse($process->isSuccessful(), $process->getErrorOutput() ?: $process->getOutput());
     }
 }
