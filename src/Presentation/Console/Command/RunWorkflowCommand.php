@@ -71,24 +71,40 @@ class RunWorkflowCommand extends Command
     protected SettingFetcherInterface $settingFetcher;
 
     /**
+     * @var string
+     */
+    protected string $projectSettingsFileName;
+
+    /**
+     * @var string
+     */
+    protected string $projectLocalSettingsFileName;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner $workflowRunner
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
+     * @param string $projectSettingsFileName
+     * @param string $projectLocalSettingsFileName
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         InteractionProcessorInterface $cliValueReceiver,
         WorkflowRunner $workflowRunner,
         ContextFactoryInterface $contextFactory,
-        SettingFetcherInterface $settingFetcher
+        SettingFetcherInterface $settingFetcher,
+        string $projectSettingsFileName,
+        string $projectLocalSettingsFileName
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->workflowRunner = $workflowRunner;
         $this->contextFactory = $contextFactory;
         $this->settingFetcher = $settingFetcher;
+        $this->projectSettingsFileName = $projectSettingsFileName;
+        $this->projectLocalSettingsFileName = $projectLocalSettingsFileName;
 
         parent::__construct(static::NAME);
     }
@@ -121,7 +137,15 @@ EOT,
         $projectWorkflows = (array)$this->settingFetcher->getOneByPath(Setting::PATH_WORKFLOW)->getValues();
 
         if ($workflowName && !in_array($workflowName, $projectWorkflows)) {
-            $output->writeln('<error>You don\'t have any active a workflows".</error>');
+            $output->writeln(
+                sprintf(
+                    '<error>You don\'t have the `%s` workflow in this project. Please add the workflow by using `%s` command or manually add one in `%s` or `%s`.</error>',
+                    $workflowName,
+                    InitProjectCommand::NAME,
+                    $this->projectSettingsFileName,
+                    $this->projectLocalSettingsFileName,
+                ),
+            );
 
             return static::FAILURE;
         }
