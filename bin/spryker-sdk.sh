@@ -5,12 +5,14 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
-SDK_DIR="$(dirname $(dirname $0))"
+SDK_DIR="$(dirname $(realpath $(dirname $0)))"
+
+cd $SDK_DIR
 
 if [[ ! -f $SDK_DIR/VERSION ]]; then
     git describe --abbrev=0 --tags > $SDK_DIR/VERSION
 fi
-
+exit
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
     cat $SDK_DIR/VERSION
     exit 0
