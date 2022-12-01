@@ -501,7 +501,6 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Service\ProjectInfo\ProjectInfoFetcher
         arguments:
             - !tagged_iterator project_info_fetcher.fetcher_strategy
-            - "@error_logger_factory"
 
     guzzle.http_client:
         class: GuzzleHttp\Client
