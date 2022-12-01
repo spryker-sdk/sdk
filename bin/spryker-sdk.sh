@@ -5,7 +5,7 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
-SDK_DIR="$(dirname $(realpath $(dirname $0)))"
+SDK_DIR="$(dirname $(dirname $(realpath $0)))"
 
 cd $SDK_DIR
 
