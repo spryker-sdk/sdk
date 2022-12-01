@@ -51,6 +51,6 @@ class ContextFactory implements ContextFactoryInterface
      */
     public function hasContext(): bool
     {
-        return isset($this->context);
+        return $this->context !== null;
     }
 }
