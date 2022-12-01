@@ -12,7 +12,7 @@ cd $SDK_DIR
 if [[ ! -f $SDK_DIR/VERSION ]]; then
     git describe --abbrev=0 --tags > $SDK_DIR/VERSION
 fi
-exit
+
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
     cat $SDK_DIR/VERSION
     exit 0
