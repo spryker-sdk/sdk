@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
+use SprykerSdk\Sdk\Infrastructure\Version\FileAppVersionFetcher;
 use Throwable;
 
 class LifecycleManager implements LifecycleManagerInterface
@@ -93,21 +94,17 @@ class LifecycleManager implements LifecycleManagerInterface
      */
     public function checkForUpdate(): array
     {
-        if ($this->environment !== 'prod') {
-            return [new Message('Not possible to check updates for development version.')];
-        }
-
         $versionFilePath = $this->sdkDirectory . '/VERSION';
 
         if (!is_file($versionFilePath)) {
-            return [new Message('Could not find `VERSION` file, skip updatable check')];
+            return [new Message(sprintf('Could not find `%s` file, skip updatable check', FileAppVersionFetcher::VERSION_FILE_NAME))];
         }
 
         $currentVersion = (string)file_get_contents($versionFilePath);
         $currentVersion = trim($currentVersion);
 
         if (!$currentVersion) {
-            return [new Message('Could not find version in the file `VERSION`. File is empty.')];
+            return [new Message(sprintf('Could not find version in the file `%s`. File is empty.', FileAppVersionFetcher::VERSION_FILE_NAME))];
         }
 
         $messages = [];

@@ -55,16 +55,6 @@ services:
                 event: console.error,
                 method: handle,
             }
-    command_context_output:
-        class: SprykerSdk\Sdk\Infrastructure\EventListener\ContextOutputCommandListener
-        arguments:
-            - "@context_factory"
-        tags:
-            - {
-                name: kernel.event_listener,
-                event: console.terminate,
-                method: handle,
-            }
     setting_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
         arguments:

@@ -8,8 +8,7 @@ fi
 SDK_DIR="$(dirname $(dirname $0))"
 
 if [[ ! -f $SDK_DIR/VERSION ]]; then
-    echo "0.0.0" > $SDK_DIR/VERSION
-    exit 0
+    git describe --abbrev=0 --tags > $SDK_DIR/VERSION
 fi
 
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then

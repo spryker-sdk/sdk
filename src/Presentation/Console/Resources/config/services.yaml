@@ -173,3 +173,10 @@ services:
 
   manifest.task_manifest_dto_factory:
       class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskManifestRequestDtoFactory
+
+  command_context_output:
+      class: SprykerSdk\Sdk\Presentation\Console\EventListener\ContextOutputCommandListener
+      arguments:
+          - "@context_factory"
+      tags:
+          - { name: kernel.event_listener, event: console.terminate, method: handle }

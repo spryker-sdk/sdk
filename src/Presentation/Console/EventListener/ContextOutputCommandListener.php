@@ -5,15 +5,24 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Infrastructure\EventListener;
+namespace SprykerSdk\Sdk\Presentation\Console\EventListener;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ContextOutputCommandListener
 {
+    /**
+     * @var array
+     */
+    protected const TEMPLATES = [
+            MessageInterface::INFO => '<info>Info: %s</info>',
+            MessageInterface::ERROR => '<error>Error: %s</error>',
+            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
+            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
+        ];
+
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
@@ -44,10 +53,10 @@ class ContextOutputCommandListener
             return;
         }
 
-        $verbosity = $this->getVerbosity($event->getOutput());
+        $isDebug = $event->getOutput()->isDebug();
 
         foreach ($messages as $message) {
-            if ($message->getVerbosity() <= $verbosity) {
+            if ($isDebug || $message->getVerbosity() !== MessageInterface::DEBUG) {
                 $event->getOutput()->writeln($this->formatMessage($message));
             }
         }
@@ -60,35 +69,8 @@ class ContextOutputCommandListener
      */
     protected function formatMessage(MessageInterface $message): string
     {
-        $template = [
-            MessageInterface::INFO => '<info>Info: %s</info>',
-            MessageInterface::ERROR => '<error>Error: %s</error>',
-            MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
-            MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
-        ][$message->getVerbosity()] ?? '%s';
+        $template = static::TEMPLATES[$message->getVerbosity()] ?? '%s';
 
         return sprintf($template, $message->getMessage());
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
-    protected function getVerbosity(OutputInterface $output): int
-    {
-        if ($output->isVerbose()) {
-            return MessageInterface::SUCCESS;
-        }
-
-        if ($output->isVeryVerbose()) {
-            return MessageInterface::INFO;
-        }
-
-        if ($output->isDebug()) {
-            return MessageInterface::DEBUG;
-        }
-
-        return MessageInterface::ERROR;
     }
 }

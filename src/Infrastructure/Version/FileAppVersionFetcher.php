@@ -15,7 +15,7 @@ class FileAppVersionFetcher implements AppVersionFetcherInterface
     /**
      * @var string
      */
-    protected const VERSION_FILE_NAME = 'VERSION';
+    public const VERSION_FILE_NAME = 'VERSION';
 
     /**
      * @var string
