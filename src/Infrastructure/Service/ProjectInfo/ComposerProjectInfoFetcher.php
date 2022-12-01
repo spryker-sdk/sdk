@@ -70,7 +70,7 @@ class ComposerProjectInfoFetcher implements ProjectInfoFetcherStrategyInterface
             throw new FetchDataException(sprintf('Unable to read the file %s: %s', $composerFile, error_get_last()['message'] ?? ''));
         }
 
-        $composerJson = json_decode($composerJsonContent, true, 512, \JSON_THROW_ON_ERROR);
+        $composerJson = json_decode((string)$composerJsonContent, true, 512, \JSON_THROW_ON_ERROR);
 
         if (!isset($composerJson['name'])) {
             throw new FetchDataException(sprintf('%s has no name key', $composerFile));

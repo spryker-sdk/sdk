@@ -116,7 +116,7 @@ case $MODE in
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
         docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
     elif [[ ! -f "${SDK_DIR}/docker-compose.dev.yml" ]]; then
-        echo "The development environment is not available. Please run 'unset SPRYKER_SDK_ENV' or 'export SPRYKER_SDK_ENV=prod' to enable 'production' mode."
+        echo "The development environment is not available. Please run \`unset SPRYKER_SDK_ENV\` or \`export SPRYKER_SDK_ENV=prod\` to enable \`production\` mode."
         exit 1
     else
         docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
