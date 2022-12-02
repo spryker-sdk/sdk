@@ -65,6 +65,9 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      */
     protected ContextFactoryInterface $contextFactory;
 
+    /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskSetTaskRelationRepositoryInterface
+     */
     protected TaskSetTaskRelationRepositoryInterface $taskSetTaskRelationRepository;
 
     /**

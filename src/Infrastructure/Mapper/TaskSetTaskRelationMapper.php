@@ -20,6 +20,9 @@ class TaskSetTaskRelationMapper implements TaskSetTaskRelationMapperInterface
      */
     protected ObjectRepository $taskRepository;
 
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface
+     */
     protected TaskMapperInterface $taskMapper;
 
     /**

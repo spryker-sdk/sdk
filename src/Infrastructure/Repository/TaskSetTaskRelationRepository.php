@@ -19,6 +19,9 @@ use SprykerSdk\Sdk\Infrastructure\Mapper\TaskSetTaskRelationMapperInterface;
  */
 class TaskSetTaskRelationRepository extends ServiceEntityRepository implements TaskSetTaskRelationRepositoryInterface
 {
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\TaskSetTaskRelationMapperInterface
+     */
     protected TaskSetTaskRelationMapperInterface $taskSetTaskRelationMapper;
 
     /**
