@@ -11,6 +11,7 @@ on:
 
 env:
     APP_ENV: test # Symfony application environment
+    CODECOV_TOKEN: a223186e-69ca-438b-bc5a-aa509559fdd0
 
 jobs:
   validation:
