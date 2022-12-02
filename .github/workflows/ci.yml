@@ -94,5 +94,5 @@ jobs:
           php-coveralls --coverage_clover=tests/_output/coverage.xml --json_path=tests/_output/coveralls-upload.json -vvv
 
       - name: Code Coverage Report
-        if: success() && matrix.php-version == '7.4'
+        if: success() && matrix.php-version == '8.0'
         uses: codecov/codecov-action@v1
