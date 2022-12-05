@@ -67,7 +67,7 @@ class UpdateCommand extends AbstractUpdateCommand
             $this->checkForUpdate($context);
         }
 
-        if ($input->getOption(static::OPTION_CHECK_ONLY)) {
+        if (!$input->getOption(static::OPTION_CHECK_ONLY)) {
             $this->lifecycleManager->update();
         }
 
