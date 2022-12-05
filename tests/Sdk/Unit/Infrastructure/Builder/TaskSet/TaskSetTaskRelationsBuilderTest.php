@@ -34,6 +34,7 @@ class TaskSetTaskRelationsBuilderTest extends Unit
         $taskSetMock = $this->createTaskSetMock('task-set:id', []);
         $taskSetTaskRelationsBuilder = new TaskSetTaskRelationsBuilder();
 
+        // Assert
         $this->expectException(InvalidArgumentException::class);
 
         // Act
@@ -50,6 +51,7 @@ class TaskSetTaskRelationsBuilderTest extends Unit
         $taskSetTaskRelationsBuilder = new TaskSetTaskRelationsBuilder();
         $existingTasks = ['task-set:id' => $taskSetMock];
 
+        // Assert
         $this->expectException(InvalidArgumentException::class);
 
         // Act

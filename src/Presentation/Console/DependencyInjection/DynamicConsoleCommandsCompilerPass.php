@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\DependencyInjection;
 
-use SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader;
+use SprykerSdk\Sdk\Presentation\Console\Command\TaskLoader\TaskRunFactoryLoader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Parameter;
@@ -32,7 +32,7 @@ class DynamicConsoleCommandsCompilerPass implements CompilerPassInterface
                 ->addArgument(new Reference('project_setting_repository'))
                 ->addArgument(new Reference('project_workflow'))
                 ->addArgument(new Reference('context_factory'))
-                ->addArgument(new Reference('task_set_relation_repository'))
+                ->addArgument(new Reference('task_loader.task_help_message_decorator'))
                 ->addArgument(new Parameter('kernel.environment'));
         }
     }

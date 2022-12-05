@@ -13,6 +13,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\TaskSetTaskRelation:
             targetEntity: SprykerSdk\Sdk\Infrastructure\Entity\Task
             joinColumn:
                 name: task_set_id
+                nullable: false
                 referencedColumnName: id
                 onDelete: cascade
 
@@ -20,6 +21,7 @@ SprykerSdk\Sdk\Infrastructure\Entity\TaskSetTaskRelation:
             targetEntity: SprykerSdk\Sdk\Infrastructure\Entity\Task
             joinColumn:
                 name: sub_task_id
+                nullable: false
                 referencedColumnName: id
                 onDelete: cascade
 

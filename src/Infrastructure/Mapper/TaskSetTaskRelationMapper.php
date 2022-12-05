@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 use Doctrine\Persistence\ObjectRepository;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelation as DomainTaskSetRelation;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface;
-use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Entity\TaskSetTaskRelation as InfrastructureTaskSetRelation;
 
 class TaskSetTaskRelationMapper implements TaskSetTaskRelationMapperInterface
@@ -42,13 +41,13 @@ class TaskSetTaskRelationMapper implements TaskSetTaskRelationMapperInterface
      */
     public function mapToInfrastructureTaskSetRelation(TaskSetTaskRelationInterface $taskSetRelation): InfrastructureTaskSetRelation
     {
-        $taskSet = $this->findTask($taskSetRelation->getTaskSet()->getId());
+        $taskSet = $this->taskRepository->find($taskSetRelation->getTaskSet()->getId());
 
         if ($taskSet === null) {
             $taskSet = $this->taskMapper->mapToInfrastructureEntity($taskSetRelation->getTaskSet());
         }
 
-        $subTask = $this->findTask($taskSetRelation->getSubTask()->getId());
+        $subTask = $this->taskRepository->find($taskSetRelation->getSubTask()->getId());
 
         if ($subTask === null) {
             $subTask = $this->taskMapper->mapToInfrastructureEntity($taskSetRelation->getSubTask());
@@ -68,15 +67,5 @@ class TaskSetTaskRelationMapper implements TaskSetTaskRelationMapperInterface
             $taskSetRelation->getTaskSet(),
             $taskSetRelation->getSubTask(),
         );
-    }
-
-    /**
-     * @param string $taskId
-     *
-     * @return \SprykerSdk\Sdk\Infrastructure\Entity\Task|null
-     */
-    protected function findTask(string $taskId): ?Task
-    {
-        return $this->taskRepository->find($taskId);
     }
 }

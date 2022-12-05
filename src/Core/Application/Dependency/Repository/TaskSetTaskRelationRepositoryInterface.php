@@ -7,17 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency\Repository;
 
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface;
-
 interface TaskSetTaskRelationRepositoryInterface
 {
-    /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface $relation
-     *
-     * @return void
-     */
-    public function create(TaskSetTaskRelationInterface $relation): void;
-
     /**
      * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface> $relations
      *

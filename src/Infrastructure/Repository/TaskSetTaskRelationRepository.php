@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskSetTaskRelationRepositoryInterface;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\TaskSetTaskRelation;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskSetTaskRelationMapperInterface;
 
@@ -38,20 +37,6 @@ class TaskSetTaskRelationRepository extends ServiceEntityRepository implements T
     }
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface $relation
-     *
-     * @return void
-     */
-    public function create(TaskSetTaskRelationInterface $relation): void
-    {
-        $this->getEntityManager()->persist(
-            $this->taskSetTaskRelationMapper->mapToInfrastructureTaskSetRelation($relation),
-        );
-
-        $this->getEntityManager()->flush();
-    }
-
-    /**
      * @param array<\SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface> $relations
      *
      * @return void
@@ -59,9 +44,8 @@ class TaskSetTaskRelationRepository extends ServiceEntityRepository implements T
     public function createMany(array $relations): void
     {
         foreach ($relations as $relation) {
-            $this->getEntityManager()->persist(
-                $this->taskSetTaskRelationMapper->mapToInfrastructureTaskSetRelation($relation),
-            );
+            $infrastructureRelation = $this->taskSetTaskRelationMapper->mapToInfrastructureTaskSetRelation($relation);
+            $this->getEntityManager()->persist($infrastructureRelation);
         }
 
         $this->getEntityManager()->flush();

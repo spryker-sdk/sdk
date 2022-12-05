@@ -33,6 +33,7 @@ class TaskSetTaskRelationsFromYamlBuilderTest extends Unit
         $yamlTaskSet = ['id' => 'task-set:id', 'tasks' => []];
         $taskSetTaskRelationsFromYamlBuilder = new TaskSetTaskRelationsFromYamlBuilder();
 
+        // Assert
         $this->expectException(InvalidArgumentException::class);
 
         // Act
@@ -49,6 +50,7 @@ class TaskSetTaskRelationsFromYamlBuilderTest extends Unit
         $yamlTaskSet = ['id' => 'task-set:id', 'tasks' => [['id' => 'task:id']]];
         $taskSetTaskRelationsFromYamlBuilder = new TaskSetTaskRelationsFromYamlBuilder();
 
+        // Assert
         $this->expectException(InvalidArgumentException::class);
 
         // Act
