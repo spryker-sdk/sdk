@@ -8,7 +8,7 @@
 namespace SprykerSdk\Sdk\Infrastructure\Mapper;
 
 use Doctrine\Persistence\ObjectRepository;
-use SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelation as DomainTaskSetRelation;
+use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\TaskSetTaskRelation as InfrastructureTaskSetRelation;
 
@@ -20,22 +20,17 @@ class TaskSetTaskRelationMapper implements TaskSetTaskRelationMapperInterface
     protected ObjectRepository $taskRepository;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface
-     */
-    protected TaskMapperInterface $taskMapper;
-
-    /**
      * @param \Doctrine\Persistence\ObjectRepository $taskRepository
-     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      */
-    public function __construct(ObjectRepository $taskRepository, TaskMapperInterface $taskMapper)
+    public function __construct(ObjectRepository $taskRepository)
     {
         $this->taskRepository = $taskRepository;
-        $this->taskMapper = $taskMapper;
     }
 
     /**
      * @param \SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface $taskSetRelation
+     *
+     * @throws \InvalidArgumentException
      *
      * @return \SprykerSdk\Sdk\Infrastructure\Entity\TaskSetTaskRelation
      */
@@ -44,28 +39,15 @@ class TaskSetTaskRelationMapper implements TaskSetTaskRelationMapperInterface
         $taskSet = $this->taskRepository->find($taskSetRelation->getTaskSet()->getId());
 
         if ($taskSet === null) {
-            $taskSet = $this->taskMapper->mapToInfrastructureEntity($taskSetRelation->getTaskSet());
+            throw new InvalidArgumentException(sprintf('Task set `%s` is not found', $taskSetRelation->getTaskSet()->getId()));
         }
 
         $subTask = $this->taskRepository->find($taskSetRelation->getSubTask()->getId());
 
         if ($subTask === null) {
-            $subTask = $this->taskMapper->mapToInfrastructureEntity($taskSetRelation->getSubTask());
+            throw new InvalidArgumentException(sprintf('Sub-task set `%s` is not found', $taskSetRelation->getSubTask()->getId()));
         }
 
         return new InfrastructureTaskSetRelation($taskSet, $subTask);
-    }
-
-    /**
-     * @param \SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelationInterface $taskSetRelation
-     *
-     * @return \SprykerSdk\Sdk\Core\Domain\Entity\TaskSetTaskRelation
-     */
-    public function mapToDomainTaskSetRelation(TaskSetTaskRelationInterface $taskSetRelation): DomainTaskSetRelation
-    {
-        return new DomainTaskSetRelation(
-            $taskSetRelation->getTaskSet(),
-            $taskSetRelation->getSubTask(),
-        );
     }
 }

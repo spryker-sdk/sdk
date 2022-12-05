@@ -85,7 +85,7 @@ class TaskSetTaskRelationFacade implements TaskSetTaskRelationFacadeInterface
      *
      * @return void
      */
-    public function createRelation(TaskInterface $task): void
+    public function createRelations(TaskInterface $task): void
     {
         $taskSetTaskRelations = $this->taskSetTaskRelationStorage->getTaskSetTaskRelations($task->getId());
         $this->taskSetTaskRelationRepository->createMany($taskSetTaskRelations);
@@ -96,7 +96,7 @@ class TaskSetTaskRelationFacade implements TaskSetTaskRelationFacadeInterface
      *
      * @return void
      */
-    public function removeRelation(TaskInterface $task): void
+    public function removeRelations(TaskInterface $task): void
     {
         $this->taskSetTaskRelationRepository->removeByTaskSetId($task->getId());
     }
@@ -106,9 +106,9 @@ class TaskSetTaskRelationFacade implements TaskSetTaskRelationFacadeInterface
      *
      * @return void
      */
-    public function updateRelation(TaskInterface $task): void
+    public function updateRelations(TaskInterface $task): void
     {
-        $this->removeRelation($task);
-        $this->createRelation($task);
+        $this->removeRelations($task);
+        $this->createRelations($task);
     }
 }

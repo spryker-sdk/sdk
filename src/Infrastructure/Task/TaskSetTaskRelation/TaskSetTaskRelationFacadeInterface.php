@@ -33,19 +33,19 @@ interface TaskSetTaskRelationFacadeInterface
      *
      * @return void
      */
-    public function createRelation(TaskInterface $task): void;
+    public function createRelations(TaskInterface $task): void;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */
-    public function removeRelation(TaskInterface $task): void;
+    public function removeRelations(TaskInterface $task): void;
 
     /**
      * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
      *
      * @return void
      */
-    public function updateRelation(TaskInterface $task): void;
+    public function updateRelations(TaskInterface $task): void;
 }

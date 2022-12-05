@@ -80,7 +80,7 @@ class TaskManager implements TaskManagerInterface
             }
 
             $entities[] = $this->taskRepository->create($task);
-            $this->taskSetTaskRelationFacade->createRelation($task);
+            $this->taskSetTaskRelationFacade->createRelations($task);
             $this->eventDispatcher->dispatch(new InitializedEvent($task), InitializedEvent::NAME);
         }
 
@@ -95,7 +95,7 @@ class TaskManager implements TaskManagerInterface
     public function remove(TaskInterface $task): void
     {
         $this->taskRepository->remove($task);
-        $this->taskSetTaskRelationFacade->removeRelation($task);
+        $this->taskSetTaskRelationFacade->removeRelations($task);
 
         $this->eventDispatcher->dispatch(new RemovedEvent($task), RemovedEvent::NAME);
     }
@@ -109,7 +109,7 @@ class TaskManager implements TaskManagerInterface
     public function update(TaskInterface $folderTask, TaskInterface $databaseTask): void
     {
         $this->taskRepository->update($folderTask, $databaseTask);
-        $this->taskSetTaskRelationFacade->updateRelation($folderTask);
+        $this->taskSetTaskRelationFacade->updateRelations($folderTask);
 
         $this->eventDispatcher->dispatch(new UpdatedEvent($folderTask), UpdatedEvent::NAME);
     }

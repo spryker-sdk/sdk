@@ -259,7 +259,6 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\TaskSetTaskRelationMapper
         arguments:
             - "@task_persistence_repository"
-            - "@mapper.task_mapper"
 
     mapper.lifecycle_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
