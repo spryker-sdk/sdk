@@ -93,6 +93,9 @@ services:
         arguments:
             - !tagged_iterator sdk.task
 
+    task_set_task_relation.storage:
+        class: SprykerSdk\Sdk\Infrastructure\Storage\TaskSetTaskRelationStorage
+
     task.builder.yaml:
         class: SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\YamlTaskBuilder
         arguments:
@@ -135,6 +138,7 @@ services:
             - "@task.task_from_yaml_builder"
             - "@task.storage"
             - "@task.builder.yaml"
+            - "@task.task_set_task_relation_facade"
 
     context_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
@@ -253,6 +257,11 @@ services:
             - "@mapper.placeholder_mapper"
             - "@mapper.lifecycle_mapper"
 
+    mapper.task_set_relation:
+        class: SprykerSdk\Sdk\Infrastructure\Mapper\TaskSetTaskRelationMapper
+        arguments:
+            - "@task_persistence_repository"
+
     mapper.lifecycle_mapper:
         class: SprykerSdk\Sdk\Infrastructure\Mapper\LifecycleMapper
         arguments:
@@ -280,12 +289,19 @@ services:
             - "@task.task_set_override_map_factory"
             - "@task.storage"
 
+    task_set_relation_repository:
+        class: SprykerSdk\Sdk\Infrastructure\Repository\TaskSetTaskRelationRepository
+        arguments:
+            - "@doctrine"
+            - "@mapper.task_set_relation"
+
     service.task_manager:
         class: SprykerSdk\Sdk\Infrastructure\Service\TaskManager
         arguments:
             - "@event_dispatcher"
             - "@task_persistence_repository"
             - "@task.task_from_task_builder"
+            - "@task.task_set_task_relation_facade"
 
     service.lifecycle_manager:
         class: SprykerSdk\Sdk\Infrastructure\Service\LifecycleManager
@@ -437,6 +453,14 @@ services:
             - "@interaction_processor"
             - "@service_container"
             - "@context_factory"
+
+    task.task_set_task_relation_facade:
+        class: SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacade
+        arguments:
+            - '@task_set_task_relation.storage'
+            - '@task.task_set_task_relations_builder'
+            - '@task.task_set_task_relations_from_yaml_builder'
+            - '@task_set_relation_repository'
 
     telemetry.data_lake_sender:
         class: SprykerSdk\Sdk\Infrastructure\Telemetry\DataLakeTelemetryEventSender
@@ -640,6 +664,12 @@ services:
             - "@task.yaml.task_set_override_map_factory"
             - "@task.task_set_placeholders_builder"
             - "@task.task_set_commands_builder"
+
+    task.task_set_task_relations_from_yaml_builder:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetTaskRelationsFromYamlBuilder
+
+    task.task_set_task_relations_builder:
+        class: SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetTaskRelationsBuilder
 
     # Validators
     validation_helper:

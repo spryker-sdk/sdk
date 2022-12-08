@@ -12,6 +12,7 @@ use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector;
 use SprykerSdk\Sdk\Infrastructure\Dto\TaskYamlCriteriaDto;
 use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
+use SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
@@ -37,21 +38,29 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
     protected TaskYamlCollector $taskYamlCollector;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface
+     */
+    protected TaskSetTaskRelationFacadeInterface $taskSetTaskRelationFacade;
+
+    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector $taskYamlCollector
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder
      * @param \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage $taskStorage
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface $taskBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface $taskSetTaskRelationFacade
      */
     public function __construct(
         TaskYamlCollector $taskYamlCollector,
         TaskFromYamlTaskSetBuilderInterface $taskFromYamlTaskSetBuilder,
         TaskStorage $taskStorage,
-        TaskBuilderInterface $taskBuilder
+        TaskBuilderInterface $taskBuilder,
+        TaskSetTaskRelationFacadeInterface $taskSetTaskRelationFacade
     ) {
         $this->taskYamlCollector = $taskYamlCollector;
         $this->taskFromYamlTaskSetBuilder = $taskFromYamlTaskSetBuilder;
         $this->taskStorage = $taskStorage;
         $this->taskBuilder = $taskBuilder;
+        $this->taskSetTaskRelationFacade = $taskSetTaskRelationFacade;
     }
 
     /**
@@ -71,6 +80,8 @@ class TaskYamlFileLoader implements TaskYamlFileLoaderInterface
         foreach ($manifestCollection->getTaskSets() as $taskData) {
             $task = $this->buildTaskSet($taskData, $manifestCollection->getTasks(), $taskCollection);
             $this->taskStorage->addTask($task);
+
+            $this->taskSetTaskRelationFacade->collectYamlTaskSet($taskData, $this->taskStorage->getTaskCollection());
         }
 
         return $this->taskStorage->getTaskCollection();
