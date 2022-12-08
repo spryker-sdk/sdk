@@ -3,7 +3,7 @@ id: "validation:frontend:prettier"
 short_description: "An opinionated code formatter"
 help: ~
 stage: build
-version: 0.2.1
+version: 0.2.2
 command: "npx --prefix %sdk_dir% prettier %check% %log-level% %path% > %reportDir% 2>&1"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
@@ -40,12 +40,12 @@ placeholders:
       settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "frontend.prettier.log"
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: false
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
       defaultValue: 'src'
 report_converter:
   name: PrettierSnifferViolationReportConverter

@@ -11,6 +11,7 @@ on:
 
 env:
     APP_ENV: test # Symfony application environment
+    CODECOV_TOKEN: a223186e-69ca-438b-bc5a-aa509559fdd0
 
 jobs:
   validation:
@@ -85,10 +86,6 @@ jobs:
         if: ${{ matrix.php-version == '8.0' }}
         run: composer test-cover
 
-      - name: Upload coverage results to Coveralls
-        if: ${{ matrix.php-version == '8.0' }}
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer global require "php-coveralls/php-coveralls" "symfony/console: ^5.4"
-          php-coveralls --coverage_clover=tests/_output/coverage.xml --json_path=tests/_output/coveralls-upload.json -vvv
+      - name: Code Coverage Report
+        if: success() && matrix.php-version == '8.0'
+        uses: codecov/codecov-action@v1

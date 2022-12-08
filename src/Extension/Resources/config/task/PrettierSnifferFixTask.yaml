@@ -3,7 +3,7 @@ id: "validation:frontend:prettier-fix"
 short_description: "An opinionated code formatter"
 help: ~
 stage: build
-version: 0.2.1
+version: 0.2.2
 command: "npx --prefix %sdk_dir% prettier --write --loglevel=%log_level% %path%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
@@ -11,12 +11,12 @@ placeholders:
     value_resolver: SDK_DIR
     optional: true
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: false
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
       defaultValue: 'src'
   - name: "%log_level%"
     value_resolver: STATIC

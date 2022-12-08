@@ -52,7 +52,7 @@ class DeprecationsTaskCest
         );
 
         // Assert
-        Assert::assertTrue($process->isSuccessful());
+        Assert::assertTrue($process->isSuccessful(), $process->getErrorOutput() ?: $process->getOutput());
         Assert::assertStringContainsString('Violations found', $process->getOutput());
     }
 }
