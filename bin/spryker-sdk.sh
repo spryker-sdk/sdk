@@ -105,7 +105,19 @@ case $MODE in
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
         docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
     else
-        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off -w /data spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
+    fi
+    ;;
+"docker-debug" | "dd")
+    if [[ $ARGUMENTS_EMPTY == 1 ]]; then
+        ARGUMENTS='/bin/bash'
+    fi
+    if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
+        echo "This mode is not available for production."
+        exit 1
+    else
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm \
+        -e SPRYKER_XDEBUG_HOST_IP="${myIp}" -e PHP_IDE_CONFIG="serverName=spryker-sdk" spryker-sdk "$ARGUMENTS"
     fi
     ;;
 *)
@@ -115,7 +127,7 @@ case $MODE in
         echo "The development environment is not available. Please run \`unset SPRYKER_SDK_ENV\` or \`export SPRYKER_SDK_ENV=prod\` to enable \`production\` mode."
         exit 1
     else
-        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off -w /data spryker-sdk "$ARGUMENTS"
     fi
   ;;
 esac

@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Sdk\Presentation\Console\Command;
+namespace SprykerSdk\Sdk\Presentation\Console\Command\TaskLoader;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Container\ContainerInterface;
@@ -17,6 +17,7 @@ use SprykerSdk\Sdk\Core\Application\Exception\TaskMissingException;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder;
+use SprykerSdk\Sdk\Presentation\Console\Command\RunTaskWrapperCommand;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
@@ -65,6 +66,11 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
     protected ContextFactoryInterface $contextFactory;
 
     /**
+     * @var \SprykerSdk\Sdk\Presentation\Console\Command\TaskLoader\TaskHelpMessageDecoratorInterface
+     */
+    protected TaskHelpMessageDecoratorInterface $taskHelpMessageDecorator;
+
+    /**
      * @param \Psr\Container\ContainerInterface $container
      * @param array<string, string> $commandMap
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
@@ -74,6 +80,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
+     * @param \SprykerSdk\Sdk\Presentation\Console\Command\TaskLoader\TaskHelpMessageDecoratorInterface $taskHelpMessageDecorator
      * @param string $environment
      */
     public function __construct(
@@ -86,6 +93,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         ProjectSettingRepositoryInterface $projectSettingRepository,
         ProjectWorkflow $projectWorkflow,
         ContextFactoryInterface $contextFactory,
+        TaskHelpMessageDecoratorInterface $taskHelpMessageDecorator,
         string $environment = 'prod'
     ) {
         parent::__construct($container, $commandMap);
@@ -96,6 +104,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         $this->contextRepository = $contextRepository;
         $this->projectWorkflow = $projectWorkflow;
         $this->environment = $environment;
+        $this->taskHelpMessageDecorator = $taskHelpMessageDecorator;
         $this->contextFactory = $contextFactory;
     }
 
@@ -150,7 +159,7 @@ class TaskRunFactoryLoader extends ContainerCommandLoader
         );
 
         if (!$command->getHelp()) {
-            $command->setHelp((string)$task->getHelp());
+            $command->setHelp($this->taskHelpMessageDecorator->decorateHelpMessage($task));
         }
 
         return $command;

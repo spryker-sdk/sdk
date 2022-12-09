@@ -10,7 +10,6 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 use Codeception\Test\Unit;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use InvalidArgumentException;
-use SprykerSdk\Sdk\Core\Application\Exception\ProjectWorkflowException;
 use SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,9 +43,9 @@ class ErrorCommandListenerTest extends Unit
     public function testSkipProcessingWhenErrorIsNotTableNotFoundException(): void
     {
         //Arrange
-        $event = new ConsoleErrorEvent($this->createInputMock(), $this->createOutputMock(), new InvalidArgumentException());
+        $event = new ConsoleErrorEvent($this->createInputMock(), $this->createOutputMock(true), new InvalidArgumentException());
         $event->setExitCode(static::DEFAULT_ERROR_CODE);
-        $eventListener = new ErrorCommandListener();
+        $eventListener = new ErrorCommandListener(true);
 
         //Act
         $eventListener->handle($event);
@@ -64,7 +63,7 @@ class ErrorCommandListenerTest extends Unit
         //Arrange
         $event = new ConsoleErrorEvent($this->createInputMock(), $this->createOutputMock(true), $this->createTableNotFoundExceptionMock());
         $event->setExitCode(static::DEFAULT_ERROR_CODE);
-        $eventListener = new ErrorCommandListener();
+        $eventListener = new ErrorCommandListener(true);
 
         //Act
         $eventListener->handle($event);
@@ -75,21 +74,38 @@ class ErrorCommandListenerTest extends Unit
     }
 
     /**
+     * @dataProvider requiredDebugSetting
+     *
+     * @param bool $verbosity
+     * @param bool $debug
+     *
      * @return void
      */
-    public function testProcessingWhenErrorIsTableNotFoundExceptionAndDebugFalse(): void
+    public function testProcessingWhenErrorIsTableNotFoundException(bool $verbosity, bool $debug): void
     {
         //Arrange
-        $event = new ConsoleErrorEvent($this->createInputMock(), $this->createOutputMock(), $this->createTableNotFoundExceptionMock());
+        $tableNotFoundExceptionMock = $this->createTableNotFoundExceptionMock();
+        $event = new ConsoleErrorEvent($this->createInputMock(), $this->createOutputMock($verbosity), $tableNotFoundExceptionMock);
         $event->setExitCode(static::DEFAULT_ERROR_CODE);
-        $eventListener = new ErrorCommandListener();
+        $eventListener = new ErrorCommandListener($debug);
 
         //Act
         $eventListener->handle($event);
 
         //Assert
         $this->assertSame(static::SUCCESS_ERROR_CODE, $event->getExitCode());
-        $this->assertInstanceOf(ProjectWorkflowException::class, $event->getError());
+        $this->assertInstanceOf(get_class($tableNotFoundExceptionMock), $event->getError());
+    }
+
+    /**
+     * @return array<array<string>>
+     */
+    public function requiredDebugSetting(): array
+    {
+        return [
+            [false, true],
+            [true, false],
+        ];
     }
 
     /**
@@ -103,7 +119,7 @@ class ErrorCommandListenerTest extends Unit
     /**
      * @param bool $isDebug
      *
-     * @return \Symfony\Component\Console\Output\OutputInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Console\Output\OutputInterface
      */
     protected function createOutputMock(bool $isDebug = false): OutputInterface
     {

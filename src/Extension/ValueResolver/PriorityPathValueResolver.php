@@ -43,27 +43,27 @@ class PriorityPathValueResolver extends OriginValueResolver
      */
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
+        if (!$this->getSettingPaths()) {
+            throw new InvalidConfigurationException(sprintf('`%s` resolver doesn\'t have any paths in setting.', $this->getId()));
+        }
+
         $relativePath = (string)parent::getValue($context, $settingValues, $optional);
 
-        if (!$this->getSettingPaths()) {
-            throw new InvalidConfigurationException(sprintf('`%s` resolver doesn\'t have any paths', $this->getId()));
+        if (strpos($relativePath, DIRECTORY_SEPARATOR) === 0) {
+            throw new UnresolvableValueExceptionException('Absolute path is forbidden due to security reasons.');
         }
 
-        foreach ($this->getSettingPaths() as $settingKey) {
-            if (!isset($settingValues[$settingKey])) {
-                continue;
-            }
-            $path = $settingValues[$settingKey];
-            if ($path && strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
-                $path = rtrim($path, DIRECTORY_SEPARATOR);
-            }
-            $path = implode(DIRECTORY_SEPARATOR, [$path, $relativePath]);
-            if (file_exists($path)) {
-                return $this->formatValue($path);
-            }
+        if (strpos($relativePath, '..') !== false) {
+            throw new UnresolvableValueExceptionException('Path ../ is forbidden due to security reasons.');
         }
 
-        throw new UnresolvableValueExceptionException('Can\'t resolve path.');
+        $pathValue = $this->extractFormattedPathValue($relativePath, $settingValues);
+
+        if ($pathValue === null) {
+            throw new UnresolvableValueExceptionException('Invalid path provided.');
+        }
+
+        return $pathValue;
     }
 
     /**
@@ -74,6 +74,32 @@ class PriorityPathValueResolver extends OriginValueResolver
     public function getType(): string
     {
         return ValueTypeEnum::TYPE_PATH;
+    }
+
+    /**
+     * @param string $relativePath
+     * @param array<string, string> $settingValues
+     *
+     * @return string|null
+     */
+    protected function extractFormattedPathValue(string $relativePath, array $settingValues): ?string
+    {
+        foreach ($this->getSettingPaths() as $settingKey) {
+            if (!isset($settingValues[$settingKey])) {
+                continue;
+            }
+            $path = $settingValues[$settingKey];
+            if ($path && strpos($path, DIRECTORY_SEPARATOR, -1) === 0) {
+                $path = rtrim($path, DIRECTORY_SEPARATOR);
+            }
+            $path = implode(DIRECTORY_SEPARATOR, [$path, $relativePath]);
+
+            if (file_exists($path)) {
+                return $this->formatValue($path);
+            }
+        }
+
+        return null;
     }
 
     /**

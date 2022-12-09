@@ -3,7 +3,7 @@ id: "validation:scss:codestyle"
 short_description: "Check your scss styles to avoid errors and enforce conventions"
 help: ~
 stage: build
-version: 0.2.1
+version: 0.2.2
 command: "node %sdk_dir%/frontend/libs/stylelint.js %file-path% %config-path% > %reportDir%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
@@ -19,21 +19,21 @@ placeholders:
       settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
       defaultValue: "stylelint.codestyle.json"
   - name: "%file-path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
       alias: "file-path"
       option: "file-path"
       description: "Execute stylelint only for this file"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
   - name: "%config-path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
       alias: "config-path"
       option: "config-path"
       description: "Use this stylelint config instead of default"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
 report_converter:
   name: ScssLinterViolationReportConverter
   configuration:
