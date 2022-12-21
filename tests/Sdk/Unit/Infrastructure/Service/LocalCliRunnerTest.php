@@ -137,8 +137,8 @@ class LocalCliRunnerTest extends Unit
         // Arrange
         $process = $this->createMock(Process::class);
         $process->expects($this->atLeastOnce())
-            ->method('getExitCode')
-            ->willReturn(0);
+            ->method('isSuccessful')
+            ->willReturn(1);
         $process->expects($this->exactly(2))
             ->method('getOutput')
             ->willReturn('test' . PHP_EOL . 'test');
@@ -170,7 +170,7 @@ class LocalCliRunnerTest extends Unit
         // Arrange
         $process = $this->createMock(Process::class);
         $process->expects($this->atLeastOnce())
-            ->method('getExitCode')
+            ->method('isSuccessful')
             ->willReturn(1);
         $process->expects($this->exactly(2))
             ->method('getOutput')
