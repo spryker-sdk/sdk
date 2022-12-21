@@ -19,6 +19,6 @@ class InvalidRequestDataException extends SymfonyInvalidConfigurationException
      */
     public function __construct(string $field, int $code = 0, ?Throwable $previous = null)
     {
-        parent::__construct(sprintf('Invalid request. Parameter %s is missing.', $field), $code, $previous);
+        parent::__construct(sprintf('Invalid request. Parameter `%s` is missing.', $field), $code, $previous);
     }
 }

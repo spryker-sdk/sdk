@@ -17,17 +17,24 @@ class ProjectFilesInitializer
     protected string $projectSettingFileName;
 
     /**
+     * @var string
+     */
+    protected string $localProjectSettingFileName;
+
+    /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param string $projectSettingFileName
+     * @param string $localProjectSettingFileName
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(string $projectSettingFileName, Filesystem $filesystem)
+    public function __construct(string $projectSettingFileName, string $localProjectSettingFileName, Filesystem $filesystem)
     {
         $this->projectSettingFileName = $projectSettingFileName;
+        $this->localProjectSettingFileName = $localProjectSettingFileName;
         $this->filesystem = $filesystem;
     }
 
@@ -36,7 +43,8 @@ class ProjectFilesInitializer
      */
     public function isProjectSettingsInitialised(): bool
     {
-        return $this->filesystem->exists($this->projectSettingFileName);
+        return $this->filesystem->exists($this->projectSettingFileName) ||
+            $this->filesystem->exists($this->localProjectSettingFileName);
     }
 
     /**

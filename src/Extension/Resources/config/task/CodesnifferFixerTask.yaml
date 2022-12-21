@@ -3,7 +3,7 @@ id: "validation:php:codestyle-fix"
 short_description: "Check your code by running a static code analysis"
 help: "You may need to set default phpcs standard before using it. By default uses phpcs.xml from the project root."
 stage: build
-version: 1.1.1
+version: 1.1.2
 command: "php %executable_command% %severity% %path%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 optional: true
@@ -23,10 +23,10 @@ placeholders:
       option: 'severity'
       description: 'Severity level of the CodeSniffer'
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: false
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
       defaultValue: 'src'
