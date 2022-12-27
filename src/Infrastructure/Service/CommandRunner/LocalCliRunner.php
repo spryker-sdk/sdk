@@ -122,7 +122,7 @@ class LocalCliRunner implements HelperSetInjectorInterface, CommandRunnerInterfa
         );
 
         if (
-            $process->getExitCode() !== ContextInterface::SUCCESS_EXIT_CODE &&
+            !$process->isSuccessful() &&
             $command instanceof ErrorCommandInterface &&
             strlen($command->getErrorMessage())
         ) {
@@ -132,7 +132,7 @@ class LocalCliRunner implements HelperSetInjectorInterface, CommandRunnerInterfa
             );
         }
 
-        $context->setExitCode($process->getExitCode() ?? ContextInterface::SUCCESS_EXIT_CODE);
+        $context->setExitCode($process->isSuccessful() ? ContextInterface::SUCCESS_EXIT_CODE : ContextInterface::FAILURE_EXIT_CODE);
         $verbosity = $process->isSuccessful() ? MessageInterface::INFO : MessageInterface::ERROR;
 
         if ($process->getOutput()) {
