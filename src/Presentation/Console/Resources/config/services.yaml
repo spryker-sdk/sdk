@@ -1,7 +1,8 @@
 parameters:
-  local_executable_file_path: '"$PhpExecutable$" %kernel.project_dir%/bin/console'
-  executable_file_path: '%env(default:local_executable_file_path:EXECUTABLE_FILE_PATH)%'
-  host_sdk_dir: '%env(default:kernel.project_dir:SDK_DIR)%'
+  env(LOCAL_SDK_DIR): "%kernel.project_dir%"
+  host_sdk_dir: '%env(LOCAL_SDK_DIR)%'
+  env(EXECUTABLE_FILE_PATH): '"$PhpExecutable$" %kernel.project_dir%/bin/console'
+  executable_file_path: '%env(EXECUTABLE_FILE_PATH)%'
   manifest_default_task_yaml_dir: 'src/Extension/Resources/config/task/'
   manifest_default_task_php_dir: 'src/Extension/Task/'
 services:
