@@ -36,18 +36,26 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
     protected Yaml $yamlParser;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator
+     */
+    protected ViolationReportDecorator $violationReportDecorator;
+
+    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapper
      * @param \SprykerSdk\Sdk\Infrastructure\Violation\ViolationPathReader $violationPathReader
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
+     * @param \SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator $violationReportDecorator
      */
     public function __construct(
         ViolationReportFileMapperInterface $violationReportFileMapper,
         ViolationPathReader $violationPathReader,
-        Yaml $yamlParser
+        Yaml $yamlParser,
+        ViolationReportDecorator $violationReportDecorator
     ) {
         $this->violationReportFileMapper = $violationReportFileMapper;
         $this->violationPathReader = $violationPathReader;
         $this->yamlParser = $yamlParser;
+        $this->violationReportDecorator = $violationReportDecorator;
     }
 
     /**
@@ -66,6 +74,8 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
      */
     public function format(string $name, ViolationReportInterface $violationReport): void
     {
+        $violationReport = $this->violationReportDecorator->decorate($violationReport);
+
         $violationReportStructure = $this->violationReportFileMapper->mapViolationReportToYamlStructure($violationReport);
         $reportDir = $this->violationPathReader->getViolationReportDirPath();
         if (!is_dir($reportDir)) {

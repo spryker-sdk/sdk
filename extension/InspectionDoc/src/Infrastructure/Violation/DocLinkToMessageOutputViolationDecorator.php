@@ -46,18 +46,18 @@ class DocLinkToMessageOutputViolationDecorator implements OutputViolationDecorat
             $this->decorateMessage($violation->getMessage(), $violation->getAdditionalAttributes()),
         );
 
-        $newViolation->setClass($violation->getClass());
-        $newViolation->setMethod($violation->getMethod());
-        $newViolation->setAttributes($violation->getAdditionalAttributes());
-        $newViolation->setFix($violation->getFix());
-        $newViolation->setFixable($violation->isFixable());
-        $newViolation->setProduced($violation->producedBy());
-        $newViolation->setStartColumn($violation->getStartColumn());
-        $newViolation->setEndColumn($violation->getEndColumn());
-        $newViolation->setStartLine($violation->getStartLine());
-        $newViolation->setEndLine($violation->getEndLine());
-        $newViolation->setPriority($violation->priority());
-        $newViolation->setSeverity($violation->getSeverity());
+        $newViolation->setClass($violation->getClass())
+            ->setMethod($violation->getMethod())
+            ->setAttributes($violation->getAdditionalAttributes())
+            ->setFix($violation->getFix())
+            ->setFixable($violation->isFixable())
+            ->setProduced($violation->producedBy())
+            ->setStartColumn($violation->getStartColumn())
+            ->setEndColumn($violation->getEndColumn())
+            ->setStartLine($violation->getStartLine())
+            ->setEndLine($violation->getEndLine())
+            ->setPriority($violation->priority())
+            ->setSeverity($violation->getSeverity());
 
         return $newViolation;
     }

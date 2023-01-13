@@ -10,7 +10,7 @@ namespace InspectionDoc\Infrastructure\DataProvider;
 use JsonException;
 use Psr\Log\LoggerInterface;
 
-class JsonFileInspectionDocDataProvider implements InspectionDocDataProviderInterface
+class JsonFileInspectionDocDataLoader implements InspectionDocDataProviderInterface
 {
     /**
      * @var string

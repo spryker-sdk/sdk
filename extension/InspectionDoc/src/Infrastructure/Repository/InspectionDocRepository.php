@@ -85,7 +85,7 @@ class InspectionDocRepository implements InspectionDocRepositoryInterface
      */
     protected function strStartsWith(string $haystack, string $needle): bool
     {
-        return strncmp($haystack, $needle, strlen($needle)) === 0;
+        return strncmp($haystack, $needle, mb_strlen($needle)) === 0;
     }
 
     /**
@@ -95,7 +95,7 @@ class InspectionDocRepository implements InspectionDocRepositoryInterface
      */
     protected function getMaxLengthMatch(array $inspectionsIds): ?string
     {
-        usort($inspectionsIds, static fn (string $a, string $b): int => -1 * (strlen($a) <=> strlen($b)));
+        usort($inspectionsIds, static fn (string $a, string $b): int => -1 * (mb_strlen($a) <=> mb_strlen($b)));
 
         return $inspectionsIds[0] ?? null;
     }

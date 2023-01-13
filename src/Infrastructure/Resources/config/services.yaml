@@ -335,10 +335,14 @@ services:
         tags: [ "sdk.update_action" ]
         arguments:
             - "@service.task_manager"
+    violation_report_decorator:
+        class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator
+        arguments:
+            - !tagged_iterator output_formatter.violation_decorator
     output_violation_report_formatter:
         class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter
         arguments:
-            - !tagged_iterator output_formatter.violation_decorator
+            - "@violation_report_decorator"
         tags: [ "sdk.violation_formatter", "sdk.cli_receiver_setup" ]
     yaml_violation_report_formatter:
         class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\YamlViolationReportFormatter
@@ -347,6 +351,7 @@ services:
             - "@violation_report_mapper"
             - "@violation_path_reader"
             - "@yaml_parser"
+            - "@violation_report_decorator"
     workflow_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\WorkflowRepository
         arguments:
