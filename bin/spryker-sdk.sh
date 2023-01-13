@@ -127,7 +127,7 @@ case $MODE in
         echo "The development environment is not available. Please run \`unset SPRYKER_SDK_ENV\` or \`export SPRYKER_SDK_ENV=prod\` to enable \`production\` mode."
         exit 1
     else
-        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off -w /data spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
     fi
   ;;
 esac

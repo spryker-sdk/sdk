@@ -9,8 +9,10 @@ namespace SprykerSdk\Sdk\Infrastructure\Violation\Formatter;
 
 use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Injector\OutputInjectorInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -41,6 +43,19 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
      * @var \Symfony\Component\Yaml\Yaml
      */
     protected Yaml $yamlParser;
+
+    /**
+     * @var iterable<\SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorInterface>
+     */
+    protected iterable $violationDecorators;
+
+    /**
+     * @param iterable<\SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorInterface> $violationDecorators
+     */
+    public function __construct(iterable $violationDecorators)
+    {
+        $this->violationDecorators = $violationDecorators;
+    }
 
     /**
      * @return string
@@ -78,6 +93,8 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                 }
                 foreach ($package->getFileViolations() as $path => $fileViolations) {
                     foreach ($fileViolations as $fileViolation) {
+                        $fileViolation = $this->decorateViolation($fileViolation);
+
                         $violations[] = [
                             $fileViolation->getId(),
                             $fileViolation->getMessage() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
@@ -87,9 +104,13 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                             $fileViolation->getClass() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                             $fileViolation->getMethod() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                         ];
+
+                        $violations[] = new TableSeparator();
                     }
                 }
             }
+
+            array_pop($violations);
 
             if ($packages) {
                 $table = new Table($this->output);
@@ -109,6 +130,20 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                 $table->render();
             }
         }
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface $violation
+     *
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationInterface
+     */
+    protected function decorateViolation(ViolationInterface $violation): ViolationInterface
+    {
+        foreach ($this->violationDecorators as $violationDecorator) {
+            $violation = $violationDecorator->decorate($violation);
+        }
+
+        return $violation;
     }
 
     /**

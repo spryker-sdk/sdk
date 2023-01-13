@@ -106,6 +106,7 @@
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
             "Hello\\": "extension/Hello/src/",
             "Custom\\": "extension/Custom/src/",
+            "InspectionDoc\\": "extension/InspectionDoc/src/",
             "VcsConnector\\": "extension/VcsConnector/src/",
             "VcsConnector\\Tests\\": "extension/VcsConnector/tests/"
         }

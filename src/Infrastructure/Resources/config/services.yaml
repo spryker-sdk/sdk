@@ -337,6 +337,8 @@ services:
             - "@service.task_manager"
     output_violation_report_formatter:
         class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter
+        arguments:
+            - !tagged_iterator output_formatter.violation_decorator
         tags: [ "sdk.violation_formatter", "sdk.cli_receiver_setup" ]
     yaml_violation_report_formatter:
         class: SprykerSdk\Sdk\Infrastructure\Violation\Formatter\YamlViolationReportFormatter
