@@ -38,13 +38,15 @@ class JsonFileInspectionDocDataLoader implements InspectionDocDataProviderInterf
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, array<mixed>>
      */
     public function getInspectionDocs(): array
     {
         if ($this->loadedDocs !== null) {
             return $this->loadedDocs;
         }
+
+        $this->loadedDocs = [];
 
         $loadedDocs = file_get_contents($this->inspectionDocDataFilePath);
 
@@ -53,7 +55,7 @@ class JsonFileInspectionDocDataLoader implements InspectionDocDataProviderInterf
                 sprintf('Unable to load doc file `%s` error `%s`', $this->inspectionDocDataFilePath, error_get_last()['message'] ?? ''),
             );
 
-            return [];
+            return $this->loadedDocs;
         }
 
         try {
@@ -61,10 +63,16 @@ class JsonFileInspectionDocDataLoader implements InspectionDocDataProviderInterf
         } catch (JsonException $e) {
             $this->logger->error($e->getMessage());
 
-            return [];
+            return $this->loadedDocs;
         }
 
-        $this->loadedDocs = $loadedDocsJson;
+        foreach ($loadedDocsJson as $inspectionDoc) {
+            if (!isset($inspectionDoc['inspectionId'])) {
+                continue;
+            }
+
+            $this->loadedDocs[$inspectionDoc['inspectionId']] = $inspectionDoc;
+        }
 
         return $this->loadedDocs;
     }

@@ -10,7 +10,7 @@ namespace InspectionDoc\Infrastructure\DataProvider;
 interface InspectionDocDataProviderInterface
 {
     /**
-     * @return array<mixed>
+     * @return array<string, array<mixed>>
      */
     public function getInspectionDocs(): array;
 }

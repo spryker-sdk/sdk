@@ -14,11 +14,6 @@ use InspectionDoc\Infrastructure\DataProvider\InspectionDocDataProviderInterface
 class InspectionDocRepository implements InspectionDocRepositoryInterface
 {
     /**
-     * @return array<string, array<mixed>>
-     */
-    protected ?array $indexedInspectionDocs = null;
-
-    /**
      * @var array<string, \InspectionDoc\Entity\InspectionDocInterface>
      */
     protected array $inspectionDocsCache = [];
@@ -43,7 +38,7 @@ class InspectionDocRepository implements InspectionDocRepositoryInterface
      */
     public function findByErrorCode(string $errorCode): ?InspectionDocInterface
     {
-        $indexedInspectionDocs = $this->getIndexedInspectionDocs();
+        $indexedInspectionDocs = $this->inspectionDocDataProvider->getInspectionDocs();
 
         $inspectionId = $this->findInspectionIdByErrorCode(array_keys($indexedInspectionDocs), $errorCode);
 
@@ -98,30 +93,6 @@ class InspectionDocRepository implements InspectionDocRepositoryInterface
         usort($inspectionsIds, static fn (string $a, string $b): int => -1 * (mb_strlen($a) <=> mb_strlen($b)));
 
         return $inspectionsIds[0] ?? null;
-    }
-
-    /**
-     * @return array<string, array<mixed>>
-     */
-    protected function getIndexedInspectionDocs(): array
-    {
-        if ($this->indexedInspectionDocs !== null) {
-            return $this->indexedInspectionDocs;
-        }
-
-        $inspectionDocs = $this->inspectionDocDataProvider->getInspectionDocs();
-
-        $this->indexedInspectionDocs = [];
-
-        foreach ($inspectionDocs as $inspectionDoc) {
-            if (!isset($inspectionDoc['inspectionId'])) {
-                continue;
-            }
-
-            $this->indexedInspectionDocs[$inspectionDoc['inspectionId']] = $inspectionDoc;
-        }
-
-        return $this->indexedInspectionDocs;
     }
 
     /**
