@@ -40,8 +40,8 @@ class InspectionDocReaderTest extends Unit
     public function testFindByErrorCode(): void
     {
         // Arrange
-        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
-        $inspectionDocDataProviderInterfaceMock->expects($this->once())
+        $inspectionDocDataLoaderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
+        $inspectionDocDataLoaderInterfaceMock->expects($this->once())
             ->method('getInspectionDocs')
             ->willReturn([
                 'SprykerStrict.TypeHints.ParameterTypeHint' => [
@@ -50,7 +50,7 @@ class InspectionDocReaderTest extends Unit
                 ],
             ]);
 
-        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataProviderInterfaceMock);
+        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataLoaderInterfaceMock);
 
         // Act
         $inspectionDoc = $yamlViolationReportFormatter->findByErrorCode('SprykerStrict.TypeHints.ParameterTypeHint');
@@ -65,8 +65,8 @@ class InspectionDocReaderTest extends Unit
     public function testFindByErrorCodeCache(): void
     {
         // Arrange
-        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
-        $inspectionDocDataProviderInterfaceMock->expects($this->exactly(2))
+        $inspectionDocDataLoaderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
+        $inspectionDocDataLoaderInterfaceMock->expects($this->exactly(2))
             ->method('getInspectionDocs')
             ->willReturn([
                 'SprykerStrict.TypeHints.ParameterTypeHint' => [
@@ -75,7 +75,7 @@ class InspectionDocReaderTest extends Unit
                 ],
             ]);
 
-        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataProviderInterfaceMock);
+        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataLoaderInterfaceMock);
 
         // Act
         $inspectionDoc1 = $yamlViolationReportFormatter->findByErrorCode('SprykerStrict.TypeHints.ParameterTypeHint');
@@ -94,12 +94,12 @@ class InspectionDocReaderTest extends Unit
     public function testFindByErrorCodeIfListEmpty(): void
     {
         // Arrange
-        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
-        $inspectionDocDataProviderInterfaceMock->expects($this->once())
+        $inspectionDocDataLoaderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
+        $inspectionDocDataLoaderInterfaceMock->expects($this->once())
             ->method('getInspectionDocs')
             ->willReturn([]);
 
-        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataProviderInterfaceMock);
+        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataLoaderInterfaceMock);
 
         // Act
         $inspectionDoc = $yamlViolationReportFormatter->findByErrorCode('SprykerStrict.TypeHints.ParameterTypeHint1');

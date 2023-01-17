@@ -36,14 +36,14 @@ class DocLinkToMessageOutputViolationDecoratorTest extends Unit
             ->method('getLink')
             ->willReturn('testLink');
 
-        $inspectionDocRepository = $this->createMock(InspectionDocReaderInterface::class);
-        $inspectionDocRepository->expects($this->once())
+        $inspectionDocReader = $this->createMock(InspectionDocReaderInterface::class);
+        $inspectionDocReader->expects($this->once())
             ->method('findByErrorCode')
             ->with('test')
             ->willReturn($inspectionDocInterface);
 
         $docLinkToMessageOutputViolationDecorator = new DocLinkToMessageOutputViolationDecorator(
-            $inspectionDocRepository,
+            $inspectionDocReader,
             'test',
         );
         $violation = $this->createMock(ViolationInterface::class);
@@ -69,14 +69,14 @@ class DocLinkToMessageOutputViolationDecoratorTest extends Unit
             ->method('getLink')
             ->willReturn('testLink');
 
-        $inspectionDocRepository = $this->createMock(InspectionDocReaderInterface::class);
-        $inspectionDocRepository->expects($this->never())
+        $inspectionDocReader = $this->createMock(InspectionDocReaderInterface::class);
+        $inspectionDocReader->expects($this->never())
             ->method('findByErrorCode')
             ->with('test')
             ->willReturn($inspectionDocInterface);
 
         $docLinkToMessageOutputViolationDecorator = new DocLinkToMessageOutputViolationDecorator(
-            $inspectionDocRepository,
+            $inspectionDocReader,
             'test',
         );
         $violation = $this->createMock(ViolationInterface::class);

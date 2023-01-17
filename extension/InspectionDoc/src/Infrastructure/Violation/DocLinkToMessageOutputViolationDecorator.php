@@ -17,7 +17,7 @@ class DocLinkToMessageOutputViolationDecorator implements OutputViolationDecorat
     /**
      * @var \InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface
      */
-    protected InspectionDocReaderInterface $inspectionDocRepository;
+    protected InspectionDocReaderInterface $inspectionDocReader;
 
     /**
      * @var string
@@ -25,12 +25,12 @@ class DocLinkToMessageOutputViolationDecorator implements OutputViolationDecorat
     protected string $inspectionDocUrl;
 
     /**
-     * @param \InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface $inspectionDocRepository
+     * @param \InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface $inspectionDocReader
      * @param string $inspectionDocUrl
      */
-    public function __construct(InspectionDocReaderInterface $inspectionDocRepository, string $inspectionDocUrl)
+    public function __construct(InspectionDocReaderInterface $inspectionDocReader, string $inspectionDocUrl)
     {
-        $this->inspectionDocRepository = $inspectionDocRepository;
+        $this->inspectionDocReader = $inspectionDocReader;
         $this->inspectionDocUrl = $inspectionDocUrl;
     }
 
@@ -80,7 +80,7 @@ class DocLinkToMessageOutputViolationDecorator implements OutputViolationDecorat
             return $message;
         }
 
-        $inspectionDoc = $this->inspectionDocRepository->findByErrorCode($inspectionId);
+        $inspectionDoc = $this->inspectionDocReader->findByErrorCode($inspectionId);
 
         if ($inspectionDoc === null) {
             return $message;

@@ -21,14 +21,14 @@ class InspectionDocReader implements InspectionDocReaderInterface
     /**
      * @var \InspectionDoc\Infrastructure\Loader\InspectionDocDataLoaderInterface
      */
-    protected InspectionDocDataLoaderInterface $inspectionDocDataProvider;
+    protected InspectionDocDataLoaderInterface $inspectionDocDataLoader;
 
     /**
-     * @param \InspectionDoc\Infrastructure\Loader\InspectionDocDataLoaderInterface $inspectionDocDataProvider
+     * @param \InspectionDoc\Infrastructure\Loader\InspectionDocDataLoaderInterface $inspectionDocDataLoader
      */
-    public function __construct(InspectionDocDataLoaderInterface $inspectionDocDataProvider)
+    public function __construct(InspectionDocDataLoaderInterface $inspectionDocDataLoader)
     {
-        $this->inspectionDocDataProvider = $inspectionDocDataProvider;
+        $this->inspectionDocDataLoader = $inspectionDocDataLoader;
     }
 
     /**
@@ -38,7 +38,7 @@ class InspectionDocReader implements InspectionDocReaderInterface
      */
     public function findByErrorCode(string $errorCode): ?InspectionDocInterface
     {
-        $indexedInspectionDocs = $this->inspectionDocDataProvider->getInspectionDocs();
+        $indexedInspectionDocs = $this->inspectionDocDataLoader->getInspectionDocs();
 
         $inspectionId = $this->findInspectionIdByErrorCode(array_keys($indexedInspectionDocs), $errorCode);
 
