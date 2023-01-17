@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace InspectionDoc\Infrastructure\Repository;
+namespace InspectionDoc\Infrastructure\Reader;
 
 use InspectionDoc\Entity\InspectionDocInterface;
 
-interface InspectionDocRepositoryInterface
+interface InspectionDocReaderInterface
 {
     /**
      * @param string $errorCode

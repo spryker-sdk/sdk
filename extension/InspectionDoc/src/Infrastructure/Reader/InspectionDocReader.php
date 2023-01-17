@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace InspectionDoc\Infrastructure\Repository;
+namespace InspectionDoc\Infrastructure\Reader;
 
 use InspectionDoc\Entity\InspectionDoc;
 use InspectionDoc\Entity\InspectionDocInterface;
-use InspectionDoc\Infrastructure\DataProvider\InspectionDocDataProviderInterface;
+use InspectionDoc\Infrastructure\Loader\InspectionDocDataLoaderInterface;
 
-class InspectionDocRepository implements InspectionDocRepositoryInterface
+class InspectionDocReader implements InspectionDocReaderInterface
 {
     /**
      * @var array<string, \InspectionDoc\Entity\InspectionDocInterface>
@@ -19,14 +19,14 @@ class InspectionDocRepository implements InspectionDocRepositoryInterface
     protected array $inspectionDocsCache = [];
 
     /**
-     * @var \InspectionDoc\Infrastructure\DataProvider\InspectionDocDataProviderInterface
+     * @var \InspectionDoc\Infrastructure\Loader\InspectionDocDataLoaderInterface
      */
-    protected InspectionDocDataProviderInterface $inspectionDocDataProvider;
+    protected InspectionDocDataLoaderInterface $inspectionDocDataProvider;
 
     /**
-     * @param \InspectionDoc\Infrastructure\DataProvider\InspectionDocDataProviderInterface $inspectionDocDataProvider
+     * @param \InspectionDoc\Infrastructure\Loader\InspectionDocDataLoaderInterface $inspectionDocDataProvider
      */
-    public function __construct(InspectionDocDataProviderInterface $inspectionDocDataProvider)
+    public function __construct(InspectionDocDataLoaderInterface $inspectionDocDataProvider)
     {
         $this->inspectionDocDataProvider = $inspectionDocDataProvider;
     }

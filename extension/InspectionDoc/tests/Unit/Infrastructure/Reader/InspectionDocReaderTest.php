@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace InspectionDoc\Tests\Unit\Infrastructure\Repository;
+namespace InspectionDoc\Tests\Unit\Infrastructure\Reader;
 
 use Codeception\Test\Unit;
 use InspectionDoc\Entity\InspectionDocInterface;
-use InspectionDoc\Infrastructure\DataProvider\InspectionDocDataProviderInterface;
-use InspectionDoc\Infrastructure\Repository\InspectionDocRepository;
+use InspectionDoc\Infrastructure\Loader\InspectionDocDataLoaderInterface;
+use InspectionDoc\Infrastructure\Reader\InspectionDocReader;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorInterface;
 
 /**
@@ -19,11 +19,11 @@ use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorIn
  * @group Tests
  * @group Unit
  * @group Infrastructure
- * @group Repository
- * @group InspectionDocRepositoryTest
+ * @group Reader
+ * @group InspectionDocReaderTest
  * Add your own group annotations below this line
  */
-class InspectionDocRepositoryTest extends Unit
+class InspectionDocReaderTest extends Unit
 {
     /**
      * @return void
@@ -40,7 +40,7 @@ class InspectionDocRepositoryTest extends Unit
     public function testFindByErrorCode(): void
     {
         // Arrange
-        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataProviderInterface::class);
+        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
         $inspectionDocDataProviderInterfaceMock->expects($this->once())
             ->method('getInspectionDocs')
             ->willReturn([
@@ -50,7 +50,7 @@ class InspectionDocRepositoryTest extends Unit
                 ],
             ]);
 
-        $yamlViolationReportFormatter = new InspectionDocRepository($inspectionDocDataProviderInterfaceMock);
+        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataProviderInterfaceMock);
 
         // Act
         $inspectionDoc = $yamlViolationReportFormatter->findByErrorCode('SprykerStrict.TypeHints.ParameterTypeHint');
@@ -65,7 +65,7 @@ class InspectionDocRepositoryTest extends Unit
     public function testFindByErrorCodeCache(): void
     {
         // Arrange
-        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataProviderInterface::class);
+        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
         $inspectionDocDataProviderInterfaceMock->expects($this->exactly(2))
             ->method('getInspectionDocs')
             ->willReturn([
@@ -75,7 +75,7 @@ class InspectionDocRepositoryTest extends Unit
                 ],
             ]);
 
-        $yamlViolationReportFormatter = new InspectionDocRepository($inspectionDocDataProviderInterfaceMock);
+        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataProviderInterfaceMock);
 
         // Act
         $inspectionDoc1 = $yamlViolationReportFormatter->findByErrorCode('SprykerStrict.TypeHints.ParameterTypeHint');
@@ -94,12 +94,12 @@ class InspectionDocRepositoryTest extends Unit
     public function testFindByErrorCodeIfListEmpty(): void
     {
         // Arrange
-        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataProviderInterface::class);
+        $inspectionDocDataProviderInterfaceMock = $this->createMock(InspectionDocDataLoaderInterface::class);
         $inspectionDocDataProviderInterfaceMock->expects($this->once())
             ->method('getInspectionDocs')
             ->willReturn([]);
 
-        $yamlViolationReportFormatter = new InspectionDocRepository($inspectionDocDataProviderInterfaceMock);
+        $yamlViolationReportFormatter = new InspectionDocReader($inspectionDocDataProviderInterfaceMock);
 
         // Act
         $inspectionDoc = $yamlViolationReportFormatter->findByErrorCode('SprykerStrict.TypeHints.ParameterTypeHint1');

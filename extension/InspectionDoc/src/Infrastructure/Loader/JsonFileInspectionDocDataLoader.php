@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace InspectionDoc\Infrastructure\DataProvider;
+namespace InspectionDoc\Infrastructure\Loader;
 
 use JsonException;
 use Psr\Log\LoggerInterface;
 
-class JsonFileInspectionDocDataLoader implements InspectionDocDataProviderInterface
+class JsonFileInspectionDocDataLoader implements InspectionDocDataLoaderInterface
 {
     /**
      * @var string

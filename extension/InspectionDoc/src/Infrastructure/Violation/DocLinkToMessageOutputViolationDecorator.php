@@ -7,7 +7,7 @@
 
 namespace InspectionDoc\Infrastructure\Violation;
 
-use InspectionDoc\Infrastructure\Repository\InspectionDocRepositoryInterface;
+use InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
@@ -15,9 +15,9 @@ use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 class DocLinkToMessageOutputViolationDecorator implements OutputViolationDecoratorInterface
 {
     /**
-     * @var \InspectionDoc\Infrastructure\Repository\InspectionDocRepositoryInterface
+     * @var \InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface
      */
-    protected InspectionDocRepositoryInterface $inspectionDocRepository;
+    protected InspectionDocReaderInterface $inspectionDocRepository;
 
     /**
      * @var string
@@ -25,10 +25,10 @@ class DocLinkToMessageOutputViolationDecorator implements OutputViolationDecorat
     protected string $inspectionDocUrl;
 
     /**
-     * @param \InspectionDoc\Infrastructure\Repository\InspectionDocRepositoryInterface $inspectionDocRepository
+     * @param \InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface $inspectionDocRepository
      * @param string $inspectionDocUrl
      */
-    public function __construct(InspectionDocRepositoryInterface $inspectionDocRepository, string $inspectionDocUrl)
+    public function __construct(InspectionDocReaderInterface $inspectionDocRepository, string $inspectionDocUrl)
     {
         $this->inspectionDocRepository = $inspectionDocRepository;
         $this->inspectionDocUrl = $inspectionDocUrl;

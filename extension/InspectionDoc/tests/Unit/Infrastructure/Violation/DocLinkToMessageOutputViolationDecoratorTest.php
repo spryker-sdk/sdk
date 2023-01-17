@@ -10,7 +10,7 @@ namespace InspectionDoc\Tests\Unit\Infrastructure\Violation;
 use Codeception\Test\Unit;
 use CodeCompliance\Domain\Entity\ViolationInterface;
 use InspectionDoc\Entity\InspectionDocInterface;
-use InspectionDoc\Infrastructure\Repository\InspectionDocRepositoryInterface;
+use InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface;
 use InspectionDoc\Infrastructure\Violation\DocLinkToMessageOutputViolationDecorator;
 
 /**
@@ -36,7 +36,7 @@ class DocLinkToMessageOutputViolationDecoratorTest extends Unit
             ->method('getLink')
             ->willReturn('testLink');
 
-        $inspectionDocRepository = $this->createMock(InspectionDocRepositoryInterface::class);
+        $inspectionDocRepository = $this->createMock(InspectionDocReaderInterface::class);
         $inspectionDocRepository->expects($this->once())
             ->method('findByErrorCode')
             ->with('test')
@@ -69,7 +69,7 @@ class DocLinkToMessageOutputViolationDecoratorTest extends Unit
             ->method('getLink')
             ->willReturn('testLink');
 
-        $inspectionDocRepository = $this->createMock(InspectionDocRepositoryInterface::class);
+        $inspectionDocRepository = $this->createMock(InspectionDocReaderInterface::class);
         $inspectionDocRepository->expects($this->never())
             ->method('findByErrorCode')
             ->with('test')

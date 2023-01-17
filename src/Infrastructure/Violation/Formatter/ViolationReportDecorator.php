@@ -36,31 +36,12 @@ class ViolationReportDecorator
      */
     public function decorate(ViolationReportInterface $violationReport): ViolationReportInterface
     {
-        $violations = [];
-
-        foreach ($violationReport->getViolations() as $violation) {
-            $violations[] = $this->decorateViolation($violation);
-        }
-
+        $violations = $this->decorateViolations($violationReport->getViolations());
         $packages = [];
 
         foreach ($violationReport->getPackages() as $package) {
-            $packagesViolations = [];
-            foreach ($package->getViolations() as $violation) {
-                $packagesViolations[] = $this->decorateViolation($violation);
-            }
-
-            $packageFileViolations = [];
-            foreach ($package->getFileViolations() as $path => $fileViolations) {
-                $packageFileSubViolations = [];
-
-                foreach ($fileViolations as $fileViolation) {
-                    $packageFileSubViolations[] = $this->decorateViolation($fileViolation);
-                }
-
-                $packageFileViolations[$path] = $packageFileSubViolations;
-            }
-
+            $packagesViolations = $this->decorateViolations($package->getViolations());
+            $packageFileViolations = $this->decorateFileViolations($package->getFileViolations());
             $packages[] = new PackageViolationReport($package->getPackage(), $package->getPath(), $packagesViolations, $packageFileViolations);
         }
 
@@ -70,6 +51,36 @@ class ViolationReportDecorator
             $violations,
             $packages,
         );
+    }
+
+    /**
+     * @param array<string, array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>> $fileViolationGroups
+     *
+     * @return array<string, array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>>
+     */
+    protected function decorateFileViolations(array $fileViolationGroups): array
+    {
+        $packageFileViolations = [];
+        foreach ($fileViolationGroups as $path => $fileViolations) {
+            $packageFileViolations[$path] = $this->decorateViolations($fileViolations);
+        }
+
+        return $packageFileViolations;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface> $violations
+     *
+     * @return array<\SprykerSdk\SdkContracts\Report\Violation\ViolationInterface>
+     */
+    protected function decorateViolations(array $violations): array
+    {
+        $packagesViolations = [];
+        foreach ($violations as $violation) {
+            $packagesViolations[] = $this->decorateViolation($violation);
+        }
+
+        return $packagesViolations;
     }
 
     /**

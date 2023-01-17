@@ -5,10 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace InspectionDoc\Tests\Unit\Infrastructure\DataProvider;
+namespace InspectionDoc\Tests\Unit\Infrastructure\Loader;
 
 use Codeception\Test\Unit;
-use InspectionDoc\Infrastructure\DataProvider\JsonFileInspectionDocDataLoader;
+use InspectionDoc\Infrastructure\Loader\JsonFileInspectionDocDataLoader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
 use Psr\Log\LoggerInterface;
@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
  * @group Tests
  * @group Unit
  * @group Infrastructure
- * @group DataProvider
+ * @group Loader
  * @group JsonFileInspectionDocDataLoaderTest
  * Add your own group annotations below this line
  */

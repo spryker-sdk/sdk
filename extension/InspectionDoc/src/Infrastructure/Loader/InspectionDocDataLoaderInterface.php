@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace InspectionDoc\Infrastructure\DataProvider;
+namespace InspectionDoc\Infrastructure\Loader;
 
-interface InspectionDocDataProviderInterface
+interface InspectionDocDataLoaderInterface
 {
     /**
      * @return array<string, array<mixed>>
