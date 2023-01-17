@@ -43,11 +43,6 @@ class ProjectSettingRepositoryTest extends Unit
     protected SettingRepositoryInterface $coreSettingRepository;
 
     /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
-
-    /**
      * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
@@ -85,7 +80,6 @@ class ProjectSettingRepositoryTest extends Unit
         parent::setUp();
         $this->container = $this->createMock(ContainerInterface::class);
         $this->coreSettingRepository = $this->createMock(SettingRepositoryInterface::class);
-        $this->yamlParser = $this->createMock(Yaml::class);
         $this->pathResolver = $this->createMock(PathResolver::class);
         $this->filesystem = $this->createMock(Filesystem::class);
 

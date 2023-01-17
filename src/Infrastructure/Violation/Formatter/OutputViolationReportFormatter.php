@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Violation\ViolationReportFormatterInterface;
 use SprykerSdk\Sdk\Infrastructure\Injector\OutputInjectorInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -43,6 +44,19 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     protected Yaml $yamlParser;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator
+     */
+    protected ViolationReportDecorator $violationReportDecorator;
+
+    /**
+     * @param \SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator $violationReportDecorator
+     */
+    public function __construct(ViolationReportDecorator $violationReportDecorator)
+    {
+        $this->violationReportDecorator = $violationReportDecorator;
+    }
+
+    /**
      * @return string
      */
     public function getFormat(): string
@@ -58,6 +72,8 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
      */
     public function format(string $name, ViolationReportInterface $violationReport): void
     {
+        $violationReport = $this->violationReportDecorator->decorate($violationReport);
+
         if ($violationReport->getViolations()) {
             $table = new Table($this->output);
             $table
@@ -87,9 +103,13 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                             $fileViolation->getClass() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                             $fileViolation->getMethod() ?: static::FALLBACK_VALUE_NOT_AVAILABLE,
                         ];
+
+                        $violations[] = new TableSeparator();
                     }
                 }
             }
+
+            array_pop($violations);
 
             if ($packages) {
                 $table = new Table($this->output);
