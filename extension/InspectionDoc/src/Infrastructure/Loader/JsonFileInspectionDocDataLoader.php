@@ -48,6 +48,10 @@ class JsonFileInspectionDocDataLoader implements InspectionDocDataLoaderInterfac
 
         $this->loadedDocs = [];
 
+        if (!file_exists($this->inspectionDocDataFilePath)) {
+            return $this->loadedDocs;
+        }
+
         $loadedDocs = file_get_contents($this->inspectionDocDataFilePath);
 
         if ($loadedDocs === false) {
