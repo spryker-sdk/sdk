@@ -81,7 +81,7 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
         if (!is_dir($reportDir)) {
             mkdir($reportDir, 0777, true);
         }
-        file_put_contents($this->violationPathReader->getViolationReportPath($name), $this->yamlParser->dump($violationReportStructure));
+        file_put_contents($this->violationPathReader->getViolationReportPath($name), $this->yamlParser::dump($violationReportStructure));
     }
 
     /**
@@ -91,7 +91,7 @@ class YamlViolationReportFormatter implements ViolationReportFormatterInterface
      */
     public function read(string $name): ?ViolationReportInterface
     {
-        $violationReportData = $this->yamlParser->parseFile($this->violationPathReader->getViolationReportPath($name));
+        $violationReportData = $this->yamlParser::parseFile($this->violationPathReader->getViolationReportPath($name));
 
         return $this->violationReportFileMapper->mapFileStructureToViolationReport($violationReportData);
     }
