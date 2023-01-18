@@ -2,7 +2,7 @@
 id: "spryk:run"
 short_description: "Runs a Spryk build process."
 version: "0.1.0"
-command: "php %executable_command% %spryk% %targetModule% %dependentModule% %option%"
+command: "php %executable_command% %spryk% %organization% %coreLevel%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
     - name: "%executable_command%"
@@ -19,24 +19,23 @@ placeholders:
           alias: 'spryk'
           description: 'Name of the Spryk which should be build.'
           type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-    - name: "%targetModule%"
-      value_resolver: STATIC
-      optional: true
-      configuration:
-          alias: 'targetModule'
-          description: 'Name of the target module in format "[Organization.]ModuleName[.LayerName]".'
-          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-    - name: "%dependentModule%"
-      value_resolver: STATIC
-      optional: true
-      configuration:
-          alias: 'dependentModule'
-          description: 'Name of the dependent module in format "[Organization.]ModuleName[.LayerName]".'
-          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-    - name: "%option%"
-      value_resolver: STATIC
-      optional: true
-      configuration:
-          alias: 'option'
-          description: "Spryk-specific option"
-          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_ARRAY
+    -   name: "%organization%"
+        value_resolver: NAMESPACE
+        optional: false
+        configuration:
+            alias: "namespace"
+            option: "organization"
+            description: "Namespace name"
+            type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+            defaultValue: 'Pyz'
+            settingPaths: [ "projectNamespaces", "coreNamespaces" ]
+    -   name: "%coreLevel%"
+        value_resolver: CORE
+        optional: false
+        configuration:
+            alias: "mode"
+            option: "mode"
+            description: "Core Level"
+            type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+            defaultValue: 'project'
+            settingPaths: [ "coreNamespaces" ]
