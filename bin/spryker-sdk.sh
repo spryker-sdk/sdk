@@ -103,9 +103,9 @@ case $MODE in
         ARGUMENTS='/bin/bash'
     fi
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
-        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.yml" --env-file=${LOCAL_SDK_DIR}/infrastructure/env/.env run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
     else
-        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" --env-file=${LOCAL_SDK_DIR}/infrastructure/env/.env run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
     fi
     ;;
 "docker-debug" | "dd")
