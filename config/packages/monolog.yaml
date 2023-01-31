@@ -19,6 +19,7 @@ when@dev:
                 type: stream
                 level: debug
                 app_name: "Spryker Code Upgrader"
+                channels: ["!event", "!doctrine", "!console"]
 
 when@test:
     monolog:
@@ -50,3 +51,10 @@ when@prod:
                 type: console
                 process_psr_3_messages: false
                 channels: ["!event", "!doctrine"]
+            # For the newrelic test purposes
+            newrelic:
+                type: stream
+                level: debug
+                app_name: "Spryker Code Upgrader"
+                channels: ["!event", "!doctrine"]
+
