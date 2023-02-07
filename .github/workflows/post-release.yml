@@ -2,7 +2,7 @@ name: Docker image build CI - build docker image.
 
 on:
     release:
-        types: [ published ]
+        types: [ released ]
 
 jobs:
     docker:
@@ -36,7 +36,7 @@ jobs:
                     file: ./infrastructure/sdk.Dockerfile
                     platforms: linux/amd64, linux/arm64
                     push: true
-                    tags: spryker/php-sdk:${{ github.event.release.tag_name }},spryker/php-sdk:sprykerci
+                    tags: spryker/php-sdk:${{ github.event.release.tag_name }}
                     labels: Release ${{ github.event.release.tag_name }}
     installer:
         name: Create and publish installer
