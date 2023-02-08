@@ -70,3 +70,9 @@ jobs:
                     asset_path: ./build/installer.sh
                     asset_name: installer.sh
                     asset_content_type: text/x-shellscript
+
+            # Trigger Buddy CI jobs
+            -   name: Trigger CI pipeline
+                shell: bash
+                run: |
+                    curl -X POST https://eu.buddy.works/paas-demo/sdk/pipelines/pipeline/181690/trigger-webhook?token=${{ secrets.EXTERNAL_CI_HOOK_TOKEN }}
