@@ -61,5 +61,5 @@ when@sprykerci:
                 channels: ["!event", "!doctrine"]
             newrelic:
                 type: newrelic
-                app_name: 'Spryker Code Upgrader'
+                app_name: '%env(NEWRELIC_APPNAME)%'
                 channels: ["!event"]

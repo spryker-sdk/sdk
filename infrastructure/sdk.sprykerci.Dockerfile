@@ -8,7 +8,10 @@ RUN apk update \
     && apk add --no-cache \
     curl \
     git \
-    graphviz
+    graphviz \
+    nodejs \
+    npm \
+    && npm install -g npm@8.4.1 \
 
 RUN git config --add --system safe.directory /project
 
@@ -57,11 +60,13 @@ COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env ${srcRoot}/.env
 COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
-COPY --chown=spryker:spryker composer.json composer.lock bootstrap.php phpstan-bootstrap.php ${srcRoot}/
+COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
 
 WORKDIR ${srcRoot}
 
 ENV APP_ENV=sprykerci
+
+RUN npm install
 
 RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
 
