@@ -36,9 +36,8 @@ jobs:
                     file: ./infrastructure/sdk.Dockerfile
                     platforms: linux/amd64, linux/arm64
                     push: true
-                    tags: spryker/php-sdk:${{ github.event.release.tag_name }}
+                    tags: spryker/php-sdk:${{ github.event.release.tag_name }},spryker/php-sdk:sprykerci
                     labels: Release ${{ github.event.release.tag_name }}
-
     installer:
         name: Create and publish installer
         runs-on: ubuntu-22.04
