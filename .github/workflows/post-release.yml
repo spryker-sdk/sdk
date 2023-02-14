@@ -41,6 +41,7 @@ jobs:
     installer:
         name: Create and publish installer
         runs-on: ubuntu-22.04
+        needs: docker
         steps:
             # https://github.com/actions/checkout
             -   name: Checkout codebase
