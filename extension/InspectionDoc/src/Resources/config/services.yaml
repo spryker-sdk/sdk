@@ -1,0 +1,18 @@
+parameters:
+    inspection_doc.data_file_path: "%kernel.project_dir%/extension/InspectionDoc/src/Resources/assets/inspection_docs.json"
+    inspection_doc.url: "https://docs.spryker.com"
+
+services:
+    _defaults:
+        bind:
+            $inspectionDocUrl: "%inspection_doc.url%"
+            $inspectionDocDataFilePath: "%inspection_doc.data_file_path%"
+    _instanceof:
+        SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorInterface:
+            tags: [ "output_formatter.violation_decorator" ]
+
+    InspectionDoc\:
+        resource: '../../../src/*'
+        exclude: '../../../src/Entity'
+        autowire: true
+

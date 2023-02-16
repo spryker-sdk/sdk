@@ -2,7 +2,7 @@
 id: "spryk:run"
 short_description: "Runs a Spryk build process."
 version: "0.1.0"
-command: "php %executable_command% %spryk% %targetModule% %dependentModule% %option%"
+command: "php %executable_command% %spryk% %organization% %coreLevel% %option%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
     - name: "%executable_command%"
@@ -11,7 +11,7 @@ placeholders:
       configuration:
           description: "Executable folder (uses the first existing path)"
           defaultValue: "vendor/bin/spryk-run"
-          settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
+          settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
     - name: "%spryk%"
       value_resolver: STATIC
       optional: false
@@ -19,24 +19,30 @@ placeholders:
           alias: 'spryk'
           description: 'Name of the Spryk which should be build.'
           type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-    - name: "%targetModule%"
-      value_resolver: STATIC
-      optional: true
+    - name: "%organization%"
+      value_resolver: NAMESPACE
+      optional: false
       configuration:
-          alias: 'targetModule'
-          description: 'Name of the target module in format "[Organization.]ModuleName[.LayerName]".'
-          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-    - name: "%dependentModule%"
-      value_resolver: STATIC
-      optional: true
+        alias: "namespace"
+        option: "organization"
+        description: "Namespace name"
+        type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+        defaultValue: 'Pyz'
+        settingPaths: [ "projectNamespaces", "coreNamespaces" ]
+    - name: "%coreLevel%"
+      value_resolver: CORE
+      optional: false
       configuration:
-          alias: 'dependentModule'
-          description: 'Name of the dependent module in format "[Organization.]ModuleName[.LayerName]".'
-          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+        alias: "mode"
+        option: "mode"
+        description: "Core Level"
+        type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+        defaultValue: 'project'
+        settingPaths: [ "coreNamespaces" ]
     - name: "%option%"
-      value_resolver: STATIC
+      value_resolver: ORIGIN
       optional: true
       configuration:
-          alias: 'option'
-          description: "Spryk-specific option"
-          type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_ARRAY
+        alias: 'option'
+        description: "Spryk-specific option"
+        type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_ARRAY
