@@ -49,29 +49,21 @@ class LifecycleManager implements LifecycleManagerInterface
     protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
-     * @var string
-     */
-    protected string $environment;
-
-    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface $taskYamlFileLoader
      * @param \SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository $taskEntityRepository
      * @param iterable<\SprykerSdk\Sdk\Core\Application\Dependency\SdkUpdateAction\SdkUpdateActionInterface> $actions
      * @param string $sdkDirectory
-     * @param string $environment
      */
     public function __construct(
         TaskYamlFileLoaderInterface $taskYamlFileLoader,
         TaskRepository $taskEntityRepository,
         iterable $actions,
-        string $sdkDirectory,
-        string $environment
+        string $sdkDirectory
     ) {
         $this->taskYamlFileLoader = $taskYamlFileLoader;
         $this->taskEntityRepository = $taskEntityRepository;
         $this->actions = $actions;
         $this->sdkDirectory = $sdkDirectory;
-        $this->environment = $environment;
     }
 
     /**
