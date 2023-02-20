@@ -42,6 +42,7 @@ jobs:
     docker-sprykerci:
         name: Build and push docker image for SprykerCI
         runs-on: ubuntu-22.04
+        needs: docker
         steps:
             # https://github.com/actions/checkout
             -   name: Checkout codebase
