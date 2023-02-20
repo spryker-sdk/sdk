@@ -19,15 +19,6 @@ RUN git config --add --system safe.directory /project
 # New Relic Extension
 # It's already in the core image.
 ########################################
-ARG NEWRELIC_LICENSE
-ENV NEWRELIC_LICENSE ${NEWRELIC_LICENSE}
-
-ARG NEWRELIC_APPNAME='Spryker Code Upgrader'
-ENV NEWRELIC_APPNAME ${NEWRELIC_APPNAME}
-
-ARG NEWRELIC_LOGLEVEL='error'
-ENV NEWRELIC_LOGLEVEL ${NEWRELIC_LOGLEVEL}
-
 COPY infrastructure/newrelic/newrelic.ini  /usr/local/etc/php/conf.d/90-newrelic.ini
 
 ARG SPRYKER_COMPOSER_MODE
