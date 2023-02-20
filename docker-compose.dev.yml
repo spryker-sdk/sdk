@@ -14,10 +14,6 @@ services:
       args:
         USER_UID: ${USER_UID}
         SDK_VERSION: ${SDK_VERSION:-latest}
-        NEWRELIC_ENABLED: ${NEWRELIC_ENABLED}
-        NEWRELIC_LICENSE: ${NEWRELIC_LICENSE}
-        NEWRELIC_APPNAME: ${NEWRELIC_APPNAME}
-        NEWRELIC_LOGLEVEL: ${NEWRELIC_LOGLEVEL}
     working_dir: "/project"
     env_file:
         - ./infrastructure/env/.env
