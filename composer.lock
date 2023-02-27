@@ -16031,7 +16031,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/upgrader": 20
     },
