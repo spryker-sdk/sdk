@@ -7228,12 +7228,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "d3f39faa13d790f51dcc2e45522919e13b288e0d"
+                "reference": "137635363a97158c5dc21ce26ad7e77a0bc8093f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/d3f39faa13d790f51dcc2e45522919e13b288e0d",
-                "reference": "d3f39faa13d790f51dcc2e45522919e13b288e0d",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/137635363a97158c5dc21ce26ad7e77a0bc8093f",
+                "reference": "137635363a97158c5dc21ce26ad7e77a0bc8093f",
                 "shasum": ""
             },
             "require": {
@@ -7248,7 +7248,7 @@
                 "nikic/php-parser": "4.15.*",
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
-                "spryker-sdk/integrator": "dev-master",
+                "spryker-sdk/integrator": "1.0.x-dev",
                 "spryker-sdk/sdk-contracts": "^0.4.6",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
@@ -7293,7 +7293,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-02-10T12:54:34+00:00"
+            "time": "2023-02-27T15:48:46+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
