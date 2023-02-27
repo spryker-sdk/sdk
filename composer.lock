@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24417187d0576eab6ee24e7e155e8714",
+    "content-hash": "2923b0500436e9454752662ce51df634",
     "packages": [
         {
             "name": "amphp/amp",
@@ -16025,7 +16025,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/upgrader": 20
     },
