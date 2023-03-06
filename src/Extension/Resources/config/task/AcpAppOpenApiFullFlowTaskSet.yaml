@@ -1,0 +1,20 @@
+---
+id: "acp:openapi:full-flow"
+short_description: "Create ACP OpenAPI"
+help: ~
+stage: build
+version: 1.0.1
+command: ~
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
+tasks:
+  - id: "acp:openapi:create"
+    stop_on_error: false
+  - id: "acp:openapi:validate"
+    stop_on_error: true
+  - id: "acp:openapi:generate"
+    stop_on_error: true
+placeholders: []
+shared_placeholders:
+    '%sdk_dir%': ~
+    '%openapi-file%':
+        description: "Path to OpenAPI file"

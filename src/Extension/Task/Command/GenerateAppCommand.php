@@ -10,10 +10,13 @@ namespace SprykerSdk\Sdk\Extension\Task\Command;
 use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
+use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 
 class GenerateAppCommand implements CommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -22,14 +25,18 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
     {
-        return 'local_cli';
+        return EnumTask::TYPE_LOCAL_CLI;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -38,6 +45,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -46,6 +55,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -54,6 +65,8 @@ class GenerateAppCommand implements CommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

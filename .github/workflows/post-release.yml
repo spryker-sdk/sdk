@@ -6,12 +6,19 @@ on:
 
 jobs:
     docker:
-        name: docker build and bush
+        name: docker build and push
         runs-on: ubuntu-22.04
         steps:
             # https://github.com/actions/checkout
             -   name: Checkout codebase
                 uses: actions/checkout@v2
+
+            # Multi-platform set up.
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v1
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v1
 
             # https://github.com/docker/login-action
             -   name: Login to DockerHub
@@ -27,14 +34,14 @@ jobs:
                 with:
                     context: .
                     file: ./infrastructure/sdk.Dockerfile
-                    platforms: linux/amd64
+                    platforms: linux/amd64, linux/arm64
                     push: true
-                    tags: spryker/php-sdk:${{ github.event.release.tag_name }}
+                    tags: spryker/php-sdk:${{ github.event.release.tag_name }},spryker/php-sdk:sprykerci
                     labels: Release ${{ github.event.release.tag_name }}
-
     installer:
         name: Create and publish installer
         runs-on: ubuntu-22.04
+        needs: docker
         steps:
             # https://github.com/actions/checkout
             -   name: Checkout codebase
@@ -64,3 +71,9 @@ jobs:
                     asset_path: ./build/installer.sh
                     asset_name: installer.sh
                     asset_content_type: text/x-shellscript
+
+            # Trigger Buddy CI jobs
+            -   name: Trigger CI pipeline
+                shell: bash
+                run: |
+                    curl -X POST https://eu.buddy.works/paas-demo/sdk/pipelines/pipeline/181690/trigger-webhook?token=${{ secrets.EXTERNAL_CI_HOOK_TOKEN }}

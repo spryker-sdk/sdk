@@ -7,9 +7,10 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class PCSystemValueResolver extends AbstractValueResolver
 {
@@ -53,16 +54,20 @@ class PCSystemValueResolver extends AbstractValueResolver
     ];
 
     /**
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * {@inheritDoc}
+     *
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      * @param string $unameInfo
      */
-    public function __construct(ValueReceiverInterface $valueReceiver, string $unameInfo)
+    public function __construct(InteractionProcessorInterface $valueReceiver, string $unameInfo)
     {
         parent::__construct($valueReceiver);
         $this->unameInfo = $unameInfo;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -71,6 +76,8 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -90,6 +97,8 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -98,63 +107,22 @@ class PCSystemValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
     {
-        return 'string';
+        return ValueTypeEnum::TYPE_STRING;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getAlias(): ?string
     {
         return static::ALIAS;
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
-    {
-        return null;
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
-    }
-
-    /**
-     * @param array $settingValues
-     * @param array $resolvedValues
-     *
-     * @return array
-     */
-    public function getChoiceValues(array $settingValues, array $resolvedValues = []): array
-    {
-        return [];
     }
 }

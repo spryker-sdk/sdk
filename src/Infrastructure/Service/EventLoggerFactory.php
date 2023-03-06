@@ -13,8 +13,10 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface;
 use SprykerSdk\Sdk\Infrastructure\Logger\JsonFormatter;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
+use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use Throwable;
 
 class EventLoggerFactory
@@ -42,7 +44,7 @@ class EventLoggerFactory
     }
 
     /**
-     * @return \SprykerSdk\SdkContracts\Logger\EventLoggerInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface
      */
     public function createEventLogger(): EventLoggerInterface
     {
@@ -57,7 +59,7 @@ class EventLoggerFactory
         $reportUsageStatistics = false;
 
         try {
-            $reportUsageStatisticsSetting = $this->projectSettingRepository->findOneByPath('report_usage_statistics');
+            $reportUsageStatisticsSetting = $this->projectSettingRepository->findOneByPath(Setting::PATH_REPORT_USAGE_STATISTICS);
 
             if ($reportUsageStatisticsSetting) {
                 $reportUsageStatistics = (bool)$reportUsageStatisticsSetting->getValues();

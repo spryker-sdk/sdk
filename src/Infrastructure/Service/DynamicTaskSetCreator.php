@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Command;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\InitializedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
@@ -23,11 +23,6 @@ use SprykerSdk\SdkContracts\Entity\TaskInterface;
 
 class DynamicTaskSetCreator
 {
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
-     */
-    protected ProjectSettingRepositoryInterface $projectSettingRepository;
-
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder
      */
@@ -49,18 +44,23 @@ class DynamicTaskSetCreator
     protected array $taskOptions = [];
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface $projectSettingRepository
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     */
+    protected SettingFetcherInterface $settingFetcher;
+
+    /**
      * @param \SprykerSdk\Sdk\Infrastructure\Service\TaskOptionBuilder $taskOptionBuilder
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
      */
     public function __construct(
-        ProjectSettingRepositoryInterface $projectSettingRepository,
         TaskOptionBuilder $taskOptionBuilder,
-        TaskRepositoryInterface $taskRepository
+        TaskRepositoryInterface $taskRepository,
+        SettingFetcherInterface $settingFetcher
     ) {
-        $this->projectSettingRepository = $projectSettingRepository;
         $this->taskOptionBuilder = $taskOptionBuilder;
         $this->taskRepository = $taskRepository;
+        $this->settingFetcher = $settingFetcher;
     }
 
     /**
@@ -86,7 +86,7 @@ class DynamicTaskSetCreator
     {
         if (!isset($this->tasks[$taskSettingKey])) {
             /** @var array<string> $taskIds */
-            $taskIds = $this->projectSettingRepository->getOneByPath($taskSettingKey)->getValues();
+            $taskIds = $this->settingFetcher->getOneByPath($taskSettingKey)->getValues();
             $this->tasks[$taskSettingKey] = $this->fillTask($taskSettingKey, $this->taskRepository->findByIds($taskIds));
         }
 
@@ -151,6 +151,9 @@ class DynamicTaskSetCreator
                     $configuration = $placeholder->getConfiguration();
                     if (isset($configuration['name'])) {
                         $configuration['name'] = sprintf('%s%s', $configuration['name'], $equalPlaceholderCounter[$placeholder->getName()]);
+                    }
+                    if (isset($configuration['alias'])) {
+                        $configuration['alias'] = sprintf('%s%s', $configuration['alias'], $equalPlaceholderCounter[$placeholder->getName()]);
                     }
                     if (isset($configuration['description'])) {
                         $configuration['description'] = sprintf('%s (%s)', $configuration['description'], $task->getId());

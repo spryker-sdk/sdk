@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationFixInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationFixInterface;
 
 class ViolationFix implements ViolationFixInterface
 {
@@ -32,6 +32,8 @@ class ViolationFix implements ViolationFixInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -40,6 +42,8 @@ class ViolationFix implements ViolationFixInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getAction(): string

@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInter
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidConverterException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Report\ReportConverterInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -152,27 +153,46 @@ class ConverterRegistry implements ConverterRegistryInterface
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
-     *
      * @return \Symfony\Component\Finder\Finder
      */
     protected function getConverterFiles(): Finder
     {
-        $paths = $this->settingRepository->findOneByPath('converter_dirs');
+        $paths = $this->getConvertorDirectories();
 
-        if (!$paths) {
-            throw new MissingSettingException('Setting converter_dirs is missing');
-        }
+        $pathCandidates = array_merge($paths, array_map(function (string $path): string {
+            return (string)preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
+        }, $paths));
 
-        $pathCandidates = array_merge($paths->getValues(), array_map(function (string $path) {
-            return preg_replace('|//|', '/', $this->sdkBasePath . '/' . $path);
-        }, $paths->getValues()));
-
-        $pathCandidates = array_filter($pathCandidates, function (string $path) {
+        $pathCandidates = array_filter($pathCandidates, function (string $path): bool {
             return is_dir($path);
         });
 
         return Finder::create()->in($pathCandidates)->name('*Converter.php');
+    }
+
+    /**
+     * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
+     *
+     * @return array<string>
+     */
+    protected function getConvertorDirectories(): array
+    {
+        $paths = $this->settingRepository->findOneByPath(Setting::PATH_EXTENSION_DIRS);
+
+        if (!$paths) {
+            throw new MissingSettingException(sprintf('Setting `%s` is missing', Setting::PATH_EXTENSION_DIRS));
+        }
+
+        $convertorDirs = [];
+        foreach ($paths->getValues() as $candidateDir) {
+            $dir = glob($candidateDir . '/Converter');
+
+            if ($dir) {
+                $convertorDirs[] = $dir;
+            }
+        }
+
+        return array_merge(...$convertorDirs);
     }
 
     /**

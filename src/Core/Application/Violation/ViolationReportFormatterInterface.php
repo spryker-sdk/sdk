@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Violation;
 
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 interface ViolationReportFormatterInterface
 {
@@ -18,7 +18,7 @@ interface ViolationReportFormatterInterface
 
     /**
      * @param string $name
-     * @param \SprykerSdk\SdkContracts\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface $violationReport
      *
      * @return void
      */
@@ -27,7 +27,7 @@ interface ViolationReportFormatterInterface
     /**
      * @param string $name
      *
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     public function read(string $name): ?ViolationReportInterface;
 }

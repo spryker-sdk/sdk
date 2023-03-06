@@ -8,17 +8,27 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Extension\ValueResolver\NamespaceValueResolver;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\SprykCodeLevelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Extension
+ * @group ValueResolver
+ * @group SprykCodeLevelValueResolverTest
+ * Add your own group annotations below this line
+ */
 class SprykCodeLevelValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -30,7 +40,7 @@ class SprykCodeLevelValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -47,6 +57,7 @@ class SprykCodeLevelValueResolverTest extends Unit
             ->method('getResolvedValues')
             ->willReturn([]);
         $valueResolver = new SprykCodeLevelValueResolver($this->valueReceiver);
+        $valueResolver->configure(['defaultValue' => 'project']);
 
         // Act
         $value = $valueResolver->getValue($this->context, []);
@@ -61,15 +72,15 @@ class SprykCodeLevelValueResolverTest extends Unit
     public function testGetValueCore(): void
     {
         // Arrange
+        $valueResolver = new SprykCodeLevelValueResolver($this->valueReceiver);
         $this->context
             ->expects($this->once())
             ->method('getResolvedValues')
-            ->willReturn(['%' . NamespaceValueResolver::ALIAS . '%' => 'test']);
-
-        $valueResolver = new SprykCodeLevelValueResolver($this->valueReceiver);
+            ->willReturn(['%' . $valueResolver->getAlias() . '%' => 'test']);
+        $valueResolver->configure(['defaultValue' => 'project']);
 
         // Act
-        $value = $valueResolver->getValue($this->context, ['coreNamespaces' => ['test']]);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACES => ['test']]);
 
         // Assert
         $this->assertSame('core', $value);
@@ -81,21 +92,22 @@ class SprykCodeLevelValueResolverTest extends Unit
     public function testGetValueDefault(): void
     {
         // Arrange
+        $valueResolver = new SprykCodeLevelValueResolver($this->valueReceiver);
         $this->context
             ->expects($this->once())
             ->method('getResolvedValues')
-            ->willReturn(['%' . NamespaceValueResolver::ALIAS . '%' => 'test']);
+            ->willReturn(['%' . $valueResolver->getAlias() . '%' => 'test']);
 
-        $valueResolver = new SprykCodeLevelValueResolver($this->valueReceiver);
+        $valueResolver->configure(['defaultValue' => 'project']);
 
         // Act
-        $value = $valueResolver->getValue($this->context, ['coreNamespaces' => 'none']);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_CORE_NAMESPACES => 'none']);
 
         // Assert
         $this->assertSame('project', $value);
         $this->assertSame('project', $valueResolver->getDefaultValue());
         $this->assertSame('string', $valueResolver->getType());
-        $this->assertSame('mode', $valueResolver->getAlias());
+        $this->assertNull($valueResolver->getAlias());
         $this->assertSame('CORE', $valueResolver->getId());
     }
 }

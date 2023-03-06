@@ -3,76 +3,87 @@ id: "validation:php:benchmark"
 short_description: "Check your code efficiency by running a benchmark"
 help: ~
 stage: build
-version: 0.1.0
-command: "php %sdk_dir%/vendor/bin/phpbench run %tests% --bootstrap=%bootstrap% %group% %iterations% %revs% %report% %time-unit% --dump-file=%reportDir%/phpbench.benchmark.xml"
-type: local_cli
+version: 0.2.1
+command: "php %executable_command% run %tests% %bootstrap% %group% %iterations% %revs% %report% %time-unit% %reportDir%"
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 optional: false
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
-    optional: true
-  - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      name: "report_dir"
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/phpbench"
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
+  - name: "%reportDir%"
+    value_resolver: REPORT_DIR
+    optional: true
+    configuration:
+      option: "dump-file"
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
+      defaultValue: "phpbench.benchmark.xml"
   - name: "%tests%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "tests"
+      alias: "tests"
       description: "Relative path to tests directory in project"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: "tests"
   - name: "%bootstrap%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "bootstrap"
+      alias: "bootstrap"
+      option: "bootstrap"
       description: "Relative path to bootstrap file in project"
-      type: path
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
       defaultValue: "vendor/autoload.php"
   - name: "%group%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "group"
+      alias: "group"
+      option: "group"
       description: "Group to run"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%iterations%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "iterations"
+      alias: "iterations"
+      option: "iterations"
       description: "Iterations count"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 1
   - name: "%revs%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "revs"
+      alias: "revs"
+      option: "revs"
       description: "Revolution count"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 1
   - name: "%report%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "report"
+      alias: "report"
+      option: "report"
       description: "Report config"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: '{"generator":"expression","cols":["benchmark","subject","best","mean","worst","stdev","revs","its"]}'
   - name: "%time-unit%"
-    value_resolver: OPTION
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "time-unit"
+      alias: "time-unit"
+      option: "time-unit"
       description: "Time unit"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: milliseconds
 report_converter:
   name: PhpBenchReportConverter

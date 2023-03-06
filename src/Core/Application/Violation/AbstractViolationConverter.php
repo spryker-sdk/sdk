@@ -8,8 +8,9 @@
 namespace SprykerSdk\Sdk\Core\Application\Violation;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationConverterInterface;
-use SprykerSdk\SdkContracts\Violation\ViolationReportInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationConverterInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 abstract class AbstractViolationConverter implements ViolationConverterInterface
 {
@@ -46,7 +47,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
      */
     protected function readFile(): ?string
     {
-        $reportDirectory = $this->settingRepository->findOneByPath('report_dir');
+        $reportDirectory = $this->settingRepository->findOneByPath(Setting::PATH_REPORT_DIR);
 
         if (!$reportDirectory) {
             return null;
@@ -111,7 +112,7 @@ abstract class AbstractViolationConverter implements ViolationConverterInterface
     abstract public function configure(array $configuration): void;
 
     /**
-     * @return \SprykerSdk\SdkContracts\Violation\ViolationReportInterface|null
+     * @return \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface|null
      */
     abstract public function convert(): ?ViolationReportInterface;
 }

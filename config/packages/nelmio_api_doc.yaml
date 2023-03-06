@@ -1,0 +1,9 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: SDK REST API
+            description: Sdk rest api docs
+            version: 1.0.0
+    areas:
+        default:
+            with_annotation: true

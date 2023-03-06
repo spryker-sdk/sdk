@@ -3,49 +3,71 @@ id: "validation:php:architecture"
 short_description: "Check the architectural correctness of your code"
 help: ~
 stage: debug
-version: 1.0.0
-command: "%sdk_dir%/vendor/bin/phpmd ./src json %config% %strict% --minimumpriority %priority% --reportfile %reportDir%/phpmd.static.json"
-type: local_cli
+version: 1.1.3
+command: "%executable_command% %path% %format% %config% %strict% %minimum-priority% %priority%  %reportDir%"
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/phpmd"
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
+  - name: "%format%"
+    value_resolver: STATIC
+    optional: true
+    configuration:
+      description: "Output format."
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
+      defaultValue: 'json'
+  - name: "%path%"
+    value_resolver: PRIORITY_PATH
+    optional: true
+    configuration:
+      alias: "path"
+      description: "Relative path to module directory in project"
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
+      defaultValue: 'src'
   - name: "%strict%"
     value_resolver: FLAG
     optional: false
     configuration:
-      name: "strict"
+      alias: "strict"
       description: "Report silent violations"
       defaultValue: false
-      settingPaths: []
-      type: boolean
-  - name: "%config%"
-    value_resolver: CONFIG_PATH
+  - name: "%minimum-priority%"
+    value_resolver: FLAG
     optional: true
     configuration:
-      param: "config"
-      name: "config"
+      alias: "minimum-priority"
+      description: "Minimum priority"
+      defaultValue: true
+  - name: "%config%"
+    value_resolver: PRIORITY_PATH
+    optional: true
+    configuration:
+      alias: "config"
       description: "Config file"
       defaultValue: "vendor/spryker/architecture-sniffer/src/ruleset.xml"
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
   - name: "%priority%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: false
     configuration:
-      name: "priority"
+      alias: "priority"
       description: "Minimal PHPMD priority of rules to fail the validation"
-      minValue: 1
-      maxValue: 10
       defaultValue: 2
-      settingPaths: []
-      type: int
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_INT
   - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      name: "report_dir"
+      option: "reportfile"
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
+      defaultValue: "phpmd.static.json"
 report_converter:
   name: PHPMDViolationConverter
   configuration:

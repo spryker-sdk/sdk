@@ -11,10 +11,13 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\ConverterInterface;
 use SprykerSdk\SdkContracts\Entity\ErrorCommandInterface;
+use SprykerSdk\SdkContracts\Enum\Task as EnumTask;
 
 class CheckGitCommand implements CommandInterface, ErrorCommandInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getCommand(): string
@@ -23,6 +26,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getErrorMessage(): string
@@ -31,14 +36,18 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
     {
-        return 'local_cli';
+        return EnumTask::TYPE_LOCAL_CLI;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -47,6 +56,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array
@@ -55,6 +66,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\ConverterInterface|null
      */
     public function getConverter(): ?ConverterInterface
@@ -63,6 +76,8 @@ class CheckGitCommand implements CommandInterface, ErrorCommandInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStage(): string

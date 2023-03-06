@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class AppPhpVersionValueResolver extends AbstractValueResolver
 {
@@ -32,24 +33,8 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     ];
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
+     * {@inheritDoc}
      *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
-    }
-
-    /**
      * @return string
      */
     public function getId(): string
@@ -58,6 +43,8 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -66,22 +53,18 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
     {
-        return 'string';
+        return ValueTypeEnum::TYPE_STRING;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getAlias(): ?string
@@ -90,6 +73,8 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getDefaultValue()
@@ -98,6 +83,8 @@ class AppPhpVersionValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $settingValues
      * @param array $resolvedValues
      *

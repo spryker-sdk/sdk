@@ -8,15 +8,26 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface;
+use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting;
+use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
 use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
+use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
+use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\Sdk\Tests\UnitTester;
-use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group InitializerTest
+ * Add your own group annotations below this line
+ */
 class InitializerTest extends Unit
 {
     /**
@@ -25,19 +36,14 @@ class InitializerTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessor $cliValueReceiver;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
      */
     protected SettingRepository $settingRepository;
-
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
 
     /**
      * @var string
@@ -50,14 +56,19 @@ class InitializerTest extends Unit
     protected TaskManagerInterface $taskManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskYamlRepositoryInterface
+     * @var \SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface
      */
-    protected TaskYamlRepositoryInterface $taskYamlRepository;
+    protected TaskYamlFileLoaderInterface $taskYamlFileLoader;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Service\Initializer
      */
     protected Initializer $initializerService;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
+     */
+    protected SettingInitializerRegistry $settingInitializerRegistry;
 
     /**
      * @return void
@@ -66,16 +77,20 @@ class InitializerTest extends Unit
     {
         parent::setUp();
 
-        $this->taskYamlRepository = $this->createMock(TaskYamlRepositoryInterface::class);
-        $this->cliValueReceiver = $this->createMock(CliValueReceiver::class);
+        $this->taskYamlFileLoader = $this->createMock(TaskYamlFileLoaderInterface::class);
+        $this->cliValueReceiver = $this->createMock(InteractionProcessor::class);
         $this->settingRepository = $this->createMock(SettingRepository::class);
         $this->taskManager = $this->createMock(TaskManagerInterface::class);
+        $this->settingInitializerRegistry = $this->createSettingInitializerRegistryMock();
+        $this->migrateCommand = $this->createMock(DoctrineCommand::class);
 
         $this->initializerService = new Initializer(
             $this->cliValueReceiver,
             $this->settingRepository,
             $this->taskManager,
-            $this->taskYamlRepository,
+            $this->taskYamlFileLoader,
+            $this->settingInitializerRegistry,
+            $this->migrateCommand,
         );
     }
 
@@ -99,9 +114,9 @@ class InitializerTest extends Unit
             ->expects($this->once())
             ->method('initialize');
 
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->exactly(count($settings)))
@@ -133,9 +148,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -167,9 +182,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -205,9 +220,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -243,9 +258,9 @@ class InitializerTest extends Unit
         ];
         $this->taskManager->expects($this->once())
             ->method('initialize');
-        $this->taskYamlRepository
+        $this->taskYamlFileLoader
             ->expects($this->once())
-            ->method('findAll')
+            ->method('loadAll')
             ->willReturn([]);
         $this->settingRepository
             ->expects($this->never())
@@ -260,5 +275,16 @@ class InitializerTest extends Unit
 
         // Act
         $this->initializerService->initialize($optionSettings);
+    }
+
+    /**
+     * @return \SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry
+     */
+    protected function createSettingInitializerRegistryMock(): SettingInitializerRegistry
+    {
+        $settingInitializerRegistry = $this->createMock(SettingInitializerRegistry::class);
+        $settingInitializerRegistry->method('hasSettingInitializer')->willReturn(false);
+
+        return $settingInitializerRegistry;
     }
 }

@@ -8,7 +8,8 @@
 namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use SprykerSdk\Sdk\Core\Domain\Entity\Setting as DomainSetting;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
+use SprykerSdk\SdkContracts\Enum\Setting as SettingEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class Setting extends DomainSetting
 {
@@ -25,6 +26,7 @@ class Setting extends DomainSetting
      * @param string $type
      * @param string $settingType
      * @param bool $hasInitialization
+     * @param bool $forceAskValue
      * @param string|null $initializationDescription
      * @param string|null $initializer
      */
@@ -33,14 +35,25 @@ class Setting extends DomainSetting
         string $path,
         $values,
         string $strategy,
-        string $type = 'string',
+        string $type = ValueTypeEnum::TYPE_STRING,
         string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
+        bool $forceAskValue = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
     ) {
         $this->id = $id;
-        parent::__construct($path, $values, $strategy, $type, $settingType, $hasInitialization, $initializationDescription, $initializer);
+        parent::__construct(
+            $path,
+            $values,
+            $strategy,
+            $type,
+            $settingType,
+            $hasInitialization,
+            $forceAskValue,
+            $initializationDescription,
+            $initializer,
+        );
     }
 
     /**

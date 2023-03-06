@@ -8,23 +8,33 @@
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class FlagValueResolver extends StaticValueResolver
 {
     /**
      * @var string
      */
+    public const RESOLVER_ID = 'FLAG';
+
+    /**
+     * @var string
+     */
     protected string $flag;
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
     {
-        return 'FLAG';
+        return static::RESOLVER_ID;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $values
      *
      * @return void
@@ -37,6 +47,8 @@ class FlagValueResolver extends StaticValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -48,5 +60,13 @@ class FlagValueResolver extends StaticValueResolver
         $defaultValue = parent::getValue($context, $settingValues, $optional);
 
         return !$defaultValue ? '' : sprintf('--%s', $this->flag);
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return ValueTypeEnum::TYPE_BOOL;
     }
 }

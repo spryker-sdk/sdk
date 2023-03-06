@@ -11,12 +11,23 @@ use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Core\Application\Cache\ContextCacheStorageInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Service\ContextSerializer;
 use SprykerSdk\Sdk\Infrastructure\Exception\MissingContextFileException;
 use SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository;
 use SprykerSdk\Sdk\Tests\UnitTester;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Repository
+ * @group ContextFileRepositoryTest
+ * Add your own group annotations below this line
+ */
 class ContextFileRepositoryTest extends Unit
 {
     /**
@@ -30,9 +41,9 @@ class ContextFileRepositoryTest extends Unit
     protected ContextSerializer $contextSerializer;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
      */
-    protected SettingRepositoryInterface $settingRepository;
+    protected SettingFetcherInterface $settingFetcher;
 
     /**
      * @var \org\bovigo\vfs\vfsStreamDirectory
@@ -56,14 +67,14 @@ class ContextFileRepositoryTest extends Unit
     {
         parent::setUp();
         $this->contextSerializer = $this->createMock(ContextSerializer::class);
-        $this->settingRepository = $this->createMock(SettingRepositoryInterface::class);
+        $this->settingFetcher = $this->createMock(SettingFetcherInterface::class);
         $this->contextCacheStorage = $this->createMock(ContextCacheStorageInterface::class);
 
         $this->vfsStream = vfsStream::setup();
         $this->contextFileRepository = new ContextFileRepository(
             $this->contextSerializer,
-            $this->settingRepository,
             $this->contextCacheStorage,
+            $this->settingFetcher,
         );
     }
 
@@ -75,12 +86,12 @@ class ContextFileRepositoryTest extends Unit
         // Arrange
         $context = $this->tester->createContext();
         $jsonContext = json_encode($this->tester->createArrayContext());
-        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting(Setting::PATH_PROJECT_DIR, $this->vfsStream->url());
 
-        $this->settingRepository
+        $this->settingFetcher
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('project_dir')
+            ->with(Setting::PATH_PROJECT_DIR)
             ->willReturn($setting);
 
         $this->contextSerializer
@@ -114,12 +125,12 @@ class ContextFileRepositoryTest extends Unit
         $vfsFile = $this->tester->createVfsStreamFile($fileName, $jsonContext);
         $this->vfsStream->addChild($vfsFile);
 
-        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting(Setting::PATH_PROJECT_DIR, $this->vfsStream->url());
 
-        $this->settingRepository
+        $this->settingFetcher
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('project_dir')
+            ->with(Setting::PATH_PROJECT_DIR)
             ->willReturn($setting);
 
         // Act
@@ -142,12 +153,12 @@ class ContextFileRepositoryTest extends Unit
         $vfsFile = $this->tester->createVfsStreamFile($fileName, $jsonContext);
         $this->vfsStream->addChild($vfsFile);
 
-        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting(Setting::PATH_PROJECT_DIR, $this->vfsStream->url());
 
-        $this->settingRepository
+        $this->settingFetcher
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('project_dir')
+            ->with(Setting::PATH_PROJECT_DIR)
             ->willReturn($setting);
 
         $this->contextSerializer
@@ -174,12 +185,12 @@ class ContextFileRepositoryTest extends Unit
         $vfsFile = $this->tester->createVfsStreamFile($fileName, '');
         $this->vfsStream->addChild($vfsFile);
 
-        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting(Setting::PATH_PROJECT_DIR, $this->vfsStream->url());
 
-        $this->settingRepository
+        $this->settingFetcher
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('project_dir')
+            ->with(Setting::PATH_PROJECT_DIR)
             ->willReturn($setting);
 
         $this->expectException(MissingContextFileException::class);
@@ -196,12 +207,12 @@ class ContextFileRepositoryTest extends Unit
         // Arrange
         $context = $this->tester->createContext();
 
-        $setting = $this->tester->createSetting('project_dir', $this->vfsStream->url());
+        $setting = $this->tester->createSetting(Setting::PATH_PROJECT_DIR, $this->vfsStream->url());
 
-        $this->settingRepository
+        $this->settingFetcher
             ->expects($this->once())
             ->method('getOneByPath')
-            ->with('project_dir')
+            ->with(Setting::PATH_PROJECT_DIR)
             ->willReturn($setting);
 
         $this->expectException(MissingContextFileException::class);

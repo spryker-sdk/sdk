@@ -7,10 +7,10 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
-class SprykCodeLevelValueResolver extends AbstractValueResolver
+class SprykCodeLevelValueResolver extends OriginValueResolver
 {
     /**
      * @var string
@@ -18,11 +18,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     protected const CORE = 'core';
 
     /**
-     * @var string
-     */
-    protected const PROJECT = 'project';
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -31,30 +28,8 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return string
-     */
-    public function getAlias(): string
-    {
-        return 'mode';
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return 'Core level';
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'string';
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -64,49 +39,15 @@ class SprykCodeLevelValueResolver extends AbstractValueResolver
     public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
     {
         $resolvedValues = $context->getResolvedValues();
-        $namespaceAlias = '%' . NamespaceValueResolver::ALIAS . '%';
+        $namespaceAlias = '%' . $this->getAlias() . '%';
         if (!array_key_exists($namespaceAlias, $resolvedValues)) {
-            return $this->getDefaultValue();
+            return $this->formatValue($this->getDefaultValue());
         }
 
-        if (in_array($resolvedValues[$namespaceAlias], (array)$settingValues['coreNamespaces'], false)) {
-            return static::CORE;
+        if (in_array($resolvedValues[$namespaceAlias], (array)$settingValues[Setting::PATH_CORE_NAMESPACES], false)) {
+            return $this->formatValue(static::CORE);
         }
 
-        return $this->getDefaultValue();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
-    {
-        return static::PROJECT;
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param array<string, mixed> $settingValues
-     *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return null;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return ['coreNamespaces'];
+        return $this->formatValue($this->getDefaultValue());
     }
 }

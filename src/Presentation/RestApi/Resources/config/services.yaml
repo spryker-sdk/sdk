@@ -1,0 +1,104 @@
+parameters: ~
+
+services:
+    _instanceof:
+        SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\BaseController:
+            calls:
+                - ['setResponseFactory', ['@open_api.factory.response']]
+                - ['setRequestFactory', ['@open_api.factory.request']]
+
+        SprykerSdk\Sdk\Presentation\RestApi\Controller\CommandControllerInterface:
+            tags: ['rest_api.expose_command_api_doc']
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\IndexController:
+        public: true
+        arguments:
+            - "@version.app_version_fetcher"
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\RunTaskController
+        public: true
+        arguments:
+            - "@run_task_processor"
+
+    run_task_processor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Processor\RunTaskProcessor
+        arguments:
+            - "@task_executor"
+            - "@context_factory"
+            - "@violation_report_mapper"
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitSdkController:
+        public: true
+        arguments:
+            - "@initializer_service"
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkInitProjectController:
+        public: true
+        arguments:
+            - "@sdk_init_project_processor"
+
+    sdk_init_project_processor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkInitProjectProcessor
+        arguments:
+            - "@project_settings_initializer"
+
+    SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController:
+        public: true
+        arguments:
+            - "@sdk_update_sdk_processor"
+
+    sdk_update_sdk_processor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Processor\SdkUpdateSdkProcessor
+        arguments:
+            - "@initializer_service"
+            - "@service.lifecycle_manager"
+
+    symfony.console.application:
+        class: Symfony\Bundle\FrameworkBundle\Console\Application
+        arguments:
+            - '@kernel'
+
+    SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor:
+    rest_api_task_executor:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Executor\Task\RestApiTaskExecutor
+        arguments:
+            - '@symfony.console.application'
+
+    json_schema_validator:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Validator\Json\JsonSchemaValidator
+        arguments:
+            - '@json_validator'
+            - '@open_api.factory.response'
+
+    json_validator:
+        class: JsonSchema\Validator
+
+    api_exception_listener:
+        class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\ApiExceptionListener
+        arguments:
+            - "%kernel.debug%"
+            - "@logger"
+            - '@open_api.factory.response'
+        tags:
+            - name: kernel.event_listener
+              event: kernel.exception
+              method: onKernelException
+              priority: 10
+
+    json_request_transformer_listener:
+        class: SprykerSdk\Sdk\Presentation\RestApi\EventListener\JsonRequestListener
+        tags:
+            - name: kernel.event_listener
+              event: kernel.request
+              method: onKernelRequest
+              priority: 10
+        arguments:
+            - ['json']
+            - '@json_schema_validator'
+            - '@open_api.factory.response'
+
+    open_api.factory.response:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiResponseFactory
+
+    open_api.factory.request:
+        class: SprykerSdk\Sdk\Presentation\RestApi\Factory\OpenApiRequestFactory

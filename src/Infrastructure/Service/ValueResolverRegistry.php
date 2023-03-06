@@ -7,12 +7,12 @@
 
 namespace SprykerSdk\Sdk\Infrastructure\Service;
 
-use Composer\Autoload\ClassLoader;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\ValueResolverRegistryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
 
 class ValueResolverRegistry implements ValueResolverRegistryInterface
@@ -30,22 +30,17 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
     protected array $valueResolversClasses = [];
 
     /**
-     * @var \Composer\Autoload\ClassLoader
-     */
-    protected ClassLoader $classLoader;
-
-    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param string $sdkBasePath
      */
     protected SettingRepositoryInterface $settingRepository;
 
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var string
@@ -64,14 +59,14 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface $valueReceiver
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $valueReceiver
      * @param iterable<\SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface> $valueResolverServices
      * @param \SprykerSdk\Sdk\Infrastructure\Service\AutoloaderService $autoloaderService
      * @param string $sdkBasePath
      */
     public function __construct(
         SettingRepositoryInterface $settingRepository,
-        ValueReceiverInterface $valueReceiver,
+        InteractionProcessorInterface $valueReceiver,
         iterable $valueResolverServices,
         AutoloaderService $autoloaderService,
         string $sdkBasePath
@@ -106,6 +101,8 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     public function get(string $id): ?ValueResolverInterface
     {
+        $this->loadValueResolvers();
+
         if ($this->hasId($id)) {
             return $this->valueResolvers[$id];
         }
@@ -159,10 +156,10 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected function getValueResolverDirectories(): array
     {
-        $paths = $this->settingRepository->findOneByPath('extension_dirs');
+        $paths = $this->settingRepository->findOneByPath(Setting::PATH_EXTENSION_DIRS);
 
         if (!$paths) {
-            throw new MissingSettingException('Setting extension_dirs is missing');
+            throw new MissingSettingException(sprintf('Setting `%s` is missing', Setting::PATH_EXTENSION_DIRS));
         }
 
         return array_map(function (string $directory) {
@@ -204,7 +201,7 @@ class ValueResolverRegistry implements ValueResolverRegistryInterface
      */
     protected function loadValueResolver(string $loadableClassName): void
     {
-        //value resolver might already be registered as service
+        //value resolver might already be registered as service.
         if (array_key_exists($loadableClassName, $this->valueResolversClasses)) {
             return;
         }

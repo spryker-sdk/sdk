@@ -8,24 +8,28 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
- * @group Service
- * @group CommandExecutorTest
+ * @group ValueResolver
+ * @group AbstractValueResolverTest
+ * Add your own group annotations below this line
  */
 class AbstractValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -37,7 +41,7 @@ class AbstractValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -52,12 +56,12 @@ class AbstractValueResolverTest extends Unit
         $valueResolver = $this->createValueResolver();
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->with('test')
             ->willReturn(true);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->with('test')
             ->willReturn(true);
         // Act
@@ -76,7 +80,7 @@ class AbstractValueResolverTest extends Unit
         $valueResolver = $this->createValueResolver();
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->with('test')
             ->willReturn(false);
 
@@ -96,7 +100,7 @@ class AbstractValueResolverTest extends Unit
         $valueResolver = $this->createValueResolver();
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->with('test')
             ->willReturn(false);
         $this->valueReceiver
@@ -118,6 +122,8 @@ class AbstractValueResolverTest extends Unit
     {
         return new class ($this->valueReceiver) extends AbstractValueResolver {
             /**
+             * {@inheritDoc}
+             *
              * @return string
              */
             public function getId(): string
@@ -126,14 +132,18 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return array<string>
              */
             public function getSettingPaths(): array
             {
-                return [];
+                return ['test'];
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return string|null
              */
             public function getAlias(): ?string
@@ -142,6 +152,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return string
              */
             public function getDescription(): string
@@ -150,6 +162,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return string
              */
             public function getType(): string
@@ -158,6 +172,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return mixed
              */
             public function getDefaultValue()
@@ -166,6 +182,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @return array<string>
              */
             protected function getRequiredSettingPaths(): array
@@ -174,6 +192,8 @@ class AbstractValueResolverTest extends Unit
             }
 
             /**
+             * {@inheritDoc}
+             *
              * @param array<string, mixed> $settingValues
              *
              * @return mixed

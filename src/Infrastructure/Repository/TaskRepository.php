@@ -10,11 +10,18 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Domain\ValueObject\ConfigurableCommand;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetCommandsBuilder;
+use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory;
 use SprykerSdk\Sdk\Infrastructure\Entity\Task;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
 use SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface;
+use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
+use SprykerSdk\SdkContracts\Entity\StagedTaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 
 /**
  * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\SprykerSdk\Sdk\Infrastructure\Entity\Task>
@@ -27,25 +34,39 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     protected TaskMapperInterface $taskMapper;
 
     /**
-     * @var array<string, \SprykerSdk\SdkContracts\Entity\TaskInterface>
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetCommandsBuilder
      */
-    protected array $existingTasks = [];
+    protected TaskSetCommandsBuilder $taskSetCommandsBuilder;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory
+     */
+    protected TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage
+     */
+    protected TaskStorage $taskStorage;
 
     /**
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\TaskMapperInterface $taskMapper
      * @param \Doctrine\Persistence\ManagerRegistry $registry
-     * @param iterable<\SprykerSdk\SdkContracts\Entity\TaskInterface> $existingTasks
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetCommandsBuilder $taskSetCommandsBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskSetOverrideMap\TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory
+     * @param \SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage $taskStorage
      */
     public function __construct(
         TaskMapperInterface $taskMapper,
         ManagerRegistry $registry,
-        iterable $existingTasks = []
+        TaskSetCommandsBuilder $taskSetCommandsBuilder,
+        TaskSetOverrideMapDtoFactory $taskSetOverrideMapFactory,
+        TaskStorage $taskStorage
     ) {
         parent::__construct($registry, Task::class);
         $this->taskMapper = $taskMapper;
-        foreach ($existingTasks as $existingTask) {
-            $this->existingTasks[$existingTask->getId()] = $existingTask;
-        }
+        $this->taskSetCommandsBuilder = $taskSetCommandsBuilder;
+        $this->taskSetOverrideMapFactory = $taskSetOverrideMapFactory;
+        $this->taskStorage = $taskStorage;
     }
 
     /**
@@ -124,6 +145,19 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     }
 
     /**
+     * @return array<string>
+     */
+    public function getTaskIds(): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        return $qb->select('t.id')
+            ->from(Task::class, 't')
+            ->getQuery()
+            ->getSingleColumnResult();
+    }
+
+    /**
      * @param string $taskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null
@@ -175,25 +209,67 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
      */
     protected function changePhpCommand(TaskInterface $task, bool $realCommand = true): TaskInterface
     {
-        $existingCommands = [];
-        foreach ($this->existingTasks as $existingTask) {
-            foreach ($existingTask->getCommands() as $existingCommand) {
-                $existingCommands[get_class($existingCommand)] = $existingCommand;
-            }
+        $storageTask = $this->taskStorage->getTaskById($task->getId());
+
+        if ($realCommand && $storageTask) {
+            $task->setCommands(new ArrayCollection($this->getTaskCommands($storageTask)));
+
+            return $task;
         }
 
+        $task->setCommands(new ArrayCollection($task->getCommands()));
+
+        return $task;
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface $task
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
+     */
+    protected function getTaskCommands(TaskInterface $task): array
+    {
+        if ($task instanceof TaskSetInterface) {
+            return $this->taskSetCommandsBuilder->buildTaskSetCommands(
+                $this->getTaskSetCommands($task),
+                $this->taskSetOverrideMapFactory->createFromTaskSet($task),
+            );
+        }
+
+        return $task->getCommands();
+    }
+
+    /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskSetInterface $taskSet
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return array<string, array<\SprykerSdk\SdkContracts\Entity\CommandInterface>>
+     */
+    protected function getTaskSetCommands(TaskSetInterface $taskSet): array
+    {
         $commands = [];
-        foreach ($task->getCommands() as $command) {
-            if ($realCommand && $command->getType() === 'php' && isset($existingCommands[$command->getCommand()])) {
-                $commands[] = $existingCommands[$command->getCommand()];
+
+        foreach ($taskSet->getSubTasks() as $subTask) {
+            if (is_string($subTask)) {
+                $subTaskId = $subTask;
+                $subTask = $this->findById($subTask);
+
+                if ($subTask === null) {
+                    throw new InvalidArgumentException(sprintf('Task %s not found', $subTaskId));
+                }
+            }
+
+            if ($subTask instanceof StagedTaskInterface) {
+                foreach ($subTask->getCommands() as $command) {
+                    $commands[$subTask->getId()][] = new ConfigurableCommand($command, null, null, $subTask->getStage());
+                }
 
                 continue;
             }
-            $commands[] = $command;
+            $commands[$subTask->getId()] = $subTask->getCommands();
         }
 
-        $task->setCommands(new ArrayCollection($commands));
-
-        return $task;
+        return $commands;
     }
 }

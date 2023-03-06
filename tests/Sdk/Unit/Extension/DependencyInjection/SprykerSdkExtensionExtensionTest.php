@@ -11,6 +11,16 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Extension\DependencyInjection\SprykerSdkExtensionExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Extension
+ * @group DependencyInjection
+ * @group SprykerSdkExtensionExtensionTest
+ * Add your own group annotations below this line
+ */
 class SprykerSdkExtensionExtensionTest extends Unit
 {
     /**

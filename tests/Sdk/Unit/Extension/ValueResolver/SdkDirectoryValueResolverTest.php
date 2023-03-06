@@ -8,16 +8,27 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\SdkDirectoryValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Extension
+ * @group ValueResolver
+ * @group SdkDirectoryValueResolverTest
+ * Add your own group annotations below this line
+ */
 class SdkDirectoryValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -29,7 +40,7 @@ class SdkDirectoryValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -59,7 +70,7 @@ class SdkDirectoryValueResolverTest extends Unit
         $valueResolver = new SdkDirectoryValueResolver($this->valueReceiver, '../');
 
         // Act
-        $value = $valueResolver->getValue($this->context, [SdkDirectoryValueResolver::SETTING_SDK_DIR => '../'], true);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_SDK_DIR => '../'], true);
 
         // Assert
         $this->assertSame(realpath('../'), $value);
@@ -74,7 +85,7 @@ class SdkDirectoryValueResolverTest extends Unit
         $valueResolver = new SdkDirectoryValueResolver($this->valueReceiver, '../');
 
         // Act
-        $value = $valueResolver->getValue($this->context, [SdkDirectoryValueResolver::SETTING_SDK_DIR => '../'], true);
+        $value = $valueResolver->getValue($this->context, [Setting::PATH_SDK_DIR => '../'], true);
 
         // Assert
         $this->assertSame(realpath('../'), $value);

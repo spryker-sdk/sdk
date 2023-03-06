@@ -8,15 +8,19 @@
 namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Service\Filesystem;
-use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group PathResolverTest
+ * Add your own group annotations below this line
  */
 class PathResolverTest extends Unit
 {
@@ -31,12 +35,12 @@ class PathResolverTest extends Unit
     public const PROJECT_DIRECTORY = '/project/dir';
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\Filesystem
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
     protected Filesystem $filesystem;
 

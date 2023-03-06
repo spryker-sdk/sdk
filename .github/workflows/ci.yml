@@ -9,6 +9,10 @@ on:
       - feature/[a-z]+-[0-9]+/dev-*
   workflow_dispatch:
 
+env:
+    APP_ENV: test # Symfony application environment
+    CODECOV_TOKEN: a223186e-69ca-438b-bc5a-aa509559fdd0
+
 jobs:
   validation:
     name: "CS, PHPStan, Security"
@@ -58,12 +62,7 @@ jobs:
         run: composer --version
 
       - name: Composer install
-        if: ${{ matrix.php-version != '7.4' }}
         run: composer install
-
-      - name: Composer install
-        if: ${{ matrix.php-version == '7.4' }}
-        run: composer update --prefer-lowest
 
       - name: Run PHPStan
         run: composer stan
@@ -74,8 +73,14 @@ jobs:
       - name: Codecept unit tests
         run: composer test
 
+      - name: Codecept unit tests
+        run: composer test-vcs-connector-extension
+
+      - name: Codecept unit tests
+        run: composer test-inspection-doc-extension
+
       - name: Install SDK
-        run: bin/console sdk:init:hidden-sdk
+        run: bin/console sdk:init:hidden-sdk -n
 
       - name: Codecept acceptance tests
         run: composer test-qa
@@ -84,10 +89,6 @@ jobs:
         if: ${{ matrix.php-version == '8.0' }}
         run: composer test-cover
 
-      - name: Upload coverage results to Coveralls
-        if: ${{ matrix.php-version == '8.0' }}
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer global require "php-coveralls/php-coveralls" "symfony/console: ^5.4"
-          php-coveralls --coverage_clover=tests/_output/coverage.xml --json_path=tests/_output/coveralls-upload.json -vvv
+      - name: Code Coverage Report
+        if: success() && matrix.php-version == '8.0'
+        uses: codecov/codecov-action@v1

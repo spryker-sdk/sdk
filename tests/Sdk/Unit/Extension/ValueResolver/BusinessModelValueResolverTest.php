@@ -8,17 +8,27 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Extension\ValueResolver\BusinessModelValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Extension
+ * @group ValueResolver
+ * @group BusinessModelValueResolverTest
+ * Add your own group annotations below this line
+ */
 class BusinessModelValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -30,7 +40,7 @@ class BusinessModelValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->context = $this->createMock(ContextInterface::class);
 
         parent::setUp();
@@ -47,6 +57,7 @@ class BusinessModelValueResolverTest extends Unit
             'b2c' => 'https://github.com/spryker-shop/b2c-demo-shop.git',
         ];
         $receiverValue = new ReceiverValue(
+            'business_model_url',
             'Choose project for installation',
             array_key_first($repositories),
             'string',

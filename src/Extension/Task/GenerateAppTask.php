@@ -15,6 +15,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
 use SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class GenerateAppTask implements TaskInterface
 {
@@ -32,6 +33,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getShortDescription(): string
@@ -40,7 +43,9 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -59,18 +64,18 @@ class GenerateAppTask implements TaskInterface
                 '%app_name%',
                 'STATIC',
                 [
-                    'name' => 'app-name',
+                    'alias' => 'app-name',
                     'description' => 'Input name for new App',
-                    'type' => 'string',
+                    'type' => ValueTypeEnum::TYPE_STRING,
                 ],
             ),
             new Placeholder(
                 '%project_url%',
                 'STATIC',
                 [
-                    'name' => 'project_url',
+                    'alias' => 'project_url',
                     'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
-                    'type' => 'string',
+                    'type' => ValueTypeEnum::TYPE_STRING,
                 ],
             ),
             new Placeholder(
@@ -83,6 +88,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getHelp(): ?string
@@ -91,6 +98,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -99,6 +108,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
@@ -107,6 +118,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getVersion(): string
@@ -115,6 +128,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isDeprecated(): bool
@@ -123,6 +138,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool
@@ -131,6 +148,8 @@ class GenerateAppTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getSuccessor(): ?string

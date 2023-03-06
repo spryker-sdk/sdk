@@ -12,6 +12,16 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Converter;
 use SprykerSdk\Sdk\Infrastructure\Mapper\ConverterMapper;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Mapper
+ * @group ConverterMapperTest
+ * Add your own group annotations below this line
+ */
 class ConverterMapperTest extends Unit
 {
     /**

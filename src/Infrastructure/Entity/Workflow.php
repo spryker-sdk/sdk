@@ -25,7 +25,7 @@ class Workflow extends EntityWorkflow
     protected Collection $children;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\WorkflowTransitionInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Core\Domain\Entity\WorkflowTransitionInterface>
      */
     protected Collection $transitions;
 
@@ -82,15 +82,13 @@ class Workflow extends EntityWorkflow
     }
 
     /**
-     * @param array $status
+     * @param array $statuses
      *
-     * @return $this
+     * @return void
      */
-    public function setStatus(array $status)
+    public function setStatus(array $statuses): void
     {
-        $this->status = $status;
-
-        return $this;
+        $this->status = $statuses;
     }
 
     /**

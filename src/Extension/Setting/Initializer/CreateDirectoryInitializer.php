@@ -13,6 +13,8 @@ use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
 class CreateDirectoryInitializer implements SettingInitializerInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
      *
      * @return void
@@ -24,5 +26,15 @@ class CreateDirectoryInitializer implements SettingInitializerInterface
         if (!is_dir($reportPath)) {
             mkdir($reportPath, 0777, true);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return 'create_directory_initializer';
     }
 }

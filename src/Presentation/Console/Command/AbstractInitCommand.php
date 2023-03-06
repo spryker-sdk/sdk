@@ -42,9 +42,13 @@ abstract class AbstractInitCommand extends Command
     {
         parent::configure();
 
-        $settings = $this->yamlParser::parseFile($this->settingsPath)['settings'] ?? [];
+        $settings = $this->yamlParser::parseFile($this->settingsPath, $this->yamlParser::PARSE_CONSTANT)['settings'] ?? [];
 
         foreach ($settings as $settingData) {
+            if (isset($settingData['values']) || isset($settingData['initializer'])) {
+                continue;
+            }
+
             $this->addOption(
                 $settingData['path'],
                 null,

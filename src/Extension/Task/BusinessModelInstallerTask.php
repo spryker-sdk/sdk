@@ -33,6 +33,8 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getShortDescription(): string
@@ -41,7 +43,9 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
+     *
+     * @return array<\SprykerSdk\SdkContracts\Entity\PlaceholderInterface>
      */
     public function getPlaceholders(): array
     {
@@ -58,6 +62,8 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getHelp(): ?string
@@ -66,14 +72,18 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
     {
-        return 'install:project:business-model';
+        return 'project:installer:business-model';
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<\SprykerSdk\SdkContracts\Entity\CommandInterface>
      */
     public function getCommands(): array
@@ -82,14 +92,18 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getVersion(): string
     {
-        return '0.1.0';
+        return '0.2.0';
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isDeprecated(): bool
@@ -98,6 +112,8 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isOptional(): bool
@@ -106,6 +122,8 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getSuccessor(): ?string
@@ -114,6 +132,8 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return \SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface
      */
     public function getLifecycle(): LifecycleInterface
@@ -126,6 +146,8 @@ class BusinessModelInstallerTask implements TaskInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getStages(): array

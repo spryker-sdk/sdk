@@ -8,16 +8,26 @@
 namespace SprykerSdk\Sdk\Unit\Extension\ValueResolver;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
 use SprykerSdk\Sdk\Extension\ValueResolver\FlagValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Extension
+ * @group ValueResolver
+ * @group FlagValueResolverTest
+ * Add your own group annotations below this line
+ */
 class FlagValueResolverTest extends Unit
 {
     /**
-     * @var \SprykerSdk\SdkContracts\ValueReceiver\ValueReceiverInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected ValueReceiverInterface $valueReceiver;
+    protected InteractionProcessorInterface $valueReceiver;
 
     /**
      * @var \SprykerSdk\SdkContracts\Entity\ContextInterface
@@ -29,10 +39,10 @@ class FlagValueResolverTest extends Unit
      */
     public function setUp(): void
     {
-        $this->valueReceiver = $this->createMock(ValueReceiverInterface::class);
+        $this->valueReceiver = $this->createMock(InteractionProcessorInterface::class);
         $this->valueReceiver
             ->expects($this->once())
-            ->method('has')
+            ->method('hasRequestItem')
             ->willReturn(true);
         $this->context = $this->createMock(ContextInterface::class);
 
@@ -47,7 +57,7 @@ class FlagValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn(null);
         $valueResolver = new FlagValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);
@@ -66,7 +76,7 @@ class FlagValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn(true);
         $valueResolver = new FlagValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '']);
@@ -86,7 +96,7 @@ class FlagValueResolverTest extends Unit
         // Arrange
         $this->valueReceiver
             ->expects($this->once())
-            ->method('get')
+            ->method('getRequestItem')
             ->willReturn(true);
         $valueResolver = new FlagValueResolver($this->valueReceiver);
         $valueResolver->configure(['name' => 'key', 'description' => '', 'flag' => 'one']);

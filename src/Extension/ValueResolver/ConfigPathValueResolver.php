@@ -7,115 +7,26 @@
 
 namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
-use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\ValueResolver\ConfigurableValueResolverInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 
-class ConfigPathValueResolver extends AbstractValueResolver implements ConfigurableValueResolverInterface
+/**
+ * @deprecated Use \SprykerSdk\Sdk\Extension\ValueResolverPriorityPathValueResolver instead.
+ */
+class ConfigPathValueResolver extends PriorityPathValueResolver
 {
     /**
      * @var string
      */
-    protected const PROJECT_DIR_SETTING = 'project_dir';
+    public const RESOLVER_ID = 'CONFIG_PATH';
 
     /**
-     * @var string
-     */
-    protected const SDK_DIR_SETTING = 'sdk_dir';
-
-    /**
-     * @var string
-     */
-    protected string $alias = '';
-
-    /**
-     * @var string
-     */
-    protected string $defaultValue = '';
-
-    /**
-     * @var string
-     */
-    protected string $description = 'Path to the config file';
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
     {
-        return 'CONFIG_PATH';
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'string';
-    }
-
-    /**
-     * @return string
-     */
-    public function getAlias(): string
-    {
-        return $this->alias;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultValue(): string
-    {
-        return $this->defaultValue;
-    }
-
-    /**
-     * @param array $values
-     *
-     * @return void
-     */
-    public function configure(array $values): void
-    {
-        $this->defaultValue = (string)($values['defaultValue'] ?? '');
-        $this->alias = (string)($values['name'] ?? '');
-
-        if (isset($values['description'])) {
-            $this->description = (string)$values['description'];
-        }
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param array $settingValues
-     * @param bool $optional
-     *
-     * @return string
-     */
-    public function getValue(ContextInterface $context, array $settingValues, bool $optional = false): string
-    {
-        $value = (string)parent::getValue($context, $settingValues, $optional);
-
-        $projectLevelSettings = sprintf('%s/%s', $settingValues[static::PROJECT_DIR_SETTING] ?? '', $value);
-        $sdkLevelSettings = sprintf('%s/%s', $settingValues[static::SDK_DIR_SETTING] ?? '', $value);
-
-        return file_exists($projectLevelSettings) ? $projectLevelSettings : $sdkLevelSettings;
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [static::PROJECT_DIR_SETTING, static::SDK_DIR_SETTING];
+        return static::RESOLVER_ID;
     }
 
     /**
@@ -127,12 +38,10 @@ class ConfigPathValueResolver extends AbstractValueResolver implements Configura
     }
 
     /**
-     * @param array $settingValues
-     *
-     * @return string|null
+     * @return array<string>
      */
-    protected function getValueFromSettings(array $settingValues): ?string
+    protected function getRequiredSettingPaths(): array
     {
-        return null;
+        return [Setting::PATH_PROJECT_DIR, Setting::PATH_SDK_DIR];
     }
 }

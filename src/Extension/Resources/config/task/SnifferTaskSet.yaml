@@ -3,17 +3,30 @@ id: "validation:php:all"
 short_description: "Validates your php code using different approaches like codestyle, architecural and static analysis"
 help: "Validates your php code using different approaches like codestyle, architecural and static analysis. By default uses phpcs.xml from the project root."
 stage: build
-version: 1.0.0
+version: 1.0.1
 command: ~
-type: task_set
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_TASK_SET
 tasks:
   - id: "validation:php:architecture"
     tags: ["architecture"]
     stop_on_error: false
+    placeholder_overrides:
+        '%executable_command%':
+            name: "%executable_command_architecture%"
+        '%reportDir%':
+            name: "%reportDir_architecture%"
   - id: "validation:php:codestyle-fix"
     tags: ["codestyle"]
     stop_on_error: false
+    placeholder_overrides:
+        '%executable_command%':
+            name: "%executable_command_codestyle_fix%"
   - id: "validation:php:static"
     tags: ["static"]
     stop_on_error: true
+    placeholder_overrides:
+        '%reportDir%':
+            name: "%reportDir_static%"
 placeholders: []
+shared_placeholders:
+    '%path%': ~

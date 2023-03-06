@@ -8,11 +8,22 @@
 namespace SprykerSdk\Sdk\Unit\Presentation\Console\DependencyInjection;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Presentation\Console\Command\TaskRunFactoryLoader;
+use SprykerSdk\Sdk\Presentation\Console\Command\TaskLoader\TaskRunFactoryLoader;
 use SprykerSdk\Sdk\Presentation\Console\DependencyInjection\DynamicConsoleCommandsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Presentation
+ * @group Console
+ * @group DependencyInjection
+ * @group DynamicConsoleCommandsCompilerPassTest
+ * Add your own group annotations below this line
+ */
 class DynamicConsoleCommandsCompilerPassTest extends Unit
 {
     /**

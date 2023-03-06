@@ -10,6 +10,7 @@ namespace SprykerSdk\Sdk\Unit\Core\Application\Service;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\CommandExecutorInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
+use SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface;
 use SprykerSdk\Sdk\Core\Application\Service\PlaceholderResolver;
 use SprykerSdk\Sdk\Core\Application\Service\ReportGeneratorFactory;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
@@ -19,14 +20,17 @@ use SprykerSdk\SdkContracts\Entity\CommandInterface;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\PlaceholderInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
-use SprykerSdk\SdkContracts\Logger\EventLoggerInterface;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Service
  * @group TaskExecutorTest
+ * Add your own group annotations below this line
  */
 class TaskExecutorTest extends Unit
 {
@@ -100,13 +104,11 @@ class TaskExecutorTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerSdk\SdkContracts\Logger\EventLoggerInterface
+     * @return \SprykerSdk\Sdk\Core\Application\Service\EventLoggerInterface
      */
     protected function createEventLoggerMock(): EventLoggerInterface
     {
-        $eventLogger = $this->createMock(EventLoggerInterface::class);
-
-        return $eventLogger;
+        return $this->createMock(EventLoggerInterface::class);
     }
 
     /**

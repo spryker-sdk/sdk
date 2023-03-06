@@ -9,10 +9,20 @@ namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
-use SprykerSdk\Sdk\Infrastructure\Service\EventLogger;
 use SprykerSdk\Sdk\Infrastructure\Service\EventLoggerFactory;
+use SprykerSdk\Sdk\Infrastructure\Service\Logger\EventLogger;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Service
+ * @group EventLoggerFactoryTest
+ * Add your own group annotations below this line
+ */
 class EventLoggerFactoryTest extends Unit
 {
     /**

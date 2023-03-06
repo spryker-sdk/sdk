@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dto;
 
-use SprykerSdk\SdkContracts\ValueReceiver\ReceiverValueInterface;
-
 class ReceiverValue implements ReceiverValueInterface
 {
     /**
@@ -32,13 +30,20 @@ class ReceiverValue implements ReceiverValueInterface
     protected array $choiceValues;
 
     /**
+     * @var string
+     */
+    protected string $alias;
+
+    /**
+     * @param string $alias
      * @param string $description
      * @param mixed $defaultValue
      * @param string $type
      * @param array $choiceValues
      */
-    public function __construct(string $description, $defaultValue, string $type, array $choiceValues = [])
+    public function __construct(string $alias, string $description, $defaultValue, string $type, array $choiceValues = [])
     {
+        $this->alias = $alias;
         $this->description = $description;
         $this->defaultValue = $defaultValue;
         $this->type = $type;
@@ -75,5 +80,13 @@ class ReceiverValue implements ReceiverValueInterface
     public function getChoiceValues(): array
     {
         return $this->choiceValues;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias(): string
+    {
+        return $this->alias;
     }
 }

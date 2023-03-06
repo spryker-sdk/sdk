@@ -7,13 +7,10 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
-use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
+use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends AbstractUpdateCommand
@@ -29,29 +26,21 @@ class UpdateCommand extends AbstractUpdateCommand
     protected LifecycleManagerInterface $lifecycleManager;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface
      */
-    protected SettingRepositoryInterface $settingRepository;
-
-    /**
-     * @var \Doctrine\Migrations\Tools\Console\Command\MigrateCommand
-     */
-    protected MigrateCommand $doctrineMigrationCommand;
+    protected InitializerInterface $initializer;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface $lifecycleManager
-     * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $settingRepository
-     * @param \Doctrine\Migrations\Tools\Console\Command\MigrateCommand $doctrineMigrationCommand
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface $initializer
      */
     public function __construct(
         LifecycleManagerInterface $lifecycleManager,
-        SettingRepositoryInterface $settingRepository,
-        MigrateCommand $doctrineMigrationCommand
+        InitializerInterface $initializer
     ) {
         parent::__construct(static::NAME);
         $this->lifecycleManager = $lifecycleManager;
-        $this->settingRepository = $settingRepository;
-        $this->doctrineMigrationCommand = $doctrineMigrationCommand;
+        $this->initializer = $initializer;
     }
 
     /**
@@ -62,9 +51,7 @@ class UpdateCommand extends AbstractUpdateCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->runMigration();
-
-        $this->settingRepository->initSettingDefinition();
+        $this->initializer->initialize([]);
 
         if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
             $this->checkForUpdate($output);
@@ -95,15 +82,5 @@ class UpdateCommand extends AbstractUpdateCommand
         foreach ($messages as $message) {
             $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
         }
-    }
-
-    /**
-     * @return void
-     */
-    protected function runMigration(): void
-    {
-        $migrationInput = new ArrayInput(['allow-no-migration']);
-        $migrationInput->setInteractive(false);
-        $this->doctrineMigrationCommand->run($migrationInput, new NullOutput());
     }
 }

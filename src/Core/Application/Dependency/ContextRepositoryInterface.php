@@ -7,26 +7,26 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Dependency;
 
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 
 interface ContextRepositoryInterface
 {
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function saveContext(ContextInterface $context): ContextInterface;
 
     /**
      * @param string $name
      *
-     * @return \SprykerSdk\SdkContracts\Entity\ContextInterface
+     * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function findByName(string $name): ContextInterface;
 
     /**
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */

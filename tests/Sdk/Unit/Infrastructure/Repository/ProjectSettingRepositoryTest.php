@@ -8,19 +8,28 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Repository;
 
 use Codeception\Test\Unit;
-use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
 use SprykerSdk\Sdk\Infrastructure\Repository\ProjectSettingRepository;
+use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\Sdk\Tests\UnitTester;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Infrastructure
+ * @group Repository
+ * @group ProjectSettingRepositoryTest
+ * Add your own group annotations below this line
+ */
 class ProjectSettingRepositoryTest extends Unit
 {
     /**
@@ -34,12 +43,7 @@ class ProjectSettingRepositoryTest extends Unit
     protected SettingRepositoryInterface $coreSettingRepository;
 
     /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
-
-    /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
+     * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
 
@@ -54,14 +58,19 @@ class ProjectSettingRepositoryTest extends Unit
     protected UnitTester $tester;
 
     /**
-     * @var \org\bovigo\vfs\vfsStreamDirectory
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
      */
-    protected vfsStreamDirectory $vfsStream;
+    protected Filesystem $filesystem;
 
     /**
      * @var string
      */
-    protected string $projectSettingFileName = '';
+    protected string $projectSettingFileName = 'settings';
+
+    /**
+     * @var string
+     */
+    protected string $localProjectSettingFileName = 'settings.local';
 
     /**
      * @return void
@@ -71,16 +80,16 @@ class ProjectSettingRepositoryTest extends Unit
         parent::setUp();
         $this->container = $this->createMock(ContainerInterface::class);
         $this->coreSettingRepository = $this->createMock(SettingRepositoryInterface::class);
-        $this->yamlParser = $this->createMock(Yaml::class);
         $this->pathResolver = $this->createMock(PathResolver::class);
-        $this->vfsStream = vfsStream::setup();
+        $this->filesystem = $this->createMock(Filesystem::class);
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
     }
 
@@ -240,14 +249,17 @@ class ProjectSettingRepositoryTest extends Unit
         // Arrange
         $sharedSetting = $this->tester->createSetting('pathShared', 'valueShared', SettingInterface::STRATEGY_REPLACE, Setting::SETTING_TYPE_LOCAL);
 
-        $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
+        $this->filesystem->expects($this->once())
+            ->method('dumpFile')
+            ->with('settings.local', "pathShared: valueShared\n");
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -255,9 +267,6 @@ class ProjectSettingRepositoryTest extends Unit
 
         // Assert
         $this->assertSame($sharedSetting, $sharedResult);
-
-        $this->assertNotEmpty($this->vfsStream->getChildren());
-        $this->assertSame("pathShared: valueShared\n", $this->vfsStream->getChild('settings.local')->getContent());
     }
 
     /**
@@ -268,14 +277,17 @@ class ProjectSettingRepositoryTest extends Unit
         // Arrange
         $setting = $this->tester->createSetting('path', 'value');
 
-        $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
+        $this->filesystem->expects($this->once())
+            ->method('dumpFile')
+            ->with('settings.local', "path: value\n");
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -283,9 +295,6 @@ class ProjectSettingRepositoryTest extends Unit
 
         // Assert
         $this->assertSame($setting, $result);
-
-        $this->assertNotEmpty($this->vfsStream->getChildren());
-        $this->assertSame("path: value\n", $this->vfsStream->getChild('settings.local')->getContent());
     }
 
     /**
@@ -299,14 +308,17 @@ class ProjectSettingRepositoryTest extends Unit
             $this->tester->createSetting('path2', 'value2'),
         ];
 
-        $this->projectSettingFileName = $this->vfsStream->url() . '/settings';
+        $this->filesystem->expects($this->once())
+            ->method('dumpFile')
+            ->with('settings.local', "path1: value1\npath2: value2\n");
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         // Act
@@ -314,8 +326,6 @@ class ProjectSettingRepositoryTest extends Unit
 
         // Assert
         $this->assertSame($settings, $result);
-        $this->assertNotEmpty($this->vfsStream->getChildren());
-        $this->assertSame("path1: value1\npath2: value2\n", $this->vfsStream->getChild('settings.local')->getContent());
     }
 
     /**
@@ -432,16 +442,14 @@ path2: value2
 path3: value3
 YAML,
         );
-        $this->vfsStream->addChild($settingsFile);
-
-        $this->projectSettingFileName = $settingsFile->url();
 
         $this->projectSettingRepository = new ProjectSettingRepository(
-            $this->container,
             $this->coreSettingRepository,
             new Yaml(),
             $this->projectSettingFileName,
+            $this->localProjectSettingFileName,
             $this->pathResolver,
+            $this->filesystem,
         );
 
         $this->coreSettingRepository

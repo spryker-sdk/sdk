@@ -9,6 +9,7 @@ namespace SprykerSdk\Sdk\Extension\ValueResolver;
 
 use SprykerSdk\Sdk\Core\Application\ValueResolver\AbstractValueResolver;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class AppTypeValueResolver extends AbstractValueResolver
 {
@@ -20,6 +21,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     ];
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getId(): string
@@ -28,6 +31,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
      * @param array $settingValues
      * @param bool $optional
@@ -42,6 +47,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getDescription(): string
@@ -50,22 +57,18 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    public function getSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
     {
-        return 'string';
+        return ValueTypeEnum::TYPE_STRING;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getAlias(): ?string
@@ -74,14 +77,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @return array<string>
-     */
-    protected function getRequiredSettingPaths(): array
-    {
-        return [];
-    }
-
-    /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getDefaultValue()
@@ -90,16 +87,8 @@ class AppTypeValueResolver extends AbstractValueResolver
     }
 
     /**
-     * @param array<string, mixed> $settingValues
+     * {@inheritDoc}
      *
-     * @return mixed
-     */
-    protected function getValueFromSettings(array $settingValues)
-    {
-        return [];
-    }
-
-    /**
      * @param array $settingValues
      * @param array $resolvedValues
      *

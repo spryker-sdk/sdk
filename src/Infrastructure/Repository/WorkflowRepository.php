@@ -11,6 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\WorkflowRepositoryInterface;
 use SprykerSdk\Sdk\Infrastructure\Entity\Workflow;
+use SprykerSdk\Sdk\Infrastructure\Mapper\WorkflowMapperInterface;
 use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 
 /**
@@ -19,11 +20,18 @@ use SprykerSdk\SdkContracts\Entity\WorkflowInterface;
 class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepositoryInterface
 {
     /**
-     * @param \Doctrine\Persistence\ManagerRegistry $registry
+     * @var \SprykerSdk\Sdk\Infrastructure\Mapper\WorkflowMapperInterface
      */
-    public function __construct(ManagerRegistry $registry)
+    protected WorkflowMapperInterface $workflowMapper;
+
+    /**
+     * @param \Doctrine\Persistence\ManagerRegistry $registry
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\WorkflowMapperInterface $workflowMapper
+     */
+    public function __construct(ManagerRegistry $registry, WorkflowMapperInterface $workflowMapper)
     {
         parent::__construct($registry, Workflow::class);
+        $this->workflowMapper = $workflowMapper;
     }
 
     /**
@@ -33,6 +41,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
      */
     public function save(WorkflowInterface $workflow): WorkflowInterface
     {
+        $workflow = $this->workflowMapper->mapDomainWorkflowToInfrastructureWorkflow($workflow);
         $this->getEntityManager()->persist($workflow);
         $this->getEntityManager()->flush();
 
@@ -46,6 +55,7 @@ class WorkflowRepository extends ServiceEntityRepository implements WorkflowRepo
      */
     public function remove(WorkflowInterface $workflow): WorkflowInterface
     {
+        $workflow = $this->workflowMapper->mapDomainWorkflowToInfrastructureWorkflow($workflow);
         $this->getEntityManager()->remove($workflow);
         $this->getEntityManager()->flush();
 

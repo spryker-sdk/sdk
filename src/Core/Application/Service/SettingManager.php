@@ -11,6 +11,7 @@ use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class SettingManager
 {
@@ -34,6 +35,22 @@ class SettingManager
     ) {
         $this->settingRepository = $settingRepository;
         $this->projectSettingRepository = $projectSettingRepository;
+    }
+
+    /**
+     * @param array<\SprykerSdk\SdkContracts\Entity\SettingInterface> $settings
+     *
+     * @return void
+     */
+    public function writeSettings(array $settings): void
+    {
+        $projectValues = [];
+
+        foreach ($settings as $setting) {
+            $projectValues[$setting->getPath()] = $setting->getValues();
+        }
+
+        $this->setSettings($projectValues);
     }
 
     /**
@@ -106,7 +123,7 @@ class SettingManager
     {
         $typedValue = is_array($value) ?
             (array)$value :
-            ['array' => (array)$value, 'boolean' => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
+            [ValueTypeEnum::TYPE_ARRAY => (array)$value, ValueTypeEnum::TYPE_BOOL => (bool)$value][$settingDefinition->getType()] ?? (string)$value;
 
         if ($settingDefinition->getStrategy() === SettingInterface::STRATEGY_MERGE) {
             $typedValue = array_merge((array)$settingDefinition->getValues(), (array)$typedValue);

@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Domain\Entity;
 
-use SprykerSdk\Sdk\Core\Domain\Enum\Setting as SettingEnum;
-use SprykerSdk\SdkContracts\Entity\SettingInterface;
+use SprykerSdk\SdkContracts\Enum\Setting as SettingEnum;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 
 class Setting implements SettingInterface
 {
@@ -43,6 +43,11 @@ class Setting implements SettingInterface
     protected bool $hasInitialization;
 
     /**
+     * @var bool
+     */
+    protected bool $forceAskValue;
+
+    /**
      * @var string|null
      */
     protected ?string $initializationDescription;
@@ -53,12 +58,18 @@ class Setting implements SettingInterface
     protected ?string $initializer;
 
     /**
+     * @var bool
+     */
+    protected bool $isFirstInitialization = false;
+
+    /**
      * @param string $path
      * @param mixed $values
      * @param string $strategy
      * @param string $type
      * @param string $settingType
      * @param bool $hasInitialization
+     * @param bool $forceAskValue
      * @param string|null $initializationDescription
      * @param string|null $initializer
      */
@@ -66,9 +77,10 @@ class Setting implements SettingInterface
         string $path,
         $values,
         string $strategy = self::STRATEGY_REPLACE,
-        string $type = 'string',
+        string $type = ValueTypeEnum::TYPE_STRING,
         string $settingType = SettingEnum::SETTING_TYPE_LOCAL,
         bool $hasInitialization = false,
+        bool $forceAskValue = false,
         ?string $initializationDescription = null,
         ?string $initializer = null
     ) {
@@ -80,9 +92,13 @@ class Setting implements SettingInterface
         $this->values = $values;
         $this->path = $path;
         $this->initializer = $initializer;
+        $this->forceAskValue = $forceAskValue;
+        $this->isFirstInitialization = true;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getPath(): string
@@ -91,6 +107,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return mixed
      */
     public function getValues()
@@ -99,6 +117,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param mixed $values
      *
      * @return void
@@ -109,6 +129,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getStrategy(): string
@@ -117,6 +139,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType(): string
@@ -125,6 +149,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getSettingType(): string
@@ -133,6 +159,18 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @return bool
+     */
+    public function isForceAskValue(): bool
+    {
+        return $this->forceAskValue;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasInitialization(): bool
@@ -141,6 +179,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getInitializationDescription(): ?string
@@ -149,6 +189,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string|null
      */
     public function getInitializer(): ?string
@@ -165,6 +207,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isProject(): bool
@@ -173,6 +217,8 @@ class Setting implements SettingInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function isShared(): bool
@@ -186,5 +232,13 @@ class Setting implements SettingInterface
     public function isLocal(): bool
     {
         return $this->getSettingType() === SettingEnum::SETTING_TYPE_LOCAL;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFirstInitialization(): bool
+    {
+        return $this->isFirstInitialization;
     }
 }

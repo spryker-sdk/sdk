@@ -11,11 +11,15 @@ use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Dto
  * @group ReceiverValueTest
+ * Add your own group annotations below this line
  */
 class ReceiverValueTest extends Unit
 {
@@ -25,6 +29,7 @@ class ReceiverValueTest extends Unit
     public function testReceivedValueGettersShouldReturnCorrectValues(): void
     {
         // Arrange
+        $alias = 'string';
         $description = 'Test description';
         $defaultValue = 'test';
         $type = 'string';
@@ -34,6 +39,7 @@ class ReceiverValueTest extends Unit
         ];
 
         $receiverValue = new ReceiverValue(
+            $alias,
             $description,
             $defaultValue,
             $type,
@@ -41,6 +47,7 @@ class ReceiverValueTest extends Unit
         );
 
         // Assert
+        $this->assertSame($alias, $receiverValue->getAlias());
         $this->assertSame($description, $receiverValue->getDescription());
         $this->assertSame($defaultValue, $receiverValue->getDefaultValue());
         $this->assertSame($type, $receiverValue->getType());

@@ -9,7 +9,7 @@ namespace SprykerSdk\Sdk\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleEventDataInterface;
+use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\LifecycleEventDataInterface;
 
 class RemovedEvent implements LifecycleEventDataInterface
 {
@@ -26,7 +26,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     protected Collection $commands;
 
     /**
-     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\FileInterface>
+     * @psalm-var \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
      */
     protected Collection $files;
 
@@ -54,7 +54,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @return array<\SprykerSdk\SdkContracts\Entity\FileInterface>
+     * @return array<\SprykerSdk\Sdk\Core\Domain\Entity\FileInterface>
      */
     public function getFiles(): array
     {
@@ -86,7 +86,7 @@ class RemovedEvent implements LifecycleEventDataInterface
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\SdkContracts\Entity\FileInterface> $files
+     * @param \Doctrine\Common\Collections\Collection<int, \SprykerSdk\Sdk\Core\Domain\Entity\FileInterface> $files
      *
      * @return $this
      */

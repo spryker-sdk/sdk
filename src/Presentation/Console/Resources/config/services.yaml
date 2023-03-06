@@ -1,14 +1,29 @@
 parameters:
-  local_executable_file_path: '"$PhpExecutable$" %kernel.project_dir%/bin/console'
-  executable_file_path: '%env(default:local_executable_file_path:EXECUTABLE_FILE_PATH)%'
-  host_sdk_dir: '%env(default:kernel.project_dir:SDK_DIR)%'
+  env(LOCAL_SDK_DIR): "%kernel.project_dir%"
+  host_sdk_dir: '%env(LOCAL_SDK_DIR)%'
+  env(EXECUTABLE_FILE_PATH): '"$PhpExecutable$" %kernel.project_dir%/bin/console'
+  executable_file_path: '%env(EXECUTABLE_FILE_PATH)%'
+  manifest_default_task_yaml_dir: 'src/Extension/Resources/config/task/'
+  manifest_default_task_php_dir: 'src/Extension/Task/'
 services:
   question_helper:
     class: Symfony\Component\Console\Helper\SymfonyQuestionHelper
+
+  task_loader.task_help_message_decorator:
+    class: SprykerSdk\Sdk\Presentation\Console\Command\TaskLoader\TaskHelpMessageDecorator
+    arguments:
+        - "@task_set_relation_repository"
+
+  validate_task_command:
+    class: SprykerSdk\Sdk\Presentation\Console\Command\Validator\ValidateTaskCommand
+    tags: [ "console.command" ]
+    arguments:
+      - "@task_yaml_collector"
+
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "rest_api.exposed_command" ]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -20,22 +35,27 @@ services:
     tags: [ "console.command" ]
     arguments:
       - "@initializer_service"
-      - "@doctrine_migrations.migrate_command"
       - "@yaml_parser"
       - "%sdk_settings%"
   run_workflow_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\RunWorkflowCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_value_receiver"
+      - "@interaction_processor"
       - "@workflow_runner"
       - "@context_factory"
+      - "@setting.setting_fetcher"
+      - "%project_settings_file%"
+      - "%local_project_settings_file%"
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
-    tags: [ "console.command" ]
+    tags:
+        - name: 'console.command'
+          command: !php/const SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand::NAME
+        - 'telemetry.observable_command'
     arguments:
       - "@task_executor"
       - "@project_workflow"
@@ -53,19 +73,22 @@ services:
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_value_receiver"
+      - "@interaction_processor"
       - "%kernel.project_dir%/var/workflow"
       - "%host_sdk_dir%/var/workflow"
   init_project_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand
-    tags: ["console.command"]
+    tags:
+        - name: 'console.command'
+          command: !php/const SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand::NAME
+        - 'telemetry.observable_command'
+        - 'rest_api.exposed_command'
     arguments:
-      - "@cli_value_receiver"
-      - "@project_setting_manager"
+      - "@interaction_processor"
       - "@setting_repository"
-      - "@service_container"
-      - "%project_settings_file%"
+      - "@project_settings_initializer"
+
   setting_set_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\SettingSetCommand
     tags: ["console.command"]
@@ -74,14 +97,16 @@ services:
       - '@project_setting_manager'
   update_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateCommand
-    tags: ["console.command"]
+    tags:
+        - name: 'console.command'
+          command: !php/const SprykerSdk\Sdk\Presentation\Console\Command\UpdateCommand::NAME
+        - 'telemetry.observable_command'
     arguments:
       - "@service.lifecycle_manager"
-      - "@setting_repository"
-      - "@doctrine_migrations.migrate_command"
+      - "@initializer_service"
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -94,7 +119,7 @@ services:
       - "@event_logger"
   create_phpstorm_config_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\CreatePhpStormConfig
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
     arguments:
       - "@ide.config_manager"
 
@@ -110,7 +135,7 @@ services:
   ide.command_loader:
     class: SprykerSdk\Sdk\Presentation\Ide\PhpStorm\Service\CommandLoader
     arguments:
-      - !tagged_iterator console.command
+      - !tagged_iterator telemetry.observable_command
       - "@console.command_loader"
       - "@task_persistence_repository"
   ide.command_xml_formatter:
@@ -123,13 +148,33 @@ services:
   # Integrations
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
-    tags: ["console.command"]
+    tags: ["console.command", "telemetry.observable_command"]
   composer_replace_command:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
-    tags: [ "console.command" ]
-  brancho_commit_command:
-    class: SprykerSdk\Sdk\Extension\Command\CommitCommand
-    tags: ["console.command"]
-  brancho_branch_builder_command:
-    class: SprykerSdk\Sdk\Extension\Command\BranchBuilderCommand
-    tags: ["console.command"]
+    tags: [ "console.command", "telemetry.observable_command"]
+
+  # Manifests
+  manifest.task_generator_command:
+      class: SprykerSdk\Sdk\Presentation\Console\Command\GenerateTaskCommand
+      arguments:
+          - "@manifest.interaction.processor"
+          - "@manifest.task_interaction_map"
+          - "@manifest.task_manifest_dto_factory"
+          - "@manifest.task_manifest_generator"
+      tags: ["console.command"]
+
+  manifest.task_interaction_map:
+      class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskInteractionMap
+      arguments:
+          - "%manifest_default_task_yaml_dir%"
+          - "%manifest_default_task_php_dir%"
+          - "@manifest.task_interaction.value_resolver_map.registry"
+
+  manifest.task_interaction.value_resolver_map.registry:
+      class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\ValueResolver\ValuesResolverMapRegistry
+      lazy: true
+      arguments:
+          - !tagged_iterator { tag: 'manifest.task_interaction.value_resolver_map' }
+
+  manifest.task_manifest_dto_factory:
+      class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskManifestRequestDtoFactory

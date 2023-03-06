@@ -10,26 +10,15 @@ namespace SprykerSdk\Sdk\Infrastructure\Repository;
 use SprykerSdk\Sdk\Core\Application\Dependency\ProjectSettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException;
-use SprykerSdk\Sdk\Core\Application\Service\PathResolver;
 use SprykerSdk\Sdk\Infrastructure\Entity\Setting as InfrastructureSetting;
 use SprykerSdk\Sdk\Infrastructure\Exception\InvalidTypeException;
+use SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem;
+use SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
-use SprykerSdk\SdkContracts\Setting\SettingInitializerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 {
-    /**
-     * @var string
-     */
-    protected const LOCAL_SUFFIX = 'local';
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected ContainerInterface $container;
-
     /**
      * @var \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface
      */
@@ -46,29 +35,42 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     protected string $projectSettingFileName;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\PathResolver
+     * @var string
+     */
+    protected string $localProjectSettingFileName;
+
+    /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver
      */
     protected PathResolver $pathResolver;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @var \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem
+     */
+    protected Filesystem $filesystem;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\SettingRepositoryInterface $coreSettingRepository
      * @param \Symfony\Component\Yaml\Yaml $yamlParser
      * @param string $projectSettingFileName
-     * @param \SprykerSdk\Sdk\Core\Application\Service\PathResolver $pathResolver
+     * @param string $localProjectSettingFileName
+     * @param \SprykerSdk\Sdk\Infrastructure\Resolver\PathResolver $pathResolver
+     * @param \SprykerSdk\Sdk\Infrastructure\Filesystem\Filesystem $filesystem
      */
     public function __construct(
-        ContainerInterface $container,
         SettingRepositoryInterface $coreSettingRepository,
         Yaml $yamlParser,
         string $projectSettingFileName,
-        PathResolver $pathResolver
+        string $localProjectSettingFileName,
+        PathResolver $pathResolver,
+        Filesystem $filesystem
     ) {
-        $this->container = $container;
         $this->projectSettingFileName = $projectSettingFileName;
+        $this->localProjectSettingFileName = $localProjectSettingFileName;
         $this->yamlParser = $yamlParser;
         $this->coreSettingRepository = $coreSettingRepository;
         $this->pathResolver = $pathResolver;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -88,7 +90,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
      */
     public function saveMultiple(array $settings): array
     {
-        $localProjectValues = $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX);
+        $localProjectValues = $this->fetchProjectValues($this->localProjectSettingFileName);
         $sharedProjectValues = $this->fetchProjectValues($this->projectSettingFileName);
 
         /** @var \SprykerSdk\Sdk\Core\Domain\Entity\Setting $setting */
@@ -101,24 +103,20 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             $localProjectValues[$setting->getPath()] = $setting->getValues();
         }
 
-        $projectSettingDir = dirname($this->projectSettingFileName);
-
-        if (!is_dir($projectSettingDir)) {
-            mkdir($projectSettingDir, 0777, true);
-        }
-
         if ($localProjectValues) {
-            file_put_contents($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX, $this->yamlParser::dump($localProjectValues));
+            $this->filesystem->dumpFile($this->localProjectSettingFileName, $this->yamlParser::dump($localProjectValues));
         }
 
         if ($sharedProjectValues) {
-            file_put_contents($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
+            $this->filesystem->dumpFile($this->projectSettingFileName, $this->yamlParser::dump($sharedProjectValues));
         }
 
         return $settings;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param string $settingPath
      *
      * @return \SprykerSdk\SdkContracts\Entity\SettingInterface|null
@@ -126,6 +124,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     public function findOneByPath(string $settingPath): ?SettingInterface
     {
         $coreSetting = $this->coreSettingRepository->findOneByPath($settingPath);
+
         if (!$coreSetting) {
             return $coreSetting;
         }
@@ -136,6 +135,8 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param string $settingPath
      *
      * @throws \SprykerSdk\Sdk\Core\Application\Exception\MissingSettingException
@@ -148,11 +149,6 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
 
         if (!$setting) {
             throw new MissingSettingException(sprintf('Setting by path "%s" not found. You need to run `sdk:init:project` command', $settingPath));
-        }
-
-        $initializer = $this->getSettingInitializer($setting);
-        if ($initializer) {
-            $initializer->initialize($setting);
         }
 
         return $setting;
@@ -213,7 +209,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
     {
         return array_merge(
             $this->fetchProjectValues($this->projectSettingFileName),
-            $this->fetchProjectValues($this->projectSettingFileName . '.' . static::LOCAL_SUFFIX),
+            $this->fetchProjectValues($this->localProjectSettingFileName),
         );
     }
 
@@ -228,7 +224,7 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
             return [];
         }
 
-        return (array)$this->yamlParser::parseFile($settingPath);
+        return (array)$this->yamlParser::parseFile($settingPath, $this->yamlParser::PARSE_CONSTANT);
     }
 
     /**
@@ -286,24 +282,6 @@ class ProjectSettingRepository implements ProjectSettingRepositoryInterface
         }
 
         return $setting;
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\SettingInterface $setting
-     *
-     * @return \SprykerSdk\SdkContracts\Setting\SettingInitializerInterface|null
-     */
-    protected function getSettingInitializer(SettingInterface $setting): ?SettingInitializerInterface
-    {
-        $initializerId = $setting->getInitializer() ?? '';
-
-        $initializer = $this->container->get($initializerId);
-
-        if (!$initializer instanceof SettingInitializerInterface) {
-            return null;
-        }
-
-        return $initializer;
     }
 
     /**

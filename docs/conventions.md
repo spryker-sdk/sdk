@@ -3,105 +3,101 @@
 The Spryker SDK defines the following conventions.
 
 ## Task
+In a task, `id`, `short_description`, `version`, `type`, and `command` are required properties. The task properties must meet the following conditions:
 
-- MUST have an id following the schema `<group>:<language>:<subgroup>`, where `<group>` is one of validation, generation, `<language>` is php for now  and `<subgroup>` should be a descriptive name. E.g.: `validation:php:architecture`
+- `id` must follow the schema `<group>:<language>:<subgroup>`, where `<group>` stands for validation or generation, `<language>` is PHP, and `<subgroup>` should be a descriptive name.  For example, there can be a task with the following ID: `validation:php:architecture`.
+
+- `version` must follow the [semver](https://semver.org/) specification.
+
+- Every task must have a `short_description`.
+
+- `type` can have one of the following values: `local_cli`, `local_cli_interactive`, `task_set`, `php`.
+
+- `command` must be an executable command string or null
+
+## Task set
+
+A task set must have the following properties:
+
+- `type` with the `task_set` value.
+
+- `tasks` with the list of the required sub-tasks.
+
+- Sub-task `id` in the `tasks` list.
+
+- Null value in the `command` property. For example, `command: ~`.
 
 ## Workflow
 
-No conventions yet
+There are no conventions for the workflow yet.
 
 ## ValueResolver
 
-- __MUST__ be suffixed with _ValueResolver_
+A ValueResolver must meet the following conditions:
 
-- __MUST__ implement the [ValueResolverInterface](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/ValueResolver/ValueResolverInterface.php)
+- It must be suffixed with _ValueResolver_.
 
-[Configurable](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/ValueResolver/ConfigurableValueResolverInterface.php) one __SHOULD__ be preferred over the concrete implementation
+- It must implement the [ValueResolverInterface](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/ValueResolver/ValueResolverInterface.php).
+
+**Note:** The [configurable](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/ValueResolver/ConfigurableValueResolverInterface.php) ValueResolver interface should be preferred over the concrete implementation.
 
 ## Setting
 
-- __MUST__ define the path with an underscore as separator (e.g.: `some_setting`)
+A setting must meet the following conditions:
 
-- __MUST__ define the scope `setting_type: sdk/local/shared` to distinguish if the setting is per project or globally
+- Define the path with an underscore as a separator. For example, `some_setting`).
 
-- __MUST__  define a type to be either array, integer, string, boolean or float
+- Define the scope `setting_type: sdk/local/shared` to distinguish if the setting is per project or global.
 
-- __MUST__ define the strategy to be used when setting the value (allowed values: `merge`, `overwrite`)
+- Define a type to be either array, integer, string, boolean or float.
 
-- __SHOULD__ define `init` as boolean. True means this value will be initially requested from the user
+- Define the strategy to be used when setting the value. The allowed values are: `merge`, `overwrite`.
+
+- Define `init` as boolean. `true` means that this value is initially requested from the user.
 
 ## Placeholder
 
-- name __MUST__ start and end with `%` (e.g.: `%some_placeholder%`)
-- __MUST__ define `optional: true/false` to indicate if the placeholders needs to be resolved to run the task
-- __MUST__ use the `id` or full qualified class name of an existing `ValueResolver` for the field `valueResolver`
+A placeholder must meet the following conditions:
 
-## Naming
-
-### Folder naming
-
-- Folder's name __MUST__ be singular. `Event` instead of `Events`.
-
-### Class naming
-
-- The name of the class __MUST__ be singular. `AcmeTask` instead of `AcmeTasks`.
-
-### Method naming
-
-- [Core convention](https://spryker.atlassian.net/wiki/spaces/CORE/pages/497156313/Common+Conventions#CommonConventions-Namingofmethods) `MUST` be followed.
-
-### Variable naming
-
-- [Core convention](https://spryker.atlassian.net/wiki/spaces/CORE/pages/497156313/Common+Conventions#CommonConventions-Namingofvariables) `MUST` be followed.
-
+- The placeholder's name must start and end with `%`. For example, `%some_placeholder%`.
+- Define `optional: true/false` to indicate if the placeholders needs to be resolved to run the task.
+- Use the `id` or a full qualified class name of an existing `ValueResolver` for the `valueResolver` field.
 
 ## Console command
+A console command must meet the following conditions:
 
-- Console command __SHOULD__ have no business logic.
 - Only basic input validation and output formatting __SHOULD__ present in the console command.
 - `protected static $defaultName` __SHOULD NOT__ be used because of performance reasons and future deprecation in Symfony 6.1 version.
-  Instead `protcted const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
+  Instead `protected const NAME` __SHOULD__ be provided and passed to the parent constructor as a parameter.
+
+## Naming conventions
+
+There are the following conventions for naming entities:
+
+- Folder name: Must be in a singular form. For example, `Event` and not `Events`.
+
+- Class name: Must be in a singular form. For example, `AcmeTask` and not `AcmeTasks`.
+
+- Method name: [Core convention](https://spryker.atlassian.net/wiki/spaces/CORE/pages/497156313/Common+Conventions#CommonConventions-Namingofmethods) must be followed.
+
+- Variable name:[Core convention](https://spryker.atlassian.net/wiki/spaces/CORE/pages/497156313/Common+Conventions#CommonConventions-Namingofvariables) must be followed.
 
 ## Contracts
 
-#### This section describes how to develop and document sdk contracts and their implementation.
+A contract is an interface that allows users to customize the existing business logic.
+Contracts must meet the following conditions:
 
-- Contract is an interface that allows users to customize existing business logic.
-- Contract __MUST__ exist only in case existing logic provides for an extension by the user.
-- Contract is a public API and __MUST__ follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
-- Each method in the Contract's implementation class __MUST__ have the `{@inheritDoc}` tag on the first line of the docblock.
-- Each method in the Contract's implementation class __MAY__ have an additional short description.
-- Short description __MUST__ follow Spryker public API specification.
-- Each method in the Contract's implementation class __MUST NOT__ contain `@api` tag.
+- A contract must exist only in case if the existing logic provides for an extension by the user.
+- Contract is a public API and must follow [Spryker plugin interfaces specification](https://spryker.atlassian.net/wiki/spaces/RFC/pages/1038092073/INTEGRATED+RFC+Plugin+interface+specification).
 
-Example
-
-```php
-<?php
-
-/**
- * Copyright © 2019-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
-
-namespace SprykerSdk\Sdk\Core\Application\ValueResolver
-
-use SprykerSdk\SdkContracts\ValueResolver\ValueResolverInterface;
-
-class AcmeValueResolver implemets ValueResolverInterface
-{
-    /**
-     * {@inheritdoc}
-     * - Short description.
-     *
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     * @param array $settingValues
-     *
-     * @return string
-     */
-    public function resolve(ContextInterface $context, array $settingValues): string { /* ... */ }
-}
-```
+## REST API
+- Controller __SHOULD__ have no business logic.
+- Controller __MUST__ have only one action method `__invoke`.
+- Controller __MUST__ be placed in namespace `SprykerSdk\Sdk\Presentation\RestApi\Controller\v1`. The `v1` is current version of SDK API.
+- Route __MUST__ be placed in `src/Presentation/RestApi/Resources/routing.yaml`
+- Route __SHOULD__ be named by template `api_${version}_${controller_name}`.
+  Example: For action `ValidatePhpCodestyleController::__invoke` route is `api_v1_validation_php_codestyle`
+- Route's path __SHOULD__ be named in hyphen-case. For task `validation:php:codestyle` path is `/api/v1/validation-php-codestyle`
 
 ## TODO
 

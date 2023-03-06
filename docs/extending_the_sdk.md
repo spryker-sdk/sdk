@@ -1,32 +1,30 @@
 # SDK development
 
-The SDK offers different extension points to enable 3rd parties to contribute to the SDK without needing to modify it.
+The SDK offers different extension points to enable third parties to contribute to the SDK without modifying it.
 
-From simple to complex the SDK can be extended by:
+From simple to complex, the SDK can be extended by:
 
-1. providing additional tasks or settings via YAML definition placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Task/<taskname>.yaml`. Those tasks can't introduce additional dependencies and therefore are best suited to integrate existing tools that come with a standalone executable.
-2. providing additional tasks, value resolvers or settings via PHP implementation, placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Task/<taskname>.php`. Those tasks need to implement the [TaskInterface](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/Entity/TaskInterface.php) and need to be exposed by providing a Symfony bundle to the Spryker SDK (e.g.: `<path/to/spryker/sdk>/extension/<YourBundleName>/<YourBundleName>Bundle.php`), following the conventions of a [Symfony bundle](https://symfony.com/doc/current/bundles.html#creating-a-bundle). This possibility is best suited for more complex tasks that do not require additional dependencies (e.g.: validating the content of a yaml file by using Symphony validators)
-3. Providing additional tasks, value resolver or settings that come with additional dependencies follows the same guideline as 2. but requires to build your own [SDK docker image](./build.md) that includes those dependencies.
+- Providing additional tasks or settings via YAML definitions placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Task/<taskname>.yaml`. Those tasks can't introduce additional dependencies and are best suited to integrate existing tools that come with a standalone executable.
+- Providing additional tasks, value resolvers, or settings via the PHP implementation placed inside `<path/to/spryker/sdk>/extension/<YourBundleName>/Task/<taskname>.php`. Those tasks need to implement the [TaskInterface](https://github.com/spryker-sdk/sdk-contracts/blob/master/src/Entity/TaskInterface.php), and need to be exposed by providing a Symfony bundle to the Spryker SDK, such as `<path/to/spryker/sdk>/extension/<YourBundleName>/<YourBundleName>Bundle.php`, following the conventions of a [Symfony bundle](https://symfony.com/doc/current/bundles.html#creating-a-bundle). This approach is best suited for more complex tasks that don't require additional dependencies, for example validating the content of a YAML file by using Symfony validators.
+- Providing additional tasks, value resolvers, or settings that come with additional dependencies. This approach follows the same guideline as the previous approach with the PHP implementation but requires building  your own [SDK docker image](./build.md) that includes those dependencies.
 
-## Implementing a new task
+To extend the SDK, follow these steps.
 
-A task is essentially the execution of a very specific function.
-This could be for example executing an external tool through a CLI call.
+## 1. Implement a new task
 
-There are two possibilities to define a new task. Based on YAML for simple task definitions and
-implementation via PHP and Symfony services for specialized purposes.
+A *task* is the execution of a very specific function. For example, executing an external tool through a CLI call is a task.
 
-### via YAML definition
+There are two possibilities when it comes to defining a new task: having it be based on YAML for simple task definitions, or
+an implementation via PHP and Symfony services for specialized purposes.
 
-YAML based tasks need to fulfill a defined structure to be able to execute them from the SDK.
-The command defined in the YAML definition can have placeholders, that need to be defined in the placeholder
-section. Each placeholder need to map to one value resolver.
+### Implementation via YAML definition
 
-#### Definition
+YAML based tasks need to fulfill a defined structure so you can execute them from the SDK.
+The command defined in the YAML definition can have [placeholders](#implement-placeholders) that you need to define in the placeholder section. Each placeholder needs to map to one [value resolver](#add-a-value-resolver).
 
-Add a definition for your task `<path>/Task/<name>.yaml`.
+Add the definition for your task in `<path>/Task/<name>.yaml`:
 
-````yaml
+```yaml
 ---
 id: string #e.g.: validation:code
 short_description: string #e.g.: Fix code style violations
@@ -34,27 +32,35 @@ help: string|null #e.g: Fix codestyle violations, lorem ipsum, etc.
 stage: string #e.g.: build
 command: string #e.g.: php %project_dir%/vendor/bin/phpcs -f --standard=%project_dir%/vendor/spryker/code-sniffer/Spryker/ruleset.xml %module_dir%
 type: string #e.g.: local_cli
+version: string #e.g.: 1.0.0
 placeholders:
 - name: string #e.g.: %project_dir%
-  valueResolver: string #e.g.: PROJECT_DIR, mapping to a ValueResolver with id PROJECT_DIR or  a FQCN
+  value_resolver: string #e.g.: PROJECT_DIR, mapping to a value resolver with id PROJECT_DIR or a FQCN
   optional: bool
-````
+```
 
-#### Adding a tasks to the SDK
+{% info_block infoBox "Adding tasks to the SDK" %}
 
-Tasks that located in `extension/<your extension name>/Task` can be added to the SDK by executing `spryker-sdk sdk:update:all`
+You can add the tasks located in `extension/<your extension name>/Task` to the SDK by executing `spryker-sdk sdk:update:all`
 
-### via PHP implementation
+{% endinfo_block %}
 
-For cases when a __Task__ is more than just a call to an existing tool a __Task__ can be implemented as PHP class
-and registered using the Symfony service tagging feature.
-This requires to provide the __Task__ as part of a symfony bundle.
+### Implementation via a PHP class
 
-#### Implement the bundle
-Please refer to https://symfony.com/doc/current/bundles.html for information on creating a Symfony bundle.
-Your bundle needs to use the https://github.com/spryker-sdk/sdk-contracts via composer.
+If a task is more than just a call to an existing tool, you can implement the task as a PHP class and register it using the Symfony service tagging feature.
+This requires you to make the task a part of the Symfony bundle. To achieve this, follow these steps:
 
-#### Implement __Task__
+1. Create a Symfony bundle.<br>
+Refer to the [official Symfony documentation](https://symfony.com/doc/current/bundles.html) for details on how to do that.
+
+{% info_block infoBox "Info" %}
+
+The bundle has to use the [Spryker SDK Contracts](https://github.com/spryker-sdk/sdk-contracts) via Composer.
+
+{% endinfo_block %}
+
+
+2. Implement the task:
 
 ```php
 namespace <YourNamespace>\Task;
@@ -95,13 +101,13 @@ class YourTask implements TaskInterface
 }
 ```
 
-#### Implement __Command__
+3. Implement the command.<br>
+While a task definition serves as a general description of the task and maps placeholders to value resolvers, a *command* serves as a function that is executed along with the resolved placeholders.
 
-While a __Task__ definition serves as general description of the __Task__ and maps __Placeholders__ to __ValueResolvers__,
-a __Command__ serves as function that is executed along with the resolved __Placeholders__.
+Implement the command as shown in the example:
 
 ```php
-namespace <YourNamespace>\\Command;
+namespace <YourNamespace>\Task\Command;
 
 use SprykerSdk\Sdk\Contracts\Entity\ExecutableCommandInterface;
 
@@ -146,13 +152,21 @@ class YourCommand implements ExecutableCommandInterface
     }
 }
 ```
+<a name="implement-placeholders"></a>
 
-#### Implement Placeholders
+4. Implement placeholders.<br>
+Placeholders are resolved at runtime by using a specified value resolver.
+A placeholder needs a specific name that is not used anywhere else in the command the placeholder is used for.
 
-Placeholders will be resolved at runtime by using a specified __ValueResolver__.
-A __Placeholder__ need to have a specific name that is not used anywhere in the Command the __Placeholder__ is used for.
-For example `%` can be appended and suffixed for this purpose and will make the __Placeholder__ easier to recognize in a __Command__.
-The used __ValueResolver__ can be referenced by his id or by his full qualified class name (FQCN), where the FQCN should be preferred.
+{% info_block infoBox "Info" %}
+
+You can append `%` and suffix the placeholder, which makes the placeholder easier to recognize in a command.
+
+You can reference the used value resolver by its ID or the fully qualified class name (FQCN). The FQCN is the preferred option.
+
+{% endinfo_block %}
+
+Implement the placeholder as shown in the example:
 
 ```php
 namespace <YourNamespace>\Task;
@@ -175,10 +189,10 @@ class YourTask implements TaskInterface
 }
 ```
 
-#### Implement Symfony service
+5. Implement a Symfony service.<br>
+Once you have implemented the task, register it as a [Symfony service](https://symfony.com/doc/current/service_container.html#creating-configuring-services-in-the-container).
 
-Once the __Task__ is implemented it needs to be registered as a Symfony service.
-You can find a more extensive documentation on registering a Symfony service at https://symfony.com/doc/current/service_container.html#creating-configuring-services-in-the-container.
+Implement the service as shown in the example:
 
 ```yaml
 services:
@@ -187,19 +201,23 @@ services:
     tags: ['sdk.task']
 ```
 
-#### Register your bundle
+6. Register your bundle.
 
-If your bundle does not have different dependencies than the Spryker SDK itself you don't need to register the bundle at
-but just need to place it into the `extension` directory that is part of your SDK installation.
+If your bundle does not have dependencies that differ from the Spryker SDK, you don't need to register the bundle. Instead, place it into the `extension` directory that is a part of your SDK installation.
 
-For more complex bundles, that for example require additional dependencies you need to follow the guide to [build a flavored Spryker SDK](build.md).
+For more complex bundles that require additional dependencies, follow the guidelines in [Building a flavored Spryker SDK](build.md).
 
-## Add a value resolver
+## 2. Add a value resolver
 
-Most __Placeholders__ will need an implementation to resolve their value during runtime.
-This can be reading some settings and assembling a value based on their content or any implementation
-that turns a placeholder into a resolved value.
-The purpose is to unify __ValueResolvers__ and always use the same name for a value.
+Most placeholders need a solution to resolve their values during runtime. This can be reading some settings and assembling a value based on the settings content, or any solution that turns a placeholder into a resolved value.
+
+{% info_block warningBox "" %}
+
+Make sure to unify value resolvers and always use the same name for a value.
+
+{% endinfo_block %}
+
+Implement the value resolver as shown in the example:
 
 ```php
 namespace <YourNamespace>\ValueResolver;
@@ -250,7 +268,7 @@ class YourValueResolver implements ValueResolverInterface
      */
     public function getValue(array $settingValues): mixed
     {
-        //implementation to resolve the according value
+        //implementation to resolve the corresponding value
         //when null is returned the user of the SDK is asked to give his input
         return '<resolved value>'
     }
@@ -266,8 +284,9 @@ class YourValueResolver implements ValueResolverInterface
 }
 ```
 
-A __ValueResolver__ can be defined as a Symfony service, for example to be able to inject services into it.
-When the __ValueResolver__ is not defined as a service it will be instantiated by his FQCN.
+You can define a value resolver as a Symfony service, for example to be able to inject services into it. If the value resolver is not defined as a service, it is instantiated by its FQCN.
+
+Example of defining a value resolver as a Symfony service:
 
 ```yaml
 services:
@@ -276,11 +295,11 @@ services:
     tags: ['sdk.value_resolver']
 ```
 
-## Add a setting
+## 3. Add a setting
 
-A bundle might add additional __Settings__ that can be used by __ValueResolvers__ to create a persistent behavior.
-Settings are defined in yaml file called `settings.yaml` and will be added to the SDK by calling
-`spryker-sdk setting:set setting_dirs <path to your settings>`
+A bundle can add more settings that value resolvers can then use to create a persistent behavior.
+You can define settings in the `settings.yaml` file and add them to the SDK by calling
+`spryker-sdk setting:set setting_dirs <path to your settings>`:
 
 ```yaml
 settings:
@@ -293,11 +312,12 @@ settings:
     values: array|string|integer|float|boolean #serve as default values for initialization
 ```
 
-## Adding a new command runner
+## 4. Add a new command runner
 
-__Commands__ are executed using command runners. Each command has a `type` that will be used to determine what command runner
-is capable of executing the given __Command__.
-To implement new __Task__ types a new command runner is required and needs to be registered as Symfony service.
+Commands are executed via *command runners*. Each command has a `type` that determines what command runner can execute the command.
+To implement new task types, there must be a new command runner and you need to register it as a Symfony service.
+
+Add a new command runner as shown in the example:
 
 ```php
 namespace <YourNamespace>\CommandRunners;
@@ -338,10 +358,29 @@ class YourTypeCommandRunner implements CommandRunnerInterface
     tags: ['command.runner']
 ```
 
-In addition, existing command runners can be overwritten
-with better suitable implementation.
+Optionally, you can overwrite the existing command runners with a more suitable implementation:
 
 ```yaml
   local_cli_command_runner:
     class: <YourNamespace>\CommandRunners\BetterLocalCliRunner
 ```
+
+## 5. Generate a task by a CLI command
+
+It might be useful to generate a task by using a CLI command.
+
+```shell
+# generate yaml task
+spryker-sdk sdk:generate:task
+spryker-sdk sdk:generate:task task-format=yaml
+
+# generate php task
+spryker-sdk sdk:generate:task task-format=php
+```
+
+After execution of the command task will be created in such directories:
+- `extension/Custom/src/Resources/config/task` - for yaml tasks
+- `extension/Custom/src/Task` - for php tasks
+
+You can manually update it if it's needed. Don't forget to increase the task version and run  `spryker-sdk sdk:update:all` to make new updates available.
+

@@ -13,6 +13,17 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use SprykerSdk\Sdk\Extension\Setting\Initializer\CreateDirectoryInitializer;
 use SprykerSdk\SdkContracts\Entity\SettingInterface;
 
+/**
+ * Auto-generated group annotations
+ *
+ * @group Sdk
+ * @group Unit
+ * @group Extension
+ * @group Setting
+ * @group Initializer
+ * @group CreateDirectoryInitializerTest
+ * Add your own group annotations below this line
+ */
 class CreateDirectoryInitializerTest extends Unit
 {
     /**

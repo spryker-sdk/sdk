@@ -8,12 +8,15 @@
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface;
+use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
-use SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver;
-use SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner;
+use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
 use SprykerSdk\SdkContracts\Entity\ContextInterface;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
+use SprykerSdk\SdkContracts\Enum\Setting;
+use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,12 +51,12 @@ class RunWorkflowCommand extends Command
     protected ProjectWorkflow $projectWorkflow;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface
      */
-    protected CliValueReceiver $cliValueReceiver;
+    protected InteractionProcessorInterface $cliValueReceiver;
 
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner
+     * @var \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner
      */
     protected WorkflowRunner $workflowRunner;
 
@@ -63,21 +66,46 @@ class RunWorkflowCommand extends Command
     protected ContextFactoryInterface $contextFactory;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface
+     */
+    protected SettingFetcherInterface $settingFetcher;
+
+    /**
+     * @var string
+     */
+    protected string $projectSettingsFileName;
+
+    /**
+     * @var string
+     */
+    protected string $projectLocalSettingsFileName;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\CliValueReceiver $cliValueReceiver
-     * @param \SprykerSdk\Sdk\Infrastructure\Service\WorkflowRunner $workflowRunner
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
+     * @param \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner $workflowRunner
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
+     * @param string $projectSettingsFileName
+     * @param string $projectLocalSettingsFileName
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
-        CliValueReceiver $cliValueReceiver,
+        InteractionProcessorInterface $cliValueReceiver,
         WorkflowRunner $workflowRunner,
-        ContextFactoryInterface $contextFactory
+        ContextFactoryInterface $contextFactory,
+        SettingFetcherInterface $settingFetcher,
+        string $projectSettingsFileName,
+        string $projectLocalSettingsFileName
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->workflowRunner = $workflowRunner;
         $this->contextFactory = $contextFactory;
+        $this->settingFetcher = $settingFetcher;
+        $this->projectSettingsFileName = $projectSettingsFileName;
+        $this->projectLocalSettingsFileName = $projectLocalSettingsFileName;
+
         parent::__construct(static::NAME);
     }
 
@@ -91,7 +119,7 @@ class RunWorkflowCommand extends Command
         $this->addOption(static::OPTION_FORCE, 'f', InputOption::VALUE_NONE, 'Ignore guards and force operation to run');
         $this->setHelp(
             <<<EOT
-Documentation on workflows is available at https://github.com/spryker-sdk/sdk/blob/develop/docs/workflow.md
+Documentation on workflows is available at https://github.com/spryker-sdk/sdk/blob/master/docs/workflow.md
 EOT,
         );
     }
@@ -106,23 +134,30 @@ EOT,
     {
         /** @var string|null $workflowName */
         $workflowName = $input->getArgument(static::ARG_WORKFLOW_NAME);
+        $projectWorkflows = (array)$this->settingFetcher->getOneByPath(Setting::PATH_WORKFLOW)->getValues();
 
-        $initializedWorkflows = $this->projectWorkflow->findInitializedWorkflows();
-
-        if ($workflowName && $initializedWorkflows && !in_array($workflowName, $initializedWorkflows)) {
-            $output->writeln('<error>You haven\'t initialized a workflow with "sdk:workflow:init"' .
-                ' or you don\'t have any open tasks defined</error>');
+        if ($workflowName && !in_array($workflowName, $projectWorkflows)) {
+            $output->writeln(
+                sprintf(
+                    '<error>You don\'t have the `%s` workflow in this project. Please add the workflow by using `%s` command or manually add one in `%s` or `%s`.</error>',
+                    $workflowName,
+                    InitProjectCommand::NAME,
+                    $this->projectSettingsFileName,
+                    $this->projectLocalSettingsFileName,
+                ),
+            );
 
             return static::FAILURE;
         }
 
         if (!$workflowName) {
-            $workflows = $initializedWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
+            $workflows = $projectWorkflows ?: $this->projectWorkflow->getProjectWorkflows() ?: $this->projectWorkflow->getAll();
             $workflowName = count($workflows) > 1 ? $this->cliValueReceiver->receiveValue(
                 new ReceiverValue(
+                    'workflow',
                     'You have more than one initialized workflow. You have to select one.',
                     current(array_keys($workflows)),
-                    'string',
+                    ValueTypeEnum::TYPE_STRING,
                     $workflows,
                 ),
             ) : current($workflows);

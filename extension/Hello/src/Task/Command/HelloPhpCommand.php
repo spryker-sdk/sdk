@@ -10,6 +10,8 @@ namespace Hello\Task\Command;
 class HelloPhpCommand extends GreeterCommand
 {
     /**
+     * {@inheritDoc}
+     *
      * @param string $message
      */
     public function __construct(string $message = 'Hello PHP')
@@ -18,6 +20,8 @@ class HelloPhpCommand extends GreeterCommand
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return bool
      */
     public function hasStopOnError(): bool
@@ -26,6 +30,8 @@ class HelloPhpCommand extends GreeterCommand
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return array<string>
      */
     public function getTags(): array

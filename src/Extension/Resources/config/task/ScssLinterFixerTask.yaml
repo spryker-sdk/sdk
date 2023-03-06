@@ -3,35 +3,44 @@ id: "validation:scss:codestyle-fix"
 short_description: "Fixes violations and validates your scss code"
 help: ~
 stage: build
-version: 0.1.0
-command: "node %sdk_dir%/frontend/libs/stylelint.js --fix %file-path% %config-path% > %reportDir%/stylelint.codestyle.json"
-type: local_cli
+version: 0.2.2
+command: "node %sdk_dir%/frontend/libs/stylelint.js %fix% %file-path% %config-path% > %reportDir%"
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
+  - name: '%fix%'
+    value_resolver: FLAG
+    optional: true
+    configuration:
+      flag: "fix"
+      description: 'Automatically fixes found problems.'
+      defaultValue: true
   - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      name: "report_dir"
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
+      defaultValue: "stylelint.codestyle.json"
   - name: "%file-path%"
-    value_resolver: OPTION
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      name: "file-path"
+      alias: "file-path"
+      option: "file-path"
       description: "Execute stylelint only for this file"
-      type: string
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
   - name: "%config-path%"
-    value_resolver: OPTION
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
-      name: "config-path"
+      alias: "config-path"
+      option: "config-path"
       description: "Use this stylelint config instead of default"
-      type: string
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
 report_converter:
   name: ScssLinterViolationReportConverter
   configuration:

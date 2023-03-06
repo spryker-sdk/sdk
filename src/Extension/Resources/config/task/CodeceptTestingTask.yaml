@@ -3,28 +3,33 @@ id: 'tests:sdk:codecept'
 short_description: 'Run acceptance tests'
 help: ~
 stage: build
-version: 0.1.0
-command: 'php %sdk_dir%/vendor/bin/codecept run %suites% --json=%reportDir%/codeception.report.json'
-type: local_cli
+version: 0.2.1
+command: 'php "%executable_command%" run %suites% %reportDir%'
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
-  - name: "%sdk_dir%"
-    value_resolver: SDK_DIR
+  - name: "%executable_command%"
+    value_resolver: PRIORITY_PATH
     optional: true
+    configuration:
+      description: "Executable folder (uses the first existing path)"
+      defaultValue: "vendor/bin/codecept"
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
   - name: "%suites%"
     value_resolver: STATIC
     optional: true
     configuration:
-      name: "suites"
+      alias: "suites"
       description: "Suite name that should executed. Multiple suites can be comma-separated"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
   - name: "%reportDir%"
-    value_resolver: STATIC
+    value_resolver: REPORT_DIR
     optional: true
     configuration:
-      name: "report_dir"
+      option: "json"
       description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [!php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR]
+      defaultValue: "codeception.report.json"
 report_converter:
   name: CodeceptionViolationReportConverter
   configuration:

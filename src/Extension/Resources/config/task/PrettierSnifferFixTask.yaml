@@ -3,38 +3,29 @@ id: "validation:frontend:prettier-fix"
 short_description: "An opinionated code formatter"
 help: ~
 stage: build
-version: 0.1.0
-command: "npx --prefix %sdk_dir% prettier --write --loglevel=%log_level% ./%path%"
-type: local_cli
+version: 0.2.2
+command: "npx --prefix %sdk_dir% prettier --write --loglevel=%log_level% %path%"
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
-  - name: "%reportDir%"
-    value_resolver: STATIC_TEXT
-    optional: true
-    configuration:
-      name: "report_dir"
-      description: "Reports directory"
-      type: string
-      settingPaths: ["report_dir"]
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: false
     configuration:
-      name: "path"
+      alias: "path"
       description: "Relative path to module directory in project"
-      type: path
-      settingPaths: []
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
       defaultValue: 'src'
   - name: "%log_level%"
-    value_resolver: STATIC_TEXT
+    value_resolver: STATIC
     optional: true
     configuration:
-      name: "log_level"
+      alias: "log_level"
       description: "What level of logs to report (possible values: log, error, warn)"
       help: "What level of logs to report (possible values: log, error, warn)"
-      type: string
+      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: log
       choiceValues:
         - log

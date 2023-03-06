@@ -13,12 +13,16 @@ use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Dto;
 use SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoProperty;
 
 /**
+ * Auto-generated group annotations
+ *
  * @group Sdk
+ * @group Unit
  * @group Core
  * @group Application
  * @group Dto
  * @group Abstraction
  * @group DtoTest
+ * Add your own group annotations below this line
  */
 class DtoTest extends Unit
 {
