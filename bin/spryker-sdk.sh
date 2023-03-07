@@ -7,6 +7,10 @@ fi
 
 LOCAL_SDK_DIR="$(realpath $(dirname $(dirname $0)))"
 
+if [[ ! -f $LOCAL_SDK_DIR/VERSION ]]; then
+    git --git-dir=$LOCAL_SDK_DIR/.git describe --abbrev=0 --tags > $LOCAL_SDK_DIR/VERSION
+fi
+
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
     cat $LOCAL_SDK_DIR/VERSION
     exit 0

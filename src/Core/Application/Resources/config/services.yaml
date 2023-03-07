@@ -55,6 +55,7 @@ services:
         class: SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
         arguments:
             - "@report_array_converter_factory"
+            - "@context_factory"
     context_repository:
         synthetic: true
     task_executor:

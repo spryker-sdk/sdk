@@ -49,6 +49,43 @@ class ContextFactoryTest extends Unit
     /**
      * @return void
      */
+    public function testHasContext(): void
+    {
+        //Arrange
+        $defaultContextMock = $this->createMock(DefaultContextReceiverInterface::class);
+        $defaultContextMock->expects($this->once())
+            ->method('getFormat')
+            ->willReturn('output');
+        $contextFactory = new ContextFactory($defaultContextMock);
+        $context = new Context();
+        $context->setFormat('output');
+        $contextFactory->getContext();
+
+        //Act
+        $hasContext = $contextFactory->hasContext();
+
+        //Assert
+        $this->assertTrue($hasContext);
+    }
+
+    /**
+     * @return void
+     */
+    public function testDoesNotHasContext(): void
+    {
+        //Arrange
+        $defaultContextMock = $this->createMock(DefaultContextReceiverInterface::class);
+        $contextFactory = new ContextFactory($defaultContextMock);
+        //Act
+        $hasContext = $contextFactory->hasContext();
+
+        //Assert
+        $this->assertFalse($hasContext);
+    }
+
+    /**
+     * @return void
+     */
     public function testGetContextReturnsCachedInstance(): void
     {
         //Arrange

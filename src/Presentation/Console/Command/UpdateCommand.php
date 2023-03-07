@@ -7,9 +7,10 @@
 
 namespace SprykerSdk\Sdk\Presentation\Console\Command;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface;
-use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
+use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,16 +32,24 @@ class UpdateCommand extends AbstractUpdateCommand
     protected InitializerInterface $initializer;
 
     /**
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
+     */
+    protected ContextFactoryInterface $contextFactory;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\LifecycleManagerInterface $lifecycleManager
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InitializerInterface $initializer
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      */
     public function __construct(
         LifecycleManagerInterface $lifecycleManager,
-        InitializerInterface $initializer
+        InitializerInterface $initializer,
+        ContextFactoryInterface $contextFactory
     ) {
         parent::__construct(static::NAME);
         $this->lifecycleManager = $lifecycleManager;
         $this->initializer = $initializer;
+        $this->contextFactory = $contextFactory;
     }
 
     /**
@@ -52,12 +61,13 @@ class UpdateCommand extends AbstractUpdateCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initializer->initialize([]);
+        $context = $this->contextFactory->getContext();
 
-        if ($input->getOption(static::OPTION_NO_CHECK) !== null) {
-            $this->checkForUpdate($output);
+        if ($input->getOption(static::OPTION_NO_CHECK)) {
+            $this->checkForUpdate($context);
         }
 
-        if ($input->getOption(static::OPTION_CHECK_ONLY) !== null) {
+        if (!$input->getOption(static::OPTION_CHECK_ONLY)) {
             $this->lifecycleManager->update();
         }
 
@@ -65,22 +75,14 @@ class UpdateCommand extends AbstractUpdateCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context
      *
      * @return void
      */
-    protected function checkForUpdate(OutputInterface $output): void
+    protected function checkForUpdate(ContextInterface $context): void
     {
-        try {
-            $messages = $this->lifecycleManager->checkForUpdate();
-        } catch (SdkVersionNotFoundException $exception) {
-            $output->writeln($exception->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
-
-            return;
-        }
-
-        foreach ($messages as $message) {
-            $output->writeln($message->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
+        foreach ($this->lifecycleManager->checkForUpdate() as $key => $message) {
+            $context->addMessage('check_updates_' . $key, $message);
         }
     }
 }

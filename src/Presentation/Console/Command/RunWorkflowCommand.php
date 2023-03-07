@@ -13,8 +13,6 @@ use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
@@ -164,42 +162,8 @@ EOT,
         }
         $context = $this->contextFactory->getContext();
 
-        $context = $this->workflowRunner->execute($workflowName, $context);
-
-        $this->writeFilteredMessages($output, $context);
+        $this->workflowRunner->execute($workflowName, $context);
 
         return static::SUCCESS;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return void
-     */
-    protected function writeFilteredMessages(
-        OutputInterface $output,
-        ContextInterface $context
-    ): void {
-        foreach ($context->getMessages() as $message) {
-            $output->writeln($this->formatMessage($message));
-        }
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\MessageInterface $message
-     *
-     * @return string
-     */
-    protected function formatMessage(MessageInterface $message): string
-    {
-        $template = [
-                MessageInterface::INFO => '<info>Info: %s</info>',
-                MessageInterface::ERROR => '<error>Error: %s</error>',
-                MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
-                MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
-            ][$message->getVerbosity()] ?? '%s';
-
-        return sprintf($template, $message->getMessage());
     }
 }

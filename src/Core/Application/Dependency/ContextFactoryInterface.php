@@ -15,4 +15,9 @@ interface ContextFactoryInterface
      * @return \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface
      */
     public function getContext(): ContextInterface;
+
+    /**
+     * @return bool
+     */
+    public function hasContext(): bool;
 }

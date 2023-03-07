@@ -36,16 +36,14 @@ abstract class AbstractUpdateCommand extends Command
         $this->addOption(
             static::OPTION_CHECK_ONLY,
             'c',
-            InputOption::VALUE_OPTIONAL,
+            InputOption::VALUE_NONE,
             'Update if the current version is\'n up-to-date.',
-            false,
         );
         $this->addOption(
             static::OPTION_NO_CHECK,
             null,
-            InputOption::VALUE_OPTIONAL,
+            InputOption::VALUE_NONE,
             'Only checks if the current version is up-to-date',
-            false,
         );
     }
 }
