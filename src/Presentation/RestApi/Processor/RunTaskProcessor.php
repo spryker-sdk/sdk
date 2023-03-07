@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Sdk\Presentation\RestApi\Processor;
 
-use SprykerSdk\Sdk\Core\Application\Service\ContextFactory;
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Service\TaskExecutor;
 use SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
@@ -20,9 +20,9 @@ class RunTaskProcessor
     protected TaskExecutor $taskExecutor;
 
     /**
-     * @var \SprykerSdk\Sdk\Core\Application\Service\ContextFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    protected ContextFactory $contextFactory;
+    protected ContextFactoryInterface $contextFactory;
 
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface
@@ -31,12 +31,12 @@ class RunTaskProcessor
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ContextFactory $contextFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapperInterface
      */
     public function __construct(
         TaskExecutor $taskExecutor,
-        ContextFactory $contextFactory,
+        ContextFactoryInterface $contextFactory,
         ViolationReportFileMapperInterface $violationReportFileMapperInterface
     ) {
         $this->taskExecutor = $taskExecutor;

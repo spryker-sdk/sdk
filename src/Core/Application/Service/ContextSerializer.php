@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Sdk\Core\Application\Service;
 
+use SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface;
 use SprykerSdk\Sdk\Core\Application\Exception\InvalidReportTypeException;
-use SprykerSdk\Sdk\Core\Domain\Entity\Context;
 use SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\SdkContracts\Entity\MessageInterface;
@@ -22,11 +22,20 @@ class ContextSerializer
     protected ReportArrayConverterFactory $reportArrayConverterFactory;
 
     /**
-     * @param \SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory $reportArrayConverterFactory
+     * @var \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface
      */
-    public function __construct(ReportArrayConverterFactory $reportArrayConverterFactory)
-    {
+    protected ContextFactoryInterface $contextFactory;
+
+    /**
+     * @param \SprykerSdk\Sdk\Core\Application\Service\ReportArrayConverterFactory $reportArrayConverterFactory
+     * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
+     */
+    public function __construct(
+        ReportArrayConverterFactory $reportArrayConverterFactory,
+        ContextFactoryInterface $contextFactory
+    ) {
         $this->reportArrayConverterFactory = $reportArrayConverterFactory;
+        $this->contextFactory = $contextFactory;
     }
 
     /**
@@ -53,7 +62,7 @@ class ContextSerializer
      */
     public function deserialize(string $content): ContextInterface
     {
-        $context = new Context();
+        $context = $this->contextFactory->getContext();
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         if (array_key_exists('tags', $data) && is_array($data['tags'])) {

@@ -144,7 +144,6 @@ services:
         class: SprykerSdk\Sdk\Infrastructure\Repository\ContextFileRepository
         arguments:
             - "@context_serializer"
-            - "@context.in_memory_cache_storage"
             - "@setting.setting_fetcher"
     telemetry_event_repository:
         class: SprykerSdk\Sdk\Infrastructure\Repository\TelemetryEventRepository
@@ -488,7 +487,6 @@ services:
             - "@filesystem"
             - "%telemetry_sender_file_report_file_name%"
             - "%telemetry_sender_file_report_format%"
-            - "%kernel.debug%"
         tags:
             - { name: telemetry.data_sender }
 
@@ -584,8 +582,6 @@ services:
         tags:
             - {name: 'tagged_class_name_collection', target_tag: 'telemetry.observable_command'}
 
-    context.in_memory_cache_storage:
-        class: SprykerSdk\Sdk\Infrastructure\Cache\InMemoryContextCacheStorage
     workflow.transition_resolver_registry:
         class: SprykerSdk\Sdk\Core\Application\Service\WorkflowTransitionResolverRegistry
         arguments:
