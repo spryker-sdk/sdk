@@ -7228,12 +7228,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "03c73b11eb01626007ef02419648b4207aed6f36"
+                "reference": "fd17d1ea4f53d97ffff1d4ee2753381416324698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/03c73b11eb01626007ef02419648b4207aed6f36",
-                "reference": "03c73b11eb01626007ef02419648b4207aed6f36",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/fd17d1ea4f53d97ffff1d4ee2753381416324698",
+                "reference": "fd17d1ea4f53d97ffff1d4ee2753381416324698",
                 "shasum": ""
             },
             "require": {
@@ -7292,7 +7292,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/feature/sdk-2063-add-newrelic-logger"
             },
-            "time": "2023-03-15T13:05:29+00:00"
+            "time": "2023-03-15T15:34:40+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
