@@ -46,6 +46,9 @@ COPY --chown=spryker:spryker .env ${srcRoot}/.env
 COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
 
+COPY --chown=spryker:spryker infrastructure/newrelic/newrelic_warmup.sh  ${srcRoot}/newrelic_warmup.sh
+RUN chmod +x ${srcRoot}/newrelic_warmup.sh
+
 WORKDIR ${srcRoot}
 
 ENV APP_ENV=sprykerci
