@@ -9,15 +9,22 @@ while true
 do
     if [[ $ATTEMPTS -ge $TRIES ]]; then
         echo "New relic initialization timeout: $ATTEMPTS sec"
-        exit 0
+        break
     fi
-    grep -E "command='connect' .*, status=200" /var/log/newrelic/audit.log > /dev/null
+    grep -E "command='connect' .*, status=200" /var/log/newrelic/audit.log > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         php -r "echo \"...\n\";"
         sleep 1
     else
         echo 'New relic initialized'
-        exit 0
+        break
     fi
     ((ATTEMPTS++))
 done
+
+eval $@
+
+if [[ $? -ne 0 ]]; then
+    echo 'Sending error to new relic server...'
+    sleep 6
+fi
