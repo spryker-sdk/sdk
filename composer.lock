@@ -6878,6 +6878,56 @@
             "time": "2022-07-22T11:15:03+00:00"
         },
         {
+            "name": "spryker-sdk/azure-php-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-sdk/azure-php-client.git",
+                "reference": "14744793587002f1297197c7d9546976343c5f6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-sdk/azure-php-client/zipball/14744793587002f1297197c7d9546976343c5f6b",
+                "reference": "14744793587002f1297197c7d9546976343c5f6b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^7.5",
+                "php": ">=7.4",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^9.5",
+                "spryker/code-sniffer": "dev-master"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SprykerAzure\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Azure Repos client for PHP",
+            "support": {
+                "issues": "https://github.com/spryker-sdk/azure-php-client/issues",
+                "source": "https://github.com/spryker-sdk/azure-php-client/tree/master"
+            },
+            "time": "2023-03-15T11:18:56+00:00"
+        },
+        {
             "name": "spryker-sdk/brancho",
             "version": "dev-master",
             "source": {
@@ -7228,12 +7278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "889733cf06010701a01010185da90a81ce0165d8"
+                "reference": "05dd8b1febcc3446cd752db11f77d33bd3d52a74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/889733cf06010701a01010185da90a81ce0165d8",
-                "reference": "889733cf06010701a01010185da90a81ce0165d8",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/05dd8b1febcc3446cd752db11f77d33bd3d52a74",
+                "reference": "05dd8b1febcc3446cd752db11f77d33bd3d52a74",
                 "shasum": ""
             },
             "require": {
@@ -7248,6 +7298,7 @@
                 "nikic/php-parser": "4.15.*",
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
+                "spryker-sdk/azure-php-client": "dev-master",
                 "spryker-sdk/integrator": "1.0.x-dev",
                 "spryker-sdk/sdk-contracts": "^0.4.6",
                 "symfony/config": "^5.0",
@@ -7293,7 +7344,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-03-06T14:23:44+00:00"
+            "time": "2023-03-20T11:06:34+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
