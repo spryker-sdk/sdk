@@ -1,6 +1,6 @@
 ---
 id: "spryk:run"
-short_description: "Runs a Spryk build process."
+short_description: "Runs a Spryk build process. Use --spryk option for the spryk name."
 version: "0.1.0"
 command: "php %executable_command% %spryk% %organization% %coreLevel% %option%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
