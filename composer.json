@@ -60,7 +60,7 @@
         "symfony/validator": "^5.0",
         "symfony/workflow": "^5.0",
         "symfony/yaml": "^5.0",
-        "vimeo/psalm": "^4.24"
+        "vimeo/psalm": "^5.8"
     },
     "require-dev": {
         "codeception/codeception": "^4.2.1",
