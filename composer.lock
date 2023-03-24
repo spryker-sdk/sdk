@@ -7278,12 +7278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "05dd8b1febcc3446cd752db11f77d33bd3d52a74"
+                "reference": "3df21862d27d4091a2169dcff1b8c1822d649b03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/05dd8b1febcc3446cd752db11f77d33bd3d52a74",
-                "reference": "05dd8b1febcc3446cd752db11f77d33bd3d52a74",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/3df21862d27d4091a2169dcff1b8c1822d649b03",
+                "reference": "3df21862d27d4091a2169dcff1b8c1822d649b03",
                 "shasum": ""
             },
             "require": {
@@ -7344,7 +7344,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-03-20T11:06:34+00:00"
+            "time": "2023-03-24T13:52:50+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
