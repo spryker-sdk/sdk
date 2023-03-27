@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service\ValueReceiver\QuestionFactory;
 
 use Codeception\Test\Unit;
+use SprykerSdk\Sdk\Core\Application\Exception\MissingValueException;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\QuestionFactory\PathQuestionFactory;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Question\Question;
@@ -40,6 +41,40 @@ class PathQuestionFactoryTest extends Unit
         // Assert
         $this->assertInstanceOf(Question::class, $question);
         $this->assertIsCallable($question->getAutocompleterCallback());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateQuestionShouldThrowExceptionWhenAbsolutePathSet(): void
+    {
+        $this->expectException(MissingValueException::class);
+
+        // Arrange
+        $questionFactory = new PathQuestionFactory();
+
+        // Act
+        $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');
+        $validator = $question->getValidator();
+
+        if ($validator !== null) {
+            $validator('/absolute/path');
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function testAutocompleteInputShouldReturnEmptyArrayWhenAbsolutePathSet(): void
+    {
+        // Arrange
+        $questionFactory = new PathQuestionFactory();
+
+        // Act
+        $result = $questionFactory->autocompleteInput('/absolute/path');
+
+        // Assert
+        $this->assertEmpty($result);
     }
 
     /**
