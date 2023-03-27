@@ -57,9 +57,11 @@ class PathQuestionFactoryTest extends Unit
         $question = $questionFactory->createQuestion('Some description', ['one', 'two', 'three'], 'one');
         $validator = $question->getValidator();
 
-        if ($validator !== null) {
-            $validator('/absolute/path');
+        if ($validator === null) {
+            $this->fail('Validator shouldn\'t be null');
         }
+
+        $validator('/absolute/path');
     }
 
     /**
