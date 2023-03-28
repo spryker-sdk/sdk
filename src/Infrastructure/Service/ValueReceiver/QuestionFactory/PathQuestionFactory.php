@@ -41,7 +41,7 @@ class PathQuestionFactory extends StringQuestionFactory
                 throw new MissingValueException('Path ../ is forbidden due to security reasons.');
             }
 
-            if (!$this->isAbsolutePath($value)) {
+            if (!$this->isRelativePath($value)) {
                 throw new MissingValueException('Absolute path is forbidden due to security reasons.');
             }
 
@@ -64,7 +64,7 @@ class PathQuestionFactory extends StringQuestionFactory
             return [];
         }
 
-        if (!$this->isAbsolutePath($inputPath)) {
+        if (!$this->isRelativePath($inputPath)) {
             return [];
         }
 
@@ -100,8 +100,8 @@ class PathQuestionFactory extends StringQuestionFactory
      *
      * @return bool
      */
-    protected function isAbsolutePath(string $inputPath): bool
+    protected function isRelativePath(string $inputPath): bool
     {
-        return strpos($inputPath, '/') === false;
+        return strpos($inputPath, '/') !== 0;
     }
 }
