@@ -46,6 +46,9 @@ COPY --chown=spryker:spryker .env ${srcRoot}/.env
 COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
 
+COPY --chown=spryker:spryker infrastructure/newrelic/entrypoint.sh  ${srcRoot}/entrypoint.sh
+RUN chmod +x ${srcRoot}/entrypoint.sh
+
 WORKDIR ${srcRoot}
 
 ENV APP_ENV=sprykerci
@@ -58,4 +61,4 @@ RUN composer dump-env sprykerci
 
 RUN bin/console cache:clear --no-debug
 
-ENTRYPOINT ["/bin/bash", "-c", "/data/bin/console $@", "--"]
+ENTRYPOINT ["/data/entrypoint.sh"]
