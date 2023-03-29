@@ -59,4 +59,4 @@ when@sprykerci:
                 type: newrelic
                 app_name: '%env(NEWRELIC_APPNAME)%'
                 channels: ["!event"]
-                level: info
+                level: error
