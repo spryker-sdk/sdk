@@ -4,7 +4,7 @@ short_description: "Validate ACP translation file."
 help: ~
 stage: build
 version: 0.2.2
-command: "php %sdk_dir%/vendor/bin/acp app:translation:validate %translation-file% %manifest-path% %configuration-file%"
+command: "php %sdk_dir%/vendor/bin/acp app:translation:validate %translation-file% %configuration-file%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
 placeholders:
   - name: "%sdk_dir%"
@@ -18,13 +18,6 @@ placeholders:
       option: "translation-file"
       description: "Path to translation file"
       type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
-  - name: "%manifest-path%"
-    value_resolver: PRIORITY_PATH
-    optional: true
-    configuration:
-      alias: "manifest-path"
-      option: "manifest-path"
-      description: "Path to manifest file"
       settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
   - name: "%configuration-file%"
     value_resolver: STATIC

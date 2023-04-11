@@ -62,7 +62,7 @@ class GenerateAppTask implements TaskInterface
             ),
             new Placeholder(
                 '%app_name%',
-                'STATIC',
+                'ORIGIN',
                 [
                     'alias' => 'app-name',
                     'description' => 'Input name for new App',
@@ -71,18 +71,12 @@ class GenerateAppTask implements TaskInterface
             ),
             new Placeholder(
                 '%project_url%',
-                'STATIC',
+                'ORIGIN',
                 [
                     'alias' => 'project_url',
                     'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
                     'type' => ValueTypeEnum::TYPE_STRING,
                 ],
-            ),
-            new Placeholder(
-                '%' . AppPhpVersionValueResolver::VALUE_NAME . '%',
-                AppPhpVersionValueResolver::VALUE_RESOLVER_NAME,
-                [],
-                true,
             ),
         ];
     }
