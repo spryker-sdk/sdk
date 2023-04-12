@@ -90,7 +90,7 @@ framework:
             from: [openapi-created, asyncapi-created]
             to: app-validated
             metadata:
-                task: install
+                task: project:installer:run
         ValidateProject:
           from: [app-validated, asyncapi-created]
           to: done
