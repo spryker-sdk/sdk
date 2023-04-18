@@ -37,6 +37,7 @@ class CodeSnifferTaskFixerCest
     {
         // Arrange
         $I->cleanReports();
+        $I->cleanTelemetryEventsTable();
 
         // Act
         $process = $I->runSdkCommand([
