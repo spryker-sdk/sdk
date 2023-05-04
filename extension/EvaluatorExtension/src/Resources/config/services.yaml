@@ -1,0 +1,12 @@
+parameters:
+    minimum_allowed_shop_version_checker_file: '%kernel.project_dir%/vendor/spryker-sdk/evaluator/data/minimum-allowed-package-versions.json'
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    EvaluatorExtension\:
+        resource: '../../../src/*'
+
+    EvaluatorExtension\Task\EvaluateTask:
+        tags: [ 'sdk.task' ]

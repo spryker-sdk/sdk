@@ -5,6 +5,9 @@
     "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "repositories": [
+        {"type": "vcs", "url":  "git@github.com:spryker-sdk/evaluator.git"}
+    ],
     "require": {
         "php": ">=7.4",
         "ext-ctype": "*",
@@ -35,11 +38,12 @@
         "spryker-sdk/async-api": "^0.2.3",
         "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/composer-replace": "dev-master",
+        "spryker-sdk/evaluator": "dev-master",
         "spryker-sdk/sdk-contracts": "^0.4.6",
-        "spryker-sdk/security-checker": "^0.1.0",
+        "spryker-sdk/security-checker": "^0.2.0",
         "spryker-sdk/spryk": "^0.4.7",
         "spryker-sdk/sync-api": "^0.1.1",
-        "spryker-sdk/upgrader": "dev-master",
+        "spryker-sdk/upgrader": "dev-feature/project-deps-udate",
         "spryker/architecture-sniffer": "^0.5.2",
         "spryker/code-sniffer": "^0.17.6",
         "symfony/asset": "^5.0",
@@ -50,7 +54,7 @@
         "symfony/expression-language": "^5.0",
         "symfony/filesystem": "^5.0",
         "symfony/flex": "^1.18.0",
-        "symfony/framework-bundle": "^5.3",
+        "symfony/framework-bundle": "^5.4",
         "symfony/lock": "^5.4",
         "symfony/monolog-bundle": "^3.8",
         "symfony/process": "^5.0",
@@ -98,24 +102,20 @@
         "psr-4": {
             "App\\": "app/",
             "SprykerSdk\\Sdk\\": "src/",
-            "SprykerSdk\\Sniffs\\": "Sniffs/"
+            "Custom\\": "extension/Custom/src/",
+            "EvaluatorExtension\\": "extension/EvaluatorExtension/src/",
+            "InspectionDoc\\": "extension/InspectionDoc/src/",
+            "VcsConnector\\": "extension/VcsConnector/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "SprykerSdk\\Sdk\\": "tests/Sdk/",
             "Hello\\": "extension/Hello/src/",
-            "Custom\\": "extension/Custom/src/",
-            "InspectionDoc\\": "extension/InspectionDoc/src/",
             "InspectionDoc\\Tests\\": "extension/InspectionDoc/tests/",
-            "VcsConnector\\": "extension/VcsConnector/src/",
-            "VcsConnector\\Tests\\": "extension/VcsConnector/tests/"
+            "VcsConnector\\Tests\\": "extension/VcsConnector/tests/",
+            "SprykerSdk\\Sniffs\\": "Sniffs/"
         }
-    },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
     },
     "scripts": {
         "cs-check": "phpcs",
