@@ -376,6 +376,9 @@
     "spryker-sdk/composer-replace": {
         "version": "dev-master"
     },
+    "spryker-sdk/evaluator": {
+        "version": "dev-feature/evaluator-sdk-integration"
+    },
     "spryker-sdk/integrator": {
         "version": "1.0.x-dev"
     },

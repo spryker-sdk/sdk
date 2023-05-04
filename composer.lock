@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73b8594dec0d169539064e3cc36cc0f2",
+    "content-hash": "bd0b173617b20641ea6e5f50a60999e4",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7030,16 +7030,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "dev-master",
+            "version": "dev-feature/evaluator-sdk-integration",
             "source": {
                 "type": "git",
                 "url": "git@github.com:spryker-sdk/evaluator.git",
-                "reference": "dcfa82337e457bd218415e8dbfabcc89f4886f9c"
+                "reference": "f40a512bf1fd6f7a8dab6a06c4c457dd84bb2423"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/dcfa82337e457bd218415e8dbfabcc89f4886f9c",
-                "reference": "dcfa82337e457bd218415e8dbfabcc89f4886f9c",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/f40a512bf1fd6f7a8dab6a06c4c457dd84bb2423",
+                "reference": "f40a512bf1fd6f7a8dab6a06c4c457dd84bb2423",
                 "shasum": ""
             },
             "require": {
@@ -7073,7 +7073,6 @@
                 "phpunit/phpunit": "^9.6",
                 "spryker/code-sniffer": "^0.17.18"
             },
-            "default-branch": true,
             "bin": [
                 "bin/evaluator"
             ],
@@ -7128,10 +7127,10 @@
             ],
             "description": "The tool for evaluating Spryker shops",
             "support": {
-                "source": "https://github.com/spryker-sdk/evaluator/tree/master",
+                "source": "https://github.com/spryker-sdk/evaluator/tree/feature/evaluator-sdk-integration",
                 "issues": "https://github.com/spryker-sdk/evaluator/issues"
             },
-            "time": "2023-05-04T09:08:24+00:00"
+            "time": "2023-05-04T12:05:10+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
