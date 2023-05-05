@@ -82,7 +82,7 @@ elif [[ -e ~/.bashrc ]]
 then
     ENV_FILE="$HOME/.bashrc"
     [[ "$PLATFORM" == "Linux" ]] && replaceCommand='sed -i' && setupSdkVars
-    [[ "$PLATFORM" == "Darwin" ]] && replaceCommand='sed -i' && setupSdkVars
+    [[ "$PLATFORM" == "Darwin" ]] && replaceCommand="sed -i ''" && setupSdkVars
     [[ "$replaceCommand" == "" ]] && showFallbackResultMessage && exit 0
 else
     showFallbackResultMessage
