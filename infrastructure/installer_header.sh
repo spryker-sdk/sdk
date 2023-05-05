@@ -50,16 +50,16 @@ fi
 
 if [[ -e ~/.zshrc ]]
 then
-    sed -i.tmp '/^export SPRYKER_SDK/d' ~/.zshrc && mv ~/.zshrc.tmp ~/.zshrc && \
-    sed -i.tmp '/^alias spryker-sdk=/d' ~/.zshrc && mv ~/.zshrc.tmp ~/.zshrc  && \
+    grep -v 'export SPRYKER_SDK' ~/.zshrc > ~/.zshrc.tmp && mv ~/.zshrc.tmp ~/.zshrc && \
+    grep -v 'alias spryker-sdk=' ~/.zshrc > ~/.zshrc.tmp && mv ~/.zshrc.tmp ~/.zshrc  && \
     echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ~/.zshrc && \
     echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ~/.zshrc && \
     echo 'Created alias in ~/.zshrc' && \
     echo "Run \`source ~/.zshrc\` re-open terminal"
 elif [[ -e ~/.bashrc ]]
 then
-    sed -i.tmp '/^export SPRYKER_SDK/d' ~/.bashrc && mv ~/.bashrc.tmp ~/.bashrc && \
-    sed -i.tmp '/^alias spryker-sdk=/d' ~/.bashrc && mv ~/.bashrc.tmp ~/.bashrc && \
+    grep -v 'export SPRYKER_SDK' ~/.bashrc > ~/.bashrc.tmp && mv ~/.bashrc.tmp ~/.bashrc && \
+    grep -v 'alias spryker-sdk' ~/.bashrc > ~/.bashrc.tmp && mv ~/.bashrc.tmp ~/.bashrc && \
     echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ~/.bashrc && \
     echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ~/.bashrc && \
     echo 'Created alias in ~/.bashrc' && \
