@@ -1,4 +1,25 @@
 #!/bin/bash
+
+function setupSdkVars {
+    command="$replaceCommand '/^export SPRYKER_SDK/d' ${ENV_FILE}" && eval "$command";
+    command="$replaceCommand '/^alias spryker-sdk=/d' ${ENV_FILE}" && eval "$command";
+    echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ${ENV_FILE} && \
+    echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ${ENV_FILE} && \
+    echo 'Created alias in' ${ENV_FILE} && \
+    echo "Run \`source $ENV_FILE\` or re-open terminal"
+
+    return 0
+}
+
+function showFallbackResultMessage() {
+    echo ""
+    echo "Installation complete."
+    echo "Run \`export SPRYKER_SDK_PATH=\"$DESTINATION\"\`"
+    echo "Add alias for your system \`spryker-sdk=\"$DESTINATION/bin/spryker-sdk.sh\"\`"
+    echo 'Re-open terminal for apply changes.'
+    echo ""
+}
+
 echo ""
 echo "Spryker SDK Installer"
 echo ""
@@ -48,29 +69,23 @@ if [[ $SELF_UPDATE == 1 ]]; then
   exit 0
 fi
 
+PLATFORM=$(uname)
+ENV_FILE=""
 if [[ -e ~/.zshrc ]]
 then
-    grep -v 'export SPRYKER_SDK' ~/.zshrc > ~/.zshrc.tmp && mv ~/.zshrc.tmp ~/.zshrc && \
-    grep -v 'alias spryker-sdk=' ~/.zshrc > ~/.zshrc.tmp && mv ~/.zshrc.tmp ~/.zshrc  && \
-    echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ~/.zshrc && \
-    echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ~/.zshrc && \
-    echo 'Created alias in ~/.zshrc' && \
-    echo "Run \`source ~/.zshrc\` re-open terminal"
+    ENV_FILE="$HOME/.zshrc"
+    replaceCommand=""
+    [[ "$PLATFORM" == "Linux" ]] && replaceCommand='sed -i' && setupSdkVars
+    [[ "$PLATFORM" == "Darwin" ]] && replaceCommand="sed -i''" && setupSdkVars
+    [[ "$replaceCommand" == "" ]] && showFallbackResultMessage && exit 0
 elif [[ -e ~/.bashrc ]]
 then
-    grep -v 'export SPRYKER_SDK' ~/.bashrc > ~/.bashrc.tmp && mv ~/.bashrc.tmp ~/.bashrc && \
-    grep -v 'alias spryker-sdk' ~/.bashrc > ~/.bashrc.tmp && mv ~/.bashrc.tmp ~/.bashrc && \
-    echo "export SPRYKER_SDK_PATH=\"$DESTINATION\"" >> ~/.bashrc && \
-    echo "alias spryker-sdk=\$SPRYKER_SDK_PATH\"/bin/spryker-sdk.sh\"" >> ~/.bashrc && \
-    echo 'Created alias in ~/.bashrc' && \
-    echo "Run \`source ~/.bashrc\` or re-open terminal"
+    ENV_FILE="$HOME/.bashrc"
+    [[ "$PLATFORM" == "Linux" ]] && replaceCommand='sed -i' && setupSdkVars
+    [[ "$PLATFORM" == "Darwin" ]] && replaceCommand='sed -i' && setupSdkVars
+    [[ "$replaceCommand" == "" ]] && showFallbackResultMessage && exit 0
 else
-  echo ""
-  echo "Installation complete."
-  echo "Run \`export SPRYKER_SDK_PATH=\"$DESTINATION\"\`"
-  echo "Add alias for your system \`spryker-sdk=\"$DESTINATION/bin/spryker-sdk.sh\"\`"
-  echo 'Re-open terminal for apply changes.'
-  echo ""
+    showFallbackResultMessage
 fi
 
 # Exit from the script with success (0)
