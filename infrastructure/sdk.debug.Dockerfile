@@ -10,6 +10,8 @@ RUN if [[ ! -z "${USER_UID}" ]]; then \
         usermod -u "${USER_UID}" spryker; \
     fi
 
+COPY infrastructure/newrelic/newrelic.ini  /usr/local/etc/php/conf.d/90-newrelic.ini
+
 RUN /usr/bin/install -d -m 777 /var/run/opcache/debug && docker-php-ext-enable xdebug
 COPY infrastructure/debug/php/69-xdebug.ini /usr/local/etc/php/conf.d/69-xdebug.ini
 
