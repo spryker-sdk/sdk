@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b1ca62d2c6c8c4dd137222edfce744d",
+    "content-hash": "a60b039aff2073cbaf8b4880a36f7b1e",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7127,16 +7127,16 @@
         },
         {
             "name": "spryker-sdk/security-checker",
-            "version": "0.1.3",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/security-checker.git",
-                "reference": "35187fa088ea81409cef9194aa4c4714c46f9c36"
+                "reference": "619c9c636590e0bef836f1c9ab1203ac9a66c46c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/security-checker/zipball/35187fa088ea81409cef9194aa4c4714c46f9c36",
-                "reference": "35187fa088ea81409cef9194aa4c4714c46f9c36",
+                "url": "https://api.github.com/repos/spryker-sdk/security-checker/zipball/619c9c636590e0bef836f1c9ab1203ac9a66c46c",
+                "reference": "619c9c636590e0bef836f1c9ab1203ac9a66c46c",
                 "shasum": ""
             },
             "require": {
@@ -7169,9 +7169,9 @@
             "description": "A security checker for your composer.lock",
             "support": {
                 "issues": "https://github.com/spryker-sdk/security-checker/issues",
-                "source": "https://github.com/spryker-sdk/security-checker/tree/0.1.3"
+                "source": "https://github.com/spryker-sdk/security-checker/tree/0.2.0"
             },
-            "time": "2023-01-24T16:01:34+00:00"
+            "time": "2023-04-24T11:24:18+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
