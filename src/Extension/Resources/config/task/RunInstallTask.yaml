@@ -3,6 +3,14 @@ id: "project:installer:run"
 short_description: "Runs Sprykers install command."
 help: ~
 stage: build
-version: 0.4.1
-command: "php ./vendor/bin/install"
+version: 0.4.2
+command: "php %executable_command%"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI
+placeholders:
+    - name: "%executable_command%"
+      value_resolver: PRIORITY_PATH
+      optional: true
+      configuration:
+          description: "Executable folder (uses the first existing path)"
+          defaultValue: "vendor/bin/install"
+          settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
