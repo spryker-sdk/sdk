@@ -62,9 +62,9 @@ jobs:
         run: composer --version
 
       - name: Composer install
-        uses: php-actions/composer@v6
-        env:
-            COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.PAT }}"} }'
+        run: |
+            composer config --global -a http-basic.github.com x-access-token ${{ secrets.PAT }}
+            composer install
 
       - name: Run PHPStan
         run: composer stan
