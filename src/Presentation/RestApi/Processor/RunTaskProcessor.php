@@ -27,21 +27,21 @@ class RunTaskProcessor
     /**
      * @var \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface
      */
-    protected ViolationReportFileMapperInterface $violationReportFileMapperInterface;
+    protected ViolationReportFileMapperInterface $violationReportFileMapper;
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\TaskExecutor $taskExecutor
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
-     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapperInterface
+     * @param \SprykerSdk\Sdk\Infrastructure\Mapper\ViolationReportFileMapperInterface $violationReportFileMapper
      */
     public function __construct(
         TaskExecutor $taskExecutor,
         ContextFactoryInterface $contextFactory,
-        ViolationReportFileMapperInterface $violationReportFileMapperInterface
+        ViolationReportFileMapperInterface $violationReportFileMapper
     ) {
         $this->taskExecutor = $taskExecutor;
         $this->contextFactory = $contextFactory;
-        $this->violationReportFileMapperInterface = $violationReportFileMapperInterface;
+        $this->violationReportFileMapper = $violationReportFileMapper;
     }
 
     /**
@@ -62,7 +62,7 @@ class RunTaskProcessor
             if (!$report instanceof ViolationReportInterface) {
                 continue;
             }
-            $response['reports'][] = $this->violationReportFileMapperInterface
+            $response['reports'][] = $this->violationReportFileMapper
                 ->mapViolationReportToYamlStructure($report);
         }
 

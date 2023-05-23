@@ -1,0 +1,33 @@
+---
+id: 'evaluator:run'
+short_description: 'Run evaluator for the project'
+help: ~
+stage: build
+version: 0.2.1
+command: "php %sdk_dir%/vendor/bin/evaluator evaluate %path% --format=json > %reportDir%"
+type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
+placeholders:
+    - name: "%sdk_dir%"
+      value_resolver: SDK_DIR
+      optional: true
+    - name: "%path%"
+      value_resolver: PRIORITY_PATH
+      optional: true
+      configuration:
+        alias: "path"
+        option: 'path'
+        description: "Relative path to project"
+        settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
+    - name: "%reportDir%"
+      value_resolver: REPORT_DIR
+      optional: true
+      configuration:
+        description: "Reports directory"
+        type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+        settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_REPORT_DIR ]
+        defaultValue: "evaluator.check.json"
+report_converter:
+  name: EvaluatorViolationReportConverter
+  configuration:
+    input_file: evaluator.check.json
+    producer: evaluator

@@ -572,6 +572,8 @@ services:
             - "@telemetry.event_metadata_factory"
             - "@telemetry.command_event_validator"
             - "@error_logger_factory"
+            - "@context_factory"
+            - "@violation_report_mapper"
             - "%telemetry_enabled%"
         tags:
             - { name: kernel.event_listener, event: console.terminate }

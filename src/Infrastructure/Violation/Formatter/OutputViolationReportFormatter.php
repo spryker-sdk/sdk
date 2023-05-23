@@ -73,15 +73,20 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
     public function format(string $name, ViolationReportInterface $violationReport): void
     {
         $violationReport = $this->violationReportDecorator->decorate($violationReport);
-
+        $tableSeparator = new TableSeparator();
         if ($violationReport->getViolations()) {
             $table = new Table($this->output);
             $table
                 ->setHeaderTitle('Violations found on project level')
                 ->setHeaders(['Violation', 'Fixable']);
+            $projectViolations = [];
             foreach ($violationReport->getViolations() as $violation) {
-                $table->addRow([$violation->getMessage(), $violation->isFixable() ? 'true' : 'false']);
+                $projectViolations[] = [$violation->getMessage(), $violation->isFixable() ? 'true' : 'false'];
+                $projectViolations[] = $tableSeparator;
             }
+            array_pop($projectViolations);
+
+            $table->setRows($projectViolations);
             $table->render();
         }
 
@@ -91,7 +96,9 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
             foreach ($violationReport->getPackages() as $package) {
                 foreach ($package->getViolations() as $violation) {
                     $packages[] = [$violation->getId(), $violation->isFixable() ? 'true' : 'false', $package->getPackage()];
+                    $packages[] = $tableSeparator;
                 }
+
                 foreach ($package->getFileViolations() as $path => $fileViolations) {
                     foreach ($fileViolations as $fileViolation) {
                         $violations[] = [
@@ -109,9 +116,8 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
                 }
             }
 
-            array_pop($violations);
-
             if ($packages) {
+                array_pop($packages);
                 $table = new Table($this->output);
                 $table
                     ->setHeaderTitle('Violations found on package level')
@@ -121,6 +127,7 @@ class OutputViolationReportFormatter implements ViolationReportFormatterInterfac
             }
 
             if ($violations) {
+                array_pop($violations);
                 $table = new Table($this->output);
                 $table
                     ->setHeaderTitle('Violations found in files')

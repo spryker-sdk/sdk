@@ -142,9 +142,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.2"
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.5"
-    },
     "guzzlehttp/guzzle": {
         "version": "7.4.2"
     },
@@ -171,9 +168,6 @@
         "files": [
             "config/packages/github_api.yaml"
         ]
-    },
-    "laminas/laminas-code": {
-        "version": "4.4.3"
     },
     "laminas/laminas-config": {
         "version": "3.7.0"
@@ -220,6 +214,18 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
+    },
+    "php-http/discovery": {
+        "version": "1.18",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "config/packages/http_discovery.yaml"
+        ]
     },
     "phpbench/container": {
         "version": "2.2.1"
@@ -537,6 +543,18 @@
         },
         "files": [
             "config/packages/lock.yaml"
+        ]
+    },
+    "symfony/messenger": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.4",
+            "ref": "8bd5f27013fb1d7217191c548e340f0bdb11912c"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
         ]
     },
     "symfony/mime": {
