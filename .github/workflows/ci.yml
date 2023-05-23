@@ -62,6 +62,8 @@ jobs:
         run: composer --version
 
       - name: Composer install
+        env:
+            GITHUB_TOKEN: ${{ secrets.PAT }}
         run: composer install
 
       - name: Run PHPStan
