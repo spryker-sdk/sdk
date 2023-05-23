@@ -69,7 +69,7 @@
         "codeception/module-cli": "*",
         "codeception/module-filesystem": "^2.0",
         "codeception/module-phpbrowser": "^2.0",
-        "codeception/module-rest": "^2.0.2",
+        "codeception/module-rest": "^2.0",
         "codeception/module-symfony": "*",
         "codeception/module-webdriver": "^2.0",
         "mikey179/vfsstream": "^1.6",
