@@ -221,6 +221,18 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
+    "php-http/discovery": {
+        "version": "1.18",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "config/packages/http_discovery.yaml"
+        ]
+    },
     "phpbench/container": {
         "version": "2.2.1"
     },
@@ -375,6 +387,9 @@
     },
     "spryker-sdk/composer-replace": {
         "version": "dev-master"
+    },
+    "spryker-sdk/evaluator": {
+        "version": "dev-feature/sdk-2283-sdk-evaluator-pipline-athena"
     },
     "spryker-sdk/integrator": {
         "version": "1.0.x-dev"
