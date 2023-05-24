@@ -62,8 +62,7 @@ jobs:
         run: composer --version
 
       - name: Composer install
-        run: |
-            composer config --global -a http-basic.github.com x-access-token ${{ secrets.PAT }}
+        run:
             composer install
 
       - name: Run PHPStan
