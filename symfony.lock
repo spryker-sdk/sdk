@@ -388,9 +388,6 @@
     "spryker-sdk/composer-replace": {
         "version": "dev-master"
     },
-    "spryker-sdk/evaluator": {
-        "version": "dev-feature/sdk-2283-sdk-evaluator-pipline-athena"
-    },
     "spryker-sdk/integrator": {
         "version": "1.0.x-dev"
     },

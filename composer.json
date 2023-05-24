@@ -93,6 +93,12 @@
             "php-http/discovery": false
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:spryker-sdk/evaluator.git"
+        }
+    ],
     "autoload": {
         "files": [
             "bootstrap.php"

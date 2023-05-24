@@ -13,5 +13,4 @@ return [
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
     SprykerSdk\Sdk\Presentation\RestApi\SprykerSdkRestApiBundle::class => ['all' => true],
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
-    SprykerSdk\Evaluator\EvaluatorBundle::class => ['all' => true],
 ];
