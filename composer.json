@@ -75,6 +75,7 @@
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/php-timer": "^5.0",
         "sllh/composer-versions-check": "^2.0",
+        "spryker-sdk/evaluator": "dev-master",
         "symfony/var-dumper": "^5.0"
     },
     "config": {
@@ -88,7 +89,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "sllh/composer-versions-check": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "php-http/discovery": true
         }
     },
     "autoload": {
@@ -111,11 +113,6 @@
             "VcsConnector\\": "extension/VcsConnector/src/",
             "VcsConnector\\Tests\\": "extension/VcsConnector/tests/"
         }
-    },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
     },
     "scripts": {
         "cs-check": "phpcs",
