@@ -81,6 +81,7 @@
         "codeception/module-symfony": "*",
         "codeception/module-webdriver": "^2.0",
         "mikey179/vfsstream": "^1.6",
+        "pavelmaksimov25/jsonpath": "^0.2.0",
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/php-timer": "^5.0",
         "sllh/composer-versions-check": "^2.0",
