@@ -11,6 +11,7 @@ RUN apk update \
     graphviz \
     nodejs \
     npm \
+    rsync \
     && npm install -g npm@8.4.1
 
 RUN git config --add --system safe.directory /project
