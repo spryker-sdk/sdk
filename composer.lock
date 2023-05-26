@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7afa02932cefd972969cdccb3d88b12",
+    "content-hash": "705b220b1f223e41f167941af591d65f",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7009,12 +7009,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "32b5e2d58f904d1bf90961b02e2be3e9e9c012de"
+                "reference": "a79dd5ee5820b5f7ab6a7a92e754c2b70e385a5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/32b5e2d58f904d1bf90961b02e2be3e9e9c012de",
-                "reference": "32b5e2d58f904d1bf90961b02e2be3e9e9c012de",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/a79dd5ee5820b5f7ab6a7a92e754c2b70e385a5b",
+                "reference": "a79dd5ee5820b5f7ab6a7a92e754c2b70e385a5b",
                 "shasum": ""
             },
             "require": {
@@ -7033,7 +7033,9 @@
                 "symfony/monolog-bundle": "^3.8",
                 "symfony/process": "^5.4|^6.0",
                 "symfony/runtime": "^5.4|^6.0",
+                "symfony/serializer": "^5.4|^6.0",
                 "symfony/stopwatch": "^5.4|^6.0",
+                "symfony/uid": "^5.4|^6.0",
                 "symfony/yaml": "^5.4|^6.0"
             },
             "conflict": {
@@ -7074,7 +7076,7 @@
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
                 "source": "https://github.com/spryker-sdk/evaluator/tree/master"
             },
-            "time": "2023-05-25T11:39:56+00:00"
+            "time": "2023-05-26T10:50:02+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -7328,12 +7330,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "8c1c72d9df86f8bb0ba710124bc6eaca82946f6b"
+                "reference": "bc0cc80483cb1e3599a232999086969723ebb96b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/8c1c72d9df86f8bb0ba710124bc6eaca82946f6b",
-                "reference": "8c1c72d9df86f8bb0ba710124bc6eaca82946f6b",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/bc0cc80483cb1e3599a232999086969723ebb96b",
+                "reference": "bc0cc80483cb1e3599a232999086969723ebb96b",
                 "shasum": ""
             },
             "require": {
@@ -7395,7 +7397,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-05-25T12:29:35+00:00"
+            "time": "2023-05-25T22:23:08+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -16139,8 +16141,8 @@
     "stability-flags": {
         "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/upgrader": 20,
-        "spryker-sdk/evaluator": 20
+        "spryker-sdk/evaluator": 20,
+        "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
