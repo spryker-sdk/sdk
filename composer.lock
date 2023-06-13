@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "705b220b1f223e41f167941af591d65f",
+    "content-hash": "6e9bb56239c513919284501d6be8377f",
     "packages": [
         {
             "name": "amphp/amp",
@@ -228,16 +228,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.271.1",
+            "version": "3.272.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "707552cfb1fa37e8e501d2c70afa9bc2e61104c0"
+                "reference": "0c4cba74c79f9b44393c27721fa1fa9138c95387"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/707552cfb1fa37e8e501d2c70afa9bc2e61104c0",
-                "reference": "707552cfb1fa37e8e501d2c70afa9bc2e61104c0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0c4cba74c79f9b44393c27721fa1fa9138c95387",
+                "reference": "0c4cba74c79f9b44393c27721fa1fa9138c95387",
                 "shasum": ""
             },
             "require": {
@@ -317,9 +317,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.271.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.272.2"
             },
-            "time": "2023-05-24T18:20:35+00:00"
+            "time": "2023-06-12T18:21:59+00:00"
         },
         {
             "name": "cebe/php-openapi",
@@ -590,16 +590,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.3.5",
+            "version": "1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd"
+                "reference": "90d087e988ff194065333d16bc5cf649872d9cdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
-                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/90d087e988ff194065333d16bc5cf649872d9cdb",
+                "reference": "90d087e988ff194065333d16bc5cf649872d9cdb",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.3.5"
+                "source": "https://github.com/composer/ca-bundle/tree/1.3.6"
             },
             "funding": [
                 {
@@ -662,7 +662,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-11T08:27:00+00:00"
+            "time": "2023-06-06T12:02:59+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -739,16 +739,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.5.7",
+            "version": "2.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "d477018d3f2ebd76dede3d3988a0b1a7add4d81e"
+                "reference": "4c516146167d1392c8b9b269bb7c24115d262164"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/d477018d3f2ebd76dede3d3988a0b1a7add4d81e",
-                "reference": "d477018d3f2ebd76dede3d3988a0b1a7add4d81e",
+                "url": "https://api.github.com/repos/composer/composer/zipball/4c516146167d1392c8b9b269bb7c24115d262164",
+                "reference": "4c516146167d1392c8b9b269bb7c24115d262164",
                 "shasum": ""
             },
             "require": {
@@ -832,7 +832,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.5.7"
+                "source": "https://github.com/composer/composer/tree/2.5.8"
             },
             "funding": [
                 {
@@ -848,7 +848,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-24T13:00:40+00:00"
+            "time": "2023-06-09T15:13:21+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "b138d36a87f75da5e334ca2bb546aa631fdae9d6"
+                "reference": "5b5aaa23540c5eef5a330d0830503323b889d670"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/b138d36a87f75da5e334ca2bb546aa631fdae9d6",
-                "reference": "b138d36a87f75da5e334ca2bb546aa631fdae9d6",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/5b5aaa23540c5eef5a330d0830503323b889d670",
+                "reference": "5b5aaa23540c5eef5a330d0830503323b889d670",
                 "shasum": ""
             },
             "require": {
@@ -7106,8 +7106,10 @@
                 "symfony/process": "^5.4 || ^6.0"
             },
             "require-dev": {
+                "ext-zip": "*",
                 "phpstan/phpstan": "^1.0.0",
                 "phpunit/phpunit": "^9.5.0",
+                "spryker-sdk/manifest-test-data-provider": "dev-master",
                 "spryker/code-sniffer": "dev-master",
                 "symfony/filesystem": "^5.3.0 || ^6.0"
             },
@@ -7135,7 +7137,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-05-22T09:05:01+00:00"
+            "time": "2023-06-13T12:53:42+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7330,12 +7332,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "1d4a4f82e4c4149ac7c05bdc6f804f5458a692e7"
+                "reference": "eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/1d4a4f82e4c4149ac7c05bdc6f804f5458a692e7",
-                "reference": "1d4a4f82e4c4149ac7c05bdc6f804f5458a692e7",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8",
+                "reference": "eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8",
                 "shasum": ""
             },
             "require": {
@@ -7397,7 +7399,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-06-12T14:40:27+00:00"
+            "time": "2023-06-13T15:10:49+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -15812,65 +15814,6 @@
                 }
             ],
             "time": "2020-09-28T06:39:44+00:00"
-        },
-        {
-            "name": "sllh/composer-versions-check",
-            "version": "v2.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/soullivaneuh/composer-versions-check.git",
-                "reference": "f86f69b25fd029466e3ca16036dfcac78a5f1ce3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/soullivaneuh/composer-versions-check/zipball/f86f69b25fd029466e3ca16036dfcac78a5f1ce3",
-                "reference": "f86f69b25fd029466e3ca16036dfcac78a5f1ce3",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^2.0",
-                "composer/semver": "^3.2.5",
-                "php": "^7.4 || ^8.0",
-                "symfony/console": "^3.4 || ^4.4 || ^5.0"
-            },
-            "require-dev": {
-                "composer/composer": "^2.0",
-                "symfony/phpunit-bridge": "^5.3.3"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "SLLH\\ComposerVersionsCheck\\VersionsCheckPlugin",
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "SLLH\\ComposerVersionsCheck\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sullivan SENECHAL",
-                    "email": "soullivaneuh@gmail.com"
-                }
-            ],
-            "description": "Checks if packages are up to date to last major versions after update",
-            "keywords": [
-                "composer",
-                "plugin",
-                "update",
-                "versions"
-            ],
-            "support": {
-                "issues": "https://github.com/soullivaneuh/composer-versions-check/issues",
-                "source": "https://github.com/soullivaneuh/composer-versions-check/tree/v2.0.5"
-            },
-            "time": "2021-07-12T14:38:48+00:00"
         },
         {
             "name": "symfony/browser-kit",
