@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e9bb56239c513919284501d6be8377f",
+    "content-hash": "64aba8bd0ab31c0e4d819004bc950d8e",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "b138d36a87f75da5e334ca2bb546aa631fdae9d6"
+                "reference": "5b5aaa23540c5eef5a330d0830503323b889d670"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/b138d36a87f75da5e334ca2bb546aa631fdae9d6",
-                "reference": "b138d36a87f75da5e334ca2bb546aa631fdae9d6",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/5b5aaa23540c5eef5a330d0830503323b889d670",
+                "reference": "5b5aaa23540c5eef5a330d0830503323b889d670",
                 "shasum": ""
             },
             "require": {
@@ -7106,8 +7106,10 @@
                 "symfony/process": "^5.4 || ^6.0"
             },
             "require-dev": {
+                "ext-zip": "*",
                 "phpstan/phpstan": "^1.0.0",
                 "phpunit/phpunit": "^9.5.0",
+                "spryker-sdk/manifest-test-data-provider": "dev-master",
                 "spryker/code-sniffer": "dev-master",
                 "symfony/filesystem": "^5.3.0 || ^6.0"
             },
@@ -7135,7 +7137,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-05-22T09:05:01+00:00"
+            "time": "2023-06-13T12:53:42+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -16083,6 +16085,7 @@
         "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/evaluator": 20,
+        "spryker-sdk/integrator": 20,
         "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
