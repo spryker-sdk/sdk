@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64aba8bd0ab31c0e4d819004bc950d8e",
+    "content-hash": "6e9bb56239c513919284501d6be8377f",
     "packages": [
         {
             "name": "amphp/amp",
@@ -228,16 +228,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.271.1",
+            "version": "3.272.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "707552cfb1fa37e8e501d2c70afa9bc2e61104c0"
+                "reference": "0c4cba74c79f9b44393c27721fa1fa9138c95387"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/707552cfb1fa37e8e501d2c70afa9bc2e61104c0",
-                "reference": "707552cfb1fa37e8e501d2c70afa9bc2e61104c0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0c4cba74c79f9b44393c27721fa1fa9138c95387",
+                "reference": "0c4cba74c79f9b44393c27721fa1fa9138c95387",
                 "shasum": ""
             },
             "require": {
@@ -317,9 +317,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.271.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.272.2"
             },
-            "time": "2023-05-24T18:20:35+00:00"
+            "time": "2023-06-12T18:21:59+00:00"
         },
         {
             "name": "cebe/php-openapi",
@@ -590,16 +590,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.3.5",
+            "version": "1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd"
+                "reference": "90d087e988ff194065333d16bc5cf649872d9cdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
-                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/90d087e988ff194065333d16bc5cf649872d9cdb",
+                "reference": "90d087e988ff194065333d16bc5cf649872d9cdb",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.3.5"
+                "source": "https://github.com/composer/ca-bundle/tree/1.3.6"
             },
             "funding": [
                 {
@@ -662,7 +662,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-11T08:27:00+00:00"
+            "time": "2023-06-06T12:02:59+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -739,16 +739,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.5.7",
+            "version": "2.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "d477018d3f2ebd76dede3d3988a0b1a7add4d81e"
+                "reference": "4c516146167d1392c8b9b269bb7c24115d262164"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/d477018d3f2ebd76dede3d3988a0b1a7add4d81e",
-                "reference": "d477018d3f2ebd76dede3d3988a0b1a7add4d81e",
+                "url": "https://api.github.com/repos/composer/composer/zipball/4c516146167d1392c8b9b269bb7c24115d262164",
+                "reference": "4c516146167d1392c8b9b269bb7c24115d262164",
                 "shasum": ""
             },
             "require": {
@@ -832,7 +832,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.5.7"
+                "source": "https://github.com/composer/composer/tree/2.5.8"
             },
             "funding": [
                 {
@@ -848,7 +848,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-24T13:00:40+00:00"
+            "time": "2023-06-09T15:13:21+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -7332,12 +7332,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "ca85813eaf9602f844dab97045e0242d9d158990"
+                "reference": "eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/ca85813eaf9602f844dab97045e0242d9d158990",
-                "reference": "ca85813eaf9602f844dab97045e0242d9d158990",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8",
+                "reference": "eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8",
                 "shasum": ""
             },
             "require": {
@@ -7399,7 +7399,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-06-13T15:04:44+00:00"
+            "time": "2023-06-13T15:10:49+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -16085,7 +16085,6 @@
         "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
         "spryker-sdk/evaluator": 20,
-        "spryker-sdk/integrator": 20,
         "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
