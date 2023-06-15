@@ -5,8 +5,8 @@ env:
   DEPENDENCY: spryker-sdk/upgrader
   PR_BRANCH: update-dependencies
   PR_LABELS: composer dependencies
-  PR_ASSIGNEES: pavelmaksimov25, DmytroKlymanSpryker
-  PR_REVIEWERS: pavelmaksimov25, DmytroKlymanSpryker
+  PR_ASSIGNEES: pavelmaksimov25,DmytroKlymanSpryker
+  PR_REVIEWERS: pavelmaksimov25,DmytroKlymanSpryker
 
 on:
   repository_dispatch:
