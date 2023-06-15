@@ -1,0 +1,45 @@
+name: Update dependencies
+
+env:
+  TARGET_BRANCH: rc
+  DEPENDENCY: spryker-sdk/upgrader
+  PR_BRANCH: update-dependencies
+  PR_LABELS: composer dependencies
+  PR_ASSIGNEES: pavelmaksimov25,DmytroKlymanSpryker
+  PR_REVIEWERS: pavelmaksimov25,DmytroKlymanSpryker
+
+on:
+  repository_dispatch:
+    types: [ upgrader_dependency_updated ]
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - id: commit
+        uses: pr-mpt/actions-commit-hash@v2
+
+      - name: Checkout project
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+
+      - name: Update dependencies
+        run: composer require ${{ env.DEPENDENCY }} --no-scripts --no-progress --no-install
+
+      - name: Commit, push and create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: Updated ${{ env.DEPENDENCY }}
+          body: |
+            This pull request updates ${{ env.DEPENDENCY }} dependency to the latest version.
+          commit-message: Updated ${{ env.DEPENDENCY }} dependency
+          committer: SprykerReleaseBot <spryker-release-bot@spryker.com>
+          author: ${{ github.actor }} <${{ github.actor }}@example.test>
+          base: ${{ env.TARGET_BRANCH }}
+          branch: ${{ env.PR_BRANCH }}
+          branch-suffix: timestamp
+          labels: ${{ env.PR_LABELS }}
+          delete-branch: true
+          assignees: ${{ env.PR_ASSIGNEES }}
+          reviewers: ${{ env.PR_REVIEWERS }}
