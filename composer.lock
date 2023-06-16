@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "5b5aaa23540c5eef5a330d0830503323b889d670"
+                "reference": "26e23dd645d35f136a0947424f9bb0a37e584491"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/5b5aaa23540c5eef5a330d0830503323b889d670",
-                "reference": "5b5aaa23540c5eef5a330d0830503323b889d670",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/26e23dd645d35f136a0947424f9bb0a37e584491",
+                "reference": "26e23dd645d35f136a0947424f9bb0a37e584491",
                 "shasum": ""
             },
             "require": {
@@ -7137,7 +7137,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-06-13T12:53:42+00:00"
+            "time": "2023-06-16T10:13:08+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7332,12 +7332,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8"
+                "reference": "5c439bef921bb6180e5a4ce2b96b2208798fa8dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8",
-                "reference": "eb468de2b59af5f862dc22e3c8ca2316cf1cc0b8",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/5c439bef921bb6180e5a4ce2b96b2208798fa8dd",
+                "reference": "5c439bef921bb6180e5a4ce2b96b2208798fa8dd",
                 "shasum": ""
             },
             "require": {
@@ -7353,7 +7353,7 @@
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/azure-php-client": "dev-master",
-                "spryker-sdk/integrator": "1.0.x-dev",
+                "spryker-sdk/integrator": "^1.0@dev",
                 "spryker-sdk/sdk-contracts": "^0.4.6",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
@@ -7399,7 +7399,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-06-13T15:10:49+00:00"
+            "time": "2023-06-16T09:59:16+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
