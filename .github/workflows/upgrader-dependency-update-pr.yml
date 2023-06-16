@@ -1,4 +1,4 @@
-name: Update dependencies
+name: Update Upgrader dependencies
 
 env:
   TARGET_BRANCH: rc
