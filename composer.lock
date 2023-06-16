@@ -16084,7 +16084,8 @@
     "stability-flags": {
         "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/evaluator": 20
+        "spryker-sdk/evaluator": 20,
+        "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
