@@ -47,7 +47,6 @@ services:
     error_logger:
         class: Psr\Log\LoggerInterface
         factory: [ "@error_logger_factory", "createLogger" ]
-
     command_error:
         class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
         arguments:
