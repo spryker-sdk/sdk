@@ -9,6 +9,8 @@ parameters:
     project_log_file: ".ssdk/.ssdk.log"
     project_settings_file: "./.ssdk/settings"
     local_project_settings_file: "./.ssdk/settings.local"
+    env(ORGANIZATION_NAME): "spryker"
+    env(REPOSITORY_NAME): "spryker-sdk"
 services:
     _instanceof:
         SprykerSdk\Sdk\Core\Application\Dependency\ManifestConfigurationInterface:
@@ -47,6 +49,13 @@ services:
     error_logger:
         class: Psr\Log\LoggerInterface
         factory: [ "@error_logger_factory", "createLogger" ]
+
+    logger_transaction_name_new_relic_processor:
+        class: SprykerSdk\Sdk\Infrastructure\Logger\TransactionNameNewRelicProcessor
+        arguments: ['%env(ORGANIZATION_NAME)%/%env(REPOSITORY_NAME)%']
+        tags:
+            - { name: monolog.processor, handler: newrelic }
+
     command_error:
         class: SprykerSdk\Sdk\Infrastructure\Service\ErrorCommandListener
         arguments:

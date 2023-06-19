@@ -45,6 +45,7 @@ COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env ${srcRoot}/.env
 COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
+COPY --chown=spryker:spryker .env.sprykerci ${srcRoot}/.env.sprykerci
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
 
 COPY --chown=spryker:spryker infrastructure/newrelic/entrypoint.sh  ${srcRoot}/entrypoint.sh
