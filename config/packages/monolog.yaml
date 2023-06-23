@@ -60,3 +60,4 @@ when@sprykerci:
                 app_name: '%env(NEWRELIC_APPNAME)%'
                 channels: ["!event"]
                 level: error
+                formatter: 'logger_new_relic_formatter'
