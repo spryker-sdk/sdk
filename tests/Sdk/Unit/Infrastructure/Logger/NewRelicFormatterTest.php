@@ -39,4 +39,29 @@ class NewRelicFormatterTest extends Unit
         // Assert
         $this->assertSame(['context' => ['workspace_name' => 'paas-demo', 'ci_execution_id' => 'ci-execution-id']], $record);
     }
+
+    /**
+     * @return void
+     */
+    public function testFormatBatchShouldProcessRecordCollection(): void
+    {
+        // Arrange
+        $workspace = 'paas-demo';
+        $ciExecutionId = 'ci-execution-id';
+        $records = ['one' => [], 'two' => []];
+
+        $formatter = new NewRelicFormatter($workspace, $ciExecutionId);
+
+        // Act
+        $records = $formatter->formatBatch($records);
+
+        // Assert
+        $this->assertSame(
+            [
+                'one' => ['context' => ['workspace_name' => 'paas-demo', 'ci_execution_id' => 'ci-execution-id']],
+                'two' => ['context' => ['workspace_name' => 'paas-demo', 'ci_execution_id' => 'ci-execution-id']],
+            ],
+            $records,
+        );
+    }
 }
