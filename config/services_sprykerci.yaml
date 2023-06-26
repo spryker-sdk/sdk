@@ -1,0 +1,17 @@
+parameters:
+    env(ORGANIZATION_NAME): 'spryker'
+    env(REPOSITORY_NAME): 'spryker-sdk'
+    env(CI_WORKSPACE_NAME): '-'
+    env(CI_EXECUTION_ID): '-'
+services:
+    logger_transaction_name_new_relic_processor:
+        class: SprykerSdk\Sdk\Infrastructure\Logger\TransactionNameNewRelicProcessor
+        arguments: [ '%env(CI_WORKSPACE_NAME)%/%env(ORGANIZATION_NAME)%/%env(REPOSITORY_NAME)%' ]
+        tags:
+            - { name: monolog.processor, handler: newrelic }
+
+    logger_new_relic_formatter:
+        class: SprykerSdk\Sdk\Infrastructure\Logger\NewRelicFormatter
+        arguments:
+            - '%env(CI_WORKSPACE_NAME)%'
+            - '%env(CI_EXECUTION_ID)%'
