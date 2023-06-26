@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e9bb56239c513919284501d6be8377f",
+    "content-hash": "1a5bf7721980efee5a9768151e658ed0",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7005,16 +7005,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "a79dd5ee5820b5f7ab6a7a92e754c2b70e385a5b"
+                "reference": "ba9793347a35268e5bfa9c8654a90ed95551a391"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/a79dd5ee5820b5f7ab6a7a92e754c2b70e385a5b",
-                "reference": "a79dd5ee5820b5f7ab6a7a92e754c2b70e385a5b",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/ba9793347a35268e5bfa9c8654a90ed95551a391",
+                "reference": "ba9793347a35268e5bfa9c8654a90ed95551a391",
                 "shasum": ""
             },
             "require": {
@@ -7051,7 +7051,6 @@
                 "phpunit/phpunit": "^9.6",
                 "spryker/code-sniffer": "^0.17.18"
             },
-            "default-branch": true,
             "bin": [
                 "bin/evaluator"
             ],
@@ -7074,9 +7073,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/master"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.0"
             },
-            "time": "2023-05-26T10:50:02+00:00"
+            "time": "2023-06-14T15:03:17+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -16084,7 +16083,6 @@
     "stability-flags": {
         "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/evaluator": 20,
         "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
