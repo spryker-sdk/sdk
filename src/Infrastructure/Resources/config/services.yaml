@@ -824,3 +824,13 @@ services:
     twig.extension.class_constant_fetcher:
         class: SprykerSdk\Sdk\Infrastructure\Twig\Extension\ClassConstantFetcher
         tags: ['twig.extension']
+
+    metric_sender.client_fetcher:
+        class: SprykerSdk\Sdk\Infrastructure\MetricsSender\MetricSenderClientFetcher
+        arguments:
+            - !tagged_iterator metric_sender_client
+
+    metric_sender.event_subscriber:
+        class: SprykerSdk\Sdk\Infrastructure\MetricsSender\MetricEventSubscriber
+        arguments: ['@metric_sender.client_fetcher']
+        tags: [ 'kernel.event_subscriber' ]

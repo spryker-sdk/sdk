@@ -54,6 +54,7 @@ RUN chmod +x ${srcRoot}/entrypoint.sh
 WORKDIR ${srcRoot}
 
 ENV APP_ENV=sprykerci
+ENV NRIA_ENABLE_PROCESS_METRICS=true
 
 RUN npm install
 
