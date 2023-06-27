@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a5bf7721980efee5a9768151e658ed0",
+    "content-hash": "7fd7ab5f7edaacf64bbd1e5923ed1211",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7327,16 +7327,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-master",
+            "version": "dev-bugfix/sdk-2845-evaluator-issue",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "a2585db5ef007c6f9219baa02700c861ff2fc3bd"
+                "reference": "79c4459154057f29c23ee3041054b6a2028b1135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a2585db5ef007c6f9219baa02700c861ff2fc3bd",
-                "reference": "a2585db5ef007c6f9219baa02700c861ff2fc3bd",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/79c4459154057f29c23ee3041054b6a2028b1135",
+                "reference": "79c4459154057f29c23ee3041054b6a2028b1135",
                 "shasum": ""
             },
             "require": {
@@ -7374,7 +7374,6 @@
                 "phpunit/phpunit": "^9.5",
                 "spryker/code-sniffer": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -7396,9 +7395,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/master"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/bugfix/sdk-2845-evaluator-issue"
             },
-            "time": "2023-06-26T14:36:04+00:00"
+            "time": "2023-06-26T15:02:06+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
