@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "159596cc158f29868c601343f4cbfc65",
+    "content-hash": "3adc2ad967b5c121cfa55fce7588d3d5",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7140,16 +7140,16 @@
         },
         {
             "name": "spryker-sdk/sdk-contracts",
-            "version": "dev-feature/sdk-2481-error-logging",
+            "version": "0.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/sdk-contracts.git",
-                "reference": "7e4ae98b76ba6e16ded85e6cbc56b0d7ef7e9875"
+                "reference": "dc004f2fb711c6736c5501af97d90d63a2e0b1c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/7e4ae98b76ba6e16ded85e6cbc56b0d7ef7e9875",
-                "reference": "7e4ae98b76ba6e16ded85e6cbc56b0d7ef7e9875",
+                "url": "https://api.github.com/repos/spryker-sdk/sdk-contracts/zipball/dc004f2fb711c6736c5501af97d90d63a2e0b1c7",
+                "reference": "dc004f2fb711c6736c5501af97d90d63a2e0b1c7",
                 "shasum": ""
             },
             "require": {
@@ -7173,9 +7173,9 @@
             "description": "Contracts to extend the Spryker SDK",
             "support": {
                 "issues": "https://github.com/spryker-sdk/sdk-contracts/issues",
-                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/feature/sdk-2481-error-logging"
+                "source": "https://github.com/spryker-sdk/sdk-contracts/tree/0.4.7"
             },
-            "time": "2023-06-22T10:02:44+00:00"
+            "time": "2023-06-27T10:55:21+00:00"
         },
         {
             "name": "spryker-sdk/security-checker",
@@ -7331,12 +7331,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "1d88c9f05d02c40ed3ee11aa686ff972b1b8b49a"
+                "reference": "a4f4a6299af9aa23cb0a721e2e0db31714d9fb7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/1d88c9f05d02c40ed3ee11aa686ff972b1b8b49a",
-                "reference": "1d88c9f05d02c40ed3ee11aa686ff972b1b8b49a",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a4f4a6299af9aa23cb0a721e2e0db31714d9fb7a",
+                "reference": "a4f4a6299af9aa23cb0a721e2e0db31714d9fb7a",
                 "shasum": ""
             },
             "require": {
@@ -7353,7 +7353,7 @@
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/azure-php-client": "dev-master",
                 "spryker-sdk/integrator": "^1.0@dev",
-                "spryker-sdk/sdk-contracts": "dev-feature/sdk-2481-error-logging",
+                "spryker-sdk/sdk-contracts": "^0.4.7",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
                 "symfony/dependency-injection": "^5.0",
@@ -7397,7 +7397,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/feature/sdk-2481-error-logging"
             },
-            "time": "2023-06-26T11:55:00+00:00"
+            "time": "2023-06-27T11:12:37+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -16082,7 +16082,6 @@
     "stability-flags": {
         "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/sdk-contracts": 20,
         "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
