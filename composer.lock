@@ -6909,12 +6909,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/brancho.git",
-                "reference": "4f4f1ba573fc21e61a153ef4163782d527b6c515"
+                "reference": "960f563ab5435e362e1f52a385b8b8c7cd434b2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/brancho/zipball/4f4f1ba573fc21e61a153ef4163782d527b6c515",
-                "reference": "4f4f1ba573fc21e61a153ef4163782d527b6c515",
+                "url": "https://api.github.com/repos/spryker-sdk/brancho/zipball/960f563ab5435e362e1f52a385b8b8c7cd434b2d",
+                "reference": "960f563ab5435e362e1f52a385b8b8c7cd434b2d",
                 "shasum": ""
             },
             "require": {
@@ -6961,7 +6961,7 @@
                 "issues": "https://github.com/spryker-sdk/brancho/issues",
                 "source": "https://github.com/spryker-sdk/brancho/tree/master"
             },
-            "time": "2023-04-13T08:21:59+00:00"
+            "time": "2023-05-30T07:45:24+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -16082,7 +16082,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/brancho": 20,
-        "spryker-sdk/composer-replace": 20
+        "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
