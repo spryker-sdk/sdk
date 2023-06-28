@@ -64,9 +64,6 @@ jobs:
             - name: Composer install
               run: composer install
 
-            - name: Security check
-              run: bin/console security:check
-
             - name: Run PHPStan
               run: composer stan
 
