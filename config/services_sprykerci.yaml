@@ -3,10 +3,11 @@ parameters:
     env(REPOSITORY_NAME): 'spryker-sdk'
     env(CI_WORKSPACE_NAME): '-'
     env(CI_EXECUTION_ID): '-'
+    new_relic_transaction_name: '%env(CI_WORKSPACE_NAME)%/%env(ORGANIZATION_NAME)%/%env(REPOSITORY_NAME)%'
 services:
     logger_transaction_name_new_relic_processor:
         class: SprykerSdk\Sdk\Infrastructure\Logger\TransactionNameNewRelicProcessor
-        arguments: [ '%env(CI_WORKSPACE_NAME)%/%env(ORGANIZATION_NAME)%/%env(REPOSITORY_NAME)%' ]
+        arguments: [ '%new_relic_transaction_name%' ]
         tags:
             - { name: monolog.processor, handler: newrelic }
 
@@ -15,3 +16,8 @@ services:
         arguments:
             - '%env(CI_WORKSPACE_NAME)%'
             - '%env(CI_EXECUTION_ID)%'
+
+    metric_sender.new_relic_sender_client:
+        class: SprykerSdk\Sdk\Infrastructure\MetricsSender\NewRelicMetricSenderClient
+        arguments: [ '%new_relic_transaction_name%' ]
+        tags: [ 'metric_sender_client' ]

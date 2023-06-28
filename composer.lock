@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0822ce1226e4d4491c0c23dda7becda5",
+    "content-hash": "32eccf76e1f1cb1547860b42d816f531",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6909,12 +6909,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/brancho.git",
-                "reference": "4f4f1ba573fc21e61a153ef4163782d527b6c515"
+                "reference": "960f563ab5435e362e1f52a385b8b8c7cd434b2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/brancho/zipball/4f4f1ba573fc21e61a153ef4163782d527b6c515",
-                "reference": "4f4f1ba573fc21e61a153ef4163782d527b6c515",
+                "url": "https://api.github.com/repos/spryker-sdk/brancho/zipball/960f563ab5435e362e1f52a385b8b8c7cd434b2d",
+                "reference": "960f563ab5435e362e1f52a385b8b8c7cd434b2d",
                 "shasum": ""
             },
             "require": {
@@ -6961,7 +6961,7 @@
                 "issues": "https://github.com/spryker-sdk/brancho/issues",
                 "source": "https://github.com/spryker-sdk/brancho/tree/master"
             },
-            "time": "2023-04-13T08:21:59+00:00"
+            "time": "2023-05-30T07:45:24+00:00"
         },
         {
             "name": "spryker-sdk/composer-replace",
@@ -7005,16 +7005,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "ba9793347a35268e5bfa9c8654a90ed95551a391"
+                "reference": "c7fd2f9782de0b1120ea8e39c788d068c749181d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/ba9793347a35268e5bfa9c8654a90ed95551a391",
-                "reference": "ba9793347a35268e5bfa9c8654a90ed95551a391",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/c7fd2f9782de0b1120ea8e39c788d068c749181d",
+                "reference": "c7fd2f9782de0b1120ea8e39c788d068c749181d",
                 "shasum": ""
             },
             "require": {
@@ -7073,9 +7073,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.0"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.1"
             },
-            "time": "2023-06-14T15:03:17+00:00"
+            "time": "2023-06-28T08:54:05+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -7331,12 +7331,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "c7862e5754bc81f71ad93802f1aa405ec100f346"
+                "reference": "ef19a855d9abcd97d045a3283627b48ef1e92fd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/c7862e5754bc81f71ad93802f1aa405ec100f346",
-                "reference": "c7862e5754bc81f71ad93802f1aa405ec100f346",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/ef19a855d9abcd97d045a3283627b48ef1e92fd5",
+                "reference": "ef19a855d9abcd97d045a3283627b48ef1e92fd5",
                 "shasum": ""
             },
             "require": {
@@ -7398,7 +7398,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-06-27T11:08:06+00:00"
+            "time": "2023-06-28T08:15:17+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
