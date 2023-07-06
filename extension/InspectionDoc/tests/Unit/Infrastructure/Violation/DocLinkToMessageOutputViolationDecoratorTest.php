@@ -8,10 +8,10 @@
 namespace InspectionDoc\Tests\Unit\Infrastructure\Violation;
 
 use Codeception\Test\Unit;
-use CodeCompliance\Domain\Entity\ViolationInterface;
 use InspectionDoc\Entity\InspectionDocInterface;
 use InspectionDoc\Infrastructure\Reader\InspectionDocReaderInterface;
 use InspectionDoc\Infrastructure\Violation\DocLinkToMessageOutputViolationDecorator;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 
 /**
  * Auto-generated group annotations
