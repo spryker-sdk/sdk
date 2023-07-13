@@ -8,10 +8,10 @@
 namespace Sdk\Unit\Infrastructure\Violation\Formatter;
 
 use Codeception\Test\Unit;
-use CodeCompliance\Domain\Entity\PackageViolationReportInterface;
-use CodeCompliance\Domain\Entity\ViolationInterface;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorInterface;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator;
+use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 /**
