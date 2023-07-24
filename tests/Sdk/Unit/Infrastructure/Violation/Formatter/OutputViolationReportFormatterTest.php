@@ -8,10 +8,11 @@
 namespace Sdk\Unit\Infrastructure\Violation\Formatter;
 
 use Codeception\Test\Unit;
-use CodeCompliance\Domain\Entity\PackageViolationReportInterface;
-use CodeCompliance\Domain\Entity\ViolationInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator;
+use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
+use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,12 +30,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class OutputViolationReportFormatterTest extends Unit
 {
     /**
-     * @var \SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator&\PHPUnit\Framework\MockObject\MockObject
+     * @var ViolationReportDecorator&MockObject
      */
     protected ViolationReportDecorator $violationReportDecorator;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @var OutputInterface&MockObject
      */
     protected OutputInterface $output;
 
