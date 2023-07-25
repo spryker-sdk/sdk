@@ -11,7 +11,7 @@ on:
 
 env:
     APP_ENV: test # Symfony application environment
-    CODECOV_TOKEN: a223186e-69ca-438b-bc5a-aa509559fdd0
+    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
     validation:
@@ -22,7 +22,6 @@ jobs:
             matrix:
                 php-version: [
                     '7.4',
-                    '8.0',
                     '8.1'
                 ]
 
@@ -76,19 +75,19 @@ jobs:
             - name: Codecept unit tests
               run: composer test-vcs-connector-extension
 
-            - name: Codecept unit tests
-              run: composer test-inspection-doc-extension
+            -   name: Codecept unit tests
+                run: composer test-inspection-doc-extension
 
-            - name: Install SDK
-              run: bin/console sdk:init:hidden-sdk -n
+            -   name: Install SDK
+                run: bin/console sdk:init:hidden-sdk -n
 
-            - name: Codecept acceptance tests
-              run: composer test-qa
+            -   name: Codecept acceptance tests
+                run: composer test-qa
 
-            - name: Codecept tests with coverage
-              if: ${{ matrix.php-version == '8.0' }}
-              run: composer test-cover
+            -   name: Codecept tests with coverage
+                if: ${{ matrix.php-version == '8.1' }}
+                run: composer test-cover
 
-            - name: Code Coverage Report
-              if: success() && matrix.php-version == '8.0'
-              uses: codecov/codecov-action@v1
+            -   name: Code Coverage Report
+                if: success() && matrix.php-version == '8.1'
+                uses: codecov/codecov-action@v1
