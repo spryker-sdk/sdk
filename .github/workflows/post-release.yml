@@ -160,7 +160,7 @@ jobs:
     trigger-sprykerci:
         name: Triggers SprykerCI post-release pipeline
         runs-on: ubuntu-22.04
-        needs: [ docker-sprykerci, installer ]
+        needs: [ docker-sprykerci-74, docker-sprykerci-80, docker-sprykerci-81, installer ]
         steps:
             -   name: Trigger CI pipeline
                 shell: bash
