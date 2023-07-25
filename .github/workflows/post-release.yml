@@ -92,7 +92,7 @@ jobs:
                     file: ./infrastructure/sdk.sprykerci80.Dockerfile
                     platforms: linux/amd64
                     push: true
-                    tags: spryker/php-sdk:sprykerci-8.0
+                    tags: spryker/php-sdk:sprykerci-8.0,spryker/php-sdk:sprykerci
                     labels: SprykerCI
 
     docker-sprykerci-81:
