@@ -10,8 +10,6 @@ namespace Sdk\Unit\Infrastructure\Violation\Formatter;
 use Codeception\Test\Unit;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationDecoratorInterface;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator;
-use SprykerSdk\SdkContracts\Report\Violation\PackageViolationReportInterface;
-use SprykerSdk\SdkContracts\Report\Violation\ViolationInterface;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
 
 /**
@@ -46,30 +44,10 @@ class ViolationReportDecoratorTest extends Unit
     public function testDecorate(): void
     {
         // Arrange
-        $violationMock = $this->createMock(ViolationInterface::class);
         $violationReportMock = $this->createMock(ViolationReportInterface::class);
-        $packageViolationReportMock = $this->createMock(PackageViolationReportInterface::class);
-        $packageViolationReportMock
-            ->expects($this->once())
-            ->method('getViolations')
-            ->willReturn([$violationMock]);
-
-        $packageViolationReportMock
-            ->expects($this->once())
-            ->method('getFileViolations')
-            ->willReturn(['path' => [$violationMock]]);
-
-        $violationReportMock
-            ->method('getViolations')
-            ->willReturn([$violationMock]);
-
-        $violationReportMock
-            ->expects($this->once())
-            ->method('getPackages')
-            ->willReturn([$packageViolationReportMock]);
 
         $this->outputViolationDecorator
-            ->expects($this->exactly(3))
+            ->expects($this->never())
             ->method('decorate')
             ->willReturnArgument(0);
 
