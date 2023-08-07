@@ -63,6 +63,8 @@ RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --
 
 RUN composer dump-env sprykerci
 
+RUN bin/console sdk:init:sdk -n
+
 RUN bin/console cache:clear --no-debug
 
 ENTRYPOINT ["/data/entrypoint.sh"]
