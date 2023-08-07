@@ -7333,12 +7333,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "750fc847e8f99771e1e7676a7bd88f3bb39d1014"
+                "reference": "505176172908a001a1d72b9e4bedc5b45d813bea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/750fc847e8f99771e1e7676a7bd88f3bb39d1014",
-                "reference": "750fc847e8f99771e1e7676a7bd88f3bb39d1014",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/505176172908a001a1d72b9e4bedc5b45d813bea",
+                "reference": "505176172908a001a1d72b9e4bedc5b45d813bea",
                 "shasum": ""
             },
             "require": {
@@ -7399,7 +7399,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-08-02T11:34:54+00:00"
+            "time": "2023-08-07T09:02:41+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -16083,8 +16083,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/brancho": 20,
-        "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/upgrader": 20
+        "spryker-sdk/composer-replace": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
