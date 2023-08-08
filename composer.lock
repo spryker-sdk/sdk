@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "4c5f6f81a5d909a984a08b3f49df58fc233cfdb7"
+                "reference": "df309ebf83b34f0c57c42798ea233f7a370a2b97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/4c5f6f81a5d909a984a08b3f49df58fc233cfdb7",
-                "reference": "4c5f6f81a5d909a984a08b3f49df58fc233cfdb7",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/df309ebf83b34f0c57c42798ea233f7a370a2b97",
+                "reference": "df309ebf83b34f0c57c42798ea233f7a370a2b97",
                 "shasum": ""
             },
             "require": {
@@ -7111,7 +7111,7 @@
                 "ext-zip": "*",
                 "phpstan/phpstan": "^1.0.0",
                 "phpunit/phpunit": "^9.5.0",
-                "spryker-sdk/manifest-test-data-provider": "dev-bugfix/sdk-2707-plugin-added-and-not-support-required-interface",
+                "spryker-sdk/manifest-test-data-provider": "dev-master",
                 "spryker/code-sniffer": "dev-master",
                 "symfony/filesystem": "^5.3.0 || ^6.0"
             },
@@ -7139,7 +7139,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-08-08T10:34:36+00:00"
+            "time": "2023-08-08T10:39:52+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
