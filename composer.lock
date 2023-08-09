@@ -7074,9 +7074,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.4"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.5"
             },
-            "time": "2023-07-31T09:39:39+00:00"
+            "time": "2023-08-07T12:28:16+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -7334,15 +7334,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "750fc847e8f99771e1e7676a7bd88f3bb39d1014"
+                "reference": "ff9f1e7fdb8b6c33596adfda800c3c819aa124b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/750fc847e8f99771e1e7676a7bd88f3bb39d1014",
-                "reference": "750fc847e8f99771e1e7676a7bd88f3bb39d1014",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/ff9f1e7fdb8b6c33596adfda800c3c819aa124b6",
+                "reference": "ff9f1e7fdb8b6c33596adfda800c3c819aa124b6",
                 "shasum": ""
             },
             "require": {
+                "composer/semver": "^3.3",
                 "davidrjonas/composer-lock-diff": "^1.6",
                 "ergebnis/json-printer": "^3.1",
                 "ext-json": "*",
@@ -7400,7 +7401,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-08-02T11:34:54+00:00"
+            "time": "2023-08-07T09:03:48+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
