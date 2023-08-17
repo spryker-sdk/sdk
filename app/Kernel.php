@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel
 {
-    use MicroKernelTrait;
+    use MicroKernelTrait;  
 
     /**
      * @param \Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator $container
