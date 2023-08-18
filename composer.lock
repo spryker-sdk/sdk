@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "e056385d658ddf5701b4745971b160540b3adc2d"
+                "reference": "2828f1dbc03af7eac45a49148e2cd97f010e00f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/e056385d658ddf5701b4745971b160540b3adc2d",
-                "reference": "e056385d658ddf5701b4745971b160540b3adc2d",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/2828f1dbc03af7eac45a49148e2cd97f010e00f1",
+                "reference": "2828f1dbc03af7eac45a49148e2cd97f010e00f1",
                 "shasum": ""
             },
             "require": {
@@ -7139,7 +7139,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-08-18T10:35:05+00:00"
+            "time": "2023-08-18T15:05:56+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -16085,7 +16085,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/brancho": 20,
-        "spryker-sdk/composer-replace": 20
+        "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
