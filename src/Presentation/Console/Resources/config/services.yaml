@@ -149,7 +149,7 @@ services:
   # Integrations
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
-    tags: ["console.command", "telemetry.observable_command"]
+    tags: ["console.command"]
   composer_replace_command:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
     tags: [ "console.command", "telemetry.observable_command"]

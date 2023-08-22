@@ -1,4 +1,4 @@
-ARG SPRYKER_PARENT_IMAGE=spryker/php:8.0
+ARG SPRYKER_PARENT_IMAGE=spryker/php:8.1
 
 FROM ${SPRYKER_PARENT_IMAGE} AS application-production-dependencies
 
@@ -11,6 +11,7 @@ RUN apk update \
     graphviz \
     nodejs \
     npm \
+    rsync \
     && npm install -g npm@8.4.1
 
 RUN git config --add --system safe.directory /project
@@ -19,6 +20,7 @@ RUN git config --add --system safe.directory /project
 # New Relic Extension
 # It's already in the core image.
 ########################################
+
 COPY infrastructure/newrelic/newrelic.ini  /usr/local/etc/php/conf.d/90-newrelic.ini
 
 ARG SPRYKER_COMPOSER_MODE
@@ -44,6 +46,7 @@ COPY --chown=spryker:spryker frontend ${srcRoot}/frontend
 COPY --chown=spryker:spryker bin ${srcRoot}/bin
 COPY --chown=spryker:spryker .env ${srcRoot}/.env
 COPY --chown=spryker:spryker .env.prod ${srcRoot}/.env.prod
+COPY --chown=spryker:spryker .env.sprykerci ${srcRoot}/.env.sprykerci
 COPY --chown=spryker:spryker composer.json composer.lock package.json package-lock.json bootstrap.php phpstan-bootstrap.php ${srcRoot}/
 
 COPY --chown=spryker:spryker infrastructure/newrelic/entrypoint.sh  ${srcRoot}/entrypoint.sh
@@ -52,12 +55,15 @@ RUN chmod +x ${srcRoot}/entrypoint.sh
 WORKDIR ${srcRoot}
 
 ENV APP_ENV=sprykerci
+ENV NRIA_ENABLE_PROCESS_METRICS=true
 
 RUN npm install
 
 RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
 
 RUN composer dump-env sprykerci
+
+RUN bin/console sdk:init:sdk -n
 
 RUN bin/console cache:clear --no-debug
 

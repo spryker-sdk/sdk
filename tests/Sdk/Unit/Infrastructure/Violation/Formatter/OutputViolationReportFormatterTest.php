@@ -8,8 +8,6 @@
 namespace Sdk\Unit\Infrastructure\Violation\Formatter;
 
 use Codeception\Test\Unit;
-use CodeCompliance\Domain\Entity\PackageViolationReportInterface;
-use CodeCompliance\Domain\Entity\ViolationInterface;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\OutputViolationReportFormatter;
 use SprykerSdk\Sdk\Infrastructure\Violation\Formatter\ViolationReportDecorator;
 use SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface;
@@ -61,33 +59,15 @@ class OutputViolationReportFormatterTest extends Unit
     public function testFormat(): void
     {
         // Arrange
-        $violationMock = $this->createMock(ViolationInterface::class);
         $violationReportMock = $this->createMock(ViolationReportInterface::class);
-        $packageViolationReportMock = $this->createMock(PackageViolationReportInterface::class);
 
         $this->violationReportDecorator
             ->expects($this->once())
             ->method('decorate')
             ->willReturn($violationReportMock);
-        $packageViolationReportMock
-            ->expects($this->once())
-            ->method('getViolations')
-            ->willReturn([$violationMock]);
 
-        $packageViolationReportMock
-            ->expects($this->once())
-            ->method('getFileViolations')
-            ->willReturn(['path' => [$violationMock]]);
-
-        $violationReportMock
-            ->method('getViolations')
-            ->willReturn([$violationMock]);
-
-        $violationReportMock
-            ->method('getPackages')
-            ->willReturn([$packageViolationReportMock]);
         $this->output
-            ->expects($this->atLeastOnce())
+            ->expects($this->never())
             ->method('writeln');
 
         $yamlViolationReportFormatter = new OutputViolationReportFormatter($this->violationReportDecorator);

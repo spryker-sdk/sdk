@@ -1,94 +1,93 @@
 name: CI
 
 on:
-  pull_request:
-  push:
-    branches:
-      - master
-      - develop
-      - feature/[a-z]+-[0-9]+/dev-*
-  workflow_dispatch:
+    pull_request:
+    push:
+        branches:
+            - master
+            - develop
+            - feature/[a-z]+-[0-9]+/dev-*
+    workflow_dispatch:
 
 env:
     APP_ENV: test # Symfony application environment
-    CODECOV_TOKEN: a223186e-69ca-438b-bc5a-aa509559fdd0
+    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
-  validation:
-    name: "CS, PHPStan, Security"
-    runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version: [
-            '7.4',
-            '8.0',
-            '8.1'
-        ]
+    validation:
+        name: "CS, PHPStan, Security"
+        runs-on: ubuntu-22.04
+        strategy:
+            fail-fast: false
+            matrix:
+                php-version: [
+                    '7.4',
+                    '8.1'
+                ]
 
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: mbstring, ctype, iconv
-          tools: composer:v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-      - uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+                  extensions: mbstring, ctype, iconv
+                  tools: composer:v2
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+            - uses: bahmutov/npm-install@v1
+              with:
+                  useLockFile: false
 
-      - name: Composer get cache directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+            - name: Composer get cache directory
+              id: composer-cache
+              run: |
+                  echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Composer cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+            - name: Composer cache
+              uses: actions/cache@v2
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-composer-
 
-      - name: Composer validate
-        run: composer validate
+            - name: Composer validate
+              run: composer validate
 
-      - name: Composer version
-        run: composer --version
+            - name: Composer version
+              run: composer --version
 
-      - name: Composer install
-        run: composer install
+            - name: Composer install
+              run: composer install
 
-      - name: Run PHPStan
-        run: composer stan
+            - name: Run PHPStan
+              run: composer stan
 
-      - name: Run CodeStyle checks
-        run: composer cs-check
+            - name: Run CodeStyle checks
+              run: composer cs-check
 
-      - name: Codecept unit tests
-        run: composer test
+            - name: Codecept unit tests
+              run: composer test
 
-      - name: Codecept unit tests
-        run: composer test-vcs-connector-extension
+            - name: Codecept unit tests
+              run: composer test-vcs-connector-extension
 
-      - name: Codecept unit tests
-        run: composer test-inspection-doc-extension
+            -   name: Codecept unit tests
+                run: composer test-inspection-doc-extension
 
-      - name: Install SDK
-        run: bin/console sdk:init:hidden-sdk -n
+            -   name: Install SDK
+                run: bin/console sdk:init:hidden-sdk -n
 
-      - name: Codecept acceptance tests
-        run: composer test-qa
+            -   name: Codecept acceptance tests
+                run: composer test-qa
 
-      - name: Codecept tests with coverage
-        if: ${{ matrix.php-version == '8.0' }}
-        run: composer test-cover
+            -   name: Codecept tests with coverage
+                if: ${{ matrix.php-version == '8.1' }}
+                run: composer test-cover
 
-      - name: Code Coverage Report
-        if: success() && matrix.php-version == '8.0'
-        uses: codecov/codecov-action@v1
+            -   name: Code Coverage Report
+                if: success() && matrix.php-version == '8.1'
+                uses: codecov/codecov-action@v1

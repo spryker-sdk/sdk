@@ -17,10 +17,10 @@ services:
         exclude: '../app/{DependencyInjection,Entity,Tests,Kernel.php}'
     SprykerSdk\Sdk\Core\:
         resource: '../src/Core'
-        exclude: '../src/{DependencyInjection,Entity,Enum,Tests,Kernel.php}'
+        exclude: '../src/Core/{DependencyInjection,Entity,Enum,Tests,Kernel.php}'
     SprykerSdk\Sdk\Infrastructure\:
         resource: '../src/Infrastructure'
-        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+        exclude: '../src/Infrastructure/{DependencyInjection,Entity,Tests,Kernel.php}'
     SprykerSdk\Sdk\Presentation\Console\:
         resource: '../src/Presentation/Console'
-        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+        exclude: '../src/Presentation/Console/{DependencyInjection,Entity,Tests,Kernel.php}'
