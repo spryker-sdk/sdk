@@ -13,8 +13,6 @@ use SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface;
 use SprykerSdk\Sdk\Core\Application\Dto\ReceiverValue;
 use SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow;
 use SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner;
-use SprykerSdk\SdkContracts\Entity\ContextInterface;
-use SprykerSdk\SdkContracts\Entity\MessageInterface;
 use SprykerSdk\SdkContracts\Enum\Setting;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
 use Symfony\Component\Console\Command\Command;
@@ -71,24 +69,40 @@ class RunWorkflowCommand extends Command
     protected SettingFetcherInterface $settingFetcher;
 
     /**
+     * @var string
+     */
+    protected string $projectSettingsFileName;
+
+    /**
+     * @var string
+     */
+    protected string $projectLocalSettingsFileName;
+
+    /**
      * @param \SprykerSdk\Sdk\Core\Application\Service\ProjectWorkflow $projectWorkflow
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\InteractionProcessorInterface $cliValueReceiver
      * @param \SprykerSdk\Sdk\Infrastructure\Workflow\WorkflowRunner $workflowRunner
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\ContextFactoryInterface $contextFactory
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\SettingFetcherInterface $settingFetcher
+     * @param string $projectSettingsFileName
+     * @param string $projectLocalSettingsFileName
      */
     public function __construct(
         ProjectWorkflow $projectWorkflow,
         InteractionProcessorInterface $cliValueReceiver,
         WorkflowRunner $workflowRunner,
         ContextFactoryInterface $contextFactory,
-        SettingFetcherInterface $settingFetcher
+        SettingFetcherInterface $settingFetcher,
+        string $projectSettingsFileName,
+        string $projectLocalSettingsFileName
     ) {
         $this->projectWorkflow = $projectWorkflow;
         $this->cliValueReceiver = $cliValueReceiver;
         $this->workflowRunner = $workflowRunner;
         $this->contextFactory = $contextFactory;
         $this->settingFetcher = $settingFetcher;
+        $this->projectSettingsFileName = $projectSettingsFileName;
+        $this->projectLocalSettingsFileName = $projectLocalSettingsFileName;
 
         parent::__construct(static::NAME);
     }
@@ -121,7 +135,15 @@ EOT,
         $projectWorkflows = (array)$this->settingFetcher->getOneByPath(Setting::PATH_WORKFLOW)->getValues();
 
         if ($workflowName && !in_array($workflowName, $projectWorkflows)) {
-            $output->writeln('<error>You don\'t have any active a workflows".</error>');
+            $output->writeln(
+                sprintf(
+                    '<error>You don\'t have the `%s` workflow in this project. Please add the workflow by using `%s` command or manually add one in `%s` or `%s`.</error>',
+                    $workflowName,
+                    InitProjectCommand::NAME,
+                    $this->projectSettingsFileName,
+                    $this->projectLocalSettingsFileName,
+                ),
+            );
 
             return static::FAILURE;
         }
@@ -140,42 +162,8 @@ EOT,
         }
         $context = $this->contextFactory->getContext();
 
-        $context = $this->workflowRunner->execute($workflowName, $context);
-
-        $this->writeFilteredMessages($output, $context);
+        $this->workflowRunner->execute($workflowName, $context);
 
         return static::SUCCESS;
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \SprykerSdk\SdkContracts\Entity\ContextInterface $context
-     *
-     * @return void
-     */
-    protected function writeFilteredMessages(
-        OutputInterface $output,
-        ContextInterface $context
-    ): void {
-        foreach ($context->getMessages() as $message) {
-            $output->writeln($this->formatMessage($message));
-        }
-    }
-
-    /**
-     * @param \SprykerSdk\SdkContracts\Entity\MessageInterface $message
-     *
-     * @return string
-     */
-    protected function formatMessage(MessageInterface $message): string
-    {
-        $template = [
-                MessageInterface::INFO => '<info>Info: %s</info>',
-                MessageInterface::ERROR => '<error>Error: %s</error>',
-                MessageInterface::SUCCESS => '<fg=black;bg=green>Success: %s</>',
-                MessageInterface::DEBUG => '<fg=black;bg=yellow>Debug: %s</>',
-            ][$message->getVerbosity()] ?? '%s';
-
-        return sprintf($template, $message->getMessage());
     }
 }

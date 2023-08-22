@@ -8,13 +8,15 @@
 namespace SprykerSdk\Sdk\Unit\Infrastructure\Service;
 
 use Codeception\Test\Unit;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\RemovedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
 use SprykerSdk\Sdk\Infrastructure\Service\TaskManager;
+use SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
+use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -50,6 +52,7 @@ class TaskManagerTest extends Unit
             $this->createNoCallsEventDispatcherMock(),
             $this->createRepositoryMock($task),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock(),
         );
 
         //Act
@@ -70,10 +73,33 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(InitializedEvent::class, InitializedEvent::NAME),
             $this->createRepositoryMock($task, 'create'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock('createRelations'),
         );
 
         //Act
         $tasks = $taskManager->initialize([$task]);
+
+        //Assert
+        $this->assertCount(1, $tasks);
+    }
+
+    /**
+     * @return void
+     */
+    public function testInitializeWhenTaskSetPassed(): void
+    {
+        //Arrange
+        $taskSet = $this->createTaskSetMock(static::NON_EXISTENT_TASK_ID);
+        $taskFromTaskSet = $this->createTaskMock('task:id');
+        $taskManager = new TaskManager(
+            $this->createEventDispatcherMock(InitializedEvent::class, InitializedEvent::NAME),
+            $this->createRepositoryMock($taskFromTaskSet, 'create'),
+            $this->createTaskFromTaskSetBuilderMock($taskFromTaskSet),
+            $this->createTaskSetTaskRelationFacadeMock('createRelations'),
+        );
+
+        //Act
+        $tasks = $taskManager->initialize([$taskSet]);
 
         //Assert
         $this->assertCount(1, $tasks);
@@ -90,6 +116,7 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(RemovedEvent::class, RemovedEvent::NAME),
             $this->createRepositoryMock($task, 'remove'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock('removeRelations'),
         );
 
         //Act
@@ -107,6 +134,7 @@ class TaskManagerTest extends Unit
             $this->createEventDispatcherMock(UpdatedEvent::class, UpdatedEvent::NAME),
             $this->createRepositoryMock($task, 'update'),
             $this->createTaskFromTaskSetBuilderMock(),
+            $this->createTaskSetTaskRelationFacadeMock('updateRelations'),
         );
 
         //Act
@@ -122,6 +150,19 @@ class TaskManagerTest extends Unit
     {
         $taskMock = $this->createMock(TaskInterface::class);
         $taskMock->method('getId')->willReturn($taskId);
+
+        return $taskMock;
+    }
+
+    /**
+     * @param string $taskSetId
+     *
+     * @return \SprykerSdk\SdkContracts\Entity\TaskSetInterface
+     */
+    protected function createTaskSetMock(string $taskSetId): TaskSetInterface
+    {
+        $taskMock = $this->createMock(TaskSetInterface::class);
+        $taskMock->method('getId')->willReturn($taskSetId);
 
         return $taskMock;
     }
@@ -181,10 +222,38 @@ class TaskManagerTest extends Unit
     }
 
     /**
+     * @param \SprykerSdk\SdkContracts\Entity\TaskInterface|null $task
+     *
      * @return \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface
      */
-    protected function createTaskFromTaskSetBuilderMock(): TaskFromTaskSetBuilderInterface
+    protected function createTaskFromTaskSetBuilderMock(?TaskInterface $task = null): TaskFromTaskSetBuilderInterface
     {
-        return $this->createMock(TaskFromTaskSetBuilderInterface::class);
+        $taskFromTaskSetBuilder = $this->createMock(TaskFromTaskSetBuilderInterface::class);
+
+        if ($task === null) {
+            return $taskFromTaskSetBuilder;
+        }
+
+        $taskFromTaskSetBuilder->method('buildTaskFromTaskSet')->willReturn($task);
+
+        return $taskFromTaskSetBuilder;
+    }
+
+    /**
+     * @param string|null $expectedMethod
+     *
+     * @return \SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface
+     */
+    protected function createTaskSetTaskRelationFacadeMock(?string $expectedMethod = null): TaskSetTaskRelationFacadeInterface
+    {
+        $taskSetTaskRelationFacade = $this->createMock(TaskSetTaskRelationFacadeInterface::class);
+
+        if ($expectedMethod === null) {
+            return $taskSetTaskRelationFacade;
+        }
+
+        $taskSetTaskRelationFacade->expects($this->once())->method($expectedMethod);
+
+        return $taskSetTaskRelationFacade;
     }
 }

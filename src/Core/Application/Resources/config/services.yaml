@@ -1,6 +1,3 @@
-parameters:
-    project_log_file: ".ssdk/.ssdk.log"
-    project_settings_file: "./.ssdk/settings"
 services:
     value_receiver:
         abstract: true
@@ -58,6 +55,7 @@ services:
         class: SprykerSdk\Sdk\Core\Application\Service\ContextSerializer
         arguments:
             - "@report_array_converter_factory"
+            - "@context_factory"
     context_repository:
         synthetic: true
     task_executor:
@@ -77,36 +75,6 @@ services:
         arguments:
             - "@project_setting_repository"
             - "@setting_repository"
-
-    service.file_manager:
-        class: SprykerSdk\Sdk\Core\Application\Service\FileManager
-
-    lifecycle.initialized_subscriber:
-        class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\InitializedEventSubscriber
-        tags: [ "kernel.event_subscriber" ]
-        arguments:
-            - "@service.file_manager"
-            - "@placeholder_resolver"
-            - "@service.lifecycle_command_executor"
-            - "@context_factory"
-
-    lifecycle.removed_subscriber:
-        class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\UpdatedEventSubscriber
-        tags: [ "kernel.event_subscriber" ]
-        arguments:
-            - "@service.file_manager"
-            - "@placeholder_resolver"
-            - "@service.lifecycle_command_executor"
-            - "@context_factory"
-
-    lifecycle.updated_subscriber:
-        class: SprykerSdk\Sdk\Core\Application\Lifecycle\Subscriber\RemovedEventSubscriber
-        tags: [ "kernel.event_subscriber" ]
-        arguments:
-            - "@service.file_manager"
-            - "@placeholder_resolver"
-            - "@service.lifecycle_command_executor"
-            - "@context_factory"
 
     log_event_action_after_command_executed:
         class: SprykerSdk\Sdk\Core\Application\Service\AfterCommandExecutedAction\LogEventAction

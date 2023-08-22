@@ -8,20 +8,6 @@
     </description>
 
     <rule ref="vendor/spryker/code-sniffer/Spryker/ruleset.xml"/>
-    <!-- TODO: Remove the rules below after switching from the attributes into the annotations -->
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
-        <properties>
-            <property name="searchAnnotations" value="1"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces">
-        <properties>
-            <property name="ignoreSpacesInAnnotation" value="1"/>
-        </properties>
-    </rule>
-    <rule ref="Squiz.Commenting.DocCommentAlignment.SpaceAfterStar">
-        <exclude-pattern>src/Presentation/RestApi/Controller/v1/*</exclude-pattern>
-    </rule>
 
     <file>src/</file>
     <file>tests/</file>

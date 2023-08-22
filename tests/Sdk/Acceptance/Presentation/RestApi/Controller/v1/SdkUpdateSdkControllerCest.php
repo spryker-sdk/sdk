@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Acceptance\Presentation\RestApi\Controller\v1;
 
+use SprykerSdk\Sdk\Presentation\RestApi\Controller\v1\SdkUpdateSdkController;
 use SprykerSdk\Sdk\Tests\AcceptanceTester;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,11 +35,25 @@ class SdkUpdateSdkControllerCest
      *
      * @return void
      */
-    public function iSeeJsonResponseAfterCallHelloWorldEndpoint(AcceptanceTester $I): void
+    public function iSeeJsonResponseAfterCallSdkUpdateSdkEndpoint(AcceptanceTester $I): void
     {
-        $I->sendPost(static::ENDPOINT, ['developer_email' => 'test', 'developer_github_account' => 'test']);
-        $I->seeResponseCodeIs(Response::HTTP_OK);
+        $I->sendApiPost(
+            static::ENDPOINT,
+            SdkUpdateSdkController::TYPE,
+            SdkUpdateSdkController::TYPE,
+            [
+                'developer_email' => 'test',
+                'developer_github_account' => 'test',
+            ],
+        );
 
-        $I->seeResponseContainsJson(['messages' => []]);
+        $I->seeSuccessApiResponse(
+            Response::HTTP_OK,
+            SdkUpdateSdkController::TYPE,
+            SdkUpdateSdkController::TYPE,
+            [
+                'messages' => [],
+            ],
+        );
     }
 }

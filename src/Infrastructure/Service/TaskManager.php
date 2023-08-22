@@ -9,10 +9,11 @@ namespace SprykerSdk\Sdk\Infrastructure\Service;
 
 use SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface;
 use SprykerSdk\Sdk\Core\Application\Dependency\TaskManagerInterface;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\InitializedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\RemovedEvent;
-use SprykerSdk\Sdk\Core\Application\Lifecycle\Event\UpdatedEvent;
 use SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\InitializedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\RemovedEvent;
+use SprykerSdk\Sdk\Infrastructure\Lifecycle\Event\UpdatedEvent;
+use SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Entity\TaskSetInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -35,18 +36,26 @@ class TaskManager implements TaskManagerInterface
     protected TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface
+     */
+    protected TaskSetTaskRelationFacadeInterface $taskSetTaskRelationFacade;
+
+    /**
      * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param \SprykerSdk\Sdk\Core\Application\Dependency\Repository\TaskRepositoryInterface $taskRepository
      * @param \SprykerSdk\Sdk\Infrastructure\Builder\TaskSet\TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
+     * @param \SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface $taskSetTaskRelationFacade
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         TaskRepositoryInterface $taskRepository,
-        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder
+        TaskFromTaskSetBuilderInterface $taskFromTaskSetBuilder,
+        TaskSetTaskRelationFacadeInterface $taskSetTaskRelationFacade
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->taskRepository = $taskRepository;
         $this->taskFromTaskSetBuilder = $taskFromTaskSetBuilder;
+        $this->taskSetTaskRelationFacade = $taskSetTaskRelationFacade;
     }
 
     /**
@@ -66,10 +75,12 @@ class TaskManager implements TaskManagerInterface
             }
 
             if ($task instanceof TaskSetInterface) {
+                $this->taskSetTaskRelationFacade->collectTaskSet($task, $tasks);
                 $task = $this->taskFromTaskSetBuilder->buildTaskFromTaskSet($task, $tasks);
             }
 
             $entities[] = $this->taskRepository->create($task);
+            $this->taskSetTaskRelationFacade->createRelations($task);
             $this->eventDispatcher->dispatch(new InitializedEvent($task), InitializedEvent::NAME);
         }
 
@@ -84,6 +95,7 @@ class TaskManager implements TaskManagerInterface
     public function remove(TaskInterface $task): void
     {
         $this->taskRepository->remove($task);
+        $this->taskSetTaskRelationFacade->removeRelations($task);
 
         $this->eventDispatcher->dispatch(new RemovedEvent($task), RemovedEvent::NAME);
     }
@@ -97,6 +109,7 @@ class TaskManager implements TaskManagerInterface
     public function update(TaskInterface $folderTask, TaskInterface $databaseTask): void
     {
         $this->taskRepository->update($folderTask, $databaseTask);
+        $this->taskSetTaskRelationFacade->updateRelations($folderTask);
 
         $this->eventDispatcher->dispatch(new UpdatedEvent($folderTask), UpdatedEvent::NAME);
     }

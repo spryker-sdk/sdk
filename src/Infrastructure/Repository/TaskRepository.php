@@ -145,6 +145,19 @@ class TaskRepository extends ServiceEntityRepository implements TaskRepositoryIn
     }
 
     /**
+     * @return array<string>
+     */
+    public function getTaskIds(): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        return $qb->select('t.id')
+            ->from(Task::class, 't')
+            ->getQuery()
+            ->getSingleColumnResult();
+    }
+
+    /**
      * @param string $taskId
      *
      * @return \SprykerSdk\SdkContracts\Entity\TaskInterface|null

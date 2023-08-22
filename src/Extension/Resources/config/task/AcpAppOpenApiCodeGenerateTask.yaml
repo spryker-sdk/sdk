@@ -3,29 +3,21 @@ id: "acp:openapi:generate"
 short_description: "Generate ACP OpenAPI code."
 help: ~
 stage: build
-version: 0.2.1
-command: "INSTALLED_ROOT_DIRECTORY=%sdk_dir% php %sdk_dir%/vendor/bin/syncapi code:openapi:generate %project-root% %openapi-file% %application-type% %organization% -v"
+version: 0.2.3
+command: "INSTALLED_ROOT_DIRECTORY=%sdk_dir% php %sdk_dir%/vendor/bin/syncapi code:openapi:generate %openapi-file% %application-type% %organization% -v"
 type: !php/const SprykerSdk\SdkContracts\Enum\Task::TYPE_LOCAL_CLI_INTERACTIVE
 placeholders:
   - name: "%sdk_dir%"
     value_resolver: SDK_DIR
     optional: true
-  - name: "%project-root%"
-    value_resolver: STATIC
-    optional: true
-    configuration:
-      alias: "project-root"
-      option: "project-root"
-      description: "Relative path to project root"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
   - name: "%openapi-file%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: true
     configuration:
       alias: "openapi-file"
       option: "openapi-file"
       description: "Path to OpenAPI file"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR ]
   - name: "%organization%"
     value_resolver: STATIC
     optional: true

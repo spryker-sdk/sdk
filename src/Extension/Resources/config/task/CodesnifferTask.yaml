@@ -23,12 +23,12 @@ placeholders:
       type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_STRING
       defaultValue: 'json'
   - name: "%path%"
-    value_resolver: STATIC
+    value_resolver: PRIORITY_PATH
     optional: false
     configuration:
       alias: "path"
       description: "Relative path to module directory in project"
-      type: !php/const SprykerSdk\SdkContracts\Enum\ValueTypeEnum::TYPE_PATH
+      settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
       defaultValue: 'src'
   - name: "%reportDir%"
     value_resolver: REPORT_DIR

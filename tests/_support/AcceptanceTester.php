@@ -8,6 +8,7 @@
 namespace SprykerSdk\Sdk\Tests;
 
 use Codeception\Actor;
+use PDO;
 use SprykerSdk\SdkContracts\Enum\Task;
 use Symfony\Component\Process\Process;
 
@@ -93,6 +94,20 @@ class AcceptanceTester extends Actor
     public function cleanReports(string $project = 'project'): void
     {
         $this->cleanDir($this->getPathFromProjectRoot('.ssdk/reports', $project));
+    }
+
+    /**
+     * @return void
+     */
+    public function cleanTelemetryEventsTable(): void
+    {
+        $dbPath = $this->getPathFromSdkRoot('db/data.db');
+
+        $pdo = new PDO(sprintf('sqlite:%s', $dbPath), null, null, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        ]);
+
+        $pdo->exec('DELETE FROM sdk_telemetry_event');
     }
 
     /**

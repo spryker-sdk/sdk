@@ -45,6 +45,10 @@ class TasksRepositoryInstaller implements TasksRepositoryInstallerInterface
      */
     public function install(): array
     {
+        if (!is_file($this->gitModulesPath)) {
+            return [];
+        }
+
         $gitModules = parse_ini_file($this->gitModulesPath, true);
 
         if (!$gitModules) {

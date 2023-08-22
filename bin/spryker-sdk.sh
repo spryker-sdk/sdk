@@ -5,10 +5,14 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
-SDK_DIR="$(dirname $(dirname $0))"
+LOCAL_SDK_DIR="$(realpath $(dirname $(dirname $0)))"
+
+if [[ ! -f $LOCAL_SDK_DIR/VERSION ]]; then
+    git --git-dir=$LOCAL_SDK_DIR/.git describe --abbrev=0 --tags > $LOCAL_SDK_DIR/VERSION
+fi
 
 if [[ $# == 1 && ($@ == "--version" || $@ == "-V") ]]; then
-    cat $SDK_DIR/VERSION
+    cat $LOCAL_SDK_DIR/VERSION
     exit 0
 fi
 
@@ -40,10 +44,10 @@ fi
 
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
-export EXECUTABLE_FILE_PATH="$(cd "$(dirname "$0")";pwd)/spryker-sdk.sh"
 export USER_UID="$(id -u)"
-export SDK_DIR="$SDK_DIR"
-export SDK_VERSION="$(cat "$SDK_DIR/VERSION")"
+export LOCAL_SDK_DIR="$LOCAL_SDK_DIR"
+export EXECUTABLE_FILE_PATH="$(cd "$(dirname "$0")";pwd)/spryker-sdk.sh"
+export SDK_VERSION="$(cat "$LOCAL_SDK_DIR/VERSION")"
 export UNAME_INFO="$(uname -a)"
 
 ### rest api server
@@ -66,29 +70,24 @@ rest-api-start*)
     export SPRYKER_XDEBUG_HOST_IP=${myIp}
     export PHP_IDE_CONFIG=serverName=spryker-sdk
     export SDK_XDEBUG_MODE="$ARG_XDEBUG_MODE"
-    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" up -d
+
+    docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.rest-api.dev.yaml" up -d
     exit 0
     ;;
 "rest-api-stop")
-    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" stop
+    docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.rest-api.dev.yaml" stop
     exit 0
     ;;
 "rest-api-status")
-    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" ps
+    docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.rest-api.dev.yaml" ps
     exit 0
     ;;
 
 "rest-api-rm")
-    docker-compose -f "${SDK_DIR}/docker-compose.rest-api.dev.yaml" rm -s
+    docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.rest-api.dev.yaml" rm -s
     exit 0
     ;;
 esac
-
-install_composer () {
-    if [[ ! -d "$SDK_DIR/vendor" ]]; then
-       composer install --no-scripts --no-interaction --optimize-autoloader --ignore-platform-reqs;
-    fi;
-}
 
 ### cli
 case $MODE in
@@ -98,8 +97,7 @@ case $MODE in
        exit 1
     fi
     echo "Ensure mutagen is running by executing: mutagen compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
-    install_composer
-    docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --rm \
+    docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --rm \
       -e SPRYKER_XDEBUG_HOST_IP="${myIp}" \
       -e PHP_IDE_CONFIG="serverName=spryker-sdk" \
       spryker-sdk "$ARGUMENTS"
@@ -109,18 +107,31 @@ case $MODE in
         ARGUMENTS='/bin/bash'
     fi
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
-        docker-compose -f "${SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.yml" run --entrypoint="/bin/bash -c" --rm spryker-sdk "$ARGUMENTS"
     else
-        install_composer
-        docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off -w /data spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
+    fi
+    ;;
+"docker-debug" | "dd")
+    if [[ $ARGUMENTS_EMPTY == 1 ]]; then
+        ARGUMENTS='/bin/bash'
+    fi
+    if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
+        echo "This mode is not available for production."
+        exit 1
+    else
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --entrypoint="/bin/bash -c" --rm \
+        -e SPRYKER_XDEBUG_HOST_IP="${myIp}" -e PHP_IDE_CONFIG="serverName=spryker-sdk" spryker-sdk "$ARGUMENTS"
     fi
     ;;
 *)
     if [[ -z "$SPRYKER_SDK_ENV" || $SPRYKER_SDK_ENV == 'prod' ]]; then
-        docker-compose -f "${SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.yml" run --rm spryker-sdk "$ARGUMENTS"
+    elif [[ ! -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" ]]; then
+        echo "The development environment is not available. Please run \`unset SPRYKER_SDK_ENV\` or \`export SPRYKER_SDK_ENV=prod\` to enable \`production\` mode."
+        exit 1
     else
-        install_composer
-        docker-compose -f "${SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
+        docker-compose -f "${LOCAL_SDK_DIR}/docker-compose.dev.yml" run --rm -e XDEBUG_MODE=off spryker-sdk "$ARGUMENTS"
     fi
   ;;
 esac

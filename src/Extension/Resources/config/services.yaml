@@ -31,11 +31,6 @@ services:
         class: SprykerSdk\Sdk\Extension\Task\Command\CheckGitCommand
     generate_app_command:
         class: SprykerSdk\Sdk\Extension\Task\Command\GenerateAppCommand
-    generate_app_change_php_version_command:
-        class: SprykerSdk\Sdk\Extension\Task\Command\ChangePhpVersionCommand
-        arguments:
-            - '@app_modify_composer_file'
-            - '@app_modify_docker_file'
     generate_app_allow_default_composer_plugins_command:
         class: SprykerSdk\Sdk\Extension\Task\Command\AllowDefaultComposerPluginCommand
         arguments:
@@ -65,7 +60,6 @@ services:
                 - '@check_git_command'
                 - '@generate_app_command'
                 - '@generate_app_change_name_command'
-                - '@generate_app_change_php_version_command'
                 - '@generate_app_allow_default_composer_plugins_command'
                 - '@generate_app_update_dependencies_command'
                 - '@add_docker_sdk_command'
@@ -94,12 +88,6 @@ services:
         arguments:
             - '@value_receiver'
             - '%uname_info%'
-
-    app_php_version_value_resolver:
-        class: SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver
-        tags: [ 'sdk.value_resolver' ]
-        arguments:
-            - '@value_receiver'
 
     remove_report_dir:
         class: SprykerSdk\Sdk\Extension\Task\RemoveRepDirTask
@@ -167,7 +155,7 @@ services:
     interaction_answer_based_transition_resolver:
         class: SprykerSdk\Sdk\Extension\Workflow\InteractionAnswerBasedTransitionResolver
         arguments:
-            - '@cli_interaction_processor'
+            - '@interaction_processor'
         tags: [ 'workflow.transition_resolver' ]
 
     uname_env_var_processor:

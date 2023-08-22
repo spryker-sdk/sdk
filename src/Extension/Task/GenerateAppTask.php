@@ -12,7 +12,6 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\Lifecycle;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\RemovedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Lifecycle\UpdatedEventData;
 use SprykerSdk\Sdk\Core\Domain\Entity\Placeholder;
-use SprykerSdk\Sdk\Extension\ValueResolver\AppPhpVersionValueResolver;
 use SprykerSdk\SdkContracts\Entity\Lifecycle\LifecycleInterface;
 use SprykerSdk\SdkContracts\Entity\TaskInterface;
 use SprykerSdk\SdkContracts\Enum\ValueTypeEnum;
@@ -62,7 +61,7 @@ class GenerateAppTask implements TaskInterface
             ),
             new Placeholder(
                 '%app_name%',
-                'STATIC',
+                'ORIGIN',
                 [
                     'alias' => 'app-name',
                     'description' => 'Input name for new App',
@@ -71,18 +70,12 @@ class GenerateAppTask implements TaskInterface
             ),
             new Placeholder(
                 '%project_url%',
-                'STATIC',
+                'ORIGIN',
                 [
                     'alias' => 'project_url',
                     'description' => 'Input repository for new App (e.g.: https://github.com/<user>/<project>.git)',
                     'type' => ValueTypeEnum::TYPE_STRING,
                 ],
-            ),
-            new Placeholder(
-                '%' . AppPhpVersionValueResolver::VALUE_NAME . '%',
-                AppPhpVersionValueResolver::VALUE_RESOLVER_NAME,
-                [],
-                true,
             ),
         ];
     }

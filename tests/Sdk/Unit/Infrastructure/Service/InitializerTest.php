@@ -17,7 +17,6 @@ use SprykerSdk\Sdk\Infrastructure\Service\Initializer;
 use SprykerSdk\Sdk\Infrastructure\Service\ValueReceiver\InteractionProcessor;
 use SprykerSdk\Sdk\Infrastructure\Setting\SettingInitializerRegistry;
 use SprykerSdk\Sdk\Tests\UnitTester;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Auto-generated group annotations
@@ -45,11 +44,6 @@ class InitializerTest extends Unit
      * @var \SprykerSdk\Sdk\Infrastructure\Repository\SettingRepository
      */
     protected SettingRepository $settingRepository;
-
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected Yaml $yamlParser;
 
     /**
      * @var string

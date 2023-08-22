@@ -1,12 +1,18 @@
 parameters:
-  local_executable_file_path: '"$PhpExecutable$" %kernel.project_dir%/bin/console'
-  executable_file_path: '%env(default:local_executable_file_path:EXECUTABLE_FILE_PATH)%'
-  host_sdk_dir: '%env(default:kernel.project_dir:SDK_DIR)%'
+  env(LOCAL_SDK_DIR): "%kernel.project_dir%"
+  host_sdk_dir: '%env(LOCAL_SDK_DIR)%'
+  env(EXECUTABLE_FILE_PATH): '"$PhpExecutable$" %kernel.project_dir%/bin/console'
+  executable_file_path: '%env(EXECUTABLE_FILE_PATH)%'
   manifest_default_task_yaml_dir: 'src/Extension/Resources/config/task/'
   manifest_default_task_php_dir: 'src/Extension/Task/'
 services:
   question_helper:
     class: Symfony\Component\Console\Helper\SymfonyQuestionHelper
+
+  task_loader.task_help_message_decorator:
+    class: SprykerSdk\Sdk\Presentation\Console\Command\TaskLoader\TaskHelpMessageDecorator
+    arguments:
+        - "@task_set_relation_repository"
 
   validate_task_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\Validator\ValidateTaskCommand
@@ -17,7 +23,7 @@ services:
   init_sdk_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\InitSdkCommand
-    tags: [ "console.command" ]
+    tags: [ "console.command", "rest_api.exposed_command" ]
     arguments:
       - "%kernel.project_dir%"
       - "@process_helper"
@@ -37,10 +43,12 @@ services:
     tags: [ "console.command", "telemetry.observable_command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "@workflow_runner"
       - "@context_factory"
       - "@setting.setting_fetcher"
+      - "%project_settings_file%"
+      - "%local_project_settings_file%"
   qa_automation_command:
     autowire: false
     class: SprykerSdk\Sdk\Presentation\Console\Command\QaAutomationCommand
@@ -65,7 +73,7 @@ services:
     tags: [ "console.command" ]
     arguments:
       - "@project_workflow"
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "%kernel.project_dir%/var/workflow"
       - "%host_sdk_dir%/var/workflow"
   init_project_command:
@@ -75,8 +83,9 @@ services:
         - name: 'console.command'
           command: !php/const SprykerSdk\Sdk\Presentation\Console\Command\InitProjectCommand::NAME
         - 'telemetry.observable_command'
+        - 'rest_api.exposed_command'
     arguments:
-      - "@cli_interaction_processor"
+      - "@interaction_processor"
       - "@setting_repository"
       - "@project_settings_initializer"
 
@@ -95,6 +104,7 @@ services:
     arguments:
       - "@service.lifecycle_manager"
       - "@initializer_service"
+      - '@context_factory'
   update_sdk_command:
     class: SprykerSdk\Sdk\Presentation\Console\Command\UpdateSdkCommand
     tags: ["console.command", "telemetry.observable_command"]
@@ -139,7 +149,7 @@ services:
   # Integrations
   security_checker_command:
     class: SecurityChecker\Command\SecurityCheckerCommand
-    tags: ["console.command", "telemetry.observable_command"]
+    tags: ["console.command"]
   composer_replace_command:
     class: SprykerSdk\Zed\ComposerReplace\Communication\Console\ComposerReplaceConsole
     tags: [ "console.command", "telemetry.observable_command"]
@@ -169,3 +179,10 @@ services:
 
   manifest.task_manifest_dto_factory:
       class: SprykerSdk\Sdk\Presentation\Console\Manifest\Task\TaskManifestRequestDtoFactory
+
+  command_context_output:
+      class: SprykerSdk\Sdk\Presentation\Console\EventListener\ContextOutputCommandListener
+      arguments:
+          - "@context_factory"
+      tags:
+          - { name: kernel.event_listener, event: console.terminate, method: handle }

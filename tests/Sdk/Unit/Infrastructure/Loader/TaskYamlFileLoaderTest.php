@@ -14,6 +14,7 @@ use SprykerSdk\Sdk\Infrastructure\Builder\TaskYaml\TaskBuilderInterface;
 use SprykerSdk\Sdk\Infrastructure\Collector\TaskYamlCollector;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoader;
 use SprykerSdk\Sdk\Infrastructure\Storage\TaskStorage;
+use SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface;
 use SprykerSdk\Sdk\Tests\UnitTester;
 
 /**
@@ -59,6 +60,11 @@ class TaskYamlFileLoaderTest extends Unit
     protected TaskStorage $taskStorage;
 
     /**
+     * @var \SprykerSdk\Sdk\Infrastructure\Task\TaskSetTaskRelation\TaskSetTaskRelationFacadeInterface
+     */
+    protected TaskSetTaskRelationFacadeInterface $taskSetTaskRelationFacade;
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -69,12 +75,14 @@ class TaskYamlFileLoaderTest extends Unit
         $this->taskStorage = new TaskStorage();
         $this->taskYamlCollector = $this->createMock(TaskYamlCollector::class);
         $this->taskFromYamlTaskSetBuilder = $this->createMock(TaskFromYamlTaskSetBuilderInterface::class);
+        $this->taskSetTaskRelationFacade = $this->createMock(TaskSetTaskRelationFacadeInterface::class);
 
         $this->taskYamlFileLoader = new TaskYamlFileLoader(
             $this->taskYamlCollector,
             $this->taskFromYamlTaskSetBuilder,
             $this->taskStorage,
             $this->taskBuilder,
+            $this->taskSetTaskRelationFacade,
         );
     }
 
@@ -88,7 +96,7 @@ class TaskYamlFileLoaderTest extends Unit
         $taskMock->expects($this->any())
             ->method('getId')
             ->will($this->returnCallback(function () {
-                return 'test:task:' . (mt_rand(100, 99999));
+                return 'test:task:' . (random_int(100, 99999));
             }));
 
         $this->taskBuilder

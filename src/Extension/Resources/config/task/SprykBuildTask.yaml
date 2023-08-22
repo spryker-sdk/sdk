@@ -11,4 +11,4 @@ placeholders:
       configuration:
         description: "Executable folder (uses the first existing path)"
         defaultValue: "vendor/bin/spryk-build"
-        settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_PROJECT_DIR, !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]
+        settingPaths: [ !php/const SprykerSdk\SdkContracts\Enum\Setting::PATH_SDK_DIR ]

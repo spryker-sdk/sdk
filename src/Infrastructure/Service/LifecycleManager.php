@@ -13,6 +13,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\Message;
 use SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException;
 use SprykerSdk\Sdk\Infrastructure\Loader\TaskYaml\TaskYamlFileLoaderInterface;
 use SprykerSdk\Sdk\Infrastructure\Repository\TaskRepository;
+use SprykerSdk\Sdk\Infrastructure\Version\FileAppVersionFetcher;
 use Throwable;
 
 class LifecycleManager implements LifecycleManagerInterface
@@ -81,8 +82,6 @@ class LifecycleManager implements LifecycleManagerInterface
     }
 
     /**
-     * @throws \SprykerSdk\Sdk\Infrastructure\Exception\SdkVersionNotFoundException
-     *
      * @return array<\SprykerSdk\SdkContracts\Entity\MessageInterface>
      */
     public function checkForUpdate(): array
@@ -90,18 +89,14 @@ class LifecycleManager implements LifecycleManagerInterface
         $versionFilePath = $this->sdkDirectory . '/VERSION';
 
         if (!is_file($versionFilePath)) {
-            throw new SdkVersionNotFoundException(
-                sprintf('Could not find %s file, skip updatable check', $versionFilePath),
-            );
+            return [new Message(sprintf('Could not find `%s` file, skip updatable check', FileAppVersionFetcher::VERSION_FILE_NAME))];
         }
 
         $currentVersion = (string)file_get_contents($versionFilePath);
         $currentVersion = trim($currentVersion);
 
         if (!$currentVersion) {
-            throw new SdkVersionNotFoundException(
-                sprintf('Could not find version in the file "%s". File is empty.', $versionFilePath),
-            );
+            return [new Message(sprintf('Could not find version in the file `%s`. File is empty.', FileAppVersionFetcher::VERSION_FILE_NAME))];
         }
 
         $messages = [];
