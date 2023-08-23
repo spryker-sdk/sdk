@@ -64,4 +64,3 @@ Please refer to the [phpstorm integration documentation](./docs/phpstorm_cli_int
 ## Running the SDK as a developer
 
 Running the SDK in a development or debug mode is documented at [development documentation](./docs/development.md)
-
