@@ -1,9 +1,76 @@
+- pipeline: "SDK  post-deploy"
+  events:
+  - type: "CREATE_REF"
+    refs:
+    - ":default"
+  always_from_scratch: true
+  terminate_stale_runs: true
+  auto_clear_cache: true
+  fail_on_prepare_env_warning: true
+  variables:
+  - key: "GH_TOKEN"
+    value: "secure!8Th+XRNi+x0E4/q+trynssaoyPpWo/M9Z0OZL0qmDGqRGYh9mrScQ8JoOH6AImpI.A3YcoiZ8nLUIolQeEYBWAA=="
+    type: "VAR"
+    encrypted: true
+  - key: "GH_USER"
+    value: "pavelmaksymov25"
+    type: "VAR"
+    settable: true
+  actions:
+  - action: "Install SDK"
+    type: "NATIVE_BUILD_DOCKER_CLI"
+    commands:
+    - "rm -rf spryker-sdk && mkdir spryker-sdk \\"
+    - "&& cd spryker-sdk \\"
+    - "&& export PATH_TO_SDK=$(pwd) \\"
+    - "&& echo $PATH_TO_SDK \\"
+    - "&& curl -fL github.com/spryker-sdk/sdk/releases/latest/download/installer.sh -O \\"
+    - "&& chmod +x installer.sh \\"
+    - "&& ./installer.sh \"${PATH_TO_SDK}\" \\"
+    - "&& rm -f installer.sh \\"
+    - "&& echo \"Current SDK version: $($PATH_TO_SDK/bin/spryker-sdk.sh --version)\" \\"
+    - "&& $PATH_TO_SDK/bin/spryker-sdk.sh"
+    docker_layer_caching_scope: "ACTION"
+  - action: "Install B2C"
+    type: "NATIVE_BUILD_DOCKER_CLI"
+    commands:
+    - "sudo rm -rf spryker-b2c && mkdir spryker-b2c && cd spryker-b2c \\"
+    - "&& export GITHUB_TOKEN=${GH_TOKEN} \\"
+    - "&& export COMPOSER_AUTH='{\"github-oauth\": {\"github.com\": \"'${GH_TOKEN}'\"}}' \\"
+    - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker-shop/b2c-demo-shop.git ./ \\"
+    - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker/docker-sdk.git docker \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" scheduler:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" mail_catcher:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" redis-gui:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" dashboard:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& docker/sdk boot deploy.dev.yml \\"
+    - "&& sed -i 's/- \"80:80\"/- \"8888:80\"/g' docker/deployment/default/docker-compose.yml \\"
+    - "&& docker/sdk up --build \\"
+    - "&& docker/sdk down"
+    - ""
+    timeout: 5400
+    docker_layer_caching_scope: "ACTION"
+    vm_from_prev_action: true
+  - action: "Make jobs"
+    type: "NATIVE_BUILD_DOCKER_CLI"
+    commands:
+    - "export SDK_CI_EXECUTION=1 \\"
+    - "&& cd spryker-b2c && rm -rf .ssdk \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:init:project --qa_tasks=validation:php:codestyle-check --workflow=hello_php -q \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:qa:run --path=src \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh validation:php:codestyle-check --path=src -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh hello:php -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh hello:php:staged_set --foo=FOO --bar=BAR -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh validation:php:codestyle --path=src -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:workflow:run hello_php -n -vvv"
+    - ""
+    docker_layer_caching_scope: "ACTION"
+    vm_from_prev_action: true
 - pipeline: "Upgrader Pre-Release "
   events:
   - type: "PUSH"
     refs:
     - "refs/heads/rc"
-  priority: "LOW"
   terminate_stale_runs: true
   auto_clear_cache: true
   fail_on_prepare_env_warning: true
@@ -135,7 +202,6 @@
     - "&& $COMPOSER_GLOBAL_CMD"
     - "&& echo \"$COMPOSER_GLOBAL_CMD\""
     - "&& cd /data/project"
-    - "&& ls -lha"
     - "&& composer install --no-scripts "
     - "&& ((git branch -D `git branch | grep -E \"upgradebot\\/\"` > /dev/null 2>&1) || true) "
     - "&& /data/bin/console upgradability:php:upgrade -vvv'"
@@ -156,7 +222,7 @@
     - " "
     - "if [ \"$PRS_CNT\" -eq 0 ]"
     - "then"
-    - "    echo 'Test is failed: Open PR is not found.'"
+    - "    echo 'Test failed: Open PR is not found.'"
     - "    exit 1"
     - "fi"
     - ""
@@ -260,3 +326,74 @@
     trigger_time: "ON_FAILURE"
     cache_types:
     - "FILE_SYSTEM"
+- pipeline: "SDK Pre-Release Smoke Tests"
+  events:
+  - type: "CREATE_REF"
+    refs:
+    - "refs/heads/rc"
+  always_from_scratch: true
+  terminate_stale_runs: true
+  auto_clear_cache: true
+  variables:
+  - key: "GH_TOKEN"
+    value: "secure!8Th+XRNi+x0E4/q+trynssaoyPpWo/M9Z0OZL0qmDGqRGYh9mrScQ8JoOH6AImpI.A3YcoiZ8nLUIolQeEYBWAA=="
+    type: "VAR"
+    encrypted: true
+  - key: "GH_USER"
+    value: "pavelmaksymov25"
+    type: "VAR"
+    settable: true
+  change_set_base: "LATEST_RUN_MATCHING_REF"
+  actions:
+  - action: "Install SDK"
+    type: "NATIVE_BUILD_DOCKER_CLI"
+    commands:
+    - "rm -rf spryker-sdk; mkdir spryker-sdk \\"
+    - "&& cd spryker-sdk \\"
+    - "&& export PATH_TO_SDK=$(pwd) \\"
+    - "&& echo $PATH_TO_SDK \\"
+    - "&& curl -fL github.com/spryker-sdk/sdk/releases/latest/download/installer.sh -O \\"
+    - "&& chmod +x installer.sh \\"
+    - "&& ./installer.sh \"${PATH_TO_SDK}\" \\"
+    - "&& rm -f installer.sh \\"
+    - "&& echo \"Current SDK version: $($PATH_TO_SDK/bin/spryker-sdk.sh --version)\" \\"
+    - "&& $PATH_TO_SDK/bin/spryker-sdk.sh"
+    docker_layer_caching_scope: "ACTION"
+    instance_type: "GENERAL_MEDIUM"
+  - action: "Install B2C"
+    type: "NATIVE_BUILD_DOCKER_CLI"
+    commands:
+    - "sudo rm -rf spryker-b2c && mkdir spryker-b2c && cd spryker-b2c \\"
+    - "&& export GITHUB_TOKEN=${GH_TOKEN} \\"
+    - "&& export COMPOSER_AUTH='{\"github-oauth\": {\"github.com\": \"'${GH_TOKEN}'\"}}' \\"
+    - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker-shop/b2c-demo-shop.git ./ \\"
+    - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker/docker-sdk.git docker \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" scheduler:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" mail_catcher:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" redis-gui:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" dashboard:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
+    - "&& docker/sdk boot deploy.dev.yml \\"
+    - "&& sed -i 's/- \"80:80\"/- \"8888:80\"/g' docker/deployment/default/docker-compose.yml \\"
+    - "&& docker/sdk up --build \\"
+    - "&& docker/sdk down"
+    - ""
+    timeout: 5400
+    docker_layer_caching_scope: "ACTION"
+    vm_from_prev_action: true
+    instance_type: "GENERAL_MEDIUM"
+  - action: "Run tasks"
+    type: "NATIVE_BUILD_DOCKER_CLI"
+    commands:
+    - "export SDK_CI_EXECUTION=1 \\"
+    - "&& cd spryker-b2c && rm -rf .ssdk \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:init:project --qa_tasks=validation:php:codestyle-check --workflow=hello_php -q \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:qa:run --path=src \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh validation:php:codestyle-check --path=src -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh hello:php -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh hello:php:staged_set --foo=FOO --bar=BAR -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh validation:php:codestyle --path=src -vvv \\"
+    - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:workflow:run hello_php -n -vvv"
+    - ""
+    docker_layer_caching_scope: "ACTION"
+    vm_from_prev_action: true
+    instance_type: "GENERAL_MEDIUM"
