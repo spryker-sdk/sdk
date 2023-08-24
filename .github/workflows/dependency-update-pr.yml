@@ -25,7 +25,7 @@ jobs:
           ref: ${{ env.TARGET_BRANCH }}
 
       - name: Update dependencies
-        run: composer require ${{ env.DEPENDENCIES }} --no-scripts --no-progress --no-install
+        run: composer update ${{ env.DEPENDENCIES }} --no-scripts --no-progress --no-install
 
       - name: Commit, push and create pull request
         uses: peter-evans/create-pull-request@v5
