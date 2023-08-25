@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "2828f1dbc03af7eac45a49148e2cd97f010e00f1"
+                "reference": "34d563e2658b66d81df8bc5ac39c386f6a461614"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/2828f1dbc03af7eac45a49148e2cd97f010e00f1",
-                "reference": "2828f1dbc03af7eac45a49148e2cd97f010e00f1",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/34d563e2658b66d81df8bc5ac39c386f6a461614",
+                "reference": "34d563e2658b66d81df8bc5ac39c386f6a461614",
                 "shasum": ""
             },
             "require": {
@@ -7139,7 +7139,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-08-18T15:05:56+00:00"
+            "time": "2023-08-25T13:17:52+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7334,12 +7334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "27dfc1626e19ac04ac8f3db66e472007f94b4997"
+                "reference": "2cc0efe8ae60d028cadf4c0184de8eb39fb95b4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/27dfc1626e19ac04ac8f3db66e472007f94b4997",
-                "reference": "27dfc1626e19ac04ac8f3db66e472007f94b4997",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/2cc0efe8ae60d028cadf4c0184de8eb39fb95b4d",
+                "reference": "2cc0efe8ae60d028cadf4c0184de8eb39fb95b4d",
                 "shasum": ""
             },
             "require": {
@@ -7401,7 +7401,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-08-25T08:23:35+00:00"
+            "time": "2023-08-25T13:29:32+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -16085,7 +16085,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/brancho": 20,
-        "spryker-sdk/composer-replace": 20
+        "spryker-sdk/composer-replace": 20,
+        "spryker-sdk/upgrader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
