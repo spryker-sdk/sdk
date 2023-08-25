@@ -2,7 +2,7 @@ name: Update Upgrader dependencies
 
 env:
   TARGET_BRANCH: rc
-  DEPENDENCY: spryker-sdk/upgrader
+  DEPENDENCIES: spryker-sdk/upgrader spryker-sdk/integrator
   PR_BRANCH: update-dependencies
   PR_LABELS: composer dependencies
   PR_ASSIGNEES: pavelmaksimov25,DmytroKlymanSpryker
@@ -25,15 +25,15 @@ jobs:
           ref: ${{ env.TARGET_BRANCH }}
 
       - name: Update dependencies
-        run: composer require ${{ env.DEPENDENCY }} --no-scripts --no-progress --no-install
+        run: composer update ${{ env.DEPENDENCIES }} --no-scripts --no-progress --no-install
 
       - name: Commit, push and create pull request
         uses: peter-evans/create-pull-request@v5
         with:
-          title: Updated ${{ env.DEPENDENCY }}
+          title: Updated internal SDK dependencies
           body: |
-            This pull request updates ${{ env.DEPENDENCY }} dependency to the latest version.
-          commit-message: Updated ${{ env.DEPENDENCY }} dependency
+            This pull request updates internal SDK dependencies ${{ env.DEPENDENCIES }} to the latest version.
+          commit-message: Updated SDK dependencies - ${{ env.DEPENDENCIES }}
           committer: SprykerReleaseBot <spryker-release-bot@spryker.com>
           author: ${{ github.actor }} <${{ github.actor }}@example.test>
           base: ${{ env.TARGET_BRANCH }}
