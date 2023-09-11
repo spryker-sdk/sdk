@@ -12,7 +12,8 @@ RUN apk update \
     nodejs \
     npm \
     rsync \
-    && npm install -g npm@8.4.1
+    && npm install -g npm@8.4.1 \
+    && composer self-update
 
 RUN git config --add --system safe.directory /project
 
