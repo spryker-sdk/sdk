@@ -1,4 +1,4 @@
--   pipeline: "SDK  post-deploy"
+-   pipeline: "SDK post-deploy"
     events:
         -   type: "CREATE_REF"
             refs:

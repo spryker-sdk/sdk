@@ -7005,16 +7005,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.1.6",
+            "version": "0.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "f8f990e6a5bf9f4914e98e32c0f759cfc73f89d9"
+                "reference": "f79b968983d9ec58d510f9f8988baf55a6e518da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/f8f990e6a5bf9f4914e98e32c0f759cfc73f89d9",
-                "reference": "f8f990e6a5bf9f4914e98e32c0f759cfc73f89d9",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/f79b968983d9ec58d510f9f8988baf55a6e518da",
+                "reference": "f79b968983d9ec58d510f9f8988baf55a6e518da",
                 "shasum": ""
             },
             "require": {
@@ -7074,9 +7074,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.6"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.7"
             },
-            "time": "2023-09-04T07:27:07+00:00"
+            "time": "2023-09-18T09:48:13+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "028310a16622d69fe9719a4a23f45f69db5c48e5"
+                "reference": "fe98e436275726a5156877dcbf4cd19f9f5b8490"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/028310a16622d69fe9719a4a23f45f69db5c48e5",
-                "reference": "028310a16622d69fe9719a4a23f45f69db5c48e5",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/fe98e436275726a5156877dcbf4cd19f9f5b8490",
+                "reference": "fe98e436275726a5156877dcbf4cd19f9f5b8490",
                 "shasum": ""
             },
             "require": {
@@ -7141,7 +7141,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-09-04T10:15:55+00:00"
+            "time": "2023-09-15T11:20:26+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7336,12 +7336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "641691c11658f658bf863a748ee6f9b8037e25c1"
+                "reference": "9924bc1ce331312a7fda113f2da2271e02c601a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/641691c11658f658bf863a748ee6f9b8037e25c1",
-                "reference": "641691c11658f658bf863a748ee6f9b8037e25c1",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/9924bc1ce331312a7fda113f2da2271e02c601a5",
+                "reference": "9924bc1ce331312a7fda113f2da2271e02c601a5",
                 "shasum": ""
             },
             "require": {
@@ -7358,7 +7358,7 @@
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
                 "spryker-sdk/azure-php-client": "dev-master",
-                "spryker-sdk/integrator": "^1.0@dev",
+                "spryker-sdk/integrator": "dev-master",
                 "spryker-sdk/sdk-contracts": "^0.4.7",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
@@ -7403,7 +7403,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-09-05T13:25:57+00:00"
+            "time": "2023-09-18T09:07:40+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
