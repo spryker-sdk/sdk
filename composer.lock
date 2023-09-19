@@ -7005,16 +7005,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "f79b968983d9ec58d510f9f8988baf55a6e518da"
+                "reference": "689dbcad800d49455e6e1629bab5fa86188e7eca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/f79b968983d9ec58d510f9f8988baf55a6e518da",
-                "reference": "f79b968983d9ec58d510f9f8988baf55a6e518da",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/689dbcad800d49455e6e1629bab5fa86188e7eca",
+                "reference": "689dbcad800d49455e6e1629bab5fa86188e7eca",
                 "shasum": ""
             },
             "require": {
@@ -7074,9 +7074,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.7"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.8"
             },
-            "time": "2023-09-18T09:48:13+00:00"
+            "time": "2023-09-19T07:41:13+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
