@@ -33,11 +33,11 @@ if [[ $? -ne 0 ]]; then
     echo 'Sending error to new relic server...'
     # Sleep is needed to wait until the log record be sent into the new relic server
     sleep 6
-    echo 'Upgrade failed.'
+    echo 'Execution failed.'
     exit 1
 fi
 
-echo 'Upgrade successful.'
-    
+echo 'Execution successful.'
+
 exit 0
 
