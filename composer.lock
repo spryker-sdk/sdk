@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32eccf76e1f1cb1547860b42d816f531",
+    "content-hash": "e5ce6cfc93dfce7dd705f94747d05dea",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7005,16 +7005,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.1.8",
+            "version": "0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "689dbcad800d49455e6e1629bab5fa86188e7eca"
+                "reference": "050b1bb60ab60e415f91664b2efb2809eb6d541f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/689dbcad800d49455e6e1629bab5fa86188e7eca",
-                "reference": "689dbcad800d49455e6e1629bab5fa86188e7eca",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/050b1bb60ab60e415f91664b2efb2809eb6d541f",
+                "reference": "050b1bb60ab60e415f91664b2efb2809eb6d541f",
                 "shasum": ""
             },
             "require": {
@@ -7074,9 +7074,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.8"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.9"
             },
-            "time": "2023-09-19T07:41:13+00:00"
+            "time": "2023-09-26T07:43:13+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -16107,5 +16107,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
