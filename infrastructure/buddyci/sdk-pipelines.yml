@@ -51,6 +51,7 @@
             timeout: 5400
             docker_layer_caching_scope: "ACTION"
             vm_from_prev_action: true
+            instance_type: "GENERAL_MEDIUM"
         -   action: "Make jobs"
             type: "NATIVE_BUILD_DOCKER_CLI"
             commands:
