@@ -12,8 +12,11 @@ RUN apk update \
     nodejs \
     npm \
     rsync \
+    libxslt-dev \
     && npm install -g npm@8.4.1 \
     && composer self-update
+
+RUN docker-php-ext-install xsl
 
 RUN git config --add --system safe.directory /project
 
