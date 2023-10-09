@@ -1,8 +1,7 @@
--   pipeline: "SDK post-deploy"
-    events:
-        -   type: "CREATE_REF"
-            refs:
-                - ":default"
+-   pipeline: "SDK Post-Deployment Smoke Testing"
+    on: "CLICK"
+    refs:
+        - "refs/heads/master"
     always_from_scratch: true
     terminate_stale_runs: true
     auto_clear_cache: true
@@ -31,13 +30,14 @@
                 - "&& echo \"Current SDK version: $($PATH_TO_SDK/bin/spryker-sdk.sh --version)\" \\"
                 - "&& $PATH_TO_SDK/bin/spryker-sdk.sh"
             docker_layer_caching_scope: "ACTION"
-        -   action: "Install B2C"
+        -   action: "Install Spryker project"
             type: "NATIVE_BUILD_DOCKER_CLI"
             commands:
-                - "sudo rm -rf spryker-b2c && mkdir spryker-b2c && cd spryker-b2c \\"
+                - "sudo rm -rf ${REPOSITORY_NAME} && mkdir ${REPOSITORY_NAME} && cd ${REPOSITORY_NAME} \\"
                 - "&& export GITHUB_TOKEN=${GH_TOKEN} \\"
                 - "&& export COMPOSER_AUTH='{\"github-oauth\": {\"github.com\": \"'${GH_TOKEN}'\"}}' \\"
-                - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker-shop/b2c-demo-shop.git ./ \\"
+                - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker-projects/${REPOSITORY_NAME} ./ \\"
+                - "&& git checkout \"$PROJECT_BRANCH\" \\"
                 - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker/docker-sdk.git docker \\"
                 - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" scheduler:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
                 - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" mail_catcher:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
@@ -51,11 +51,12 @@
             timeout: 5400
             docker_layer_caching_scope: "ACTION"
             vm_from_prev_action: true
+            instance_type: "GENERAL_MEDIUM"
         -   action: "Make jobs"
             type: "NATIVE_BUILD_DOCKER_CLI"
             commands:
                 - "export SDK_CI_EXECUTION=1 \\"
-                - "&& cd spryker-b2c && rm -rf .ssdk \\"
+                - "&& cd ${REPOSITORY_NAME} && rm -rf .ssdk \\"
                 - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:init:project --qa_tasks=validation:php:codestyle-check --workflow=hello_php -q \\"
                 - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:qa:run --path=src \\"
                 - "&& ./../spryker-sdk/bin/spryker-sdk.sh validation:php:codestyle-check --path=src -vvv \\"
@@ -66,7 +67,7 @@
                 - ""
             docker_layer_caching_scope: "ACTION"
             vm_from_prev_action: true
--   pipeline: "Upgrader Pre-Release "
+-   pipeline: "SDK Pre-Deployment Testing"
     events:
         -   type: "PUSH"
             refs:
@@ -80,16 +81,13 @@
             type: "VAR"
             encrypted: true
         -   key: "ORGANIZATION_NAME"
-            value: "pavelmaksimov25"
+            value: "spryker-projects"
             type: "VAR"
         -   key: "PROJECT_PATH"
             value: "project"
             type: "VAR"
         -   key: "PROJECT_REPO"
-            value: "https://github.com/pavelmaksimov25/b2b-demo-shop"
-            type: "VAR"
-        -   key: "REPOSITORY_NAME"
-            value: "b2b-demo-shop"
+            value: "https://github.com/spryker-projects/upg_b2b-demo-shop"
             type: "VAR"
         -   key: "TOOL_REPOSITORY_CLEANER_GIT_URL"
             value: "https://github.com/pavelmaksimov25/repo-cleaner.git"
@@ -100,16 +98,18 @@
     actions:
         -   action: "Build and push SDK image"
             type: "DOCKERFILE"
-            docker_image_tag: "alpha-80"
+            docker_image_tag: "$DOCKER_IMAGE_TAG"
             dockerfile_path: "./infrastructure/sdk.sprykerci80.Dockerfile"
             context_path: "."
-            repository: "luckyj/upgrader-php"
+            repository: "$DOCKER_IMAGE"
             do_not_prune_images: true
             integration_hash: "L39J4q2VolejOpAPajNmGQBW71"
         -   action: "Clone Demo Shop project"
             type: "GIT_HUB_CLI"
             execute_commands:
                 - "gh repo clone \"$PROJECT_REPO\" \"$PROJECT_PATH\""
+                - "cd \"$PROJECT_PATH\""
+                - "git checkout \"$PROJECT_BRANCH\""
             shell: "BASH"
             integration_hash: "rG7YBDXMVyb8BQXgevAZEJ24gN"
         -   action: "Clean up Demo Shop repository"
@@ -148,15 +148,17 @@
                 - "apt-get install -y zlib1g-dev"
                 - "apt-get install -y libzip-dev"
                 - "docker-php-ext-install zip"
+            volume_mappings:
+                - "/:/buddy/sdk"
             ignore_errors: true
             shell: "BASH"
             variables:
                 -   key: "ORGANIZATION_NAME"
-                    value: "pavelmaksimov25"
+                    value: "spryker-projects"
                     type: "VAR"
                     settable: true
                 -   key: "REPOSITORY_NAME"
-                    value: "b2b-demo-shop"
+                    value: "upg_b2b-demo-shop"
                     type: "VAR"
                     settable: true
             timeout: 180
@@ -172,10 +174,11 @@
                 - "COMPOSER_GLOBAL_CMD=\"composer global config -g github-oauth.github.com ${ACCESS_TOKEN}\""
                 - "PROJECT_NAME=\"\""
                 - ""
-                - "docker pull spryker/php-sdk:sprykerci"
+                - "docker pull ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
                 - ""
                 - "cd \"$PROJECT_PATH\""
                 - "git remote set-url origin https://${ORGANIZATION_NAME}:${ACCESS_TOKEN}@github.com/${ORGANIZATION_NAME}/${REPOSITORY_NAME}.git"
+                - "git checkout \"$PROJECT_BRANCH\""
                 - "cd .."
                 - ""
                 - "docker run -u spryker --rm -v ${PWD}/\"$PROJECT_PATH\":/data/project \\"
@@ -187,6 +190,7 @@
                 - "-e COMPOSER_GLOBAL_CMD=\"${COMPOSER_GLOBAL_CMD}\" \\"
                 - "-e PROJECT_NAME=\"${PROJECT_NAME}\" \\"
                 - "-e UPGRADE_STRATEGY=release-app \\"
+                - "-e RELEASE_GROUP_PROCESSOR=sequential \\"
                 - "-e INTEGRATOR_ENABLED=true \\"
                 - "-e EVALUATOR_ENABLED=true \\"
                 - "-e REPORTING_ENABLED=false \\"
@@ -197,12 +201,14 @@
                 - "-e NEWRELIC_LOGLEVEL=\"\" \\"
                 - "-e RELEASE_GROUP_ID=\"\" \\"
                 - "-e APP_ENV=\"sprykerci\" \\"
-                - "spryker/php-sdk:sprykerci 'git config --global user.email upgrader@spryker.com "
+                - "${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG} 'git config --global user.email upgrader@spryker.com "
                 - "&& git config --global user.name \"upgrader\" "
                 - "&& $COMPOSER_GLOBAL_CMD"
                 - "&& echo \"$COMPOSER_GLOBAL_CMD\""
                 - "&& cd /data/project"
                 - "&& composer install --no-scripts "
+                - "&& php --version"
+                - "&& git status"
                 - "&& ((git branch -D `git branch | grep -E \"upgradebot\\/\"` > /dev/null 2>&1) || true) "
                 - "&& /data/bin/console upgradability:php:upgrade -vvv'"
             variables:
@@ -265,15 +271,17 @@
                 - "apt-get install -y zlib1g-dev"
                 - "apt-get install -y libzip-dev"
                 - "docker-php-ext-install zip"
+            volume_mappings:
+                - "/:/buddy/sdk"
             ignore_errors: true
             shell: "BASH"
             variables:
                 -   key: "ORGANIZATION_NAME"
-                    value: "pavelmaksimov25"
+                    value: "spryker-projects"
                     type: "VAR"
                     settable: true
                 -   key: "REPOSITORY_NAME"
-                    value: "b2b-demo-shop"
+                    value: "upg_b2b-demo-shop"
                     type: "VAR"
                     settable: true
             timeout: 180
@@ -320,13 +328,15 @@
                 - "apt-get install -y zlib1g-dev"
                 - "apt-get install -y libzip-dev"
                 - "docker-php-ext-install zip"
+            volume_mappings:
+                - "/:/buddy/sdk"
             shell: "BASH"
         -   action: "Clear cache"
             type: "CLEAR_CACHE"
             trigger_time: "ON_FAILURE"
             cache_types:
                 - "FILE_SYSTEM"
--   pipeline: "SDK Pre-Release Smoke Tests"
+-   pipeline: "SDK Pre-Deployment Smoke Testing"
     events:
         -   type: "PUSH"
             refs:
@@ -360,13 +370,14 @@
                 - "&& $PATH_TO_SDK/bin/spryker-sdk.sh"
             docker_layer_caching_scope: "ACTION"
             instance_type: "GENERAL_MEDIUM"
-        -   action: "Install B2C"
+        -   action: "Install Spryker project"
             type: "NATIVE_BUILD_DOCKER_CLI"
             commands:
-                - "sudo rm -rf spryker-b2c && mkdir spryker-b2c && cd spryker-b2c \\"
+                - "sudo rm -rf ${REPOSITORY_NAME} && mkdir ${REPOSITORY_NAME} && cd ${REPOSITORY_NAME} \\"
                 - "&& export GITHUB_TOKEN=${GH_TOKEN} \\"
                 - "&& export COMPOSER_AUTH='{\"github-oauth\": {\"github.com\": \"'${GH_TOKEN}'\"}}' \\"
-                - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker-shop/b2c-demo-shop.git ./ \\"
+                - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker-projects/${REPOSITORY_NAME} ./ \\"
+                - "&& git checkout \"$PROJECT_BRANCH\" \\"
                 - "&& git clone https://${GH_USER}:${GH_TOKEN}@github.com/spryker/docker-sdk.git docker \\"
                 - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" scheduler:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
                 - "&& awk '/^[a-zA-Z_\\-]+:/ {level1=$0}  /^    [a-zA-Z_\\-]+:/ {level2=$0} level1 ~ \"services:\" && level2 ~ \" mail_catcher:\" {next} 1' deploy.dev.yml > deploy.dev.yml.t && mv deploy.dev.yml.t  deploy.dev.yml \\"
@@ -385,7 +396,7 @@
             type: "NATIVE_BUILD_DOCKER_CLI"
             commands:
                 - "export SDK_CI_EXECUTION=1 \\"
-                - "&& cd spryker-b2c && rm -rf .ssdk \\"
+                - "&& cd ${REPOSITORY_NAME} && rm -rf .ssdk \\"
                 - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:init:project --qa_tasks=validation:php:codestyle-check --workflow=hello_php -q \\"
                 - "&& ./../spryker-sdk/bin/spryker-sdk.sh sdk:qa:run --path=src \\"
                 - "&& ./../spryker-sdk/bin/spryker-sdk.sh validation:php:codestyle-check --path=src -vvv \\"
