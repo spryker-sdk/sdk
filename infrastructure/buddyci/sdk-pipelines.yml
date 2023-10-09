@@ -30,7 +30,7 @@
                 - "&& echo \"Current SDK version: $($PATH_TO_SDK/bin/spryker-sdk.sh --version)\" \\"
                 - "&& $PATH_TO_SDK/bin/spryker-sdk.sh"
             docker_layer_caching_scope: "ACTION"
-        -   action: "Install B2B Marketplace"
+        -   action: "Install Spryker project"
             type: "NATIVE_BUILD_DOCKER_CLI"
             commands:
                 - "sudo rm -rf ${REPOSITORY_NAME} && mkdir ${REPOSITORY_NAME} && cd ${REPOSITORY_NAME} \\"
@@ -370,7 +370,7 @@
                 - "&& $PATH_TO_SDK/bin/spryker-sdk.sh"
             docker_layer_caching_scope: "ACTION"
             instance_type: "GENERAL_MEDIUM"
-        -   action: "Install B2B Marketplace"
+        -   action: "Install Spryker project"
             type: "NATIVE_BUILD_DOCKER_CLI"
             commands:
                 - "sudo rm -rf ${REPOSITORY_NAME} && mkdir ${REPOSITORY_NAME} && cd ${REPOSITORY_NAME} \\"
