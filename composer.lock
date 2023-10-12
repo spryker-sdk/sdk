@@ -7005,16 +7005,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.1.10",
+            "version": "0.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "62527613291264f342ccc10e27792e814d803128"
+                "reference": "e875c3ff60eb09c192f4ca7d8c2cee7d8bb5c0ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/62527613291264f342ccc10e27792e814d803128",
-                "reference": "62527613291264f342ccc10e27792e814d803128",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/e875c3ff60eb09c192f4ca7d8c2cee7d8bb5c0ca",
+                "reference": "e875c3ff60eb09c192f4ca7d8c2cee7d8bb5c0ca",
                 "shasum": ""
             },
             "require": {
@@ -7074,9 +7074,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.10"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.11"
             },
-            "time": "2023-10-04T06:40:13+00:00"
+            "time": "2023-10-09T13:31:51+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -7336,12 +7336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "be0d5e5b00c8d1b8cfdd4917a452c24b846597a5"
+                "reference": "c1c512a94339190edd6fd91bc7f0ae0c4d372ef4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/be0d5e5b00c8d1b8cfdd4917a452c24b846597a5",
-                "reference": "be0d5e5b00c8d1b8cfdd4917a452c24b846597a5",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/c1c512a94339190edd6fd91bc7f0ae0c4d372ef4",
+                "reference": "c1c512a94339190edd6fd91bc7f0ae0c4d372ef4",
                 "shasum": ""
             },
             "require": {
@@ -7403,7 +7403,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-10-06T14:48:09+00:00"
+            "time": "2023-10-12T12:08:50+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
@@ -16107,5 +16107,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
