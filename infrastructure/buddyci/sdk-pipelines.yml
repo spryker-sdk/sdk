@@ -99,7 +99,7 @@
         -   action: "Build and push SDK image"
             type: "DOCKERFILE"
             docker_image_tag: "$DOCKER_IMAGE_TAG"
-            dockerfile_path: "./infrastructure/sdk.sprykerci80.Dockerfile"
+            dockerfile_path: "./infrastructure/sdk.sprykerci-8.0.Dockerfile"
             context_path: "."
             repository: "$DOCKER_IMAGE"
             do_not_prune_images: true
