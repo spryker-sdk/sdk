@@ -135,7 +135,7 @@ jobs:
     trigger-sprykerci:
         name: Triggers SprykerCI post-release pipeline
         runs-on: ubuntu-22.04
-        needs: [build-sprykerci-image, build-sprykerci-default-image, installer ]
+        needs: [ build-sprykerci-image, build-sprykerci-default-image, installer ]
         steps:
             -   name: Trigger CI pipeline
                 shell: bash
