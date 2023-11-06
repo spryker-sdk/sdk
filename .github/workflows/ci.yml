@@ -5,8 +5,9 @@ on:
     push:
         branches:
             - master
-            - develop
             - feature/[a-z]+-[0-9]+/dev-*
+            - bugfix/[a-z]+-[0-9]+/dev-*
+            - rc
     workflow_dispatch:
 
 env:
