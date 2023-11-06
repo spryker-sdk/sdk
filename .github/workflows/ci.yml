@@ -91,3 +91,32 @@ jobs:
             -   name: Code Coverage Report
                 if: success() && matrix.php-version == '8.1'
                 uses: codecov/codecov-action@v1
+
+    automerge:
+        runs-on: ubuntu-latest
+        needs: [ validation ]
+        steps:
+            # https://github.com/marketplace/actions/list-files-in-pull-request
+            - uses: ankitjain28may/list-files-in-pr@v1.0
+              id: list-files
+              with:
+                  githubToken: ${{ secrets.PAT }}
+                  outputFormat: 'space-delimited'
+
+            # https://github.com/marketplace/actions/merge-pull-requests-automerge-action
+            - id: automerge
+              if: ${{  steps.list-files.outputs.pullRequestFiles == 'composer.lock' }}
+              name: automerge
+              uses: "pascalgn/automerge-action@v0.15.6"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.PAT }}
+                  MERGE_LABELS: "composer dependencies"
+                  MERGE_METHOD: "squash"
+                  MERGE_COMMIT_MESSAGE: "pull-request-title"
+                  MERGE_FORKS: "false"
+                  MERGE_RETRIES: "3"
+                  MERGE_RETRY_SLEEP: "10000"
+                  MERGE_REQUIRED_APPROVALS: "0"
+                  UPDATE_LABELS: ""
+                  UPDATE_METHOD: "merge"
+                  PULL_REQUEST: ${{ github.event.pull_request.number }}
