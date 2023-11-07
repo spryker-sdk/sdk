@@ -58,7 +58,7 @@
         "symfony/event-dispatcher-contracts": "^2.5 || ^3.0",
         "symfony/expression-language": "^5.0",
         "symfony/filesystem": "^5.0",
-        "symfony/flex": "^1.18.0",
+        "symfony/flex": "^2.4.1",
         "symfony/framework-bundle": "^5.4",
         "symfony/lock": "^5.0",
         "symfony/monolog-bundle": "^3.8",
