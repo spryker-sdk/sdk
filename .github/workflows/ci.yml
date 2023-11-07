@@ -95,6 +95,7 @@ jobs:
 
     automerge:
         runs-on: ubuntu-latest
+        if: ${{ success() && github.event_name == 'pull_request' && github.base_ref == 'rc' }}
         needs: [ validation ]
         steps:
             # https://github.com/marketplace/actions/list-files-in-pull-request
@@ -106,7 +107,7 @@ jobs:
 
             # https://github.com/marketplace/actions/merge-pull-requests-automerge-action
             - id: automerge
-              if: ${{  steps.list-files.outputs.pullRequestFiles == 'composer.lock' }}
+              if: ${{ steps.list-files.outputs.pullRequestFiles == 'composer.lock' }}
               name: automerge
               uses: "pascalgn/automerge-action@v0.15.6"
               env:
