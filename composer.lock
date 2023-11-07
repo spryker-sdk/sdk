@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "431e07ef737b1e4545820a1b5c0ec0c3f22e2b3f"
+                "reference": "8da0b5768275b461b8ce72ea83f66f14347d7950"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/431e07ef737b1e4545820a1b5c0ec0c3f22e2b3f",
-                "reference": "431e07ef737b1e4545820a1b5c0ec0c3f22e2b3f",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/8da0b5768275b461b8ce72ea83f66f14347d7950",
+                "reference": "8da0b5768275b461b8ce72ea83f66f14347d7950",
                 "shasum": ""
             },
             "require": {
@@ -7114,7 +7114,7 @@
                 "phpstan/phpstan": "^1.0.0",
                 "phpunit/phpunit": "^9.5.0",
                 "spryker-sdk/manifest-test-data-provider": "dev-master",
-                "spryker/code-sniffer": "dev-master",
+                "spryker/code-sniffer": "0.17.18",
                 "symfony/filesystem": "^5.3.0 || ^6.0"
             },
             "default-branch": true,
@@ -7141,7 +7141,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-10-27T08:41:42+00:00"
+            "time": "2023-11-07T08:51:28+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7336,12 +7336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "a6ca6445cfaa492ea0dd22218276740dccf1e8f6"
+                "reference": "e2b4391713dba6dd69f2ddba9762f04dadce8207"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a6ca6445cfaa492ea0dd22218276740dccf1e8f6",
-                "reference": "a6ca6445cfaa492ea0dd22218276740dccf1e8f6",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/e2b4391713dba6dd69f2ddba9762f04dadce8207",
+                "reference": "e2b4391713dba6dd69f2ddba9762f04dadce8207",
                 "shasum": ""
             },
             "require": {
@@ -7403,7 +7403,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-11-06T16:28:57+00:00"
+            "time": "2023-11-07T08:54:07+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
