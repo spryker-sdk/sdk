@@ -7336,12 +7336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "834f6f19e49507537968b7441dca3c0faf31cc5f"
+                "reference": "e65708061e1d6e0a025e0fc05cb2744802dee729"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/834f6f19e49507537968b7441dca3c0faf31cc5f",
-                "reference": "834f6f19e49507537968b7441dca3c0faf31cc5f",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/e65708061e1d6e0a025e0fc05cb2744802dee729",
+                "reference": "e65708061e1d6e0a025e0fc05cb2744802dee729",
                 "shasum": ""
             },
             "require": {
@@ -7357,8 +7357,8 @@
                 "nikic/php-parser": "4.15.*",
                 "php": ">=7.4",
                 "phpstan/phpstan": "^1.2",
-                "spryker-sdk/azure-php-client": "dev-master",
-                "spryker-sdk/integrator": "^1.0@dev",
+                "spryker-sdk/azure-php-client": "dev-master as 1.0.0",
+                "spryker-sdk/integrator": "dev-master as 1.0.0",
                 "spryker-sdk/sdk-contracts": "^0.4.7",
                 "symfony/config": "^5.0",
                 "symfony/console": "^5.0",
@@ -7403,7 +7403,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-11-09T10:13:27+00:00"
+            "time": "2023-11-09T13:11:44+00:00"
         },
         {
             "name": "spryker/architecture-sniffer",
