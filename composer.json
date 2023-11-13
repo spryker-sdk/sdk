@@ -41,7 +41,7 @@
         "spryker-sdk/async-api": "^0.2.3",
         "spryker-sdk/brancho": "1.0.x-dev",
         "spryker-sdk/composer-replace": "dev-master",
-        "spryker-sdk/evaluator": "^0.1.9",
+        "spryker-sdk/evaluator": "^0.1.13",
         "spryker-sdk/sdk-contracts": "^0.4.7",
         "spryker-sdk/security-checker": "^0.2.0",
         "spryker-sdk/spryk": "^0.4.7",

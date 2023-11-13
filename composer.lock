@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5ce6cfc93dfce7dd705f94747d05dea",
+    "content-hash": "9ab3a118550244f03c7cccad767515dc",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7005,16 +7005,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.1.11",
+            "version": "0.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "e875c3ff60eb09c192f4ca7d8c2cee7d8bb5c0ca"
+                "reference": "20bd1d3292d07e620a2d711345d4fba68ce57920"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/e875c3ff60eb09c192f4ca7d8c2cee7d8bb5c0ca",
-                "reference": "e875c3ff60eb09c192f4ca7d8c2cee7d8bb5c0ca",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/20bd1d3292d07e620a2d711345d4fba68ce57920",
+                "reference": "20bd1d3292d07e620a2d711345d4fba68ce57920",
                 "shasum": ""
             },
             "require": {
@@ -7074,9 +7074,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.11"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.13"
             },
-            "time": "2023-10-09T13:31:51+00:00"
+            "time": "2023-11-13T12:43:18+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -7084,12 +7084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "74fbede7a7014520cc44a9d22e0190daf788fe8d"
+                "reference": "fc9915d67452f4c26f971e9031f2a6db47f357ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/74fbede7a7014520cc44a9d22e0190daf788fe8d",
-                "reference": "74fbede7a7014520cc44a9d22e0190daf788fe8d",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/fc9915d67452f4c26f971e9031f2a6db47f357ea",
+                "reference": "fc9915d67452f4c26f971e9031f2a6db47f357ea",
                 "shasum": ""
             },
             "require": {
@@ -7141,7 +7141,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-11-09T14:00:12+00:00"
+            "time": "2023-11-13T16:01:17+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
