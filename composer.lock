@@ -7009,12 +7009,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "20bd1d3292d07e620a2d711345d4fba68ce57920"
+                "reference": "e0aa49daf8a1c9095b3485e89c11bb374e36ceff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/20bd1d3292d07e620a2d711345d4fba68ce57920",
-                "reference": "20bd1d3292d07e620a2d711345d4fba68ce57920",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/e0aa49daf8a1c9095b3485e89c11bb374e36ceff",
+                "reference": "e0aa49daf8a1c9095b3485e89c11bb374e36ceff",
                 "shasum": ""
             },
             "require": {
@@ -7023,9 +7023,9 @@
                 "ext-iconv": "*",
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^7.5",
-                "laminas/laminas-filter": "^2.11.0",
                 "php": ">=7.4",
                 "spryker-sdk/security-checker": "^0.2.0",
+                "spryker-sdk/utils": "dev-master",
                 "symfony/console": "^5.4|^6.0",
                 "symfony/dotenv": "^5.4|^6.0",
                 "symfony/filesystem": "^5.4|^6.0",
@@ -7076,7 +7076,7 @@
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
                 "source": "https://github.com/spryker-sdk/evaluator/tree/0.1.13"
             },
-            "time": "2023-11-13T12:43:18+00:00"
+            "time": "2023-11-14T10:40:10+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
