@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef015d80e701239a051315ecf4da87f6",
+    "content-hash": "16d01667dd677943eacaffd67d59f8ce",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7085,12 +7085,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "5a0ccc06f2a1130947b82ba5c9ce4e35ad093b58"
+                "reference": "b6387575295c187eb67158872bf97eac3606d955"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/5a0ccc06f2a1130947b82ba5c9ce4e35ad093b58",
-                "reference": "5a0ccc06f2a1130947b82ba5c9ce4e35ad093b58",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/b6387575295c187eb67158872bf97eac3606d955",
+                "reference": "b6387575295c187eb67158872bf97eac3606d955",
                 "shasum": ""
             },
             "require": {
@@ -7142,7 +7142,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-11-14T13:03:20+00:00"
+            "time": "2023-11-28T13:17:48+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7337,12 +7337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "05877e295125ed4cbb6b1ed0a29d40ea64483ae3"
+                "reference": "07e9ace51f0c0b3406ef37db842ae45665baed74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/05877e295125ed4cbb6b1ed0a29d40ea64483ae3",
-                "reference": "05877e295125ed4cbb6b1ed0a29d40ea64483ae3",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/07e9ace51f0c0b3406ef37db842ae45665baed74",
+                "reference": "07e9ace51f0c0b3406ef37db842ae45665baed74",
                 "shasum": ""
             },
             "require": {
@@ -7404,7 +7404,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-11-22T13:04:43+00:00"
+            "time": "2023-11-28T13:20:17+00:00"
         },
         {
             "name": "spryker-sdk/utils",
@@ -16133,6 +16133,18 @@
         }
     ],
     "aliases": [
+        {
+            "package": "spryker-sdk/brancho",
+            "version": "9999999-dev",
+            "alias": "1.0.0",
+            "alias_normalized": "1.0.0.0"
+        },
+        {
+            "package": "spryker-sdk/composer-replace",
+            "version": "9999999-dev",
+            "alias": "1.0.0",
+            "alias_normalized": "1.0.0.0"
+        },
         {
             "package": "spryker-sdk/upgrader",
             "version": "9999999-dev",
