@@ -59,7 +59,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
  * @method void comment($description)
  * @method void pause()
  *
- * @SuppressWarnings(PHPMD)
+ * @SuppressWarnings(\SprykerSdk\Sdk\Tests\PHPMD)
  */
 class UnitTester extends Actor
 {
