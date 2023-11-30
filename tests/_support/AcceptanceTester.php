@@ -26,7 +26,7 @@ use Symfony\Component\Process\Process;
  * @method void comment($description)
  * @method void pause()
  *
- * @SuppressWarnings(PHPMD)
+ * @SuppressWarnings(\SprykerSdk\Sdk\Tests\PHPMD)
  */
 class AcceptanceTester extends Actor
 {
