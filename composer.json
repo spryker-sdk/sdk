@@ -135,7 +135,7 @@
         "test": "codecept build && codecept run unit",
         "test-vcs-connector-extension": "codecept build -c extension/VcsConnector/codeception.yml && codecept run unit -c extension/VcsConnector/codeception.yml",
         "test-inspection-doc-extension": "codecept build -c extension/InspectionDoc/codeception.yml && codecept run unit -c extension/InspectionDoc/codeception.yml",
-        "test-qa": "codecept build && codecept run acceptance -v",
+        "test-qa": "codecept build && codecept run acceptance",
         "test-cover": "codecept build && codecept run unit --coverage-xml",
         "test-cover-html": "codecept build && codecept run unit --coverage-html",
         "auto-scripts": {
