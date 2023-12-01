@@ -32,6 +32,7 @@
         "nelmio/api-doc-bundle": "^4.12",
         "ondrejmirtes/better-reflection": "4.3.*",
         "phpbench/phpbench": "^1.2",
+        "phpmd/phpmd": "2.13.*",
         "phpstan/phpstan": "^1.10",
         "psr/cache": "^1.0 || ^2.0 || ^3.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
