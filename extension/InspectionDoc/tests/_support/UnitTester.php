@@ -23,7 +23,7 @@ use Codeception\Actor;
  * @method void comment($description)
  * @method void pause()
  *
- * @SuppressWarnings(PHPMD)
+ * @SuppressWarnings(\InspectionDoc\Tests\PHPMD)
  */
 class UnitTester extends Actor
 {
