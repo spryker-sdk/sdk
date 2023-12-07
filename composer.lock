@@ -7377,48 +7377,48 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "ac8ee147ea20492c10a10494879d237fbdf6834f"
+                "reference": "baba67297e412c576792a8c92572472364edcd03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/ac8ee147ea20492c10a10494879d237fbdf6834f",
-                "reference": "ac8ee147ea20492c10a10494879d237fbdf6834f",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/baba67297e412c576792a8c92572472364edcd03",
+                "reference": "baba67297e412c576792a8c92572472364edcd03",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.3",
-                "davidrjonas/composer-lock-diff": "^1.7",
-                "ergebnis/json-printer": "^3.2",
+                "davidrjonas/composer-lock-diff": "^1.6",
+                "ergebnis/json-printer": "^3.1",
                 "ext-json": "*",
                 "ext-simplexml": "*",
-                "guzzlehttp/guzzle": "^7.8",
-                "http-interop/http-factory-guzzle": "^1.2",
-                "knplabs/github-api": "^3.13",
-                "m4tthumphrey/php-gitlab-api": "^11.12",
+                "guzzlehttp/guzzle": "^7.4",
+                "http-interop/http-factory-guzzle": "^1.0",
+                "knplabs/github-api": "^3.4",
+                "m4tthumphrey/php-gitlab-api": "^11.5",
                 "nikic/php-parser": "4.15.*",
                 "php": ">=7.4",
-                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan": "^1.2",
                 "spryker-sdk/azure-php-client": "dev-master as 1.0.0",
                 "spryker-sdk/integrator": "dev-master as 1.0.0",
                 "spryker-sdk/sdk-contracts": "^0.4.7",
-                "symfony/config": "^5.4",
-                "symfony/console": "^5.4",
-                "symfony/dependency-injection": "^5.4",
-                "symfony/filesystem": "^5.4",
-                "symfony/finder": "^5.4",
+                "symfony/config": "^5.0",
+                "symfony/console": "^5.0",
+                "symfony/dependency-injection": "^5.0",
+                "symfony/filesystem": "^5.3",
+                "symfony/finder": "^5.3",
                 "symfony/framework-bundle": "^5.4",
-                "symfony/http-kernel": "^5.4",
-                "symfony/monolog-bundle": "^3.10",
-                "symfony/process": "^5.4",
-                "symfony/runtime": "^5.4",
+                "symfony/http-kernel": "^5.0",
+                "symfony/monolog-bundle": "^3.8",
+                "symfony/process": "^5.0",
+                "symfony/runtime": "^5",
                 "symfony/serializer": "^5.4",
                 "symfony/uid": "^5.4",
-                "symfony/yaml": "^5.4"
+                "symfony/yaml": "^5.3"
             },
             "require-dev": {
-                "mikey179/vfsstream": "^1.6.11",
+                "mikey179/vfsstream": "^1.6.7",
                 "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.6",
+                "phpunit/phpunit": "^9.5",
                 "spryker/code-sniffer": "dev-master"
             },
             "default-branch": true,
@@ -7444,7 +7444,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-12-06T13:26:16+00:00"
+            "time": "2023-12-04T10:08:27+00:00"
         },
         {
             "name": "spryker-sdk/utils",
@@ -16216,5 +16216,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
