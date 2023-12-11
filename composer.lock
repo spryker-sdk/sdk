@@ -7377,12 +7377,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "bb4c12c26e2780218177fdf0c24b8eebc17b8624"
+                "reference": "8ce1b3b5aff58fa895ec0a2914c2897d69d05d42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/bb4c12c26e2780218177fdf0c24b8eebc17b8624",
-                "reference": "bb4c12c26e2780218177fdf0c24b8eebc17b8624",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/8ce1b3b5aff58fa895ec0a2914c2897d69d05d42",
+                "reference": "8ce1b3b5aff58fa895ec0a2914c2897d69d05d42",
                 "shasum": ""
             },
             "require": {
@@ -7405,6 +7405,7 @@
                 "symfony/config": "^5.4",
                 "symfony/console": "^5.4",
                 "symfony/dependency-injection": "^5.4",
+                "symfony/dotenv": "^5.4",
                 "symfony/filesystem": "^5.4",
                 "symfony/finder": "^5.4",
                 "symfony/framework-bundle": "^5.4",
@@ -7445,7 +7446,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-12-11T16:38:23+00:00"
+            "time": "2023-12-11T17:06:04+00:00"
         },
         {
             "name": "spryker-sdk/utils",
