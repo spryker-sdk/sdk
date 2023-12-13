@@ -7125,29 +7125,29 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "322cd1afb13141744e5282d0d5be62099beacb68"
+                "reference": "9597d9b46c0025e844065741f992908f3c18d480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/322cd1afb13141744e5282d0d5be62099beacb68",
-                "reference": "322cd1afb13141744e5282d0d5be62099beacb68",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/9597d9b46c0025e844065741f992908f3c18d480",
+                "reference": "9597d9b46c0025e844065741f992908f3c18d480",
                 "shasum": ""
             },
             "require": {
                 "aws/aws-sdk-php": "^3.257",
                 "composer-plugin-api": "^1.0.0 || ^2.0.0",
-                "composer/composer": "^2.1.0",
+                "composer/composer": "^2.6.0",
                 "czproject/git-php": "^4.1",
                 "ext-dom": "*",
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "guzzlehttp/guzzle": "^7.4",
-                "nikic/php-parser": "^4.3.0",
+                "nikic/php-parser": "^4.13.0",
                 "php": ">=7.4",
                 "sebastian/diff": "^4.0.0",
                 "spryker-sdk/utils": "^0.1.2",
-                "symfony/console": "^5.3.0 || ^6.0",
-                "symfony/finder": "^5.3.0 || ^6.0",
+                "symfony/console": "^5.4 || ^6.0",
+                "symfony/finder": "^5.4 || ^6.0",
                 "symfony/process": "^5.4 || ^6.0"
             },
             "require-dev": {
@@ -7156,7 +7156,7 @@
                 "phpunit/phpunit": "^9.5.0",
                 "spryker-sdk/manifest-test-data-provider": "dev-master",
                 "spryker/code-sniffer": "0.17.18",
-                "symfony/filesystem": "^5.3.0 || ^6.0"
+                "symfony/filesystem": "^5.4 || ^6.0"
             },
             "default-branch": true,
             "bin": [
@@ -7182,7 +7182,7 @@
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
                 "source": "https://github.com/spryker-sdk/integrator/tree/master"
             },
-            "time": "2023-12-04T17:31:11+00:00"
+            "time": "2023-12-12T14:13:50+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7377,12 +7377,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "91ea247d1bd50599797a6a503b0e8df4a8a64b8b"
+                "reference": "aea3eb6857c262cd7dccbb38b9b35179131f60e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/91ea247d1bd50599797a6a503b0e8df4a8a64b8b",
-                "reference": "91ea247d1bd50599797a6a503b0e8df4a8a64b8b",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/aea3eb6857c262cd7dccbb38b9b35179131f60e5",
+                "reference": "aea3eb6857c262cd7dccbb38b9b35179131f60e5",
                 "shasum": ""
             },
             "require": {
@@ -7405,6 +7405,7 @@
                 "symfony/config": "^5.4",
                 "symfony/console": "^5.4",
                 "symfony/dependency-injection": "^5.4",
+                "symfony/dotenv": "^5.4",
                 "symfony/filesystem": "^5.4",
                 "symfony/finder": "^5.4",
                 "symfony/framework-bundle": "^5.4",
@@ -7445,7 +7446,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-12-07T13:37:16+00:00"
+            "time": "2023-12-12T16:32:51+00:00"
         },
         {
             "name": "spryker-sdk/utils",
