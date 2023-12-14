@@ -7377,12 +7377,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "7dabef21cc2d82ceed7a8f2dffba60b6d2b50938"
+                "reference": "ea8e547cd20639f80a8c3e0ab0ce43f662c558e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/7dabef21cc2d82ceed7a8f2dffba60b6d2b50938",
-                "reference": "7dabef21cc2d82ceed7a8f2dffba60b6d2b50938",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/ea8e547cd20639f80a8c3e0ab0ce43f662c558e9",
+                "reference": "ea8e547cd20639f80a8c3e0ab0ce43f662c558e9",
                 "shasum": ""
             },
             "require": {
@@ -7434,6 +7434,7 @@
                     "Evaluate\\": "src/Evaluate/",
                     "Upgrader\\": "src/Upgrader/",
                     "ReleaseApp\\": "src/ReleaseApp/",
+                    "PackageStorage\\": "src/PackageStorage/",
                     "DynamicEvaluator\\": "src/DynamicEvaluator/"
                 }
             },
@@ -7446,7 +7447,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-12-13T16:01:10+00:00"
+            "time": "2023-12-14T13:01:58+00:00"
         },
         {
             "name": "spryker-sdk/utils",
