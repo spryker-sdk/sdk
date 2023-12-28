@@ -7377,12 +7377,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "93426f95f6a4f7327ea0ca750d2efab8236bfb72"
+                "reference": "328dc2e3ee24950624617f421a3756854cbbd55b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/93426f95f6a4f7327ea0ca750d2efab8236bfb72",
-                "reference": "93426f95f6a4f7327ea0ca750d2efab8236bfb72",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/328dc2e3ee24950624617f421a3756854cbbd55b",
+                "reference": "328dc2e3ee24950624617f421a3756854cbbd55b",
                 "shasum": ""
             },
             "require": {
@@ -7447,7 +7447,7 @@
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
                 "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2023-12-18T09:35:19+00:00"
+            "time": "2023-12-28T07:32:07+00:00"
         },
         {
             "name": "spryker-sdk/utils",
