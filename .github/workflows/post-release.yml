@@ -36,7 +36,7 @@ jobs:
                     file: ./infrastructure/sdk.Dockerfile
                     platforms: linux/amd64, linux/arm64
                     push: true
-                    tags: spryker/php-sdk:${{ github.event.release.tag_name }}
+                    tags: spryker/php-sdk:${{ github.event.release.tag_name }},spryker/php-sdk:latest
                     labels: Release ${{ github.event.release.tag_name }}
 
     build-sprykerci-image:
