@@ -63,14 +63,7 @@ jobs:
               run: composer --version
 
             - name: Composer install
-              run: |
-                  composer --version
-                  if [[ ${{ matrix.php-version }} == '8.2' || ${{ matrix.php-version }} == '8.3' ]]; then
-                    composer update --prefer-stable --optimize-autoloader
-                    composer update laminas/laminas-servicemanager laminas/laminas-stdlib laminas/laminas-filter --prefer-stable --optimize-autoloader
-                  else
-                    composer install
-                  fi
+              run: composer install
 
             - name: Run PHPStan
               run: composer stan
