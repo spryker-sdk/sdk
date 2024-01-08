@@ -94,10 +94,11 @@ jobs:
                 run: composer test-qa
 
             -   name: Codecept tests with coverage
+                if: ${{ matrix.php-version == '8.2' }}
                 run: composer test-cover
 
             -   name: Code Coverage Report
-                if: success()
+                if: success() && matrix.php-version == '8.2'
                 uses: codecov/codecov-action@v1
 
     automerge:
