@@ -68,7 +68,7 @@
         "symfony/serializer": "^6.0",
         "symfony/twig-bundle": "^6.0",
         "symfony/validator": "^6.0",
-        "symfony/var-exporter": " ^6.0",
+        "symfony/var-exporter": "^6.0",
         "symfony/workflow": "^6.0",
         "symfony/yaml": "^6.0",
         "vimeo/psalm": "^4.30"
@@ -157,7 +157,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^5.4"
+            "require": "^6.0"
         }
     },
     "suggest": {
