@@ -133,8 +133,9 @@ class ProjectWorkflow
                 new WorkflowEntity($this->getProjectId(), [], $workflowName),
             );
         }
-
-        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
+        /** @var \Symfony\Component\Workflow\Workflow $currentWrokflow */
+        $currentWrokflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
+        $this->currentWorkflow = $currentWrokflow;
 
         return true;
     }
@@ -159,7 +160,9 @@ class ProjectWorkflow
             new WorkflowEntity($removedWorkflow->getProject(), [], $removedWorkflow->getWorkflow()),
         );
 
-        $this->currentWorkflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
+        /** @var \Symfony\Component\Workflow\Workflow $currentWrokflow */
+        $currentWrokflow = $this->workflows->get($this->currentProjectWorkflow, $this->currentProjectWorkflow->getWorkflow());
+        $this->currentWorkflow = $currentWrokflow;
 
         return true;
     }
