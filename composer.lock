@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e05bcc5c3a48c50d61a06bb5be5f5846",
+    "content-hash": "f6578e5d406737b6d1b1633cfa664db7",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7259,20 +7259,20 @@
         },
         {
             "name": "spryker-sdk/spryk",
-            "version": "0.4.7",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/spryk.git",
-                "reference": "60acb10713edcaec92dea6ad5a715b49987a2d14"
+                "reference": "6a1da970ed3f3a8d67e7c0ee3b36ee94b090ceca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/60acb10713edcaec92dea6ad5a715b49987a2d14",
-                "reference": "60acb10713edcaec92dea6ad5a715b49987a2d14",
+                "url": "https://api.github.com/repos/spryker-sdk/spryk/zipball/6a1da970ed3f3a8d67e7c0ee3b36ee94b090ceca",
+                "reference": "6a1da970ed3f3a8d67e7c0ee3b36ee94b090ceca",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=8.0"
             },
             "bin": [
                 "bin/spryk-build",
@@ -7293,9 +7293,9 @@
             "description": "Spryk module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/spryk/issues",
-                "source": "https://github.com/spryker-sdk/spryk/tree/0.4.7"
+                "source": "https://github.com/spryker-sdk/spryk/tree/0.5.2"
             },
-            "time": "2022-12-16T13:28:34+00:00"
+            "time": "2023-08-18T12:43:30+00:00"
         },
         {
             "name": "spryker-sdk/sync-api",
