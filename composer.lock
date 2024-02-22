@@ -7363,12 +7363,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "c9474464e6e0c86939fd5060f8924fe97402da86"
+                "reference": "9853fe0a771508cf4e501fcf875c53b5715861c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/c9474464e6e0c86939fd5060f8924fe97402da86",
-                "reference": "c9474464e6e0c86939fd5060f8924fe97402da86",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/9853fe0a771508cf4e501fcf875c53b5715861c9",
+                "reference": "9853fe0a771508cf4e501fcf875c53b5715861c9",
                 "shasum": ""
             },
             "require": {
@@ -7431,9 +7431,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.0"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/master"
             },
-            "time": "2024-01-18T10:11:27+00:00"
+            "time": "2024-02-22T10:51:26+00:00"
         },
         {
             "name": "spryker-sdk/utils",
@@ -16406,5 +16406,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
