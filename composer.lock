@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e05bcc5c3a48c50d61a06bb5be5f5846",
+    "content-hash": "079661bf98b0ac92015a3b039966a47e",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7108,16 +7108,16 @@
         },
         {
             "name": "spryker-sdk/integrator",
-            "version": "0.1.2",
+            "version": "0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "b5d7bdf9b41994d49afd8bd976e3ca65f2f9adf0"
+                "reference": "d1b464f5c9108456a1b0ea47fcdc38eac47ded14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/b5d7bdf9b41994d49afd8bd976e3ca65f2f9adf0",
-                "reference": "b5d7bdf9b41994d49afd8bd976e3ca65f2f9adf0",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/d1b464f5c9108456a1b0ea47fcdc38eac47ded14",
+                "reference": "d1b464f5c9108456a1b0ea47fcdc38eac47ded14",
                 "shasum": ""
             },
             "require": {
@@ -7166,9 +7166,9 @@
             "description": "Integrator module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
-                "source": "https://github.com/spryker-sdk/integrator/tree/0.1.2"
+                "source": "https://github.com/spryker-sdk/integrator/tree/0.1.3"
             },
-            "time": "2024-01-05T12:32:02+00:00"
+            "time": "2024-02-27T14:39:09+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -7359,7 +7359,7 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-master",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
@@ -7409,7 +7409,6 @@
                 "phpunit/phpunit": "^9.6",
                 "spryker/code-sniffer": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -16375,19 +16374,12 @@
             "version": "9999999-dev",
             "alias": "1.0.0",
             "alias_normalized": "1.0.0.0"
-        },
-        {
-            "package": "spryker-sdk/upgrader",
-            "version": "9999999-dev",
-            "alias": "1.0.0",
-            "alias_normalized": "1.0.0.0"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "spryker-sdk/brancho": 20,
-        "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/upgrader": 20
+        "spryker-sdk/composer-replace": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
