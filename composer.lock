@@ -7108,16 +7108,16 @@
         },
         {
             "name": "spryker-sdk/integrator",
-            "version": "0.1.3",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/integrator.git",
-                "reference": "d1b464f5c9108456a1b0ea47fcdc38eac47ded14"
+                "reference": "277715e3265f764d036b69846e519c072e534099"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/d1b464f5c9108456a1b0ea47fcdc38eac47ded14",
-                "reference": "d1b464f5c9108456a1b0ea47fcdc38eac47ded14",
+                "url": "https://api.github.com/repos/spryker-sdk/integrator/zipball/277715e3265f764d036b69846e519c072e534099",
+                "reference": "277715e3265f764d036b69846e519c072e534099",
                 "shasum": ""
             },
             "require": {
@@ -7166,9 +7166,9 @@
             "description": "Integrator module",
             "support": {
                 "issues": "https://github.com/spryker-sdk/integrator/issues",
-                "source": "https://github.com/spryker-sdk/integrator/tree/0.1.3"
+                "source": "https://github.com/spryker-sdk/integrator/tree/0.1.4"
             },
-            "time": "2024-02-27T14:39:09+00:00"
+            "time": "2024-02-27T19:57:45+00:00"
         },
         {
             "name": "spryker-sdk/sdk-contracts",
@@ -16398,5 +16398,5 @@
         "composer-runtime-api": "^2.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
