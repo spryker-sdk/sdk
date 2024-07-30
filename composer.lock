@@ -7105,7 +7105,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-git                 "reference": "9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d"
+                "reference": "9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d"
             },
             "dist": {
                 "type": "zip",
