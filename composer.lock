@@ -4495,74 +4495,6 @@
             "time": "2023-04-09T17:37:40+00:00"
         },
         {
-            "name": "nette/neon",
-            "version": "v3.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/neon.git",
-                "reference": "c8481c104431c8d94cc88424a1e21f47f8c93280"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/neon/zipball/c8481c104431c8d94cc88424a1e21f47f8c93280",
-                "reference": "c8481c104431c8d94cc88424a1e21f47f8c93280",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "8.0 - 8.3"
-            },
-            "require-dev": {
-                "nette/tester": "^2.4",
-                "phpstan/phpstan": "^1.0",
-                "tracy/tracy": "^2.7"
-            },
-            "bin": [
-                "bin/neon-lint"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.4-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0-only",
-                "GPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "🍸 Nette NEON: encodes and decodes NEON file format.",
-            "homepage": "https://ne-on.org",
-            "keywords": [
-                "export",
-                "import",
-                "neon",
-                "nette",
-                "yaml"
-            ],
-            "support": {
-                "issues": "https://github.com/nette/neon/issues",
-                "source": "https://github.com/nette/neon/tree/v3.4.3"
-            },
-            "time": "2024-06-26T14:53:59+00:00"
-        },
-        {
             "name": "nikic/php-parser",
             "version": "v4.15.5",
             "source": {
@@ -7101,16 +7033,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.2.4",
+            "version": "0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d"
+                "reference": "1bd136d64e2ae292f3e4afff8e4249a8d006067a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d",
-                "reference": "9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/1bd136d64e2ae292f3e4afff8e4249a8d006067a",
+                "reference": "1bd136d64e2ae292f3e4afff8e4249a8d006067a",
                 "shasum": ""
             },
             "require": {
@@ -7171,9 +7103,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.2.4"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.2.3"
             },
-            "time": "2024-07-26T06:42:31+00:00"
+            "time": "2024-03-12T17:11:42+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -7428,16 +7360,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "0.3.7",
+            "version": "0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "cb51ac1d024059633e616e7ae80fa593a6d57790"
+                "reference": "a7286607ab4366d9b9074c9892e37c14642be7ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/cb51ac1d024059633e616e7ae80fa593a6d57790",
-                "reference": "cb51ac1d024059633e616e7ae80fa593a6d57790",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/a7286607ab4366d9b9074c9892e37c14642be7ab",
+                "reference": "a7286607ab4366d9b9074c9892e37c14642be7ab",
                 "shasum": ""
             },
             "require": {
@@ -7450,7 +7382,6 @@
                 "http-interop/http-factory-guzzle": "^1.2",
                 "knplabs/github-api": "^3.13",
                 "m4tthumphrey/php-gitlab-api": "^11.12",
-                "nette/neon": "^3.4",
                 "nikic/php-parser": "4.15.*",
                 "php": ">=8.0",
                 "phpstan/phpstan": "^1.10",
@@ -7500,9 +7431,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.7"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.6"
             },
-            "time": "2024-07-30T06:12:58+00:00"
+            "time": "2024-07-18T05:58:44+00:00"
         },
         {
             "name": "spryker-sdk/utils",
