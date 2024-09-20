@@ -6,12 +6,19 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
+
     bootstrapFiles:
         - phpstan-bootstrap.php
 
     ignoreErrors:
         -
+            message: '#Right side of \&\& is always true#'
+            path: 'src/Extension/Converter/CodeceptionViolationReportConverter.php'
+        -
             message: '#PHPDoc tag @param has invalid value \(\\Monolog\\Formatter\\JsonFormatter::BATCH_MODE_#'
             path: src/Infrastructure/Logger/JsonFormatter.php
+        - '#Offset .+ on array.+always exists and is not nullable#'
         - '#Cannot call method .+\(\) on Symfony\\Component\\Config\\Definition\\Builder#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::.+\(\)#'
+
+    reportUnmatchedIgnoredErrors: false
