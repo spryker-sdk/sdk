@@ -88,7 +88,7 @@ class PrettierSnifferViolationReportConverter extends AbstractViolationConverter
                     )
                     ->setStartLine(isset($matches['line']) ? (int)$matches['line'] : null)
                     ->setStartColumn(isset($matches['column']) ? (int)$matches['column'] : null)
-                    ->setFixable($matches['severity'] === 'error' ? false : true)
+                    ->setFixable((isset($matches['severity']) && $matches['severity'] === 'error') ? false : true)
                     ->setProduced($this->producer);
             }
         }
