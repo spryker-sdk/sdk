@@ -7101,16 +7101,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.2.4",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d"
+                "reference": "acc3e3f699866f9034c264df346e00c5dc432d90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d",
-                "reference": "9bb928a14f6f5a47ebc1c4e79c6f2e703d277c6d",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/acc3e3f699866f9034c264df346e00c5dc432d90",
+                "reference": "acc3e3f699866f9034c264df346e00c5dc432d90",
                 "shasum": ""
             },
             "require": {
@@ -7120,7 +7120,7 @@
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^7.5",
                 "nikic/php-parser": "^4.0",
-                "php": ">=8.0",
+                "php": ">=8.1",
                 "spryker-sdk/security-checker": "^0.2.0",
                 "spryker-sdk/utils": "^0.2.1",
                 "symfony/console": "^6.0",
@@ -7171,9 +7171,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.2.4"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.2.5"
             },
-            "time": "2024-07-26T06:42:31+00:00"
+            "time": "2024-09-20T13:20:09+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
