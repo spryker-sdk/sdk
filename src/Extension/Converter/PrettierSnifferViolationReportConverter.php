@@ -84,11 +84,11 @@ class PrettierSnifferViolationReportConverter extends AbstractViolationConverter
             if (!empty($matches['path'])) {
                 $violations[] = (new Violation($matches['path'], $matches['message'] ?? 'File formatting'))
                     ->setSeverity(
-                        $matches['severity'] === 'warn' ? ViolationInterface::SEVERITY_WARNING : ViolationInterface::SEVERITY_ERROR,
+                        (isset($matches['severity']) && $matches['severity'] === 'warn') ? ViolationInterface::SEVERITY_WARNING : ViolationInterface::SEVERITY_ERROR,
                     )
                     ->setStartLine(isset($matches['line']) ? (int)$matches['line'] : null)
                     ->setStartColumn(isset($matches['column']) ? (int)$matches['column'] : null)
-                    ->setFixable($matches['severity'] === 'error' ? false : true)
+                    ->setFixable((isset($matches['severity']) && $matches['severity'] === 'error') ? false : true)
                     ->setProduced($this->producer);
             }
         }
