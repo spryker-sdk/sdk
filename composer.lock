@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8141bcdcd80b5eca5073b7547d4bf89d",
+    "content-hash": "8a05902fa829531d2adeb7ceb2190984",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7611,16 +7611,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "dev-feature/frw-8773/updated-dependencies",
+            "version": "0.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "32b9c3447e58b3f8393bd1521494f3d7a2ac8821"
+                "reference": "d98379724251951d1dd40e9c46d57707cb4260c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/32b9c3447e58b3f8393bd1521494f3d7a2ac8821",
-                "reference": "32b9c3447e58b3f8393bd1521494f3d7a2ac8821",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/d98379724251951d1dd40e9c46d57707cb4260c9",
+                "reference": "d98379724251951d1dd40e9c46d57707cb4260c9",
                 "shasum": ""
             },
             "require": {
@@ -7683,9 +7683,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/feature/frw-8773/updated-dependencies"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.10"
             },
-            "time": "2024-11-07T14:22:44+00:00"
+            "time": "2024-11-07T15:54:41+00:00"
         },
         {
             "name": "spryker-sdk/utils",
@@ -16582,7 +16582,6 @@
     "stability-flags": {
         "spryker-sdk/brancho": 20,
         "spryker-sdk/composer-replace": 20,
-        "spryker-sdk/upgrader": 20,
         "vimeo/psalm": 20
     },
     "prefer-stable": true,
