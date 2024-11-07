@@ -168,7 +168,7 @@ class WorkflowRunnerTest extends Unit
             ->willReturn($this->projectWorkflow);
         $this->context
             ->method('addMessage')
-            ->withConsecutive([
+            ->with([
                 'workflowName', new Message('Applying transition `workflowName:test`.', Message::INFO),
                 'workflowName:test', new Message('The `workflowName:test` transition finished successfully.', Message::INFO),
             ]);

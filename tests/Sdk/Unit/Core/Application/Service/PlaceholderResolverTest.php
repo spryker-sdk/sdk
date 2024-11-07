@@ -46,17 +46,17 @@ class PlaceholderResolverTest extends Unit
     /**
      * @var string
      */
-    protected const VALUE = 'value';
+    protected const VALUE = 'expectedValue';
 
     /**
      * @var string
      */
-    protected const SETTINGS = 'settings';
+    protected const SETTINGS = 'expectedSettings';
 
     /**
      * @var string
      */
-    protected const OPTIONAL = 'optional';
+    protected const OPTIONAL = 'optionalPlaceholder';
 
     /**
      * @var \SprykerSdk\Sdk\Tests\UnitTester

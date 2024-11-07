@@ -82,11 +82,11 @@ class SettingManagerTest extends Unit
     /**
      * @dataProvider provideSettingList
      *
-     * @param mixed $pathValues
+     * @param mixed $settings
      *
      * @return void
      */
-    public function testProjectSetSettings(array $pathValues): void
+    public function testProjectSetSettings(array $settings): void
     {
         // Arrange
         $this->projectSettingRepositoryMock
@@ -99,56 +99,56 @@ class SettingManagerTest extends Unit
         $this->projectSettingRepositoryMock
             ->expects($this->once())
             ->method('findByPaths')
-            ->willReturnCallback(function (array $settingKeys) use ($pathValues): array {
-                $settings = [];
-                foreach (array_intersect_key($pathValues, array_flip($settingKeys)) as $path => $value) {
-                    $settings[] = $this->tester->createSetting($path, $value);
+            ->willReturnCallback(function (array $settingKeys) use ($settings): array {
+                $pathValues = [];
+                foreach (array_intersect_key($settings, array_flip($settingKeys)) as $path => $value) {
+                    $pathValues[] = $this->tester->createSetting($path, $value);
                 }
 
-                return $settings;
+                return $pathValues;
             });
 
         // Act
-        $settings = $this->settingManager->setSettings($pathValues);
+        $pathValues = $this->settingManager->setSettings($settings);
 
         // Assert
-        $this->assertCount(count($pathValues), $settings);
+        $this->assertCount(count($settings), $pathValues);
     }
 
     /**
      * @dataProvider provideSettingList
      *
-     * @param mixed $pathValues
+     * @param mixed $settings
      *
      * @return void
      */
-    public function testSetSettings(array $pathValues): void
+    public function testSetSettings(array $settings): void
     {
         // Arrange
         $this->projectSettingRepositoryMock
             ->expects($this->once())
             ->method('findByPaths')
-            ->willReturnCallback(function (array $settingKeys) use ($pathValues): array {
-                $settings = [];
-                foreach (array_intersect_key($pathValues, array_flip($settingKeys)) as $path => $value) {
-                    $settings[] = $this->tester->createSetting($path, $value, SettingInterface::STRATEGY_REPLACE, Setting::SETTING_TYPE_SDK);
+            ->willReturnCallback(function (array $settingKeys) use ($settings): array {
+                $pathValues = [];
+                foreach (array_intersect_key($settings, array_flip($settingKeys)) as $path => $value) {
+                    $pathValues[] = $this->tester->createSetting($path, $value, SettingInterface::STRATEGY_REPLACE, Setting::SETTING_TYPE_SDK);
                 }
 
-                return $settings;
+                return $pathValues;
             });
 
         $this->settingRepositoryMock
             ->expects($this->once())
             ->method('saveMultiple')
-            ->willReturnCallback(function (array $settings) {
-                return $settings;
+            ->willReturnCallback(function (array $pathValues) {
+                return $pathValues;
             });
 
         // Act
-        $settings = $this->settingManager->setSettings($pathValues);
+        $pathValues = $this->settingManager->setSettings($settings);
 
         // Assert
-        $this->assertCount(count($pathValues), $settings);
+        $this->assertCount(count($settings), $pathValues);
     }
 
     /**

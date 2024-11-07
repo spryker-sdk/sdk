@@ -87,8 +87,6 @@ class InspectionDocReaderTest extends Unit
     }
 
     /**
-     * @dataProvider provideSettingList
-     *
      * @return void
      */
     public function testFindByErrorCodeIfListEmpty(): void
