@@ -140,7 +140,6 @@ class LifecyclePartBuilderTest extends Unit
         return [
             [
                 'eventData' => [],
-                'taskListData' => [],
             ],
             [
                 'eventData' => [
