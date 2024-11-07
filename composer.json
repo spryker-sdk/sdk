@@ -71,7 +71,7 @@
         "symfony/var-exporter": "^6.0",
         "symfony/workflow": "^6.0",
         "symfony/yaml": "^6.0",
-        "vimeo/psalm": "dev-master"
+        "vimeo/psalm": "dev-master#03ee02c"
     },
     "require-dev": {
         "codeception/codeception": "^5.1.2",
