@@ -23,9 +23,9 @@
         "@spryker/frontend-config.eslint": "0.1.0",
         "@spryker/frontend-config.stylelint": "0.0.5",
         "@spryker/frontend-sniffer": "https://github.com/spryker-sdk/frontend-sniffer/tarball/0.2.6",
-        "commander": "~4.0.1",
+        "commander": "^4.0.1",
         "eslint": "^8.35.0",
-        "prettier": "2.8.0",
-        "stylelint": "~16.1.0"
+        "prettier": "^2.8.0",
+        "stylelint": "^16.11.0"
     }
 }
