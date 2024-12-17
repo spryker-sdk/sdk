@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6920a004a97621c375ca24966aeb7e2d",
+    "content-hash": "76b295b1626332bdb0f250a80f13d0f8",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7611,16 +7611,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "0.3.11",
+            "version": "0.3.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "3929a52671247a2da600567aedd03ef76457dcb9"
+                "reference": "981290d8986b2a942ccded0e5834452291a501d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/3929a52671247a2da600567aedd03ef76457dcb9",
-                "reference": "3929a52671247a2da600567aedd03ef76457dcb9",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/981290d8986b2a942ccded0e5834452291a501d1",
+                "reference": "981290d8986b2a942ccded0e5834452291a501d1",
                 "shasum": ""
             },
             "require": {
@@ -7683,9 +7683,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.11"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.12"
             },
-            "time": "2024-12-16T12:48:21+00:00"
+            "time": "2024-12-17T12:29:34+00:00"
         },
         {
             "name": "spryker-sdk/utils",
