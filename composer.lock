@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21efddb224711533a5118ddd12da1cdc",
+    "content-hash": "e35c9176a69596a78d166388e2e4d273",
     "packages": [
         {
             "name": "amphp/amp",
@@ -5643,16 +5643,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.30.1",
+            "version": "1.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "51b95ec8670af41009e2b2b56873bad96682413e"
+                "reference": "82a311fd3690fb2bf7b64d5c98f912b3dd746140"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/51b95ec8670af41009e2b2b56873bad96682413e",
-                "reference": "51b95ec8670af41009e2b2b56873bad96682413e",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/82a311fd3690fb2bf7b64d5c98f912b3dd746140",
+                "reference": "82a311fd3690fb2bf7b64d5c98f912b3dd746140",
                 "shasum": ""
             },
             "require": {
@@ -5684,9 +5684,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.30.1"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.33.0"
             },
-            "time": "2024-09-07T20:13:05+00:00"
+            "time": "2024-10-13T11:25:22+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -7137,20 +7137,20 @@
         },
         {
             "name": "spryker-sdk/security-checker",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/security-checker.git",
-                "reference": "619c9c636590e0bef836f1c9ab1203ac9a66c46c"
+                "reference": "291c646170a9f2e9ca071f65832823a5825a4bc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/security-checker/zipball/619c9c636590e0bef836f1c9ab1203ac9a66c46c",
-                "reference": "619c9c636590e0bef836f1c9ab1203ac9a66c46c",
+                "url": "https://api.github.com/repos/spryker-sdk/security-checker/zipball/291c646170a9f2e9ca071f65832823a5825a4bc2",
+                "reference": "291c646170a9f2e9ca071f65832823a5825a4bc2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3",
+                "php": ">=8.0",
                 "symfony/console": "^4.0.0 || ^5.0.0 || ^6.0.0",
                 "symfony/options-resolver": "^4.0.0 || ^5.0.0 || ^6.0.0",
                 "symfony/process": "^4.0.0 || ^5.0.0 || ^6.0.0"
@@ -7179,9 +7179,9 @@
             "description": "A security checker for your composer.lock",
             "support": {
                 "issues": "https://github.com/spryker-sdk/security-checker/issues",
-                "source": "https://github.com/spryker-sdk/security-checker/tree/0.2.0"
+                "source": "https://github.com/spryker-sdk/security-checker/tree/0.2.1"
             },
-            "time": "2023-04-24T11:24:18+00:00"
+            "time": "2024-05-10T16:20:21+00:00"
         },
         {
             "name": "spryker-sdk/spryk",
@@ -16299,6 +16299,6 @@
         "ext-xml": "*",
         "composer-runtime-api": "^2.1"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
