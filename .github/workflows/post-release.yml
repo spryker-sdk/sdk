@@ -45,7 +45,7 @@ jobs:
         needs: build-docker-image
         strategy:
             matrix:
-                php_version: ['8.1', '8.2', '8.3']
+                php_version: ['8.2', '8.3']
         steps:
             # https://github.com/actions/checkout
             -   name: Checkout codebase
@@ -71,7 +71,7 @@ jobs:
                     labels: SprykerCI
 
     build-sprykerci-default-image:
-        name: Build and push docker image for SprykerCI PHP 8.1
+        name: Build and push docker image for SprykerCI PHP 8.2
         runs-on: ubuntu-22.04
         needs: build-docker-image
         steps:
@@ -92,7 +92,7 @@ jobs:
                 uses: docker/build-push-action@v3
                 with:
                     context: .
-                    file: ./infrastructure/sdk.sprykerci-8.1.Dockerfile
+                    file: ./infrastructure/sdk.sprykerci-8.2.Dockerfile
                     platforms: linux/amd64
                     push: true
                     tags: spryker/php-sdk:sprykerci
