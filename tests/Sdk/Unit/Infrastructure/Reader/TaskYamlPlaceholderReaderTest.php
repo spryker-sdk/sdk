@@ -82,8 +82,8 @@ class TaskYamlPlaceholderReaderTest extends Unit
 
         return [
             [
-                'arrPlaceholders' => $collection1,
-                'classPlaceholders' => new Task(
+                'collectionDto' => $collection1,
+                'task' => new Task(
                     'someID',
                     '',
                     [],
@@ -93,8 +93,8 @@ class TaskYamlPlaceholderReaderTest extends Unit
                 ),
             ],
             [
-                'arrPlaceholders' => $collection2,
-                'classPlaceholders' => new Task(
+                'collectionDto' => $collection2,
+                'task' => new Task(
                     'someID',
                     '',
                     [],
