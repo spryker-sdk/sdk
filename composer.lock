@@ -7611,16 +7611,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "0.3.12",
+            "version": "0.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "981290d8986b2a942ccded0e5834452291a501d1"
+                "reference": "e171bc41c9e8e22f4d6716d75d273de8ef501c4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/981290d8986b2a942ccded0e5834452291a501d1",
-                "reference": "981290d8986b2a942ccded0e5834452291a501d1",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/e171bc41c9e8e22f4d6716d75d273de8ef501c4c",
+                "reference": "e171bc41c9e8e22f4d6716d75d273de8ef501c4c",
                 "shasum": ""
             },
             "require": {
@@ -7657,6 +7657,7 @@
                 "symfony/yaml": "^6.0"
             },
             "require-dev": {
+                "ext-xdebug": "*",
                 "mikey179/vfsstream": "^1.6.11",
                 "phpspec/prophecy-phpunit": "^2.2",
                 "phpunit/phpunit": "^11.4.0",
@@ -7683,9 +7684,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.12"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.13"
             },
-            "time": "2024-12-17T12:29:34+00:00"
+            "time": "2025-06-03T14:55:27+00:00"
         },
         {
             "name": "spryker-sdk/utils",
