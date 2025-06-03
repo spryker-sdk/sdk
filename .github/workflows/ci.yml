@@ -22,6 +22,7 @@ jobs:
             fail-fast: false
             matrix:
                 php-version: [
+                    '8.1',
                     '8.2',
                     '8.3'
                 ]
@@ -86,11 +87,11 @@ jobs:
                 run: composer test-qa
 
             -   name: Codecept tests with coverage
-                if: ${{ matrix.php-version == '8.2' }}
+                if: ${{ matrix.php-version == '8.3' }}
                 run: composer test-cover
 
             -   name: Code Coverage Report
-                if: success() && matrix.php-version == '8.2'
+                if: success() && matrix.php-version == '8.3'
                 uses: codecov/codecov-action@v1
 
     automerge:
