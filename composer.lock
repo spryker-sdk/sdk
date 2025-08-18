@@ -1040,12 +1040,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/chobie/jira-api-restclient.git",
+                "url": "https://github.com/console-helpers/jira-api-restclient.git",
                 "reference": "141f494c43ce254f951825fc6702af9f685d4ddb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chobie/jira-api-restclient/zipball/141f494c43ce254f951825fc6702af9f685d4ddb",
+                "url": "https://api.github.com/repos/console-helpers/jira-api-restclient/zipball/141f494c43ce254f951825fc6702af9f685d4ddb",
                 "reference": "141f494c43ce254f951825fc6702af9f685d4ddb",
                 "shasum": ""
             },
