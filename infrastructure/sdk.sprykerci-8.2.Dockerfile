@@ -77,9 +77,9 @@ RUN composer update \
     laminas/laminas-code \
     --no-scripts --no-interaction
 
-RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
+RUN rm -rf vendor
 RUN composer clear-cache
-RUN composer dump-autoload --no-dev --optimize
+RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
 
 RUN composer dump-env sprykerci
 
