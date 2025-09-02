@@ -13,6 +13,12 @@ RUN apk update \
     npm \
     && npm install -g npm@8.4.1
 
+########################################
+# Enable OTEL Extension
+# It's already in the core image.
+########################################
+RUN mv /usr/local/etc/php/disabled/otel.ini /usr/local/etc/php/conf.d/90-otel.ini
+
 RUN git config --add --system safe.directory /project
 
 ARG SPRYKER_COMPOSER_MODE
