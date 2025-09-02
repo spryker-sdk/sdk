@@ -72,6 +72,7 @@ RUN composer update \
     --no-scripts --no-interaction
 
 RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
+RUN composer dump-autoload --no-dev --optimize
 
 RUN composer dump-env sprykerci
 
