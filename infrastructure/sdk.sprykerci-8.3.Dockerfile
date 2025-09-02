@@ -68,6 +68,8 @@ ENV NRIA_ENABLE_PROCESS_METRICS=true
 
 RUN npm install
 
+RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
+
 RUN composer update \
     spryker/architecture-sniffer  \
     laminas/laminas-config \
@@ -75,9 +77,7 @@ RUN composer update \
     laminas/laminas-stdlib \
     laminas/laminas-filter \
     laminas/laminas-code \
-    --no-scripts --no-interaction
-
-RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
+    --no-scripts --no-interaction --no-dev
 
 RUN composer dump-env sprykerci
 
