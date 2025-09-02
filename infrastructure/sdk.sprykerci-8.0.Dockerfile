@@ -61,8 +61,6 @@ ENV NRIA_ENABLE_PROCESS_METRICS=true
 
 RUN npm install
 
-RUN rm -rf vendor
-RUN composer clear-cache
 RUN composer install --no-interaction --optimize-autoloader -vvv --no-dev
 
 RUN composer dump-env sprykerci

@@ -50,9 +50,7 @@ WORKDIR ${srcRoot}
 
 ENV APP_ENV=prod
 
-RUN rm -rf vendor
-RUN composer clear-cache
-RUN composer install --no-interaction --optimize-autoloader -vvv --no-dev
+RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
 
 RUN npm install
 
