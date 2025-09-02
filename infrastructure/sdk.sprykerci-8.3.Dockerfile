@@ -17,6 +17,12 @@ RUN apk update \
 
 RUN docker-php-ext-install xsl
 
+########################################
+# Enable OTEL Extension
+# It's already in the core image.
+########################################
+RUN mv /usr/local/etc/php/disabled/otel.ini /usr/local/etc/php/conf.d/90-otel.ini
+
 RUN git config --add --system safe.directory /project
 
 ########################################
