@@ -1,4 +1,4 @@
-ARG SPRYKER_PARENT_IMAGE=spryker/php:8.2
+ARG SPRYKER_PARENT_IMAGE=spryker/php:8.3
 
 FROM ${SPRYKER_PARENT_IMAGE} AS application-production-dependencies
 
@@ -12,6 +12,12 @@ RUN apk update \
     nodejs \
     npm \
     && npm install -g npm@8.4.1
+
+########################################
+# Enable OTEL Extension
+# It's already in the core image.
+########################################
+RUN mv /usr/local/etc/php/disabled/otel.ini /usr/local/etc/php/conf.d/90-otel.ini
 
 RUN git config --add --system safe.directory /project
 
