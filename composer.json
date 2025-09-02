@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
@@ -30,10 +30,10 @@
         "m4tthumphrey/php-gitlab-api": "^11.12",
         "monolog/monolog": "^2.9",
         "nelmio/api-doc-bundle": "^4.12",
-        "ondrejmirtes/better-reflection": "6.40.*",
+        "ondrejmirtes/better-reflection": "6.43.*",
         "phpbench/phpbench": "^1.2",
         "phpmd/phpmd": "2.15.*",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^1.12",
         "psr/cache": "^1.0 || ^2.0 || ^3.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "ramsey/uuid": "^3.9",
@@ -47,7 +47,7 @@
         "spryker-sdk/security-checker": "^0.2.0",
         "spryker-sdk/spryk": "^0.4.7",
         "spryker-sdk/sync-api": "^0.1.1",
-        "spryker-sdk/upgrader": "^0.3.12",
+        "spryker-sdk/upgrader": "dev-feature/frw-10648/master-updated-php",
         "spryker/architecture-sniffer": "^0.5.7",
         "spryker/code-sniffer": "^0.17.18",
         "symfony/asset": "^6.0",
@@ -71,7 +71,7 @@
         "symfony/var-exporter": "^6.0",
         "symfony/workflow": "^6.0",
         "symfony/yaml": "^6.0",
-        "vimeo/psalm": "dev-master#03ee02c"
+        "vimeo/psalm": "^6.13"
     },
     "require-dev": {
         "codeception/codeception": "^5.1.2",
