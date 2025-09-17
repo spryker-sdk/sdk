@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa02a46e06541cefc2e12e3189016f1e",
+    "content-hash": "44caca37a00a8275dcc5793bb22ed832",
     "packages": [
         {
             "name": "amphp/amp",
@@ -7285,16 +7285,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.2.11",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "e6dd505abc98793e442db06517c9227ec4357663"
+                "reference": "1b1a375d0be6191b6d6907e634db6b1d89cb6efe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/e6dd505abc98793e442db06517c9227ec4357663",
-                "reference": "e6dd505abc98793e442db06517c9227ec4357663",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/1b1a375d0be6191b6d6907e634db6b1d89cb6efe",
+                "reference": "1b1a375d0be6191b6d6907e634db6b1d89cb6efe",
                 "shasum": ""
             },
             "require": {
@@ -7305,7 +7305,6 @@
                 "guzzlehttp/guzzle": "^7.5",
                 "nikic/php-parser": "^5.1.0",
                 "php": ">=8.2",
-                "spryker-sdk/security-checker": "^0.2.0",
                 "spryker-sdk/utils": "^0.2.1",
                 "symfony/console": "^6.0",
                 "symfony/dotenv": "^6.0",
@@ -7355,9 +7354,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.2.11"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.3.1"
             },
-            "time": "2025-06-19T12:46:56+00:00"
+            "time": "2025-09-08T12:51:55+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -16602,6 +16601,6 @@
         "ext-xml": "*",
         "composer-runtime-api": "^2.1"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
