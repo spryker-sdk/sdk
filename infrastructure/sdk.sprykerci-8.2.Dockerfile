@@ -17,6 +17,12 @@ RUN apk update \
 
 RUN docker-php-ext-install xsl
 
+########################################
+# Enable OTEL Extension
+# It's already in the core image.
+########################################
+RUN mv /usr/local/etc/php/disabled/otel.ini /usr/local/etc/php/conf.d/90-otel.ini
+
 RUN git config --add --system safe.directory /project
 
 ########################################
@@ -62,6 +68,7 @@ ENV NRIA_ENABLE_PROCESS_METRICS=true
 
 RUN npm install
 
+RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
 RUN composer update \
     spryker/architecture-sniffer  \
     laminas/laminas-config \
@@ -69,9 +76,7 @@ RUN composer update \
     laminas/laminas-stdlib \
     laminas/laminas-filter \
     laminas/laminas-code \
-    --no-scripts --no-interaction
-
-RUN composer install --no-scripts --no-interaction --optimize-autoloader -vvv --no-dev
+    --no-scripts --no-interaction --no-dev
 
 RUN composer dump-env sprykerci
 
