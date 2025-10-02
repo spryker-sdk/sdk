@@ -3,10 +3,6 @@ parameters:
     paths:
         -  src/
 
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
-
-
     bootstrapFiles:
         - phpstan-bootstrap.php
 
@@ -20,5 +16,7 @@ parameters:
         - '#Offset .+ on array.+always exists and is not nullable#'
         - '#Cannot call method .+\(\) on Symfony\\Component\\Config\\Definition\\Builder#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::.+\(\)#'
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue
 
     reportUnmatchedIgnoredErrors: false
