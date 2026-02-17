@@ -97,6 +97,6 @@ class ApiInteractionProcessor implements InteractionProcessorInterface, RequestD
             return $choices;
         }
 
-        return array_combine(range(1, count($choices)), $choices) ?: [];
+        return array_combine(range(1, count($choices)), $choices);
     }
 }

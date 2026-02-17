@@ -99,10 +99,12 @@ class SdkDirectoryValueResolver extends AbstractValueResolver
             return $this->sdkBasePath;
         }
 
-        $settingSdkBasePath = $settingValues[Setting::PATH_SDK_DIR];
+        $settingSdkBasePath = (string)$settingValues[Setting::PATH_SDK_DIR];
 
-        if (realpath($settingSdkBasePath) !== false) {
-            return realpath($settingSdkBasePath);
+        $realPath = realpath($settingSdkBasePath);
+
+        if ($realPath !== false) {
+            return $realPath;
         }
 
         return $this->sdkBasePath . DIRECTORY_SEPARATOR . $settingSdkBasePath;
