@@ -115,7 +115,7 @@ class Dto implements FromArrayToArrayInterface
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoProperty $property
-     * @param array $arrayValue
+     * @param mixed $arrayValue
      * @param string $type
      *
      * @return array
@@ -131,7 +131,7 @@ class Dto implements FromArrayToArrayInterface
 
     /**
      * @param array $keyStack
-     * @param array $arrayValue
+     * @param mixed $arrayValue
      * @param string $type
      *
      * @return array
@@ -192,7 +192,7 @@ class Dto implements FromArrayToArrayInterface
     protected function fromSingularValue(DtoProperty $property, $value, bool $ignoreMissing = false)
     {
         if (is_subclass_of($property->getType(), FromArrayToArrayInterface::class)) {
-            /** @var \SprykerSdk\Sdk\Core\Application\Dto\Abstraction\FromArrayToArrayInterface $className */
+            /** @var class-string<\SprykerSdk\Sdk\Core\Application\Dto\Abstraction\FromArrayToArrayInterface> $className */
             $className = $property->getType();
 
             $value = is_array($value) ? $className::fromArray($value, $ignoreMissing) : null;
@@ -205,7 +205,7 @@ class Dto implements FromArrayToArrayInterface
 
     /**
      * @param \SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoProperty $property
-     * @param array $collectionValue
+     * @param mixed $collectionValue
      * @param bool $ignoreMissing
      *
      * @return array
@@ -222,7 +222,7 @@ class Dto implements FromArrayToArrayInterface
     /**
      * @param array $keyStack
      * @param \SprykerSdk\Sdk\Core\Application\Dto\Abstraction\Reflection\DtoProperty $property
-     * @param array $collectionValue
+     * @param mixed $collectionValue
      * @param bool $ignoreMissing
      *
      * @return array

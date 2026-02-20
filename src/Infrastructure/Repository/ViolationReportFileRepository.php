@@ -43,7 +43,7 @@ class ViolationReportFileRepository implements ViolationReportRepositoryInterfac
 
     /**
      * @param string $taskId
-     * @param \SprykerSdk\SdkContracts\Report\Violation\ViolationReportInterface $violationReport
+     * @param \SprykerSdk\SdkContracts\Report\ReportInterface $violationReport
      *
      * @throws \Symfony\Component\Translation\Exception\InvalidResourceException
      *
