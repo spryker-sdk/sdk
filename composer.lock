@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1743b41599359b9625aadb03b01ef723",
+    "content-hash": "4556262e63393442f5b01ce4a658f299",
     "packages": [
         {
             "name": "amphp/amp",
@@ -6536,15 +6536,15 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.32",
+            "version": "2.1.39",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2770dcdf5078d0b0d53f94317e06affe88419aa8",
-                "reference": "2770dcdf5078d0b0d53f94317e06affe88419aa8",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c6f73a2af4cbcd99c931d0fb8f08548cc0fa8224",
+                "reference": "c6f73a2af4cbcd99c931d0fb8f08548cc0fa8224",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2|^8.0"
+                "php": "^7.4|^8.0"
             },
             "conflict": {
                 "phpstan/phpstan-shim": "*"
@@ -6585,7 +6585,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-30T10:16:31+00:00"
+            "time": "2026-02-11T14:48:56+00:00"
         },
         {
             "name": "psr/cache",
@@ -7163,42 +7163,35 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.13.10",
+            "version": "2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180"
+                "reference": "ca9ebb81d280cd362ea39474dabd42679e32ca6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d1e069db8ad3b4aea2b968248370c21415e4c180",
-                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/ca9ebb81d280cd362ea39474dabd42679e32ca6b",
+                "reference": "ca9ebb81d280cd362ea39474dabd42679e32ca6b",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.8.2"
+                "php": "^7.4|^8.0",
+                "phpstan/phpstan": "^2.1.38"
             },
             "conflict": {
-                "phpstan/phpdoc-parser": "<1.6.2",
-                "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
-                "rector/rector-laravel": "*",
-                "rector/rector-nette": "*",
-                "rector/rector-phpoffice": "*",
+                "rector/rector-downgrade-php": "*",
                 "rector/rector-phpunit": "*",
-                "rector/rector-prefixed": "*",
                 "rector/rector-symfony": "*"
+            },
+            "suggest": {
+                "ext-dom": "To manipulate phpunit.xml via the custom-rule command"
             },
             "bin": [
                 "bin/rector"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.13-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -7209,9 +7202,16 @@
                 "MIT"
             ],
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
+            "homepage": "https://getrector.com/",
+            "keywords": [
+                "automation",
+                "dev",
+                "migration",
+                "refactoring"
+            ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.13.10"
+                "source": "https://github.com/rectorphp/rector/tree/2.3.6"
             },
             "funding": [
                 {
@@ -7219,7 +7219,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-03T12:48:10+00:00"
+            "time": "2026-02-06T14:25:06+00:00"
         },
         {
             "name": "revolt/event-loop",
@@ -7936,16 +7936,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.3.3",
+            "version": "0.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "60af5d08af48ef167b631eba10a97f1bb951e503"
+                "reference": "534ad4bc2ef18ee7aa387b8be60b281c025b9c87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/60af5d08af48ef167b631eba10a97f1bb951e503",
-                "reference": "60af5d08af48ef167b631eba10a97f1bb951e503",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/534ad4bc2ef18ee7aa387b8be60b281c025b9c87",
+                "reference": "534ad4bc2ef18ee7aa387b8be60b281c025b9c87",
                 "shasum": ""
             },
             "require": {
@@ -7979,7 +7979,7 @@
                 "symfony/polyfill-php72": "*"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan": "^2.1.0",
                 "phpunit/phpunit": "^12.1.0",
                 "spryker/code-sniffer": "^0.17.18"
             },
@@ -8005,9 +8005,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.3.3"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.3.4"
             },
-            "time": "2026-02-12T14:33:23+00:00"
+            "time": "2026-02-20T11:01:42+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -8262,16 +8262,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "0.3.16",
+            "version": "0.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "0d6fd309f29a039e1d40ff7c62eefb5069cb6f67"
+                "reference": "481e5c14f830d9684365070f2395da54c66892af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/0d6fd309f29a039e1d40ff7c62eefb5069cb6f67",
-                "reference": "0d6fd309f29a039e1d40ff7c62eefb5069cb6f67",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/481e5c14f830d9684365070f2395da54c66892af",
+                "reference": "481e5c14f830d9684365070f2395da54c66892af",
                 "shasum": ""
             },
             "require": {
@@ -8287,7 +8287,7 @@
                 "nette/neon": "^3.4",
                 "nikic/php-parser": "^5.6.0",
                 "php": ">=8.3",
-                "phpstan/phpstan": "^1.12",
+                "phpstan/phpstan": "^2.1",
                 "spryker-sdk/azure-php-client": "^0.2.1",
                 "spryker-sdk/integrator": "^0.2.0",
                 "spryker-sdk/sdk-contracts": "^0.5.0",
@@ -8335,9 +8335,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.16"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.17"
             },
-            "time": "2026-02-12T14:19:04+00:00"
+            "time": "2026-02-20T10:50:14+00:00"
         },
         {
             "name": "spryker-sdk/utils",

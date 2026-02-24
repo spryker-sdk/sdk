@@ -7,6 +7,7 @@
 
 namespace SprykerSdk\Sdk\Extension\Converter;
 
+use Closure;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\Violation;
 use SprykerSdk\Sdk\Core\Application\Dto\Violation\ViolationReport;
 use SprykerSdk\Sdk\Core\Application\Violation\AbstractViolationConverter;
@@ -92,7 +93,7 @@ class DeprecationsReportConverter extends AbstractViolationConverter
      */
     protected function formatDeprecations(array $issues): array
     {
-        return array_map([static::class, 'createDeprecation'], $issues);
+        return array_map(Closure::fromCallable([$this, 'createDeprecation']), $issues);
     }
 
     /**
