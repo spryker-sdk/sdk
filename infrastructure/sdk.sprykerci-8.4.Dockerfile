@@ -23,6 +23,12 @@ RUN docker-php-ext-install xsl
 ########################################
 RUN mv /usr/local/etc/php/disabled/otel.ini /usr/local/etc/php/conf.d/90-otel.ini
 
+########################################
+# Enable AMQP Extension
+# It's already in the core image.
+########################################
+RUN mv /usr/local/etc/php/disabled/amqp.ini /usr/local/etc/php/conf.d/90-amqp.ini
+
 RUN git config --add --system safe.directory /project
 
 ########################################
