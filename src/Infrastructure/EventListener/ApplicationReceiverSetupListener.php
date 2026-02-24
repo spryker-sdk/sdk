@@ -81,9 +81,10 @@ class ApplicationReceiverSetupListener
             }
 
             if ($inputOutputConnector instanceof HelperSetInjectorInterface) {
-                /** @var \Symfony\Component\Console\Helper\HelperSet $helperSet */
-                $helperSet = $event->getCommand()->getHelperSet() ?? $this->getApplicationHelperSet($event);
-                $inputOutputConnector->setHelperSet($helperSet);
+                $helperSet = $event->getCommand()->getHelperSet();
+                if ($helperSet !== null) {
+                    $inputOutputConnector->setHelperSet($helperSet);
+                }
             }
 
             if ($inputOutputConnector instanceof InteractionProcessorInjectorInterface) {
@@ -132,14 +133,18 @@ class ApplicationReceiverSetupListener
      */
     protected function getApplicationHelperSet(ConsoleCommandEvent $event): ?HelperSet
     {
-        if (
-            $event->getCommand() !== null
-            && $event->getCommand()->getApplication() !== null
-            && $event->getCommand()->getApplication()->getHelperSet() !== null
-        ) {
-            return $event->getCommand()->getApplication()->getHelperSet();
+        $command = $event->getCommand();
+
+        if ($command === null) {
+            return null;
         }
 
-        return null;
+        $application = $command->getApplication();
+
+        if ($application === null) {
+            return null;
+        }
+
+        return $application->getHelperSet();
     }
 }

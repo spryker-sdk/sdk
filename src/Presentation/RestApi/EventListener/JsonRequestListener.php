@@ -92,8 +92,7 @@ class JsonRequestListener
      */
     public function isApplicable(Request $request): bool
     {
-        return is_string($request->getContent())
-            && $request->getContent() !== ''
+        return $request->getContent() !== ''
             && $request->attributes->has('_rest_api');
     }
 }

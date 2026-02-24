@@ -376,7 +376,6 @@ class WorkflowTransitionListener
      */
     protected function getContext(TransitionEvent $event): ContextInterface
     {
-        /** @var \SprykerSdk\Sdk\Core\Domain\Entity\ContextInterface $context */
         $context = $event->getContext()['context'] ?? null;
 
         if (!$context instanceof ContextInterface) {
