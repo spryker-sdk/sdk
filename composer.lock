@@ -7936,16 +7936,16 @@
         },
         {
             "name": "spryker-sdk/evaluator",
-            "version": "0.3.4",
+            "version": "0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/evaluator.git",
-                "reference": "534ad4bc2ef18ee7aa387b8be60b281c025b9c87"
+                "reference": "e5d21cff9ae83a62477c929e7405e633476683a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/534ad4bc2ef18ee7aa387b8be60b281c025b9c87",
-                "reference": "534ad4bc2ef18ee7aa387b8be60b281c025b9c87",
+                "url": "https://api.github.com/repos/spryker-sdk/evaluator/zipball/e5d21cff9ae83a62477c929e7405e633476683a0",
+                "reference": "e5d21cff9ae83a62477c929e7405e633476683a0",
                 "shasum": ""
             },
             "require": {
@@ -8005,9 +8005,9 @@
             "description": "The tool for evaluating Spryker shops",
             "support": {
                 "issues": "https://github.com/spryker-sdk/evaluator/issues",
-                "source": "https://github.com/spryker-sdk/evaluator/tree/0.3.4"
+                "source": "https://github.com/spryker-sdk/evaluator/tree/0.3.5"
             },
-            "time": "2026-02-20T11:01:42+00:00"
+            "time": "2026-07-06T13:04:18+00:00"
         },
         {
             "name": "spryker-sdk/integrator",
@@ -17560,6 +17560,6 @@
         "ext-xml": "*",
         "composer-runtime-api": "^2.1"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }
