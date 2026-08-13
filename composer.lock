@@ -8262,16 +8262,16 @@
         },
         {
             "name": "spryker-sdk/upgrader",
-            "version": "0.3.17",
+            "version": "0.3.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spryker-sdk/upgrader.git",
-                "reference": "481e5c14f830d9684365070f2395da54c66892af"
+                "reference": "c59aea25ad0dce6a75c75e642a182b8ed2f24fab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/481e5c14f830d9684365070f2395da54c66892af",
-                "reference": "481e5c14f830d9684365070f2395da54c66892af",
+                "url": "https://api.github.com/repos/spryker-sdk/upgrader/zipball/c59aea25ad0dce6a75c75e642a182b8ed2f24fab",
+                "reference": "c59aea25ad0dce6a75c75e642a182b8ed2f24fab",
                 "shasum": ""
             },
             "require": {
@@ -8335,9 +8335,9 @@
             "description": "Code evaluator and upgrader tool",
             "support": {
                 "issues": "https://github.com/spryker-sdk/upgrader/issues",
-                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.17"
+                "source": "https://github.com/spryker-sdk/upgrader/tree/0.3.18"
             },
-            "time": "2026-02-20T10:50:14+00:00"
+            "time": "2026-08-13T14:23:45+00:00"
         },
         {
             "name": "spryker-sdk/utils",
