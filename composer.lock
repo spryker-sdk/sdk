@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4556262e63393442f5b01ce4a658f299",
+    "content-hash": "28dd2f9793ea521d997956baddc6b21b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1039,23 +1039,24 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/chobie/jira-api-restclient.git",
+                "url": "https://github.com/console-helpers/jira-api-restclient.git",
                 "reference": "141f494c43ce254f951825fc6702af9f685d4ddb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chobie/jira-api-restclient/zipball/141f494c43ce254f951825fc6702af9f685d4ddb",
+                "url": "https://api.github.com/repos/console-helpers/jira-api-restclient/zipball/141f494c43ce254f951825fc6702af9f685d4ddb",
                 "reference": "141f494c43ce254f951825fc6702af9f685d4ddb",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.4.0"
             },
             "require-dev": {
                 "aik099/coding-standard": "dev-master",
+                "console-helpers/prophecy-phpunit": "^3.0",
                 "phpspec/prophecy": "^1.10",
-                "squizlabs/php_codesniffer": "^2.6",
-                "yoast/phpunit-polyfills": "^1.0"
+                "squizlabs/php_codesniffer": "^3.5",
+                "yoast/phpunit-polyfills": "^2.0"
             },
             "default-branch": true,
             "type": "library",
@@ -1087,8 +1088,8 @@
                 "rest"
             ],
             "support": {
-                "issues": "https://github.com/chobie/jira-api-restclient/issues",
-                "source": "https://github.com/chobie/jira-api-restclient/tree/master"
+                "issues": "https://github.com/console-helpers/jira-api-restclient/issues",
+                "source": "https://github.com/console-helpers/jira-api-restclient/tree/master"
             },
             "time": "2022-10-06T10:19:38+00:00"
         },
@@ -2247,6 +2248,7 @@
                 "issues": "https://github.com/doctrine/annotations/issues",
                 "source": "https://github.com/doctrine/annotations/tree/2.0.1"
             },
+            "abandoned": true,
             "time": "2023-02-02T22:02:53+00:00"
         },
         {
@@ -2340,6 +2342,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": true,
             "time": "2022-05-20T20:07:39+00:00"
         },
         {
@@ -4138,7 +4141,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/JetBrains/phpstorm-stubs.git",
+                "url": "https://github.com/JetBrains/phpstorm-stubs",
                 "reference": "d1ee5e570343bd4276a3d5959e6e1c2530b006d0"
             },
             "dist": {
@@ -4176,9 +4179,6 @@
                 "stubs",
                 "type"
             ],
-            "support": {
-                "source": "https://github.com/JetBrains/phpstorm-stubs/tree/master"
-            },
             "time": "2025-09-20T07:44:45+00:00"
         },
         {
@@ -6137,6 +6137,7 @@
                 "issues": "https://github.com/phpbench/dom/issues",
                 "source": "https://github.com/phpbench/dom/tree/0.3.3"
             },
+            "abandoned": true,
             "time": "2023-03-06T23:46:57+00:00"
         },
         {
@@ -7909,7 +7910,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0",
+                "php": ">=8.2",
                 "spryker/symfony": "^3.3.3"
             },
             "require-dev": {
@@ -8158,6 +8159,7 @@
                 "issues": "https://github.com/spryker-sdk/security-checker/issues",
                 "source": "https://github.com/spryker-sdk/security-checker/tree/0.2.1"
             },
+            "abandoned": true,
             "time": "2024-05-10T16:20:21+00:00"
         },
         {
@@ -11463,12 +11465,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                },
                 "branch-alias": {
                     "dev-main": "1.28-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -12905,6 +12907,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": true,
             "time": "2021-11-03T09:24:47+00:00"
         },
         {
@@ -16408,12 +16411,12 @@
             ],
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "0.12.x-dev"
-                },
                 "bamarni-bin": {
                     "bin-links": false,
                     "forward-command": false
+                },
+                "branch-alias": {
+                    "dev-main": "0.12.x-dev"
                 }
             },
             "autoload": {
@@ -17591,6 +17594,6 @@
         "ext-xml": "*",
         "composer-runtime-api": "^2.1"
     },
-    "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
 }
