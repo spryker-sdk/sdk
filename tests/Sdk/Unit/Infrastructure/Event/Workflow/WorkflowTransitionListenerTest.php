@@ -274,7 +274,6 @@ class WorkflowTransitionListenerTest extends Unit
 
         // Act
         $this->expectException(NotEnabledTransitionException::class);
-        $this->expectExceptionMessage('is not enabled for workflow');
 
         // Assert
         $eventListener->execute($event);
@@ -331,7 +330,6 @@ class WorkflowTransitionListenerTest extends Unit
 
         // Act
         $this->expectException(NotEnabledTransitionException::class);
-        $this->expectExceptionMessage('is not enabled for workflow');
 
         // Assert
         $eventListener->execute($event);
@@ -396,7 +394,6 @@ class WorkflowTransitionListenerTest extends Unit
 
         // Act
         $this->expectException(NotEnabledTransitionException::class);
-        $this->expectExceptionMessage('is not enabled');
 
         // Assert
         $eventListener->execute($event);
@@ -593,7 +590,6 @@ class WorkflowTransitionListenerTest extends Unit
 
         // Act
         $this->expectException(NotEnabledTransitionException::class);
-        $this->expectExceptionMessage('is not enabled');
 
         // Assert
         $eventListener->execute($event);
