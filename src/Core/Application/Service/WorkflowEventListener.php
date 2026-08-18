@@ -96,12 +96,12 @@ class WorkflowEventListener
     }
 
     /**
-     * @param \Symfony\Component\Workflow\Event\Event $event
+     * @param \Symfony\Component\Workflow\Event\LeaveEvent|\Symfony\Component\Workflow\Event\EnteredEvent $event
      * @param string $type
      *
      * @return void
      */
-    public function event(Event $event, string $type): void
+    public function event(LeaveEvent|EnteredEvent $event, string $type): void
     {
         [$workflowMeta, $transitionMeta] = $this->getMetadata($event);
 

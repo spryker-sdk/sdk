@@ -221,9 +221,6 @@
     "phpbench/container": {
         "version": "2.2.1"
     },
-    "phpbench/dom": {
-        "version": "0.3.2"
-    },
     "phpbench/phpbench": {
         "version": "1.2.3"
     },
