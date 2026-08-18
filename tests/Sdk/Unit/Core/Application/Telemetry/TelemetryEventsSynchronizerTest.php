@@ -17,7 +17,7 @@ use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEvent;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventInterface;
 use SprykerSdk\Sdk\Core\Domain\Entity\TelemetryEvent\TelemetryEventMetadata;
 use Symfony\Component\Lock\LockFactory;
-use Symfony\Component\Lock\LockInterface;
+use Symfony\Component\Lock\SharedLockInterface;
 
 /**
  * Auto-generated group annotations
@@ -126,7 +126,7 @@ class TelemetryEventsSynchronizerTest extends Unit
      */
     protected function createLockFactoryMock(bool $isLockAcquired): LockFactory
     {
-        $lockMock = $this->createMock(LockInterface::class);
+        $lockMock = $this->createMock(SharedLockInterface::class);
         $lockMock->method('acquire')->willReturn($isLockAcquired);
 
         $factoryMock = $this->createMock(LockFactory::class);
