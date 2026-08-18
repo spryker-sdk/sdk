@@ -91,7 +91,12 @@ class SdkCommandsDescriber extends BaseDescriber
         $indexedCommands = [];
 
         foreach ($this->commands as $command) {
-            $indexedCommands[$command->getName()] = $command;
+            $name = $command->getName();
+            if ($name === null) {
+                continue;
+            }
+
+            $indexedCommands[$name] = $command;
         }
 
         return $indexedCommands;
