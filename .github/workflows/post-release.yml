@@ -45,7 +45,7 @@ jobs:
         needs: build-docker-image
         strategy:
             matrix:
-                php_version: ['8.3', '8.5']
+                php_version: ['8.3', '8.4', '8.5']
         steps:
             # https://github.com/actions/checkout
             -   name: Checkout codebase
