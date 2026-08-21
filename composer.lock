@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32aedad59910bdf4fea3d3ba77d5ca17",
+    "content-hash": "cb935974535d26160ebc73ac6fefa222",
     "packages": [
         {
             "name": "amphp/amp",
@@ -12675,37 +12675,37 @@
         },
         {
             "name": "symfony/property-info",
-            "version": "v7.4.16",
+            "version": "v6.4.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",
-                "reference": "c79afdb2e720db8ee4f7050a07b3116b92cb896b"
+                "reference": "ff32a0d7885f6f8997ee0aca499fd008852ad5bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/c79afdb2e720db8ee4f7050a07b3116b92cb896b",
-                "reference": "c79afdb2e720db8ee4f7050a07b3116b92cb896b",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/ff32a0d7885f6f8997ee0aca499fd008852ad5bd",
+                "reference": "ff32a0d7885f6f8997ee0aca499fd008852ad5bd",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/string": "^6.4|^7.0|^8.0",
-                "symfony/type-info": "^7.4.7|^8.0.7"
+                "php": ">=8.1",
+                "symfony/string": "^5.4|^6.0|^7.0"
             },
             "conflict": {
-                "phpdocumentor/reflection-docblock": "<5.2|>=7",
+                "doctrine/annotations": "<1.12",
+                "phpdocumentor/reflection-docblock": "<5.2|>=6",
                 "phpdocumentor/type-resolver": "<1.5.1",
-                "symfony/cache": "<6.4",
-                "symfony/dependency-injection": "<6.4",
-                "symfony/serializer": "<6.4"
+                "symfony/cache": "<5.4",
+                "symfony/dependency-injection": "<5.4|>=6.0,<6.4",
+                "symfony/serializer": "<5.4"
             },
             "require-dev": {
-                "phpdocumentor/reflection-docblock": "^5.2|^6.0",
+                "doctrine/annotations": "^1.12|^2",
+                "phpdocumentor/reflection-docblock": "^5.2",
                 "phpstan/phpdoc-parser": "^1.0|^2.0",
-                "symfony/cache": "^6.4|^7.0|^8.0",
-                "symfony/dependency-injection": "^6.4|^7.0|^8.0",
-                "symfony/serializer": "^6.4|^7.0|^8.0"
+                "symfony/cache": "^5.4|^6.0|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+                "symfony/serializer": "^5.4|^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -12741,7 +12741,7 @@
                 "validator"
             ],
             "support": {
-                "source": "https://github.com/symfony/property-info/tree/v7.4.16"
+                "source": "https://github.com/symfony/property-info/tree/v6.4.43"
             },
             "funding": [
                 {
@@ -12761,7 +12761,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T14:56:57+00:00"
+            "time": "2026-07-22T12:35:29+00:00"
         },
         {
             "name": "symfony/routing",
@@ -13984,89 +13984,6 @@
                 }
             ],
             "time": "2025-07-10T08:29:33+00:00"
-        },
-        {
-            "name": "symfony/type-info",
-            "version": "v7.4.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/type-info.git",
-                "reference": "cafeedbf157b890e94ac5b83eaed85595106d5d6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/type-info/zipball/cafeedbf157b890e94ac5b83eaed85595106d5d6",
-                "reference": "cafeedbf157b890e94ac5b83eaed85595106d5d6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2",
-                "psr/container": "^1.1|^2.0",
-                "symfony/deprecation-contracts": "^2.5|^3"
-            },
-            "conflict": {
-                "phpstan/phpdoc-parser": "<1.30"
-            },
-            "require-dev": {
-                "phpstan/phpdoc-parser": "^1.30|^2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\TypeInfo\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mathias Arlaud",
-                    "email": "mathias.arlaud@gmail.com"
-                },
-                {
-                    "name": "Baptiste LEDUC",
-                    "email": "baptiste.leduc@gmail.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Extracts PHP types information.",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "PHPStan",
-                "phpdoc",
-                "symfony",
-                "type"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/type-info/tree/v7.4.9"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-04-22T15:21:55+00:00"
         },
         {
             "name": "symfony/uid",
